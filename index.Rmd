@@ -1,9 +1,11 @@
 --- 
-title: "YOUR TITLE HERE"
-author: "YOUR NAME HERE"
+title: "Curso de Inferência Causal"
+author: "Manoel Galdino"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 ---
 
-# Down the rabbit-hole
+# Introdução
+
+Aqui pretendo guardar minhas notas de aula para meu curso de causalidade na pós-graduação. É uma forma de organizar e sistematizar meu estudo sobre o tema.
 
