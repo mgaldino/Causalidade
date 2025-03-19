@@ -1,2 +1,42 @@
 # Resultados Potenciais
 
+Durante muito tempo, inferência causal com regressão era caracterizada por recomendações vagas, ad hoc e inconsistências. O debate sobre o efeito causal do cigarro sobre câncer de pulmão é ilustrativo a esse respeito. Durante décadas, pesquisadores enfrentaram dificuldades para diferenciar correlação de causalidade em estudos epidemiológicos sobre tabagismo. Muitos estudos iniciais baseados apenas em correlação eram contestados por não apresentarem mecanismos claros ou critérios objetivos para validar inferências causais. Fisher (1958), por exemplo, questionou os resultados iniciais que ligavam o cigarro ao câncer por falta de critérios explícitos para identificar uma relação causal, argumentando que a correlação observada poderia decorrer de fatores confundidores, causalidade reversa ou problemas de mensuração.
+
+A situação mudou gradualmente com contribuições metodológicas importantes, como os critérios de causalidade propostos por Hill (1965). Os critérios de Bradford Hill ofereceram uma lista explícita e sistemática para avaliar a plausibilidade causal em estudos observacionais:
+
+1. O efeito deveria ser grande
+2. reproduzível em estudos independentes
+3. possuir uma relação monotônica com "dose" (isto é, aumento na dose não pode reduzir o efeito se o efeito é positivo e vice-versa se for negativo).
+4. corresponde a um "experimento natural""
+5. se comporta apropriadamente quando a causa é aplicada, removida e então reinstalada.
+6. é consistente com o conhecimento especializado do tema
+7. é, por exemplo, predita por alguma teoria bem estabelecida.
+
+Nós temos amplas evidências de que muitas intervenções são causais, mesmo na ausência de qualquer experimento aleatório controlado, como defribilação, manobra de Heimlinch e uso de paraquedas são eficazes para prevenir mortes [@howick_etal_2009].
+
+Em um artigo clássico dos primórdios da estatística escrito por Yule [@yule_1989], temos um dos primeiros exemplos de utilização da regressão para estudar o efeito causal do efeito de uma política (ajuda sobre pobreza). E a despeito do título do artigo falar em causalidade ("An investigation into the causes of changes in pauperism in england, chiefly during the last two intercensal decades"), a certa altura ele diz, em nota de rodapé, que "due to" deve ser lido como "associated to".  Ao discutir o que hoje é conhecido como paradoxo de Simpson,  [@yule_1903] fala em "associação aparente"ou "associação fictícia", sugerindo que a associação não é real. Modernamente todas as associações estatísticas são consideradas reais, e para distinguir aquelas das não causais chamamos de assoicações espúrias. Quase cem anos depois, o grande estatístico Cox afirmaria em um artigo sobre causalidade: "it is remarkable how relatively little causality is mentioned in the general statistics literature, except in a social science context"[@cox_1992, p. 292].
+
+Exemplo da perspectiva de que falava Cox quando, por exemplo, @muthen_1987 chegou a afirmar que "It would be very healthy if more researchers abandon thinking of and using terms such as cause and effect" (p. 180). Algo ecoado em uma entrevista com um dos líderes da evolução causal desde os anos 70/80, Jamie Robins, que relata que seus papers (en journals de estatística) eram rejeitados por usar linguagem causal, algo rejeitado na época [@robins_2022]. Então parece bastante seguro dizer que a sensação geral na estatística até os anos 80 é que não se deveria usar linguagem causal fora de estudos experimentais, isto é, em estudos não-observacionais.
+
+
+## Potential Outcomes
+
+difference between the estimator, the estimand and the estimate
+
+and learn the identification condition for the average treat- ment effect (ATE)
+
+
+
+### Problema Fundamental da Inferência Causal
+
+Possívels soluções para o PFIC:
+
+1. Assumir homogeneidade temporal (comparação antes de depois da mesma unidade)
+
+2. Assumir homoheneidade da unidade (comparar dois indivíduos, um tratado, outro no controle)
+
+3. Método estatístico (foco na esperança)
+
+## Notação
+
+O resultado potencial para a unidade i é $Y_i(*D*)$
