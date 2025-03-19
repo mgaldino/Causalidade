@@ -39,4 +39,26 @@ Possívels soluções para o PFIC:
 
 ## Notação
 
-O resultado potencial para a unidade i é $Y_i(*D*)$
+O resultado potencial para a unidade $i$ é $Y_i(\mathbf{D})$, ou seja, o resultado (potencial) da unidade $i$ dado o conjunto de tratamento recebido por todas as $N$ unidades. Em outras palavras, o resultado potencial depende do status de tratamento de todas as unidades. O que nos leva à primeira suposição simplificadoras:
+
+
+Assumption 1 (Stable Unit Treatment Value Assumption)
+Se $D_i = D{'}_i$, então $Y_i(\mathbf{D}) = Y_i(\mathbf{D}^{'})$. Em palavras, se mudarmos o tratamento de $i$ de $D$ para $D'$, então o resultado potencial depende apenas dessa mudança, e não dos demais tratamentos. Ou seja, o resultado potencial depende apenas do próprio tratamento, não dos demais. Essa suposição també é chamada de não-interferência. Então podemos escrever o resultado potencial apenas como função de $D_i$: $Y_i(D_i)$.
+
+Entretanto, os resultados potenciais não são observáveis. O que nós observamos é o resultado se a pessoa foi ou não tratada. O que nos leva à "switching equation":
+$Y_i = Y_i(1)D_i + (1-D_i)Y_i(0)$
+
+A switching equation conecta o observado aos resultados potenciais e vice-versa. Esse modelo é chamado de Modelo Causal de Neyman-Rubin.
+
+Estimando teórico: a pergunta de pesquisa teórica
+
+Estimando estatístico: a quantidade estatística a ser estimada
+Estimate: a aproximação do estimando usando uma amostra finita de dados
+Estimator: o método ou fórmula para se chegar a uma estimativa para um estimando.
+
+Exemplo: 
+Estimando teórico: Qual o efeito do presidencialismo, quando comparado ao parlamentarismo, sobre o déficit fiscal?
+Estimando estatístico: Averate Treatment Effect
+Estimate: -0.01 (reduz em 1pp o déficit em média)
+estimaator: diferença de média simples entre tratamento e controle
+
