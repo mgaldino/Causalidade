@@ -33,5 +33,11 @@ Exemplo onde mesmo com atribuição aleatória, há efeitos não-identificados. 
 
 Considere que agora nós observamos $T$ períodos de tempo para uma unidade: $Y_i$ = (Y_{i1}, Y_{i2}, ..., Y_{iT}). Para cada período, há um tratamento $D_{it}$. Implicitamente, muitas pessoas abordam modelos dinâmicos supondo que o resultado pontencial para a unidade $i$ no período $t$, ou seja, $Y_{it}(D_{it})$. Porém, isso significa que apenas o tratamento do período $t$ impacta o resultado potencial do período $t$. De maneira mais geral, teríamos: $\mathbf{D_i} = (D_{i1}, D_{i2}, ..., D_{iT})$ e definiríamos o resultaod potencial no período $t$ como $Y_{it}(\mathbf{D_i})$. $Y(\mathbf{D})$. Nesse caso, fomos para o lado oposto: tratamentos futuros impactado o resultado potencial do presente. Isso não necessariamente significa que o futuro afeta o passado. Pode ocorrer por antecipação de tratamentos futuros.
 
+Considere um modelo de regressão tradicional para dados dinâmicos: $y_{it} = \alpha + \beta x_{it} + e_{it}$. Nós já sabemos que uma forma de de pensar a identificação causal é imaginar um experimento aleatório controlado. O que significa, em primeiro lugar, escolher aleatoriamente o tratamento nesse caso? Uma possibilidade é imaginar que a cada período o tratamento é aleatoriamente atribuído, independentemente dos períodos anteriores. No fundo, é como uma multi-valued treatment. Qual condição de ignorability estamos satisfazendo nesse caso? Se apenas o tratamento presente impacta o resultado potencial, isto é, $Y_{it}(D_{it})$, então temos:
+
+1. Ignorability Markoviana: $Y(D_{it}) \perp D_{it}$. Ou seja, o resultado potencial no período $t$ é independente do mecanismo de atribuição do tratamento. Isso é conhecido também como baseline randomization. Essa suposição implica exogeneidade estrita.
+
+Sequential Ignorability (Sequential Unconfoundedness). Sequential ignorability assumes that conditional on the past observed history of treatments and covariates, the current treatment is independent of future potential outcomes.
+
 
 )
