@@ -6,3 +6,14 @@ matching
 variáveis-instrumentais
 desenho-de-regresão-discontínua
 diferença-em-diferenças
+potential-outcomes
+problema-fundamental-da-inferência-causal
+notação
+revisão-de-regressão
+teorema-da-anatomia-da-regressão
+suposições-simplifcadoras
+po-com-tratamento-de-múltiplos-valores-multi-valued
+multi-valued-discreto
+dinâmica
+inferência
+referências

@@ -23,7 +23,7 @@
 <meta name="author" content="Manoel Galdino" />
 
 
-<meta name="date" content="2025-02-05" />
+<meta name="date" content="2025-03-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -77,7 +77,14 @@
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introdução</a></li>
-<li class="chapter" data-level="2" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html"><i class="fa fa-check"></i><b>2</b> Resultados Potenciais</a></li>
+<li class="chapter" data-level="2" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html"><i class="fa fa-check"></i><b>2</b> Resultados Potenciais</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#potential-outcomes"><i class="fa fa-check"></i><b>2.1</b> Potential Outcomes</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#problema-fundamental-da-inferência-causal"><i class="fa fa-check"></i><b>2.1.1</b> Problema Fundamental da Inferência Causal</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#notação"><i class="fa fa-check"></i><b>2.2</b> Notação</a></li>
+</ul></li>
 <li class="chapter" data-level="3" data-path="dags.html"><a href="dags.html"><i class="fa fa-check"></i><b>3</b> DAGs</a></li>
 <li class="chapter" data-level="4" data-path="experimentos.html"><a href="experimentos.html"><i class="fa fa-check"></i><b>4</b> Experimentos</a></li>
 <li class="chapter" data-level="5" data-path="matching.html"><a href="matching.html"><i class="fa fa-check"></i><b>5</b> Matching</a></li>
@@ -105,7 +112,39 @@
             <section class="normal" id="section-">
 <div id="resultados-potenciais" class="section level1 hasAnchor" number="2">
 <h1><span class="header-section-number">Capítulo 2</span> Resultados Potenciais<a href="resultados-potenciais.html#resultados-potenciais" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Durante muito tempo, inferência causal com regressão era caracterizada por recomendações vagas, ad hoc e inconsistências. O debate sobre o efeito causal do cigarro sobre câncer de pulmão é ilustrativo a esse respeito. Durante décadas, pesquisadores enfrentaram dificuldades para diferenciar correlação de causalidade em estudos epidemiológicos sobre tabagismo. Muitos estudos iniciais baseados apenas em correlação eram contestados por não apresentarem mecanismos claros ou critérios objetivos para validar inferências causais. Fisher (1958), por exemplo, questionou os resultados iniciais que ligavam o cigarro ao câncer por falta de critérios explícitos para identificar uma relação causal, argumentando que a correlação observada poderia decorrer de fatores confundidores, causalidade reversa ou problemas de mensuração.</p>
+<p>A situação mudou gradualmente com contribuições metodológicas importantes, como os critérios de causalidade propostos por Hill (1965). Os critérios de Bradford Hill ofereceram uma lista explícita e sistemática para avaliar a plausibilidade causal em estudos observacionais:</p>
+<ol style="list-style-type: decimal">
+<li>O efeito deveria ser grande</li>
+<li>reproduzível em estudos independentes</li>
+<li>possuir uma relação monotônica com “dose” (isto é, aumento na dose não pode reduzir o efeito se o efeito é positivo e vice-versa se for negativo).</li>
+<li>corresponde a um “experimento natural””</li>
+<li>se comporta apropriadamente quando a causa é aplicada, removida e então reinstalada.</li>
+<li>é consistente com o conhecimento especializado do tema</li>
+<li>é, por exemplo, predita por alguma teoria bem estabelecida.</li>
+</ol>
+<p>Nós temos amplas evidências de que muitas intervenções são causais, mesmo na ausência de qualquer experimento aleatório controlado, como defribilação, manobra de Heimlinch e uso de paraquedas são eficazes para prevenir mortes <span class="citation">[@howick_etal_2009]</span>.</p>
+<p>Em um artigo clássico dos primórdios da estatística escrito por Yule <span class="citation">[@yule_1989]</span>, temos um dos primeiros exemplos de utilização da regressão para estudar o efeito causal do efeito de uma política (ajuda sobre pobreza). E a despeito do título do artigo falar em causalidade (“An investigation into the causes of changes in pauperism in england, chiefly during the last two intercensal decades”), a certa altura ele diz, em nota de rodapé, que “due to” deve ser lido como “associated to”. Ao discutir o que hoje é conhecido como paradoxo de Simpson, <span class="citation">[@yule_1903]</span> fala em “associação aparente”ou “associação fictícia”, sugerindo que a associação não é real. Modernamente todas as associações estatísticas são consideradas reais, e para distinguir aquelas das não causais chamamos de assoicações espúrias. Quase cem anos depois, o grande estatístico Cox afirmaria em um artigo sobre causalidade: “it is remarkable how relatively little causality is mentioned in the general statistics literature, except in a social science context”<span class="citation">[@cox_1992, p. 292]</span>.</p>
+<p>Exemplo da perspectiva de que falava Cox quando, por exemplo, <span class="citation">@muthen_1987</span> chegou a afirmar que “It would be very healthy if more researchers abandon thinking of and using terms such as cause and effect” (p. 180). Algo ecoado em uma entrevista com um dos líderes da evolução causal desde os anos 70/80, Jamie Robins, que relata que seus papers (en journals de estatística) eram rejeitados por usar linguagem causal, algo rejeitado na época <span class="citation">[@robins_2022]</span>. Então parece bastante seguro dizer que a sensação geral na estatística até os anos 80 é que não se deveria usar linguagem causal fora de estudos experimentais, isto é, em estudos não-observacionais.</p>
+<div id="potential-outcomes" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Potential Outcomes<a href="resultados-potenciais.html#potential-outcomes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>difference between the estimator, the estimand and the estimate</p>
+<p>and learn the identification condition for the average treat- ment effect (ATE)</p>
+<div id="problema-fundamental-da-inferência-causal" class="section level3 hasAnchor" number="2.1.1">
+<h3><span class="header-section-number">2.1.1</span> Problema Fundamental da Inferência Causal<a href="resultados-potenciais.html#problema-fundamental-da-inferência-causal" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Possívels soluções para o PFIC:</p>
+<ol style="list-style-type: decimal">
+<li><p>Assumir homogeneidade temporal (comparação antes de depois da mesma unidade)</p></li>
+<li><p>Assumir homoheneidade da unidade (comparar dois indivíduos, um tratado, outro no controle)</p></li>
+<li><p>Método estatístico (foco na esperança)</p></li>
+</ol>
+</div>
+</div>
+<div id="notação" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Notação<a href="resultados-potenciais.html#notação" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>O resultado potencial para a unidade i é <span class="math inline">\(Y_i(*D*)\)</span></p>
 
+</div>
 </div>
             </section>
 
@@ -127,46 +166,60 @@
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": "https://github.com/mgaldino/Causalidade/edit/main/02-PO.Rmd",
-"text": "Edit"
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": "https://github.com/mgaldino/Causalidade/blob/main/02-PO.Rmd",
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "subsection"
-}
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/mgaldino/Causalidade/edit/main/02-PO.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": "https://github.com/mgaldino/Causalidade/blob/main/02-PO.Rmd",
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
 });
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>
