@@ -1,0 +1,13 @@
+# Synthetic Control
+
+Suponha que obtivemos dados para $J+1$ unidades para unidades $j = 1, 2, ..., J+1$, e sem perda de generalidade, a primeira unidade $j=1$ é a de tratamento ou sob intervenção. O potencial de unidades para comparação é dado por $j = 2, ..., J+1$, uma coleção de unidade não-tratadas. Os dados sõa observados por $T$ períodos $1, 2, ..., t_0, t_1, t_2, ..., T$, em que de $1$ até $t_0$ nenhuma unidade foi tratada ou sofreu intervenção. Para cada unidade $j$, observamos também um conjunto de $k$ preditores, $X_{1j}, X_{2j}, ..., X_{kj}$, que pode incluir vaores pré-intervenção da variável resposta $y_{jt}$.
+
+
+## Implementação no R
+
+```{r}
+# install.packages('scpi')
+
+```
+
+
