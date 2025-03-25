@@ -33,3 +33,4 @@ exercício---qual-o-estimando-e-o-estimador-se-possível
 identificação-do-ate
 equações-estruturais
 nota-sobre-estimandos
+modelo-versus-desenho
