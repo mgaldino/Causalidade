@@ -162,15 +162,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.6.2" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#att"><i class="fa fa-check"></i><b>2.6.2</b> ATT</a></li>
 <li class="chapter" data-level="2.6.3" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#cate"><i class="fa fa-check"></i><b>2.6.3</b> CATE</a></li>
 </ul></li>
-<li class="chapter" data-level="2.7" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#nota-sobre-estimandos"><i class="fa fa-check"></i><b>2.7</b> Nota sobre estimandos</a>
-<ul>
-<li class="chapter" data-level="2.7.1" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#estimandos"><i class="fa fa-check"></i><b>2.7.1</b> Estimandos</a></li>
-</ul></li>
+<li class="chapter" data-level="2.7" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#nota-sobre-estimandos"><i class="fa fa-check"></i><b>2.7</b> Nota sobre estimandos</a></li>
 <li class="chapter" data-level="2.8" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#exercício---qual-o-estimando-e-o-estimador-se-possível"><i class="fa fa-check"></i><b>2.8</b> Exercício - Qual o estimando e o estimador (se possível)?</a></li>
 <li class="chapter" data-level="2.9" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#identificação"><i class="fa fa-check"></i><b>2.9</b> Identificação</a></li>
 <li class="chapter" data-level="2.10" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#identificação-do-ate"><i class="fa fa-check"></i><b>2.10</b> Identificação do ATE</a></li>
 <li class="chapter" data-level="2.11" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#equações-estruturais"><i class="fa fa-check"></i><b>2.11</b> Equações estruturais</a></li>
-<li class="chapter" data-level="2.12" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#referências-1"><i class="fa fa-check"></i><b>2.12</b> Referências</a></li>
+<li class="chapter" data-level="2.12" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#modelo-versus-desenho"><i class="fa fa-check"></i><b>2.12</b> Modelo versus Desenho</a></li>
+<li class="chapter" data-level="2.13" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#referências-1"><i class="fa fa-check"></i><b>2.13</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="dags.html"><a href="dags.html"><i class="fa fa-check"></i><b>3</b> DAGs</a></li>
 <li class="chapter" data-level="4" data-path="experimentos.html"><a href="experimentos.html"><i class="fa fa-check"></i><b>4</b> Experimentos</a></li>
@@ -295,14 +293,7 @@ Há outros estimandos possíveis, mas esses são os mais comuns.</p>
 <div id="nota-sobre-estimandos" class="section level2 hasAnchor" number="2.7">
 <h2><span class="header-section-number">2.7</span> Nota sobre estimandos<a href="resultados-potenciais.html#nota-sobre-estimandos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>A rigor, podemos caracterizar ao nível da população dois contrastes: a distribuição de probabilidade de resultados potenciais do tratamento com a do controle, para um dado conjunto de covariáeis de pré-tratamento <span class="math inline">\(\mathbf{X}\)</span>. Formalmente, sejam <span class="math inline">\(f(Y(1)|\mathbf{X})\)</span> e <span class="math inline">\(f(Y(0)|\mathbf{X})\)</span> as densidades dos dois resultados potenciais, então <span class="math inline">\(f(Y(1)|\mathbf{X} - f(Y(0)|\mathbf{X})\)</span> configura uma nova distribuição, da diferença entre os dois resultados potenciais. Nossa ênfase na esperança, portanto, é tanto uma questão de conveniência matemática quanto potencial interesse de pesquisa em um estimando em torno da média da diferença dessas duas distribuições, mas nada impede, a princípio, que estimarmos toda a distribuição da diferença.</p>
-<div id="estimandos" class="section level3 hasAnchor" number="2.7.1">
-<h3><span class="header-section-number">2.7.1</span> Estimandos<a href="resultados-potenciais.html#estimandos" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Exemplo:
-Estimando teórico: Qual o efeito do presidencialismo no país <span class="math inline">\(i\)</span>, quando comparado ao parlamentarismo, sobre o déficit fiscal, para países desenvolvidos?
-Estimando estatístico: Conditional Averate Treatment Effect (CATE)
-Estimativa: -0.01 (reduz em 1pp o déficit em média)
-Estimador: Regressão de mínimos quadrados ordinários para o subconjunto de países da OCDE.</p>
-</div>
+<p>Outra observação: como veremos mais para frente no curso, dados longitudinais não possuem estimandos claros. Alguns pesquisadores mais rigorosos em política comparada, por exemplo, falam em efeito de país-ano, pois esta é a unidade de análise e o estimando é definido nesse nível. Como veremos também mais para frente (e é um tema de pesquisa meu), também é complicado definir as condições de identificação em dados longitudinais. Voltaremos a isso.</p>
 </div>
 <div id="exercício---qual-o-estimando-e-o-estimador-se-possível" class="section level2 hasAnchor" number="2.8">
 <h2><span class="header-section-number">2.8</span> Exercício - Qual o estimando e o estimador (se possível)?<a href="resultados-potenciais.html#exercício---qual-o-estimando-e-o-estimador-se-possível" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -342,12 +333,15 @@ Pela LIE, temos que:
 <span class="math display">\[\mathbb{E}[Y_i(1)] = \mathbb{E}[\mathbb{E}[Y_i(1)|\mathbf{X_i}]\]</span>
 <span class="math display">\[\mathbb{E}[Y_i(0)] = \mathbb{E}[\mathbb{E}[Y_i(0)|\mathbf{X_i}]\]</span></p>
 <p>Com ignorabilidade forte, <span class="math inline">\(\mathbb{E}[(Y_i(0)|\mathbf{X_i}] = \mathbb{E}[Y_i(0)|D_i=0, \mathbf{X_i}] = \mathbb{E}[Y_i|D_i=0, \mathbf{X_i}]\)</span>. Similarmente, <span class="math inline">\(\mathbb{E}[(Y_i(1)|\mathbf{X_i}] = \mathbb{E}[Y_i(1)|D_i=1, \mathbf{X_i}] = \mathbb{E}[Y_i|D_i=1, \mathbf{X_i}]\)</span>. Juntando tudo, chegamos à proposição do teorema.</p>
-<p>Ou seja, com ignorabilidade forte, podemos estimar o ATe não-parametricamente apenas a partir de observáveis. O CATE também é identificado, como corolário.</p>
+<p>Ou seja, com ignorabilidade forte, podemos estimar o ATE não-parametricamente apenas a partir de observáveis. O CATE também é identificado, como corolário.</p>
 </div>
 <div id="equações-estruturais" class="section level2 hasAnchor" number="2.11">
 <h2><span class="header-section-number">2.11</span> Equações estruturais<a href="resultados-potenciais.html#equações-estruturais" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Normalmente nós temos um modelo que queremos estimar o efeito causal, e não algo sobre o mecanismo de assignment do tratamento. Vamos conectar as duas abordagens.</p>
-<p>Seja o modelo: <span class="math inline">\(Y_i = \alpha + \beta D_i + \epsilon_i\)</span>. Vamos mapeá-lo ao modelo de resultados potenciais com a <em>switching equation</em>.</p>
+<p>Seja o modelo: <span class="math inline">\(Y_i = \alpha + \beta D_i + \epsilon_i\)</span>. Nós intrepretamos <span class="math inline">\(\beta\)</span> como a diferença média no <span class="math inline">\(y\)</span> de uma unidade no tratamento, formalmente:
+<span class="math inline">\(\mathbb{E}[Y|D_i=1] - \mathbb{E}[Y|D_i=0] = \mathbb{E}[\alpha + \beta D_i + \epsilon_i|D_i=1] - \mathbb{E}[\alpha + \beta D_i + \epsilon_i|D_i=0] = \beta + \mathbb{E}[\epsilon_i|D_i=1] - \mathbb{E}[\epsilon_i|D_i=0]\)</span>.
+E dizemos que, sob a suposição de esperança condicional zero do erro, <span class="math inline">\(\mathbb{E}[\epsilon_i|D_i=1] = \mathbb{E}[\epsilon_i|D_i=0] = 0\)</span> e <span class="math inline">\(\mathbb{E}[Y|D_i=1] - \mathbb{E}[Y|D_i=0] = \beta\)</span>. E o estimador de MQO é não-viesado.</p>
+<p>Vamos mapeá-lo ao modelo de resultados potenciais com a <em>switching equation</em>.</p>
 <p><span class="math display">\[
 \begin{aligned}
 Y_i &amp;= Y_i(0)(1-D_i) + Y_i(1)D_i \\
@@ -372,11 +366,17 @@ Nós sabemos que em uma regressão, estamos estimando <span class="math inline">
 &amp;= 0
 \end{aligned}
 \]</span>
-Portanto, <span class="math inline">\(\mathbb{E}[Y_i|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0] = \tau + (\mathbb{E}[\tau_i|D_i=1] -\tau) + \mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0]\)</span>
-Em palavras, estimamos o efeito causal médio, <span class="math inline">\(\tau\)</span>, mais um componente que tem a ver com os efeitos causais heterogêneos mais um componente que é a diferença no resultado potencial do controle entre os tratados e o controle. Se <span class="math inline">\(\mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0] \neq 0\)</span>, o efeito estimado é viesado. Similarmente, se <span class="math inline">\(\mathbb{E}[\tau_i|D_i=1] \neq \tau\)</span>, também teremos viés, ou seja, se o efeito causal dos tratados for diferente do efeito médio da população, também temos uma estimativa viesada do ATE. Porém, nesse caso, note que estamos viesando para estimar o efeito médio dos tratados, que é o ATT. Para ver isso, suponha que não há diferença nos resultados potenciais de tratamento e controle, de modo que <span class="math inline">\(\mathbb{E}[Y_i|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0] = \tau + (\mathbb{E}[\tau_i|D_i=1] -\tau)  = \mathbb{E}[\tau_i|D_i=1]\)</span>, que é o ATT.</p>
+Portanto, <span class="math inline">\(\mathbb{E}[Y_i|D_i=1] - \mathbb{E}[Y_i|D_i=0] = \tau + (\mathbb{E}[\tau_i|D_i=1] -\tau) + \mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0]\)</span>
+Em palavras, estimamos o efeito causal médio, <span class="math inline">\(\tau\)</span>, mais um componente que tem a ver com os efeitos causais heterogêneos mais um componente que é a diferença no resultado potencial do controle entre os tratados e o controle. Se <span class="math inline">\(\mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0] \neq 0\)</span>, o efeito estimado é viesado. Similarmente, se <span class="math inline">\(\mathbb{E}[\tau_i|D_i=1] \neq \tau\)</span>, também teremos viés, ou seja, se o efeito causal dos tratados for diferente do efeito médio da população, também temos uma estimativa viesada do ATE. Porém, nesse caso, note que estamos viesando para estimar o efeito médio dos tratados, que é o ATT. Para ver isso, suponha que não há diferença nos resultados potenciais de não receber o tratamento entre os tratados e os no grupo controle, de modo que <span class="math inline">\(\mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0] = \tau + (\mathbb{E}[\tau_i|D_i=1] -\tau)  = \mathbb{E}[\tau_i|D_i=1]\)</span>, que é o ATT.</p>
 </div>
-<div id="referências-1" class="section level2 hasAnchor" number="2.12">
-<h2><span class="header-section-number">2.12</span> Referências<a href="resultados-potenciais.html#referências-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="modelo-versus-desenho" class="section level2 hasAnchor" number="2.12">
+<h2><span class="header-section-number">2.12</span> Modelo versus Desenho<a href="resultados-potenciais.html#modelo-versus-desenho" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Há na literatura (mais de economia) uma distinção entre estimando baseado em modelos e baseado em designs (desenho).</p>
+<p>Model-based: O estimando é identificado a partir de um modelo dos resultados potenciais, condicional ao tratamento e co-variáveis. O exemplo arquetípico é modelo de diferença em diferenças ou controle sintético, em que estimamos o efeito causal a partir de estimativa do contrafactual a partir de dados observados.</p>
+<p>Design-based: O estimando é identificado a partir de suposições sobre o mecanismo de atribuição do tratamento e co-variáveis. O exemplo arquetípico desse tipo de pesquisa é o experimento aleatório controlado.</p>
+</div>
+<div id="referências-1" class="section level2 hasAnchor" number="2.13">
+<h2><span class="header-section-number">2.13</span> Referências<a href="resultados-potenciais.html#referências-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Lundberg, I., Johnson, R., &amp; Stewart, B. M. (2021). What is your estimand? Defining the target quantity connects statistical evidence to theory. American Sociological Review, 86(3), 532-565.</p>
 <p>Paul W Holland. Statistics and causal inference. Journal of the American statistical Association, 81(396):945–960, 1986.</p>
 

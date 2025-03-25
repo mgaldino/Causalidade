@@ -186,13 +186,19 @@ $$\mathbb{E}[Y_i(0)] = \mathbb{E}[\mathbb{E}[Y_i(0)|\mathbf{X_i}]$$
 
 Com ignorabilidade forte, $\mathbb{E}[(Y_i(0)|\mathbf{X_i}] = \mathbb{E}[Y_i(0)|D_i=0, \mathbf{X_i}] = \mathbb{E}[Y_i|D_i=0, \mathbf{X_i}]$. Similarmente, $\mathbb{E}[(Y_i(1)|\mathbf{X_i}] = \mathbb{E}[Y_i(1)|D_i=1, \mathbf{X_i}] = \mathbb{E}[Y_i|D_i=1, \mathbf{X_i}]$. Juntando tudo, chegamos à proposição do teorema.
 
-Ou seja, com ignorabilidade forte, podemos estimar o ATe não-parametricamente apenas a partir de observáveis. O CATE também é identificado, como corolário.
+Ou seja, com ignorabilidade forte, podemos estimar o ATE não-parametricamente apenas a partir de observáveis. O CATE também é identificado, como corolário.
 
 ## Equações estruturais
 
 Normalmente nós temos um modelo que queremos estimar o efeito causal, e não algo sobre o mecanismo de assignment do tratamento. Vamos conectar as duas abordagens.
 
-Seja o modelo: $Y_i = \alpha + \beta D_i + \epsilon_i$. Vamos mapeá-lo ao modelo de resultados potenciais com a *switching equation*.
+Seja o modelo: $Y_i = \alpha + \beta D_i + \epsilon_i$. Nós intrepretamos $\beta$ como a diferença média no $y$ de uma unidade no tratamento, formalmente:
+$\mathbb{E}[Y|D_i=1] - \mathbb{E}[Y|D_i=0] = \mathbb{E}[\alpha + \beta D_i + \epsilon_i|D_i=1] - \mathbb{E}[\alpha + \beta D_i + \epsilon_i|D_i=0] = \beta + \mathbb{E}[\epsilon_i|D_i=1] - \mathbb{E}[\epsilon_i|D_i=0]$.
+E dizemos que, sob a suposição de esperança condicional zero do erro, ou seja, $\mathbb{E}[\epsilon_i|D_i=1] = \mathbb{E}[\epsilon_i|D_i=0] = 0$. Portanto, temos que $\mathbb{E}[Y|D_i=1] - \mathbb{E}[Y|D_i=0] = \beta$. E o estimador de MQO é não-viesado.
+
+E de forma geral, temos que $\mathbb{E}[Y|D_i] = \alpha + \beta$, sob a suposição de esperança condicional zero do erro.
+
+Vamos mapeá-lo ao modelo de resultados potenciais com a *switching equation*.
 
 $$
 \begin{aligned}
@@ -204,7 +210,7 @@ Y_i &= Y_i(0)(1-D_i) + Y_i(1)D_i \\
 &= \underbrace{\mathbb{E}[Y_i(0)|D_i=0]}_{\alpha} + \underbrace{\tau}_{\beta} D_i + \underbrace{(\tau_i - \tau)D_i + (Y_i(0) - \mathbb{E}[Y_i(0)|D_i=0])}_{\epsilon_i} \\
 \end{aligned}
 $$
-Nós sabemos que em uma regressão, estamos estimando $\mathbb{E}[Y_i|D_i]$. Podemos agora ver com clareza o que de fato estamos estimamos em termos causais.
+Nós sabemos que em uma regressão estamos estimando $\mathbb{E}[Y_i|D_i]$. Podemos agora ver com clareza o que de fato estamos estimamos em termos causais.
 
 $$
 \begin{aligned}
@@ -219,10 +225,17 @@ $$
 &= 0
 \end{aligned}
 $$
-Portanto, $\mathbb{E}[Y_i|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0] = \tau + (\mathbb{E}[\tau_i|D_i=1] -\tau) + \mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0]$
-Em palavras, estimamos o efeito causal médio, $\tau$, mais um componente que tem a ver com os efeitos causais heterogêneos mais um componente que é a diferença no resultado potencial do controle entre os tratados e o controle. Se $\mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0] \neq 0$, o efeito estimado é viesado. Similarmente, se $\mathbb{E}[\tau_i|D_i=1] \neq \tau$, também teremos viés, ou seja, se o efeito causal dos tratados for diferente do efeito médio da população, também temos uma estimativa viesada do ATE. Porém, nesse caso, note que estamos viesando para estimar o efeito médio dos tratados, que é o ATT. Para ver isso, suponha que não há diferença nos resultados potenciais de tratamento e controle, de modo que $\mathbb{E}[Y_i|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0] = \tau + (\mathbb{E}[\tau_i|D_i=1] -\tau)  = \mathbb{E}[\tau_i|D_i=1]$, que é o ATT.
 
+Portanto, $\mathbb{E}[Y_i|D_i=1] - \mathbb{E}[Y_i|D_i=0] = \tau + (\mathbb{E}[\tau_i|D_i=1] -\tau) + \mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0]$
+Em palavras, estimamos o efeito causal médio, $\tau$, mais um componente que tem a ver com os efeitos causais heterogêneos mais um componente que é a diferença no resultado potencial do controle entre os tratados e o controle. Se $\mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0] \neq 0$, o efeito estimado é viesado. Similarmente, se $\mathbb{E}[\tau_i|D_i=1] \neq \tau$, também teremos viés, ou seja, se o efeito causal dos tratados for diferente do efeito médio da população, também temos uma estimativa viesada do ATE. Porém, nesse caso, note que estamos viesando para estimar o efeito médio dos tratados, que é o ATT. Para ver isso, suponha que não há diferença nos resultados potenciais de não receber o tratamento entre os tratados e os no grupo controle, de modo que $\mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0] = \tau + (\mathbb{E}[\tau_i|D_i=1] -\tau)  = \mathbb{E}[\tau_i|D_i=1]$, que é o ATT.
 
+## Modelo versus Desenho
+
+Há na literatura (mais de economia) uma distinção entre estimando baseado em modelos e baseado em designs (desenho). 
+
+Model-based: O estimando é identificado a partir de um modelo dos resultados potenciais, condicional ao tratamento e co-variáveis. O exemplo arquetípico é modelo de diferença em diferenças ou controle sintético, em que estimamos o efeito causal a partir de estimativa do contrafactual a partir de dados observados.
+
+Design-based: O estimando é identificado a partir de suposições sobre o mecanismo de atribuição do tratamento e co-variáveis. O exemplo arquetípico desse tipo de pesquisa é o experimento aleatório controlado.
 
 ## Referências
 
