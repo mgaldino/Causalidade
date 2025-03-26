@@ -340,7 +340,8 @@ Pela LIE, temos que:
 <p>Normalmente nós temos um modelo que queremos estimar o efeito causal, e não algo sobre o mecanismo de assignment do tratamento. Vamos conectar as duas abordagens.</p>
 <p>Seja o modelo: <span class="math inline">\(Y_i = \alpha + \beta D_i + \epsilon_i\)</span>. Nós intrepretamos <span class="math inline">\(\beta\)</span> como a diferença média no <span class="math inline">\(y\)</span> de uma unidade no tratamento, formalmente:
 <span class="math inline">\(\mathbb{E}[Y|D_i=1] - \mathbb{E}[Y|D_i=0] = \mathbb{E}[\alpha + \beta D_i + \epsilon_i|D_i=1] - \mathbb{E}[\alpha + \beta D_i + \epsilon_i|D_i=0] = \beta + \mathbb{E}[\epsilon_i|D_i=1] - \mathbb{E}[\epsilon_i|D_i=0]\)</span>.
-E dizemos que, sob a suposição de esperança condicional zero do erro, <span class="math inline">\(\mathbb{E}[\epsilon_i|D_i=1] = \mathbb{E}[\epsilon_i|D_i=0] = 0\)</span> e <span class="math inline">\(\mathbb{E}[Y|D_i=1] - \mathbb{E}[Y|D_i=0] = \beta\)</span>. E o estimador de MQO é não-viesado.</p>
+E dizemos que, sob a suposição de esperança condicional zero do erro, ou seja, <span class="math inline">\(\mathbb{E}[\epsilon_i|D_i=1] = \mathbb{E}[\epsilon_i|D_i=0] = 0\)</span>. Portanto, temos que <span class="math inline">\(\mathbb{E}[Y|D_i=1] - \mathbb{E}[Y|D_i=0] = \beta\)</span>. E o estimador de MQO é não-viesado.</p>
+<p>E de forma geral, temos que <span class="math inline">\(\mathbb{E}[Y|D_i] = \alpha + \beta\)</span>, sob a suposição de esperança condicional zero do erro.</p>
 <p>Vamos mapeá-lo ao modelo de resultados potenciais com a <em>switching equation</em>.</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -352,7 +353,7 @@ Y_i &amp;= Y_i(0)(1-D_i) + Y_i(1)D_i \\
 &amp;= \underbrace{\mathbb{E}[Y_i(0)|D_i=0]}_{\alpha} + \underbrace{\tau}_{\beta} D_i + \underbrace{(\tau_i - \tau)D_i + (Y_i(0) - \mathbb{E}[Y_i(0)|D_i=0])}_{\epsilon_i} \\
 \end{aligned}
 \]</span>
-Nós sabemos que em uma regressão, estamos estimando <span class="math inline">\(\mathbb{E}[Y_i|D_i]\)</span>. Podemos agora ver com clareza o que de fato estamos estimamos em termos causais.</p>
+Nós sabemos que em uma regressão estamos estimando <span class="math inline">\(\mathbb{E}[Y_i|D_i]\)</span>. Podemos agora ver com clareza o que de fato estamos estimamos em termos causais.</p>
 <p><span class="math display">\[
 \begin{aligned}
 \mathbb{E}[Y_i|D_i=1] &amp;= \alpha + \tau + \mathbb{E}[\epsilon_i|D_i=1] \\
@@ -365,8 +366,8 @@ Nós sabemos que em uma regressão, estamos estimando <span class="math inline">
 &amp;= \mathbb{E}[Y_i(0)|D_i=0] - \mathbb{E}[\mathbb{E}[Y_i(0)|D_i=0]|D_i=0] \\
 &amp;= 0
 \end{aligned}
-\]</span>
-Portanto, <span class="math inline">\(\mathbb{E}[Y_i|D_i=1] - \mathbb{E}[Y_i|D_i=0] = \tau + (\mathbb{E}[\tau_i|D_i=1] -\tau) + \mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0]\)</span>
+\]</span></p>
+<p>Portanto, <span class="math inline">\(\mathbb{E}[Y_i|D_i=1] - \mathbb{E}[Y_i|D_i=0] = \tau + (\mathbb{E}[\tau_i|D_i=1] -\tau) + \mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0]\)</span>
 Em palavras, estimamos o efeito causal médio, <span class="math inline">\(\tau\)</span>, mais um componente que tem a ver com os efeitos causais heterogêneos mais um componente que é a diferença no resultado potencial do controle entre os tratados e o controle. Se <span class="math inline">\(\mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0] \neq 0\)</span>, o efeito estimado é viesado. Similarmente, se <span class="math inline">\(\mathbb{E}[\tau_i|D_i=1] \neq \tau\)</span>, também teremos viés, ou seja, se o efeito causal dos tratados for diferente do efeito médio da população, também temos uma estimativa viesada do ATE. Porém, nesse caso, note que estamos viesando para estimar o efeito médio dos tratados, que é o ATT. Para ver isso, suponha que não há diferença nos resultados potenciais de não receber o tratamento entre os tratados e os no grupo controle, de modo que <span class="math inline">\(\mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0] = \tau + (\mathbb{E}[\tau_i|D_i=1] -\tau)  = \mathbb{E}[\tau_i|D_i=1]\)</span>, que é o ATT.</p>
 </div>
 <div id="modelo-versus-desenho" class="section level2 hasAnchor" number="2.12">
