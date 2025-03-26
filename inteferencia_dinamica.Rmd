@@ -1,9 +1,5 @@
----
-title: "Interferência, spillover e dinâmica"
-author: "Manoel"
-date: "2025-03-18"
-output: pdf_document
----
+# Interferência, spillover e dinâmica
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -64,7 +60,12 @@ Interferência ocorre quando o resultado potencial de uma unidade depende do tra
 
 Para modelar interferência, é necessário enriquecer nosso framework, introduzindo definições adicionais e alterando os pressupostos chave. Tipicamente nós modelamos com a suposição de que a interferência ocorre apenas em um subgrupo de unidades, isto é, o resultado potencial não depende do status de tratamento de todas as unidades, mas tão somente de um grupo específico. Além disso, também é comum ser necessário a suposição de anonimidade, isto é, os pares de um grupo importam, mas não quem são os pares, no sentido de que cada par teria um efeito esepcífico e único sobre uma unidade. Essa é uma área de pesqquisa ativa na inferência causal, mas ainda pouco incorporada na ciência política, em particular nas RIs, mas não só.
 
+Referências chave são:
+Charles F Manski. Identification of treatment response with social interactions. The Econometrics Journal, 16(1):S1–S23, 2013.
 
+Peter M Aronow and Cyrus Samii. Estimating average causal effects under general interference, with application to a social network experiment. Annals of Applied Statistics, 11(4):1912–1947, 2017.
+
+Bowers J, Fredrickson MM, Panagopoulos C. Reasoning about Interference Between Units: A General Framework. Political Analysis. 2013;21(1):97-124. doi:10.1093/pan/mps038
 
 
 

@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Capítulo 3 DAGs | Curso de Inferência Causal</title>
-  <meta name="description" content="Capítulo 3 DAGs | Curso de Inferência Causal" />
+  <title>Capítulo 10 Interferência, spillover e dinâmica | Curso de Inferência Causal</title>
+  <meta name="description" content="Capítulo 10 Interferência, spillover e dinâmica | Curso de Inferência Causal" />
   <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Capítulo 3 DAGs | Curso de Inferência Causal" />
+  <meta property="og:title" content="Capítulo 10 Interferência, spillover e dinâmica | Curso de Inferência Causal" />
   <meta property="og:type" content="book" />
   
   
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Capítulo 3 DAGs | Curso de Inferência Causal" />
+  <meta name="twitter:title" content="Capítulo 10 Interferência, spillover e dinâmica | Curso de Inferência Causal" />
   
   
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="resultados-potenciais.html"/>
-<link rel="next" href="experimentos.html"/>
+<link rel="prev" href="synthetic-control.html"/>
+
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -209,17 +209,66 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="dags" class="section level1 hasAnchor" number="3">
-<h1><span class="header-section-number">Capítulo 3</span> DAGs<a href="dags.html#dags" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="interferência-spillover-e-dinâmica" class="section level1 hasAnchor" number="10">
+<h1><span class="header-section-number">Capítulo 10</span> Interferência, spillover e dinâmica<a href="interferência-spillover-e-dinâmica.html#interferência-spillover-e-dinâmica" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Agora iremos relaxar algumas simplifcações do modelo de Resultados potenciais que vimos até agora.</p>
+<div id="suposições-simplifcadoras" class="section level2 hasAnchor" number="10.1">
+<h2><span class="header-section-number">10.1</span> Suposições simplifcadoras<a href="interferência-spillover-e-dinâmica.html#suposições-simplifcadoras" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ol style="list-style-type: decimal">
+<li>Tratamento binário</li>
+<li>Único período de tempo (um tratamento “within unit” )</li>
+<li>SUTVA</li>
+</ol>
+</div>
+<div id="po-com-tratamento-de-múltiplos-valores-multi-valued" class="section level2 hasAnchor" number="10.2">
+<h2><span class="header-section-number">10.2</span> PO com tratamento de múltiplos valores (multi-valued)<a href="interferência-spillover-e-dinâmica.html#po-com-tratamento-de-múltiplos-valores-multi-valued" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="multi-valued-discreto" class="section level3 hasAnchor" number="10.2.1">
+<h3><span class="header-section-number">10.2.1</span> Multi-valued discreto<a href="interferência-spillover-e-dinâmica.html#multi-valued-discreto" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Vamos estender o modelo de tratamewnto binário começando por tratamentos discretos. Digamos que temos <span class="math inline">\(D_i \in \{0, 1, ..., d\}\)</span>, isto é, tratamentos ordenados. Por exemplo, múltiplas categorias de uma política pública (100 reais, 200 reais, 300 reais etc.). Definimos o resultado potencial da unidade <span class="math inline">\(i\)</span> para qualquer <span class="math inline">\(d \in D\)</span> como <span class="math inline">\(Y_i(d)\)</span></p>
+<p>Nós vamos precisar da suposição de ignorability forte.</p>
+<p><span class="math inline">\(\tau_i(D, D&#39;) = Y_i(d) - Y_i(d&#39;)\)</span>, ou seja, o efeito causal entre dois níveis do tratamento. Como antes, podemos computar a esperança: <span class="math inline">\(\mathbb{E}[\tau_i(D, D&#39;)] = \mathbb{E}[Y_i(d) - Y_i(d&#39;)]\)</span>. E se ignorability forte vale, então <span class="math inline">\(\mathbb{E}[\tau_i(D, D&#39;)] = \mathbb{E}[Y_i|D_i = d] - \mathbb{E}[Y_i|D_i = d&#39;]\)</span></p>
+<p>Se quisermos, podemos trabalhar também com tratamentos não-ordenados. Por exemplo, dois tratamentos binários. Por exemplo, um tratamento é informação sobre corrupção de um candidato (recebe ou não a informação) e outro tratamento é informação sobre a raça do candidato (é branco ou não). <span class="math inline">\(D_i \in \{0,1}^2\}\)</span>. Podemos modelar os resultados potenciais como dependendo do status dos dois tratamentos: <span class="math inline">\(Y_i(D_{i1}, D_{i2})\)</span> que geram quatro possibilidades ou resultados potenciais: <span class="math inline">\(Y(0,0)\)</span>, <span class="math inline">\(Y(1,0)\)</span>, <span class="math inline">\(Y(0,1)\)</span>, <span class="math inline">\(Y(1,1)\)</span>.</p>
+<p>Exemplo onde mesmo com atribuição aleatória, há efeitos não-identificados. Aleatoriamente atribuir <span class="math inline">\(D_1\)</span> e, para os que receberam <span class="math inline">\(D_1\)</span>, aleatoriamente atribui <span class="math inline">\(D-2\)</span>. Onde isso poderia acontecer? Primeira e segunda dose de vacina! Por definição, a segunda dose só é dada para quem recebeu a primeira dose. Nunca é possível estimar efeito relativo a <span class="math inline">\(Y_i(0,1)\)</span>, isto é, o resultado potencial de quem não recebeu a primeira dose, mas recebeu a segunda. Essa é uma pessoa que recebeu a primeira dose quando a segunda estava sendo aplicada.</p>
+</div>
+</div>
+<div id="dinâmica" class="section level2 hasAnchor" number="10.3">
+<h2><span class="header-section-number">10.3</span> Dinâmica<a href="interferência-spillover-e-dinâmica.html#dinâmica" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Considere que agora nós observamos <span class="math inline">\(T\)</span> períodos de tempo para uma unidade: <span class="math inline">\(Y_i\)</span> = (Y_{i1}, Y_{i2}, …, Y_{iT}). Para cada período, há um tratamento <span class="math inline">\(D_{it} \in \{0,1\}\)</span>, isto é, sempre binário. Chamamos de <span class="math inline">\(\mathbf{D_i} = (D_{i1}, D_{i2}, ..., D_{iT})\)</span> o vetor de tratamentos em todos os <span class="math inline">\(T\)</span> períodos. Implicitamente, muitas pessoas abordam modelos dinâmicos supondo que podemos olhar apenas para o resultado pontencial para a unidade <span class="math inline">\(i\)</span> no período <span class="math inline">\(t\)</span>, ou seja, <span class="math inline">\(Y_{it}(D_{it})\)</span>. Porém, isso significa que apenas o tratamento do período <span class="math inline">\(t\)</span> impacta o resultado potencial do período <span class="math inline">\(t\)</span>. De maneira mais geral, teríamos: <span class="math inline">\(\mathbf{D_i} = (D_{i1}, D_{i2}, ..., D_{iT})\)</span> e definiríamos o resultado potencial no período <span class="math inline">\(t\)</span> como <span class="math inline">\(Y_{it}(\mathbf{D_i})\)</span>. <span class="math inline">\(Y(\mathbf{D})\)</span>. Nesse caso, fomos para o lado oposto: tratamentos futuros impactando o resultado potencial do presente. Isso não necessariamente significa que o futuro afeta o passado. Pode ocorrer por antecipação de tratamentos futuros. De todo modo, também parece extremo. Ainda assim, continuamos evitando a possibilidade de spillovers.</p>
+<p>Uma suposição comum, portanto, é a de não-antecipação, que pode ser representada por: <span class="math inline">\(Y_{it}(d_1, d_2, ..., d_t, d_{t+1}, ..., d_T) = Y_{it}(d_1, d_2, ..., d_t)\)</span>. Ou seja, os resultados potenciais até <span class="math inline">\(t\)</span> não dependem dos resultados potenciais após essa data.</p>
+<p>Outra suposição comum é: ausência de efeitos dinâmicos:
+<span class="math display">\[Y_{it}(d_1, d_2, ..., d_t) = Y_{it}(d_t)\]</span>
+Em palavras, essa suposição requer que o resultado potencial do presente não dependa dos tratamentos passados. Essa suposição é também chamada de “no carry-over-effects hypothesis”. Ela é bem restritiva. Mesmo um desenho em que a aleatorização é executada a cada período de maneira independente pode ter “carry-over-effects” se o resultado do período anterior impactar o resultado do período presente.</p>
+<p>Modelos de “impulse response function” estão interessados em estimar justamente “carry over effects”. ver <a href="https://donskerclass.github.io/CausalEconometrics/TimeSeries.html" class="uri">https://donskerclass.github.io/CausalEconometrics/TimeSeries.html</a></p>
+<p>Considere um modelo de regressão tradicional para dados dinâmicos: <span class="math inline">\(y_{it} = \alpha + \beta x_{it} + e_{it}\)</span>. Nós já sabemos que uma forma de de pensar a identificação causal é imaginar um experimento aleatório controlado. O que significa, em primeiro lugar, escolher aleatoriamente o tratamento nesse caso? Uma possibilidade é imaginar que a cada período o tratamento é aleatoriamente atribuído, independentemente dos períodos anteriores. No fundo, é como uma multi-valued treatment. Qual condição de ignorability estamos satisfazendo nesse caso? Se apenas o tratamento presente impacta o resultado potencial, isto é, <span class="math inline">\(Y_{it}(D_{it})\)</span>, então temos:</p>
+<ol style="list-style-type: decimal">
+<li><p>Baseline randomization: <span class="math inline">\(Y(D_{it}) \perp D_{it}\)</span>. Ou seja, o resultado potencial no período <span class="math inline">\(t\)</span> é independente do mecanismo de atribuição do tratamento. Essa suposição implica exogeneidade estrita.</p></li>
+<li><p>Ignorability sequencial (Sequential Unconfoundedness). Assume que, conditional à história passada observada de tratamentos e co-variáveis, o tratamento corrente é independente de resultados potenciais.</p></li>
+</ol>
+<p>Nós iremos aprofundar essas questões nas aulas sobre DiD e Efeitos Fixos. Por ora, quero notar que no fundo estamos falando de spillovers no tempo, isto é, tratamento no tempo <span class="math inline">\(t\)</span> impatacando resultados potenciais de períodos furutos <span class="math inline">\(t+(1:k)\)</span>, em que <span class="math inline">\(k &gt;0\)</span>.</p>
+</div>
+<div id="interferência" class="section level2 hasAnchor" number="10.4">
+<h2><span class="header-section-number">10.4</span> Interferência<a href="interferência-spillover-e-dinâmica.html#interferência" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Interferência ocorre quando o resultado potencial de uma unidade depende do tratamento de outra unidade. Tipicamente, em ciências sociais, spillovers podem envolver:</p>
+<ol style="list-style-type: decimal">
+<li><p>Efeitos de pares</p></li>
+<li><p>Spillovers espaciais</p></li>
+<li><p>Interações políticas (restrições orçamentárias)</p></li>
+</ol>
+<p>Para modelar interferência, é necessário enriquecer nosso framework, introduzindo definições adicionais e alterando os pressupostos chave. Tipicamente nós modelamos com a suposição de que a interferência ocorre apenas em um subgrupo de unidades, isto é, o resultado potencial não depende do status de tratamento de todas as unidades, mas tão somente de um grupo específico. Além disso, também é comum ser necessário a suposição de anonimidade, isto é, os pares de um grupo importam, mas não quem são os pares, no sentido de que cada par teria um efeito esepcífico e único sobre uma unidade. Essa é uma área de pesqquisa ativa na inferência causal, mas ainda pouco incorporada na ciência política, em particular nas RIs, mas não só.</p>
+<p>Referências chave são:
+Charles F Manski. Identification of treatment response with social interactions. The Econometrics Journal, 16(1):S1–S23, 2013.</p>
+<p>Peter M Aronow and Cyrus Samii. Estimating average causal effects under general interference, with application to a social network experiment. Annals of Applied Statistics, 11(4):1912–1947, 2017.</p>
+<p>Bowers J, Fredrickson MM, Panagopoulos C. Reasoning about Interference Between Units: A General Framework. Political Analysis. 2013;21(1):97-124. <a href="doi:10.1093/pan/mps038" class="uri">doi:10.1093/pan/mps038</a></p>
 
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="resultados-potenciais.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="experimentos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="synthetic-control.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -250,7 +299,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/mgaldino/Causalidade/edit/main/03-DAGs.Rmd",
+    "link": "https://github.com/mgaldino/Causalidade/edit/main/inteferencia_dinamica.Rmd",
     "text": "Edit"
   },
   "history": {
@@ -258,7 +307,7 @@ gitbook.start({
     "text": null
   },
   "view": {
-    "link": "https://github.com/mgaldino/Causalidade/blob/main/03-DAGs.Rmd",
+    "link": "https://github.com/mgaldino/Causalidade/blob/main/inteferencia_dinamica.Rmd",
     "text": null
   },
   "download": null,
