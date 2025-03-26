@@ -9,6 +9,8 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+Agora iremos relaxar algumas simplifcações do modelo de Resultados potenciais que vimos até agora.
+
 ## Suposições simplifcadoras
 
 1. Tratamento binário
@@ -25,19 +27,46 @@ Nós vamos precisar da suposição de ignorability forte.
 
 $\tau_i(D, D') = Y_i(d) - Y_i(d')$, ou seja, o efeito causal entre dois níveis do tratamento. Como antes, podemos computar a esperança: $\mathbb{E}[\tau_i(D, D')] = \mathbb{E}[Y_i(d) - Y_i(d')]$. E se ignorability forte vale, então $\mathbb{E}[\tau_i(D, D')] = \mathbb{E}[Y_i|D_i = d] - \mathbb{E}[Y_i|D_i = d']$
 
-Se quisermos, podemos trabalahr também com tratamentos não-ordenados. Por exemplo, dois tratamentos binários. Por exemplo, um tratamento é informação sobre corrupção de um candidato (recebe ou não a informação) e outro tratamento é informação sobre a raça do candidato (é branco ou não). $D_i \in \{0,1}^2\}$. Podemos modelar os resultados potenciais como dependendo do status dos dois tratamentos: $Y_i(D_{i1}, D_{i2})$ que geram quatro possibilidades ou resultados potenciais: $Y(0,0)$, $Y(1,0)$, $Y(0,1)$, $Y(1,1)$.
+Se quisermos, podemos trabalhar também com tratamentos não-ordenados. Por exemplo, dois tratamentos binários. Por exemplo, um tratamento é informação sobre corrupção de um candidato (recebe ou não a informação) e outro tratamento é informação sobre a raça do candidato (é branco ou não). $D_i \in \{0,1}^2\}$. Podemos modelar os resultados potenciais como dependendo do status dos dois tratamentos: $Y_i(D_{i1}, D_{i2})$ que geram quatro possibilidades ou resultados potenciais: $Y(0,0)$, $Y(1,0)$, $Y(0,1)$, $Y(1,1)$.
 
-Exemplo onde mesmo com atribuição aleatória, há efeitos não-identificados. Aleatoriamente atribuit $D_1$ e, para os que receberam $D_1$, aleatoriamente atribui $D-2$. Onde isso poderia acontecer? Primeira e segunda dose de vacina! Por definição, a segunda dose só é dada para quem recebeu a primeira dose. Nunca é possível estimar efeito relativo a $Y_i(0,1)$, isto é, o resultado potencial de quem não recebeu a primeira dose, mas recebeu a segunda. Essa é uma pessoa que recebeu a primeira dose quando a segunda estaba sendo aplicada.
+Exemplo onde mesmo com atribuição aleatória, há efeitos não-identificados. Aleatoriamente atribuir $D_1$ e, para os que receberam $D_1$, aleatoriamente atribui $D-2$. Onde isso poderia acontecer? Primeira e segunda dose de vacina! Por definição, a segunda dose só é dada para quem recebeu a primeira dose. Nunca é possível estimar efeito relativo a $Y_i(0,1)$, isto é, o resultado potencial de quem não recebeu a primeira dose, mas recebeu a segunda. Essa é uma pessoa que recebeu a primeira dose quando a segunda estava sendo aplicada.
 
 ## Dinâmica
 
-Considere que agora nós observamos $T$ períodos de tempo para uma unidade: $Y_i$ = (Y_{i1}, Y_{i2}, ..., Y_{iT}). Para cada período, há um tratamento $D_{it}$. Implicitamente, muitas pessoas abordam modelos dinâmicos supondo que o resultado pontencial para a unidade $i$ no período $t$, ou seja, $Y_{it}(D_{it})$. Porém, isso significa que apenas o tratamento do período $t$ impacta o resultado potencial do período $t$. De maneira mais geral, teríamos: $\mathbf{D_i} = (D_{i1}, D_{i2}, ..., D_{iT})$ e definiríamos o resultaod potencial no período $t$ como $Y_{it}(\mathbf{D_i})$. $Y(\mathbf{D})$. Nesse caso, fomos para o lado oposto: tratamentos futuros impactado o resultado potencial do presente. Isso não necessariamente significa que o futuro afeta o passado. Pode ocorrer por antecipação de tratamentos futuros.
+Considere que agora nós observamos $T$ períodos de tempo para uma unidade: $Y_i$ = (Y_{i1}, Y_{i2}, ..., Y_{iT}). Para cada período, há um tratamento $D_{it} \in \{0,1\}$, isto é, sempre binário. Chamamos de $\mathbf{D_i} = (D_{i1}, D_{i2}, ..., D_{iT})$ o vetor de tratamentos em todos os $T$ períodos. Implicitamente, muitas pessoas abordam modelos dinâmicos supondo que podemos olhar apenas para o resultado pontencial para a unidade $i$ no período $t$, ou seja, $Y_{it}(D_{it})$. Porém, isso significa que apenas o tratamento do período $t$ impacta o resultado potencial do período $t$. De maneira mais geral, teríamos: $\mathbf{D_i} = (D_{i1}, D_{i2}, ..., D_{iT})$ e definiríamos o resultado potencial no período $t$ como $Y_{it}(\mathbf{D_i})$. $Y(\mathbf{D})$. Nesse caso, fomos para o lado oposto: tratamentos futuros impactando o resultado potencial do presente.  Isso não necessariamente significa que o futuro afeta o passado. Pode ocorrer por antecipação de tratamentos futuros. De todo modo, também parece extremo. Ainda assim, continuamos evitando a possibilidade de spillovers.
+
+Uma suposição comum, portanto, é a de não-antecipação, que pode ser representada por: $Y_{it}(d_1, d_2, ..., d_t, d_{t+1}, ..., d_T) = Y_{it}(d_1, d_2, ..., d_t)$. Ou seja, os resultados potenciais até $t$ não dependem dos resultados potenciais após essa data.
+
+Outra suposição comum é: ausência de efeitos dinâmicos:
+$$Y_{it}(d_1, d_2, ..., d_t) = Y_{it}(d_t)$$
+Em palavras, essa suposição requer que o resultado potencial do presente não dependa dos tratamentos passados. Essa suposição é também chamada de "no carry-over-effects hypothesis". Ela é bem restritiva. Mesmo um desenho em que a aleatorização é executada a cada período de maneira independente pode ter "carry-over-effects" se o resultado do período anterior impactar o resultado do período presente.
+
+Modelos de "impulse response function" estão interessados em estimar justamente "carry over effects". ver https://donskerclass.github.io/CausalEconometrics/TimeSeries.html
+
 
 Considere um modelo de regressão tradicional para dados dinâmicos: $y_{it} = \alpha + \beta x_{it} + e_{it}$. Nós já sabemos que uma forma de de pensar a identificação causal é imaginar um experimento aleatório controlado. O que significa, em primeiro lugar, escolher aleatoriamente o tratamento nesse caso? Uma possibilidade é imaginar que a cada período o tratamento é aleatoriamente atribuído, independentemente dos períodos anteriores. No fundo, é como uma multi-valued treatment. Qual condição de ignorability estamos satisfazendo nesse caso? Se apenas o tratamento presente impacta o resultado potencial, isto é, $Y_{it}(D_{it})$, então temos:
 
-1. Ignorability Markoviana: $Y(D_{it}) \perp D_{it}$. Ou seja, o resultado potencial no período $t$ é independente do mecanismo de atribuição do tratamento. Isso é conhecido também como baseline randomization. Essa suposição implica exogeneidade estrita.
+1. Baseline randomization: $Y(D_{it}) \perp D_{it}$. Ou seja, o resultado potencial no período $t$ é independente do mecanismo de atribuição do tratamento. Essa suposição implica exogeneidade estrita.
 
-Sequential Ignorability (Sequential Unconfoundedness). Sequential ignorability assumes that conditional on the past observed history of treatments and covariates, the current treatment is independent of future potential outcomes.
+2. Ignorability sequencial (Sequential Unconfoundedness). Assume que, conditional à história passada observada de tratamentos e co-variáveis, o tratamento corrente é independente de resultados potenciais.
+
+Nós iremos aprofundar essas questões nas aulas sobre DiD e Efeitos Fixos. Por ora, quero notar que no fundo estamos falando de spillovers no tempo, isto é, tratamento no tempo $t$ impatacando resultados potenciais de períodos furutos $t+(1:k)$, em que $k >0$.
+
+## Interferência
+
+Interferência ocorre quando o resultado potencial de uma unidade depende do tratamento de outra unidade. Tipicamente, em ciências sociais, spillovers podem envolver:
+
+1. Efeitos de pares
+
+2. Spillovers espaciais
+
+3. Interações políticas (restrições orçamentárias)
+
+Para modelar interferência, é necessário enriquecer nosso framework, introduzindo definições adicionais e alterando os pressupostos chave. Tipicamente nós modelamos com a suposição de que a interferência ocorre apenas em um subgrupo de unidades, isto é, o resultado potencial não depende do status de tratamento de todas as unidades, mas tão somente de um grupo específico. Além disso, também é comum ser necessário a suposição de anonimidade, isto é, os pares de um grupo importam, mas não quem são os pares, no sentido de que cada par teria um efeito esepcífico e único sobre uma unidade. Essa é uma área de pesqquisa ativa na inferência causal, mas ainda pouco incorporada na ciência política, em particular nas RIs, mas não só.
 
 
-)
+
+
+
+
+
