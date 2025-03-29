@@ -237,7 +237,49 @@ Model-based: O estimando é identificado a partir de um modelo dos resultados po
 
 Design-based: O estimando é identificado a partir de suposições sobre o mecanismo de atribuição do tratamento e co-variáveis. O exemplo arquetípico desse tipo de pesquisa é o experimento aleatório controlado.
 
+## Exercício em sala
+Na década de 1970, houve um programa de treinamento e emprego conhecido como National Supported Work (NSW). Este programa temporário visava ajudar trabalhadores desfavorecidos e sem habilidades básicas a ingressarem no mercado de trabalho, oferecendo experiência profissional e orientação em um ambiente protegido. Um aspecto inovador do NSW foi a seleção aleatória de candidatos qualificados para os treinamentos, garantindo que o grupo de tratamento recebesse todos os benefícios do programa, enquanto o grupo de controle não tinha suporte.
+
+Os participantes do grupo de tratamento tinham emprego garantido por 9 a 18 meses, dependendo do grupo-alvo e do local. Eles trabalhavam em equipes de 3 a 5 pessoas, reunindo-se frequentemente com um orientador para discutir questões do programa e desempenho. Embora recebessem salários inferiores aos de um emprego regular, havia possibilidade de aumento conforme o desempenho e a frequência. Ao término do período, os participantes precisavam procurar emprego regular. O programa também coletou dados de renda e informações demográficas de ambos os grupos, realizando entrevistas periódicas, o que gerou diferentes tamanhos de amostra entre os estudos. O NSW utilizava um desenho experimental aleatório.
+
+Lalonde (1986) comparou os resultados experimentais com dados observacionais. Para isso, substituiu os dados do grupo controle atribuídos aleatoriamente, com dados de três amostras do Current Population Survey (CPS) e do Panel Survey of Income Dynamics (PSID). E usou as técnicas econométricas usuais para isso. O resultado não foi bom para a econometria. Voltaremos a isso mais pra frente. Por hora, vamos estimar efeitos causais com os dados experimentais.
+
+O exercício a seguir é adaptado do exercício disponibilizado por Paul GP em seu github, no seu curso de métodos.
+
+Esta análise utilizará a amostra de Dehejia e Wahba do conjunto de dados Lalonde do experimento NSW. O conjunto de dados é "lalonde nsw.csv". A variável de resultado é "re78" (rendimento real em 1978). O indicador de tratamento é "treat". As demais variáveis são potenciais covariáveis. Para os fins deste conjunto de problemas, assuma que "treat" é atribuído de forma aleatória.
+
+(a) Calcule o efeito médio do tratamento da política, $\mathbb{E}[\tau_i]$, utilizando uma simples diferença de médias.
+
+(b) Calcule o efeito médio do tratamento sobre os tratados da política, $\mathbb{E}[\tau_i|treat=1]$. Como ele se compara à parte (a)?
+
+
+```{r Lalonde, echo=FALSE}
+library(here)
+library(data.table)
+nsw <- fread(here("Dados", "lalonde_nsw.csv"))
+
+# a
+ate <- sum(nsw$re78*nsw$treat)/sum(nsw$treat) - sum(nsw$re78*(1-nsw$treat))/sum(1-nsw$treat)
+ate
+ate_aux <- nsw %>% group_by(treat) %>% summarise(media = mean(re78))
+ate_aux$media[2] - ate_aux$media[1]
+
+# b
+ATT é o ATE com aleatorização (ignorability forte).
+
+# c
+
+```
+
 ## Referências
+
+Lalonde, Robert. 1986. “Evaluating the Econometric Evaluations of Training Programs with Experimental Data.” American Economic Review 76 (4): 604–20.
+
+Rajeev Dehejia and Sadek Wahba, "Causal Effects in Non-Experimental Studies: Reevaluating the Evaluation of Training Programs," Journal of the American Statistical Association, Vol. 94, No. 448 (December 1999), pp. 1053-1062.
+
+Rajeev Dehejia and Sadek Wahba, "Propensity Score Matching Methods for Non-Experimental Causal Studies," Review of Economics and Statistics, Vol. 84, (February 2002), pp. 151-161.
+
+Robert Lalonde, "Evaluating the Econometric Evaluations of Training Programs," American Economic Review, Vol. 76 (1986), pp. 604-620.
 
 Lundberg, I., Johnson, R., & Stewart, B. M. (2021). What is your estimand? Defining the target quantity connects statistical evidence to theory. American Sociological Review, 86(3), 532-565.
 

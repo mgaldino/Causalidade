@@ -34,3 +34,12 @@ po-com-tratamento-de-múltiplos-valores-multi-valued
 multi-valued-discreto
 dinâmica
 interferência
+causalidade
+introdução-1
+os-tipos-básicos-de-dags
+chains
+forks
+colliders
+simulação-no-r-ilustrando-o-collider-bias
+definições
+controle-e-ajuste
