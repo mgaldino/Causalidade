@@ -170,7 +170,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.12" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#modelo-versus-desenho"><i class="fa fa-check"></i><b>2.12</b> Modelo versus Desenho</a></li>
 <li class="chapter" data-level="2.13" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#referências-1"><i class="fa fa-check"></i><b>2.13</b> Referências</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="dags.html"><a href="dags.html"><i class="fa fa-check"></i><b>3</b> DAGs</a></li>
+<li class="chapter" data-level="3" data-path="dags.html"><a href="dags.html"><i class="fa fa-check"></i><b>3</b> DAGs</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="dags.html"><a href="dags.html#causalidade"><i class="fa fa-check"></i><b>3.1</b> Causalidade</a></li>
+<li class="chapter" data-level="3.2" data-path="dags.html"><a href="dags.html#introdução-1"><i class="fa fa-check"></i><b>3.2</b> Introdução</a></li>
+<li class="chapter" data-level="3.3" data-path="dags.html"><a href="dags.html#os-tipos-básicos-de-dags"><i class="fa fa-check"></i><b>3.3</b> Os Tipos Básicos de DAGs</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="dags.html"><a href="dags.html#chains"><i class="fa fa-check"></i><b>3.3.1</b> 1. Chains</a></li>
+<li class="chapter" data-level="3.3.2" data-path="dags.html"><a href="dags.html#forks"><i class="fa fa-check"></i><b>3.3.2</b> 2. Forks</a></li>
+<li class="chapter" data-level="3.3.3" data-path="dags.html"><a href="dags.html#colliders"><i class="fa fa-check"></i><b>3.3.3</b> 3. Colliders</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="dags.html"><a href="dags.html#simulação-no-r-ilustrando-o-collider-bias"><i class="fa fa-check"></i><b>3.4</b> Simulação no R: Ilustrando o Collider Bias</a></li>
+<li class="chapter" data-level="3.5" data-path="dags.html"><a href="dags.html#definições"><i class="fa fa-check"></i><b>3.5</b> Definições</a></li>
+<li class="chapter" data-level="3.6" data-path="dags.html"><a href="dags.html#controle-e-ajuste"><i class="fa fa-check"></i><b>3.6</b> Controle e Ajuste</a></li>
+</ul></li>
 <li class="chapter" data-level="4" data-path="experimentos.html"><a href="experimentos.html"><i class="fa fa-check"></i><b>4</b> Experimentos</a></li>
 <li class="chapter" data-level="5" data-path="matching.html"><a href="matching.html"><i class="fa fa-check"></i><b>5</b> Matching</a></li>
 <li class="chapter" data-level="6" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html"><i class="fa fa-check"></i><b>6</b> Variáveis Instrumentais</a></li>
@@ -211,7 +224,117 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="dags" class="section level1 hasAnchor" number="3">
 <h1><span class="header-section-number">Capítulo 3</span> DAGs<a href="dags.html#dags" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="causalidade" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Causalidade<a href="dags.html#causalidade" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="https://imgs.xkcd.com/comics/correlation.png" alt="Fonte: xkcd" /> <!-- Substitua path/to/your/image.jpg pelo caminho da imagem XKCD sobre causalidade --></p>
+</div>
+<div id="introdução-1" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Introdução<a href="dags.html#introdução-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Uma das principais abordagens para fazer inferência causal utiliza diagramas causais chamados de Directed Acyclic Graphs (DAG). Ela foi desenvolvida na ciência da computação entre os anos 80 e 90 e é associada com o trabalho pioneiro de Judea Pearl. Veja o livro <em>The Book of Why</em> para uma história de como surgiu essa abordagem.</p>
+<p>Abaixo temos um exemplo simples de um DAG:</p>
+<p><img src="bookdownproj_files/figure-html/dag1-1.png" width="672" />
+Eles são chamados de DAGs porque os gráficos são direcionados (apontam em uma direção), acyclic porque não permitem ciclos (isto é, se A causa B, B não pode causar A) e graphs porque, como você pode imaginar, são grafos.</p>
+<p>No exemplo acima, o DAG é formado por três variáveis {y, x, z} que são, em geral, variáveis aleatórias. E as flechas indicam direção de causalidade. Ou seja, <span class="math inline">\(x\)</span> causa <span class="math inline">\(y\)</span> e <span class="math inline">\(z\)</span> causa <span class="math inline">\(x\)</span>. É importante saber que DAGs são não paramétricos. Eles podem ser interpretados como: <span class="math inline">\(y = f(x, z)\)</span>. Ou seja, qualquer função de x e z são igualmente possíveis. Eis alguns exemplos compatíveis com o DAG acima:</p>
+<ul>
+<li><span class="math inline">\(y = x + z\)</span></li>
+<li><span class="math inline">\(y = 10 + x + z + x*z\)</span></li>
+<li><span class="math inline">\(y = 3*x^z\)</span></li>
+<li><span class="math inline">\(y = \pi*z/x + x^2 + 1/(z^3)\)</span></li>
+</ul>
+<p>A razão porque não escrevemos DAGs como equações é porque <span class="math inline">\(y = f(x, z)\)</span> não expressa adequadamente a relação de causalidade pois, em matemática, é indiferente escrever <span class="math inline">\(f(x, z) = y\)</span> ou <span class="math inline">\(y = f(z, x)\)</span>. Porém, dizer que <span class="math inline">\(x\)</span> e <span class="math inline">\(z\)</span> causam <span class="math inline">\(y\)</span> é muito diferente de dizer que <span class="math inline">\(y\)</span> causa <span class="math inline">\(x\)</span> e <span class="math inline">\(z\)</span>. E com o DAG as flechas indicam a direção da causalidade.</p>
+</div>
+<div id="os-tipos-básicos-de-dags" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Os Tipos Básicos de DAGs<a href="dags.html#os-tipos-básicos-de-dags" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="chains" class="section level3 hasAnchor" number="3.3.1">
+<h3><span class="header-section-number">3.3.1</span> 1. Chains<a href="dags.html#chains" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Em uma <em>chain</em>, <em>x</em> causa <em>w</em> que, por sua vez, causa <em>y</em>. Aqui, <em>w</em> pode ser considerado o mediador do efeito de <em>x</em> sobre <em>y</em>.<br />
+<strong>Exemplo:</strong> O desempenho econômico de um país pode aumentar a popularidade do presidente, o que leva a mais votos.<br />
+Representação:<br />
+<img src="bookdownproj_files/figure-html/chain-1.png" width="672" /></p>
+</div>
+<div id="forks" class="section level3 hasAnchor" number="3.3.2">
+<h3><span class="header-section-number">3.3.2</span> 2. Forks<a href="dags.html#forks" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Em um <em>fork</em>, uma variável <em>w</em> causa ambos <em>x</em> e <em>y</em>. Dessa forma, <em>w</em> é uma causa comum que pode gerar correlação espúria entre <em>x</em> e <em>y</em>.<br />
+<strong>Exemplo:</strong> A qualidade de um candidato pode fazer com que ele arrecade mais dinheiro para a campanha e, ao mesmo tempo, obtenha mais votos.<br />
+Representação:</p>
+<p><img src="bookdownproj_files/figure-html/fork-1.png" width="672" /></p>
+</div>
+<div id="colliders" class="section level3 hasAnchor" number="3.3.3">
+<h3><span class="header-section-number">3.3.3</span> 3. Colliders<a href="dags.html#colliders" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Em um <em>collider</em>, <em>x</em> causa <em>w</em> e <em>y</em> também causa <em>w</em>. Esse tipo de estrutura é também chamado de “fork invertido”. Apesar de <em>x</em> e <em>y</em> não terem relação causal direta, controlar para <em>w</em> (ou um de seus descendentes) pode introduzir uma correlação espúria entre <em>x</em> e <em>y</em>.<br />
+<strong>Exemplo:</strong> Imagine que você organiza uma festa e convida apenas pessoas que fazem ciência política ou são canhotas. Na população geral pode não haver relação entre essas características, mas na festa pode surgir uma correlação: se uma pessoa é canhota, ela pode ter maior probabilidade de fazer ciência política.</p>
+<p><img src="bookdownproj_files/figure-html/collider-1.png" width="672" /></p>
+</div>
+</div>
+<div id="simulação-no-r-ilustrando-o-collider-bias" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Simulação no R: Ilustrando o Collider Bias<a href="dags.html#simulação-no-r-ilustrando-o-collider-bias" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Vamos rodar uma simulação para ilustrar o collider bias. Suponha que 10% das pessoas fazem ciência política e 5% são canhotas.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="dags.html#cb1-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="dags.html#cb5-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
+<span id="cb5-2"><a href="dags.html#cb5-2" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="dags.html#cb5-3" tabindex="-1"></a><span class="co"># Gerando as variáveis</span></span>
+<span id="cb5-4"><a href="dags.html#cb5-4" tabindex="-1"></a>cp <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1000</span>, <span class="dv">1</span>, <span class="at">p =</span> <span class="fl">0.1</span>)      <span class="co"># 10% fazem ciência política</span></span>
+<span id="cb5-5"><a href="dags.html#cb5-5" tabindex="-1"></a>canhoto <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1000</span>, <span class="dv">1</span>, <span class="at">p =</span> <span class="fl">0.05</span>)  <span class="co"># 5% são canhotos</span></span>
+<span id="cb5-6"><a href="dags.html#cb5-6" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="dags.html#cb5-7" tabindex="-1"></a><span class="co"># Definindo a condição da festa: convida se faz ciência política ou é canhoto</span></span>
+<span id="cb5-8"><a href="dags.html#cb5-8" tabindex="-1"></a>festa <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(cp <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="fu">ifelse</span>(canhoto <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb5-9"><a href="dags.html#cb5-9" tabindex="-1"></a>tabela <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(cp, canhoto, festa)</span>
+<span id="cb5-10"><a href="dags.html#cb5-10" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="dags.html#cb5-11" tabindex="-1"></a><span class="co"># Correlação na população geral</span></span>
+<span id="cb5-12"><a href="dags.html#cb5-12" tabindex="-1"></a>cor_geral <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">cor</span>(cp, canhoto), <span class="dv">2</span>)</span>
+<span id="cb5-13"><a href="dags.html#cb5-13" tabindex="-1"></a><span class="fu">print</span>(cor_geral)</span></code></pre></div>
+<pre><code>## [1] -0.02</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="dags.html#cb7-1" tabindex="-1"></a><span class="co"># Correlação entre os que foram à festa</span></span>
+<span id="cb7-2"><a href="dags.html#cb7-2" tabindex="-1"></a>cor_festa <span class="ot">&lt;-</span> tabela <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="dags.html#cb7-3" tabindex="-1"></a>  <span class="fu">filter</span>(festa <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-4"><a href="dags.html#cb7-4" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">cor =</span> <span class="fu">round</span>(<span class="fu">cor</span>(cp, canhoto), <span class="dv">2</span>))</span>
+<span id="cb7-5"><a href="dags.html#cb7-5" tabindex="-1"></a><span class="fu">print</span>(cor_festa)</span></code></pre></div>
+<pre><code>##     cor
+## 1 -0.95</code></pre>
+<p>Na população em geral, a correlação é próxima de zero (aproximadamente -0,02). Porém, entre as pessoas que foram à festa, a correlação pode chegar a -0,95, evidenciando como condicionar em um collider (neste caso, a variável festa) pode induzir correlação espúria.</p>
+</div>
+<div id="definições" class="section level2 hasAnchor" number="3.5">
+<h2><span class="header-section-number">3.5</span> Definições<a href="dags.html#definições" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>Path (caminho)</strong>: É uma sequência de flechas conectadas.
+Um <strong>directed path</strong> (caminho dirigido) é aquele em que todas as flechas seguem a mesma direção (por exemplo, <span class="math inline">\(x \to z \to y\)</span>).
+Relações entre Variáveis (<strong>nós</strong>):
+As relações são descritas usando termos da genética, como pais, filhos, ancestrais, descendentes e vizinhos.
+Pais e filhos referem-se a relações diretas.
+Ancestrais e descendentes incluem todas as variáveis em qualquer posição no caminho.</p>
+<p>Um path sem collider está aberto; um path com collider está fechado.</p>
+<p>Duas variáveis (ou conjuntos) estão <strong>d-separated</strong> se não houver caminho aberto entre elas. Caso contrário, podem ou não ser independentes, pois múltiplos caminhos abertos podem se cancelar.</p>
+</div>
+<div id="controle-e-ajuste" class="section level2 hasAnchor" number="3.6">
+<h2><span class="header-section-number">3.6</span> Controle e Ajuste<a href="dags.html#controle-e-ajuste" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>No contexto dos DAGs, controlar para variáveis pode ter diferentes significados:</p>
+<p>Experimentos: Controlar significa manipular o valor da variável pelo pesquisador.
+Exemplo: Um experimento em que o resultado do lançamento de uma moeda determina se um pedido de acesso à informação será feito por um homem ou mulher.</p>
+<p>Estudos Observacionais: Controlar significa condicionar (estratificar ou incluir em uma regressão) e, em termos de DAG, implica:</p>
+<p>Manipular: Determinar o valor da variável.</p>
+<p>Alterar o Gráfico:</p>
+<p>Para controlar a variável C:
+Eliminar todas as flechas que saem de C.
+Eliminar as flechas que entram em C (caso C seja um collider) e conectar os pais de C com linhas tracejadas.
+Remover C do gráfico.
+Para controlar a variável G (por exemplo, se relacionada a C):
+Eliminar as flechas que saem de G.
+Eliminar as flechas do collider (no caso, C, parente de G).
+Remover G do gráfico.
+Em resumo, se C depende de A e B de forma independente, condicionar em C pode criar uma relação espúria entre A e B. Por exemplo, se A e B são binárias e <span class="math inline">\(C = A + B\)</span>, para <span class="math inline">\(C = 1\)</span> saber o valor de A determina automaticamente o valor de B, e vice-versa.</p>
+<p>De modo geral, condicionar em um collider inverte o status dos caminhos: caminhos que estavam abertos podem se fechar e vice-versa. Além disso, condicionar em um descendente de um collider também pode alterar os efeitos, atenuando ou abrindo caminhos que originalmente estavam fechados.</p>
+<p>Referências</p>
+<p>Hernán MA, Robins JM (2019). Causal Inference. Boca Raton: Chapman &amp; Hall/CRC. Disponível temporariamente em: <a href="https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/" class="uri">https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/</a>
+Greenland, S., &amp; Pearl, J. (2014). Causal diagrams. Wiley StatsRef: Statistics Reference Online, 1-10.</p>
 
+</div>
 </div>
             </section>
 

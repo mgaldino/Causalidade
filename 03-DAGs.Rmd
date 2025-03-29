@@ -1,1 +1,203 @@
 # DAGs
+
+## Causalidade
+
+![Fonte: xkcd](https://imgs.xkcd.com/comics/correlation.png) <!-- Substitua path/to/your/image.jpg pelo caminho da imagem XKCD sobre causalidade -->
+
+## Introdução
+
+Uma das principais abordagens para fazer inferência causal utiliza diagramas causais chamados de Directed Acyclic Graphs (DAG). Ela foi desenvolvida na ciência da computação entre os anos 80 e 90 e é associada com o trabalho pioneiro de Judea Pearl. Veja o livro *The Book of Why* para uma história de como surgiu essa abordagem.
+
+Abaixo temos um exemplo simples de um DAG:
+
+```{r dag1, echo=FALSE, message=FALSE}
+library(ggdag)
+dag <- dagify(y ~ x, y ~ z)
+
+ggdag(dag)
+```
+Eles são chamados de DAGs porque os gráficos são direcionados (apontam em uma direção), acyclic porque não permitem ciclos (isto é, se A causa B, B não pode causar A) e graphs porque, como você pode imaginar, são grafos.
+
+No exemplo acima, o DAG é formado por três variáveis \{y, x, z\} que são, em geral, variáveis aleatórias. E as flechas indicam direção de causalidade. Ou seja, $x$ causa $y$ e $z$ causa $x$. É importante saber que DAGs são não paramétricos. Eles podem ser interpretados como: $y = f(x, z)$. Ou seja, qualquer função de x e z são igualmente possíveis. Eis alguns exemplos compatíveis com o DAG acima:
+
+- $y = x + z$
+- $y = 10 + x + z + x*z$
+- $y = 3*x^z$
+- $y = \pi*z/x + x^2 + 1/(z^3)$
+
+A razão porque não escrevemos DAGs como equações é porque $y = f(x, z)$ não expressa adequadamente a relação de causalidade pois, em matemática, é indiferente escrever $f(x, z) = y$ ou $y = f(z, x)$. Porém, dizer que $x$ e $z$ causam $y$ é muito diferente de dizer que $y$ causa $x$ e $z$. E com o DAG as flechas indicam a direção da causalidade.
+
+## Os Tipos Básicos de DAGs
+
+### 1. Chains
+
+Em uma *chain*, _x_ causa _w_ que, por sua vez, causa _y_. Aqui, _w_ pode ser considerado o mediador do efeito de _x_ sobre _y_.  
+**Exemplo:** O desempenho econômico de um país pode aumentar a popularidade do presidente, o que leva a mais votos.  
+Representação:  
+```{r chain, echo=FALSE, message=FALSE}
+library(ggdag)
+dag <- dagify(w ~ x, y ~ w)
+
+ggdag(dag)
+```
+
+### 2. Forks
+
+Em um *fork*, uma variável _w_ causa ambos _x_ e _y_. Dessa forma, _w_ é uma causa comum que pode gerar correlação espúria entre _x_ e _y_.  
+**Exemplo:** A qualidade de um candidato pode fazer com que ele arrecade mais dinheiro para a campanha e, ao mesmo tempo, obtenha mais votos.  
+Representação:  
+
+```{r fork, echo=FALSE, message=FALSE}
+library(ggdag)
+dag <- dagify(x ~ w, y ~ w)
+
+ggdag(dag)
+```
+
+
+### 3. Colliders
+
+Em um *collider*, _x_ causa _w_ e _y_ também causa _w_. Esse tipo de estrutura é também chamado de "fork invertido". Apesar de _x_ e _y_ não terem relação causal direta, controlar para _w_ (ou um de seus descendentes) pode introduzir uma correlação espúria entre _x_ e _y_.  
+```{r collider, echo=FALSE, message=FALSE}
+library(ggdag)
+dag <- dagify(w ~ x, w ~ y)
+
+ggdag(dag)
+```
+
+**Exemplo:** Imagine que você organiza uma festa e convida apenas pessoas que fazem ciência política ou são canhotas. Na população geral pode não haver relação entre essas características, mas na festa pode surgir uma correlação: se uma pessoa é canhota, ela pode ter maior probabilidade de fazer ciência política.
+
+```{r collider1, echo=FALSE, message=FALSE}
+library(ggdag)
+dag <- dagify(festa ~ canhota, festa ~ CP)
+
+ggdag(dag)
+```
+
+## Simulação no R: Ilustrando o Collider Bias
+
+Vamos rodar uma simulação para ilustrar o collider bias. Suponha que 10% das pessoas fazem ciência política e 5% são canhotas.
+
+```{r}
+library(dplyr)
+set.seed(4)
+
+# Gerando as variáveis
+cp <- rbinom(1000, 1, p = 0.1)      # 10% fazem ciência política
+canhoto <- rbinom(1000, 1, p = 0.05)  # 5% são canhotos
+
+# Definindo a condição da festa: convida se faz ciência política ou é canhoto
+festa <- ifelse(cp == 1, 1, ifelse(canhoto == 1, 1, 0))
+tabela <- data.frame(cp, canhoto, festa)
+
+# Correlação na população geral
+cor_geral <- round(cor(cp, canhoto), 2)
+print(cor_geral)
+
+# Correlação entre os que foram à festa
+cor_festa <- tabela %>%
+  filter(festa == 1) %>%
+  summarise(cor = round(cor(cp, canhoto), 2))
+print(cor_festa)
+```
+
+Na população em geral, a correlação é próxima de zero (aproximadamente -0,02). Porém, entre as pessoas que foram à festa, a correlação pode chegar a -0,95, evidenciando como condicionar em um collider (neste caso, a variável festa) pode induzir correlação espúria.
+
+## Definições
+
+**Path (caminho)**: É uma sequência de flechas conectadas.
+Um **directed path** (caminho dirigido) é aquele em que todas as flechas seguem a mesma direção (por exemplo, \( x \to z \to y \)).
+
+### Relações entre Variáveis (nós):
+As relações são descritas usando termos da genética, como pais, filhos, ancestrais, descendentes e vizinhos.
+Pais e filhos referem-se a relações diretas.
+Ancestrais e descendentes incluem todas as variáveis em qualquer posição no caminho.
+
+Um path sem collider está aberto; um path com collider está fechado.
+
+Duas variáveis (ou conjuntos) estão **d-separated** se não houver caminho aberto entre elas. Caso contrário, podem ou não ser independentes, pois múltiplos caminhos abertos podem se cancelar.
+
+## Controle e Ajuste
+
+No contexto dos DAGs, controlar para variáveis pode ter diferentes significados:
+
+Experimentos: Controlar significa manipular o valor da variável pelo pesquisador.
+Exemplo: Um experimento em que o resultado do lançamento de uma moeda determina se um pedido de acesso à informação será feito por um homem ou mulher.
+
+```{r moeda, echo=FALSE, message=FALSE}
+
+dag <- dagify(genero ~ moeda, LAI ~ genero)
+
+ggdag(dag)
+```
+
+Estudos Observacionais: Controlar significa condicionar (estratificar ou incluir em uma regressão). Para visualizar isso em um DAG, considere o seguinte DAG:
+
+```{r controle-base, echo=FALSE, message=FALSE}
+
+dag <- dagify(g ~ c + u, c ~a + b, e ~a + c, d ~b + c)
+
+ggdag(dag)
+```
+
+Controlar para C, nesse DAG, significa efetuar os seguintes passos, na sequência: 
+1. Eliminar todas as flechas que saem de C. 
+```{r controle-C1, echo=FALSE, message=FALSE}
+
+dag <- dagify(g ~u , c ~a + b, e ~a , d ~b )
+
+ggdag(dag)
+```
+
+2. Se C for um collider, elimine as flechas que vão para C e conecte os parentes de C por meio de linhas tracejadas. 
+
+```{r controle-C2, echo=FALSE, message=FALSE}
+
+dag <- dagify(g ~u ,  a ~~ d, e ~a , d ~b )
+
+ggdag(dag)
+```
+
+3. elimine C
+```{r controle-C3, echo=FALSE, message=FALSE}
+
+dag <- dagify(g ~u ,  a ~~ d, e ~a , d ~b )
+
+ggdag(dag)
+```
+
+Manipular: Determinar o valor da variável.
+
+
+Alterar o Gráfico:
+
+
+Para controlar a variável G (por exemplo, se relacionada a C):
+Eliminar as flechas que saem de G.
+Eliminar as flechas do collider (no caso, c e u, parentes de G) e criar relação bi-direcional espúria.
+Remover G do gráfico.
+
+```{r controle-G, echo=FALSE, message=FALSE}
+
+dag <- dagify(g ~u + c, c ~a + b, e ~a , d ~b )
+
+ggdag_dseparated(tidy_dagitty(dag),
+                  from = "u", to = "c",
+  controlling_for = "g",
+  text = FALSE, use_labels = "label", collider_lines = FALSE)
+
+
+```
+
+
+
+
+
+Em resumo, se C depende de A e B de forma independente, condicionar em C pode criar uma relação espúria entre A e B. Por exemplo, se A e B são binárias e \( C = A + B \), para \( C = 1 \) saber o valor de A determina automaticamente o valor de B, e vice-versa.
+
+De modo geral, condicionar em um collider inverte o status dos caminhos: caminhos que estavam abertos podem se fechar e vice-versa. Além disso, condicionar em um descendente de um collider também pode alterar os efeitos, atenuando ou abrindo caminhos que originalmente estavam fechados.
+
+Referências
+
+Hernán MA, Robins JM (2019). Causal Inference. Boca Raton: Chapman & Hall/CRC. Disponível temporariamente em: https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/
+Greenland, S., & Pearl, J. (2014). Causal diagrams. Wiley StatsRef: Statistics Reference Online, 1-10.
