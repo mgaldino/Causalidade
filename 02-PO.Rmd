@@ -265,7 +265,7 @@ ate_aux <- nsw %>% group_by(treat) %>% summarise(media = mean(re78))
 ate_aux$media[2] - ate_aux$media[1]
 
 # b
-ATT é o ATE com aleatorização (ignorability forte).
+#ATT é o ATE com aleatorização (ignorability forte).
 
 # c
 
