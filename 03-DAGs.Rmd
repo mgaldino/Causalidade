@@ -177,18 +177,6 @@ Eliminar as flechas que saem de G.
 Eliminar as flechas do collider (no caso, c e u, parentes de G) e criar relação bi-direcional espúria.
 Remover G do gráfico.
 
-```{r controle-G, echo=FALSE, message=FALSE}
-
-dag <- dagify(g ~u + c, c ~a + b, e ~a , d ~b )
-
-ggdag_dseparated(tidy_dagitty(dag),
-                  from = "u", to = "c",
-  controlling_for = "g",
-  text = FALSE, use_labels = "label", collider_lines = FALSE)
-
-
-```
-
 
 
 
@@ -196,6 +184,69 @@ ggdag_dseparated(tidy_dagitty(dag),
 Em resumo, se C depende de A e B de forma independente, condicionar em C pode criar uma relação espúria entre A e B. Por exemplo, se A e B são binárias e \( C = A + B \), para \( C = 1 \) saber o valor de A determina automaticamente o valor de B, e vice-versa.
 
 De modo geral, condicionar em um collider inverte o status dos caminhos: caminhos que estavam abertos podem se fechar e vice-versa. Além disso, condicionar em um descendente de um collider também pode alterar os efeitos, atenuando ou abrindo caminhos que originalmente estavam fechados.
+
+## Fatorização da Probabilidade Conjunta
+
+Toda distribuição de probabilidade obedece à regra da cadeia de probabilidades (nenhuma suposição adicional).
+
+Lembremos: 
+
+$Pr(X,Y) =  Pr(Y|X) Pr(X) = Pr(X|Y) Pr(Y)$
+
+Similarmente,
+
+$Pr(X,Y,Z) =  Pr(Y|X,Z) Pr(X|Z) Pr(Z) = Pr(X|Y,Z) Pr(Y|Z) Pr(Z) = Pr(Z|Y,X) Pr(X|Y) Pr(X) = \cdots$
+
+De maneira geral, se temos $n$ variáveis marginais, temos no total $n!$ maneiras distintas de fatorar a distribuição conjunta. A lógica é assim>
+
+Seja uma pmf conjunta $Pr(x_1, x_2, ..., x_k)$. Então, podemos usar a regra do produto:
+
+$Pr(x_1, x_2, ..., x_k) = Pr(x_1) Pr(x_2, ..., x_k|x_1)$
+
+Aplicando a regra iterativamente, $Pr(x_2, ..., x_k|x_1) = Pr(x_2|x_1)Pr(x_3, ..., x_k|x_1, x_2)$, de forma que:
+$Pr(x_1, x_2, ..., x_k) = Pr(x_1) Pr(x_2|x_1)Pr(x_3, ..., x_k|x_1, x_2)$
+E assim por diante, até:
+$Pr(x_1, x_2, ..., x_k) = Pr(x_1) Pr(x_2|x_1) Pr(x_3| x_2, x_1) \cdots Pr(x_k|x_1, x_2, x_3, ... , x_{k-1})$
+
+A Regra do produto pode ser aplicada em qualquer ordem, gerando fatorizações distintas.
+
+## Fatorização e DAGs
+
+Existem teoremas que mostram que existe uma relação entre DAGs e fatorização de probabilidades conjuntas. Dado um DAG, em que um nós é independente condicional a outro nó, isso implica a fatorização da probabilidade conjunta de acordo com essa relação, e vice-versa. Dois exemplos abaixo ilustram essa propriedade.
+
+Considere o DAG abaixo:
+
+```{r fatorizacao, echo=FALSE, message=FALSE}
+
+dag <- dagify(Y ~ X ,  X ~ Z + W, Z ~ M, W ~ M )
+
+ggdag(dag)
+```
+
+Nós sabemos que, condicional a X, Y é independente de Z, W e M. Similarmente, X é independente de M, condicional a Z e W. Podemos então fatorar a distribuição conjunta da seguinte maneira:
+
+$$Pr(M, W, X, X, Y) = Pr(M) Pr(Z|M) Pr(W|M) Pr(X|W,Z) Pr(Y|X)$$
+
+Ou seja, basta escrever a probabilidade condicional nas variáveis que tornam cada nós independente para descrever a distribuição de probabilidade conjunta.
+
+## Fatorização, DAGs e Causalidade
+
+De volta à causalidade, um DAG em que não há confouding, isto é, sem back-door aberto, como o DAG abaixo, implica que a fatorização observacional é igual à fatorização intervencional:
+
+```{r fatorizacao1, echo=FALSE, message=FALSE}
+
+dag <- dagify(Y ~ X  )
+
+ggdag(dag)
+```
+
+$$Pr(Y = y |do (X = x)) = Pr(Y|X)$$
+Logo, é verdade que 
+$$Pr(Y,X) = P(X)Pr(Y|X) = Pr(X)Pr(Y = y |do (X = x))$$.
+
+O operador "do" aqui é uma inovação do Pearl, e diz que fizemos uma cirurgia no gráfico e determinamos, exogenamente, por assim dizer, que o valro de $X$ é $x$.
+
+
 
 Referências
 
