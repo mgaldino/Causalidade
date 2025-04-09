@@ -1,0 +1,8 @@
+
+
+https://macartan.github.io/dd_bootcamp/dd.html#/using-a-design-1
+https://macartan.github.io/dd_bootcamp/exercises.html
+https://gist.github.com/saudiwin/dd0edec5786c7edb393bd84615aafb45
+
+https://www.datacamp.com/tutorial/fine-tuning-openais-gpt-4-step-by-step-guide
+https://community.revelo.com.br/tutorial-aplicacao-do-fine-tuning-para-treinamento-no-chatgpt/
