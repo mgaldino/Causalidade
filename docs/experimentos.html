@@ -457,11 +457,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb16-6"><a href="experimentos.html#cb16-6" tabindex="-1"></a>ate2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y1_obs_bloco2 <span class="sc">-</span> y0_obs_bloco2)<span class="sc">*</span>(n2<span class="sc">/</span>N)</span>
 <span id="cb16-7"><a href="experimentos.html#cb16-7" tabindex="-1"></a>ate <span class="ot">&lt;-</span> ate1 <span class="sc">+</span> ate2</span>
 <span id="cb16-8"><a href="experimentos.html#cb16-8" tabindex="-1"></a>my_t <span class="ot">&lt;-</span> ate<span class="sc">/</span>erro_padrao_geral</span>
-<span id="cb16-9"><a href="experimentos.html#cb16-9" tabindex="-1"></a>p_value <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(<span class="fu">abs</span>(my_t), <span class="at">df =</span> <span class="fl">23.76567</span>))</span></code></pre></div>
+<span id="cb16-9"><a href="experimentos.html#cb16-9" tabindex="-1"></a>p_value <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(<span class="fu">abs</span>(my_t), <span class="at">df =</span> <span class="fl">23.76567</span>))</span>
+<span id="cb16-10"><a href="experimentos.html#cb16-10" tabindex="-1"></a><span class="fu">print</span>(erro_pad1)</span></code></pre></div>
+<pre><code>## [1] 0.646563</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="experimentos.html#cb18-1" tabindex="-1"></a><span class="fu">print</span>(erro_pad1)</span></code></pre></div>
+<pre><code>## [1] 0.646563</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="experimentos.html#cb20-1" tabindex="-1"></a><span class="fu">print</span>(erro_padrao_geral)</span></code></pre></div>
+<pre><code>## [1] 0.3723061</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="experimentos.html#cb22-1" tabindex="-1"></a><span class="fu">print</span>(p_value)</span></code></pre></div>
+<pre><code>## [1] 0.0006818314</code></pre>
 </div>
 <div id="comparação-de-ses" class="section level3 hasAnchor" number="4.4.8">
 <h3><span class="header-section-number">4.4.8</span> Comparação de SEs<a href="experimentos.html#comparação-de-ses" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="experimentos.html#cb24-1" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb24-2"><a href="experimentos.html#cb24-2" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="experimentos.html#cb24-3" tabindex="-1"></a>comparison_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb24-4"><a href="experimentos.html#cb24-4" tabindex="-1"></a>  <span class="at">Method =</span> <span class="fu">c</span>(<span class="st">&quot;Simple Randomization&quot;</span>, <span class="st">&quot;Block 1&quot;</span>, <span class="st">&quot;Block 2&quot;</span>, <span class="st">&quot;General Block Randomization&quot;</span>),</span>
+<span id="cb24-5"><a href="experimentos.html#cb24-5" tabindex="-1"></a>  <span class="at">Standard_Error =</span> <span class="fu">c</span>(erro_pad_simple, erro_pad1, erro_pad2, erro_padrao_geral)</span>
+<span id="cb24-6"><a href="experimentos.html#cb24-6" tabindex="-1"></a>)</span>
+<span id="cb24-7"><a href="experimentos.html#cb24-7" tabindex="-1"></a></span>
+<span id="cb24-8"><a href="experimentos.html#cb24-8" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(comparison_table, <span class="at">caption =</span> <span class="st">&quot;Comparação de Erros padrão&quot;</span>, <span class="at">align =</span> <span class="st">&#39;c&#39;</span>, <span class="at">format =</span> <span class="st">&quot;latex&quot;</span>)</span></code></pre></div>
 </div>
 <div id="cluster-randomization" class="section level3 hasAnchor" number="4.4.9">
 <h3><span class="header-section-number">4.4.9</span> Cluster randomization<a href="experimentos.html#cluster-randomization" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -485,14 +500,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Pequena diferença com os coeficientes da tabela</li>
 <li>Typo? Alguma informação não reproduz exatamente? Fizemos algo errado?</li>
 </ul>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="experimentos.html#cb17-1" tabindex="-1"></a>treatment <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">74</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">1217</span> <span class="sc">-</span> <span class="dv">74</span>))</span>
-<span id="cb17-2"><a href="experimentos.html#cb17-2" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">43</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">1217</span> <span class="sc">-</span> <span class="dv">43</span>))</span>
-<span id="cb17-3"><a href="experimentos.html#cb17-3" tabindex="-1"></a>var_treat <span class="ot">&lt;-</span> <span class="fu">var</span>(treatment) </span>
-<span id="cb17-4"><a href="experimentos.html#cb17-4" tabindex="-1"></a>var_control <span class="ot">&lt;-</span> <span class="fu">var</span>(control)</span>
-<span id="cb17-5"><a href="experimentos.html#cb17-5" tabindex="-1"></a>erro_padrao <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(var_treat<span class="sc">/</span><span class="dv">1217</span> <span class="sc">+</span> var_control<span class="sc">/</span><span class="dv">1217</span>)</span>
-<span id="cb17-6"><a href="experimentos.html#cb17-6" tabindex="-1"></a><span class="fu">round</span>(erro_padrao, <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="experimentos.html#cb25-1" tabindex="-1"></a>treatment <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">74</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">1217</span> <span class="sc">-</span> <span class="dv">74</span>))</span>
+<span id="cb25-2"><a href="experimentos.html#cb25-2" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">43</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">1217</span> <span class="sc">-</span> <span class="dv">43</span>))</span>
+<span id="cb25-3"><a href="experimentos.html#cb25-3" tabindex="-1"></a>var_treat <span class="ot">&lt;-</span> <span class="fu">var</span>(treatment) </span>
+<span id="cb25-4"><a href="experimentos.html#cb25-4" tabindex="-1"></a>var_control <span class="ot">&lt;-</span> <span class="fu">var</span>(control)</span>
+<span id="cb25-5"><a href="experimentos.html#cb25-5" tabindex="-1"></a>erro_padrao <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(var_treat<span class="sc">/</span><span class="dv">1217</span> <span class="sc">+</span> var_control<span class="sc">/</span><span class="dv">1217</span>)</span>
+<span id="cb25-6"><a href="experimentos.html#cb25-6" tabindex="-1"></a><span class="fu">round</span>(erro_padrao, <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>## [1] 0.00866</code></pre>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="experimentos.html#cb19-1" tabindex="-1"></a><span class="fu">t.test</span>(treatment, control)      </span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="experimentos.html#cb27-1" tabindex="-1"></a><span class="fu">t.test</span>(treatment, control)      </span></code></pre></div>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
@@ -523,13 +538,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Ou seja, você deve especificar um modelo, qual pergunta de pesquisa (aka estimando), quais dados vai utilizar e como vai estimar o estimando.</p>
 <p>Um modelo descreve o que causa o que e como. Tipicamente especifica a as unidades, o tamanho da amostra e a equação de resultados potenciais.
 Suponha que quero rodar um experimento aleatório com um tratamento e controle (two-arm randomized experiment). Assim, podemos declarar um modelo com:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="experimentos.html#cb21-1" tabindex="-1"></a><span class="fu">library</span>(DeclareDesign)</span>
-<span id="cb21-2"><a href="experimentos.html#cb21-2" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">declare_model</span>(</span>
-<span id="cb21-3"><a href="experimentos.html#cb21-3" tabindex="-1"></a>    <span class="at">N =</span> <span class="dv">500</span>,</span>
-<span id="cb21-4"><a href="experimentos.html#cb21-4" tabindex="-1"></a>    <span class="at">X =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">each =</span> N <span class="sc">/</span> <span class="dv">2</span>), <span class="co"># tratamento e controle</span></span>
-<span id="cb21-5"><a href="experimentos.html#cb21-5" tabindex="-1"></a>    <span class="at">U =</span> <span class="fu">rnorm</span>(N, <span class="at">sd =</span> <span class="fl">0.25</span>), <span class="co"># heterogeneidade exógena</span></span>
-<span id="cb21-6"><a href="experimentos.html#cb21-6" tabindex="-1"></a>    <span class="fu">potential_outcomes</span>(Y <span class="sc">~</span> <span class="fl">0.2</span> <span class="sc">*</span> Z <span class="sc">+</span> X <span class="sc">+</span> U)</span>
-<span id="cb21-7"><a href="experimentos.html#cb21-7" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="experimentos.html#cb29-1" tabindex="-1"></a><span class="fu">library</span>(DeclareDesign)</span>
+<span id="cb29-2"><a href="experimentos.html#cb29-2" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">declare_model</span>(</span>
+<span id="cb29-3"><a href="experimentos.html#cb29-3" tabindex="-1"></a>    <span class="at">N =</span> <span class="dv">500</span>,</span>
+<span id="cb29-4"><a href="experimentos.html#cb29-4" tabindex="-1"></a>    <span class="at">X =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">each =</span> N <span class="sc">/</span> <span class="dv">2</span>), <span class="co"># tratamento e controle</span></span>
+<span id="cb29-5"><a href="experimentos.html#cb29-5" tabindex="-1"></a>    <span class="at">U =</span> <span class="fu">rnorm</span>(N, <span class="at">sd =</span> <span class="fl">0.25</span>), <span class="co"># heterogeneidade exógena</span></span>
+<span id="cb29-6"><a href="experimentos.html#cb29-6" tabindex="-1"></a>    <span class="fu">potential_outcomes</span>(Y <span class="sc">~</span> <span class="fl">0.2</span> <span class="sc">*</span> Z <span class="sc">+</span> X <span class="sc">+</span> U)</span>
+<span id="cb29-7"><a href="experimentos.html#cb29-7" tabindex="-1"></a>)</span></code></pre></div>
 <p>Vamos entender o que fizemos.</p>
 <ol style="list-style-type: decimal">
 <li><p>Declaramos que nossa população terá <span class="math inline">\(500\)</span> observações: . Nesse exemplo, a amostra será igual a populacão, mas poderíamos amostrar da população se quiséssemos.</p></li>
@@ -539,20 +554,20 @@ Suponha que quero rodar um experimento aleatório com um tratamento e controle (
 </ol>
 <p>4.1. Além disso, <span class="math inline">\(X\)</span> tem efeito de <span class="math inline">\(1\)</span> para todas as unidades.</p>
 <p>Vamos passar agora ao nosso estimando ou <em>inquiry</em>.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="experimentos.html#cb22-1" tabindex="-1"></a>inquiry <span class="ot">&lt;-</span> <span class="fu">declare_inquiry</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="experimentos.html#cb30-1" tabindex="-1"></a>inquiry <span class="ot">&lt;-</span> <span class="fu">declare_inquiry</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span></code></pre></div>
 <p>Se estamos interessados no ATE, é só declarar que é a média da diferença entre os resultados potenciais. Podemos também usar a função
 Outras possibilidaes incluem o ATT e CATE: , por exemplo. Formulação equivalente para o ATT seria .</p>
 <p>Estratégia de dados</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="experimentos.html#cb23-1" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">declare_assignment</span>(<span class="at">Z =</span> <span class="fu">complete_ra</span>(<span class="at">N =</span> N, <span class="at">m =</span> <span class="dv">250</span>)) <span class="sc">+</span> <span class="co"># assigment mechanism</span></span>
-<span id="cb23-2"><a href="experimentos.html#cb23-2" tabindex="-1"></a>  <span class="fu">declare_measurement</span>(<span class="at">Y =</span> <span class="fu">reveal_outcomes</span>(Y <span class="sc">~</span> Z)) <span class="co"># reveal_outcomes é a switching equation</span></span></code></pre></div>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="experimentos.html#cb24-1" tabindex="-1"></a>estimator <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z, <span class="at">inquiry =</span> <span class="st">&quot;ATE&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="experimentos.html#cb25-1" tabindex="-1"></a>two_arm_trial <span class="ot">&lt;-</span> model <span class="sc">+</span></span>
-<span id="cb25-2"><a href="experimentos.html#cb25-2" tabindex="-1"></a>  inquiry <span class="sc">+</span></span>
-<span id="cb25-3"><a href="experimentos.html#cb25-3" tabindex="-1"></a>  data <span class="sc">+</span></span>
-<span id="cb25-4"><a href="experimentos.html#cb25-4" tabindex="-1"></a>  estimator</span>
-<span id="cb25-5"><a href="experimentos.html#cb25-5" tabindex="-1"></a></span>
-<span id="cb25-6"><a href="experimentos.html#cb25-6" tabindex="-1"></a><span class="co"># Draw a simulated dataset </span></span>
-<span id="cb25-7"><a href="experimentos.html#cb25-7" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">draw_data</span>(two_arm_trial), <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="experimentos.html#cb31-1" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">declare_assignment</span>(<span class="at">Z =</span> <span class="fu">complete_ra</span>(<span class="at">N =</span> N, <span class="at">m =</span> <span class="dv">250</span>)) <span class="sc">+</span> <span class="co"># assigment mechanism</span></span>
+<span id="cb31-2"><a href="experimentos.html#cb31-2" tabindex="-1"></a>  <span class="fu">declare_measurement</span>(<span class="at">Y =</span> <span class="fu">reveal_outcomes</span>(Y <span class="sc">~</span> Z)) <span class="co"># reveal_outcomes é a switching equation</span></span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="experimentos.html#cb32-1" tabindex="-1"></a>estimator <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z, <span class="at">inquiry =</span> <span class="st">&quot;ATE&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="experimentos.html#cb33-1" tabindex="-1"></a>two_arm_trial <span class="ot">&lt;-</span> model <span class="sc">+</span></span>
+<span id="cb33-2"><a href="experimentos.html#cb33-2" tabindex="-1"></a>  inquiry <span class="sc">+</span></span>
+<span id="cb33-3"><a href="experimentos.html#cb33-3" tabindex="-1"></a>  data <span class="sc">+</span></span>
+<span id="cb33-4"><a href="experimentos.html#cb33-4" tabindex="-1"></a>  estimator</span>
+<span id="cb33-5"><a href="experimentos.html#cb33-5" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="experimentos.html#cb33-6" tabindex="-1"></a><span class="co"># Draw a simulated dataset </span></span>
+<span id="cb33-7"><a href="experimentos.html#cb33-7" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">draw_data</span>(two_arm_trial), <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##     ID X            U        Y_Z_0       Y_Z_1 Z            Y
 ## 1  001 0  0.013136040  0.013136040  0.21313604 1  0.213136040
 ## 2  002 0  0.306059991  0.306059991  0.50605999 0  0.306059991
@@ -566,7 +581,7 @@ Outras possibilidaes incluem o ATT e CATE: , por exemplo. Formulação equivalen
 ## 10 010 0  0.195182802  0.195182802  0.39518280 1  0.395182802</code></pre>
 <p>Após declarar um desenho de pesquisa, podemos diagnosticar se nosso desenho de pesquisa pode ser respondido adequadamente (isto é, se é identificável, se possui poder para estimar com precisão o efeito de interesse etc.). Podemos inclusive modificar o desenho para responder a outras perguntas (é generalizável para outras populações, diferentes estimadores pdesempenham melhor etc.)</p>
 <p>Eis um exemplo de diagnóstico:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="experimentos.html#cb27-1" tabindex="-1"></a><span class="fu">diagnose_design</span>(two_arm_trial, <span class="at">sims =</span> <span class="dv">100</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="experimentos.html#cb35-1" tabindex="-1"></a><span class="fu">diagnose_design</span>(two_arm_trial, <span class="at">sims =</span> <span class="dv">100</span>)</span></code></pre></div>
 <pre><code>## 
 ## Research design diagnosis based on 100 simulations. Diagnosis completed in 1 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).
 ## 
@@ -574,8 +589,8 @@ Outras possibilidaes incluem o ATT e CATE: , por exemplo. Formulação equivalen
 ##  two_arm_trial     ATE estimator       Y    Z    100          0.20          0.20   0.00        0.05   0.05   0.95     0.92
 ##                                                             (0.00)        (0.01) (0.01)      (0.00) (0.00) (0.02)   (0.03)</code></pre>
 <p>Podemos ajustar o desenh ode pesquisa</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="experimentos.html#cb29-1" tabindex="-1"></a>designs <span class="ot">&lt;-</span> <span class="fu">redesign</span>(two_arm_trial, <span class="at">N =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">300</span>, <span class="dv">400</span>, <span class="dv">500</span>))</span>
-<span id="cb29-2"><a href="experimentos.html#cb29-2" tabindex="-1"></a><span class="fu">diagnose_design</span>(designs)</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="experimentos.html#cb37-1" tabindex="-1"></a>designs <span class="ot">&lt;-</span> <span class="fu">redesign</span>(two_arm_trial, <span class="at">N =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">300</span>, <span class="dv">400</span>, <span class="dv">500</span>))</span>
+<span id="cb37-2"><a href="experimentos.html#cb37-2" tabindex="-1"></a><span class="fu">diagnose_design</span>(designs)</span></code></pre></div>
 <pre><code>## 
 ## Research design diagnosis based on 500 simulations. Diagnosis completed in 13 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).
 ## 
