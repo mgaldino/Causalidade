@@ -214,11 +214,13 @@ ate2 <- mean(y1_obs_bloco2 - y0_obs_bloco2)*(n2/N)
 ate <- ate1 + ate2
 my_t <- ate/erro_padrao_geral
 p_value <- 2*(1 - pt(abs(my_t), df = 23.76567))
+print(erro_pad1, erro_pad1, erro_padrao_geral)
+print(p_value)
 ```
 
 ### Comparação de SEs
 
-```{r echo=FALSE, eval=TRUE}
+```{r tabela-se echo=TRUE, eval=TRUE}
 library(knitr)
 
 comparison_table <- data.frame(
