@@ -229,6 +229,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.20" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#estimador-ate---r"><i class="fa fa-check"></i><b>5.20</b> Estimador ATE - R</a></li>
 <li class="chapter" data-level="5.21" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#estimador-ate---r-print"><i class="fa fa-check"></i><b>5.21</b> Estimador ATE - R print</a></li>
 <li class="chapter" data-level="5.22" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#key-takeways"><i class="fa fa-check"></i><b>5.22</b> Key Takeways</a></li>
+<li class="chapter" data-level="5.23" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#declare-design"><i class="fa fa-check"></i><b>5.23</b> Declare Design</a></li>
+<li class="chapter" data-level="5.24" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#exercício"><i class="fa fa-check"></i><b>5.24</b> Exercício</a>
+<ul>
+<li class="chapter" data-level="5.24.1" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#experimento-com-envio-de-cartões-postais-e-participação-eleitoral"><i class="fa fa-check"></i><b>5.24.1</b> Experimento com envio de cartões-postais e participação eleitoral</a></li>
+<li class="chapter" data-level="5.24.2" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#experimento-com-anúncios-de-tv-e-participação-eleitoral"><i class="fa fa-check"></i><b>5.24.2</b> Experimento com anúncios de TV e participação eleitoral</a></li>
+<li class="chapter" data-level="5.24.3" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#exclusão-de-participantes-em-experimentos-de-survey"><i class="fa fa-check"></i><b>5.24.3</b> Exclusão de participantes em experimentos de survey</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="matching.html"><a href="matching.html"><i class="fa fa-check"></i><b>6</b> Matching</a></li>
 <li class="chapter" data-level="7" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html"><i class="fa fa-check"></i><b>7</b> Variáveis Instrumentais</a></li>
@@ -281,16 +288,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="aleatorização-de-bernoulli---sim-no-r---código" class="section level2 hasAnchor" number="5.2">
 <h2><span class="header-section-number">5.2</span> Aleatorização de Bernoulli - Sim no R - código<a href="tipos-de-experimentos.html#aleatorização-de-bernoulli---sim-no-r---código" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="tipos-de-experimentos.html#cb15-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">10</span>)</span>
-<span id="cb15-2"><a href="tipos-de-experimentos.html#cb15-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb15-3"><a href="tipos-de-experimentos.html#cb15-3" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">sum</span>(<span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.5</span>))), </span>
-<span id="cb15-4"><a href="tipos-de-experimentos.html#cb15-4" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;aleatorização de Bernoulli&quot;</span>,</span>
-<span id="cb15-5"><a href="tipos-de-experimentos.html#cb15-5" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Número de tratados&quot;</span>,</span>
-<span id="cb15-6"><a href="tipos-de-experimentos.html#cb15-6" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>) <span class="sc">+</span> <span class="fu">xlim</span>(<span class="dv">0</span>,<span class="dv">50</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="tipos-de-experimentos.html#cb1-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">10</span>)</span>
+<span id="cb1-2"><a href="tipos-de-experimentos.html#cb1-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb1-3"><a href="tipos-de-experimentos.html#cb1-3" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">sum</span>(<span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.5</span>))), </span>
+<span id="cb1-4"><a href="tipos-de-experimentos.html#cb1-4" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;aleatorização de Bernoulli&quot;</span>,</span>
+<span id="cb1-5"><a href="tipos-de-experimentos.html#cb1-5" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Número de tratados&quot;</span>,</span>
+<span id="cb1-6"><a href="tipos-de-experimentos.html#cb1-6" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>) <span class="sc">+</span> <span class="fu">xlim</span>(<span class="dv">0</span>,<span class="dv">50</span>)</span></code></pre></div>
 </div>
 <div id="aleatorização-de-bernoulli---sim-no-r---histograma" class="section level2 hasAnchor" number="5.3">
 <h2><span class="header-section-number">5.3</span> Aleatorização de Bernoulli - Sim no R - Histograma<a href="tipos-de-experimentos.html#aleatorização-de-bernoulli---sim-no-r---histograma" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 </div>
 <div id="aleatorização-completa" class="section level2 hasAnchor" number="5.4">
 <h2><span class="header-section-number">5.4</span> Aleatorização Completa<a href="tipos-de-experimentos.html#aleatorização-completa" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -366,56 +373,56 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="precisão-da-aleatorização-em-bloco---r-sim-p.-1" class="section level2 hasAnchor" number="5.11">
 <h2><span class="header-section-number">5.11</span> Precisão da aleatorização em bloco - R sim p. 1<a href="tipos-de-experimentos.html#precisão-da-aleatorização-em-bloco---r-sim-p.-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="tipos-de-experimentos.html#cb16-1" tabindex="-1"></a><span class="co"># Set up Potential outcomes and units and blocks</span></span>
-<span id="cb16-2"><a href="tipos-de-experimentos.html#cb16-2" tabindex="-1"></a>n1 <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb16-3"><a href="tipos-de-experimentos.html#cb16-3" tabindex="-1"></a>n2 <span class="ot">&lt;-</span> <span class="dv">16</span></span>
-<span id="cb16-4"><a href="tipos-de-experimentos.html#cb16-4" tabindex="-1"></a>N <span class="ot">&lt;-</span> n1<span class="sc">+</span>n2</span>
-<span id="cb16-5"><a href="tipos-de-experimentos.html#cb16-5" tabindex="-1"></a>J <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb16-6"><a href="tipos-de-experimentos.html#cb16-6" tabindex="-1"></a>index_block <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">2</span>, n2), <span class="fu">rep</span>(<span class="dv">1</span>, n1))</span>
-<span id="cb16-7"><a href="tipos-de-experimentos.html#cb16-7" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12</span>)</span>
-<span id="cb16-8"><a href="tipos-de-experimentos.html#cb16-8" tabindex="-1"></a><span class="co"># potential outcome control</span></span>
-<span id="cb16-9"><a href="tipos-de-experimentos.html#cb16-9" tabindex="-1"></a>y0 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rnorm</span>(n1, <span class="dv">2</span>, <span class="dv">1</span>),<span class="fu">rnorm</span>(n2, <span class="dv">6</span>, <span class="dv">1</span>)) </span>
-<span id="cb16-10"><a href="tipos-de-experimentos.html#cb16-10" tabindex="-1"></a>y1 <span class="ot">&lt;-</span> y0 <span class="sc">+</span> <span class="fl">1.5</span> <span class="co"># potential outcome treatment</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="tipos-de-experimentos.html#cb2-1" tabindex="-1"></a><span class="co"># Set up Potential outcomes and units and blocks</span></span>
+<span id="cb2-2"><a href="tipos-de-experimentos.html#cb2-2" tabindex="-1"></a>n1 <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb2-3"><a href="tipos-de-experimentos.html#cb2-3" tabindex="-1"></a>n2 <span class="ot">&lt;-</span> <span class="dv">16</span></span>
+<span id="cb2-4"><a href="tipos-de-experimentos.html#cb2-4" tabindex="-1"></a>N <span class="ot">&lt;-</span> n1<span class="sc">+</span>n2</span>
+<span id="cb2-5"><a href="tipos-de-experimentos.html#cb2-5" tabindex="-1"></a>J <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb2-6"><a href="tipos-de-experimentos.html#cb2-6" tabindex="-1"></a>index_block <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">2</span>, n2), <span class="fu">rep</span>(<span class="dv">1</span>, n1))</span>
+<span id="cb2-7"><a href="tipos-de-experimentos.html#cb2-7" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12</span>)</span>
+<span id="cb2-8"><a href="tipos-de-experimentos.html#cb2-8" tabindex="-1"></a><span class="co"># potential outcome control</span></span>
+<span id="cb2-9"><a href="tipos-de-experimentos.html#cb2-9" tabindex="-1"></a>y0 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rnorm</span>(n1, <span class="dv">2</span>, <span class="dv">1</span>),<span class="fu">rnorm</span>(n2, <span class="dv">6</span>, <span class="dv">1</span>)) </span>
+<span id="cb2-10"><a href="tipos-de-experimentos.html#cb2-10" tabindex="-1"></a>y1 <span class="ot">&lt;-</span> y0 <span class="sc">+</span> <span class="fl">1.5</span> <span class="co"># potential outcome treatment</span></span></code></pre></div>
 </div>
 <div id="precisão-da-aleatorização-em-bloco---r-sim-p.-3" class="section level2 hasAnchor" number="5.12">
 <h2><span class="header-section-number">5.12</span> Precisão da aleatorização em bloco - R sim p. 3<a href="tipos-de-experimentos.html#precisão-da-aleatorização-em-bloco---r-sim-p.-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="tipos-de-experimentos.html#cb17-1" tabindex="-1"></a><span class="co"># block assignment</span></span>
-<span id="cb17-2"><a href="tipos-de-experimentos.html#cb17-2" tabindex="-1"></a>t_bloco1 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>n1, n1<span class="sc">/</span><span class="dv">2</span>)</span>
-<span id="cb17-3"><a href="tipos-de-experimentos.html#cb17-3" tabindex="-1"></a>c_bloco1 <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">:</span>n1)[<span class="sc">!</span>(<span class="dv">1</span><span class="sc">:</span>n1 <span class="sc">%in%</span> t_bloco1)]</span>
-<span id="cb17-4"><a href="tipos-de-experimentos.html#cb17-4" tabindex="-1"></a></span>
-<span id="cb17-5"><a href="tipos-de-experimentos.html#cb17-5" tabindex="-1"></a>t_bloco2 <span class="ot">&lt;-</span> <span class="fu">sample</span>((n1<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n1<span class="sc">+</span>n2), n2<span class="sc">/</span><span class="dv">2</span>)</span>
-<span id="cb17-6"><a href="tipos-de-experimentos.html#cb17-6" tabindex="-1"></a>c_bloco2 <span class="ot">&lt;-</span> ((n1<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n1<span class="sc">+</span>n2))[<span class="sc">!</span>((n1<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n1<span class="sc">+</span>n2) <span class="sc">%in%</span> t_bloco2)]</span>
-<span id="cb17-7"><a href="tipos-de-experimentos.html#cb17-7" tabindex="-1"></a></span>
-<span id="cb17-8"><a href="tipos-de-experimentos.html#cb17-8" tabindex="-1"></a>y1_obs_bloco1 <span class="ot">&lt;-</span> y1[t_bloco1]</span>
-<span id="cb17-9"><a href="tipos-de-experimentos.html#cb17-9" tabindex="-1"></a>y1_obs_bloco2 <span class="ot">&lt;-</span> y1[t_bloco2]</span>
-<span id="cb17-10"><a href="tipos-de-experimentos.html#cb17-10" tabindex="-1"></a>y0_obs_bloco1 <span class="ot">&lt;-</span> y0[c_bloco1]</span>
-<span id="cb17-11"><a href="tipos-de-experimentos.html#cb17-11" tabindex="-1"></a>y0_obs_bloco2 <span class="ot">&lt;-</span> y0[c_bloco2]</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="tipos-de-experimentos.html#cb3-1" tabindex="-1"></a><span class="co"># block assignment</span></span>
+<span id="cb3-2"><a href="tipos-de-experimentos.html#cb3-2" tabindex="-1"></a>t_bloco1 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>n1, n1<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb3-3"><a href="tipos-de-experimentos.html#cb3-3" tabindex="-1"></a>c_bloco1 <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">:</span>n1)[<span class="sc">!</span>(<span class="dv">1</span><span class="sc">:</span>n1 <span class="sc">%in%</span> t_bloco1)]</span>
+<span id="cb3-4"><a href="tipos-de-experimentos.html#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="tipos-de-experimentos.html#cb3-5" tabindex="-1"></a>t_bloco2 <span class="ot">&lt;-</span> <span class="fu">sample</span>((n1<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n1<span class="sc">+</span>n2), n2<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb3-6"><a href="tipos-de-experimentos.html#cb3-6" tabindex="-1"></a>c_bloco2 <span class="ot">&lt;-</span> ((n1<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n1<span class="sc">+</span>n2))[<span class="sc">!</span>((n1<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n1<span class="sc">+</span>n2) <span class="sc">%in%</span> t_bloco2)]</span>
+<span id="cb3-7"><a href="tipos-de-experimentos.html#cb3-7" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="tipos-de-experimentos.html#cb3-8" tabindex="-1"></a>y1_obs_bloco1 <span class="ot">&lt;-</span> y1[t_bloco1]</span>
+<span id="cb3-9"><a href="tipos-de-experimentos.html#cb3-9" tabindex="-1"></a>y1_obs_bloco2 <span class="ot">&lt;-</span> y1[t_bloco2]</span>
+<span id="cb3-10"><a href="tipos-de-experimentos.html#cb3-10" tabindex="-1"></a>y0_obs_bloco1 <span class="ot">&lt;-</span> y0[c_bloco1]</span>
+<span id="cb3-11"><a href="tipos-de-experimentos.html#cb3-11" tabindex="-1"></a>y0_obs_bloco2 <span class="ot">&lt;-</span> y0[c_bloco2]</span></code></pre></div>
 </div>
 <div id="precisão-da-aleatorização-em-bloco---r-sim-p.-2" class="section level2 hasAnchor" number="5.13">
 <h2><span class="header-section-number">5.13</span> Precisão da aleatorização em bloco - R sim p. 2<a href="tipos-de-experimentos.html#precisão-da-aleatorização-em-bloco---r-sim-p.-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="tipos-de-experimentos.html#cb18-1" tabindex="-1"></a><span class="co"># random assignment</span></span>
-<span id="cb18-2"><a href="tipos-de-experimentos.html#cb18-2" tabindex="-1"></a>units_simple_treatment <span class="ot">&lt;-</span> <span class="fu">c</span>(t_bloco1, t_bloco2)</span>
-<span id="cb18-3"><a href="tipos-de-experimentos.html#cb18-3" tabindex="-1"></a>units_simple_control <span class="ot">&lt;-</span> <span class="fu">c</span>(c_bloco1, c_bloco2)</span>
-<span id="cb18-4"><a href="tipos-de-experimentos.html#cb18-4" tabindex="-1"></a>y1_obs <span class="ot">&lt;-</span> y1[units_simple_treatment]</span>
-<span id="cb18-5"><a href="tipos-de-experimentos.html#cb18-5" tabindex="-1"></a>y0_obs <span class="ot">&lt;-</span> y0[units_simple_control]</span>
-<span id="cb18-6"><a href="tipos-de-experimentos.html#cb18-6" tabindex="-1"></a></span>
-<span id="cb18-7"><a href="tipos-de-experimentos.html#cb18-7" tabindex="-1"></a><span class="co"># erro padrão</span></span>
-<span id="cb18-8"><a href="tipos-de-experimentos.html#cb18-8" tabindex="-1"></a>erro_pad_simple <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs, y0_obs)<span class="sc">$</span>stderr </span>
-<span id="cb18-9"><a href="tipos-de-experimentos.html#cb18-9" tabindex="-1"></a>simple_p_value <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs, y0_obs)<span class="sc">$</span>p.value</span>
-<span id="cb18-10"><a href="tipos-de-experimentos.html#cb18-10" tabindex="-1"></a></span>
-<span id="cb18-11"><a href="tipos-de-experimentos.html#cb18-11" tabindex="-1"></a>my_t <span class="ot">&lt;-</span> <span class="fu">mean</span>(y1_obs <span class="sc">-</span> y0_obs)<span class="sc">/</span>erro_pad_simple</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="tipos-de-experimentos.html#cb4-1" tabindex="-1"></a><span class="co"># random assignment</span></span>
+<span id="cb4-2"><a href="tipos-de-experimentos.html#cb4-2" tabindex="-1"></a>units_simple_treatment <span class="ot">&lt;-</span> <span class="fu">c</span>(t_bloco1, t_bloco2)</span>
+<span id="cb4-3"><a href="tipos-de-experimentos.html#cb4-3" tabindex="-1"></a>units_simple_control <span class="ot">&lt;-</span> <span class="fu">c</span>(c_bloco1, c_bloco2)</span>
+<span id="cb4-4"><a href="tipos-de-experimentos.html#cb4-4" tabindex="-1"></a>y1_obs <span class="ot">&lt;-</span> y1[units_simple_treatment]</span>
+<span id="cb4-5"><a href="tipos-de-experimentos.html#cb4-5" tabindex="-1"></a>y0_obs <span class="ot">&lt;-</span> y0[units_simple_control]</span>
+<span id="cb4-6"><a href="tipos-de-experimentos.html#cb4-6" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="tipos-de-experimentos.html#cb4-7" tabindex="-1"></a><span class="co"># erro padrão</span></span>
+<span id="cb4-8"><a href="tipos-de-experimentos.html#cb4-8" tabindex="-1"></a>erro_pad_simple <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs, y0_obs)<span class="sc">$</span>stderr </span>
+<span id="cb4-9"><a href="tipos-de-experimentos.html#cb4-9" tabindex="-1"></a>simple_p_value <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs, y0_obs)<span class="sc">$</span>p.value</span>
+<span id="cb4-10"><a href="tipos-de-experimentos.html#cb4-10" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="tipos-de-experimentos.html#cb4-11" tabindex="-1"></a>my_t <span class="ot">&lt;-</span> <span class="fu">mean</span>(y1_obs <span class="sc">-</span> y0_obs)<span class="sc">/</span>erro_pad_simple</span></code></pre></div>
 </div>
 <div id="precisão-da-aleatorização-em-bloco---r-sim-p.-4" class="section level2 hasAnchor" number="5.14">
 <h2><span class="header-section-number">5.14</span> Precisão da aleatorização em bloco - R sim p. 4<a href="tipos-de-experimentos.html#precisão-da-aleatorização-em-bloco---r-sim-p.-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="tipos-de-experimentos.html#cb19-1" tabindex="-1"></a>erro_pad1 <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs_bloco1, y0_obs_bloco1)<span class="sc">$</span>stderr</span>
-<span id="cb19-2"><a href="tipos-de-experimentos.html#cb19-2" tabindex="-1"></a>erro_pad2 <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs_bloco2, y0_obs_bloco2)<span class="sc">$</span>stderr</span>
-<span id="cb19-3"><a href="tipos-de-experimentos.html#cb19-3" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="tipos-de-experimentos.html#cb19-4" tabindex="-1"></a>erro_padrao_geral <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(erro_pad1<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span>(n1<span class="sc">/</span>N)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> erro_pad2<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span>(n2<span class="sc">/</span>N)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb19-5"><a href="tipos-de-experimentos.html#cb19-5" tabindex="-1"></a>ate1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y1_obs_bloco1 <span class="sc">-</span> y0_obs_bloco1)<span class="sc">*</span>(n1<span class="sc">/</span>N)</span>
-<span id="cb19-6"><a href="tipos-de-experimentos.html#cb19-6" tabindex="-1"></a>ate2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y1_obs_bloco2 <span class="sc">-</span> y0_obs_bloco2)<span class="sc">*</span>(n2<span class="sc">/</span>N)</span>
-<span id="cb19-7"><a href="tipos-de-experimentos.html#cb19-7" tabindex="-1"></a>ate <span class="ot">&lt;-</span> ate1 <span class="sc">+</span> ate2</span>
-<span id="cb19-8"><a href="tipos-de-experimentos.html#cb19-8" tabindex="-1"></a>my_t <span class="ot">&lt;-</span> ate<span class="sc">/</span>erro_padrao_geral</span>
-<span id="cb19-9"><a href="tipos-de-experimentos.html#cb19-9" tabindex="-1"></a>p_value <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(<span class="fu">abs</span>(my_t), <span class="at">df =</span> <span class="fl">23.76567</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="tipos-de-experimentos.html#cb5-1" tabindex="-1"></a>erro_pad1 <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs_bloco1, y0_obs_bloco1)<span class="sc">$</span>stderr</span>
+<span id="cb5-2"><a href="tipos-de-experimentos.html#cb5-2" tabindex="-1"></a>erro_pad2 <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs_bloco2, y0_obs_bloco2)<span class="sc">$</span>stderr</span>
+<span id="cb5-3"><a href="tipos-de-experimentos.html#cb5-3" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="tipos-de-experimentos.html#cb5-4" tabindex="-1"></a>erro_padrao_geral <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(erro_pad1<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span>(n1<span class="sc">/</span>N)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> erro_pad2<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span>(n2<span class="sc">/</span>N)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb5-5"><a href="tipos-de-experimentos.html#cb5-5" tabindex="-1"></a>ate1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y1_obs_bloco1 <span class="sc">-</span> y0_obs_bloco1)<span class="sc">*</span>(n1<span class="sc">/</span>N)</span>
+<span id="cb5-6"><a href="tipos-de-experimentos.html#cb5-6" tabindex="-1"></a>ate2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y1_obs_bloco2 <span class="sc">-</span> y0_obs_bloco2)<span class="sc">*</span>(n2<span class="sc">/</span>N)</span>
+<span id="cb5-7"><a href="tipos-de-experimentos.html#cb5-7" tabindex="-1"></a>ate <span class="ot">&lt;-</span> ate1 <span class="sc">+</span> ate2</span>
+<span id="cb5-8"><a href="tipos-de-experimentos.html#cb5-8" tabindex="-1"></a>my_t <span class="ot">&lt;-</span> ate<span class="sc">/</span>erro_padrao_geral</span>
+<span id="cb5-9"><a href="tipos-de-experimentos.html#cb5-9" tabindex="-1"></a>p_value <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(<span class="fu">abs</span>(my_t), <span class="at">df =</span> <span class="fl">23.76567</span>))</span></code></pre></div>
 </div>
 <div id="comparação-de-ses" class="section level2 hasAnchor" number="5.15">
 <h2><span class="header-section-number">5.15</span> Comparação de SEs<a href="tipos-de-experimentos.html#comparação-de-ses" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -449,14 +456,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="estimador-ate---r" class="section level2 hasAnchor" number="5.20">
 <h2><span class="header-section-number">5.20</span> Estimador ATE - R<a href="tipos-de-experimentos.html#estimador-ate---r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="tipos-de-experimentos.html#cb20-1" tabindex="-1"></a>treatment <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">74</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">1217</span> <span class="sc">-</span> <span class="dv">74</span>))</span>
-<span id="cb20-2"><a href="tipos-de-experimentos.html#cb20-2" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">43</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">1217</span> <span class="sc">-</span> <span class="dv">43</span>))</span>
-<span id="cb20-3"><a href="tipos-de-experimentos.html#cb20-3" tabindex="-1"></a>var_treat <span class="ot">&lt;-</span> <span class="fu">var</span>(treatment) </span>
-<span id="cb20-4"><a href="tipos-de-experimentos.html#cb20-4" tabindex="-1"></a>var_control <span class="ot">&lt;-</span> <span class="fu">var</span>(control)</span>
-<span id="cb20-5"><a href="tipos-de-experimentos.html#cb20-5" tabindex="-1"></a>erro_padrao <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(var_treat<span class="sc">/</span><span class="dv">1217</span> <span class="sc">+</span> var_control<span class="sc">/</span><span class="dv">1217</span>)</span>
-<span id="cb20-6"><a href="tipos-de-experimentos.html#cb20-6" tabindex="-1"></a><span class="fu">round</span>(erro_padrao, <span class="dv">5</span>)</span>
-<span id="cb20-7"><a href="tipos-de-experimentos.html#cb20-7" tabindex="-1"></a></span>
-<span id="cb20-8"><a href="tipos-de-experimentos.html#cb20-8" tabindex="-1"></a><span class="fu">t.test</span>(treatment, control)      </span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="tipos-de-experimentos.html#cb6-1" tabindex="-1"></a>treatment <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">74</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">1217</span> <span class="sc">-</span> <span class="dv">74</span>))</span>
+<span id="cb6-2"><a href="tipos-de-experimentos.html#cb6-2" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">43</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">1217</span> <span class="sc">-</span> <span class="dv">43</span>))</span>
+<span id="cb6-3"><a href="tipos-de-experimentos.html#cb6-3" tabindex="-1"></a>var_treat <span class="ot">&lt;-</span> <span class="fu">var</span>(treatment) </span>
+<span id="cb6-4"><a href="tipos-de-experimentos.html#cb6-4" tabindex="-1"></a>var_control <span class="ot">&lt;-</span> <span class="fu">var</span>(control)</span>
+<span id="cb6-5"><a href="tipos-de-experimentos.html#cb6-5" tabindex="-1"></a>erro_padrao <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(var_treat<span class="sc">/</span><span class="dv">1217</span> <span class="sc">+</span> var_control<span class="sc">/</span><span class="dv">1217</span>)</span>
+<span id="cb6-6"><a href="tipos-de-experimentos.html#cb6-6" tabindex="-1"></a><span class="fu">round</span>(erro_padrao, <span class="dv">5</span>)</span>
+<span id="cb6-7"><a href="tipos-de-experimentos.html#cb6-7" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="tipos-de-experimentos.html#cb6-8" tabindex="-1"></a><span class="fu">t.test</span>(treatment, control)      </span></code></pre></div>
 </div>
 <div id="estimador-ate---r-print" class="section level2 hasAnchor" number="5.21">
 <h2><span class="header-section-number">5.21</span> Estimador ATE - R print<a href="tipos-de-experimentos.html#estimador-ate---r-print" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -482,7 +489,654 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Com N grande, diferença diminui</li>
 <li>Sempre supomos condições ideais (sem attrition, compliance perfeito etc.)</li>
 </ul>
+</div>
+<div id="declare-design" class="section level2 hasAnchor" number="5.23">
+<h2><span class="header-section-number">5.23</span> Declare Design<a href="tipos-de-experimentos.html#declare-design" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Uma ferramenta muito útil para experimentos (mas também para estudos observacionais) é o pacote do R Declare Design.</p>
+<p>Blair, Coppock e Humphreys criaram um framework para definir e avaliar um desenho de pesquisa. Com oresultado, escreveram um livro “Research Design in the Social Sciences”, e um pacote no R para implementar os conceitos desenvolvidos no livro, chamado “DeclareDesign. Para instalar (junto com os datasets usados no livro), basta rodar .</p>
+<p>O frameowrk é baseado no acrônimo MIDA, que contempla os quatro elementos básicos de um desenho de pesquisa: models, inquiries, data strategies, and answer strategies.</p>
+<p>Ou seja, você deve especificar um modelo, qual pergunta de pesquisa (aka estimando), quais dados vai utilizar e como vai estimar o estimando.</p>
+<p>Um modelo descreve o que causa o que e como. Tipicamente especifica a as unidades, o tamanho da amostra e a equação de resultados potenciais.
+Suponha que quero rodar um experimento aleatório com um tratamento e controle (two-arm randomized experiment). Assim, podemos declarar um modelo com:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="tipos-de-experimentos.html#cb9-1" tabindex="-1"></a><span class="fu">library</span>(DeclareDesign)</span>
+<span id="cb9-2"><a href="tipos-de-experimentos.html#cb9-2" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">declare_model</span>(</span>
+<span id="cb9-3"><a href="tipos-de-experimentos.html#cb9-3" tabindex="-1"></a>    <span class="at">N =</span> <span class="dv">500</span>,</span>
+<span id="cb9-4"><a href="tipos-de-experimentos.html#cb9-4" tabindex="-1"></a>    <span class="at">X =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">each =</span> N <span class="sc">/</span> <span class="dv">2</span>), <span class="co"># tratamento e controle</span></span>
+<span id="cb9-5"><a href="tipos-de-experimentos.html#cb9-5" tabindex="-1"></a>    <span class="at">U =</span> <span class="fu">rnorm</span>(N, <span class="at">sd =</span> <span class="fl">0.25</span>), <span class="co"># heterogeneidade exógena</span></span>
+<span id="cb9-6"><a href="tipos-de-experimentos.html#cb9-6" tabindex="-1"></a>    <span class="fu">potential_outcomes</span>(Y <span class="sc">~</span> <span class="fl">0.2</span> <span class="sc">*</span> Z <span class="sc">+</span> X <span class="sc">+</span> U)</span>
+<span id="cb9-7"><a href="tipos-de-experimentos.html#cb9-7" tabindex="-1"></a>)</span></code></pre></div>
+<p>Vamos entender o que fizemos.</p>
+<ol style="list-style-type: decimal">
+<li><p>Declaramos que nossa população terá <span class="math inline">\(500\)</span> observações: . Nesse exemplo, a amostra será igual a populacão, mas poderíamos amostrar da população se quiséssemos.</p></li>
+<li><p>Declaramos que <span class="math inline">\(X\)</span>, uma covariável, pode assumir dois valores (0,1), e atribuimos a priemria metade pra <span class="math inline">\(0\)</span> e a outra metade para <span class="math inline">\(1\)</span>: .</p></li>
+<li><p>Declaramos que existe uma variável <span class="math inline">\(U\)</span> que tem distribuição normal, com <span class="math inline">\(N\)</span> observações e média <span class="math inline">\(0\)</span> e desvio-padrão <span class="math inline">\(.25\)</span>:.</p></li>
+<li><p>Declaramos que os resultados potenciais diferem em <span class="math inline">\(20\%\)</span> entre tratamento e controle (<span class="math inline">\(Z\)</span>) para cada unidade. Uma forma alternativa e talvez mais clara de declarar a relação entre tratamento/controle e resultados potenciais seria escrever .</p></li>
+</ol>
+<p>4.1. Além disso, <span class="math inline">\(X\)</span> tem efeito de <span class="math inline">\(1\)</span> para todas as unidades.</p>
+<p>Vamos passar agora ao nosso estimando ou <em>inquiry</em>.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="tipos-de-experimentos.html#cb10-1" tabindex="-1"></a>inquiry <span class="ot">&lt;-</span> <span class="fu">declare_inquiry</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span></code></pre></div>
+<p>Se estamos interessados no ATE, é só declarar que é a média da diferença entre os resultados potenciais. Podemos também usar a função
+Outras possibilidaes incluem o ATT e CATE: , por exemplo. Formulação equivalente para o ATT seria .</p>
+<p>Estratégia de dados</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="tipos-de-experimentos.html#cb11-1" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">declare_assignment</span>(<span class="at">Z =</span> <span class="fu">complete_ra</span>(<span class="at">N =</span> N, <span class="at">m =</span> <span class="dv">250</span>)) <span class="sc">+</span> <span class="co"># assigment mechanism</span></span>
+<span id="cb11-2"><a href="tipos-de-experimentos.html#cb11-2" tabindex="-1"></a>  <span class="fu">declare_measurement</span>(<span class="at">Y =</span> <span class="fu">reveal_outcomes</span>(Y <span class="sc">~</span> Z)) <span class="co"># reveal_outcomes é a switching equation</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="tipos-de-experimentos.html#cb12-1" tabindex="-1"></a>estimator <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z, <span class="at">inquiry =</span> <span class="st">&quot;ATE&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="tipos-de-experimentos.html#cb13-1" tabindex="-1"></a>two_arm_trial <span class="ot">&lt;-</span> model <span class="sc">+</span></span>
+<span id="cb13-2"><a href="tipos-de-experimentos.html#cb13-2" tabindex="-1"></a>  inquiry <span class="sc">+</span></span>
+<span id="cb13-3"><a href="tipos-de-experimentos.html#cb13-3" tabindex="-1"></a>  data <span class="sc">+</span></span>
+<span id="cb13-4"><a href="tipos-de-experimentos.html#cb13-4" tabindex="-1"></a>  estimator</span>
+<span id="cb13-5"><a href="tipos-de-experimentos.html#cb13-5" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="tipos-de-experimentos.html#cb13-6" tabindex="-1"></a><span class="co"># Draw a simulated dataset </span></span>
+<span id="cb13-7"><a href="tipos-de-experimentos.html#cb13-7" tabindex="-1"></a><span class="fu">draw_data</span>(two_arm_trial)</span></code></pre></div>
+<pre><code>##      ID X             U         Y_Z_0         Y_Z_1 Z             Y
+## 1   001 0  1.313604e-02  1.313604e-02  2.131360e-01 1  2.131360e-01
+## 2   002 0  3.060600e-01  3.060600e-01  5.060600e-01 0  3.060600e-01
+## 3   003 0  2.483931e-01  2.483931e-01  4.483931e-01 1  4.483931e-01
+## 4   004 0  3.731912e-02  3.731912e-02  2.373191e-01 0  3.731912e-02
+## 5   005 0  3.526685e-01  3.526685e-01  5.526685e-01 0  3.526685e-01
+## 6   006 0  3.641465e-01  3.641465e-01  5.641465e-01 1  5.641465e-01
+## 7   007 0  3.664374e-01  3.664374e-01  5.664374e-01 1  5.664374e-01
+## 8   008 0 -2.802739e-01 -2.802739e-01 -8.027394e-02 1 -8.027394e-02
+## 9   009 0 -7.617163e-03 -7.617163e-03  1.923828e-01 0 -7.617163e-03
+## 10  010 0  1.951828e-01  1.951828e-01  3.951828e-01 1  3.951828e-01
+## 11  011 0 -3.361102e-01 -3.361102e-01 -1.361102e-01 1 -1.361102e-01
+## 12  012 0 -2.722170e-02 -2.722170e-02  1.727783e-01 1  1.727783e-01
+## 13  013 0 -1.559584e-01 -1.559584e-01  4.404165e-02 0 -1.559584e-01
+## 14  014 0  1.704193e-01  1.704193e-01  3.704193e-01 0  1.704193e-01
+## 15  015 0 -1.042649e-01 -1.042649e-01  9.573514e-02 1  9.573514e-02
+## 16  016 0 -1.913042e-02 -1.913042e-02  1.808696e-01 1  1.808696e-01
+## 17  017 0  4.310494e-01  4.310494e-01  6.310494e-01 0  4.310494e-01
+## 18  018 0 -1.397419e-01 -1.397419e-01  6.025810e-02 0 -1.397419e-01
+## 19  019 0  5.818246e-02  5.818246e-02  2.581825e-01 1  2.581825e-01
+## 20  020 0 -2.930428e-03 -2.930428e-03  1.970696e-01 0 -2.930428e-03
+## 21  021 0  2.516120e-01  2.516120e-01  4.516120e-01 1  4.516120e-01
+## 22  022 0 -4.493704e-01 -4.493704e-01 -2.493704e-01 0 -4.493704e-01
+## 23  023 0 -2.441869e-02 -2.441869e-02  1.755813e-01 0 -2.441869e-02
+## 24  024 0  4.554294e-02  4.554294e-02  2.455429e-01 0  4.554294e-02
+## 25  025 0  1.314350e-02  1.314350e-02  2.131435e-01 0  1.314350e-02
+## 26  026 0 -3.630733e-01 -3.630733e-01 -1.630733e-01 1 -1.630733e-01
+## 27  027 0 -6.449553e-02 -6.449553e-02  1.355045e-01 1  1.355045e-01
+## 28  028 0 -2.579963e-01 -2.579963e-01 -5.799627e-02 0 -2.579963e-01
+## 29  029 0 -2.146998e-01 -2.146998e-01 -1.469984e-02 1 -1.469984e-02
+## 30  030 0 -8.769558e-02 -8.769558e-02  1.123044e-01 1  1.123044e-01
+## 31  031 0  1.425078e-01  1.425078e-01  3.425078e-01 0  1.425078e-01
+## 32  032 0  3.642634e-01  3.642634e-01  5.642634e-01 1  5.642634e-01
+## 33  033 0 -2.958171e-01 -2.958171e-01 -9.581714e-02 0 -2.958171e-01
+## 34  034 0  3.805422e-01  3.805422e-01  5.805422e-01 0  3.805422e-01
+## 35  035 0 -1.069496e-01 -1.069496e-01  9.305038e-02 0 -1.069496e-01
+## 36  036 0  4.379575e-03  4.379575e-03  2.043796e-01 0  4.379575e-03
+## 37  037 0  1.350055e-01  1.350055e-01  3.350055e-01 0  1.350055e-01
+## 38  038 0 -8.341349e-02 -8.341349e-02  1.165865e-01 1  1.165865e-01
+## 39  039 0  3.794576e-01  3.794576e-01  5.794576e-01 0  3.794576e-01
+## 40  040 0  1.002027e-01  1.002027e-01  3.002027e-01 1  3.002027e-01
+## 41  041 0  7.685757e-02  7.685757e-02  2.768576e-01 0  7.685757e-02
+## 42  042 0 -6.872815e-03 -6.872815e-03  1.931272e-01 0 -6.872815e-03
+## 43  043 0 -5.448022e-01 -5.448022e-01 -3.448022e-01 1 -3.448022e-01
+## 44  044 0  4.139516e-01  4.139516e-01  6.139516e-01 0  4.139516e-01
+## 45  045 0 -4.472079e-02 -4.472079e-02  1.552792e-01 0 -4.472079e-02
+## 46  046 0  1.106605e-01  1.106605e-01  3.106605e-01 0  1.106605e-01
+## 47  047 0  1.837056e-01  1.837056e-01  3.837056e-01 1  3.837056e-01
+## 48  048 0 -5.534423e-02 -5.534423e-02  1.446558e-01 1  1.446558e-01
+## 49  049 0  1.868191e-01  1.868191e-01  3.868191e-01 0  1.868191e-01
+## 50  050 0 -2.323702e-01 -2.323702e-01 -3.237017e-02 0 -2.323702e-01
+## 51  051 0  3.971330e-03  3.971330e-03  2.039713e-01 0  3.971330e-03
+## 52  052 0 -3.473445e-01 -3.473445e-01 -1.473445e-01 1 -1.473445e-01
+## 53  053 0 -3.390525e-01 -3.390525e-01 -1.390525e-01 1 -1.390525e-01
+## 54  054 0 -3.808439e-01 -3.808439e-01 -1.808439e-01 1 -1.808439e-01
+## 55  055 0 -7.366261e-02 -7.366261e-02  1.263374e-01 1  1.263374e-01
+## 56  056 0 -1.639945e-01 -1.639945e-01  3.600554e-02 0 -1.639945e-01
+## 57  057 0 -1.358224e-01 -1.358224e-01  6.417763e-02 1  6.417763e-02
+## 58  058 0  4.068424e-01  4.068424e-01  6.068424e-01 1  6.068424e-01
+## 59  059 0  1.084957e-01  1.084957e-01  3.084957e-01 1  3.084957e-01
+## 60  060 0 -6.090789e-04 -6.090789e-04  1.993909e-01 0 -6.090789e-04
+## 61  061 0  9.477453e-02  9.477453e-02  2.947745e-01 0  9.477453e-02
+## 62  062 0  1.077552e-01  1.077552e-01  3.077552e-01 0  1.077552e-01
+## 63  063 0 -6.992916e-02 -6.992916e-02  1.300708e-01 0 -6.992916e-02
+## 64  064 0  1.750878e-01  1.750878e-01  3.750878e-01 0  1.750878e-01
+## 65  065 0 -5.713413e-01 -5.713413e-01 -3.713413e-01 0 -5.713413e-01
+## 66  066 0 -2.679557e-01 -2.679557e-01 -6.795574e-02 0 -2.679557e-01
+## 67  067 0  1.102371e-02  1.102371e-02  2.110237e-01 0  1.102371e-02
+## 68  068 0  4.415107e-01  4.415107e-01  6.415107e-01 1  6.415107e-01
+## 69  069 0  3.775386e-02  3.775386e-02  2.377539e-01 1  2.377539e-01
+## 70  070 0  2.114538e-01  2.114538e-01  4.114538e-01 1  4.114538e-01
+## 71  071 0  2.825110e-01  2.825110e-01  4.825110e-01 0  2.825110e-01
+## 72  072 0  9.838684e-02  9.838684e-02  2.983868e-01 1  2.983868e-01
+## 73  073 0 -1.329397e-02 -1.329397e-02  1.867060e-01 1  1.867060e-01
+## 74  074 0  6.635069e-02  6.635069e-02  2.663507e-01 0  6.635069e-02
+## 75  075 0  1.082521e-02  1.082521e-02  2.108252e-01 1  2.108252e-01
+## 76  076 0 -2.298679e-01 -2.298679e-01 -2.986787e-02 0 -2.298679e-01
+## 77  077 0 -3.344659e-01 -3.344659e-01 -1.344659e-01 0 -3.344659e-01
+## 78  078 0 -2.822852e-01 -2.822852e-01 -8.228524e-02 0 -2.822852e-01
+## 79  079 0 -3.485324e-01 -3.485324e-01 -1.485324e-01 0 -3.485324e-01
+## 80  080 0  1.298684e-01  1.298684e-01  3.298684e-01 1  3.298684e-01
+## 81  081 0 -1.301536e-01 -1.301536e-01  6.984643e-02 1  6.984643e-02
+## 82  082 0 -9.393780e-02 -9.393780e-02  1.060622e-01 1  1.060622e-01
+## 83  083 0  3.535771e-01  3.535771e-01  5.535771e-01 1  5.535771e-01
+## 84  084 0 -1.449761e-01 -1.449761e-01  5.502395e-02 0 -1.449761e-01
+## 85  085 0 -1.323644e-01 -1.323644e-01  6.763560e-02 0 -1.323644e-01
+## 86  086 0 -2.676079e-01 -2.676079e-01 -6.760787e-02 1 -6.760787e-02
+## 87  087 0  3.865668e-01  3.865668e-01  5.865668e-01 0  3.865668e-01
+## 88  088 0 -3.149460e-01 -3.149460e-01 -1.149460e-01 1 -1.149460e-01
+## 89  089 0 -3.598264e-01 -3.598264e-01 -1.598264e-01 1 -1.598264e-01
+## 90  090 0  3.411925e-01  3.411925e-01  5.411925e-01 0  3.411925e-01
+## 91  091 0  1.098590e-01  1.098590e-01  3.098590e-01 1  3.098590e-01
+## 92  092 0  3.788091e-01  3.788091e-01  5.788091e-01 0  3.788091e-01
+## 93  093 0  1.154861e-01  1.154861e-01  3.154861e-01 1  3.154861e-01
+## 94  094 0  4.211048e-01  4.211048e-01  6.211048e-01 0  4.211048e-01
+## 95  095 0 -1.724173e-01 -1.724173e-01  2.758274e-02 1  2.758274e-02
+## 96  096 0  2.534848e-01  2.534848e-01  4.534848e-01 1  4.534848e-01
+## 97  097 0 -4.284806e-01 -4.284806e-01 -2.284806e-01 1 -2.284806e-01
+## 98  098 0 -4.231097e-02 -4.231097e-02  1.576890e-01 1  1.576890e-01
+## 99  099 0  1.972511e-01  1.972511e-01  3.972511e-01 0  1.972511e-01
+## 100 100 0  3.450673e-02  3.450673e-02  2.345067e-01 0  3.450673e-02
+## 101 101 0  6.332846e-01  6.332846e-01  8.332846e-01 1  8.332846e-01
+## 102 102 0 -3.506750e-02 -3.506750e-02  1.649325e-01 0 -3.506750e-02
+## 103 103 0  2.194377e-02  2.194377e-02  2.219438e-01 0  2.194377e-02
+## 104 104 0 -8.312239e-02 -8.312239e-02  1.168776e-01 0 -8.312239e-02
+## 105 105 0 -1.239547e-01 -1.239547e-01  7.604530e-02 0 -1.239547e-01
+## 106 106 0 -4.190965e-01 -4.190965e-01 -2.190965e-01 1 -2.190965e-01
+## 107 107 0  1.813507e-01  1.813507e-01  3.813507e-01 0  1.813507e-01
+## 108 108 0  2.055773e-01  2.055773e-01  4.055773e-01 0  2.055773e-01
+## 109 109 0 -1.341263e-01 -1.341263e-01  6.587373e-02 0 -1.341263e-01
+## 110 110 0  4.887909e-02  4.887909e-02  2.488791e-01 0  4.887909e-02
+## 111 111 0 -4.190727e-01 -4.190727e-01 -2.190727e-01 1 -2.190727e-01
+## 112 112 0  1.238285e-02  1.238285e-02  2.123829e-01 1  2.123829e-01
+## 113 113 0  3.353672e-03  3.353672e-03  2.033537e-01 0  3.353672e-03
+## 114 114 0  2.106633e-01  2.106633e-01  4.106633e-01 1  4.106633e-01
+## 115 115 0  2.536690e-01  2.536690e-01  4.536690e-01 1  4.536690e-01
+## 116 116 0 -3.452820e-02 -3.452820e-02  1.654718e-01 0 -3.452820e-02
+## 117 117 0  2.847809e-01  2.847809e-01  4.847809e-01 0  2.847809e-01
+## 118 118 0  1.729188e-01  1.729188e-01  3.729188e-01 1  3.729188e-01
+## 119 119 0  8.542731e-01  8.542731e-01  1.054273e+00 0  8.542731e-01
+## 120 120 0  9.256024e-02  9.256024e-02  2.925602e-01 1  2.925602e-01
+## 121 121 0 -1.719098e-01 -1.719098e-01  2.809021e-02 0 -1.719098e-01
+## 122 122 0 -8.800385e-02 -8.800385e-02  1.119962e-01 1  1.119962e-01
+## 123 123 0 -2.684611e-01 -2.684611e-01 -6.846110e-02 0 -2.684611e-01
+## 124 124 0 -3.150778e-01 -3.150778e-01 -1.150778e-01 1 -1.150778e-01
+## 125 125 0 -1.104299e-01 -1.104299e-01  8.957012e-02 1  8.957012e-02
+## 126 126 0  1.359823e-02  1.359823e-02  2.135982e-01 0  1.359823e-02
+## 127 127 0  3.300706e-01  3.300706e-01  5.300706e-01 1  5.300706e-01
+## 128 128 0  3.006543e-01  3.006543e-01  5.006543e-01 1  5.006543e-01
+## 129 129 0  6.021666e-02  6.021666e-02  2.602167e-01 0  6.021666e-02
+## 130 130 0 -1.452651e-01 -1.452651e-01  5.473487e-02 1  5.473487e-02
+## 131 131 0 -9.934092e-02 -9.934092e-02  1.006591e-01 0 -9.934092e-02
+## 132 132 0 -2.759354e-01 -2.759354e-01 -7.593538e-02 0 -2.759354e-01
+## 133 133 0  5.923958e-02  5.923958e-02  2.592396e-01 0  5.923958e-02
+## 134 134 0 -3.180571e-01 -3.180571e-01 -1.180571e-01 0 -3.180571e-01
+## 135 135 0  2.549177e-01  2.549177e-01  4.549177e-01 1  4.549177e-01
+## 136 136 0 -3.984732e-01 -3.984732e-01 -1.984732e-01 0 -3.984732e-01
+## 137 137 0  1.012300e-01  1.012300e-01  3.012300e-01 0  1.012300e-01
+## 138 138 0 -8.703337e-04 -8.703337e-04  1.991297e-01 0 -8.703337e-04
+## 139 139 0 -1.228038e-01 -1.228038e-01  7.719617e-02 1  7.719617e-02
+## 140 140 0  2.137207e-01  2.137207e-01  4.137207e-01 1  4.137207e-01
+## 141 141 0  5.605425e-01  5.605425e-01  7.605425e-01 1  7.605425e-01
+## 142 142 0  3.248517e-01  3.248517e-01  5.248517e-01 1  5.248517e-01
+## 143 143 0 -2.050917e-01 -2.050917e-01 -5.091664e-03 1 -5.091664e-03
+## 144 144 0 -2.628252e-01 -2.628252e-01 -6.282522e-02 0 -2.628252e-01
+## 145 145 0  5.577707e-02  5.577707e-02  2.557771e-01 1  2.557771e-01
+## 146 146 0 -9.201981e-02 -9.201981e-02  1.079802e-01 0 -9.201981e-02
+## 147 147 0  6.239107e-03  6.239107e-03  2.062391e-01 1  2.062391e-01
+## 148 148 0 -3.994600e-01 -3.994600e-01 -1.994600e-01 0 -3.994600e-01
+## 149 149 0  8.630642e-02  8.630642e-02  2.863064e-01 1  2.863064e-01
+## 150 150 0  3.625086e-01  3.625086e-01  5.625086e-01 1  5.625086e-01
+## 151 151 0 -6.304015e-02 -6.304015e-02  1.369599e-01 0 -6.304015e-02
+## 152 152 0 -4.748038e-01 -4.748038e-01 -2.748038e-01 1 -2.748038e-01
+## 153 153 0  3.491795e-03  3.491795e-03  2.034918e-01 1  2.034918e-01
+## 154 154 0 -8.091672e-02 -8.091672e-02  1.190833e-01 1  1.190833e-01
+## 155 155 0 -7.912631e-03 -7.912631e-03  1.920874e-01 0 -7.912631e-03
+## 156 156 0 -3.804343e-02 -3.804343e-02  1.619566e-01 1  1.619566e-01
+## 157 157 0  4.596506e-01  4.596506e-01  6.596506e-01 1  6.596506e-01
+## 158 158 0 -8.234611e-02 -8.234611e-02  1.176539e-01 0 -8.234611e-02
+## 159 159 0  2.056432e-01  2.056432e-01  4.056432e-01 0  2.056432e-01
+## 160 160 0  3.334267e-01  3.334267e-01  5.334267e-01 0  3.334267e-01
+## 161 161 0 -3.581352e-01 -3.581352e-01 -1.581352e-01 1 -1.581352e-01
+## 162 162 0  1.007831e-01  1.007831e-01  3.007831e-01 0  1.007831e-01
+## 163 163 0  3.493265e-03  3.493265e-03  2.034933e-01 1  2.034933e-01
+## 164 164 0 -2.997576e-01 -2.997576e-01 -9.975758e-02 0 -2.997576e-01
+## 165 165 0  1.862955e-01  1.862955e-01  3.862955e-01 1  3.862955e-01
+## 166 166 0  3.728346e-01  3.728346e-01  5.728346e-01 1  5.728346e-01
+## 167 167 0  2.015549e-01  2.015549e-01  4.015549e-01 0  2.015549e-01
+## 168 168 0 -2.059987e-01 -2.059987e-01 -5.998657e-03 0 -2.059987e-01
+## 169 169 0  3.769930e-01  3.769930e-01  5.769930e-01 1  5.769930e-01
+## 170 170 0  2.550864e-01  2.550864e-01  4.550864e-01 1  4.550864e-01
+## 171 171 0  1.548545e-01  1.548545e-01  3.548545e-01 1  3.548545e-01
+## 172 172 0 -5.116434e-01 -5.116434e-01 -3.116434e-01 0 -5.116434e-01
+## 173 173 0 -2.000441e-01 -2.000441e-01 -4.410146e-05 1 -4.410146e-05
+## 174 174 0 -5.201072e-03 -5.201072e-03  1.947989e-01 1  1.947989e-01
+## 175 175 0 -1.440866e-01 -1.440866e-01  5.591336e-02 1  5.591336e-02
+## 176 176 0 -2.836342e-01 -2.836342e-01 -8.363419e-02 1 -8.363419e-02
+## 177 177 0  2.216075e-01  2.216075e-01  4.216075e-01 0  2.216075e-01
+## 178 178 0  1.006361e-02  1.006361e-02  2.100636e-01 0  1.006361e-02
+## 179 179 0 -5.101365e-01 -5.101365e-01 -3.101365e-01 0 -5.101365e-01
+## 180 180 0  9.751911e-02  9.751911e-02  2.975191e-01 1  2.975191e-01
+## 181 181 0  1.329880e-01  1.329880e-01  3.329880e-01 1  3.329880e-01
+## 182 182 0  1.588415e-01  1.588415e-01  3.588415e-01 0  1.588415e-01
+## 183 183 0 -3.441857e-02 -3.441857e-02  1.655814e-01 0 -3.441857e-02
+## 184 184 0  4.781288e-02  4.781288e-02  2.478129e-01 0  4.781288e-02
+## 185 185 0 -7.821808e-02 -7.821808e-02  1.217819e-01 1  1.217819e-01
+## 186 186 0  8.653241e-02  8.653241e-02  2.865324e-01 1  2.865324e-01
+## 187 187 0 -4.997460e-01 -4.997460e-01 -2.997460e-01 0 -4.997460e-01
+## 188 188 0 -2.600189e-01 -2.600189e-01 -6.001894e-02 0 -2.600189e-01
+## 189 189 0  1.381649e-01  1.381649e-01  3.381649e-01 1  3.381649e-01
+## 190 190 0 -3.786197e-01 -3.786197e-01 -1.786197e-01 1 -1.786197e-01
+## 191 191 0  9.529190e-02  9.529190e-02  2.952919e-01 0  9.529190e-02
+## 192 192 0 -2.954862e-01 -2.954862e-01 -9.548621e-02 0 -2.954862e-01
+## 193 193 0 -7.479147e-02 -7.479147e-02  1.252085e-01 0 -7.479147e-02
+## 194 194 0 -1.841336e-01 -1.841336e-01  1.586643e-02 1  1.586643e-02
+## 195 195 0 -2.605532e-01 -2.605532e-01 -6.055321e-02 1 -6.055321e-02
+## 196 196 0 -4.251312e-02 -4.251312e-02  1.574869e-01 0 -4.251312e-02
+## 197 197 0  4.368024e-02  4.368024e-02  2.436802e-01 0  4.368024e-02
+## 198 198 0 -3.597000e-01 -3.597000e-01 -1.597000e-01 1 -1.597000e-01
+## 199 199 0  2.005707e-01  2.005707e-01  4.005707e-01 0  2.005707e-01
+## 200 200 0 -3.077011e-01 -3.077011e-01 -1.077011e-01 1 -1.077011e-01
+## 201 201 0 -1.314289e-01 -1.314289e-01  6.857111e-02 1  6.857111e-02
+## 202 202 0 -2.559756e-01 -2.559756e-01 -5.597555e-02 0 -2.559756e-01
+## 203 203 0  2.259263e-01  2.259263e-01  4.259263e-01 1  4.259263e-01
+## 204 204 0 -3.287035e-01 -3.287035e-01 -1.287035e-01 1 -1.287035e-01
+## 205 205 0 -4.049056e-01 -4.049056e-01 -2.049056e-01 1 -2.049056e-01
+## 206 206 0  1.944073e-01  1.944073e-01  3.944073e-01 0  1.944073e-01
+## 207 207 0 -9.291268e-02 -9.291268e-02  1.070873e-01 1  1.070873e-01
+## 208 208 0  5.794360e-01  5.794360e-01  7.794360e-01 0  5.794360e-01
+## 209 209 0  9.629790e-02  9.629790e-02  2.962979e-01 1  2.962979e-01
+## 210 210 0 -4.977564e-02 -4.977564e-02  1.502244e-01 0 -4.977564e-02
+## 211 211 0 -2.941894e-02 -2.941894e-02  1.705811e-01 0 -2.941894e-02
+## 212 212 0  1.113299e-01  1.113299e-01  3.113299e-01 0  1.113299e-01
+## 213 213 0 -2.523322e-01 -2.523322e-01 -5.233225e-02 0 -2.523322e-01
+## 214 214 0  1.494076e-01  1.494076e-01  3.494076e-01 0  1.494076e-01
+## 215 215 0  1.181788e-01  1.181788e-01  3.181788e-01 0  1.181788e-01
+## 216 216 0  9.489494e-05  9.489494e-05  2.000949e-01 1  2.000949e-01
+## 217 217 0  2.799827e-01  2.799827e-01  4.799827e-01 1  4.799827e-01
+## 218 218 0 -3.489643e-01 -3.489643e-01 -1.489643e-01 1 -1.489643e-01
+## 219 219 0 -1.808648e-01 -1.808648e-01  1.913524e-02 0 -1.808648e-01
+## 220 220 0 -1.156658e-01 -1.156658e-01  8.433419e-02 0 -1.156658e-01
+## 221 221 0  2.447059e-01  2.447059e-01  4.447059e-01 0  2.447059e-01
+## 222 222 0  3.966491e-01  3.966491e-01  5.966491e-01 1  5.966491e-01
+## 223 223 0  3.617870e-01  3.617870e-01  5.617870e-01 0  3.617870e-01
+## 224 224 0 -2.527477e-01 -2.527477e-01 -5.274773e-02 0 -2.527477e-01
+## 225 225 0  5.407928e-01  5.407928e-01  7.407928e-01 1  7.407928e-01
+## 226 226 0  8.651996e-02  8.651996e-02  2.865200e-01 1  2.865200e-01
+## 227 227 0  1.971311e-01  1.971311e-01  3.971311e-01 1  3.971311e-01
+## 228 228 0 -2.210356e-01 -2.210356e-01 -2.103560e-02 0 -2.210356e-01
+## 229 229 0  1.515695e-01  1.515695e-01  3.515695e-01 0  1.515695e-01
+## 230 230 0 -3.611225e-02 -3.611225e-02  1.638878e-01 0 -3.611225e-02
+## 231 231 0 -5.492289e-01 -5.492289e-01 -3.492289e-01 0 -5.492289e-01
+## 232 232 0  2.253392e-01  2.253392e-01  4.253392e-01 1  4.253392e-01
+## 233 233 0  3.438828e-01  3.438828e-01  5.438828e-01 0  3.438828e-01
+## 234 234 0 -1.467989e-01 -1.467989e-01  5.320111e-02 0 -1.467989e-01
+## 235 235 0 -3.059223e-01 -3.059223e-01 -1.059223e-01 0 -3.059223e-01
+## 236 236 0  4.915810e-02  4.915810e-02  2.491581e-01 1  2.491581e-01
+## 237 237 0 -2.951153e-01 -2.951153e-01 -9.511526e-02 1 -9.511526e-02
+## 238 238 0 -1.641766e-01 -1.641766e-01  3.582340e-02 0 -1.641766e-01
+## 239 239 0 -7.884550e-02 -7.884550e-02  1.211545e-01 0 -7.884550e-02
+## 240 240 0  6.579345e-01  6.579345e-01  8.579345e-01 1  8.579345e-01
+## 241 241 0  1.329636e-01  1.329636e-01  3.329636e-01 0  1.329636e-01
+## 242 242 0 -1.445948e-01 -1.445948e-01  5.540524e-02 1  5.540524e-02
+## 243 243 0  2.448054e-01  2.448054e-01  4.448054e-01 0  2.448054e-01
+## 244 244 0  1.597335e-01  1.597335e-01  3.597335e-01 0  1.597335e-01
+## 245 245 0  5.072318e-01  5.072318e-01  7.072318e-01 0  5.072318e-01
+## 246 246 0  1.839480e-01  1.839480e-01  3.839480e-01 0  1.839480e-01
+## 247 247 0 -1.810796e-02 -1.810796e-02  1.818920e-01 0 -1.810796e-02
+## 248 248 0 -7.076061e-02 -7.076061e-02  1.292394e-01 0 -7.076061e-02
+## 249 249 0  1.188652e-02  1.188652e-02  2.118865e-01 0  1.188652e-02
+## 250 250 0  1.297145e-01  1.297145e-01  3.297145e-01 1  3.297145e-01
+## 251 251 1  2.948860e-01  1.294886e+00  1.494886e+00 0  1.294886e+00
+## 252 252 1 -7.302620e-02  9.269738e-01  1.126974e+00 1  1.126974e+00
+## 253 253 1 -1.978914e-01  8.021086e-01  1.002109e+00 0  8.021086e-01
+## 254 254 1 -3.131870e-02  9.686813e-01  1.168681e+00 1  1.168681e+00
+## 255 255 1  1.098778e-01  1.109878e+00  1.309878e+00 1  1.309878e+00
+## 256 256 1  2.569769e-01  1.256977e+00  1.456977e+00 0  1.256977e+00
+## 257 257 1 -6.309173e-02  9.369083e-01  1.136908e+00 1  1.136908e+00
+## 258 258 1  5.723000e-03  1.005723e+00  1.205723e+00 1  1.205723e+00
+## 259 259 1 -1.915073e-01  8.084927e-01  1.008493e+00 1  1.008493e+00
+## 260 260 1  1.201629e-01  1.120163e+00  1.320163e+00 1  1.320163e+00
+## 261 261 1 -3.577885e-01  6.422115e-01  8.422115e-01 1  8.422115e-01
+## 262 262 1 -1.485293e-01  8.514707e-01  1.051471e+00 0  8.514707e-01
+## 263 263 1 -2.723915e-01  7.276085e-01  9.276085e-01 0  7.276085e-01
+## 264 264 1  5.150061e-01  1.515006e+00  1.715006e+00 0  1.515006e+00
+## 265 265 1 -3.775506e-01  6.224494e-01  8.224494e-01 0  6.224494e-01
+## 266 266 1 -1.096486e-01  8.903514e-01  1.090351e+00 1  1.090351e+00
+## 267 267 1  2.541103e-01  1.254110e+00  1.454110e+00 1  1.454110e+00
+## 268 268 1 -3.538820e-01  6.461180e-01  8.461180e-01 1  8.461180e-01
+## 269 269 1  2.154390e-01  1.215439e+00  1.415439e+00 0  1.215439e+00
+## 270 270 1 -1.940319e-01  8.059681e-01  1.005968e+00 1  1.005968e+00
+## 271 271 1 -3.250401e-01  6.749599e-01  8.749599e-01 0  6.749599e-01
+## 272 272 1 -1.002629e-01  8.997371e-01  1.099737e+00 0  8.997371e-01
+## 273 273 1  6.502820e-02  1.065028e+00  1.265028e+00 1  1.265028e+00
+## 274 274 1 -4.500322e-02  9.549968e-01  1.154997e+00 0  9.549968e-01
+## 275 275 1 -1.567914e-01  8.432086e-01  1.043209e+00 1  1.043209e+00
+## 276 276 1 -3.892409e-01  6.107591e-01  8.107591e-01 0  6.107591e-01
+## 277 277 1  2.879131e-01  1.287913e+00  1.487913e+00 1  1.487913e+00
+## 278 278 1 -1.748033e-01  8.251967e-01  1.025197e+00 0  8.251967e-01
+## 279 279 1  4.980036e-01  1.498004e+00  1.698004e+00 0  1.498004e+00
+## 280 280 1  7.765130e-02  1.077651e+00  1.277651e+00 1  1.277651e+00
+## 281 281 1  1.091149e-01  1.109115e+00  1.309115e+00 1  1.309115e+00
+## 282 282 1  6.067934e-01  1.606793e+00  1.806793e+00 0  1.606793e+00
+## 283 283 1  7.526612e-02  1.075266e+00  1.275266e+00 0  1.075266e+00
+## 284 284 1 -2.824213e-01  7.175787e-01  9.175787e-01 1  9.175787e-01
+## 285 285 1 -2.931472e-01  7.068528e-01  9.068528e-01 1  9.068528e-01
+## 286 286 1  3.623198e-01  1.362320e+00  1.562320e+00 1  1.562320e+00
+## 287 287 1  7.748859e-02  1.077489e+00  1.277489e+00 1  1.277489e+00
+## 288 288 1 -2.195796e-01  7.804204e-01  9.804204e-01 0  7.804204e-01
+## 289 289 1  1.390155e-01  1.139015e+00  1.339015e+00 0  1.139015e+00
+## 290 290 1 -2.877204e-01  7.122796e-01  9.122796e-01 0  7.122796e-01
+## 291 291 1  1.002047e-01  1.100205e+00  1.300205e+00 1  1.300205e+00
+## 292 292 1 -7.667114e-02  9.233289e-01  1.123329e+00 1  1.123329e+00
+## 293 293 1  3.071091e-02  1.030711e+00  1.230711e+00 0  1.030711e+00
+## 294 294 1 -9.557573e-02  9.044243e-01  1.104424e+00 1  1.104424e+00
+## 295 295 1  1.419318e-02  1.014193e+00  1.214193e+00 0  1.014193e+00
+## 296 296 1  1.713201e-01  1.171320e+00  1.371320e+00 0  1.171320e+00
+## 297 297 1  2.201327e-01  1.220133e+00  1.420133e+00 1  1.420133e+00
+## 298 298 1  2.374736e-01  1.237474e+00  1.437474e+00 1  1.437474e+00
+## 299 299 1  2.172786e-01  1.217279e+00  1.417279e+00 1  1.417279e+00
+## 300 300 1  1.377897e-01  1.137790e+00  1.337790e+00 1  1.337790e+00
+## 301 301 1 -1.259582e-01  8.740418e-01  1.074042e+00 0  8.740418e-01
+## 302 302 1 -4.934299e-02  9.506570e-01  1.150657e+00 1  1.150657e+00
+## 303 303 1  6.431791e-02  1.064318e+00  1.264318e+00 1  1.264318e+00
+## 304 304 1 -5.633107e-01  4.366893e-01  6.366893e-01 0  4.366893e-01
+## 305 305 1 -1.459451e-01  8.540549e-01  1.054055e+00 1  1.054055e+00
+## 306 306 1  1.265672e-01  1.126567e+00  1.326567e+00 1  1.326567e+00
+## 307 307 1  1.771932e-02  1.017719e+00  1.217719e+00 1  1.217719e+00
+## 308 308 1  2.579226e-02  1.025792e+00  1.225792e+00 1  1.225792e+00
+## 309 309 1 -1.065184e-01  8.934816e-01  1.093482e+00 1  1.093482e+00
+## 310 310 1  1.462947e-01  1.146295e+00  1.346295e+00 1  1.346295e+00
+## 311 311 1 -1.903906e-01  8.096094e-01  1.009609e+00 0  8.096094e-01
+## 312 312 1  1.075202e-01  1.107520e+00  1.307520e+00 1  1.307520e+00
+## 313 313 1  1.060116e-01  1.106012e+00  1.306012e+00 1  1.306012e+00
+## 314 314 1 -5.162742e-02  9.483726e-01  1.148373e+00 1  1.148373e+00
+## 315 315 1 -3.114284e-01  6.885716e-01  8.885716e-01 1  8.885716e-01
+## 316 316 1 -2.130481e-01  7.869519e-01  9.869519e-01 0  7.869519e-01
+## 317 317 1 -3.156989e-01  6.843011e-01  8.843011e-01 1  8.843011e-01
+## 318 318 1  1.379573e-03  1.001380e+00  1.201380e+00 0  1.001380e+00
+## 319 319 1  4.595675e-01  1.459568e+00  1.659568e+00 0  1.459568e+00
+## 320 320 1 -3.428522e-01  6.571478e-01  8.571478e-01 0  6.571478e-01
+## 321 321 1 -1.890035e-02  9.810997e-01  1.181100e+00 1  1.181100e+00
+## 322 322 1  7.758246e-02  1.077582e+00  1.277582e+00 1  1.277582e+00
+## 323 323 1  1.961107e-03  1.001961e+00  1.201961e+00 1  1.201961e+00
+## 324 324 1 -1.410674e-01  8.589326e-01  1.058933e+00 0  8.589326e-01
+## 325 325 1 -1.119491e-01  8.880509e-01  1.088051e+00 0  8.880509e-01
+## 326 326 1  2.122230e-01  1.212223e+00  1.412223e+00 0  1.212223e+00
+## 327 327 1  1.210667e-01  1.121067e+00  1.321067e+00 0  1.121067e+00
+## 328 328 1  2.998876e-01  1.299888e+00  1.499888e+00 0  1.299888e+00
+## 329 329 1  6.773577e-02  1.067736e+00  1.267736e+00 0  1.067736e+00
+## 330 330 1 -2.619567e-01  7.380433e-01  9.380433e-01 1  9.380433e-01
+## 331 331 1  2.411502e-02  1.024115e+00  1.224115e+00 1  1.224115e+00
+## 332 332 1 -4.237483e-01  5.762517e-01  7.762517e-01 0  5.762517e-01
+## 333 333 1 -6.781824e-03  9.932182e-01  1.193218e+00 1  1.193218e+00
+## 334 334 1 -1.242104e-01  8.757896e-01  1.075790e+00 1  1.075790e+00
+## 335 335 1  4.908925e-03  1.004909e+00  1.204909e+00 1  1.204909e+00
+## 336 336 1  4.195895e-01  1.419589e+00  1.619589e+00 0  1.419589e+00
+## 337 337 1 -1.647840e-02  9.835216e-01  1.183522e+00 1  1.183522e+00
+## 338 338 1  1.046016e-01  1.104602e+00  1.304602e+00 1  1.304602e+00
+## 339 339 1  1.202506e-01  1.120251e+00  1.320251e+00 0  1.120251e+00
+## 340 340 1  3.957096e-02  1.039571e+00  1.239571e+00 1  1.239571e+00
+## 341 341 1 -2.453629e-01  7.546371e-01  9.546371e-01 0  7.546371e-01
+## 342 342 1 -5.551832e-01  4.448168e-01  6.448168e-01 1  6.448168e-01
+## 343 343 1 -1.674110e-01  8.325890e-01  1.032589e+00 1  1.032589e+00
+## 344 344 1 -3.152571e-01  6.847429e-01  8.847429e-01 0  6.847429e-01
+## 345 345 1 -6.839043e-01  3.160957e-01  5.160957e-01 0  3.160957e-01
+## 346 346 1 -1.013124e-02  9.898688e-01  1.189869e+00 0  9.898688e-01
+## 347 347 1 -3.533642e-02  9.646636e-01  1.164664e+00 0  9.646636e-01
+## 348 348 1 -1.418946e-01  8.581054e-01  1.058105e+00 0  8.581054e-01
+## 349 349 1  1.017962e-01  1.101796e+00  1.301796e+00 0  1.101796e+00
+## 350 350 1 -1.995270e-01  8.004730e-01  1.000473e+00 1  1.000473e+00
+## 351 351 1  4.814229e-01  1.481423e+00  1.681423e+00 0  1.481423e+00
+## 352 352 1 -2.709717e-01  7.290283e-01  9.290283e-01 1  9.290283e-01
+## 353 353 1 -1.553671e-01  8.446329e-01  1.044633e+00 1  1.044633e+00
+## 354 354 1 -9.315694e-02  9.068431e-01  1.106843e+00 1  1.106843e+00
+## 355 355 1 -4.876346e-02  9.512365e-01  1.151237e+00 1  1.151237e+00
+## 356 356 1  3.338930e-01  1.333893e+00  1.533893e+00 0  1.333893e+00
+## 357 357 1 -5.885743e-02  9.411426e-01  1.141143e+00 0  9.411426e-01
+## 358 358 1 -2.963895e-01  7.036105e-01  9.036105e-01 1  9.036105e-01
+## 359 359 1  4.686612e-02  1.046866e+00  1.246866e+00 1  1.246866e+00
+## 360 360 1 -2.631550e-02  9.736845e-01  1.173684e+00 0  9.736845e-01
+## 361 361 1  1.321675e-01  1.132168e+00  1.332168e+00 1  1.332168e+00
+## 362 362 1 -2.273085e-01  7.726915e-01  9.726915e-01 1  9.726915e-01
+## 363 363 1  1.177838e-01  1.117784e+00  1.317784e+00 0  1.117784e+00
+## 364 364 1  4.229831e-01  1.422983e+00  1.622983e+00 1  1.622983e+00
+## 365 365 1  7.632792e-02  1.076328e+00  1.276328e+00 0  1.076328e+00
+## 366 366 1 -8.475887e-02  9.152411e-01  1.115241e+00 1  1.115241e+00
+## 367 367 1 -1.550280e-01  8.449720e-01  1.044972e+00 0  8.449720e-01
+## 368 368 1  2.730963e-01  1.273096e+00  1.473096e+00 1  1.473096e+00
+## 369 369 1  3.790700e-01  1.379070e+00  1.579070e+00 0  1.379070e+00
+## 370 370 1  6.534630e-01  1.653463e+00  1.853463e+00 0  1.653463e+00
+## 371 371 1  2.220186e-02  1.022202e+00  1.222202e+00 1  1.222202e+00
+## 372 372 1  1.867231e-01  1.186723e+00  1.386723e+00 0  1.186723e+00
+## 373 373 1  1.042625e-01  1.104262e+00  1.304262e+00 0  1.104262e+00
+## 374 374 1  1.902169e-01  1.190217e+00  1.390217e+00 1  1.390217e+00
+## 375 375 1 -2.497572e-01  7.502428e-01  9.502428e-01 1  9.502428e-01
+## 376 376 1 -4.113775e-01  5.886225e-01  7.886225e-01 1  7.886225e-01
+## 377 377 1 -1.095373e-01  8.904627e-01  1.090463e+00 1  1.090463e+00
+## 378 378 1 -2.603084e-02  9.739692e-01  1.173969e+00 0  9.739692e-01
+## 379 379 1 -1.395504e-01  8.604496e-01  1.060450e+00 1  1.060450e+00
+## 380 380 1  4.411473e-02  1.044115e+00  1.244115e+00 1  1.244115e+00
+## 381 381 1  8.780001e-02  1.087800e+00  1.287800e+00 0  1.087800e+00
+## 382 382 1  5.584142e-02  1.055841e+00  1.255841e+00 1  1.255841e+00
+## 383 383 1  6.356792e-02  1.063568e+00  1.263568e+00 0  1.063568e+00
+## 384 384 1 -4.031339e-01  5.968661e-01  7.968661e-01 0  5.968661e-01
+## 385 385 1 -5.518702e-01  4.481298e-01  6.481298e-01 0  4.481298e-01
+## 386 386 1 -2.910279e-02  9.708972e-01  1.170897e+00 0  9.708972e-01
+## 387 387 1 -2.473347e-01  7.526653e-01  9.526653e-01 1  9.526653e-01
+## 388 388 1 -2.749517e-01  7.250483e-01  9.250483e-01 0  7.250483e-01
+## 389 389 1 -1.124735e-01  8.875265e-01  1.087526e+00 0  8.875265e-01
+## 390 390 1 -1.153716e-01  8.846284e-01  1.084628e+00 1  1.084628e+00
+## 391 391 1 -1.555467e-01  8.444533e-01  1.044453e+00 1  1.044453e+00
+## 392 392 1  1.815244e-01  1.181524e+00  1.381524e+00 0  1.181524e+00
+## 393 393 1 -7.615081e-02  9.238492e-01  1.123849e+00 0  9.238492e-01
+## 394 394 1  1.435701e-01  1.143570e+00  1.343570e+00 0  1.143570e+00
+## 395 395 1 -2.229375e-01  7.770625e-01  9.770625e-01 1  9.770625e-01
+## 396 396 1  4.444958e-01  1.444496e+00  1.644496e+00 0  1.444496e+00
+## 397 397 1 -5.646617e-02  9.435338e-01  1.143534e+00 0  9.435338e-01
+## 398 398 1  1.177378e-01  1.117738e+00  1.317738e+00 1  1.317738e+00
+## 399 399 1 -2.772787e-01  7.227213e-01  9.227213e-01 0  7.227213e-01
+## 400 400 1  1.547997e-01  1.154800e+00  1.354800e+00 1  1.354800e+00
+## 401 401 1  7.318450e-02  1.073185e+00  1.273185e+00 1  1.273185e+00
+## 402 402 1  8.408548e-02  1.084085e+00  1.284085e+00 0  1.084085e+00
+## 403 403 1 -1.584123e-01  8.415877e-01  1.041588e+00 0  8.415877e-01
+## 404 404 1  2.847035e-04  1.000285e+00  1.200285e+00 1  1.200285e+00
+## 405 405 1  2.225092e-01  1.222509e+00  1.422509e+00 0  1.222509e+00
+## 406 406 1 -2.079851e-01  7.920149e-01  9.920149e-01 1  9.920149e-01
+## 407 407 1  2.011485e-01  1.201149e+00  1.401149e+00 1  1.401149e+00
+## 408 408 1 -9.228146e-03  9.907719e-01  1.190772e+00 0  9.907719e-01
+## 409 409 1 -1.544211e-01  8.455789e-01  1.045579e+00 0  8.455789e-01
+## 410 410 1 -1.658911e-01  8.341089e-01  1.034109e+00 0  8.341089e-01
+## 411 411 1 -4.050726e-01  5.949274e-01  7.949274e-01 0  5.949274e-01
+## 412 412 1 -9.772750e-02  9.022725e-01  1.102272e+00 1  1.102272e+00
+## 413 413 1  2.379970e-01  1.237997e+00  1.437997e+00 1  1.437997e+00
+## 414 414 1 -4.291195e-01  5.708805e-01  7.708805e-01 1  7.708805e-01
+## 415 415 1 -2.825419e-01  7.174581e-01  9.174581e-01 1  9.174581e-01
+## 416 416 1  4.229975e-01  1.422997e+00  1.622997e+00 0  1.422997e+00
+## 417 417 1  9.686992e-02  1.096870e+00  1.296870e+00 0  1.096870e+00
+## 418 418 1  1.806168e-01  1.180617e+00  1.380617e+00 1  1.380617e+00
+## 419 419 1 -5.692382e-01  4.307618e-01  6.307618e-01 0  4.307618e-01
+## 420 420 1 -2.574858e-01  7.425142e-01  9.425142e-01 1  9.425142e-01
+## 421 421 1  4.876718e-01  1.487672e+00  1.687672e+00 0  1.487672e+00
+## 422 422 1 -1.614977e-01  8.385023e-01  1.038502e+00 0  8.385023e-01
+## 423 423 1  2.048815e-01  1.204882e+00  1.404882e+00 0  1.204882e+00
+## 424 424 1 -1.284048e-01  8.715952e-01  1.071595e+00 0  8.715952e-01
+## 425 425 1  1.232156e-01  1.123216e+00  1.323216e+00 1  1.323216e+00
+## 426 426 1 -1.625544e-01  8.374456e-01  1.037446e+00 1  1.037446e+00
+## 427 427 1 -3.720142e-01  6.279858e-01  8.279858e-01 0  6.279858e-01
+## 428 428 1 -1.206921e-01  8.793079e-01  1.079308e+00 1  1.079308e+00
+## 429 429 1 -2.285683e-01  7.714317e-01  9.714317e-01 0  7.714317e-01
+## 430 430 1  7.049460e-02  1.070495e+00  1.270495e+00 0  1.070495e+00
+## 431 431 1 -2.039036e-01  7.960964e-01  9.960964e-01 1  9.960964e-01
+## 432 432 1  1.626026e-01  1.162603e+00  1.362603e+00 1  1.362603e+00
+## 433 433 1  5.582068e-02  1.055821e+00  1.255821e+00 1  1.255821e+00
+## 434 434 1  2.037021e-01  1.203702e+00  1.403702e+00 0  1.203702e+00
+## 435 435 1  1.529349e-01  1.152935e+00  1.352935e+00 1  1.352935e+00
+## 436 436 1  1.061543e-02  1.010615e+00  1.210615e+00 1  1.210615e+00
+## 437 437 1 -4.528382e-02  9.547162e-01  1.154716e+00 0  9.547162e-01
+## 438 438 1 -1.587520e-01  8.412480e-01  1.041248e+00 1  1.041248e+00
+## 439 439 1 -1.412785e-01  8.587215e-01  1.058722e+00 1  1.058722e+00
+## 440 440 1  9.077743e-02  1.090777e+00  1.290777e+00 1  1.290777e+00
+## 441 441 1 -5.391807e-01  4.608193e-01  6.608193e-01 1  6.608193e-01
+## 442 442 1  3.670615e-02  1.036706e+00  1.236706e+00 1  1.236706e+00
+## 443 443 1 -1.325961e-01  8.674039e-01  1.067404e+00 1  1.067404e+00
+## 444 444 1  3.321153e-02  1.033212e+00  1.233212e+00 1  1.233212e+00
+## 445 445 1 -5.061977e-03  9.949380e-01  1.194938e+00 0  9.949380e-01
+## 446 446 1 -1.214861e-01  8.785139e-01  1.078514e+00 0  8.785139e-01
+## 447 447 1  5.595524e-01  1.559552e+00  1.759552e+00 1  1.759552e+00
+## 448 448 1  8.660258e-02  1.086603e+00  1.286603e+00 1  1.286603e+00
+## 449 449 1 -2.013650e-01  7.986350e-01  9.986350e-01 1  9.986350e-01
+## 450 450 1  8.335599e-02  1.083356e+00  1.283356e+00 0  1.083356e+00
+## 451 451 1  8.202732e-02  1.082027e+00  1.282027e+00 0  1.082027e+00
+## 452 452 1  1.649417e-01  1.164942e+00  1.364942e+00 1  1.364942e+00
+## 453 453 1  4.973226e-02  1.049732e+00  1.249732e+00 1  1.249732e+00
+## 454 454 1  7.917811e-01  1.791781e+00  1.991781e+00 1  1.991781e+00
+## 455 455 1 -6.395988e-02  9.360401e-01  1.136040e+00 1  1.136040e+00
+## 456 456 1 -9.554901e-02  9.044510e-01  1.104451e+00 1  1.104451e+00
+## 457 457 1 -3.091489e-01  6.908511e-01  8.908511e-01 1  8.908511e-01
+## 458 458 1 -3.598585e-01  6.401415e-01  8.401415e-01 1  8.401415e-01
+## 459 459 1 -4.070451e-01  5.929549e-01  7.929549e-01 0  5.929549e-01
+## 460 460 1  7.436702e-02  1.074367e+00  1.274367e+00 0  1.074367e+00
+## 461 461 1 -2.612051e-02  9.738795e-01  1.173879e+00 0  9.738795e-01
+## 462 462 1  3.935985e-01  1.393598e+00  1.593598e+00 0  1.393598e+00
+## 463 463 1  3.276468e-01  1.327647e+00  1.527647e+00 1  1.527647e+00
+## 464 464 1 -2.184869e-01  7.815131e-01  9.815131e-01 0  7.815131e-01
+## 465 465 1  5.968149e-01  1.596815e+00  1.796815e+00 1  1.796815e+00
+## 466 466 1  3.044848e-01  1.304485e+00  1.504485e+00 1  1.504485e+00
+## 467 467 1  2.936435e-01  1.293643e+00  1.493643e+00 0  1.293643e+00
+## 468 468 1  6.244282e-02  1.062443e+00  1.262443e+00 0  1.062443e+00
+## 469 469 1 -3.796224e-01  6.203776e-01  8.203776e-01 0  6.203776e-01
+## 470 470 1  3.579354e-01  1.357935e+00  1.557935e+00 0  1.357935e+00
+## 471 471 1 -3.628265e-02  9.637174e-01  1.163717e+00 0  9.637174e-01
+## 472 472 1  3.844614e-01  1.384461e+00  1.584461e+00 1  1.584461e+00
+## 473 473 1 -2.070056e-01  7.929944e-01  9.929944e-01 1  9.929944e-01
+## 474 474 1 -3.468746e-02  9.653125e-01  1.165313e+00 1  1.165313e+00
+## 475 475 1  6.390776e-02  1.063908e+00  1.263908e+00 1  1.263908e+00
+## 476 476 1  2.795199e-01  1.279520e+00  1.479520e+00 0  1.279520e+00
+## 477 477 1  2.150253e-01  1.215025e+00  1.415025e+00 0  1.215025e+00
+## 478 478 1 -3.007776e-02  9.699222e-01  1.169922e+00 1  1.169922e+00
+## 479 479 1 -1.560834e-02  9.843917e-01  1.184392e+00 0  9.843917e-01
+## 480 480 1  2.959178e-01  1.295918e+00  1.495918e+00 1  1.495918e+00
+## 481 481 1 -1.216617e-01  8.783383e-01  1.078338e+00 0  8.783383e-01
+## 482 482 1  2.054358e-01  1.205436e+00  1.405436e+00 0  1.205436e+00
+## 483 483 1  1.237036e-01  1.123704e+00  1.323704e+00 1  1.323704e+00
+## 484 484 1  6.866864e-01  1.686686e+00  1.886686e+00 1  1.886686e+00
+## 485 485 1  3.485371e-01  1.348537e+00  1.548537e+00 0  1.348537e+00
+## 486 486 1 -3.128559e-01  6.871441e-01  8.871441e-01 0  6.871441e-01
+## 487 487 1  9.062177e-02  1.090622e+00  1.290622e+00 1  1.290622e+00
+## 488 488 1  2.764826e-01  1.276483e+00  1.476483e+00 0  1.276483e+00
+## 489 489 1 -4.309150e-01  5.690850e-01  7.690850e-01 0  5.690850e-01
+## 490 490 1  4.847392e-01  1.484739e+00  1.684739e+00 0  1.484739e+00
+## 491 491 1  3.257734e-02  1.032577e+00  1.232577e+00 1  1.232577e+00
+## 492 492 1 -1.286883e-01  8.713117e-01  1.071312e+00 0  8.713117e-01
+## 493 493 1  1.052953e-02  1.010530e+00  1.210530e+00 1  1.210530e+00
+## 494 494 1 -3.280844e-01  6.719156e-01  8.719156e-01 0  6.719156e-01
+## 495 495 1  6.505700e-03  1.006506e+00  1.206506e+00 0  1.006506e+00
+## 496 496 1  4.284569e-01  1.428457e+00  1.628457e+00 1  1.628457e+00
+## 497 497 1  9.387787e-02  1.093878e+00  1.293878e+00 0  1.093878e+00
+## 498 498 1 -2.145455e-01  7.854545e-01  9.854545e-01 1  9.854545e-01
+## 499 499 1 -4.354167e-02  9.564583e-01  1.156458e+00 1  1.156458e+00
+## 500 500 1  3.890098e-01  1.389010e+00  1.589010e+00 1  1.589010e+00</code></pre>
+<p>Após declarar um desenho de pesquisa, podemos diagnosticar se nosso desenho de pesquisa pode ser respondido adequadamente (isto é, se é identificável, se possui poder para estimar com precisão o efeito de interesse etc.). Podemos inclusive modificar o desenho para responder a outras perguntas (é generalizável para outras populações, diferentes estimadores pdesempenham melhor etc.)</p>
+<p>Eis um exemplo de diagnóstico:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="tipos-de-experimentos.html#cb15-1" tabindex="-1"></a><span class="fu">diagnose_design</span>(two_arm_trial, <span class="at">sims =</span> <span class="dv">100</span>)</span></code></pre></div>
+<pre><code>## 
+## Research design diagnosis based on 100 simulations. Diagnosis completed in 1 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).
+## 
+##         Design Inquiry Estimator Outcome Term N Sims Mean Estimand
+##  two_arm_trial     ATE estimator       Y    Z    100          0.20
+##                                                             (0.00)
+##  Mean Estimate   Bias SD Estimate   RMSE  Power Coverage
+##           0.20   0.00        0.05   0.05   0.95     0.92
+##         (0.01) (0.01)      (0.00) (0.00) (0.02)   (0.03)</code></pre>
+<p>Podemos ajustar o desenh ode pesquisa</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="tipos-de-experimentos.html#cb17-1" tabindex="-1"></a>designs <span class="ot">&lt;-</span> <span class="fu">redesign</span>(two_arm_trial, <span class="at">N =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">300</span>, <span class="dv">400</span>, <span class="dv">500</span>))</span>
+<span id="cb17-2"><a href="tipos-de-experimentos.html#cb17-2" tabindex="-1"></a><span class="fu">diagnose_design</span>(designs)</span></code></pre></div>
+<pre><code>## 
+## Research design diagnosis based on 500 simulations. Diagnosis completed in 12 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).
+## 
+##    Design   N Inquiry Estimator Outcome Term N Sims Mean Estimand Mean Estimate
+##  design_1 100     ATE estimator       Y    Z    500          0.20          0.20
+##                                                            (0.00)        (0.00)
+##  design_2 200     ATE estimator       Y    Z    500          0.20          0.20
+##                                                            (0.00)        (0.00)
+##  design_3 300     ATE estimator       Y    Z    500          0.20          0.20
+##                                                            (0.00)        (0.00)
+##  design_4 400     ATE estimator       Y    Z    500          0.20          0.20
+##                                                            (0.00)        (0.00)
+##  design_5 500     ATE estimator       Y    Z    500          0.20          0.20
+##                                                            (0.00)        (0.00)
+##    Bias SD Estimate   RMSE  Power Coverage
+##   -0.00        0.05   0.05   0.98     0.95
+##  (0.00)      (0.00) (0.00) (0.01)   (0.01)
+##   -0.00        0.05   0.05   0.97     0.96
+##  (0.00)      (0.00) (0.00) (0.01)   (0.01)
+##   -0.00        0.05   0.05   0.97     0.94
+##  (0.00)      (0.00) (0.00) (0.01)   (0.01)
+##    0.00        0.05   0.05   0.98     0.95
+##  (0.00)      (0.00) (0.00) (0.01)   (0.01)
+##   -0.00        0.05   0.05   0.97     0.93
+##  (0.00)      (0.00) (0.00) (0.01)   (0.01)</code></pre>
+</div>
+<div id="exercício" class="section level2 hasAnchor" number="5.24">
+<h2><span class="header-section-number">5.24</span> Exercício<a href="tipos-de-experimentos.html#exercício" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>O exercício abaixo é uma tradução de questões que estavam presentes no exame de qualificação (prelims) da área de métodos do programa de doutorado em ciência política de Yale.</p>
+<div id="experimento-com-envio-de-cartões-postais-e-participação-eleitoral" class="section level3 hasAnchor" number="5.24.1">
+<h3><span class="header-section-number">5.24.1</span> Experimento com envio de cartões-postais e participação eleitoral<a href="tipos-de-experimentos.html#experimento-com-envio-de-cartões-postais-e-participação-eleitoral" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Você conduz um experimento aleatório para testar o efeito de um cartão-postal sobre a participação eleitoral, sorteando independentemente uma moeda para cada sujeito com probabilidade <span class="math inline">\(0 &lt; p &lt; 1\)</span> de receber o tratamento. Assuma o pressuposto de SUTVA (Stable Unit Treatment Value Assumption). Você estima o seguinte modelo por Mínimos Quadrados Ordinários (OLS):</p>
+<p><span class="math display">\[
+Y_i = \beta_0 + \beta_1 T_i + \beta_2 S_i + \beta_3 T_i S_i + u_i
+\]</span></p>
+<p>em que:
+- <span class="math inline">\(Y_i\)</span> indica se o indivíduo votou (variável dependente);
+- <span class="math inline">\(T_i\)</span> é o indicador binário de tratamento (receber ou não o cartão-postal);
+- <span class="math inline">\(S_i\)</span> é um indicador binário que vale 1 se o indivíduo vive em um estado eleitoralmente competitivo (battleground state) e 0 caso contrário;
+- <span class="math inline">\(T_i S_i\)</span> é a interação entre o tratamento e o contexto competitivo.</p>
+<div id="a-interprete-os-quatro-coeficientes-beta" class="section level4 hasAnchor" number="5.24.1.1">
+<h4><span class="header-section-number">5.24.1.1</span> (a) Interprete os quatro coeficientes <span class="math inline">\(\beta\)</span><a href="tipos-de-experimentos.html#a-interprete-os-quatro-coeficientes-beta" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li><span class="math inline">\(\beta_0\)</span>: média de <span class="math inline">\(Y_i\)</span> (taxa de votação) para o grupo controle (<span class="math inline">\(T_i = 0\)</span>) em estados não competitivos (<span class="math inline">\(S_i = 0\)</span>).</li>
+<li><span class="math inline">\(\beta_1\)</span>: efeito médio do tratamento (cartão-postal) em estados <strong>não competitivos</strong>. Como o tratamento foi atribuído aleatoriamente, <span class="math inline">\(\beta_1\)</span> tem interpretação causal.</li>
+<li><span class="math inline">\(\beta_2\)</span>: diferença na taxa média de votação entre estados competitivos e não competitivos <strong>no grupo controle</strong>. Não tem interpretação causal.</li>
+<li><span class="math inline">\(\beta_3\)</span>: diferença no efeito do tratamento entre estados competitivos e não competitivos. Se <span class="math inline">\(\beta_3 \neq 0\)</span>, o efeito do cartão-postal depende do tipo de estado. Como o tratamento é aleatório, <span class="math inline">\(\beta_3\)</span> também tem interpretação causal.</li>
+</ul>
+</div>
+<div id="b-como-testar-a-hipótese-de-que-o-efeito-do-tratamento-é-igual-entre-os-dois-tipos-de-estado" class="section level4 hasAnchor" number="5.24.1.2">
+<h4><span class="header-section-number">5.24.1.2</span> (b) Como testar a hipótese de que o efeito do tratamento é igual entre os dois tipos de estado?<a href="tipos-de-experimentos.html#b-como-testar-a-hipótese-de-que-o-efeito-do-tratamento-é-igual-entre-os-dois-tipos-de-estado" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Testa-se a hipótese nula <span class="math inline">\(H_0: \beta_3 = 0\)</span>. Isso pode ser feito diretamente a partir do resultado da regressão usando um teste t para o coeficiente da interação <span class="math inline">\(T_i S_i\)</span>.</p>
+</div>
+</div>
+<div id="experimento-com-anúncios-de-tv-e-participação-eleitoral" class="section level3 hasAnchor" number="5.24.2">
+<h3><span class="header-section-number">5.24.2</span> Experimento com anúncios de TV e participação eleitoral<a href="tipos-de-experimentos.html#experimento-com-anúncios-de-tv-e-participação-eleitoral" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Você quer testar se anúncios de TV aumentam a participação eleitoral. O experimento pode ser conduzido em até 16 mercados de mídia, dos quais até 8 podem ser sorteados para o grupo de tratamento. Os anúncios só podem ser exibidos para o mercado de mídia como um todo.</p>
+<p>Você tem informações individuais para todos os eleitores elegíveis nesses mercados: mercado de mídia, idade, sexo, raça/etnia e participação nas duas eleições anteriores. Após a eleição, você receberá os dados atualizados sobre participação no pleito atual.</p>
+<div id="a-como-alocar-aleatoriamente-os-mercados-ao-tratamento" class="section level4 hasAnchor" number="5.24.2.1">
+<h4><span class="header-section-number">5.24.2.1</span> (a) Como alocar aleatoriamente os mercados ao tratamento?<a href="tipos-de-experimentos.html#a-como-alocar-aleatoriamente-os-mercados-ao-tratamento" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Sorteie aleatoriamente 8 dos 16 mercados de mídia para o grupo de tratamento. Como o tratamento é atribuído no nível do mercado, essa é a unidade de aleatorização. Recomenda-se balancear o sorteio usando pareamento ou estratificação com base em características agregadas dos mercados (por exemplo, participação passada, composição demográfica), se houver variação relevante entre eles.</p>
+</div>
+<div id="b-como-analisar-esse-experimento" class="section level4 hasAnchor" number="5.24.2.2">
+<h4><span class="header-section-number">5.24.2.2</span> (b) Como analisar esse experimento?<a href="tipos-de-experimentos.html#b-como-analisar-esse-experimento" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>A análise deve ser feita no nível do mercado de mídia, que é a unidade de tratamento. Uma abordagem válida é calcular a média da taxa de votação em cada mercado e rodar uma regressão simples:</p>
+<p><span class="math display">\[
+\bar{Y}_j = \alpha + \tau D_j + \varepsilon_j
+\]</span></p>
+<p>em que:
+- <span class="math inline">\(\bar{Y}_j\)</span> é a média da taxa de votação no mercado <span class="math inline">\(j\)</span>;
+- <span class="math inline">\(D_j\)</span> é um indicador de tratamento para o mercado;
+- <span class="math inline">\(\tau\)</span> estima o efeito médio do tratamento.</p>
+<p>É possível incluir covariáveis no nível do mercado para aumentar a precisão, mas não é necessário para validade causal.</p>
+<hr />
+</div>
+</div>
+<div id="exclusão-de-participantes-em-experimentos-de-survey" class="section level3 hasAnchor" number="5.24.3">
+<h3><span class="header-section-number">5.24.3</span> Exclusão de participantes em experimentos de survey<a href="tipos-de-experimentos.html#exclusão-de-participantes-em-experimentos-de-survey" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Pesquisadores às vezes excluem participantes de um experimento de survey por:
+1. Não passarem em uma checagem de atenção pré-tratamento;
+2. Não passarem em uma checagem de atenção pós-tratamento;
+3. Completarem o survey muito rapidamente (por exemplo, 3 desvios-padrão abaixo da média de tempo).</p>
+<div id="a-se-o-interesse-é-no-efeito-médio-do-tratamento-entre-os-sujeitos-que-não-foram-excluídos-qual-dessas-estratégias-é-não-viesada" class="section level4 hasAnchor" number="5.24.3.1">
+<h4><span class="header-section-number">5.24.3.1</span> (a) Se o interesse é no efeito médio do tratamento <strong>entre os sujeitos que não foram excluídos</strong>, qual dessas estratégias é não-viesada?<a href="tipos-de-experimentos.html#a-se-o-interesse-é-no-efeito-médio-do-tratamento-entre-os-sujeitos-que-não-foram-excluídos-qual-dessas-estratégias-é-não-viesada" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Todas essas estratégias podem fornecer estimativas <strong>não viesadas</strong> para o efeito médio do tratamento entre os sujeitos que <strong>permanecem</strong> na amostra, desde que os critérios de exclusão sejam <strong>pré-tratamento</strong> ou <strong>não afetem diferencialmente</strong> os grupos de tratamento e controle. A exclusão baseada em variáveis observadas <strong>antes do tratamento</strong> (como checagem pré-tratamento ou tempo de resposta) é menos problemática.</p>
+<p>Já a exclusão com base em comportamentos <strong>após</strong> o tratamento (como falha em atenção pós-tratamento) pode introduzir viés, pois pode estar correlacionada com a resposta ao tratamento.</p>
+</div>
+<div id="b-se-o-interesse-é-no-efeito-médio-do-tratamento-entre-todos-os-participantes-que-iniciaram-o-experimento-qual-dessas-estratégias-é-não-viesada" class="section level4 hasAnchor" number="5.24.3.2">
+<h4><span class="header-section-number">5.24.3.2</span> (b) Se o interesse é no efeito médio do tratamento <strong>entre todos os participantes que iniciaram o experimento</strong>, qual dessas estratégias é não-viesada?<a href="tipos-de-experimentos.html#b-se-o-interesse-é-no-efeito-médio-do-tratamento-entre-todos-os-participantes-que-iniciaram-o-experimento-qual-dessas-estratégias-é-não-viesada" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Nenhuma das exclusões garante uma estimativa não viesada nesse caso. Excluir participantes com base em qualquer critério — mesmo que relacionado à atenção ou tempo de resposta — altera a composição da amostra em relação ao universo original. Para estimar o efeito médio para todos os participantes que começaram o experimento, é necessário <strong>manter todos os sujeitos</strong>, independentemente do desempenho em checagens ou tempo de resposta.</p>
 
+</div>
+</div>
 </div>
 </div>
             </section>
