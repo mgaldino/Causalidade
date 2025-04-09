@@ -1,0 +1,1169 @@
+--- 
+title: "Curso de Inferência Causal"
+author: "Manoel Galdino"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+---
+
+# Introdução
+
+Aqui pretendo guardar minhas notas de aula para meu curso de causalidade na pós-graduação. É uma forma de organizar e sistematizar meu estudo sobre o tema.
+
+## Revisão de Regressão
+
+Comecemos pelo modelo de regressão populacional dado por:
+$$y = \beta_0 + \beta_1 x + u$$
+
+As suposições básicas do modelo são:
+
+1. Média do erro é zero (sem perda de generalidade): $\mathbb{E}[u] = 0$
+
+2. Independência na média do erro: $\mathbb{E}[u|x] = \mathbb{E}[u]$. Essa é a suposição mais consequente do modelo de regressão. Como é sobre o termo de erro, não é testável. Um exemplo é útil para entender o que significa essa suposição. Suponha que estamos interessados no efeito do gasto de campanha ($x$) sobre o voto ($y$). O termo de erro $e$ seria a qualidade da candidata, não observável. A suposição implica então que a qualidade média das candidatas que gastam 100 mil reais é a mesma das que gastam 500 mil e um milhão (e assim por diante). Se candidatas melhores arrecadam mais dinheiro e, portanto, gastam mais, a suposição foi violada.
+
+Conectando 1 e 2, temos: $\mathbb{E}[u|x] = 0$. Essa suposição é chamada de "média condicional zero" ou "esperança condicional zero" do termo de erro. Ela implica que:
+$\mathbb{E}[y|x] = \beta_0 + \beta_1 x$. Essa equação é chamada de Conditional Expectation Function, ou CEF.
+
+De posse de uma amostra aleatória simples, podemos derivar os estimadores de mínimos quadrados (MQO ou OLS na sigla em inglês). Vou pular os passos da derivação. Para nós, o importante é lembrar a fórmula do $\hat{\beta_1}$:
+
+$\hat{\beta_1} = \frac{\text{covariância amostral}}{\text{variância amostral}} = \frac{\sum_{i=1}^n(x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^n(x_i - \bar{x})^2}$
+
+E $\hat{\beta_0} = \bar{y}  - \hat{\beta_1}\bar{x}$.
+
+Podemos então demonstrar que o estimador é não-viesado. Para isso, é necessário supor que o modelo é linear nos parâmetros (não nas variáveis), temos uma amostra aleatória simples da população, existe variância no preditor (para não dividir por zero na fórmula do estimador de OLS) e a média condicional zero.
+
+### Teorema da Anatomia da Regressão
+
+Esse teorema, também conhecido como teorema de Frisch, Waugh e Lovell ou Frisch-Waugh-Lovell, é útil para ajudar a entender regressão múltipla.
+Suponha que nosso modelo possui $2$ preditores:
+
+$y_i=\beta_0+\beta_1 x_{1i}+ \beta_2 x_{2i}+ e_i$.
+
+Agora, suponha que, em vez de rodar a regressão acima, eu rodo uma regressão (chamada de auxiliar) em que $x_1$ é a variável dependente, e $x_2$ o único preditor.
+
+$x_{1i}=\gamma_0+\gamma_{1}x_{2i} + f_i$.
+
+E os resíduos são dados por: $\tilde{x}{1i}=x{1i} - \widehat{x}{1i}$. Então, é possível mostrar que: $\beta_1 = \frac{C(y_i, \tilde{x}{1i})}{V(\tilde{x}_{1i})}$. O que essa fórmula nos diz é que o efeito de $\beta_1$ é a covariância entre a variável dependente e o resíduo da regressão auxiliar, isto é, a parte de $x_1$ não explicada pelos demais preditores.
+
+Vamos visualizar essa relação com um exemplo do livro do Scott Cunningham:
+
+```{r}
+library(tidyverse)
+library(haven)
+
+read_data <- function(df) {
+  full_path <- paste0("https://github.com/scunning1975/mixtape/raw/master/",
+                      df)
+  haven::read_dta(full_path)
+}
+
+auto <-
+  read_data("auto.dta") %>%
+  mutate(length = length - mean(length))
+
+lm1 <- lm(price ~ length, auto)
+lm2 <- lm(price ~ length + weight + headroom + mpg, auto)
+lm_aux <- lm(length ~ weight + headroom + mpg, auto)
+auto <-
+  auto %>%
+  mutate(length_resid = residuals(lm_aux))
+
+lm2_alt <- lm(price ~ length_resid, auto)
+
+coef_lm1 <- lm1$coefficients
+coef_lm2_alt <- lm2_alt$coefficients
+resid_lm2 <- lm2$residuals
+
+y_single <- tibble(price = coef_lm2_alt[1] + coef_lm1[2]*auto$length_resid,
+                   length_resid = auto$length_resid)
+
+y_multi <- tibble(price = coef_lm2_alt[1] + coef_lm2_alt[2]*auto$length_resid,
+                  length_resid = auto$length_resid)
+
+auto %>%
+  ggplot(aes(x=length_resid, y = price)) +
+  geom_point() +
+  geom_smooth(data = y_multi, color = "blue") +
+  geom_smooth(data = y_single, color = "red")
+```
+
+## Inferência
+
+Como sabemos, inferência lida com a generalização da amostra para a população e, portanto, com a variabilidade inerente de amostra para amostra. Eu não vou revisar aqui os cálculos para derivar o erro padrão. Quero apenas enfatizar dois pontos que não são usualmente abordados em cursos de regressão. Em primeiro lugar, generalização da amostra para a população é diferente de generalização causal, também conhecida como validade externa. Esse ponto foi confundido por muitos autores, em particular o livro conhecido como KKV, e levou muitos pesquisadores a acreditarem que uma regressão possuía maior capacidade de generalização causal do que estudos de caso. Uma regressão (supondo que o erro padrão foi calculado corretamente) permite generalizar as estimativas para uma população. Porém, o que significa falar em generalização quando temos o universo de casos (por exemplo, todos os deputados, ou todos os candidatos, ou todos os municípios)? Quando temos o universo, não é diferente de estudos de caso que possuem todos os casos relevantes e, portanto, a noção de generalização da amostra para população não se aplica.
+
+O que me leva ao segundo ponto: na inferência causal, em particular nesses casos em que temos o universo dos casos, ainda assim há incerteza. O trabalho de Abadie et. al (2020) discute a ideia de *design-based* inference. Nós vamos explicar no curso em mais detalhes o que é uma pesquisa *design-based* (em oposição a *model-based*). A ideia desse tipo de incerteza (e seu correspondente erro-padrão) é a seguinte. Imagine que estamos interessados em estimar o efeito causal da reeleição de prefeitos sobre a corrupção municipal. Suponha que tenho todos os municípios na amostra. Por fim, suponha que temos um experimento natural de forma que podemos supor que (talvez condicional a algumas variáveis) a reeleição é aleatória. Não há incerteza amostral para a população, mas há incerteza sobre o que aconteceria com a corrupção para os prefeitos reeleitos, caso não fossem reeleitos (e para os que perderam, como seria a corrupção caso fossem reeleitos). Em particular, se acreditamos que a reeleição foi aleatória, então uma nova rodada de amostragem (em um universo alternativo?) produziria outra configuração de prefeitos reeleitos e não-reeleitos e alguma variação na estimativa do efeito causal. Isso antecipa nossa discussão sobre causalidade da próxima aula, mas o ponto é que existe incerteza na variação do efeito causal, que não deriva de variação amostral propriamente, mas da aleatoriedade da intervenção.
+
+Nas palavras dos autores: 
+
+"it will be useful to distinguish between descriptive estimands, where uncertainty stems solely from not observing all units in the population of interest, and causal estimands, where the uncertainty stems, at least partially, from unobservability of some of the potential outcome" (p. 267). Meu ponto é que KKV e cia confundiram incerteza de estimandos descritivos com estimandos causais.
+
+O que me leva de volta ao ponto anterior sobre a comparação entre estudos de caso e métodos quantitativos, quando o objetivo é inferência causal. A incerteza inerente é sobre o efeito da intervenção, não sobre variações amostrais. Além disso, em ambos os casos não sabemos (a princípio) se os estudos possuem validade externa, isto é, se os resultados valem para outras populações, no tempo e espaço. É preciso avançar nessa agenda, tanto em métodos quali como quanti. É um problema em aberto e que tem atraído muitas pesquisas novas, que não iremos cobrir no curso (até por desconhecimento meu de boa parte dessa literatura).
+
+
+## Referências
+
+Abadie, Alberto, Susan Athey, Guido W. Imbens, and Jeffrey M. Wooldridge. 2020. “Sampling-Based Versus Design-Based Uncertainty in Regression Analysis.” Econometrica 88 (0): 265–96.
+
+<!--chapter:end:index.Rmd-->
+
+# Resultados Potenciais
+
+Durante muito tempo, inferência causal com regressão era caracterizada por recomendações vagas, ad hoc e inconsistências. O debate sobre o efeito causal do cigarro sobre câncer de pulmão é ilustrativo a esse respeito. Durante décadas, pesquisadores enfrentaram dificuldades para diferenciar correlação de causalidade em estudos epidemiológicos sobre tabagismo. Muitos estudos iniciais baseados apenas em correlação eram contestados por não apresentarem mecanismos claros ou critérios objetivos para validar inferências causais. Fisher (1958), por exemplo, questionou os resultados iniciais que ligavam o cigarro ao câncer por falta de critérios explícitos para identificar uma relação causal, argumentando que a correlação observada poderia decorrer de fatores confundidores, causalidade reversa ou problemas de mensuração.
+
+A situação mudou gradualmente com contribuições metodológicas importantes, como os critérios de causalidade propostos por Hill (1965). Os critérios de Bradford Hill ofereceram uma lista explícita e sistemática para avaliar a plausibilidade causal em estudos observacionais:
+
+1. O efeito deveria ser grande
+2. reproduzível em estudos independentes
+3. possuir uma relação monotônica com "dose" (isto é, aumento na dose não pode reduzir o efeito se o efeito é positivo e vice-versa se for negativo).
+4. corresponde a um "experimento natural""
+5. se comporta apropriadamente quando a causa é aplicada, removida e então reinstalada.
+6. é consistente com o conhecimento especializado do tema
+7. é, por exemplo, predita por alguma teoria bem estabelecida.
+
+Nós temos amplas evidências de que muitas intervenções são causais, mesmo na ausência de qualquer experimento aleatório controlado. Sabemos, por exemplo, que defribilação, manobra de Heimlinch e uso de paraquedas são eficazes para prevenir mortes [@howick_etal_2009].
+
+Em um artigo clássico dos primórdios da estatística escrito por Yule [@yule_1989], temos um dos primeiros exemplos de utilização da regressão para estudar o efeito causal do efeito de uma política (ajuda sobre pobreza). E a despeito do título do artigo falar em causalidade ("An investigation into the causes of changes in pauperism in england, chiefly during the last two intercensal decades"), a certa altura ele diz, em nota de rodapé, que "due to" deve ser lido como "associated to". Quase cem anos depois, o grande estatístico Cox afirmaria em um artigo sobre causalidade: "it is remarkable how relatively little causality is mentioned in the general statistics literature, except in a social science context"[@cox_1992, p. 292].
+
+Exemplo da perspectiva de que falava Cox quando, por exemplo, @muthen_1987 chegou a afirmar que "It would be very healthy if more researchers abandon thinking of and using terms such as cause and effect" (p. 180). Algo ecoado em uma entrevista com um dos líderes da evolução causal desde os anos 70/80, Jamie Robins, que relata que seus papers (en journals de estatística) eram rejeitados por usar linguagem causal, algo rejeitado na época [@robins_2022]. Então parece bastante seguro dizer que a sensação geral na estatística até os anos 80 é que não se deveria usar linguagem causal fora de estudos experimentais, isto é, em estudos não-observacionais.
+
+## Causalidade e o Método Comparativo
+
+A ideia de causalidade é bastante presente na ciência política na literatura de polític comparada qualitativa. Empregando os métodos advogados por Stuart Mill, a ideia de causalidade sempre estive presente e associada a ideias de relações necessárias e ou suficientes. Nesse sentido, causalidade seria determiniística. A moderna forma de pensar causalidade abandona esse paradigma de relações necessárias e/ou suficientes, para pensar em termos de contrafactual, o que no fundo é próximo do que a pesquisa comparada fazia. Tomemos um exemplo clássico dessa literatura. [inserirautor] estava interessado em estudar o efeito ccausal de [inserir variável de tratamento] sobre [variável de resultado], e comparou [unidade de tratamento] com [unidade de controle].
+
+## Potential Outcomes
+
+Objetivos de aporendizado da aula:
+Aprender a diferença entre esimando, estimador e estimativa.
+
+Aprender as condições de identificação do ATE (Average Treatment Effect)
+
+
+
+## Notação
+
+Vamos assumir que existe um tratamento binário, que recebe o valor $1$ se a unidade $i$ recebe o tratamento, e $0$ caso contrário, dado por: $D_i \in \{1,0\}$. 
+
+Suponha que eu tenha $N$ unidades que podem receber o tratamento ou controle. Então, o resultado potencial para a unidade $i$ é $Y_i(\mathbf{D})$, ou seja, o resultado (potencial) da unidade $i$ dado o conjunto de tratamento recebido por todas as $N$ unidades. Em outras palavras, o resultado potencial depende do status de tratamento de todas as unidades. O que nos leva à primeira suposição simplificadoras:
+
+Assumption 1 (Stable Unit Treatment Value Assumption)
+Se $D_i = D{'}_i$, então $Y_i(\mathbf{D}) = Y_i(\mathbf{D}^{'})$. Em palavras, se mudarmos o tratamento de $i$ de $D$ para $D'$, então o resultado potencial depende apenas dessa mudança, e não dos demais tratamentos. Ou seja, o resultado potencial depende apenas do próprio tratamento, não dos demais. Essa suposição també é chamada de não-interferência. Então podemos escrever o resultado potencial apenas como função de $D_i$: $Y_i(D_i)$.
+
+Entretanto, os resultados potenciais não são observáveis. O que nós observamos é o resultado se a pessoa foi ou não tratada. O que nos leva à "switching equation":
+$Y_i = Y_i(1)D_i + (1-D_i)Y_i(0)$
+
+Podemos agora definir o efeito causal do tratamento ao nível da unidade: $\tau_i = Y_i(1) - Y_i(0)$
+
+A switching equation conecta o observado aos resultados potenciais e vice-versa. Esse modelo é chamado de Modelo Causal de Neyman-Rubin.
+
+## Problema Fundamental da Inferência Causal
+
+Barizado por Holland (1986) de Problema Fundamental da Inferência Causal (PFIC) diz que não podemos observar, simultanemente, ambos os resultados potenciais $Y_i(1)$ e $Y_i(0)$.
+
+Possívels soluções para o PFIC:
+
+1. Assumir homogeneidade temporal (comparação antes de depois da mesma unidade)
+
+2. Assumir homogeneidade da unidade (comparar dois indivíduos, um tratado, outro no controle)
+
+3. Método estatístico (foco na esperança)
+
+## Estimando
+
+O que nós estamos interessados em estimar é o nosso **Estimando**.
+
+Lundberg et al. (2021), definem de maneira bem completa o que é um estimando. Informalmente, é a quantidade causal que queremos estimar. Os autores separam o estimando teórico do estimando estatístico. O estimando teórico especifica a unidade teórica de interesse (ex.: o efeito de instituicões inclusivas sobre o desenvolvimento economômico do país $i$; "A Dilma teria sofrido impeachment se a lava-jato não existisse?"). O segundo componente é a população-alvo. Se formos agregar essa unidade, é sobre quem ou quê? No primeiro caso, é a categoria de países em desenvolvimento em 1990? Todos os países independentes do globo no seçulo XX? No segundo caso, é mais difícil pensar qual é a população alvo. Talv ez já seja a população e, nesse caso, nao cabe se perguntar sobre qume agregaríamos a quantidade. Ou talvez a pergunta de pesquisa seja sobre crises econômicas e impeachment, e o Brasil é só um caso. Daí a população alvo pode ser, talvez, países latino-americanos. Nesse caso, a pesquisadora deverá argumentar sobre como o estudo de caso é informativo sobre a população-alvo.
+
+Estimando estatístico ou empírico é a quantidade que pode ser estimada estatisticamente (a princípio).
+
+Estimativa: a aproximação do estimando usando uma amostra finita de dados
+Estimador: o método ou fórmula para se chegar a uma estimativa para um estimando.
+
+## Estimandos Mais Comuns
+
+### ATE
+
+Vamos definir o ATE e mostrar condições suficientes para identificação desse estimando.
+
+O ATT é simplesmente o efeito causal médio entre todos os indivíduos de uma população. Às vezes chamado de PATE, de Populational Averate Treatment Effect.
+
+Definição 2.1. Chamamos de ATE na população: 
+$$\tau_{\text{ATE}} = \mathbb{E}[\tau_i] = \mathbb{E}[Y_i(1) - Y_i(0)] = \mathbb{E}[Y_i(1)] - \mathbb{E}[Y_i(0)]$$
+O ATE nos dá o efeito do tratamento em toda a população de interesse.
+
+
+### ATT
+
+Definição 2.2. Chamamos de Average Treatment Effect on the Treated (ATT): 
+$$\tau_{\text{ATT}} = \mathbb{E}[\tau_i|D_i=1] = \mathbb{E}[Y_i(1) - Y_i(0)|D_i=1] = \underbrace{\mathbb{E}[Y_i(1)|D_i=1]}_{\text{observado}} - \mathbb{E}[Y_i(0)|D_i=1]$$
+Note que $\mathbb{E}[Y_i(1)|D_i=1]$ é um resultado potencial que podemos observar, já que é igual ao resultado realizado dos tratados. 
+
+Esse estimando estima o efeito do tratamento apenas entre os tratados. Essa quantidade é, tipicamente, a mais relevante em políticas públicas. Considere a política pública de vacinação. O que é mais importante, saber o efeito causal da vacina em toda a população, ou em toda a população que tomaria a vacina (tratados)? Ou para dar um exemplo mais claro ainda. Não é relevante o efeito do bolsa-famnília sobre redução da pobreza em toda a população, nem mesmo se considerarmos que a população alvo é toda a população pobre. Pessoas que não vão participar do programa não importam muito. Importam as que efetivamente irão receber o programa.
+
+### CATE
+
+Vamos definir o Conditional Average Treatment Effect (CATE). Seja $X_i$ um conjunto de co-variáveis pré-determinadas (não causadas pelo tratamento). Então, podemos definir o CATE como:
+
+$$\tau_{\text{CATE}} = \mathbb{E}[\tau_i|X_i=x] = \mathbb{E}[Y_i(1) - Y_i(0)|X_i=x] =  \mathbb{E}[Y_i(1) - \mathbb{E}[Y_i(1)|X_i=x]$$
+Retornando ao nosso exemplo da introdução da urna eletrônica em um município sobre a pobreza municipal.
+ATE: O efeito médio de um município ter urna eletrônica sobre a pobreza municipal comparado a voto em papel.
+ATT: O efeito médio da urna eletrônica nos municípios que receberam urna eletrônica sobre a pobreza municial comparado a voto em papel.
+CATE: O efeito médio de urna eletrônica sobre a pobreza municipal, em um determinado grupos de municípios (ex. do semiá-rido do Nordeste), comparado a voto em papel.
+
+Se $X$ for discreto, podemos estabelecer a seguinte relação entre ATE e CATE:
+$$\tau_{\text{ATE}} = \sum_{x \in X} \tau_{\text{CATE}}(x) p(X_i = x)$$
+Há outros estimandos possíveis, mas esses são os mais comuns.
+
+## Nota sobre estimandos
+
+A rigor, podemos caracterizar ao nível da população dois contrastes: a distribuição de probabilidade de resultados potenciais do tratamento com a do controle, para um dado conjunto de covariáeis de pré-tratamento $\mathbf{X}$. Formalmente, sejam $f(Y(1)|\mathbf{X})$ e $f(Y(0)|\mathbf{X})$ as densidades dos dois resultados potenciais, então $f(Y(1)|\mathbf{X} - f(Y(0)|\mathbf{X})$ configura uma nova distribuição, da diferença entre os dois resultados potenciais. Nossa ênfase na esperança, portanto, é tanto uma questão de conveniência matemática quanto potencial interesse de pesquisa em um estimando em torno da média da diferença dessas duas distribuições, mas nada impede, a princípio, que estimarmos toda a distribuição da diferença.
+
+Outra observação: como veremos mais para frente no curso, dados longitudinais não possuem estimandos claros. Alguns pesquisadores mais rigorosos em política comparada, por exemplo, falam em efeito de país-ano, pois esta é a unidade de análise e o estimando é definido nesse nível. Como veremos também mais para frente (e é um tema de pesquisa meu), também é complicado definir as condições de identificação em dados longitudinais. Voltaremos a isso.
+
+## Exercício - Qual o estimando e o estimador (se possível)?
+Abstract 1
+
+```{r abstract1, message=FALSE, echo=FALSE}
+library(here)
+invisible(here())
+knitr::include_graphics(here("imagens", "abstract-campaign-finance.png"))
+```
+
+Abstract 2
+
+```{r abstract2, echo=FALSE}
+knitr::include_graphics(here("imagens", "abstract-corruption.png"))
+```
+
+Abstract 3
+
+```{r abstract3, echo=FALSE}
+knitr::include_graphics(here("imagens", "abstract-rural.png"))
+```
+
+## Identificação
+
+"Econometric identification really means just one thing: model parameters or features being uniquely determined from the observable population that generates the data"(Lwebel, apud Paul GP). Ou seja, se você tiver acesso a uma amostra infinita, isto é, não há problemas inferenciais de amostra pequena, é possível estimar precisamente o parâmetro de interesse? Dizemos que, nesse caso, o estimando é identificável.
+
+O que seria um estimando não-identificável? Digamos que estou interessado em estimar o efeito causal da segunda dose de uma vacina sobre internação por uma doença. Para a pessoa receber a segunda dose, obviamente ela precisa receber a primeira. Suponha que a primeira dose ajuda a reduzir a internação. É impossível estimar o efeito causal da segunda dose.
+
+Para mostrar que o ATE é identificado, vamos supor o que chamamos de ignorabilidade forte (strong ignorability). 
+
+Definição. Dizemos que $D_i$ é fortemente ignorável condicional a um vetor $\mathbf{X_i}$ se:
+1. $Y_i(1), Y_i(0) \perp D_i$
+2. $\exists \epsilon > 0 \text{ tal que } \epsilon < Pr(D_i = 1 | \mathbf{X_i}) < 1 - \epsilon$
+
+Em palavras, a primeira condição diz que os resultados potenciais são independentes de receber ou não o tratamento. Quando pensamos em modelos com seres humanos ou unidades com agência, a principal preocupação é que as unidades não se auto-selecionam no tratamento que lhes é mais benéfico (ou que acreditam sê-lo). Às vezes na literatura essa condição aparece como permutabilidade (exchangeability): Como dizem Hernan e Robins em seu livro, "the treated and the untreated are exchangeable because the treated, had they remained untreated, would have experienced the same average outcome as the untreated did, and vice versa."(p. 29).
+
+A segunda condição, conhecida como *commmon support* ou *overlaping condition*, diz que não existe unidade que não possa receber o tratamento ou controle. Essa condição é mais forte do que a positividade (toda unidade tem probabilidade positiva de receber o tratamento).
+
+Quero explorar aqui essa condição por meio de uma simulação. Vamos supor que um efeito causal $\tau_i$ tem distribuição normal com média $2$ e desvio-padrão $2$. E vamos supor que pessoas com $\tau_i >6$ não podem receber o tratatamento, apenas o controle. Veremos que o efeito causal para esse subgrupo não é identificado e mesmo o ATE não é identificado.
+
+```{r common support, echo=FALSE}
+
+set.seed(1234)
+n <- 10000
+tau <- rnorm(n, 2, 2)
+y_0 <- rnorm(n, 0, 2) # resultados potenciais do controle
+y_1 <- tau + y_0 # resultados potenciais do tratamento
+d <- rbinom(n, 1, .5) # tratamento ou controle
+# violação de common suuport
+
+d1 <- ifelse(y_1 > 6, 0, d)
+table(d, d1)
+
+y <- y_1*d + y_0*(1-d)
+(ate <- mean(y[d==1]) - mean(y[d==0]))
+
+y_bias <- y_1*d1 + y_0*(1-d1)
+(ate_bias <- mean(y_bias[d1==1]) - mean(y_bias[d1==0]))
+
+
+```
+
+Um último comentário: ignorability às vezes aparece como "tratamento é exógeno". Porém, exogeneidade ignora a segunda condição e trata apenas da primeira. Em uma audiência de ciência política, dizemos que o tratamento é condicionalmente aleatório ou exógeno (o que é impreciso).
+
+## Identificação do ATE
+
+Teorema 1: Se $D_i$ é fortemente ignorável condicional a $\mathbf{X_i}$, então:
+$$\mathbb{E}[\tau_i] = \sum_{x \in X}(\mathbb{E}[(Y_i|D_i=1, \mathbf{X_i} = x)] - \mathbb{E}[(Y_i|D_i=0, \mathbf{X_i} = x)])Pr(\mathbf{X_i = x})$$
+Prova: O ATE foi definido como:
+$$\mathbb{E}[\tau_{\text{ATE}}] = \mathbb{E}[\tau_i] = \mathbb{E}[Y_i(1)] - \mathbb{E}[Y_i(0)]$$
+Pela LIE, temos que:
+$$\mathbb{E}[Y_i(1)] = \mathbb{E}[\mathbb{E}[Y_i(1)|\mathbf{X_i}]$$
+$$\mathbb{E}[Y_i(0)] = \mathbb{E}[\mathbb{E}[Y_i(0)|\mathbf{X_i}]$$ 
+
+Com ignorabilidade forte, $\mathbb{E}[(Y_i(0)|\mathbf{X_i}] = \mathbb{E}[Y_i(0)|D_i=0, \mathbf{X_i}] = \mathbb{E}[Y_i|D_i=0, \mathbf{X_i}]$. Similarmente, $\mathbb{E}[(Y_i(1)|\mathbf{X_i}] = \mathbb{E}[Y_i(1)|D_i=1, \mathbf{X_i}] = \mathbb{E}[Y_i|D_i=1, \mathbf{X_i}]$. Juntando tudo, chegamos à proposição do teorema.
+
+Ou seja, com ignorabilidade forte, podemos estimar o ATE não-parametricamente apenas a partir de observáveis. O CATE também é identificado, como corolário.
+
+## Equações estruturais
+
+Normalmente nós temos um modelo que queremos estimar o efeito causal, e não algo sobre o mecanismo de assignment do tratamento. Vamos conectar as duas abordagens.
+
+Seja o modelo: $Y_i = \alpha + \beta D_i + \epsilon_i$. Nós intrepretamos $\beta$ como a diferença média no $y$ de uma unidade no tratamento, formalmente:
+$\mathbb{E}[Y|D_i=1] - \mathbb{E}[Y|D_i=0] = \mathbb{E}[\alpha + \beta D_i + \epsilon_i|D_i=1] - \mathbb{E}[\alpha + \beta D_i + \epsilon_i|D_i=0] = \beta + \mathbb{E}[\epsilon_i|D_i=1] - \mathbb{E}[\epsilon_i|D_i=0]$.
+E dizemos que, sob a suposição de esperança condicional zero do erro, ou seja, $\mathbb{E}[\epsilon_i|D_i=1] = \mathbb{E}[\epsilon_i|D_i=0] = 0$. Portanto, temos que $\mathbb{E}[Y|D_i=1] - \mathbb{E}[Y|D_i=0] = \beta$. E o estimador de MQO é não-viesado.
+
+E de forma geral, temos que $\mathbb{E}[Y|D_i] = \alpha + \beta$, sob a suposição de esperança condicional zero do erro.
+
+Vamos mapeá-lo ao modelo de resultados potenciais com a *switching equation*.
+
+$$
+\begin{aligned}
+Y_i &= Y_i(0)(1-D_i) + Y_i(1)D_i \\
+&= Y_i(0) + \tau_i D_i \\
+&= Y_i(0) + \tau_i D_i + \tau D_i - \tau D_i\\
+&= Y_i(0) + \tau D_i + (\tau_i - \tau)D_i \\
+&= \mathbb{E}[Y_i(0)|D_i=0] - \mathbb{E}[Y_i(0)|D_i=0] + Y_i(0) + \tau D_i + (\tau_i - \tau)D_i \\
+&= \underbrace{\mathbb{E}[Y_i(0)|D_i=0]}_{\alpha} + \underbrace{\tau}_{\beta} D_i + \underbrace{(\tau_i - \tau)D_i + (Y_i(0) - \mathbb{E}[Y_i(0)|D_i=0])}_{\epsilon_i} \\
+\end{aligned}
+$$
+Nós sabemos que em uma regressão estamos estimando $\mathbb{E}[Y_i|D_i]$. Podemos agora ver com clareza o que de fato estamos estimamos em termos causais.
+
+$$
+\begin{aligned}
+\mathbb{E}[Y_i|D_i=1] &= \alpha + \tau + \mathbb{E}[\epsilon_i|D_i=1] \\
+\mathbb{E}[Y_i|D_i=0] &= \alpha + \mathbb{E}[\epsilon_i|D_i=0] \\
+\mathbb{E}[\epsilon_i|D_i=1]  &=  \mathbb{E}[(\tau_i - \tau)D_i + (Y_i(0) - \mathbb{E}[Y_i(0)|D_i=0])|D_i=1] \\
+&=  \mathbb{E}[(\tau_i - \tau)D_i|D_i=1] + \mathbb{E}[(Y_i(0) - \mathbb{E}[Y_i(0)|D_i=0])|D_i=1] \\
+&=  \mathbb{E}[\tau_i D_i|D_i=1] -\tau\mathbb{E}[ D_i|D_i=1] + \mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[\mathbb{E}[Y_i(0)|D_i=0]|D_i=1] \\
+&=  (\mathbb{E}[\tau_i|D_i=1] -\tau) + \mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0] \\
+\mathbb{E}[\epsilon_i|D_i=0]  &=  \mathbb{E}[(\tau_i - \tau)D_i + (Y_i(0) - \mathbb{E}[Y_i(0)|D_i=0])|D_i=1] \\
+&= \mathbb{E}[Y_i(0)|D_i=0] - \mathbb{E}[\mathbb{E}[Y_i(0)|D_i=0]|D_i=0] \\
+&= 0
+\end{aligned}
+$$
+
+Portanto, $\mathbb{E}[Y_i|D_i=1] - \mathbb{E}[Y_i|D_i=0] = \tau + (\mathbb{E}[\tau_i|D_i=1] -\tau) + \mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0]$
+Em palavras, estimamos o efeito causal médio, $\tau$, mais um componente que tem a ver com os efeitos causais heterogêneos mais um componente que é a diferença no resultado potencial do controle entre os tratados e o controle. Se $\mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0] \neq 0$, o efeito estimado é viesado. Similarmente, se $\mathbb{E}[\tau_i|D_i=1] \neq \tau$, também teremos viés, ou seja, se o efeito causal dos tratados for diferente do efeito médio da população, também temos uma estimativa viesada do ATE. Porém, nesse caso, note que estamos viesando para estimar o efeito médio dos tratados, que é o ATT. Para ver isso, suponha que não há diferença nos resultados potenciais de não receber o tratamento entre os tratados e os no grupo controle, de modo que $\mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0] = \tau + (\mathbb{E}[\tau_i|D_i=1] -\tau)  = \mathbb{E}[\tau_i|D_i=1]$, que é o ATT.
+
+## Modelo versus Desenho
+
+Há na literatura (mais de economia) uma distinção entre estimando baseado em modelos e baseado em designs (desenho). 
+
+Model-based: O estimando é identificado a partir de um modelo dos resultados potenciais, condicional ao tratamento e co-variáveis. O exemplo arquetípico é modelo de diferença em diferenças ou controle sintético, em que estimamos o efeito causal a partir de estimativa do contrafactual a partir de dados observados.
+
+Design-based: O estimando é identificado a partir de suposições sobre o mecanismo de atribuição do tratamento e co-variáveis. O exemplo arquetípico desse tipo de pesquisa é o experimento aleatório controlado.
+
+## Exercício em sala
+Na década de 1970, houve um programa de treinamento e emprego conhecido como National Supported Work (NSW). Este programa temporário visava ajudar trabalhadores desfavorecidos e sem habilidades básicas a ingressarem no mercado de trabalho, oferecendo experiência profissional e orientação em um ambiente protegido. Um aspecto inovador do NSW foi a seleção aleatória de candidatos qualificados para os treinamentos, garantindo que o grupo de tratamento recebesse todos os benefícios do programa, enquanto o grupo de controle não tinha suporte.
+
+Os participantes do grupo de tratamento tinham emprego garantido por 9 a 18 meses, dependendo do grupo-alvo e do local. Eles trabalhavam em equipes de 3 a 5 pessoas, reunindo-se frequentemente com um orientador para discutir questões do programa e desempenho. Embora recebessem salários inferiores aos de um emprego regular, havia possibilidade de aumento conforme o desempenho e a frequência. Ao término do período, os participantes precisavam procurar emprego regular. O programa também coletou dados de renda e informações demográficas de ambos os grupos, realizando entrevistas periódicas, o que gerou diferentes tamanhos de amostra entre os estudos. O NSW utilizava um desenho experimental aleatório.
+
+Lalonde (1986) comparou os resultados experimentais com dados observacionais. Para isso, substituiu os dados do grupo controle atribuídos aleatoriamente, com dados de três amostras do Current Population Survey (CPS) e do Panel Survey of Income Dynamics (PSID). E usou as técnicas econométricas usuais para isso. O resultado não foi bom para a econometria. Voltaremos a isso mais pra frente. Por hora, vamos estimar efeitos causais com os dados experimentais.
+
+O exercício a seguir é adaptado do exercício disponibilizado por Paul GP em seu github, no seu curso de métodos.
+
+Esta análise utilizará a amostra de Dehejia e Wahba do conjunto de dados Lalonde do experimento NSW. O conjunto de dados é "lalonde nsw.csv". A variável de resultado é "re78" (rendimento real em 1978). O indicador de tratamento é "treat". As demais variáveis são potenciais covariáveis. Para os fins deste conjunto de problemas, assuma que "treat" é atribuído de forma aleatória.
+
+(a) Calcule o efeito médio do tratamento da política, $\mathbb{E}[\tau_i]$, utilizando uma simples diferença de médias.
+
+(b) Calcule o efeito médio do tratamento sobre os tratados da política, $\mathbb{E}[\tau_i|treat=1]$. Como ele se compara à parte (a)?
+
+
+```{r Lalonde, echo=FALSE}
+library(here)
+library(data.table)
+nsw <- fread(here("Dados", "lalonde_nsw.csv"))
+
+# a
+ate <- sum(nsw$re78*nsw$treat)/sum(nsw$treat) - sum(nsw$re78*(1-nsw$treat))/sum(1-nsw$treat)
+ate
+ate_aux <- nsw %>% group_by(treat) %>% summarise(media = mean(re78))
+ate_aux$media[2] - ate_aux$media[1]
+
+# b
+#ATT é o ATE com aleatorização (ignorability forte).
+
+# c
+
+```
+
+## Referências
+
+Lalonde, Robert. 1986. “Evaluating the Econometric Evaluations of Training Programs with Experimental Data.” American Economic Review 76 (4): 604–20.
+
+Rajeev Dehejia and Sadek Wahba, "Causal Effects in Non-Experimental Studies: Reevaluating the Evaluation of Training Programs," Journal of the American Statistical Association, Vol. 94, No. 448 (December 1999), pp. 1053-1062.
+
+Rajeev Dehejia and Sadek Wahba, "Propensity Score Matching Methods for Non-Experimental Causal Studies," Review of Economics and Statistics, Vol. 84, (February 2002), pp. 151-161.
+
+Robert Lalonde, "Evaluating the Econometric Evaluations of Training Programs," American Economic Review, Vol. 76 (1986), pp. 604-620.
+
+Lundberg, I., Johnson, R., & Stewart, B. M. (2021). What is your estimand? Defining the target quantity connects statistical evidence to theory. American Sociological Review, 86(3), 532-565.
+
+Paul W Holland. Statistics and causal inference. Journal of the American statistical Association, 81(396):945–960, 1986.
+
+<!--chapter:end:02-PO.Rmd-->
+
+# DAGs
+
+## Causalidade
+
+![Fonte: xkcd](https://imgs.xkcd.com/comics/correlation.png) <!-- Substitua path/to/your/image.jpg pelo caminho da imagem XKCD sobre causalidade -->
+
+## Introdução
+
+Uma das principais abordagens para fazer inferência causal utiliza diagramas causais chamados de Directed Acyclic Graphs (DAG). Ela foi desenvolvida na ciência da computação entre os anos 80 e 90 e é associada com o trabalho pioneiro de Judea Pearl. Veja o livro *The Book of Why* para uma história de como surgiu essa abordagem.
+
+Abaixo temos um exemplo simples de um DAG:
+
+```{r dag1, echo=FALSE, message=FALSE}
+library(ggdag)
+dag <- dagify(y ~ x, y ~ z)
+
+ggdag(dag)
+```
+Eles são chamados de DAGs porque os gráficos são direcionados (apontam em uma direção), acyclic porque não permitem ciclos (isto é, se A causa B, B não pode causar A) e graphs porque, como você pode imaginar, são grafos.
+
+No exemplo acima, o DAG é formado por três variáveis \{y, x, z\} que são, em geral, variáveis aleatórias. E as flechas indicam direção de causalidade. Ou seja, $x$ causa $y$ e $z$ causa $x$. É importante saber que DAGs são não paramétricos. Eles podem ser interpretados como: $y = f(x, z)$. Ou seja, qualquer função de x e z são igualmente possíveis. Eis alguns exemplos compatíveis com o DAG acima:
+
+- $y = x + z$
+- $y = 10 + x + z + x*z$
+- $y = 3*x^z$
+- $y = \pi*z/x + x^2 + 1/(z^3)$
+
+A razão porque não escrevemos DAGs como equações é porque $y = f(x, z)$ não expressa adequadamente a relação de causalidade pois, em matemática, é indiferente escrever $f(x, z) = y$ ou $y = f(z, x)$. Porém, dizer que $x$ e $z$ causam $y$ é muito diferente de dizer que $y$ causa $x$ e $z$. E com o DAG as flechas indicam a direção da causalidade.
+
+## Os Tipos Básicos de DAGs
+
+### 1. Chains
+
+Em uma *chain*, _x_ causa _w_ que, por sua vez, causa _y_. Aqui, _w_ pode ser considerado o mediador do efeito de _x_ sobre _y_.  
+**Exemplo:** O desempenho econômico de um país pode aumentar a popularidade do presidente, o que leva a mais votos.  
+Representação:  
+```{r chain, echo=FALSE, message=FALSE}
+library(ggdag)
+dag <- dagify(w ~ x, y ~ w)
+
+ggdag(dag)
+```
+
+### 2. Forks
+
+Em um *fork*, uma variável _w_ causa ambos _x_ e _y_. Dessa forma, _w_ é uma causa comum que pode gerar correlação espúria entre _x_ e _y_.  
+**Exemplo:** A qualidade de um candidato pode fazer com que ele arrecade mais dinheiro para a campanha e, ao mesmo tempo, obtenha mais votos.  
+Representação:  
+
+```{r fork, echo=FALSE, message=FALSE}
+library(ggdag)
+dag <- dagify(x ~ w, y ~ w)
+
+ggdag(dag)
+```
+
+
+### 3. Colliders
+
+Em um *collider*, _x_ causa _w_ e _y_ também causa _w_. Esse tipo de estrutura é também chamado de "fork invertido". Apesar de _x_ e _y_ não terem relação causal direta, controlar para _w_ (ou um de seus descendentes) pode introduzir uma correlação espúria entre _x_ e _y_.  
+```{r collider, echo=FALSE, message=FALSE}
+library(ggdag)
+dag <- dagify(w ~ x, w ~ y)
+
+ggdag(dag)
+```
+
+**Exemplo:** Imagine que você organiza uma festa e convida apenas pessoas que fazem ciência política ou são canhotas. Na população geral pode não haver relação entre essas características, mas na festa pode surgir uma correlação: se uma pessoa é canhota, ela pode ter maior probabilidade de fazer ciência política.
+
+```{r collider1, echo=FALSE, message=FALSE}
+library(ggdag)
+dag <- dagify(festa ~ canhota, festa ~ CP)
+
+ggdag(dag)
+```
+
+## Simulação no R: Ilustrando o Collider Bias
+
+Vamos rodar uma simulação para ilustrar o collider bias. Suponha que 10% das pessoas fazem ciência política e 5% são canhotas.
+
+```{r}
+library(dplyr)
+set.seed(4)
+
+# Gerando as variáveis
+cp <- rbinom(1000, 1, p = 0.1)      # 10% fazem ciência política
+canhoto <- rbinom(1000, 1, p = 0.05)  # 5% são canhotos
+
+# Definindo a condição da festa: convida se faz ciência política ou é canhoto
+festa <- ifelse(cp == 1, 1, ifelse(canhoto == 1, 1, 0))
+tabela <- data.frame(cp, canhoto, festa)
+
+# Correlação na população geral
+cor_geral <- round(cor(cp, canhoto), 2)
+print(cor_geral)
+
+# Correlação entre os que foram à festa
+cor_festa <- tabela %>%
+  filter(festa == 1) %>%
+  summarise(cor = round(cor(cp, canhoto), 2))
+print(cor_festa)
+```
+
+Na população em geral, a correlação é próxima de zero (aproximadamente -0,02). Porém, entre as pessoas que foram à festa, a correlação pode chegar a -0,95, evidenciando como condicionar em um collider (neste caso, a variável festa) pode induzir correlação espúria.
+
+## Definições
+
+**Path (caminho)**: É uma sequência de flechas conectadas.
+Um **directed path** (caminho dirigido) é aquele em que todas as flechas seguem a mesma direção (por exemplo, \( x \to z \to y \)).
+
+### Relações entre Variáveis (nós):
+As relações são descritas usando termos da genética, como pais, filhos, ancestrais, descendentes e vizinhos.
+Pais e filhos referem-se a relações diretas.
+Ancestrais e descendentes incluem todas as variáveis em qualquer posição no caminho.
+
+Um path sem collider está aberto; um path com collider está fechado.
+
+Duas variáveis (ou conjuntos) estão **d-separated** se não houver caminho aberto entre elas. Caso contrário, podem ou não ser independentes, pois múltiplos caminhos abertos podem se cancelar.
+
+## Controle e Ajuste
+
+No contexto dos DAGs, controlar para variáveis pode ter diferentes significados:
+
+Experimentos: Controlar significa manipular o valor da variável pelo pesquisador.
+Exemplo: Um experimento em que o resultado do lançamento de uma moeda determina se um pedido de acesso à informação será feito por um homem ou mulher.
+
+```{r moeda, echo=FALSE, message=FALSE}
+
+dag <- dagify(genero ~ moeda, LAI ~ genero)
+
+ggdag(dag)
+```
+
+Estudos Observacionais: Controlar significa condicionar (estratificar ou incluir em uma regressão). Para visualizar isso em um DAG, considere o seguinte DAG:
+
+```{r controle-base, echo=FALSE, message=FALSE}
+
+dag <- dagify(g ~ c + u, c ~a + b, e ~a + c, d ~b + c)
+
+ggdag(dag)
+```
+
+Controlar para C, nesse DAG, significa efetuar os seguintes passos, na sequência: 
+1. Eliminar todas as flechas que saem de C. 
+```{r controle-C1, echo=FALSE, message=FALSE}
+
+dag <- dagify(g ~u , c ~a + b, e ~a , d ~b )
+
+ggdag(dag)
+```
+
+2. Se C for um collider, elimine as flechas que vão para C e conecte os parentes de C por meio de linhas tracejadas. 
+
+```{r controle-C2, echo=FALSE, message=FALSE}
+
+dag <- dagify(g ~u ,  a ~~ d, e ~a , d ~b )
+
+ggdag(dag)
+```
+
+3. elimine C
+```{r controle-C3, echo=FALSE, message=FALSE}
+
+dag <- dagify(g ~u ,  a ~~ d, e ~a , d ~b )
+
+ggdag(dag)
+```
+
+Manipular: Determinar o valor da variável.
+
+
+Alterar o Gráfico:
+
+
+Para controlar a variável G (por exemplo, se relacionada a C):
+Eliminar as flechas que saem de G.
+Eliminar as flechas do collider (no caso, c e u, parentes de G) e criar relação bi-direcional espúria.
+Remover G do gráfico.
+
+
+
+
+
+Em resumo, se C depende de A e B de forma independente, condicionar em C pode criar uma relação espúria entre A e B. Por exemplo, se A e B são binárias e \( C = A + B \), para \( C = 1 \) saber o valor de A determina automaticamente o valor de B, e vice-versa.
+
+De modo geral, condicionar em um collider inverte o status dos caminhos: caminhos que estavam abertos podem se fechar e vice-versa. Além disso, condicionar em um descendente de um collider também pode alterar os efeitos, atenuando ou abrindo caminhos que originalmente estavam fechados.
+
+## Fatorização da Probabilidade Conjunta
+
+Toda distribuição de probabilidade obedece à regra da cadeia de probabilidades (nenhuma suposição adicional).
+
+Lembremos: 
+
+$Pr(X,Y) =  Pr(Y|X) Pr(X) = Pr(X|Y) Pr(Y)$
+
+Similarmente,
+
+$Pr(X,Y,Z) =  Pr(Y|X,Z) Pr(X|Z) Pr(Z) = Pr(X|Y,Z) Pr(Y|Z) Pr(Z) = Pr(Z|Y,X) Pr(X|Y) Pr(X) = \cdots$
+
+De maneira geral, se temos $n$ variáveis marginais, temos no total $n!$ maneiras distintas de fatorar a distribuição conjunta. A lógica é assim>
+
+Seja uma pmf conjunta $Pr(x_1, x_2, ..., x_k)$. Então, podemos usar a regra do produto:
+
+$Pr(x_1, x_2, ..., x_k) = Pr(x_1) Pr(x_2, ..., x_k|x_1)$
+
+Aplicando a regra iterativamente, $Pr(x_2, ..., x_k|x_1) = Pr(x_2|x_1)Pr(x_3, ..., x_k|x_1, x_2)$, de forma que:
+$Pr(x_1, x_2, ..., x_k) = Pr(x_1) Pr(x_2|x_1)Pr(x_3, ..., x_k|x_1, x_2)$
+E assim por diante, até:
+$Pr(x_1, x_2, ..., x_k) = Pr(x_1) Pr(x_2|x_1) Pr(x_3| x_2, x_1) \cdots Pr(x_k|x_1, x_2, x_3, ... , x_{k-1})$
+
+A Regra do produto pode ser aplicada em qualquer ordem, gerando fatorizações distintas.
+
+## Fatorização e DAGs
+
+Existem teoremas que mostram que existe uma relação entre DAGs e fatorização de probabilidades conjuntas. Dado um DAG, em que um nós é independente condicional a outro nó, isso implica a fatorização da probabilidade conjunta de acordo com essa relação, e vice-versa. Dois exemplos abaixo ilustram essa propriedade.
+
+Considere o DAG abaixo:
+
+```{r fatorizacao, echo=FALSE, message=FALSE}
+
+dag <- dagify(Y ~ X ,  X ~ Z + W, Z ~ M, W ~ M )
+
+ggdag(dag)
+```
+
+Nós sabemos que, condicional a X, Y é independente de Z, W e M. Similarmente, X é independente de M, condicional a Z e W. Podemos então fatorar a distribuição conjunta da seguinte maneira:
+
+$$Pr(M, W, X, X, Y) = Pr(M) Pr(Z|M) Pr(W|M) Pr(X|W,Z) Pr(Y|X)$$
+
+Ou seja, basta escrever a probabilidade condicional nas variáveis que tornam cada nós independente para descrever a distribuição de probabilidade conjunta.
+
+## Fatorização, DAGs e Causalidade
+
+De volta à causalidade, um DAG em que não há confouding, isto é, sem back-door aberto, como o DAG abaixo, implica que a fatorização observacional é igual à fatorização intervencional:
+
+```{r fatorizacao1, echo=FALSE, message=FALSE}
+
+dag <- dagify(Y ~ X  )
+
+ggdag(dag)
+```
+
+$$Pr(Y = y |do (X = x)) = Pr(Y|X)$$
+Logo, é verdade que 
+$$Pr(Y,X) = P(X)Pr(Y|X) = Pr(X)Pr(Y = y |do (X = x))$$.
+
+O operador "do" aqui é uma inovação do Pearl, e diz que fizemos uma cirurgia no gráfico e determinamos, exogenamente, por assim dizer, que o valro de $X$ é $x$.
+
+
+
+Referências
+
+Hernán MA, Robins JM (2019). Causal Inference. Boca Raton: Chapman & Hall/CRC. Disponível temporariamente em: https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/
+Greenland, S., & Pearl, J. (2014). Causal diagrams. Wiley StatsRef: Statistics Reference Online, 1-10.
+
+<!--chapter:end:03-DAGs.Rmd-->
+
+# Experimentos
+
+
+## Introdução
+- Um experimento é o desenho de pesquisa no qual a pesquisadora controla o mecanismo de atribuição do tratamento e controle
+- Seja $p_i = P(T_i=1)$. Então $p_i$ é conhecido e controlado pela pesquisadora.
+- Em contraposição, um estudo observacional é quando a pesquisadora não controla o mecanismo (natureza ou realidade social)
+- Quando uma quantidade potencial (estimando) pode ser descrita em função da distribuição de dados observáveis, dizemos que o estimando é identificável. De outro modo, não identificado.
+- Veremos porque experimentos produzem desenhos críveis de identificação causal
+- Vamos supor experimentos ideais (sem attrition ou non-compliance)
+
+## SUTVA
+
+- Stable Unit Treatment Values Assumption
+- Não interferência e sem varição escondida no tratamento
+  - PO não varia com o tratamento atribuiído a outra unidades
+  - PO de uma unidade não é impactado pelo nível de tratamento de outras unidades
+- Para cada unidade, não há formas distintas ou versões de cada nível de tratamento
+- Definição não-ambígua do tratamento
+
+## Diferença de média observada e Viés de seleção
+
+- Supondo SUTVA, Diferença Simples de Média pode ser decomposta em ATE + viés de seleção
+- $\underbrace{\mathbb{E}[Y_i|T_i=1] - \mathbb{E}[Y_i|T_i=0]}_{\text{Simple Difference in Outcomes (SDO)}} = \mathbb{E}[Y_i^1|T_i=1] - \mathbb{E}[Y_i^0|T_i=0]$
+- Podemos adicionar e subtrair os resultados contrafactuais para os tratados
+- $= \mathbb{E}[Y_i^1|T_i=1] - \color{blue}{\mathbb{E}[Y_i^0|T_i=1]} + \color{red}{\mathbb{E}[Y_i^0|T_i=1]} - \mathbb{E}[Y_i^0|T_i=0]$
+- $= \underbrace{\mathbb{E}[Y_i^1 - Y_i^0|T_i=1]}_{\text{ATT}} + \underbrace{\mathbb{E}[Y_i^0|T_i=1] - \mathbb{E}[Y_i^0|T_i=0]}_{\text{Viés de Seleção}}$
+
+## Experimentos aleatórios
+
+- Mecanismo de atribuição de tratamento é probabilístico (Positividade): $0 < p_i < 1$.
+- Unconfoundedness ou Permutabilidade (ou *assignment mechanism–ignorability*): $P(T_i=1|y^1, y^0) = P(T_i)$.
+
+## O que é Permutabilidade (uncounfoudedness)?
+
+- A distribuição dos resultados potenciais é independente do tratamento.
+- $\mathbb{E}[Y^1|T=1] = \mathbb{E}[Y^1|T=0]$
+- $\mathbb{E}[Y^0|T=1] = \mathbb{E}[Y^0|T=0]$
+- Resultados potenciais são independentes do tratamento, dadas as covariáveis.
+- Se a condição de tratamento fosse hipoteticamente trocada, os resultados esperados permaneceriam os mesmos.
+- Isso significa que em um experimento com permutabilidade, não temos viés de seleção (Por quê?).
+
+## Distinção Entre Resultados Potenciais e Realizados
+
+- **Permutabilidade de Resultados Potenciais**:
+    - Estamos discutindo $Y^1 \indep T$, não $Y \indep T$.
+    - Importante distinguir entre resultados potenciais (hipotéticos) e resultados observados (realizados).
+
+## Experimento remove o viés de seleção
+- Independência entre tratamento e resultados potenciais implica que $\mathbb{E}[Y^0_i|T_i=1] = \mathbb{E}[Y^0_i|T_i=0] = \mathbb{E}[Y^0_i]$
+- Portanto, o viés de seleção, dado por $\mathbb{E}[Y_i^0|T_i=1] - \mathbb{E}[Y_i^0|T_i=0]$, fica:
+- $\mathbb{E}[Y_i^0|T_i=1] - \mathbb{E}[Y_i^0|T_i=0] = \mathbb{E}[Y_i^0] - \mathbb{E}[Y_i^0] = 0$
+- Ou seja, SDO estima o ATE (via ATT).
+- $\underbrace{\mathbb{E}[Y_i|T_i=1] - \mathbb{E}[Y_i|T_i=0]}_{\text{Simple Difference in Outcomes (SDO)}} =  \underbrace{\mathbb{E}[Y_i^1 - Y_i^0|T_i=1]}_{\text{ATT}} = ATE$
+
+## Restrição de Exclusão
+
+- Formalmente, podemos separar a alocação do tratamento e o tratamento efetivamente recebido. Seja $Z_i$ a alocação do tratamento e $T_i$ o tratamento recebido.
+- Então, a restrição de exclusão quer dizer que o que importa é o tratamento efetivamente recebido $T_i$, e não a variável que aloca o tratamento $Z_i$.
+- Formalmente, isso quer dizer que: $Y^{1,z=1, T}_i = Y^{1,z=0, T}_i = Y^{1,T}_i$ e similarmente, $Y^{0,z=0,T}_i = Y^{0,z=0,T}_i = Y^{0,T}_i$
+- Quando não ocorre isso? Se o mecanismo de atribuição do tratamento dispara outras causas
+- Suponha que um experimento é sobre efeito de transferência de dinheiro em bem-estar
+- Se ongs, sabendo do experimento, forem ajudar quem não tiver sido alocado para receber dinheiro
+
+## Restrição de Exclusão - erro de mensuração
+
+- Se tiver erro de mensuração assimétrico
+- Pesquisadores distintos entrevistam recipientes e não-recipientes da transferência de dinheiro, com habilidades distintas
+- Ou questionários diferentes. Erro de mensuração assimétrico
+
+## Erro de mensuração
+- Nova *switching equation*.
+- Seja $e_{i1}$ o erro de mensuração cometido se uma observação é atribuída para o tratamento, e, analogamente, $e_{i0}$ o erro para o controle.
+- De $Y_i = T_iY^1_i + (1- T_i)Y^0_i$ para $Y_i = T_i(Y^1_i + e_{i1}) + (1- T_i))(Y^0_i + e_{i0})$. 
+- Novo SDO: $\mathbb{E}[Y_i|T_i=1] - \mathbb{E}[Y_i|T_i=0] = \mathbb{E}[Y^1_i + e_{i1}|T_i=1] - \mathbb{E}[Y^0_i + e_{i0}|T_i=0] = \mathbb{E}[Y^1_i|T_i=1] + \mathbb{E}[e_{i1}|T_i=1] - \mathbb{E}[Y^0_i|T_i=0] - \mathbb{E}[e_{i0}|T_i=0]$
+- Novo SDO pode se rearranjado: $\underbrace{\mathbb{E}[Y^1_i|T_i=1] - \mathbb{E}[Y^0_i|T_i=0]}_{\text{antigo SDO}} + \underbrace{\mathbb{E}[e_{i1}|T_i=1]  - \mathbb{E}[e_{i0}|T_i=0]}_{\text{Dif média no erro de mensuração}}$
+- Se $\mathbb{E}[e_{i1}|T_i=1] \neq \mathbb{E}[e_{i0}|T_i=0]$, então SDO será viesado.
+
+## Garantindo a Restrição de Exclusão
+
+- Double blindness (duplo cego)
+- Paralelismo na administração do experimento (mesmo questionário e mesmos entrevistadores)
+- Na pior das hipóteses, aleatorização dos entrevistadores.
+
+# Tipos de experimentos
+
+## Aleatorização de Bernoulli 
+
+- É o experimento com aleatorização simples (basicamente, lançamento de moeda)
+- Matematicamente, $p_i(T_i=1) = p$.
+- Problema: Possível "má aleratorização" (todo mundo no controle ou tratamento)
+- ps.: toda aleatorização realizada é matematicamente equivalente.
+- Possui $2^n$ configurações possíveis de alocação entre tratamento e controle
+
+## Aleatorização de Bernoulli - Sim no R - código
+
+```{r echo=TRUE, eval=FALSE}
+set.seed(10)
+n <- 50
+hist(replicate(1000, sum(rbinom(n, 1, 0.5))), 
+     main = "aleatorização de Bernoulli",
+     xlab = "Número de tratados",
+     col = "lightblue") + xlim(0,50)
+```
+
+## Aleatorização de Bernoulli - Sim no R - Histograma
+
+```{r echo=FALSE, eval=TRUE}
+set.seed(10)
+n <- 50
+hist(replicate(1000, sum(rbinom(n, 1, 0.5))), 
+     main = "aleatorização de Bernoulli",
+     xlab = "Número de tratados",
+     col = "lightblue",
+     xlim = c(10,40))
+```
+
+## Aleatorização Completa
+
+- Seleciono aleatoriamente um número fixo de pessoas para tratamento e controle
+- Ex.: 25 para tratamento e 25 para controle
+- Basta numerar cada unidade (de 1 a 50) e amostrar 25 aleatoriamente para tratamento (e restante para controle)
+- Vantagem: garanto número de obs em cada condição
+- Possui ${N \choose \frac{n}{2}}$ configurações possíveis de alocação entre tratamento e controle.
+- Intuição: estamos jogando fora as aleatorizações "indesejáveis".
+- Cálculo da variância é mais complexo
+
+## Aleatorização Condicional (Block Random Assigment)
+
+- **Definição**: Experimento é condicionalmente aleatório se a aleatorização depende de variáveis pré-tratamento $X$.
+- **Exemplo Binário**: Duas moedas, uma para $X=1$ e outra para $X=0$.
+- **Aleatorização Marginal vs. Condicional**:
+    - Marginal: Aleatorização uniforme para todos os indivíduos.
+    - Condicional: Aleatorização depende de $X$, gerando permutabilidade condicional a $X$.
+- **Permutabilidade Condicional**: $(Y^1, Y^0 | X=x) \indep T$.
+
+## Implicações da Aleatorização Condicional
+
+- Não gera permutabilidade (não-condicional).
+- Permutabilidade condicional a $X$ é crucial para inferência em contextos com variáveis pré-tratamento.
+
+## Pensando aleatorização em bloco
+
+- Ex.: digamos que em um amostra de 100 pessoas, queremos 25 homens e 25 mulheres no tratamento e controle
+- Sorteio 25 homens para tramento e depois 25 mulheres.
+- Cada bloco possui tamanho 25, neste exemplo.
+- Blocos de tamanho $2$ são chamados de *pair-matched design*.
+- Em geral, estudos com *matching* em muitas variáveis
+- Útil para amostras pequenas
+
+## ATE com Aleatorização Condicional (Bloco)
+
+- Estratitificação
+- Efeito heterogêneo por estrato?
+- Podemos calcular o ATE por estrato, já que é aleatório no interior de cada estrato.
+- Efeito geral na população.
+- Podemos calcular ponderando os ATEs.
+- Seja $J$ o número de estratos, indixados por $j$. Seja $N$ o número de unidades e $N_j$ o número de unidades no bloco $j$. Então:
+- $ATE = \sum_{j=1}^J \frac{N_j}{N}ATE_j$
+
+## Aleatorização em bloco
+-- Pela Lei dos Grandes números, tende a gerar balanceamento entre blocos
+-- Balanceamento quer dizer que blocos são similares
+-- Em variáveis observadas e não-observadas
+-- Probabilidade de tratamento pode variar por bloco. 
+-- Chamada de propensity score.
+
+## Precisão da aleatorização em bloco
+- Em geral a precisão aumenta (erro padrão diminui) com aleatorização em bloco.
+- Intuição é que removemos parte da variância (amostras possíveis), condicionando nos estratos
+- Vamos checar uma simulação no R para ver um exemplo do ganho na precisão
+- Lembrem-se que se $X$ e $Y$ são independentes, então $Var(aX + bY) = a^2Var(x) + b^2Var(Y)$.
+
+## Precisão da aleatorização em bloco - R sim p. 1
+```{r echo=TRUE, eval=TRUE}
+# Set up Potential outcomes and units and blocks
+n1 <- 10
+n2 <- 16
+N <- n1+n2
+J <- 2
+index_block <- c(rep(2, n2), rep(1, n1))
+set.seed(12)
+# potential outcome control
+y0 <- c(rnorm(n1, 2, 1),rnorm(n2, 6, 1)) 
+y1 <- y0 + 1.5 # potential outcome treatment
+```
+
+## Precisão da aleatorização em bloco - R sim p. 3
+```{r echo=TRUE, eval=TRUE}
+# block assignment
+t_bloco1 <- sample(1:n1, n1/2)
+c_bloco1 <- (1:n1)[!(1:n1 %in% t_bloco1)]
+
+t_bloco2 <- sample((n1+1):(n1+n2), n2/2)
+c_bloco2 <- ((n1+1):(n1+n2))[!((n1+1):(n1+n2) %in% t_bloco2)]
+
+y1_obs_bloco1 <- y1[t_bloco1]
+y1_obs_bloco2 <- y1[t_bloco2]
+y0_obs_bloco1 <- y0[c_bloco1]
+y0_obs_bloco2 <- y0[c_bloco2]
+```
+
+
+## Precisão da aleatorização em bloco - R sim p. 2
+```{r echo=TRUE, eval=TRUE}
+# random assignment
+units_simple_treatment <- c(t_bloco1, t_bloco2)
+units_simple_control <- c(c_bloco1, c_bloco2)
+y1_obs <- y1[units_simple_treatment]
+y0_obs <- y0[units_simple_control]
+
+# erro padrão
+erro_pad_simple <- t.test(y1_obs, y0_obs)$stderr 
+simple_p_value <- t.test(y1_obs, y0_obs)$p.value
+
+my_t <- mean(y1_obs - y0_obs)/erro_pad_simple
+```
+
+
+## Precisão da aleatorização em bloco - R sim p. 4
+```{r echo=TRUE, eval=TRUE}
+erro_pad1 <- t.test(y1_obs_bloco1, y0_obs_bloco1)$stderr
+erro_pad2 <- t.test(y1_obs_bloco2, y0_obs_bloco2)$stderr
+
+erro_padrao_geral <- sqrt(erro_pad1^2*(n1/N)^2 + erro_pad2^2*(n2/N)^2)
+ate1 <- mean(y1_obs_bloco1 - y0_obs_bloco1)*(n1/N)
+ate2 <- mean(y1_obs_bloco2 - y0_obs_bloco2)*(n2/N)
+ate <- ate1 + ate2
+my_t <- ate/erro_padrao_geral
+p_value <- 2*(1 - pt(abs(my_t), df = 23.76567))
+```
+
+## Comparação de SEs
+```{r echo=FALSE, eval=TRUE}
+library(knitr)
+
+comparison_table <- data.frame(
+  Method = c("Simple Randomization", "Block 1", "Block 2", "General Block Randomization"),
+  Standard_Error = c(erro_pad_simple, erro_pad1, erro_pad2, erro_padrao_geral)
+)
+
+knitr::kable(comparison_table, caption = "Comparação de Erros padrão", align = 'c', format = "latex")
+```
+
+## Cluster randomization
+
+- Quando aleatorizo o cluster, em vez das unidades.
+- Ex.: Se não for possível aleatorizar um tratamento entre estudantes, aleatorizo escolas
+- No interior de cada escola, todo mundo é tratado ou não-tratado. Não há variação *within* escolas, apenas entre (between) escolas.
+- Grande perda de variabilidade nos dados, reduzindo precisão (aumento no erro padrão)
+- Às vezes é a única aleatorização possível.
+
+
+## Comparação
+
+```{r echo=FALSE, eval=TRUE}
+library(knitr)
+
+comparison_table1 <- data.frame(
+  Method = c("Simple Randomization", "Block Randomization"),
+  p_value = c(simple_p_value, p_value)
+)
+
+knitr::kable(comparison_table1, caption = "Comparação de valoes p", align = 'c', format = "latex")
+
+```
+
+
+## Tabelas em artigos
+
+```{r resultado-tabela, echo=FALSE, fig.cap="Tabela de resultados.", out.width = '50%'}
+## knitr::include_graphics("experiments_report.png")
+```
+
+## Estimador ATE
+
+
+- estimativa: $\frac{\sum_{i=1}^{n}Y_iT_i}{n_1} - \frac{\sum_{i=1}^{n}Y_i(1-T_i)}{n_0} = .0608 - .0353 = 0.0255$
+- Erro padrão: $\sqrt{\frac{\hat{\sigma_1^2}}{n_1} + \frac{\hat{\sigma_0^2}}{n_0}} = \sqrt{\frac{.0608\cdot(1-.0608)}{1217} + \frac{.0353\cdot (1-.0353)}{1217}} = 0.00865$
+- Pequena diferença com os coeficientes da tabela
+- Typo? Alguma informação não reproduz exatamente? Fizemos algo errado?
+
+## Estimador ATE - R
+
+```{r echo=TRUE, eval=FALSE}
+treatment <- c(rep(1, 74), rep(0, 1217 - 74))
+control <- c(rep(1, 43), rep(0, 1217 - 43))
+var_treat <- var(treatment) 
+var_control <- var(control)
+erro_padrao <- sqrt(var_treat/1217 + var_control/1217)
+round(erro_padrao, 5)
+
+t.test(treatment, control)      
+```
+
+## Estimador ATE - R print
+
+```{r echo=FALSE, eval=TRUE}
+treatment <- c(rep(1, 74), rep(0, 1217 - 74))
+control <- c(rep(1, 43), rep(0, 1217 - 43))
+var_treat <- var(treatment) 
+var_control <- var(control)
+erro_padrao <- sqrt(var_treat/1217 + var_control/1217)
+round(erro_padrao, 5)
+
+t.test(treatment, control)
+
+```
+
+## Key Takeways
+
+- Experimento (sob SUTVA) elimina o viés de seleção
+- Depende de restrição de exclusão e simetria
+- Vários tipos de experimentos: block aumenta precisão
+- Com N grande, diferença diminui
+- Sempre supomos condições ideais (sem attrition, compliance perfeito etc.)
+
+## Declare Design
+
+Uma ferramenta muito útil para experimentos (mas também para estudos observacionais) é o pacote do R Declare Design.
+
+Blair, Coppock e Humphreys criaram um framework para definir e avaliar um desenho de pesquisa. Com oresultado, escreveram um livro "Research Design in the Social Sciences", e um pacote no R para implementar os conceitos desenvolvidos no livro, chamado "DeclareDesign. Para instalar (junto com os datasets usados no livro), basta rodar `r install.packages(c("DeclareDesign", "rdss"))`.
+
+O frameowrk é baseado no acrônimo MIDA, que contempla os quatro elementos básicos de um desenho de pesquisa:  models, inquiries, data strategies, and answer strategies.
+
+Ou seja, você deve especificar um modelo, qual pergunta de pesquisa (aka estimando), quais dados vai utilizar e como vai estimar o estimando.
+
+Um modelo descreve o que causa o que e como. Tipicamente especifica a as unidades, o tamanho da amostra e a equação de resultados potenciais.
+Suponha que quero rodar um experimento aleatório com um tratamento e controle (two-arm randomized experiment). Assim, podemos declarar um modelo com:
+
+
+```{r declare-model, eval=TRUE, message=FALSE}
+library(DeclareDesign)
+model <- declare_model(
+    N = 500,
+    X = rep(c(0, 1), each = N / 2), # tratamento e controle
+    U = rnorm(N, sd = 0.25), # heterogeneidade exógena
+    potential_outcomes(Y ~ 0.2 * Z + X + U)
+)
+```
+
+Vamos entender o que fizemos. 
+
+1. Declaramos que nossa população terá $500$ observações: `r N = 500`. Nesse exemplo, a amostra será igual a populacão, mas poderíamos amostrar da população se quiséssemos.
+
+2. Declaramos que $X$, uma covariável, pode assumir dois valores (0,1), e atribuimos a priemria metade pra $0$ e a outra metade para $1$: `r X = rep(c(0, 1), each = N / 2)`.
+
+3. Declaramos que existe uma variável $U$ que tem distribuição normal, com $N$ observações e média $0$ e desvio-padrão $.25$:`r U = rnorm(N, sd = 0.25)`.
+ 
+4. Declaramos que os resultados potenciais diferem em $20\%$ entre tratamento e controle ($Z$) para cada unidade. Uma forma alternativa e talvez mais clara de declarar a relação entre tratamento/controle e resultados potenciais seria escrever `r potential_outcomes(Y_Z_0 = X + U, Y_Z_1 = Y_Z_0 + 0.2)`.
+
+4.1. Além disso, $X$ tem efeito de $1$ para todas as unidades.
+
+Vamos passar agora ao nosso estimando ou *inquiry*.
+
+```{r declare-inquiry, eval=TRUE, message=FALSE}
+inquiry <- declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
+
+```
+
+Se estamos interessados no ATE, é só declarar que é a média da diferença entre os resultados potenciais. Podemos também usar a função `r declare_estimand`
+Outras possibilidaes incluem o ATT `r declare_inquiry(ATT = mean(Y_Z_1 - Y_Z_0), subset = (Z == 1))` e CATE: `r declare_inquiry(CATE = mean(Y_Z_1 - Y_Z_0), subset = X == 1)`, por exemplo. Formulação equivalente para o ATT seria `r declare_inquiry(ATT = mean(Y_Z_1|Z = 1) - mean(Y_Z_0|Z=1))`.
+
+Estratégia de dados
+
+```{r declare-data, eval=TRUE, message=FALSE}
+
+data <- declare_assignment(Z = complete_ra(N = N, m = 250)) + # assigment mechanism
+  declare_measurement(Y = reveal_outcomes(Y ~ Z)) # reveal_outcomes é a switching equation
+
+```
+
+
+```{r declare-estimator, eval=TRUE, message=FALSE}
+
+estimator <- declare_estimator(Y ~ Z, inquiry = "ATE")
+
+```
+
+
+```{r two-arm-trial, eval=TRUE, message=FALSE}
+
+two_arm_trial <- model +
+  inquiry +
+  data +
+  estimator
+
+# Draw a simulated dataset 
+draw_data(two_arm_trial)
+
+```
+
+
+Após declarar um desenho de pesquisa, podemos diagnosticar se nosso desenho de pesquisa pode ser respondido adequadamente (isto é, se é identificável, se possui poder para estimar com precisão o efeito de interesse etc.). Podemos inclusive modificar o desenho para responder a outras perguntas (é generalizável para outras populações, diferentes estimadores pdesempenham melhor etc.)
+
+<!--chapter:end:04-Experimentos.Rmd-->
+
+# Matching
+
+<!--chapter:end:05-Matching.Rmd-->
+
+# Variáveis Instrumentais
+
+<!--chapter:end:06-VI.Rmd-->
+
+# Desenho de Regresão Discontínua
+
+<!--chapter:end:07-RDD.Rmd-->
+
+# Diferença em Diferenças
+
+<!--chapter:end:08-DiD.Rmd-->
+
+# Synthetic Control
+
+Suponha que obtivemos dados para $J+1$ unidades para unidades $j = 1, 2, ..., J+1$, e sem perda de generalidade, a primeira unidade $j=1$ é a de tratamento ou sob intervenção. O potencial de unidades para comparação é dado por $j = 2, ..., J+1$, uma coleção de unidade não-tratadas. Os dados sõa observados por $T$ períodos $1, 2, ..., t_0, t_1, t_2, ..., T$, em que de $1$ até $t_0$ nenhuma unidade foi tratada ou sofreu intervenção. Para cada unidade $j$, observamos também um conjunto de $k$ preditores, $X_{1j}, X_{2j}, ..., X_{kj}$, que pode incluir vaores pré-intervenção da variável resposta $y_{jt}$.
+
+
+## Implementação no R
+
+```{r}
+# install.packages('scpi')
+
+```
+
+
+
+<!--chapter:end:11-Synth.Rmd-->
+
+
+
+https://macartan.github.io/dd_bootcamp/dd.html#/using-a-design-1
+https://macartan.github.io/dd_bootcamp/exercises.html
+https://gist.github.com/saudiwin/dd0edec5786c7edb393bd84615aafb45
+
+https://www.datacamp.com/tutorial/fine-tuning-openais-gpt-4-step-by-step-guide
+https://community.revelo.com.br/tutorial-aplicacao-do-fine-tuning-para-treinamento-no-chatgpt/
+
+<!--chapter:end:12-LLMs.Rmd-->
+
+# Interferência, spillover e dinâmica
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Agora iremos relaxar algumas simplifcações do modelo de Resultados potenciais que vimos até agora.
+
+## Suposições simplifcadoras
+
+1. Tratamento binário
+2. Único período de tempo (um tratamento "within unit" )
+3. SUTVA
+
+## PO com tratamento de múltiplos valores (multi-valued)
+
+### Multi-valued discreto
+
+Vamos estender o modelo de tratamewnto binário começando por tratamentos discretos. Digamos que temos $D_i \in \{0, 1, ..., d\}$, isto é, tratamentos ordenados. Por exemplo, múltiplas categorias de uma política pública (100 reais, 200 reais, 300 reais etc.). Definimos o resultado potencial da unidade $i$ para qualquer $d \in D$ como $Y_i(d)$
+
+Nós vamos precisar da suposição de ignorability forte. 
+
+$\tau_i(D, D') = Y_i(d) - Y_i(d')$, ou seja, o efeito causal entre dois níveis do tratamento. Como antes, podemos computar a esperança: $\mathbb{E}[\tau_i(D, D')] = \mathbb{E}[Y_i(d) - Y_i(d')]$. E se ignorability forte vale, então $\mathbb{E}[\tau_i(D, D')] = \mathbb{E}[Y_i|D_i = d] - \mathbb{E}[Y_i|D_i = d']$
+
+Se quisermos, podemos trabalhar também com tratamentos não-ordenados. Por exemplo, dois tratamentos binários. Por exemplo, um tratamento é informação sobre corrupção de um candidato (recebe ou não a informação) e outro tratamento é informação sobre a raça do candidato (é branco ou não). $D_i \in \{0,1}^2\}$. Podemos modelar os resultados potenciais como dependendo do status dos dois tratamentos: $Y_i(D_{i1}, D_{i2})$ que geram quatro possibilidades ou resultados potenciais: $Y(0,0)$, $Y(1,0)$, $Y(0,1)$, $Y(1,1)$.
+
+Exemplo onde mesmo com atribuição aleatória, há efeitos não-identificados. Aleatoriamente atribuir $D_1$ e, para os que receberam $D_1$, aleatoriamente atribui $D-2$. Onde isso poderia acontecer? Primeira e segunda dose de vacina! Por definição, a segunda dose só é dada para quem recebeu a primeira dose. Nunca é possível estimar efeito relativo a $Y_i(0,1)$, isto é, o resultado potencial de quem não recebeu a primeira dose, mas recebeu a segunda. Essa é uma pessoa que recebeu a primeira dose quando a segunda estava sendo aplicada.
+
+## Dinâmica
+
+Considere que agora nós observamos $T$ períodos de tempo para uma unidade: $Y_i$ = (Y_{i1}, Y_{i2}, ..., Y_{iT}). Para cada período, há um tratamento $D_{it} \in \{0,1\}$, isto é, sempre binário. Chamamos de $\mathbf{D_i} = (D_{i1}, D_{i2}, ..., D_{iT})$ o vetor de tratamentos em todos os $T$ períodos. Implicitamente, muitas pessoas abordam modelos dinâmicos supondo que podemos olhar apenas para o resultado pontencial para a unidade $i$ no período $t$, ou seja, $Y_{it}(D_{it})$. Porém, isso significa que apenas o tratamento do período $t$ impacta o resultado potencial do período $t$. De maneira mais geral, teríamos: $\mathbf{D_i} = (D_{i1}, D_{i2}, ..., D_{iT})$ e definiríamos o resultado potencial no período $t$ como $Y_{it}(\mathbf{D_i})$. $Y(\mathbf{D})$. Nesse caso, fomos para o lado oposto: tratamentos futuros impactando o resultado potencial do presente.  Isso não necessariamente significa que o futuro afeta o passado. Pode ocorrer por antecipação de tratamentos futuros. De todo modo, também parece extremo. Ainda assim, continuamos evitando a possibilidade de spillovers.
+
+Uma suposição comum, portanto, é a de não-antecipação, que pode ser representada por: $Y_{it}(d_1, d_2, ..., d_t, d_{t+1}, ..., d_T) = Y_{it}(d_1, d_2, ..., d_t)$. Ou seja, os resultados potenciais até $t$ não dependem dos resultados potenciais após essa data.
+
+Outra suposição comum é: ausência de efeitos dinâmicos:
+$$Y_{it}(d_1, d_2, ..., d_t) = Y_{it}(d_t)$$
+Em palavras, essa suposição requer que o resultado potencial do presente não dependa dos tratamentos passados. Essa suposição é também chamada de "no carry-over-effects hypothesis". Ela é bem restritiva. Mesmo um desenho em que a aleatorização é executada a cada período de maneira independente pode ter "carry-over-effects" se o resultado do período anterior impactar o resultado do período presente.
+
+Modelos de "impulse response function" estão interessados em estimar justamente "carry over effects". ver https://donskerclass.github.io/CausalEconometrics/TimeSeries.html
+
+
+Considere um modelo de regressão tradicional para dados dinâmicos: $y_{it} = \alpha + \beta x_{it} + e_{it}$. Nós já sabemos que uma forma de de pensar a identificação causal é imaginar um experimento aleatório controlado. O que significa, em primeiro lugar, escolher aleatoriamente o tratamento nesse caso? Uma possibilidade é imaginar que a cada período o tratamento é aleatoriamente atribuído, independentemente dos períodos anteriores. No fundo, é como uma multi-valued treatment. Qual condição de ignorability estamos satisfazendo nesse caso? Se apenas o tratamento presente impacta o resultado potencial, isto é, $Y_{it}(D_{it})$, então temos:
+
+1. Baseline randomization: $Y(D_{it}) \perp D_{it}$. Ou seja, o resultado potencial no período $t$ é independente do mecanismo de atribuição do tratamento. Essa suposição implica exogeneidade estrita.
+
+2. Ignorability sequencial (Sequential Unconfoundedness). Assume que, conditional à história passada observada de tratamentos e co-variáveis, o tratamento corrente é independente de resultados potenciais.
+
+Nós iremos aprofundar essas questões nas aulas sobre DiD e Efeitos Fixos. Por ora, quero notar que no fundo estamos falando de spillovers no tempo, isto é, tratamento no tempo $t$ impatacando resultados potenciais de períodos furutos $t+(1:k)$, em que $k >0$.
+
+## Interferência
+
+Interferência ocorre quando o resultado potencial de uma unidade depende do tratamento de outra unidade. Tipicamente, em ciências sociais, spillovers podem envolver:
+
+1. Efeitos de pares
+
+2. Spillovers espaciais
+
+3. Interações políticas (restrições orçamentárias)
+
+Para modelar interferência, é necessário enriquecer nosso framework, introduzindo definições adicionais e alterando os pressupostos chave. Tipicamente nós modelamos com a suposição de que a interferência ocorre apenas em um subgrupo de unidades, isto é, o resultado potencial não depende do status de tratamento de todas as unidades, mas tão somente de um grupo específico. Além disso, também é comum ser necessário a suposição de anonimidade, isto é, os pares de um grupo importam, mas não quem são os pares, no sentido de que cada par teria um efeito esepcífico e único sobre uma unidade. Essa é uma área de pesqquisa ativa na inferência causal, mas ainda pouco incorporada na ciência política, em particular nas RIs, mas não só.
+
+Referências chave são:
+Charles F Manski. Identification of treatment response with social interactions. The Econometrics Journal, 16(1):S1–S23, 2013.
+
+Peter M Aronow and Cyrus Samii. Estimating average causal effects under general interference, with application to a social network experiment. Annals of Applied Statistics, 11(4):1912–1947, 2017.
+
+Bowers J, Fredrickson MM, Panagopoulos C. Reasoning about Interference Between Units: A General Framework. Political Analysis. 2013;21(1):97-124. doi:10.1093/pan/mps038
+
+
+
+
+
+
+<!--chapter:end:inteferencia_dinamica.Rmd-->
+

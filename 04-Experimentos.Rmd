@@ -314,3 +314,81 @@ t.test(treatment, control)
 - Vários tipos de experimentos: block aumenta precisão
 - Com N grande, diferença diminui
 - Sempre supomos condições ideais (sem attrition, compliance perfeito etc.)
+
+## Declare Design
+
+Uma ferramenta muito útil para experimentos (mas também para estudos observacionais) é o pacote do R Declare Design.
+
+Blair, Coppock e Humphreys criaram um framework para definir e avaliar um desenho de pesquisa. Com oresultado, escreveram um livro "Research Design in the Social Sciences", e um pacote no R para implementar os conceitos desenvolvidos no livro, chamado "DeclareDesign. Para instalar (junto com os datasets usados no livro), basta rodar `r install.packages(c("DeclareDesign", "rdss"))`.
+
+O frameowrk é baseado no acrônimo MIDA, que contempla os quatro elementos básicos de um desenho de pesquisa:  models, inquiries, data strategies, and answer strategies.
+
+Ou seja, você deve especificar um modelo, qual pergunta de pesquisa (aka estimando), quais dados vai utilizar e como vai estimar o estimando.
+
+Um modelo descreve o que causa o que e como. Tipicamente especifica a as unidades, o tamanho da amostra e a equação de resultados potenciais.
+Suponha que quero rodar um experimento aleatório com um tratamento e controle (two-arm randomized experiment). Assim, podemos declarar um modelo com:
+
+
+```{r declare-model, eval=TRUE, message=FALSE}
+library(DeclareDesign)
+model <- declare_model(
+    N = 500,
+    X = rep(c(0, 1), each = N / 2), # tratamento e controle
+    U = rnorm(N, sd = 0.25), # heterogeneidade exógena
+    potential_outcomes(Y ~ 0.2 * Z + X + U)
+)
+```
+
+Vamos entender o que fizemos. 
+
+1. Declaramos que nossa população terá $500$ observações: `r N = 500`. Nesse exemplo, a amostra será igual a populacão, mas poderíamos amostrar da população se quiséssemos.
+
+2. Declaramos que $X$, uma covariável, pode assumir dois valores (0,1), e atribuimos a priemria metade pra $0$ e a outra metade para $1$: `r X = rep(c(0, 1), each = N / 2)`.
+
+3. Declaramos que existe uma variável $U$ que tem distribuição normal, com $N$ observações e média $0$ e desvio-padrão $.25$:`r U = rnorm(N, sd = 0.25)`.
+ 
+4. Declaramos que os resultados potenciais diferem em $20\%$ entre tratamento e controle ($Z$) para cada unidade. Uma forma alternativa e talvez mais clara de declarar a relação entre tratamento/controle e resultados potenciais seria escrever `r potential_outcomes(Y_Z_0 = X + U, Y_Z_1 = Y_Z_0 + 0.2)`.
+
+4.1. Além disso, $X$ tem efeito de $1$ para todas as unidades.
+
+Vamos passar agora ao nosso estimando ou *inquiry*.
+
+```{r declare-inquiry, eval=TRUE, message=FALSE}
+inquiry <- declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
+
+```
+
+Se estamos interessados no ATE, é só declarar que é a média da diferença entre os resultados potenciais. Podemos também usar a função `r declare_estimand`
+Outras possibilidaes incluem o ATT `r declare_inquiry(ATT = mean(Y_Z_1 - Y_Z_0), subset = (Z == 1))` e CATE: `r declare_inquiry(CATE = mean(Y_Z_1 - Y_Z_0), subset = X == 1)`, por exemplo. Formulação equivalente para o ATT seria `r declare_inquiry(ATT = mean(Y_Z_1|Z = 1) - mean(Y_Z_0|Z=1))`.
+
+Estratégia de dados
+
+```{r declare-data, eval=TRUE, message=FALSE}
+
+data <- declare_assignment(Z = complete_ra(N = N, m = 250)) + # assigment mechanism
+  declare_measurement(Y = reveal_outcomes(Y ~ Z)) # reveal_outcomes é a switching equation
+
+```
+
+
+```{r declare-estimator, eval=TRUE, message=FALSE}
+
+estimator <- declare_estimator(Y ~ Z, inquiry = "ATE")
+
+```
+
+
+```{r two-arm-trial, eval=TRUE, message=FALSE}
+
+two_arm_trial <- model +
+  inquiry +
+  data +
+  estimator
+
+# Draw a simulated dataset 
+draw_data(two_arm_trial)
+
+```
+
+
+Após declarar um desenho de pesquisa, podemos diagnosticar se nosso desenho de pesquisa pode ser respondido adequadamente (isto é, se é identificável, se possui poder para estimar com precisão o efeito de interesse etc.). Podemos inclusive modificar o desenho para responder a outras perguntas (é generalizável para outras populações, diferentes estimadores pdesempenham melhor etc.)
