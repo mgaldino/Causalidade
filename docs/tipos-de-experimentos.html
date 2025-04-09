@@ -23,7 +23,7 @@
 <meta name="author" content="Manoel Galdino" />
 
 
-<meta name="date" content="2025-03-29" />
+<meta name="date" content="2025-04-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -187,6 +187,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.5.1" data-path="dags.html"><a href="dags.html#relações-entre-variáveis-nós"><i class="fa fa-check"></i><b>3.5.1</b> Relações entre Variáveis (nós):</a></li>
 </ul></li>
 <li class="chapter" data-level="3.6" data-path="dags.html"><a href="dags.html#controle-e-ajuste"><i class="fa fa-check"></i><b>3.6</b> Controle e Ajuste</a></li>
+<li class="chapter" data-level="3.7" data-path="dags.html"><a href="dags.html#fatorização-da-probabilidade-conjunta"><i class="fa fa-check"></i><b>3.7</b> Fatorização da Probabilidade Conjunta</a></li>
+<li class="chapter" data-level="3.8" data-path="dags.html"><a href="dags.html#fatorização-e-dags"><i class="fa fa-check"></i><b>3.8</b> Fatorização e DAGs</a></li>
+<li class="chapter" data-level="3.9" data-path="dags.html"><a href="dags.html#fatorização-dags-e-causalidade"><i class="fa fa-check"></i><b>3.9</b> Fatorização, DAGs e Causalidade</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="experimentos.html"><a href="experimentos.html"><i class="fa fa-check"></i><b>4</b> Experimentos</a>
 <ul>
@@ -278,16 +281,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="aleatorização-de-bernoulli---sim-no-r---código" class="section level2 hasAnchor" number="5.2">
 <h2><span class="header-section-number">5.2</span> Aleatorização de Bernoulli - Sim no R - código<a href="tipos-de-experimentos.html#aleatorização-de-bernoulli---sim-no-r---código" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="tipos-de-experimentos.html#cb1-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">10</span>)</span>
-<span id="cb1-2"><a href="tipos-de-experimentos.html#cb1-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb1-3"><a href="tipos-de-experimentos.html#cb1-3" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">sum</span>(<span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.5</span>))), </span>
-<span id="cb1-4"><a href="tipos-de-experimentos.html#cb1-4" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;aleatorização de Bernoulli&quot;</span>,</span>
-<span id="cb1-5"><a href="tipos-de-experimentos.html#cb1-5" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Número de tratados&quot;</span>,</span>
-<span id="cb1-6"><a href="tipos-de-experimentos.html#cb1-6" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>) <span class="sc">+</span> <span class="fu">xlim</span>(<span class="dv">0</span>,<span class="dv">50</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="tipos-de-experimentos.html#cb15-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">10</span>)</span>
+<span id="cb15-2"><a href="tipos-de-experimentos.html#cb15-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb15-3"><a href="tipos-de-experimentos.html#cb15-3" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">sum</span>(<span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.5</span>))), </span>
+<span id="cb15-4"><a href="tipos-de-experimentos.html#cb15-4" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;aleatorização de Bernoulli&quot;</span>,</span>
+<span id="cb15-5"><a href="tipos-de-experimentos.html#cb15-5" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Número de tratados&quot;</span>,</span>
+<span id="cb15-6"><a href="tipos-de-experimentos.html#cb15-6" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>) <span class="sc">+</span> <span class="fu">xlim</span>(<span class="dv">0</span>,<span class="dv">50</span>)</span></code></pre></div>
 </div>
 <div id="aleatorização-de-bernoulli---sim-no-r---histograma" class="section level2 hasAnchor" number="5.3">
 <h2><span class="header-section-number">5.3</span> Aleatorização de Bernoulli - Sim no R - Histograma<a href="tipos-de-experimentos.html#aleatorização-de-bernoulli---sim-no-r---histograma" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
 <div id="aleatorização-completa" class="section level2 hasAnchor" number="5.4">
 <h2><span class="header-section-number">5.4</span> Aleatorização Completa<a href="tipos-de-experimentos.html#aleatorização-completa" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -363,56 +366,56 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="precisão-da-aleatorização-em-bloco---r-sim-p.-1" class="section level2 hasAnchor" number="5.11">
 <h2><span class="header-section-number">5.11</span> Precisão da aleatorização em bloco - R sim p. 1<a href="tipos-de-experimentos.html#precisão-da-aleatorização-em-bloco---r-sim-p.-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="tipos-de-experimentos.html#cb2-1" tabindex="-1"></a><span class="co"># Set up Potential outcomes and units and blocks</span></span>
-<span id="cb2-2"><a href="tipos-de-experimentos.html#cb2-2" tabindex="-1"></a>n1 <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb2-3"><a href="tipos-de-experimentos.html#cb2-3" tabindex="-1"></a>n2 <span class="ot">&lt;-</span> <span class="dv">16</span></span>
-<span id="cb2-4"><a href="tipos-de-experimentos.html#cb2-4" tabindex="-1"></a>N <span class="ot">&lt;-</span> n1<span class="sc">+</span>n2</span>
-<span id="cb2-5"><a href="tipos-de-experimentos.html#cb2-5" tabindex="-1"></a>J <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb2-6"><a href="tipos-de-experimentos.html#cb2-6" tabindex="-1"></a>index_block <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">2</span>, n2), <span class="fu">rep</span>(<span class="dv">1</span>, n1))</span>
-<span id="cb2-7"><a href="tipos-de-experimentos.html#cb2-7" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12</span>)</span>
-<span id="cb2-8"><a href="tipos-de-experimentos.html#cb2-8" tabindex="-1"></a><span class="co"># potential outcome control</span></span>
-<span id="cb2-9"><a href="tipos-de-experimentos.html#cb2-9" tabindex="-1"></a>y0 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rnorm</span>(n1, <span class="dv">2</span>, <span class="dv">1</span>),<span class="fu">rnorm</span>(n2, <span class="dv">6</span>, <span class="dv">1</span>)) </span>
-<span id="cb2-10"><a href="tipos-de-experimentos.html#cb2-10" tabindex="-1"></a>y1 <span class="ot">&lt;-</span> y0 <span class="sc">+</span> <span class="fl">1.5</span> <span class="co"># potential outcome treatment</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="tipos-de-experimentos.html#cb16-1" tabindex="-1"></a><span class="co"># Set up Potential outcomes and units and blocks</span></span>
+<span id="cb16-2"><a href="tipos-de-experimentos.html#cb16-2" tabindex="-1"></a>n1 <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb16-3"><a href="tipos-de-experimentos.html#cb16-3" tabindex="-1"></a>n2 <span class="ot">&lt;-</span> <span class="dv">16</span></span>
+<span id="cb16-4"><a href="tipos-de-experimentos.html#cb16-4" tabindex="-1"></a>N <span class="ot">&lt;-</span> n1<span class="sc">+</span>n2</span>
+<span id="cb16-5"><a href="tipos-de-experimentos.html#cb16-5" tabindex="-1"></a>J <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb16-6"><a href="tipos-de-experimentos.html#cb16-6" tabindex="-1"></a>index_block <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">2</span>, n2), <span class="fu">rep</span>(<span class="dv">1</span>, n1))</span>
+<span id="cb16-7"><a href="tipos-de-experimentos.html#cb16-7" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12</span>)</span>
+<span id="cb16-8"><a href="tipos-de-experimentos.html#cb16-8" tabindex="-1"></a><span class="co"># potential outcome control</span></span>
+<span id="cb16-9"><a href="tipos-de-experimentos.html#cb16-9" tabindex="-1"></a>y0 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rnorm</span>(n1, <span class="dv">2</span>, <span class="dv">1</span>),<span class="fu">rnorm</span>(n2, <span class="dv">6</span>, <span class="dv">1</span>)) </span>
+<span id="cb16-10"><a href="tipos-de-experimentos.html#cb16-10" tabindex="-1"></a>y1 <span class="ot">&lt;-</span> y0 <span class="sc">+</span> <span class="fl">1.5</span> <span class="co"># potential outcome treatment</span></span></code></pre></div>
 </div>
 <div id="precisão-da-aleatorização-em-bloco---r-sim-p.-3" class="section level2 hasAnchor" number="5.12">
 <h2><span class="header-section-number">5.12</span> Precisão da aleatorização em bloco - R sim p. 3<a href="tipos-de-experimentos.html#precisão-da-aleatorização-em-bloco---r-sim-p.-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="tipos-de-experimentos.html#cb3-1" tabindex="-1"></a><span class="co"># block assignment</span></span>
-<span id="cb3-2"><a href="tipos-de-experimentos.html#cb3-2" tabindex="-1"></a>t_bloco1 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>n1, n1<span class="sc">/</span><span class="dv">2</span>)</span>
-<span id="cb3-3"><a href="tipos-de-experimentos.html#cb3-3" tabindex="-1"></a>c_bloco1 <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">:</span>n1)[<span class="sc">!</span>(<span class="dv">1</span><span class="sc">:</span>n1 <span class="sc">%in%</span> t_bloco1)]</span>
-<span id="cb3-4"><a href="tipos-de-experimentos.html#cb3-4" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="tipos-de-experimentos.html#cb3-5" tabindex="-1"></a>t_bloco2 <span class="ot">&lt;-</span> <span class="fu">sample</span>((n1<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n1<span class="sc">+</span>n2), n2<span class="sc">/</span><span class="dv">2</span>)</span>
-<span id="cb3-6"><a href="tipos-de-experimentos.html#cb3-6" tabindex="-1"></a>c_bloco2 <span class="ot">&lt;-</span> ((n1<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n1<span class="sc">+</span>n2))[<span class="sc">!</span>((n1<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n1<span class="sc">+</span>n2) <span class="sc">%in%</span> t_bloco2)]</span>
-<span id="cb3-7"><a href="tipos-de-experimentos.html#cb3-7" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="tipos-de-experimentos.html#cb3-8" tabindex="-1"></a>y1_obs_bloco1 <span class="ot">&lt;-</span> y1[t_bloco1]</span>
-<span id="cb3-9"><a href="tipos-de-experimentos.html#cb3-9" tabindex="-1"></a>y1_obs_bloco2 <span class="ot">&lt;-</span> y1[t_bloco2]</span>
-<span id="cb3-10"><a href="tipos-de-experimentos.html#cb3-10" tabindex="-1"></a>y0_obs_bloco1 <span class="ot">&lt;-</span> y0[c_bloco1]</span>
-<span id="cb3-11"><a href="tipos-de-experimentos.html#cb3-11" tabindex="-1"></a>y0_obs_bloco2 <span class="ot">&lt;-</span> y0[c_bloco2]</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="tipos-de-experimentos.html#cb17-1" tabindex="-1"></a><span class="co"># block assignment</span></span>
+<span id="cb17-2"><a href="tipos-de-experimentos.html#cb17-2" tabindex="-1"></a>t_bloco1 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>n1, n1<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb17-3"><a href="tipos-de-experimentos.html#cb17-3" tabindex="-1"></a>c_bloco1 <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">:</span>n1)[<span class="sc">!</span>(<span class="dv">1</span><span class="sc">:</span>n1 <span class="sc">%in%</span> t_bloco1)]</span>
+<span id="cb17-4"><a href="tipos-de-experimentos.html#cb17-4" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="tipos-de-experimentos.html#cb17-5" tabindex="-1"></a>t_bloco2 <span class="ot">&lt;-</span> <span class="fu">sample</span>((n1<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n1<span class="sc">+</span>n2), n2<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb17-6"><a href="tipos-de-experimentos.html#cb17-6" tabindex="-1"></a>c_bloco2 <span class="ot">&lt;-</span> ((n1<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n1<span class="sc">+</span>n2))[<span class="sc">!</span>((n1<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n1<span class="sc">+</span>n2) <span class="sc">%in%</span> t_bloco2)]</span>
+<span id="cb17-7"><a href="tipos-de-experimentos.html#cb17-7" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="tipos-de-experimentos.html#cb17-8" tabindex="-1"></a>y1_obs_bloco1 <span class="ot">&lt;-</span> y1[t_bloco1]</span>
+<span id="cb17-9"><a href="tipos-de-experimentos.html#cb17-9" tabindex="-1"></a>y1_obs_bloco2 <span class="ot">&lt;-</span> y1[t_bloco2]</span>
+<span id="cb17-10"><a href="tipos-de-experimentos.html#cb17-10" tabindex="-1"></a>y0_obs_bloco1 <span class="ot">&lt;-</span> y0[c_bloco1]</span>
+<span id="cb17-11"><a href="tipos-de-experimentos.html#cb17-11" tabindex="-1"></a>y0_obs_bloco2 <span class="ot">&lt;-</span> y0[c_bloco2]</span></code></pre></div>
 </div>
 <div id="precisão-da-aleatorização-em-bloco---r-sim-p.-2" class="section level2 hasAnchor" number="5.13">
 <h2><span class="header-section-number">5.13</span> Precisão da aleatorização em bloco - R sim p. 2<a href="tipos-de-experimentos.html#precisão-da-aleatorização-em-bloco---r-sim-p.-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="tipos-de-experimentos.html#cb4-1" tabindex="-1"></a><span class="co"># random assignment</span></span>
-<span id="cb4-2"><a href="tipos-de-experimentos.html#cb4-2" tabindex="-1"></a>units_simple_treatment <span class="ot">&lt;-</span> <span class="fu">c</span>(t_bloco1, t_bloco2)</span>
-<span id="cb4-3"><a href="tipos-de-experimentos.html#cb4-3" tabindex="-1"></a>units_simple_control <span class="ot">&lt;-</span> <span class="fu">c</span>(c_bloco1, c_bloco2)</span>
-<span id="cb4-4"><a href="tipos-de-experimentos.html#cb4-4" tabindex="-1"></a>y1_obs <span class="ot">&lt;-</span> y1[units_simple_treatment]</span>
-<span id="cb4-5"><a href="tipos-de-experimentos.html#cb4-5" tabindex="-1"></a>y0_obs <span class="ot">&lt;-</span> y0[units_simple_control]</span>
-<span id="cb4-6"><a href="tipos-de-experimentos.html#cb4-6" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="tipos-de-experimentos.html#cb4-7" tabindex="-1"></a><span class="co"># erro padrão</span></span>
-<span id="cb4-8"><a href="tipos-de-experimentos.html#cb4-8" tabindex="-1"></a>erro_pad_simple <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs, y0_obs)<span class="sc">$</span>stderr </span>
-<span id="cb4-9"><a href="tipos-de-experimentos.html#cb4-9" tabindex="-1"></a>simple_p_value <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs, y0_obs)<span class="sc">$</span>p.value</span>
-<span id="cb4-10"><a href="tipos-de-experimentos.html#cb4-10" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="tipos-de-experimentos.html#cb4-11" tabindex="-1"></a>my_t <span class="ot">&lt;-</span> <span class="fu">mean</span>(y1_obs <span class="sc">-</span> y0_obs)<span class="sc">/</span>erro_pad_simple</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="tipos-de-experimentos.html#cb18-1" tabindex="-1"></a><span class="co"># random assignment</span></span>
+<span id="cb18-2"><a href="tipos-de-experimentos.html#cb18-2" tabindex="-1"></a>units_simple_treatment <span class="ot">&lt;-</span> <span class="fu">c</span>(t_bloco1, t_bloco2)</span>
+<span id="cb18-3"><a href="tipos-de-experimentos.html#cb18-3" tabindex="-1"></a>units_simple_control <span class="ot">&lt;-</span> <span class="fu">c</span>(c_bloco1, c_bloco2)</span>
+<span id="cb18-4"><a href="tipos-de-experimentos.html#cb18-4" tabindex="-1"></a>y1_obs <span class="ot">&lt;-</span> y1[units_simple_treatment]</span>
+<span id="cb18-5"><a href="tipos-de-experimentos.html#cb18-5" tabindex="-1"></a>y0_obs <span class="ot">&lt;-</span> y0[units_simple_control]</span>
+<span id="cb18-6"><a href="tipos-de-experimentos.html#cb18-6" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="tipos-de-experimentos.html#cb18-7" tabindex="-1"></a><span class="co"># erro padrão</span></span>
+<span id="cb18-8"><a href="tipos-de-experimentos.html#cb18-8" tabindex="-1"></a>erro_pad_simple <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs, y0_obs)<span class="sc">$</span>stderr </span>
+<span id="cb18-9"><a href="tipos-de-experimentos.html#cb18-9" tabindex="-1"></a>simple_p_value <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs, y0_obs)<span class="sc">$</span>p.value</span>
+<span id="cb18-10"><a href="tipos-de-experimentos.html#cb18-10" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="tipos-de-experimentos.html#cb18-11" tabindex="-1"></a>my_t <span class="ot">&lt;-</span> <span class="fu">mean</span>(y1_obs <span class="sc">-</span> y0_obs)<span class="sc">/</span>erro_pad_simple</span></code></pre></div>
 </div>
 <div id="precisão-da-aleatorização-em-bloco---r-sim-p.-4" class="section level2 hasAnchor" number="5.14">
 <h2><span class="header-section-number">5.14</span> Precisão da aleatorização em bloco - R sim p. 4<a href="tipos-de-experimentos.html#precisão-da-aleatorização-em-bloco---r-sim-p.-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="tipos-de-experimentos.html#cb5-1" tabindex="-1"></a>erro_pad1 <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs_bloco1, y0_obs_bloco1)<span class="sc">$</span>stderr</span>
-<span id="cb5-2"><a href="tipos-de-experimentos.html#cb5-2" tabindex="-1"></a>erro_pad2 <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs_bloco2, y0_obs_bloco2)<span class="sc">$</span>stderr</span>
-<span id="cb5-3"><a href="tipos-de-experimentos.html#cb5-3" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="tipos-de-experimentos.html#cb5-4" tabindex="-1"></a>erro_padrao_geral <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(erro_pad1<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span>(n1<span class="sc">/</span>N)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> erro_pad2<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span>(n2<span class="sc">/</span>N)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb5-5"><a href="tipos-de-experimentos.html#cb5-5" tabindex="-1"></a>ate1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y1_obs_bloco1 <span class="sc">-</span> y0_obs_bloco1)<span class="sc">*</span>(n1<span class="sc">/</span>N)</span>
-<span id="cb5-6"><a href="tipos-de-experimentos.html#cb5-6" tabindex="-1"></a>ate2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y1_obs_bloco2 <span class="sc">-</span> y0_obs_bloco2)<span class="sc">*</span>(n2<span class="sc">/</span>N)</span>
-<span id="cb5-7"><a href="tipos-de-experimentos.html#cb5-7" tabindex="-1"></a>ate <span class="ot">&lt;-</span> ate1 <span class="sc">+</span> ate2</span>
-<span id="cb5-8"><a href="tipos-de-experimentos.html#cb5-8" tabindex="-1"></a>my_t <span class="ot">&lt;-</span> ate<span class="sc">/</span>erro_padrao_geral</span>
-<span id="cb5-9"><a href="tipos-de-experimentos.html#cb5-9" tabindex="-1"></a>p_value <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(<span class="fu">abs</span>(my_t), <span class="at">df =</span> <span class="fl">23.76567</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="tipos-de-experimentos.html#cb19-1" tabindex="-1"></a>erro_pad1 <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs_bloco1, y0_obs_bloco1)<span class="sc">$</span>stderr</span>
+<span id="cb19-2"><a href="tipos-de-experimentos.html#cb19-2" tabindex="-1"></a>erro_pad2 <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs_bloco2, y0_obs_bloco2)<span class="sc">$</span>stderr</span>
+<span id="cb19-3"><a href="tipos-de-experimentos.html#cb19-3" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="tipos-de-experimentos.html#cb19-4" tabindex="-1"></a>erro_padrao_geral <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(erro_pad1<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span>(n1<span class="sc">/</span>N)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> erro_pad2<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span>(n2<span class="sc">/</span>N)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb19-5"><a href="tipos-de-experimentos.html#cb19-5" tabindex="-1"></a>ate1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y1_obs_bloco1 <span class="sc">-</span> y0_obs_bloco1)<span class="sc">*</span>(n1<span class="sc">/</span>N)</span>
+<span id="cb19-6"><a href="tipos-de-experimentos.html#cb19-6" tabindex="-1"></a>ate2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y1_obs_bloco2 <span class="sc">-</span> y0_obs_bloco2)<span class="sc">*</span>(n2<span class="sc">/</span>N)</span>
+<span id="cb19-7"><a href="tipos-de-experimentos.html#cb19-7" tabindex="-1"></a>ate <span class="ot">&lt;-</span> ate1 <span class="sc">+</span> ate2</span>
+<span id="cb19-8"><a href="tipos-de-experimentos.html#cb19-8" tabindex="-1"></a>my_t <span class="ot">&lt;-</span> ate<span class="sc">/</span>erro_padrao_geral</span>
+<span id="cb19-9"><a href="tipos-de-experimentos.html#cb19-9" tabindex="-1"></a>p_value <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(<span class="fu">abs</span>(my_t), <span class="at">df =</span> <span class="fl">23.76567</span>))</span></code></pre></div>
 </div>
 <div id="comparação-de-ses" class="section level2 hasAnchor" number="5.15">
 <h2><span class="header-section-number">5.15</span> Comparação de SEs<a href="tipos-de-experimentos.html#comparação-de-ses" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -446,14 +449,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="estimador-ate---r" class="section level2 hasAnchor" number="5.20">
 <h2><span class="header-section-number">5.20</span> Estimador ATE - R<a href="tipos-de-experimentos.html#estimador-ate---r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="tipos-de-experimentos.html#cb6-1" tabindex="-1"></a>treatment <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">74</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">1217</span> <span class="sc">-</span> <span class="dv">74</span>))</span>
-<span id="cb6-2"><a href="tipos-de-experimentos.html#cb6-2" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">43</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">1217</span> <span class="sc">-</span> <span class="dv">43</span>))</span>
-<span id="cb6-3"><a href="tipos-de-experimentos.html#cb6-3" tabindex="-1"></a>var_treat <span class="ot">&lt;-</span> <span class="fu">var</span>(treatment) </span>
-<span id="cb6-4"><a href="tipos-de-experimentos.html#cb6-4" tabindex="-1"></a>var_control <span class="ot">&lt;-</span> <span class="fu">var</span>(control)</span>
-<span id="cb6-5"><a href="tipos-de-experimentos.html#cb6-5" tabindex="-1"></a>erro_padrao <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(var_treat<span class="sc">/</span><span class="dv">1217</span> <span class="sc">+</span> var_control<span class="sc">/</span><span class="dv">1217</span>)</span>
-<span id="cb6-6"><a href="tipos-de-experimentos.html#cb6-6" tabindex="-1"></a><span class="fu">round</span>(erro_padrao, <span class="dv">5</span>)</span>
-<span id="cb6-7"><a href="tipos-de-experimentos.html#cb6-7" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="tipos-de-experimentos.html#cb6-8" tabindex="-1"></a><span class="fu">t.test</span>(treatment, control)      </span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="tipos-de-experimentos.html#cb20-1" tabindex="-1"></a>treatment <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">74</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">1217</span> <span class="sc">-</span> <span class="dv">74</span>))</span>
+<span id="cb20-2"><a href="tipos-de-experimentos.html#cb20-2" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">43</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">1217</span> <span class="sc">-</span> <span class="dv">43</span>))</span>
+<span id="cb20-3"><a href="tipos-de-experimentos.html#cb20-3" tabindex="-1"></a>var_treat <span class="ot">&lt;-</span> <span class="fu">var</span>(treatment) </span>
+<span id="cb20-4"><a href="tipos-de-experimentos.html#cb20-4" tabindex="-1"></a>var_control <span class="ot">&lt;-</span> <span class="fu">var</span>(control)</span>
+<span id="cb20-5"><a href="tipos-de-experimentos.html#cb20-5" tabindex="-1"></a>erro_padrao <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(var_treat<span class="sc">/</span><span class="dv">1217</span> <span class="sc">+</span> var_control<span class="sc">/</span><span class="dv">1217</span>)</span>
+<span id="cb20-6"><a href="tipos-de-experimentos.html#cb20-6" tabindex="-1"></a><span class="fu">round</span>(erro_padrao, <span class="dv">5</span>)</span>
+<span id="cb20-7"><a href="tipos-de-experimentos.html#cb20-7" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="tipos-de-experimentos.html#cb20-8" tabindex="-1"></a><span class="fu">t.test</span>(treatment, control)      </span></code></pre></div>
 </div>
 <div id="estimador-ate---r-print" class="section level2 hasAnchor" number="5.21">
 <h2><span class="header-section-number">5.21</span> Estimador ATE - R print<a href="tipos-de-experimentos.html#estimador-ate---r-print" class="anchor-section" aria-label="Anchor link to header"></a></h2>

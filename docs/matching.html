@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Capítulo 5 Matching | Curso de Inferência Causal</title>
-  <meta name="description" content="Capítulo 5 Matching | Curso de Inferência Causal" />
+  <title>Capítulo 6 Matching | Curso de Inferência Causal</title>
+  <meta name="description" content="Capítulo 6 Matching | Curso de Inferência Causal" />
   <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Capítulo 5 Matching | Curso de Inferência Causal" />
+  <meta property="og:title" content="Capítulo 6 Matching | Curso de Inferência Causal" />
   <meta property="og:type" content="book" />
   
   
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Capítulo 5 Matching | Curso de Inferência Causal" />
+  <meta name="twitter:title" content="Capítulo 6 Matching | Curso de Inferência Causal" />
   
   
   
@@ -23,14 +23,14 @@
 <meta name="author" content="Manoel Galdino" />
 
 
-<meta name="date" content="2025-03-26" />
+<meta name="date" content="2025-04-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="experimentos.html"/>
+<link rel="prev" href="tipos-de-experimentos.html"/>
 <link rel="next" href="variáveis-instrumentais.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -168,27 +168,85 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.10" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#identificação-do-ate"><i class="fa fa-check"></i><b>2.10</b> Identificação do ATE</a></li>
 <li class="chapter" data-level="2.11" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#equações-estruturais"><i class="fa fa-check"></i><b>2.11</b> Equações estruturais</a></li>
 <li class="chapter" data-level="2.12" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#modelo-versus-desenho"><i class="fa fa-check"></i><b>2.12</b> Modelo versus Desenho</a></li>
-<li class="chapter" data-level="2.13" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#referências-1"><i class="fa fa-check"></i><b>2.13</b> Referências</a></li>
+<li class="chapter" data-level="2.13" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#exercício-em-sala"><i class="fa fa-check"></i><b>2.13</b> Exercício em sala</a></li>
+<li class="chapter" data-level="2.14" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#referências-1"><i class="fa fa-check"></i><b>2.14</b> Referências</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="dags.html"><a href="dags.html"><i class="fa fa-check"></i><b>3</b> DAGs</a></li>
-<li class="chapter" data-level="4" data-path="experimentos.html"><a href="experimentos.html"><i class="fa fa-check"></i><b>4</b> Experimentos</a></li>
-<li class="chapter" data-level="5" data-path="matching.html"><a href="matching.html"><i class="fa fa-check"></i><b>5</b> Matching</a></li>
-<li class="chapter" data-level="6" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html"><i class="fa fa-check"></i><b>6</b> Variáveis Instrumentais</a></li>
-<li class="chapter" data-level="7" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html"><i class="fa fa-check"></i><b>7</b> Desenho de Regresão Discontínua</a></li>
-<li class="chapter" data-level="8" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html"><i class="fa fa-check"></i><b>8</b> Diferença em Diferenças</a></li>
-<li class="chapter" data-level="9" data-path="synthetic-control.html"><a href="synthetic-control.html"><i class="fa fa-check"></i><b>9</b> Synthetic Control</a>
+<li class="chapter" data-level="3" data-path="dags.html"><a href="dags.html"><i class="fa fa-check"></i><b>3</b> DAGs</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="synthetic-control.html"><a href="synthetic-control.html#implementação-no-r"><i class="fa fa-check"></i><b>9.1</b> Implementação no R</a></li>
+<li class="chapter" data-level="3.1" data-path="dags.html"><a href="dags.html#causalidade"><i class="fa fa-check"></i><b>3.1</b> Causalidade</a></li>
+<li class="chapter" data-level="3.2" data-path="dags.html"><a href="dags.html#introdução-1"><i class="fa fa-check"></i><b>3.2</b> Introdução</a></li>
+<li class="chapter" data-level="3.3" data-path="dags.html"><a href="dags.html#os-tipos-básicos-de-dags"><i class="fa fa-check"></i><b>3.3</b> Os Tipos Básicos de DAGs</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="dags.html"><a href="dags.html#chains"><i class="fa fa-check"></i><b>3.3.1</b> 1. Chains</a></li>
+<li class="chapter" data-level="3.3.2" data-path="dags.html"><a href="dags.html#forks"><i class="fa fa-check"></i><b>3.3.2</b> 2. Forks</a></li>
+<li class="chapter" data-level="3.3.3" data-path="dags.html"><a href="dags.html#colliders"><i class="fa fa-check"></i><b>3.3.3</b> 3. Colliders</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html"><i class="fa fa-check"></i><b>10</b> Interferência, spillover e dinâmica</a>
+<li class="chapter" data-level="3.4" data-path="dags.html"><a href="dags.html#simulação-no-r-ilustrando-o-collider-bias"><i class="fa fa-check"></i><b>3.4</b> Simulação no R: Ilustrando o Collider Bias</a></li>
+<li class="chapter" data-level="3.5" data-path="dags.html"><a href="dags.html#definições"><i class="fa fa-check"></i><b>3.5</b> Definições</a>
 <ul>
-<li class="chapter" data-level="10.1" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#suposições-simplifcadoras"><i class="fa fa-check"></i><b>10.1</b> Suposições simplifcadoras</a></li>
-<li class="chapter" data-level="10.2" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#po-com-tratamento-de-múltiplos-valores-multi-valued"><i class="fa fa-check"></i><b>10.2</b> PO com tratamento de múltiplos valores (multi-valued)</a>
-<ul>
-<li class="chapter" data-level="10.2.1" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#multi-valued-discreto"><i class="fa fa-check"></i><b>10.2.1</b> Multi-valued discreto</a></li>
+<li class="chapter" data-level="3.5.1" data-path="dags.html"><a href="dags.html#relações-entre-variáveis-nós"><i class="fa fa-check"></i><b>3.5.1</b> Relações entre Variáveis (nós):</a></li>
 </ul></li>
-<li class="chapter" data-level="10.3" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#dinâmica"><i class="fa fa-check"></i><b>10.3</b> Dinâmica</a></li>
-<li class="chapter" data-level="10.4" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#interferência"><i class="fa fa-check"></i><b>10.4</b> Interferência</a></li>
+<li class="chapter" data-level="3.6" data-path="dags.html"><a href="dags.html#controle-e-ajuste"><i class="fa fa-check"></i><b>3.6</b> Controle e Ajuste</a></li>
+<li class="chapter" data-level="3.7" data-path="dags.html"><a href="dags.html#fatorização-da-probabilidade-conjunta"><i class="fa fa-check"></i><b>3.7</b> Fatorização da Probabilidade Conjunta</a></li>
+<li class="chapter" data-level="3.8" data-path="dags.html"><a href="dags.html#fatorização-e-dags"><i class="fa fa-check"></i><b>3.8</b> Fatorização e DAGs</a></li>
+<li class="chapter" data-level="3.9" data-path="dags.html"><a href="dags.html#fatorização-dags-e-causalidade"><i class="fa fa-check"></i><b>3.9</b> Fatorização, DAGs e Causalidade</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="experimentos.html"><a href="experimentos.html"><i class="fa fa-check"></i><b>4</b> Experimentos</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="experimentos.html"><a href="experimentos.html#introdução-2"><i class="fa fa-check"></i><b>4.1</b> Introdução</a></li>
+<li class="chapter" data-level="4.2" data-path="experimentos.html"><a href="experimentos.html#sutva"><i class="fa fa-check"></i><b>4.2</b> SUTVA</a></li>
+<li class="chapter" data-level="4.3" data-path="experimentos.html"><a href="experimentos.html#diferença-de-média-observada-e-viés-de-seleção"><i class="fa fa-check"></i><b>4.3</b> Diferença de média observada e Viés de seleção</a></li>
+<li class="chapter" data-level="4.4" data-path="experimentos.html"><a href="experimentos.html#experimentos-aleatórios"><i class="fa fa-check"></i><b>4.4</b> Experimentos aleatórios</a></li>
+<li class="chapter" data-level="4.5" data-path="experimentos.html"><a href="experimentos.html#o-que-é-permutabilidade-uncounfoudedness"><i class="fa fa-check"></i><b>4.5</b> O que é Permutabilidade (uncounfoudedness)?</a></li>
+<li class="chapter" data-level="4.6" data-path="experimentos.html"><a href="experimentos.html#distinção-entre-resultados-potenciais-e-realizados"><i class="fa fa-check"></i><b>4.6</b> Distinção Entre Resultados Potenciais e Realizados</a></li>
+<li class="chapter" data-level="4.7" data-path="experimentos.html"><a href="experimentos.html#experimento-remove-o-viés-de-seleção"><i class="fa fa-check"></i><b>4.7</b> Experimento remove o viés de seleção</a></li>
+<li class="chapter" data-level="4.8" data-path="experimentos.html"><a href="experimentos.html#restrição-de-exclusão"><i class="fa fa-check"></i><b>4.8</b> Restrição de Exclusão</a></li>
+<li class="chapter" data-level="4.9" data-path="experimentos.html"><a href="experimentos.html#restrição-de-exclusão---erro-de-mensuração"><i class="fa fa-check"></i><b>4.9</b> Restrição de Exclusão - erro de mensuração</a></li>
+<li class="chapter" data-level="4.10" data-path="experimentos.html"><a href="experimentos.html#erro-de-mensuração"><i class="fa fa-check"></i><b>4.10</b> Erro de mensuração</a></li>
+<li class="chapter" data-level="4.11" data-path="experimentos.html"><a href="experimentos.html#garantindo-a-restrição-de-exclusão"><i class="fa fa-check"></i><b>4.11</b> Garantindo a Restrição de Exclusão</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html"><i class="fa fa-check"></i><b>5</b> Tipos de experimentos</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#aleatorização-de-bernoulli"><i class="fa fa-check"></i><b>5.1</b> Aleatorização de Bernoulli</a></li>
+<li class="chapter" data-level="5.2" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#aleatorização-de-bernoulli---sim-no-r---código"><i class="fa fa-check"></i><b>5.2</b> Aleatorização de Bernoulli - Sim no R - código</a></li>
+<li class="chapter" data-level="5.3" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#aleatorização-de-bernoulli---sim-no-r---histograma"><i class="fa fa-check"></i><b>5.3</b> Aleatorização de Bernoulli - Sim no R - Histograma</a></li>
+<li class="chapter" data-level="5.4" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#aleatorização-completa"><i class="fa fa-check"></i><b>5.4</b> Aleatorização Completa</a></li>
+<li class="chapter" data-level="5.5" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#aleatorização-condicional-block-random-assigment"><i class="fa fa-check"></i><b>5.5</b> Aleatorização Condicional (Block Random Assigment)</a></li>
+<li class="chapter" data-level="5.6" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#implicações-da-aleatorização-condicional"><i class="fa fa-check"></i><b>5.6</b> Implicações da Aleatorização Condicional</a></li>
+<li class="chapter" data-level="5.7" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#pensando-aleatorização-em-bloco"><i class="fa fa-check"></i><b>5.7</b> Pensando aleatorização em bloco</a></li>
+<li class="chapter" data-level="5.8" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#ate-com-aleatorização-condicional-bloco"><i class="fa fa-check"></i><b>5.8</b> ATE com Aleatorização Condicional (Bloco)</a></li>
+<li class="chapter" data-level="5.9" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#aleatorização-em-bloco"><i class="fa fa-check"></i><b>5.9</b> Aleatorização em bloco</a></li>
+<li class="chapter" data-level="5.10" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#precisão-da-aleatorização-em-bloco"><i class="fa fa-check"></i><b>5.10</b> Precisão da aleatorização em bloco</a></li>
+<li class="chapter" data-level="5.11" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#precisão-da-aleatorização-em-bloco---r-sim-p.-1"><i class="fa fa-check"></i><b>5.11</b> Precisão da aleatorização em bloco - R sim p. 1</a></li>
+<li class="chapter" data-level="5.12" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#precisão-da-aleatorização-em-bloco---r-sim-p.-3"><i class="fa fa-check"></i><b>5.12</b> Precisão da aleatorização em bloco - R sim p. 3</a></li>
+<li class="chapter" data-level="5.13" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#precisão-da-aleatorização-em-bloco---r-sim-p.-2"><i class="fa fa-check"></i><b>5.13</b> Precisão da aleatorização em bloco - R sim p. 2</a></li>
+<li class="chapter" data-level="5.14" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#precisão-da-aleatorização-em-bloco---r-sim-p.-4"><i class="fa fa-check"></i><b>5.14</b> Precisão da aleatorização em bloco - R sim p. 4</a></li>
+<li class="chapter" data-level="5.15" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#comparação-de-ses"><i class="fa fa-check"></i><b>5.15</b> Comparação de SEs</a></li>
+<li class="chapter" data-level="5.16" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#cluster-randomization"><i class="fa fa-check"></i><b>5.16</b> Cluster randomization</a></li>
+<li class="chapter" data-level="5.17" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#comparação"><i class="fa fa-check"></i><b>5.17</b> Comparação</a></li>
+<li class="chapter" data-level="5.18" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#tabelas-em-artigos"><i class="fa fa-check"></i><b>5.18</b> Tabelas em artigos</a></li>
+<li class="chapter" data-level="5.19" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#estimador-ate"><i class="fa fa-check"></i><b>5.19</b> Estimador ATE</a></li>
+<li class="chapter" data-level="5.20" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#estimador-ate---r"><i class="fa fa-check"></i><b>5.20</b> Estimador ATE - R</a></li>
+<li class="chapter" data-level="5.21" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#estimador-ate---r-print"><i class="fa fa-check"></i><b>5.21</b> Estimador ATE - R print</a></li>
+<li class="chapter" data-level="5.22" data-path="tipos-de-experimentos.html"><a href="tipos-de-experimentos.html#key-takeways"><i class="fa fa-check"></i><b>5.22</b> Key Takeways</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="matching.html"><a href="matching.html"><i class="fa fa-check"></i><b>6</b> Matching</a></li>
+<li class="chapter" data-level="7" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html"><i class="fa fa-check"></i><b>7</b> Variáveis Instrumentais</a></li>
+<li class="chapter" data-level="8" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html"><i class="fa fa-check"></i><b>8</b> Desenho de Regresão Discontínua</a></li>
+<li class="chapter" data-level="9" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html"><i class="fa fa-check"></i><b>9</b> Diferença em Diferenças</a></li>
+<li class="chapter" data-level="10" data-path="synthetic-control.html"><a href="synthetic-control.html"><i class="fa fa-check"></i><b>10</b> Synthetic Control</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="synthetic-control.html"><a href="synthetic-control.html#implementação-no-r"><i class="fa fa-check"></i><b>10.1</b> Implementação no R</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html"><i class="fa fa-check"></i><b>11</b> Interferência, spillover e dinâmica</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#suposições-simplifcadoras"><i class="fa fa-check"></i><b>11.1</b> Suposições simplifcadoras</a></li>
+<li class="chapter" data-level="11.2" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#po-com-tratamento-de-múltiplos-valores-multi-valued"><i class="fa fa-check"></i><b>11.2</b> PO com tratamento de múltiplos valores (multi-valued)</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#multi-valued-discreto"><i class="fa fa-check"></i><b>11.2.1</b> Multi-valued discreto</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#dinâmica"><i class="fa fa-check"></i><b>11.3</b> Dinâmica</a></li>
+<li class="chapter" data-level="11.4" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#interferência"><i class="fa fa-check"></i><b>11.4</b> Interferência</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -209,8 +267,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="matching" class="section level1 hasAnchor" number="5">
-<h1><span class="header-section-number">Capítulo 5</span> Matching<a href="matching.html#matching" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="matching" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">Capítulo 6</span> Matching<a href="matching.html#matching" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 
 </div>
             </section>
@@ -218,7 +276,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="experimentos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="tipos-de-experimentos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="variáveis-instrumentais.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

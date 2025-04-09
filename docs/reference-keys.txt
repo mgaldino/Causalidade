@@ -47,6 +47,7 @@ restrição-de-exclusão
 restrição-de-exclusão---erro-de-mensuração
 erro-de-mensuração
 garantindo-a-restrição-de-exclusão
+tipos-de-experimentos
 aleatorização-de-bernoulli
 aleatorização-de-bernoulli---sim-no-r---código
 aleatorização-de-bernoulli---sim-no-r---histograma
