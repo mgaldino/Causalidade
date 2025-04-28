@@ -77,6 +77,16 @@ matching-e-propensity-scores
 recomendações-práticas-sobre-matching
 referências-2
 variáveis-instrumentais
+introdução-4
+mqo-em-2-estágios
+principais-usos-de-iv
+experimentos-1
+regras-com-variação-quasi-aleatória
+teoria
+suposições-para-estimar-o-late
+restrição-de-exclusão-1
+monoticidade
+referências-3
 desenho-de-regresão-discontínua
 diferença-em-diferenças
 synthetic-control

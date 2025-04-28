@@ -23,7 +23,7 @@
 <meta name="author" content="Manoel Galdino" />
 
 
-<meta name="date" content="2025-04-23" />
+<meta name="date" content="2025-04-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -236,7 +236,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.10" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#recomendações-práticas-sobre-matching"><i class="fa fa-check"></i><b>5.10</b> Recomendações Práticas sobre Matching</a></li>
 <li class="chapter" data-level="5.11" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#referências-2"><i class="fa fa-check"></i><b>5.11</b> Referências</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html"><i class="fa fa-check"></i><b>6</b> Variáveis Instrumentais</a></li>
+<li class="chapter" data-level="6" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html"><i class="fa fa-check"></i><b>6</b> Variáveis Instrumentais</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#introdução-4"><i class="fa fa-check"></i><b>6.1</b> Introdução</a></li>
+<li class="chapter" data-level="6.2" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#mqo-em-2-estágios"><i class="fa fa-check"></i><b>6.2</b> MQO em 2 Estágios</a></li>
+<li class="chapter" data-level="6.3" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#principais-usos-de-iv"><i class="fa fa-check"></i><b>6.3</b> Principais usos de IV</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#experimentos-1"><i class="fa fa-check"></i><b>6.3.1</b> Experimentos</a></li>
+<li class="chapter" data-level="6.3.2" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#regras-com-variação-quasi-aleatória"><i class="fa fa-check"></i><b>6.3.2</b> Regras com variação quasi-aleatória</a></li>
+<li class="chapter" data-level="6.3.3" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#teoria"><i class="fa fa-check"></i><b>6.3.3</b> Teoria</a></li>
+<li class="chapter" data-level="6.3.4" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#suposições-para-estimar-o-late"><i class="fa fa-check"></i><b>6.3.4</b> Suposições para estimar o LATE</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#restrição-de-exclusão-1"><i class="fa fa-check"></i><b>6.4</b> Restrição de Exclusão</a></li>
+<li class="chapter" data-level="6.5" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#monoticidade"><i class="fa fa-check"></i><b>6.5</b> Monoticidade</a></li>
+<li class="chapter" data-level="6.6" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#referências-3"><i class="fa fa-check"></i><b>6.6</b> Referências</a></li>
+</ul></li>
 <li class="chapter" data-level="7" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html"><i class="fa fa-check"></i><b>7</b> Desenho de Regresão Discontínua</a></li>
 <li class="chapter" data-level="8" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html"><i class="fa fa-check"></i><b>8</b> Diferença em Diferenças</a></li>
 <li class="chapter" data-level="9" data-path="synthetic-control.html"><a href="synthetic-control.html"><i class="fa fa-check"></i><b>9</b> Synthetic Control</a>
@@ -255,6 +269,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
 </ul>
 
       </nav>
@@ -274,7 +289,203 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="variáveis-instrumentais" class="section level1 hasAnchor" number="6">
 <h1><span class="header-section-number">Capítulo 6</span> Variáveis Instrumentais<a href="variáveis-instrumentais.html#variáveis-instrumentais" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="introdução-4" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Introdução<a href="variáveis-instrumentais.html#introdução-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Considere o seguinte DAG canônico de Variáveis Instrumentais:</p>
+<p>Nós vemos que o efeito causal do tratamento <span class="math inline">\(T\)</span> é confundido pela variável não observada <span class="math inline">\(U\)</span>, já que temos um <em>backdoor</em> aberto. Porém, a variável <span class="math inline">\(Z\)</span> não tem nenhum caminho aberto para <span class="math inline">\(Y\)</span> exceto via <span class="math inline">\(T\)</span>, isto é, <span class="math inline">\(T\)</span> é um mediador do efeito causal de <span class="math inline">\(Z\)</span>.</p>
+<p>Do ponto de vista não paramétrico (DAGs), dizemos que a variável <span class="math inline">\(Z\)</span> é uma <strong>candidata</strong> a variável instrumental (IV) se:</p>
+<ol style="list-style-type: decimal">
+<li><p><span class="math inline">\(Z\)</span> está conectado a X no grafo original. Condição de <strong>relevância</strong>.</p></li>
+<li><p>No grafo em que a seta de <span class="math inline">\(T\)</span> para <span class="math inline">\(y\)</span> é removida, <span class="math inline">\(Z\)</span> é d-separado de <span class="math inline">\(Y\)</span>. <strong>Exclusion Restriction</strong>.</p></li>
+<li><p>A variável instrumental <span class="math inline">\(Z\)</span> não compartilha causa comum com <span class="math inline">\(y\)</span>, incluindo, portanto, não ser descendente de <span class="math inline">\(T\)</span> (quando <span class="math inline">\(T\)</span> causa <span class="math inline">\(Y\)</span>). <strong>Causa comum</strong>.</p></li>
+</ol>
+<p>Remark: Pode acontecer de ser necessário controlar para uma conjunto de covariáveis <span class="math inline">\(X\)</span> para que a segunda condição seja satisfeita. Chamamos isso de IV condicional.</p>
+<p>Remark 2: Dizemos que uma variável <span class="math inline">\(Z\)</span> é <strong>candidata</strong> a ser VI porque as três condições acima, ainda que necessárias, não são suficientes para uma variável ser considerada VI. Veremos mais à frente porque isso acontece e o que mais é necessário para uma variável ser considerada VI.
+Considere o DAG abaixo.</p>
+<p>Remark 3: A literatura econométrica não costuma deixar muito claso a condição 3, falando apenas que <span class="math inline">\(Z\)</span> deve causar <span class="math inline">\(T\)</span>, o que exclui essa possibilidade de causa comum existir. Porém, vejam o DAG abaixo, em que <span class="math inline">\(Z\)</span> causa <span class="math inline">\(T\)</span>, como esperado, mas ainda assim a suposição de causa comum é violada.</p>
+<p>Será que <span class="math inline">\(Z\)</span> pode ser uma IV? Vamos verificar as condições. É fácil ver que <span class="math inline">\(Z\)</span> está conectado a <span class="math inline">\(T\)</span>, já que temos dois caminhos abertos, um via <span class="math inline">\(W\)</span> e outro via <span class="math inline">\(L\)</span> (e ainda um via <span class="math inline">\(W\)</span> via <span class="math inline">\(L\)</span>). Portanto, a primeira condição está satisfeita. Note que se eu controlar simultaneamente para <span class="math inline">\(W\)</span> e <span class="math inline">\(L\)</span>, então eu fecho todos os caminhos abertos.</p>
+<p>Com relação à segunda condição, Remover a flecha de <span class="math inline">\(T\)</span> para <span class="math inline">\(Y\)</span> é, efetivamente, ter um novo DAG:</p>
+<p>Por fim, <span class="math inline">\(Z\)</span> não compartilha causa comum com <span class="math inline">\(Y\)</span>.</p>
+<p>Nesse DAG, <span class="math inline">\(Z\)</span> não está d-separado de <span class="math inline">\(Y\)</span>, pois existe um caminho aberto para <span class="math inline">\(Y\)</span> via <span class="math inline">\(L\)</span>. Portanto, controlando para <span class="math inline">\(L\)</span> (mas não <span class="math inline">\(W\)</span>), tenho um instrumento que passa nas duas condições.</p>
+</div>
+<div id="mqo-em-2-estágios" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> MQO em 2 Estágios<a href="variáveis-instrumentais.html#mqo-em-2-estágios" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Considere novamente o DAG canônico para IV. Como poderíamos estimar o efeito causal de <span class="math inline">\(T\)</span> sobre <span class="math inline">\(Y\)</span>?</p>
+<p>Uma possibilidade é a chamada forma reduzida, que pode ser derivada a partir da suposição de independência. Antes, vamos introduzir uma notação:</p>
+<p>A notação <span class="math inline">\(Y^{T=t,Z=z}\)</span> indica o resultado potencial para um nível do tratamento <span class="math inline">\(t\)</span> efetivamente recebido, que pode ser <span class="math inline">\(0\)</span> ou <span class="math inline">\(1\)</span>, e para um nível do <em>treatment assignment</em>, que pode ser <span class="math inline">\(0\)</span> ou <span class="math inline">\(1\)</span>, para um instrumento binário.</p>
+<p>E também temos um status potencial do tratamento (em oposição ao tratamento observado): <span class="math inline">\(T^1_i\)</span> é o status do tratamento quando <span class="math inline">\(Z=1\)</span>. Similarmente, <span class="math inline">\(T^0_i\)</span> é o status do tratamento quando <span class="math inline">\(Z=0\)</span>.</p>
+<p>E aqui temos uma nova <em>switching equation</em>:</p>
+<p><span class="math inline">\(T_i = T^0_i + (T^1_i - T^0_i)Z_i\)</span></p>
+<p><span class="math display">\[\begin{align}
+   E\big[Y_i\mid Z_i=1\big]-E\big[Y_i\mid Z_i=0\big] &amp; = E\big[Y_i(D_i^1,1)\mid Z_i=1\mid]-
+   E\big[Y_i(D_i^0,0)\mid Z_i=0\big]
+   \\
+                                    &amp; = E[Y_i(D_i^1,1)] - E[Y_i(D_i^0,0)]  
+\end{align}\]</span></p>
+<p>O estimador é o efeito causal (total) de <span class="math inline">\(Z\)</span> sobre <span class="math inline">\(Y\)</span>. Em um experimento, isso é chamado de <span class="math inline">\(intent to treat\)</span>, pois se a aleatorização é o instrumento, então é o efeito causal da intenção de tratar.</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="variáveis-instrumentais.html#cb87-1" tabindex="-1"></a><span class="fu">library</span>(stargazer)</span>
+<span id="cb87-2"><a href="variáveis-instrumentais.html#cb87-2" tabindex="-1"></a></span>
+<span id="cb87-3"><a href="variáveis-instrumentais.html#cb87-3" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb87-4"><a href="variáveis-instrumentais.html#cb87-4" tabindex="-1"></a></span>
+<span id="cb87-5"><a href="variáveis-instrumentais.html#cb87-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb87-6"><a href="variáveis-instrumentais.html#cb87-6" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb87-7"><a href="variáveis-instrumentais.html#cb87-7" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span> , <span class="dv">3</span>)</span>
+<span id="cb87-8"><a href="variáveis-instrumentais.html#cb87-8" tabindex="-1"></a>treatment <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">plogis</span>(z <span class="sc">-</span> u <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">2</span>)))</span>
+<span id="cb87-9"><a href="variáveis-instrumentais.html#cb87-9" tabindex="-1"></a></span>
+<span id="cb87-10"><a href="variáveis-instrumentais.html#cb87-10" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span>treatment <span class="sc">+</span> u</span>
+<span id="cb87-11"><a href="variáveis-instrumentais.html#cb87-11" tabindex="-1"></a></span>
+<span id="cb87-12"><a href="variáveis-instrumentais.html#cb87-12" tabindex="-1"></a>reg_vies <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> treatment)</span>
+<span id="cb87-13"><a href="variáveis-instrumentais.html#cb87-13" tabindex="-1"></a><span class="fu">summary</span>(reg_vies)</span></code></pre></div>
+<p>Call:
+lm(formula = y ~ treatment)</p>
+<p>Residuals:
+Min 1Q Median 3Q Max
+-7.4929 -1.6607 0.0363 1.5877 8.3148</p>
+<p>Coefficients:
+Estimate Std. Error t value Pr(&gt;|t|)<br />
+(Intercept) 1.8563 0.1097 16.918 &lt;2e-16 <strong><em>
+treatment -1.5070 0.1563 -9.644 &lt;2e-16 </em></strong>
+—
+Signif. codes: 0 ‘<em><strong>’ 0.001 ’</strong>’ 0.01 ’</em>’ 0.05 ‘.’ 0.1 ’ ’ 1</p>
+<p>Residual standard error: 2.471 on 998 degrees of freedom
+Multiple R-squared: 0.08524, Adjusted R-squared: 0.08432
+F-statistic: 93 on 1 and 998 DF, p-value: &lt; 2.2e-16</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="variáveis-instrumentais.html#cb88-1" tabindex="-1"></a>reg_1s <span class="ot">&lt;-</span> <span class="fu">lm</span>(treatment <span class="sc">~</span> z)</span>
+<span id="cb88-2"><a href="variáveis-instrumentais.html#cb88-2" tabindex="-1"></a>reg_2s <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="fu">predict</span>(reg_1s))</span>
+<span id="cb88-3"><a href="variáveis-instrumentais.html#cb88-3" tabindex="-1"></a><span class="fu">stargazer</span>(reg_vies, reg_1s, reg_2s, <span class="at">type =</span> <span class="st">&quot;latex&quot;</span>,  <span class="at">title=</span><span class="st">&quot;OLS e 2SLS&quot;</span>)</span></code></pre></div>
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Mon, Apr 28, 2025 - 14:43:02
+<p>Uma regra de bolso, baseada em um artigo de Stock &amp; Yogo (2002), que é a estatística F da regressão do primeiro estágio deve ser maior que 10.</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="variáveis-instrumentais.html#cb89-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+## ✔ purrr     1.0.4     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="variáveis-instrumentais.html#cb91-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb91-2"><a href="variáveis-instrumentais.html#cb91-2" tabindex="-1"></a></span>
+<span id="cb91-3"><a href="variáveis-instrumentais.html#cb91-3" tabindex="-1"></a>simulate_and_fit <span class="ot">&lt;-</span> <span class="cf">function</span>(n) {</span>
+<span id="cb91-4"><a href="variáveis-instrumentais.html#cb91-4" tabindex="-1"></a>  z <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb91-5"><a href="variáveis-instrumentais.html#cb91-5" tabindex="-1"></a>  u <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">3</span>)</span>
+<span id="cb91-6"><a href="variáveis-instrumentais.html#cb91-6" tabindex="-1"></a>  treatment <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">plogis</span>(z <span class="sc">-</span> u <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">2</span>)))</span>
+<span id="cb91-7"><a href="variáveis-instrumentais.html#cb91-7" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> treatment <span class="sc">+</span> u</span>
+<span id="cb91-8"><a href="variáveis-instrumentais.html#cb91-8" tabindex="-1"></a>  </span>
+<span id="cb91-9"><a href="variáveis-instrumentais.html#cb91-9" tabindex="-1"></a>  <span class="co"># Naive regression</span></span>
+<span id="cb91-10"><a href="variáveis-instrumentais.html#cb91-10" tabindex="-1"></a>  reg_vies <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> treatment)</span>
+<span id="cb91-11"><a href="variáveis-instrumentais.html#cb91-11" tabindex="-1"></a>  </span>
+<span id="cb91-12"><a href="variáveis-instrumentais.html#cb91-12" tabindex="-1"></a>  <span class="co"># 2SLS</span></span>
+<span id="cb91-13"><a href="variáveis-instrumentais.html#cb91-13" tabindex="-1"></a>  reg_1s <span class="ot">&lt;-</span> <span class="fu">lm</span>(treatment <span class="sc">~</span> z)</span>
+<span id="cb91-14"><a href="variáveis-instrumentais.html#cb91-14" tabindex="-1"></a>  predicted_treatment <span class="ot">&lt;-</span> <span class="fu">predict</span>(reg_1s)</span>
+<span id="cb91-15"><a href="variáveis-instrumentais.html#cb91-15" tabindex="-1"></a>  reg_2s <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> predicted_treatment)</span>
+<span id="cb91-16"><a href="variáveis-instrumentais.html#cb91-16" tabindex="-1"></a>  </span>
+<span id="cb91-17"><a href="variáveis-instrumentais.html#cb91-17" tabindex="-1"></a>  <span class="co"># Return coefficients</span></span>
+<span id="cb91-18"><a href="variáveis-instrumentais.html#cb91-18" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
+<span id="cb91-19"><a href="variáveis-instrumentais.html#cb91-19" tabindex="-1"></a>    <span class="at">naive_coef =</span> <span class="fu">coef</span>(reg_vies)[<span class="dv">2</span>],</span>
+<span id="cb91-20"><a href="variáveis-instrumentais.html#cb91-20" tabindex="-1"></a>    <span class="at">tsls_coef =</span> <span class="fu">coef</span>(reg_2s)[<span class="dv">2</span>]</span>
+<span id="cb91-21"><a href="variáveis-instrumentais.html#cb91-21" tabindex="-1"></a>  )</span>
+<span id="cb91-22"><a href="variáveis-instrumentais.html#cb91-22" tabindex="-1"></a>}</span>
+<span id="cb91-23"><a href="variáveis-instrumentais.html#cb91-23" tabindex="-1"></a></span>
+<span id="cb91-24"><a href="variáveis-instrumentais.html#cb91-24" tabindex="-1"></a></span>
+<span id="cb91-25"><a href="variáveis-instrumentais.html#cb91-25" tabindex="-1"></a><span class="co"># Sample sizes to simulate</span></span>
+<span id="cb91-26"><a href="variáveis-instrumentais.html#cb91-26" tabindex="-1"></a>sample_sizes <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1000</span>, <span class="dv">100000</span>, <span class="at">by =</span> <span class="dv">1000</span>)</span>
+<span id="cb91-27"><a href="variáveis-instrumentais.html#cb91-27" tabindex="-1"></a></span>
+<span id="cb91-28"><a href="variáveis-instrumentais.html#cb91-28" tabindex="-1"></a><span class="co"># Use map to apply the function to each sample size</span></span>
+<span id="cb91-29"><a href="variáveis-instrumentais.html#cb91-29" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">sample_size =</span> sample_sizes) <span class="sc">%&gt;%</span></span>
+<span id="cb91-30"><a href="variáveis-instrumentais.html#cb91-30" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb91-31"><a href="variáveis-instrumentais.html#cb91-31" tabindex="-1"></a>    <span class="at">simulation_results =</span> <span class="fu">map</span>(sample_size, simulate_and_fit)</span>
+<span id="cb91-32"><a href="variáveis-instrumentais.html#cb91-32" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb91-33"><a href="variáveis-instrumentais.html#cb91-33" tabindex="-1"></a>  <span class="fu">unnest</span>(<span class="at">cols =</span> <span class="fu">c</span>(simulation_results))</span>
+<span id="cb91-34"><a href="variáveis-instrumentais.html#cb91-34" tabindex="-1"></a></span>
+<span id="cb91-35"><a href="variáveis-instrumentais.html#cb91-35" tabindex="-1"></a>results <span class="sc">%&gt;%</span></span>
+<span id="cb91-36"><a href="variáveis-instrumentais.html#cb91-36" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(naive_coef, tsls_coef), <span class="at">names_to =</span> <span class="st">&quot;method&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;coefficient&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb91-37"><a href="variáveis-instrumentais.html#cb91-37" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> sample_size, <span class="at">y =</span> coefficient, <span class="at">color =</span> method)) <span class="sc">+</span></span>
+<span id="cb91-38"><a href="variáveis-instrumentais.html#cb91-38" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb91-39"><a href="variáveis-instrumentais.html#cb91-39" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> . <span class="sc">%&gt;%</span> <span class="fu">filter</span>(method <span class="sc">==</span> <span class="st">&quot;2sls_coef&quot;</span>), <span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb91-40"><a href="variáveis-instrumentais.html#cb91-40" tabindex="-1"></a></span>
+<span id="cb91-41"><a href="variáveis-instrumentais.html#cb91-41" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb91-42"><a href="variáveis-instrumentais.html#cb91-42" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Convergence of Regression Coefficients with Increasing Sample Size&quot;</span>,</span>
+<span id="cb91-43"><a href="variáveis-instrumentais.html#cb91-43" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Sample Size&quot;</span>,</span>
+<span id="cb91-44"><a href="variáveis-instrumentais.html#cb91-44" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Estimated Coefficient&quot;</span>,</span>
+<span id="cb91-45"><a href="variáveis-instrumentais.html#cb91-45" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Method&quot;</span></span>
+<span id="cb91-46"><a href="variáveis-instrumentais.html#cb91-46" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb91-47"><a href="variáveis-instrumentais.html#cb91-47" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb91-48"><a href="variáveis-instrumentais.html#cb91-48" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;naive_coef&quot;</span> <span class="ot">=</span> <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;tsls_coef&quot;</span> <span class="ot">=</span> <span class="st">&quot;red&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb91-49"><a href="variáveis-instrumentais.html#cb91-49" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb91-50"><a href="variáveis-instrumentais.html#cb91-50" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb91-51"><a href="variáveis-instrumentais.html#cb91-51" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb91-52"><a href="variáveis-instrumentais.html#cb91-52" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/sim-dag-canonico-n-1.png" width="672" /></p>
+</div>
+<div id="principais-usos-de-iv" class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> Principais usos de IV<a href="variáveis-instrumentais.html#principais-usos-de-iv" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="experimentos-1" class="section level3 hasAnchor" number="6.3.1">
+<h3><span class="header-section-number">6.3.1</span> Experimentos<a href="variáveis-instrumentais.html#experimentos-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Quando pesquisadores utilizam o processo de assignment como instrumento para lidar com problema de non-compliance. Estimativas do Local Average Treatment Effect são críveis. Contraposição a intent-to-treat estimates.</p>
+</div>
+<div id="regras-com-variação-quasi-aleatória" class="section level3 hasAnchor" number="6.3.2">
+<h3><span class="header-section-number">6.3.2</span> Regras com variação quasi-aleatória<a href="variáveis-instrumentais.html#regras-com-variação-quasi-aleatória" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Kin (2019) utiliza uma regra na Suécia que obriga cidades com poplução acima de certo nível a adotar democracia direta. Dinas (2014) utiliza idade para votar no momento da eleição como instrumento para comparecimento eleitoral do eleitor.</p>
+</div>
+<div id="teoria" class="section level3 hasAnchor" number="6.3.3">
+<h3><span class="header-section-number">6.3.3</span> Teoria<a href="variáveis-instrumentais.html#teoria" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Quando a restrição de exclusão é baseada em teoria ou conhecimento substantivo. Aqui estão os instrumentos baseados em geografia ou clima (por exemplo, proximidade a faculdade como instrumento para ensino superior) ou (Zhu, 2017) que usou proximidade geográfica de cinco centros comerciais fora da China (ponderados pelo PIB dos centros comerciais) como instrumento para presença de multinacional (que causaria corrupção). Há o clássico instrumento de chuva como instrumento para, por exemplo, comparecimento eleitoral de eleitores democratas.</p>
+<p>Mellon (2023) revisou 289 estudos e concluiu que 195 variáveis distintas foram conectadas com chuva, o que significa que podem ser potenciais violações da restrição de exclusão.</p>
+<p>Cinelli and Hazlett</p>
+<p>Freidman et. al (2000) usaram origem legal (francesa, inglesa, sueca etc.) como instrumento para qualidade das instituições. Djankov et al. (2003) usaram origem legal como instrumento para grau de formalismo de instituições.</p>
+<p>Glaeser et al. (2004) usaram origem legal como instrumento para restrições ao executivo (“executive constraints”).</p>
+<p>Henderson and Brooks, 2016, usam chuva ao redor do dia da eleição como instrumento para votação de candidatos democratas, e concluem que aumento da chuva reduz comparecimento que causa democratas terem comportamento legislativo mais direitoso.</p>
+<p>##Efeito heterogêneo</p>
+<p>Se houver efeito heretogêneo (apenas mulheres mudam comportamento em razão do instrumento, por exemplo), então estamos estimando o efeito apenas para aquele subgrupo (são os compliers com o instrumento).</p>
+<p>Se o instrumento explicar pouco da variação no Tratamento, então teremos pouca variação no tratamento para explicar a variação em Y. Ou seja, o sinal é fraco. Isso se traduz em baixo poder estatístico.</p>
+<p>Para discutir efeito casual heterogêneo, vamos utilizar um estudo em ciência política (White, 2019). Qual o efeito de misdemeanor (algo como contravenção penal) sobre comparecimento eleitoral? O aturo argumenta que o efeito deve variar por raça (maior para negros que brancos), de modo que o efeito causla é heterogêneo. Segundo o autor, casos são atribuídos aleatoriamente para diferentes cortes judiciais, e elas variam em sua leniência (ou severidade). Aqui, o tratamento é a condenação (<span class="math inline">\(1\)</span> se condenado, <span class="math inline">\(0\)</span> se não), e temos uma variável instrumental, o sorteio do juiz mais ou menos leniente.</p>
+<p>Alguns acusados têm tantas evidências que serão condenados não importa para que tipo de corte são enviados. Outros, podem sersempre absolvidos, não importa o juiz. Há os !azarados”, que só serão condenados se enviados para a corte severa. O que não faz sentido é ter alguém que só é condenado se enviado para um juiz leniente e absolvido se enviado para um severo.
+Nós iremos agrupar esses quatro tipos (incluindo o último) em quatro tipos:</p>
+<p>Os primeiros são chamado de always-takers. Sempre recebem o tratamento (são presos), não importa o que foi atribuído a eles pelo mecanismo de atribuição. O segundo são os never takers, que nunca recebem o tratamento. Por fim, o terceiro grupo são os compliers, que seguem o tratamernto prescrito e o quarto grupo são os defiers, aqueles que fazem o contrário do prescrito. Nesse caso, não faz muito sentido imaginar que existem os defiers, mas teoricamente é possível.</p>
+<p>Digmos que o efeito causal do tratamento é heterogêneo, isto é, <span class="math inline">\(\delta_i = Y^1_i - Y^0_i\)</span>.</p>
+<p>Nesse caso, não podemos mais estimar o efeito causal geral (ATE), pois o efeito causla é heterogêneo e o instrumento só explica a variação no tratamento para os compliers.</p>
+</div>
+<div id="suposições-para-estimar-o-late" class="section level3 hasAnchor" number="6.3.4">
+<h3><span class="header-section-number">6.3.4</span> Suposições para estimar o LATE<a href="variáveis-instrumentais.html#suposições-para-estimar-o-late" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Além das suposições que já discutimos, vale sempre lembrar que temos também a SUTVA.</p>
+<p>Resultados potenciais para unidade <span class="math inline">\(i\)</span> não estão relacionadas ao tratamento que <span class="math inline">\(j\)</span> recebe. Claramente existe potencial para SUTVA ser violada no estudo de encarceramento e voto. Se dois irmãos (indivíduo <span class="math inline">\(i\)</span> e <span class="math inline">\(j\)</span>) são acusados e um deles é preso, é possível que o tratamento de um deles impacte a probabilidade de voto do outro e vice-versa. Salvo engano, White não discute essa possibilidade de violação da suposição, o que é problemático. Mas vamos supor que SUTVA está garantido.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Vale lembrar também que Independência é diferetne da restrição de exclusão</li>
+</ol>
+<p>Também chamada de <em>as good as random assignment</em> e <em>no confounding for the effect of Z on Y</em>. Afirma que a IV é independente dos resultados potenciais e das potenciais atribuições de tratamento. Em termos de nosso DAG, quer dizer que <span class="math inline">\(Z\)</span> não compartilha causa comum com <span class="math inline">\(Y\)</span>.</p>
+<p>Essa suposição parece tranquilamente satisfeita no estudo em questão, já que a atribuição da corte é aleatória e parece difícil imaginar que algo que causa a leniência da corte ser causado por alguma variável que também causa o comparecimento. Aqui o DAG:</p>
+</div>
+</div>
+<div id="restrição-de-exclusão-1" class="section level2 hasAnchor" number="6.4">
+<h2><span class="header-section-number">6.4</span> Restrição de Exclusão<a href="variáveis-instrumentais.html#restrição-de-exclusão-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+</div>
+<div id="monoticidade" class="section level2 hasAnchor" number="6.5">
+<h2><span class="header-section-number">6.5</span> Monoticidade<a href="variáveis-instrumentais.html#monoticidade" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Por fim, precisamos assumir monoticidade. Ela requer que a variável instrumental opera (fracamente) em todas as direções para todos os indivíduos. Ou seja, todo mundo que é afetado pelo instrumento é afetado da mesma maneira. Em outras palavras, o instrumento apenas move as pessoas do controle para o tratamento (ou não move a pessoa), mas nunca o contrário. Ou seja, estamos assumindo que não há defiers na nossa população.</p>
+<p>Matematicamente e de maneira geral, dizemos que a monoticidade é válida quando <span class="math inline">\(T^{Z=1} &gt;= T^{Z=0}\)</span> para todas as unidades.</p>
+<p>Com essas suposições, nós estiamos o LATE: Local Average Treatment Effect of T on Y. Isso porque nosso estimador é:</p>
+<p><span class="math display">\[\begin{align}
+  \mathbb{E}[Y(Z=1) - Y(Z=0)] = \\
+  =&amp; \mathbb{E}[Y(Z=1) - Y_i(Z=0)|T^1 = 1, T^0 = 1]P(T^1 = 1, T^0 = 1) \text{ always-takers} \\
+  +&amp; \mathbb{E}[Y(Z=1) - Y_i(Z=0)|T^1 = 0, T^0 = 0]P(T^1 = 0, T^0 = 0) \text{ never-takers} \\
+  +&amp; \mathbb{E}[Y(Z=1) - Y_i(Z=0)|T^1 = 1, T^0 = 0]P(T^1 = 1, T^0 = 0) \text{ compliers} \\
+  +&amp; \mathbb{E}[Y(Z=1) - Y_i(Z=0)|T^1 = 0, T^0 = 1]P(T^1 = 0, T^0 = 1) \text{ defiers}
+\end{align}\]</span></p>
+<p>Porém, sabemos que o instrumento não tem efeito causal sobre always-takers nem never-takers, então o efeito causal é zero para esses grupos. E a proporção de defiers é zero, de modo que ficamos apenas com a parte dos compliers. E nesse grupo, <span class="math inline">\(Z = T\)</span>, de modo que o efeito do instrumento é o efeito do tratamento. Então podemos reescrever como:</p>
+<p><span class="math display">\[\delta_{IV,LATE} = \mathbb{E}[Y(1) - Y^0)|T^1 - T^0 = 1]\]</span></p>
+<p>Vejam que o denominador nos dá a proporção da população que mudou seu status por causa do instrumento.</p>
+</div>
+<div id="referências-3" class="section level2 hasAnchor" number="6.6">
+<h2><span class="header-section-number">6.6</span> Referências<a href="variáveis-instrumentais.html#referências-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Henderson, J., &amp; Brooks, J. (2016). Mediating the electoral connection: The information effects of voter signals on legislative behavior. The Journal of Politics, 78(3), 653-669.</p>
+<p>Mellon, J. (2023). Rain, Rain, Go Away: 195 Potential Exclusion-Restriction Violations for Studies Using Weather as an Instrumental Variable. Available at SSRN 3715610.</p>
+<p>White, A. (2019). Misdemeanor disenfranchisement? The demobilizing effects of brief jail spells on potential voters. American Political Science Review, 113(2), 311-324.</p>
 
+</div>
 </div>
             </section>
 
