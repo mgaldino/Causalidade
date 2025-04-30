@@ -78,6 +78,7 @@ recomendações-práticas-sobre-matching
 referências-2
 variáveis-instrumentais
 introdução-4
+iv-com-modelo-estrutural
 mqo-em-2-estágios
 principais-usos-de-iv
 experimentos-1
@@ -86,6 +87,8 @@ teoria
 suposições-para-estimar-o-late
 restrição-de-exclusão-1
 monoticidade
+estimação-aka-estatística-f
+f-stat
 referências-3
 desenho-de-regresão-discontínua
 diferença-em-diferenças
