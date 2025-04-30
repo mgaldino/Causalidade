@@ -173,7 +173,7 @@ O estimador é o efeito causal (total) de $Z$ sobre $Y$. Em um experimento, isso
 ```{r sim-dag-canonico, message=FALSE, results='asis'}
 library(stargazer)
 
-n <- 1000
+n <- 100000
 
 set.seed(123)
 z <- rnorm(n)
@@ -186,7 +186,7 @@ reg_vies <- lm(y ~ treatment)
 summary(reg_vies)
 
 reg_1s <- lm(treatment ~ z)
-reg_2s <- lm(y ~ predict(reg_1s))
+reg_2s <- lm(y ~ fitted(reg_1s))
 stargazer(reg_vies, reg_1s, reg_2s, type = "html",  title="OLS e 2SLS")
 ```
 
@@ -348,7 +348,7 @@ O que acontece se $Cov(D_i, z_i)$ for muito pequeno? Pequenas variações podem 
 É possível mostrar (supondo homocedasticidade) como o viés do nosso estimaodr em dois estágio se releciona com a estatística F:
 
 $$
-\mathbb{E}[\hat{\beta_{2sls}} - \beta] \approx \underbrace{\frac{Cov(u,e)}{Var(u)}}_{\text{OVB}} \frac{1}{F + 1}
+\mathbb{E}[\hat{\beta_{2sls}} - \beta] \approx \underbrace{\frac{Cov(u,e)}{Var(u)}}_{\text{OVB}} \frac{k}{F + 1}
 $$
 
 Se a estatística F é zero, ou seja, o poder do teste é zero, então o viés é igual ao de MQO normal, ou seja, a estimativa com IV é a mesma de OLS/MQO.
