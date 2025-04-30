@@ -5,22 +5,28 @@
 Considere o seguinte DAG canônico de Variáveis Instrumentais:
 
 
-```{=latex}
-\begin{tikzpicture}[>={Latex[width=2mm,length=2mm]},
-                    node distance=1.2cm and 1.2cm]
-  % Nós
-  \node (U) {$U$};
-  \node (T) [above left=of U] {$T$};
-  \node (Y) [above right=of U] {$Y$};
-  \node (Z) [left=of T] {$Z$};
+```{r dag-diagram1, echo=FALSE, message=FALSE}
+library(ggdag)
+dag_iv <- dagify(
+  T ~ Z + U,             # T ← Z, T ← U
+  Y ~ T + U,             # Y ← T, Y ← U
+  latent   = "U",        # U não observado
+  exposure = "T",
+  outcome  = "Y",
+  coords = list(
+    x = c(Z = 0, T = 1, U = 1, Y = 2),
+    y = c(Z = 2, T = 2, U = 4, Y = 2)
+  )
+)
 
-  % Arestas
-  \draw[->] (T) -- (Y);
-  \draw[->, dashed] (U) -- (T);
-  \draw[->, dashed] (U) -- (Y);
-  \draw[->] (Z) -- (T);
-\end{tikzpicture}
+# 2. Plotar o DAG:
+ggdag(dag_iv, text = FALSE) +
+  geom_dag_text(size = 5) +      # adiciona rótulos nos nós
+  geom_dag_edges() +             # desenha as arestas
+  theme_dag()                    # tema minimalista para DAG
+
 ```
+
 
 
 Nós vemos que o efeito causal do tratamento $T$ é confundido pela variável não observada $U$, já que temos um *backdoor* aberto. Porém, a variável $Z$ não tem nenhum caminho aberto para $Y$ exceto via $T$, isto é, $T$ é um mediador do efeito causal de $Z$.
@@ -31,87 +37,114 @@ Do ponto de vista não paramétrico (DAGs), dizemos que a variável $Z$ é uma *
 
 2. No grafo em que a seta de $T$ para $y$ é removida, $Z$ é d-separado de $Y$. **Exclusion Restriction**.
 
-3. A variável instrumental $Z$ não compartilha causa comum com $y$, incluindo, portanto, não ser descendente de $T$ (quando $T$ causa $Y$). **Causa comum**.
+3. A variável instrumental $Z$ não compartilha causa comum com $y$, incluindo, portanto, não ser descendente de $T$. **Causa comum**.
 
 Remark: Pode acontecer de ser necessário controlar para uma conjunto de covariáveis $X$ para que a segunda condição seja satisfeita. Chamamos isso de IV condicional.
 
 Remark 2: Dizemos que uma variável $Z$ é **candidata** a ser VI porque as três condições acima, ainda que necessárias, não são suficientes para uma variável ser considerada VI. Veremos mais à frente porque isso acontece e o que mais é necessário para uma variável ser considerada VI.
 Considere o DAG abaixo.
 
-Remark 3: A literatura econométrica não costuma deixar muito claso a condição 3, falando apenas que $Z$ deve causar $T$, o que exclui essa possibilidade de causa comum existir. Porém, vejam o DAG abaixo, em que $Z$ causa $T$, como esperado, mas ainda assim a suposição de causa comum é violada.
+Remark 3: A literatura econométrica não costuma deixar muito clara a condição 3. Às vezes falam que $Z$ deve causar $T$ (o que implica que não há causa comum em um DAG). Porém, isso não é correto, como o DAG abaixo mostra, em que, controlando para $V_3$, que é um collider, induzimos correlação entre $Z$ e $T$ para a condição de relevância ser satisfeita, e $Z$ é uma VI candidata.
 
 
-```{=latex}
-\begin{tikzpicture}[>={Latex[width=2mm,length=2mm]},
-                    node distance=1.2cm and 1.2cm]
-  % Nós
-  \node (U1) {$U_1$};
-  \node (T) [above left=of U] {$T$};
-  \node (Y) [above right=of U] {$Y$};
-  \node (Z) [left=of T] {$Z$};
-  \node (U2) [below=of T] {$U_2$};
 
-  % Arestas
-  \draw[->] (T) -- (Y);
-  \draw[->, dashed] (U1) -- (T);
-  \draw[->, dashed] (U1) -- (Y);
-  \draw[->] (Z) -- (T);
-  \draw[->] (U2) -- (T);
-  \draw[->] (U2) -- (Y);
-\end{tikzpicture}
+```{r dag-diagram2, echo=FALSE, message=FALSE}
+dag_iv <- dagify(
+  T ~ U1,
+  V3 ~ T + Z,
+  Y ~ T + U1,
+  
+  latent   = "U1",        # U não observado
+  exposure = "T",
+  outcome  = "Y",
+  coords = list(
+    x = c(Z = 0, T = 1, U1 = 1, V3 = 1, Y = 2),
+    y = c(Z = 2, T = 2, U1 = 4, V3 = -1,Y = 2)
+  )
+)
+
+# 2. Plotar o DAG:
+ggdag(dag_iv, text = FALSE) +
+  geom_dag_text(size = 5) +      # adiciona rótulos nos nós
+  geom_dag_edges() +             # desenha as arestas
+  theme_dag()                    # tema minimalista para DAG
+
+```
+
+Do mesmo jeito, se $V_3$ for causa comum de $Z$ e $T$, não controlar para ela torna a $Z$ admissível como VI.
+
+```{r dag-diagram3, echo=FALSE, message=FALSE}
+dag_iv <- dagify(
+  T ~ U1 + V3,
+  Z ~ V3,
+  Y ~ T + U1,
+  
+  latent   = "U1",        # U não observado
+  exposure = "T",
+  outcome  = "Y",
+  coords = list(
+    x = c(Z = 0, T = 1, U1 = 1, V3 = 1, Y = 2),
+    y = c(Z = 2, T = 2, U1 = 4, V3 = -1,Y = 2)
+  )
+)
+
+# 2. Plotar o DAG:
+ggdag(dag_iv, text = FALSE) +
+  geom_dag_text(size = 5) +      # adiciona rótulos nos nós
+  geom_dag_edges() +             # desenha as arestas
+  theme_dag()                    # tema minimalista para DAG
+
 ```
 
 
-```{=latex}
-\begin{tikzpicture}[>={Latex[width=2mm,length=2mm]},
-                    node distance=1.2cm and 1.2cm]
-  % Nós
-  \node (U) {$U$};
-  \node (T) [below left=of U] {$T$};
-  \node (Y) [below right=of U] {$Y$};
-  \node (Z) [left=3cm of T] {$Z$};
-  \node (W) [above left=of T] {$W$};
-  \node (L) [below left=of T] {$L$};
-  % Arestas
-  \draw[->] (T) -- (Y);
-  \draw[->, dashed] (U) -- (T);
-  \draw[->, dashed] (U) -- (Y);
-  \draw[->] (W) -- (T);
-  \draw[->] (L) -- (T);
-  \draw[->] (W) -- (L);
-  \draw[->] (W) -- (Z);
-  \draw[->] (L) -- (Z);
-\end{tikzpicture}
+Será que $Z$ pode ser uma IV no DAG abaixo? 
+
+```{r dag-diagram4, echo=FALSE, message=FALSE}
+# 1. Definir o DAG com coordenadas manuais
+dag_complex <- dagify(
+  T ~ U + W + L,        # T ← U, W, L
+  Y ~ U,                # Y ← U
+  L ~ W,                # L ← W
+  Z ~ W + L,            # Z ← W, L
+  latent   = "U",       # U é latente
+  exposure = "T",
+  outcome  = "Y",
+  coords = list(
+    x = c(U = 1.5, T = 1,   Y = 2,   Z = -2, W = 0, L = 0),
+    y = c(U = 3,   T = 2,   Y = 2,   Z = 2,  W = 3, L = 1)
+  )
+)
+
+# 2. Plotar com estilo de arestas (U→* tracejado)
+ggdag(dag_complex, text = FALSE) +
+  geom_dag_text(size = 5) +      # adiciona rótulos nos nós
+  geom_dag_edges() +             # desenha as arestas
+  theme_dag() 
 ```
 
-Será que $Z$ pode ser uma IV? Vamos verificar as condições. É fácil ver que $Z$ está conectado a $T$, já que temos dois caminhos abertos, um via $W$ e outro via $L$ (e ainda um via $W$ via $L$). Portanto, a primeira condição está satisfeita. Note que se eu controlar simultaneamente para $W$ e $L$, então eu fecho todos os caminhos abertos.
+Vamos verificar as condições. É fácil ver que $Z$ está conectado a $T$, já que temos dois caminhos abertos, um via $W$ e outro via $L$ (e ainda um via $W$ via $L$). Portanto, a primeira condição está satisfeita. Note que se eu controlar simultaneamente para $W$ e $L$, então eu fecho todos os caminhos abertos.
 
 Com relação à segunda condição, Remover a flecha de $T$ para $Y$ é, efetivamente, ter um novo DAG:
 
 Por fim, $Z$ não compartilha causa comum com $Y$.
 
-```{=latex}
-\begin{tikzpicture}[>={Latex[width=2mm,length=2mm]},
-                    node distance=1.2cm and 1.2cm]
-  % Nós
-  \node (U) {$U$};
-  \node (T) [below left=of U] {$T$};
-  \node (Y) [below right=of U] {$Y$};
-  \node (Z) [left=3cm of T] {$Z$};
-  \node (W) [above left=of T] {$W$};
-  \node (L) [below left=of T] {$L$};
-  % Arestas
-  \draw[->, dashed] (U) -- (T);
-  \draw[->, dashed] (U) -- (Y);
-  \draw[->] (W) -- (T);
-  \draw[->] (L) -- (T);
-  \draw[->] (W) -- (L);
-  \draw[->] (W) -- (Z);
-  \draw[->] (L) -- (Z);
-\end{tikzpicture}
-```
-
 Nesse DAG, $Z$ não está d-separado de $Y$, pois existe um caminho aberto para $Y$ via $L$. Portanto, controlando para $L$ (mas não $W$), tenho um instrumento que passa nas duas condições.
+
+## IV com modelo estrutural
+
+$y_i = \beta D_i + \delta_2 U + e_i$
+$D_i = \delta_1 U + \gamma z_i + u_i$
+
+As duas equações são estruturais, no sentido de que representam relações causais.
+A restrição de exclusão do tratamento $D_i$ é que $\mathbb{E}[D_i|e_i] = 0$. Sabemos que não é verdade porque $D_i$ é endógeno, ou seja, há um viés de variável omitida, $U$. Já a restrição de exclusão da variável instrumental é que $\mathbb{E}[z_i|u_i] = 0$
+
+Vamos supor, para simplificar, que tanto $D_i$ quanto $Z_i$ são binários. 
+
+Considere o seguinte exemplo:
+
+Nós sabemos que diferença simples de média identifica o ATE da segunda equação: $\gamma = \frac{\sum_{i=1}^n z_i}{n} - \frac{\sum_{i=1}^n (1-z_i)}{n}$.
+
+
 
 ## MQO em 2 Estágios
 
@@ -134,8 +167,7 @@ $T_i = T^0_i + (T^1_i - T^0_i)Z_i$
                                     & = E[Y_i(D_i^1,1)] - E[Y_i(D_i^0,0)]  
 \end{align}
 
-O estimador é o efeito causal (total) de $Z$ sobre $Y$. Em um experimento, isso é chamado de $intent to treat$, pois se a aleatorização é o instrumento, então é o efeito causal da intenção de tratar. 
-
+O estimador é o efeito causal (total) de $Z$ sobre $Y$. Em um experimento, isso é chamado de *intent to treat*, pois se a aleatorização é o instrumento, então é o efeito causal da intenção de tratar. 
 
 
 ```{r sim-dag-canonico, message=FALSE, results='asis'}
@@ -158,7 +190,7 @@ reg_2s <- lm(y ~ predict(reg_1s))
 stargazer(reg_vies, reg_1s, reg_2s, type = "latex",  title="OLS e 2SLS")
 ```
 
-Uma regra de bolso, baseada em um artigo de Stock & Yogo (2002), que é a estatística F da regressão do primeiro estágio deve ser maior que 10.
+Uma regra de bolso, baseada em um artigo de Stock & Yogo (2002), diz que a estatística F da regressão do primeiro estágio deve ser maior que 10.
 
 ```{r sim-dag-canonico-n, cache=TRUE}
 library(tidyverse)
@@ -259,6 +291,7 @@ Digmos que o efeito causal do tratamento é heterogêneo, isto é, $\delta_i = Y
 Nesse caso, não podemos mais estimar o efeito causal geral (ATE), pois o efeito causla é heterogêneo e o instrumento só explica a variação no tratamento para os compliers.
 
 ### Suposições para estimar o LATE
+
 Além das suposições que já discutimos, vale sempre lembrar que temos também a SUTVA.
 
 Resultados potenciais para unidade $i$ não estão relacionadas ao tratamento que $j$ recebe. Claramente existe potencial para SUTVA ser violada no estudo de encarceramento e voto. Se dois irmãos (indivíduo $i$ e $j$) são acusados e um deles é preso, é possível que o tratamento de um deles impacte a probabilidade de voto do outro e vice-versa. Salvo engano, White não discute essa possibilidade de violação da suposição, o que é problemático. Mas vamos supor que SUTVA está garantido.
@@ -293,6 +326,59 @@ Porém, sabemos que o instrumento não tem efeito causal sobre always-takers nem
 $$\delta_{IV,LATE} = \mathbb{E}[Y(1) - Y^0)|T^1 - T^0 = 1]$$
 
 Vejam que o denominador nos dá a proporção da população que mudou seu status por causa do instrumento.
+
+## Estimação (aka estatística F)
+
+Considere nosso modelo em que as variáveis estão centradas (sem constante) e não há controle.
+
+$y_i = \beta D_i + e_i$
+$D_i = \pi z_i + u_i$
+
+Posso reescrever a equação de resultado como:
+
+$y_i = \beta (\pi z_i + u_i) + e_i =  \underbrace{\beta \pi}_{\delta} z_i + \beta u_i + e_i$
+Essa equação é chamada de forma reduzida.
+
+Lembrando que nosso estimador $\hat{\beta}_{2sls} = \frac{\hat{\delta}}{\hat{\pi}}$
+
+Ou seja, o estimador de 2sls é a razão da forma reduzida e o primeiro estágio
+
+O que acontece se $Cov(D_i, z_i)$ for muito pequeno? Pequenas variações podem impactar bastante as estimativas.
+
+É possível mostrar (supondo homocedasticidade) como o viés do nosso estimaodr em dois estágio se releciona com a estatística F:
+
+$$
+\mathbb{E}[\hat{\beta_{2sls}} - \beta] \approx \underbrace{\frac{Cov(u,e)}{Var(u)}}_{\text{OVB}} \frac{1}{F + 1}
+$$
+
+Se a estatística F é zero, ou seja, o poder do teste é zero, então o viés é igual ao de MQO normal, ou seja, a estimativa com IV é a mesma de OLS/MQO.
+
+Quanto maior a estatística F, menor o viés. E por fim, quanto maior o número de instrumentos (isso não está explícito, mas entra na fórmula), maior o viés em amostras finitas.
+
+É por essa razão que a literatura se concentrou em uma heurística para a estatística F, que vimos é ser maior que 10. Que basicamente é dizer que será no máximo 10% do viés com 95% de certeza.
+
+
+
+
+### F stat
+
+A estatística F do primeiro estágio é a parcela explicada no primeiro estágio, relativo ao ruído no primeiro estágio. Quanto maior a estatística F, menor o viés.
+
+Se o poder é zero, $F = 0$ e IV é apenas a estimativa de MQO.
+
+Ponto chave: quando existem muitos instrumentos, o viés aumenta.
+
+This is the approach initially developed by Staiger and Stock (1997) and Stock and Yogo (2005).
+- Typical rule of thumb: first-stage F-statistic above 10 means that bias won’t be larger than 10% with size of 5%. Very popular!
+- Suposição chave: homecedasticidade!
+
+Montiel Olea and Pfluger( 2013) desenvolveram um teste robusto a heterocedasticidade, com uma estatística F mais apropriada  a (allows for clustering, autocorrelation, etc.)
+- O novo ponto de corte é mais como 23.1
+
+O patoce ivDiag computa essa estatística F. Função eff_F. 
+
+Alternativa é computar um invervalo de confiança de Anderson-Rubin, que é válido mesmo com instrumento fraco. Novamente, ivDiag computa esse IC.  
+
 
 ## Referências
 
