@@ -187,7 +187,7 @@ summary(reg_vies)
 
 reg_1s <- lm(treatment ~ z)
 reg_2s <- lm(y ~ predict(reg_1s))
-stargazer(reg_vies, reg_1s, reg_2s, type = "latex",  title="OLS e 2SLS")
+stargazer(reg_vies, reg_1s, reg_2s, type = "html",  title="OLS e 2SLS")
 ```
 
 Uma regra de bolso, baseada em um artigo de Stock & Yogo (2002), diz que a estatística F da regressão do primeiro estágio deve ser maior que 10.
