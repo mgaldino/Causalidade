@@ -346,7 +346,7 @@ A restrição de exclusão do tratamento <span class="math inline">\(D_i\)</span
 <p>O estimador é o efeito causal (total) de <span class="math inline">\(Z\)</span> sobre <span class="math inline">\(Y\)</span>. Em um experimento, isso é chamado de <em>intent to treat</em>, pois se a aleatorização é o instrumento, então é o efeito causal da intenção de tratar.</p>
 <div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="variáveis-instrumentais.html#cb84-1" tabindex="-1"></a><span class="fu">library</span>(stargazer)</span>
 <span id="cb84-2"><a href="variáveis-instrumentais.html#cb84-2" tabindex="-1"></a></span>
-<span id="cb84-3"><a href="variáveis-instrumentais.html#cb84-3" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb84-3"><a href="variáveis-instrumentais.html#cb84-3" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100000</span></span>
 <span id="cb84-4"><a href="variáveis-instrumentais.html#cb84-4" tabindex="-1"></a></span>
 <span id="cb84-5"><a href="variáveis-instrumentais.html#cb84-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
 <span id="cb84-6"><a href="variáveis-instrumentais.html#cb84-6" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
@@ -361,18 +361,18 @@ A restrição de exclusão do tratamento <span class="math inline">\(D_i\)</span
 lm(formula = y ~ treatment)</p>
 <p>Residuals:
 Min 1Q Median 3Q Max
--7.4929 -1.6607 0.0363 1.5877 8.3148</p>
+-11.4112 -1.6433 0.0048 1.6470 10.8586</p>
 <p>Coefficients:
 Estimate Std. Error t value Pr(&gt;|t|)<br />
-(Intercept) 1.8563 0.1097 16.918 &lt;2e-16 <strong><em>
-treatment -1.5070 0.1563 -9.644 &lt;2e-16 </em></strong>
+(Intercept) 1.75964 0.01096 160.56 &lt;2e-16 <strong><em>
+treatment -1.49476 0.01551 -96.35 &lt;2e-16 </em></strong>
 —
 Signif. codes: 0 ‘<em><strong>’ 0.001 ’</strong>’ 0.01 ’</em>’ 0.05 ‘.’ 0.1 ’ ’ 1</p>
-<p>Residual standard error: 2.471 on 998 degrees of freedom
-Multiple R-squared: 0.08524, Adjusted R-squared: 0.08432
-F-statistic: 93 on 1 and 998 DF, p-value: &lt; 2.2e-16</p>
+<p>Residual standard error: 2.453 on 99998 degrees of freedom
+Multiple R-squared: 0.08495, Adjusted R-squared: 0.08494
+F-statistic: 9283 on 1 and 99998 DF, p-value: &lt; 2.2e-16</p>
 <div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="variáveis-instrumentais.html#cb85-1" tabindex="-1"></a>reg_1s <span class="ot">&lt;-</span> <span class="fu">lm</span>(treatment <span class="sc">~</span> z)</span>
-<span id="cb85-2"><a href="variáveis-instrumentais.html#cb85-2" tabindex="-1"></a>reg_2s <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="fu">predict</span>(reg_1s))</span>
+<span id="cb85-2"><a href="variáveis-instrumentais.html#cb85-2" tabindex="-1"></a>reg_2s <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="fu">fitted</span>(reg_1s))</span>
 <span id="cb85-3"><a href="variáveis-instrumentais.html#cb85-3" tabindex="-1"></a><span class="fu">stargazer</span>(reg_vies, reg_1s, reg_2s, <span class="at">type =</span> <span class="st">&quot;html&quot;</span>,  <span class="at">title=</span><span class="st">&quot;OLS e 2SLS&quot;</span>)</span></code></pre></div>
 <table style="text-align:center">
 <caption>
@@ -430,7 +430,7 @@ y
 treatment
 </td>
 <td>
--1.507<sup>***</sup>
+-1.495<sup>***</sup>
 </td>
 <td>
 </td>
@@ -441,7 +441,7 @@ treatment
 <td style="text-align:left">
 </td>
 <td>
-(0.156)
+(0.016)
 </td>
 <td>
 </td>
@@ -465,7 +465,7 @@ z
 <td>
 </td>
 <td>
-0.073<sup>***</sup>
+0.095<sup>***</sup>
 </td>
 <td>
 </td>
@@ -476,7 +476,7 @@ z
 <td>
 </td>
 <td>
-(0.016)
+(0.002)
 </td>
 <td>
 </td>
@@ -493,14 +493,14 @@ z
 </tr>
 <tr>
 <td style="text-align:left">
-predict(reg_1s)
+fitted(reg_1s)
 </td>
 <td>
 </td>
 <td>
 </td>
 <td>
-5.607<sup>***</sup>
+1.916<sup>***</sup>
 </td>
 </tr>
 <tr>
@@ -511,7 +511,7 @@ predict(reg_1s)
 <td>
 </td>
 <td>
-(1.111)
+(0.085)
 </td>
 </tr>
 <tr>
@@ -529,26 +529,26 @@ predict(reg_1s)
 Constant
 </td>
 <td>
-1.856<sup>***</sup>
+1.760<sup>***</sup>
 </td>
 <td>
-0.492<sup>***</sup>
+0.499<sup>***</sup>
 </td>
 <td>
--1.651<sup>***</sup>
+0.058
 </td>
 </tr>
 <tr>
 <td style="text-align:left">
 </td>
 <td>
-(0.110)
+(0.011)
 </td>
 <td>
-(0.016)
+(0.002)
 </td>
 <td>
-(0.554)
+(0.043)
 </td>
 </tr>
 <tr>
@@ -570,13 +570,13 @@ Constant
 Observations
 </td>
 <td>
-1,000
+100,000
 </td>
 <td>
-1,000
+100,000
 </td>
 <td>
-1,000
+100,000
 </td>
 </tr>
 <tr>
@@ -587,10 +587,10 @@ R<sup>2</sup>
 0.085
 </td>
 <td>
-0.021
+0.036
 </td>
 <td>
-0.025
+0.005
 </td>
 </tr>
 <tr>
@@ -598,41 +598,41 @@ R<sup>2</sup>
 Adjusted R<sup>2</sup>
 </td>
 <td>
-0.084
+0.085
 </td>
 <td>
-0.020
+0.036
 </td>
 <td>
-0.024
+0.005
 </td>
 </tr>
 <tr>
 <td style="text-align:left">
-Residual Std. Error (df = 998)
+Residual Std. Error (df = 99998)
 </td>
 <td>
-2.471
+2.453
 </td>
 <td>
-0.495
+0.491
 </td>
 <td>
-2.551
+2.558
 </td>
 </tr>
 <tr>
 <td style="text-align:left">
-F Statistic (df = 1; 998)
+F Statistic (df = 1; 99998)
 </td>
 <td>
-92.998<sup>***</sup>
+9,283.268<sup>***</sup>
 </td>
 <td>
-21.492<sup>***</sup>
+3,739.184<sup>***</sup>
 </td>
 <td>
-25.458<sup>***</sup>
+505.426<sup>***</sup>
 </td>
 </tr>
 <tr>
@@ -785,7 +785,7 @@ Essa equação é chamada de forma reduzida.</p>
 <p>O que acontece se <span class="math inline">\(Cov(D_i, z_i)\)</span> for muito pequeno? Pequenas variações podem impactar bastante as estimativas.</p>
 <p>É possível mostrar (supondo homocedasticidade) como o viés do nosso estimaodr em dois estágio se releciona com a estatística F:</p>
 <p><span class="math display">\[
-\mathbb{E}[\hat{\beta_{2sls}} - \beta] \approx \underbrace{\frac{Cov(u,e)}{Var(u)}}_{\text{OVB}} \frac{1}{F + 1}
+\mathbb{E}[\hat{\beta_{2sls}} - \beta] \approx \underbrace{\frac{Cov(u,e)}{Var(u)}}_{\text{OVB}} \frac{k}{F + 1}
 \]</span></p>
 <p>Se a estatística F é zero, ou seja, o poder do teste é zero, então o viés é igual ao de MQO normal, ou seja, a estimativa com IV é a mesma de OLS/MQO.</p>
 <p>Quanto maior a estatística F, menor o viés. E por fim, quanto maior o número de instrumentos (isso não está explícito, mas entra na fórmula), maior o viés em amostras finitas.</p>
