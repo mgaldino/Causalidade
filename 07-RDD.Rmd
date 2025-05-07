@@ -702,24 +702,6 @@ ggplot(df1, aes(x = h, y = estimate)) +
 ```
 
 
-## Densidade descontínua - código
-```{r density-plot2, echo=TRUE, eval=FALSE}
-
-# Generate a random sample with a density discontinuity at 0
-set.seed(42)
-x <- rnorm(2000, mean = -0.5)
-x[x > 0] <- x[x > 0] * 2
-
-# Estimation
-rdd <- rddensity(X = x)
-summary(rdd)
-
-# Density plot (from -2 to 2 with 25 evaluation points at each side)
-plot1 <- rdplotdensity(rdd, x, plotRange = c(-2, 2), plotN = 25)
-```
-
-
-
 ## Densidade descontínua - results
 ```{r density-plot3, echo=FALSE, eval=TRUE}
 
@@ -730,14 +712,8 @@ x[x > 0] <- x[x > 0] * 2
 
 # Estimation
 rdd <- rddensity(X = x)
-summary(rdd)
 ```
 
-## Densidade descontínua - plot
-```{r density-plot4, echo=FALSE, eval=TRUE}
-# Density plot (from -2 to 2 with 25 evaluation points at each side)
-rdplotdensity(rdd, x, plotRange = c(-2, 2), plotN = 25)
-```
 
 
 ## Regressão RDD
@@ -745,12 +721,6 @@ rdplotdensity(rdd, x, plotRange = c(-2, 2), plotN = 25)
 library(rdrobust)
 # Assuming the cutoff is at x=0
 basic_model <- rdrobust(y = df$y, x = df$x, c = 0)
-summary(basic_model)
-```
-
-## Regressão RDD - summary
-```{r reg-rdd2, echo=FALSE}
-
 summary(basic_model)
 ```
 

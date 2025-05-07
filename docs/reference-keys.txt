@@ -120,11 +120,8 @@ raw-data-versus-bin
 permutation-tests-balancing
 mccray-test
 robustez
-densidade-descontínua---código
 densidade-descontínua---results
-densidade-descontínua---plot
 regressão-rdd
-regressão-rdd---summary
 placebo-tests
 pcrd
 checlist-para-um-paper
