@@ -299,15 +299,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.18" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#permutation-tests-balancing"><i class="fa fa-check"></i><b>7.18</b> Permutation tests (balancing)</a></li>
 <li class="chapter" data-level="7.19" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#mccray-test"><i class="fa fa-check"></i><b>7.19</b> McCray test</a></li>
 <li class="chapter" data-level="7.20" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#robustez"><i class="fa fa-check"></i><b>7.20</b> Robustez</a></li>
-<li class="chapter" data-level="7.21" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#densidade-descontínua---código"><i class="fa fa-check"></i><b>7.21</b> Densidade descontínua - código</a></li>
-<li class="chapter" data-level="7.22" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#densidade-descontínua---results"><i class="fa fa-check"></i><b>7.22</b> Densidade descontínua - results</a></li>
-<li class="chapter" data-level="7.23" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#densidade-descontínua---plot"><i class="fa fa-check"></i><b>7.23</b> Densidade descontínua - plot</a></li>
-<li class="chapter" data-level="7.24" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#regressão-rdd"><i class="fa fa-check"></i><b>7.24</b> Regressão RDD</a></li>
-<li class="chapter" data-level="7.25" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#regressão-rdd---summary"><i class="fa fa-check"></i><b>7.25</b> Regressão RDD - summary</a></li>
-<li class="chapter" data-level="7.26" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#placebo-tests"><i class="fa fa-check"></i><b>7.26</b> Placebo Tests</a></li>
-<li class="chapter" data-level="7.27" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#pcrd"><i class="fa fa-check"></i><b>7.27</b> PCRD</a></li>
-<li class="chapter" data-level="7.28" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#checlist-para-um-paper"><i class="fa fa-check"></i><b>7.28</b> Checlist para um paper</a></li>
-<li class="chapter" data-level="7.29" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#referências-4"><i class="fa fa-check"></i><b>7.29</b> Referências</a></li>
+<li class="chapter" data-level="7.21" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#densidade-descontínua---results"><i class="fa fa-check"></i><b>7.21</b> Densidade descontínua - results</a></li>
+<li class="chapter" data-level="7.22" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#regressão-rdd"><i class="fa fa-check"></i><b>7.22</b> Regressão RDD</a></li>
+<li class="chapter" data-level="7.23" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#placebo-tests"><i class="fa fa-check"></i><b>7.23</b> Placebo Tests</a></li>
+<li class="chapter" data-level="7.24" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#pcrd"><i class="fa fa-check"></i><b>7.24</b> PCRD</a></li>
+<li class="chapter" data-level="7.25" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#checlist-para-um-paper"><i class="fa fa-check"></i><b>7.25</b> Checlist para um paper</a></li>
+<li class="chapter" data-level="7.26" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#referências-4"><i class="fa fa-check"></i><b>7.26</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html"><i class="fa fa-check"></i><b>8</b> Diferença em Diferenças</a></li>
 <li class="chapter" data-level="9" data-path="synthetic-control.html"><a href="synthetic-control.html"><i class="fa fa-check"></i><b>9</b> Synthetic Control</a>
@@ -452,16 +449,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="simulação" class="section level2 hasAnchor" number="7.11">
 <h2><span class="header-section-number">7.11</span> Simulação<a href="desenho-de-regresão-discontínua.html#simulação" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="desenho-de-regresão-discontínua.html#cb89-1" tabindex="-1"></a><span class="do">## Basic RD Model</span></span>
-<span id="cb89-2"><a href="desenho-de-regresão-discontínua.html#cb89-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb89-3"><a href="desenho-de-regresão-discontínua.html#cb89-3" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">1000</span> <span class="co"># number of observations</span></span>
-<span id="cb89-4"><a href="desenho-de-regresão-discontínua.html#cb89-4" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">runif</span> (N , <span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>)</span>
-<span id="cb89-5"><a href="desenho-de-regresão-discontínua.html#cb89-5" tabindex="-1"></a>Y0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span> ( <span class="at">n =</span>N , <span class="at">mean =</span>X , <span class="at">sd=</span><span class="dv">1</span>) <span class="co"># control potential outcome</span></span>
-<span id="cb89-6"><a href="desenho-de-regresão-discontínua.html#cb89-6" tabindex="-1"></a>Y1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span> ( <span class="at">n =</span>N , <span class="at">mean =</span> X<span class="sc">+</span><span class="dv">2</span>, <span class="at">sd=</span><span class="dv">1</span>) <span class="co"># treatment potential outcome</span></span>
-<span id="cb89-7"><a href="desenho-de-regresão-discontínua.html#cb89-7" tabindex="-1"></a><span class="co">#You only get treatment if X&gt;0</span></span>
-<span id="cb89-8"><a href="desenho-de-regresão-discontínua.html#cb89-8" tabindex="-1"></a>Treatment <span class="ot">&lt;-</span> ( X <span class="sc">&gt;=</span> <span class="dv">0</span>)</span>
-<span id="cb89-9"><a href="desenho-de-regresão-discontínua.html#cb89-9" tabindex="-1"></a><span class="co"># What we observe</span></span>
-<span id="cb89-10"><a href="desenho-de-regresão-discontínua.html#cb89-10" tabindex="-1"></a>Y <span class="ot">=</span> Y1<span class="sc">*</span> Treatment <span class="sc">+</span> Y0<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span> Treatment )</span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="desenho-de-regresão-discontínua.html#cb92-1" tabindex="-1"></a><span class="do">## Basic RD Model</span></span>
+<span id="cb92-2"><a href="desenho-de-regresão-discontínua.html#cb92-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb92-3"><a href="desenho-de-regresão-discontínua.html#cb92-3" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">1000</span> <span class="co"># number of observations</span></span>
+<span id="cb92-4"><a href="desenho-de-regresão-discontínua.html#cb92-4" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">runif</span> (N , <span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>)</span>
+<span id="cb92-5"><a href="desenho-de-regresão-discontínua.html#cb92-5" tabindex="-1"></a>Y0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span> ( <span class="at">n =</span>N , <span class="at">mean =</span>X , <span class="at">sd=</span><span class="dv">1</span>) <span class="co"># control potential outcome</span></span>
+<span id="cb92-6"><a href="desenho-de-regresão-discontínua.html#cb92-6" tabindex="-1"></a>Y1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span> ( <span class="at">n =</span>N , <span class="at">mean =</span> X<span class="sc">+</span><span class="dv">2</span>, <span class="at">sd=</span><span class="dv">1</span>) <span class="co"># treatment potential outcome</span></span>
+<span id="cb92-7"><a href="desenho-de-regresão-discontínua.html#cb92-7" tabindex="-1"></a><span class="co">#You only get treatment if X&gt;0</span></span>
+<span id="cb92-8"><a href="desenho-de-regresão-discontínua.html#cb92-8" tabindex="-1"></a>Treatment <span class="ot">&lt;-</span> ( X <span class="sc">&gt;=</span> <span class="dv">0</span>)</span>
+<span id="cb92-9"><a href="desenho-de-regresão-discontínua.html#cb92-9" tabindex="-1"></a><span class="co"># What we observe</span></span>
+<span id="cb92-10"><a href="desenho-de-regresão-discontínua.html#cb92-10" tabindex="-1"></a>Y <span class="ot">=</span> Y1<span class="sc">*</span> Treatment <span class="sc">+</span> Y0<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span> Treatment )</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/plot-treatment-assignment-1.png" width="672" /></p>
 </div>
 <div id="simulação---potential-outcomes-y0" class="section level2 hasAnchor" number="7.12">
@@ -475,7 +472,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="simulação---potential-outcomes-y1-e-y0" class="section level2 hasAnchor" number="7.14">
 <h2><span class="header-section-number">7.14</span> Simulação - Potential Outcomes Y1 e Y0<a href="desenho-de-regresão-discontínua.html#simulação---potential-outcomes-y1-e-y0" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="bookdownproj_files/figure-html/plot-po-y1-Y0-1.png" width="672" /></p>
-<pre><code>## Warning: No shared levels found between `names(values)` of the manual scale and the data&#39;s colour values.</code></pre>
+<pre><code>## Warning: No shared levels found between `names(values)` of the manual scale and the data&#39;s
+## colour values.</code></pre>
 <p><img src="bookdownproj_files/figure-html/plot-po-y1-Y0-2.png" width="672" /></p>
 </div>
 <div id="simulação---y-observado" class="section level2 hasAnchor" number="7.15">
@@ -490,7 +488,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## [1] 0.1726892</code></pre>
 <p><img src="bookdownproj_files/figure-html/multiplos_rdds-2.png" width="672" /></p>
 <pre><code>## [1] 1.833313</code></pre>
-<p><img src="bookdownproj_files/figure-html/multiplos_rdds-3.png" width="672" /><img src="bookdownproj_files/figure-html/multiplos_rdds-4.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/multiplos_rdds-3.png" width="672" /></p>
+<pre><code>## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</code></pre>
+<p><img src="bookdownproj_files/figure-html/multiplos_rdds-4.png" width="672" /></p>
 <pre><code>## [1] 1.813716</code></pre>
 <p><img src="bookdownproj_files/figure-html/multiplos_rdds-5.png" width="672" /><img src="bookdownproj_files/figure-html/multiplos_rdds-6.png" width="672" /></p>
 <pre><code>## [1] 1.813716</code></pre>
@@ -526,15 +529,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## -3.6839 -0.7341  0.0116  0.7907  3.4529 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value            Pr(&gt;|t|)    
-## (Intercept)  1.12667    0.03463   32.53 &lt;0.0000000000000002 ***
-## x            1.27318    0.01131  112.56 &lt;0.0000000000000002 ***
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  1.12667    0.03463   32.53   &lt;2e-16 ***
+## x            1.27318    0.01131  112.56   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Residual standard error: 1.095 on 998 degrees of freedom
 ## Multiple R-squared:  0.927,  Adjusted R-squared:  0.9269 
-## F-statistic: 1.267e+04 on 1 and 998 DF,  p-value: &lt; 0.00000000000000022</code></pre>
+## F-statistic: 1.267e+04 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p><img src="bookdownproj_files/figure-html/multiplos_rdds-7.png" width="672" /></p>
 </div>
 <div id="raw-data-versus-bin" class="section level2 hasAnchor" number="7.17">
@@ -556,9 +559,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="permutation-tests-balancing" class="section level2 hasAnchor" number="7.18">
 <h2><span class="header-section-number">7.18</span> Permutation tests (balancing)<a href="desenho-de-regresão-discontínua.html#permutation-tests-balancing" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Para checar balancing, podemos usar testes de permutação.</p>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="desenho-de-regresão-discontínua.html#cb99-1" tabindex="-1"></a><span class="fu">library</span>(RATest)</span>
-<span id="cb99-2"><a href="desenho-de-regresão-discontínua.html#cb99-2" tabindex="-1"></a>df <span class="ot">&lt;-</span> df_u</span>
-<span id="cb99-3"><a href="desenho-de-regresão-discontínua.html#cb99-3" tabindex="-1"></a><span class="fu">head</span>(df)</span></code></pre></div>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="desenho-de-regresão-discontínua.html#cb103-1" tabindex="-1"></a><span class="fu">library</span>(RATest)</span>
+<span id="cb103-2"><a href="desenho-de-regresão-discontínua.html#cb103-2" tabindex="-1"></a>df <span class="ot">&lt;-</span> df_u</span>
+<span id="cb103-3"><a href="desenho-de-regresão-discontínua.html#cb103-3" tabindex="-1"></a><span class="fu">head</span>(df)</span></code></pre></div>
 <pre><code>##            y          x treatment         y0           y1           u
 ## 1 -4.9108800 -2.8126930     FALSE -4.9108800   0.24201180 -0.56047565
 ## 2 -3.4521053 -3.2945724     FALSE -3.4521053   0.06456756 -0.23017749
@@ -566,13 +569,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 4  1.5797551  0.1039258      TRUE -0.4349002   1.57975508  0.07050839
 ## 5  0.6339174 -0.1709231     FALSE  0.6339174   2.58972091  0.12928774
 ## 6  1.3680416 -0.5215457     FALSE  1.3680416   1.57907203  1.71506499</code></pre>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="desenho-de-regresão-discontínua.html#cb101-1" tabindex="-1"></a>resultado <span class="ot">&lt;-</span> <span class="fu">RDperm</span>(</span>
-<span id="cb101-2"><a href="desenho-de-regresão-discontínua.html#cb101-2" tabindex="-1"></a>  <span class="at">W =</span> <span class="st">&quot;u&quot;</span>,  <span class="co"># Substitua pelos nomes das suas covariáveis</span></span>
-<span id="cb101-3"><a href="desenho-de-regresão-discontínua.html#cb101-3" tabindex="-1"></a>  <span class="at">z =</span> <span class="st">&quot;x&quot;</span>,              <span class="co"># Substitua pelo nome da sua variável de corte</span></span>
-<span id="cb101-4"><a href="desenho-de-regresão-discontínua.html#cb101-4" tabindex="-1"></a>  <span class="at">data =</span> df,                <span class="co"># Substitua pelo seu data frame</span></span>
-<span id="cb101-5"><a href="desenho-de-regresão-discontínua.html#cb101-5" tabindex="-1"></a>  <span class="at">cutoff =</span> <span class="dv">0</span>                            <span class="co"># Substitua pelo valor do ponto de corte, se diferente de 0</span></span>
-<span id="cb101-6"><a href="desenho-de-regresão-discontínua.html#cb101-6" tabindex="-1"></a>)</span>
-<span id="cb101-7"><a href="desenho-de-regresão-discontínua.html#cb101-7" tabindex="-1"></a><span class="fu">summary</span>(resultado)</span></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="desenho-de-regresão-discontínua.html#cb105-1" tabindex="-1"></a>resultado <span class="ot">&lt;-</span> <span class="fu">RDperm</span>(</span>
+<span id="cb105-2"><a href="desenho-de-regresão-discontínua.html#cb105-2" tabindex="-1"></a>  <span class="at">W =</span> <span class="st">&quot;u&quot;</span>,  <span class="co"># Substitua pelos nomes das suas covariáveis</span></span>
+<span id="cb105-3"><a href="desenho-de-regresão-discontínua.html#cb105-3" tabindex="-1"></a>  <span class="at">z =</span> <span class="st">&quot;x&quot;</span>,              <span class="co"># Substitua pelo nome da sua variável de corte</span></span>
+<span id="cb105-4"><a href="desenho-de-regresão-discontínua.html#cb105-4" tabindex="-1"></a>  <span class="at">data =</span> df,                <span class="co"># Substitua pelo seu data frame</span></span>
+<span id="cb105-5"><a href="desenho-de-regresão-discontínua.html#cb105-5" tabindex="-1"></a>  <span class="at">cutoff =</span> <span class="dv">0</span>                            <span class="co"># Substitua pelo valor do ponto de corte, se diferente de 0</span></span>
+<span id="cb105-6"><a href="desenho-de-regresão-discontínua.html#cb105-6" tabindex="-1"></a>)</span>
+<span id="cb105-7"><a href="desenho-de-regresão-discontínua.html#cb105-7" tabindex="-1"></a><span class="fu">summary</span>(resultado)</span></code></pre></div>
 <pre><code>## 
 ## **********************************************************
 ## **       RD Distribution Test using permutations        **
@@ -593,7 +596,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## u  0.01   0.92      10   
 ## ---
 ## Signif. codes:   0.01 &#39;***&#39; 0.05 &#39;**&#39; 0.1 &#39;*&#39;</code></pre>
-<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="desenho-de-regresão-discontínua.html#cb103-1" tabindex="-1"></a><span class="fu">plot</span>(resultado, <span class="at">w=</span><span class="st">&quot;u&quot;</span>, <span class="st">&quot;cdf&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="desenho-de-regresão-discontínua.html#cb107-1" tabindex="-1"></a><span class="fu">plot</span>(resultado, <span class="at">w=</span><span class="st">&quot;u&quot;</span>, <span class="st">&quot;cdf&quot;</span>)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/permutation-test-1.png" width="672" /></p>
 <p>Canay&amp; Kamat (2018) utiolizaram esse teste pars revisitar o trabalho de Lee (2008) e descobrem que havia problema de balanceamento.</p>
 <p>Caughey and Sekhon (2011) na political analysis mostraram que de fato havia problemas de balanceamento no estudo de Lee (2008).</p>
@@ -609,18 +612,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="imagens/manipulation%20test.png" width="1107" /></p>
 <p>Para formalizar essa ideia, McCray estima os limites da densidade pela esquerda e pela direita e avalia se a diferença (do logaritmo) das estimativas é estatisticamente significante diferente de zero. Portanto, rejeitar a hipótese nula é encontrar evidências de que há manipulação. Cattaneo, Jansson, &amp; Ma 2018; 2020 introduziram uma versão alternativa do teste, com espírito similar.</p>
 <p>Na prática, de um ponto de vista retórico, o que pesquisadores querem é falhar em rejeitar a nula. Como o teste tem baixo poder de rejeitar a nula, ausência de evidência não quer dizer evidência de ausência.</p>
-<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="desenho-de-regresão-discontínua.html#cb104-1" tabindex="-1"></a><span class="fu">library</span>(rdd)</span>
-<span id="cb104-2"><a href="desenho-de-regresão-discontínua.html#cb104-2" tabindex="-1"></a><span class="co"># Simulated data without discontinuity</span></span>
-<span id="cb104-3"><a href="desenho-de-regresão-discontínua.html#cb104-3" tabindex="-1"></a></span>
-<span id="cb104-4"><a href="desenho-de-regresão-discontínua.html#cb104-4" tabindex="-1"></a><span class="fu">DCdensity</span>(df<span class="sc">$</span>x, <span class="dv">0</span>)  <span class="co"># No discontinuity</span></span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="desenho-de-regresão-discontínua.html#cb108-1" tabindex="-1"></a><span class="fu">library</span>(rdd)</span>
+<span id="cb108-2"><a href="desenho-de-regresão-discontínua.html#cb108-2" tabindex="-1"></a><span class="co"># Simulated data without discontinuity</span></span>
+<span id="cb108-3"><a href="desenho-de-regresão-discontínua.html#cb108-3" tabindex="-1"></a></span>
+<span id="cb108-4"><a href="desenho-de-regresão-discontínua.html#cb108-4" tabindex="-1"></a><span class="fu">DCdensity</span>(df<span class="sc">$</span>x, <span class="dv">0</span>)  <span class="co"># No discontinuity</span></span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/McCay-test1-1.png" width="672" /></p>
 <pre><code>## [1] 0.6885203</code></pre>
 <p>Cattaneo Density Test (Improved Version)</p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="desenho-de-regresão-discontínua.html#cb106-1" tabindex="-1"></a><span class="fu">library</span>(rddensity)</span>
-<span id="cb106-2"><a href="desenho-de-regresão-discontínua.html#cb106-2" tabindex="-1"></a></span>
-<span id="cb106-3"><a href="desenho-de-regresão-discontínua.html#cb106-3" tabindex="-1"></a><span class="co"># Simulated continuous density</span></span>
-<span id="cb106-4"><a href="desenho-de-regresão-discontínua.html#cb106-4" tabindex="-1"></a>rdd <span class="ot">&lt;-</span> <span class="fu">rddensity</span>(<span class="at">X =</span> df<span class="sc">$</span>x, <span class="at">vce =</span> <span class="st">&quot;jackknife&quot;</span>)</span>
-<span id="cb106-5"><a href="desenho-de-regresão-discontínua.html#cb106-5" tabindex="-1"></a><span class="fu">summary</span>(rdd)</span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="desenho-de-regresão-discontínua.html#cb110-1" tabindex="-1"></a><span class="fu">library</span>(rddensity)</span>
+<span id="cb110-2"><a href="desenho-de-regresão-discontínua.html#cb110-2" tabindex="-1"></a></span>
+<span id="cb110-3"><a href="desenho-de-regresão-discontínua.html#cb110-3" tabindex="-1"></a><span class="co"># Simulated continuous density</span></span>
+<span id="cb110-4"><a href="desenho-de-regresão-discontínua.html#cb110-4" tabindex="-1"></a>rdd <span class="ot">&lt;-</span> <span class="fu">rddensity</span>(<span class="at">X =</span> df<span class="sc">$</span>x, <span class="at">vce =</span> <span class="st">&quot;jackknife&quot;</span>)</span>
+<span id="cb110-5"><a href="desenho-de-regresão-discontínua.html#cb110-5" tabindex="-1"></a><span class="fu">summary</span>(rdd)</span></code></pre></div>
 <pre><code>## 
 ## Manipulation testing using local polynomial density estimation.
 ## 
@@ -665,114 +668,35 @@ Abaixo apresento duas dessas possbilidades para ilustrar como a última é a mel
 <p><img src="bookdownproj_files/figure-html/plot-estimator2-1.png" width="672" /></p>
 <p><img src="bookdownproj_files/figure-html/plot-estimator3-1.png" width="672" /></p>
 <p><img src="bookdownproj_files/figure-html/plot-estimator4-1.png" width="672" /></p>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="desenho-de-regresão-discontínua.html#cb108-1" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb108-2"><a href="desenho-de-regresão-discontínua.html#cb108-2" tabindex="-1"></a>  <span class="at">estimate =</span> vec_estimate,</span>
-<span id="cb108-3"><a href="desenho-de-regresão-discontínua.html#cb108-3" tabindex="-1"></a>  <span class="at">se       =</span> se_estimate,</span>
-<span id="cb108-4"><a href="desenho-de-regresão-discontínua.html#cb108-4" tabindex="-1"></a>  <span class="at">lower    =</span> vec_estimate <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> se_estimate,</span>
-<span id="cb108-5"><a href="desenho-de-regresão-discontínua.html#cb108-5" tabindex="-1"></a>  <span class="at">upper    =</span> vec_estimate <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> se_estimate,</span>
-<span id="cb108-6"><a href="desenho-de-regresão-discontínua.html#cb108-6" tabindex="-1"></a>  <span class="at">h     =</span> <span class="fu">c</span>(<span class="st">&quot;Aut&quot;</span> , <span class="st">&quot;h=1&quot;</span>, <span class="st">&quot;h=.5&quot;</span> , <span class="st">&quot;h=.1&quot;</span>)  <span class="co"># ou names(vec_estimate) se o vetor for nomeado</span></span>
-<span id="cb108-7"><a href="desenho-de-regresão-discontínua.html#cb108-7" tabindex="-1"></a>)</span>
-<span id="cb108-8"><a href="desenho-de-regresão-discontínua.html#cb108-8" tabindex="-1"></a></span>
-<span id="cb108-9"><a href="desenho-de-regresão-discontínua.html#cb108-9" tabindex="-1"></a><span class="co"># 2) Plote com pontos e barras de erro</span></span>
-<span id="cb108-10"><a href="desenho-de-regresão-discontínua.html#cb108-10" tabindex="-1"></a><span class="fu">ggplot</span>(df1, <span class="fu">aes</span>(<span class="at">x =</span> h, <span class="at">y =</span> estimate)) <span class="sc">+</span></span>
-<span id="cb108-11"><a href="desenho-de-regresão-discontínua.html#cb108-11" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb108-12"><a href="desenho-de-regresão-discontínua.html#cb108-12" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> lower, <span class="at">ymax =</span> upper), <span class="at">width =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
-<span id="cb108-13"><a href="desenho-de-regresão-discontínua.html#cb108-13" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb108-14"><a href="desenho-de-regresão-discontínua.html#cb108-14" tabindex="-1"></a>    <span class="at">x     =</span> <span class="st">&quot;h&quot;</span>,</span>
-<span id="cb108-15"><a href="desenho-de-regresão-discontínua.html#cb108-15" tabindex="-1"></a>    <span class="at">y     =</span> <span class="st">&quot;Estimativa&quot;</span>,</span>
-<span id="cb108-16"><a href="desenho-de-regresão-discontínua.html#cb108-16" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Efeitos estimados com IC (±2×SE)&quot;</span></span>
-<span id="cb108-17"><a href="desenho-de-regresão-discontínua.html#cb108-17" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb108-18"><a href="desenho-de-regresão-discontínua.html#cb108-18" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="desenho-de-regresão-discontínua.html#cb112-1" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb112-2"><a href="desenho-de-regresão-discontínua.html#cb112-2" tabindex="-1"></a>  <span class="at">estimate =</span> vec_estimate,</span>
+<span id="cb112-3"><a href="desenho-de-regresão-discontínua.html#cb112-3" tabindex="-1"></a>  <span class="at">se       =</span> se_estimate,</span>
+<span id="cb112-4"><a href="desenho-de-regresão-discontínua.html#cb112-4" tabindex="-1"></a>  <span class="at">lower    =</span> vec_estimate <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> se_estimate,</span>
+<span id="cb112-5"><a href="desenho-de-regresão-discontínua.html#cb112-5" tabindex="-1"></a>  <span class="at">upper    =</span> vec_estimate <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> se_estimate,</span>
+<span id="cb112-6"><a href="desenho-de-regresão-discontínua.html#cb112-6" tabindex="-1"></a>  <span class="at">h     =</span> <span class="fu">c</span>(<span class="st">&quot;Aut&quot;</span> , <span class="st">&quot;h=1&quot;</span>, <span class="st">&quot;h=.5&quot;</span> , <span class="st">&quot;h=.1&quot;</span>)  <span class="co"># ou names(vec_estimate) se o vetor for nomeado</span></span>
+<span id="cb112-7"><a href="desenho-de-regresão-discontínua.html#cb112-7" tabindex="-1"></a>)</span>
+<span id="cb112-8"><a href="desenho-de-regresão-discontínua.html#cb112-8" tabindex="-1"></a></span>
+<span id="cb112-9"><a href="desenho-de-regresão-discontínua.html#cb112-9" tabindex="-1"></a><span class="co"># 2) Plote com pontos e barras de erro</span></span>
+<span id="cb112-10"><a href="desenho-de-regresão-discontínua.html#cb112-10" tabindex="-1"></a><span class="fu">ggplot</span>(df1, <span class="fu">aes</span>(<span class="at">x =</span> h, <span class="at">y =</span> estimate)) <span class="sc">+</span></span>
+<span id="cb112-11"><a href="desenho-de-regresão-discontínua.html#cb112-11" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb112-12"><a href="desenho-de-regresão-discontínua.html#cb112-12" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> lower, <span class="at">ymax =</span> upper), <span class="at">width =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb112-13"><a href="desenho-de-regresão-discontínua.html#cb112-13" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb112-14"><a href="desenho-de-regresão-discontínua.html#cb112-14" tabindex="-1"></a>    <span class="at">x     =</span> <span class="st">&quot;h&quot;</span>,</span>
+<span id="cb112-15"><a href="desenho-de-regresão-discontínua.html#cb112-15" tabindex="-1"></a>    <span class="at">y     =</span> <span class="st">&quot;Estimativa&quot;</span>,</span>
+<span id="cb112-16"><a href="desenho-de-regresão-discontínua.html#cb112-16" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Efeitos estimados com IC (±2×SE)&quot;</span></span>
+<span id="cb112-17"><a href="desenho-de-regresão-discontínua.html#cb112-17" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb112-18"><a href="desenho-de-regresão-discontínua.html#cb112-18" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/plot-efeitos-1.png" width="672" /></p>
 </div>
-<div id="densidade-descontínua---código" class="section level2 hasAnchor" number="7.21">
-<h2><span class="header-section-number">7.21</span> Densidade descontínua - código<a href="desenho-de-regresão-discontínua.html#densidade-descontínua---código" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="desenho-de-regresão-discontínua.html#cb109-1" tabindex="-1"></a><span class="co"># Generate a random sample with a density discontinuity at 0</span></span>
-<span id="cb109-2"><a href="desenho-de-regresão-discontínua.html#cb109-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb109-3"><a href="desenho-de-regresão-discontínua.html#cb109-3" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">2000</span>, <span class="at">mean =</span> <span class="sc">-</span><span class="fl">0.5</span>)</span>
-<span id="cb109-4"><a href="desenho-de-regresão-discontínua.html#cb109-4" tabindex="-1"></a>x[x <span class="sc">&gt;</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> x[x <span class="sc">&gt;</span> <span class="dv">0</span>] <span class="sc">*</span> <span class="dv">2</span></span>
-<span id="cb109-5"><a href="desenho-de-regresão-discontínua.html#cb109-5" tabindex="-1"></a></span>
-<span id="cb109-6"><a href="desenho-de-regresão-discontínua.html#cb109-6" tabindex="-1"></a><span class="co"># Estimation</span></span>
-<span id="cb109-7"><a href="desenho-de-regresão-discontínua.html#cb109-7" tabindex="-1"></a>rdd <span class="ot">&lt;-</span> <span class="fu">rddensity</span>(<span class="at">X =</span> x)</span>
-<span id="cb109-8"><a href="desenho-de-regresão-discontínua.html#cb109-8" tabindex="-1"></a><span class="fu">summary</span>(rdd)</span>
-<span id="cb109-9"><a href="desenho-de-regresão-discontínua.html#cb109-9" tabindex="-1"></a></span>
-<span id="cb109-10"><a href="desenho-de-regresão-discontínua.html#cb109-10" tabindex="-1"></a><span class="co"># Density plot (from -2 to 2 with 25 evaluation points at each side)</span></span>
-<span id="cb109-11"><a href="desenho-de-regresão-discontínua.html#cb109-11" tabindex="-1"></a>plot1 <span class="ot">&lt;-</span> <span class="fu">rdplotdensity</span>(rdd, x, <span class="at">plotRange =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>), <span class="at">plotN =</span> <span class="dv">25</span>)</span></code></pre></div>
+<div id="densidade-descontínua---results" class="section level2 hasAnchor" number="7.21">
+<h2><span class="header-section-number">7.21</span> Densidade descontínua - results<a href="desenho-de-regresão-discontínua.html#densidade-descontínua---results" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 </div>
-<div id="densidade-descontínua---results" class="section level2 hasAnchor" number="7.22">
-<h2><span class="header-section-number">7.22</span> Densidade descontínua - results<a href="desenho-de-regresão-discontínua.html#densidade-descontínua---results" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<pre><code>## 
-## Manipulation testing using local polynomial density estimation.
-## 
-## Number of obs =       2000
-## Model =               unrestricted
-## Kernel =              triangular
-## BW method =           estimated
-## VCE method =          jackknife
-## 
-## c = 0                 Left of c           Right of c          
-## Number of obs         1394                606                 
-## Eff. Number of obs    469                 207                 
-## Order est. (p)        2                   2                   
-## Order bias (q)        3                   3                   
-## BW est. (h)           0.607               0.632               
-## 
-## Method                T                   P &gt; |T|             
-## Robust                -2.5923             0.0095              
-## 
-## 
-## P-values of binomial tests (H0: p=0.5).
-## 
-## Window Length / 2          &lt;c     &gt;=c    P&gt;|T|
-## 0.057                      35      20    0.0581
-## 0.115                      76      35    0.0001
-## 0.172                     120      51    0.0000
-## 0.230                     158      75    0.0000
-## 0.287                     196      92    0.0000
-## 0.345                     245     116    0.0000
-## 0.402                     289     131    0.0000
-## 0.460                     345     154    0.0000
-## 0.517                     397     172    0.0000
-## 0.575                     447     193    0.0000</code></pre>
-</div>
-<div id="densidade-descontínua---plot" class="section level2 hasAnchor" number="7.23">
-<h2><span class="header-section-number">7.23</span> Densidade descontínua - plot<a href="desenho-de-regresão-discontínua.html#densidade-descontínua---plot" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="bookdownproj_files/figure-html/density-plot4-1.png" width="672" /></p>
-<pre><code>## $Estl
-## Call: lpdensity
-## 
-## Sample size                                      1394
-## Polynomial order for point estimation    (p=)    2
-## Order of derivative estimated            (v=)    1
-## Polynomial order for confidence interval (q=)    3
-## Kernel function                                  triangular
-## Scaling factor                                   0.697348674337169
-## Bandwidth method                                 user provided
-## 
-## Use summary(...) to show estimates.
-## 
-## $Estr
-## Call: lpdensity
-## 
-## Sample size                                      606
-## Polynomial order for point estimation    (p=)    2
-## Order of derivative estimated            (v=)    1
-## Polynomial order for confidence interval (q=)    3
-## Kernel function                                  triangular
-## Scaling factor                                   0.303151575787894
-## Bandwidth method                                 user provided
-## 
-## Use summary(...) to show estimates.
-## 
-## $Estplot</code></pre>
-<p><img src="bookdownproj_files/figure-html/density-plot4-2.png" width="672" /></p>
-</div>
-<div id="regressão-rdd" class="section level2 hasAnchor" number="7.24">
-<h2><span class="header-section-number">7.24</span> Regressão RDD<a href="desenho-de-regresão-discontínua.html#regressão-rdd" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="desenho-de-regresão-discontínua.html#cb112-1" tabindex="-1"></a><span class="fu">library</span>(rdrobust)</span>
-<span id="cb112-2"><a href="desenho-de-regresão-discontínua.html#cb112-2" tabindex="-1"></a><span class="co"># Assuming the cutoff is at x=0</span></span>
-<span id="cb112-3"><a href="desenho-de-regresão-discontínua.html#cb112-3" tabindex="-1"></a>basic_model <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> df<span class="sc">$</span>y, <span class="at">x =</span> df<span class="sc">$</span>x, <span class="at">c =</span> <span class="dv">0</span>)</span>
-<span id="cb112-4"><a href="desenho-de-regresão-discontínua.html#cb112-4" tabindex="-1"></a><span class="fu">summary</span>(basic_model)</span></code></pre></div>
+<div id="regressão-rdd" class="section level2 hasAnchor" number="7.22">
+<h2><span class="header-section-number">7.22</span> Regressão RDD<a href="desenho-de-regresão-discontínua.html#regressão-rdd" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="desenho-de-regresão-discontínua.html#cb113-1" tabindex="-1"></a><span class="fu">library</span>(rdrobust)</span>
+<span id="cb113-2"><a href="desenho-de-regresão-discontínua.html#cb113-2" tabindex="-1"></a><span class="co"># Assuming the cutoff is at x=0</span></span>
+<span id="cb113-3"><a href="desenho-de-regresão-discontínua.html#cb113-3" tabindex="-1"></a>basic_model <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> df<span class="sc">$</span>y, <span class="at">x =</span> df<span class="sc">$</span>x, <span class="at">c =</span> <span class="dv">0</span>)</span>
+<span id="cb113-4"><a href="desenho-de-regresão-discontínua.html#cb113-4" tabindex="-1"></a><span class="fu">summary</span>(basic_model)</span></code></pre></div>
 <pre><code>## Sharp RD estimates using local polynomial regression.
 ## 
 ## Number of Obs.                 1000
@@ -796,47 +720,22 @@ Abaixo apresento duas dessas possbilidades para ilustrar como a última é a mel
 ##         Robust         -         -     6.539     0.000     [1.630 , 3.025]     
 ## =============================================================================</code></pre>
 </div>
-<div id="regressão-rdd---summary" class="section level2 hasAnchor" number="7.25">
-<h2><span class="header-section-number">7.25</span> Regressão RDD - summary<a href="desenho-de-regresão-discontínua.html#regressão-rdd---summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<pre><code>## Sharp RD estimates using local polynomial regression.
-## 
-## Number of Obs.                 1000
-## BW type                       mserd
-## Kernel                   Triangular
-## VCE method                       NN
-## 
-## Number of Obs.                  484          516
-## Eff. Number of Obs.             124          152
-## Order est. (p)                    1            1
-## Order bias  (q)                   2            2
-## BW est. (h)                   1.375        1.375
-## BW bias (b)                   2.375        2.375
-## rho (h/b)                     0.579        0.579
-## Unique Obs.                     484          516
-## 
-## =============================================================================
-##         Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
-## =============================================================================
-##   Conventional     2.221     0.305     7.283     0.000     [1.623 , 2.818]     
-##         Robust         -         -     6.539     0.000     [1.630 , 3.025]     
-## =============================================================================</code></pre>
-</div>
-<div id="placebo-tests" class="section level2 hasAnchor" number="7.26">
-<h2><span class="header-section-number">7.26</span> Placebo Tests<a href="desenho-de-regresão-discontínua.html#placebo-tests" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="placebo-tests" class="section level2 hasAnchor" number="7.23">
+<h2><span class="header-section-number">7.23</span> Placebo Tests<a href="desenho-de-regresão-discontínua.html#placebo-tests" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Testando descontinuidade em covariáveis predeterminadas: covariáveis que não devem ser afetadas pelo tratamento não devem apresentar salto no ponto de corte.</p>
 <p>Testando descontinuidades em outros pontos: verificar a existência de descontinuidades em pontos arbitrários ao longo da variável de ordenação.</p>
 <p>Uso de VDs placebos: se uma variável dependente que não deveria ser afetada pelo tratamento apresentar descontinuidade significativa, isso levanta dúvidas sobre a validade do desenho RD.</p>
 <p>Avaliação de sensibilidade às covariáveis: as estimativas de RD não devem ser altamente sensíveis à inclusão ou exclusão de covariáveis.</p>
 </div>
-<div id="pcrd" class="section level2 hasAnchor" number="7.27">
-<h2><span class="header-section-number">7.27</span> PCRD<a href="desenho-de-regresão-discontínua.html#pcrd" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="pcrd" class="section level2 hasAnchor" number="7.24">
+<h2><span class="header-section-number">7.24</span> PCRD<a href="desenho-de-regresão-discontínua.html#pcrd" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Marhsall (2024) na AJPS introduz a nomenclatura do desenho de pesquisa Politician characteristic regression discontinuity (PCRD). Basicamente, o argumento é que RDD não permite identificar efeito de características de políticos (como gênero, profissão, raça, ideologia, alinhamento com govenro federal etc.)</p>
 <p>“In contrast, the treatment in PCRD designs — which instead seek to estimate the LATE of an elected politician characteristic — is defined by possessing (or not) predetermined characteristic X, conditional on narrowly winning an election. (…) restricting attention to close elections entails conditioning on candidate vote shares that may be affected by X. (…) [It] generally introduce bias — even when X is independent of other predetermined variables and the weak continuity assumption underpinning standard RD designs holds.” (p. 495)</p>
 <p>Basicamente, Marshall está dizendo que nesses casos, close election é um collider, e isso abre as portas para viéses de variáveis que causem <span class="math inline">\(y\)</span> e se a eleição é apertada.</p>
 <p><img src="bookdownproj_files/figure-html/DAG-1.png" width="672" /></p>
 </div>
-<div id="checlist-para-um-paper" class="section level2 hasAnchor" number="7.28">
-<h2><span class="header-section-number">7.28</span> Checlist para um paper<a href="desenho-de-regresão-discontínua.html#checlist-para-um-paper" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="checlist-para-um-paper" class="section level2 hasAnchor" number="7.25">
+<h2><span class="header-section-number">7.25</span> Checlist para um paper<a href="desenho-de-regresão-discontínua.html#checlist-para-um-paper" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Teste de balancemaneto de variáveis de pré-tratamento (não impactadas pelo tratamento)</p>
 <p>Teste de permutação no cuttoff (outra forma de olhar balanceamento)</p>
 <p>Densidade da running variable (teste de McCrary)</p>
@@ -846,8 +745,8 @@ Abaixo apresento duas dessas possbilidades para ilustrar como a última é a mel
 <p>Análise de robustez junto com a escolha do bandwith (apresente graficamente)</p>
 <p>Ordem preferida: primeiro estabelecer a validade da estratégia, depois detalhes da estimação.</p>
 </div>
-<div id="referências-4" class="section level2 hasAnchor" number="7.29">
-<h2><span class="header-section-number">7.29</span> Referências<a href="desenho-de-regresão-discontínua.html#referências-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="referências-4" class="section level2 hasAnchor" number="7.26">
+<h2><span class="header-section-number">7.26</span> Referências<a href="desenho-de-regresão-discontínua.html#referências-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Canay, I. A., &amp; Kamat, V. (2018). Approximate permutation tests and induced order statistics in the regression discontinuity design. The Review of Economic Studies, 85(3), 1577-1608.</p>
 <p>Cattaneo, M. D., Idrobo, N., &amp; Titiunik, R. (2024). A practical introduction to regression discontinuity designs: Extensions. Cambridge University Press.</p>
 <p>Cattaneo, M. D., Idrobo, N., &amp; Titiunik, R. (2019). A Practical Introduction to Regression Discontinuity Designs: Foundations. Elements in Quantitative and Computational Methods for the Social Sciences.</p>

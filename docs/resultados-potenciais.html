@@ -299,15 +299,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.18" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#permutation-tests-balancing"><i class="fa fa-check"></i><b>7.18</b> Permutation tests (balancing)</a></li>
 <li class="chapter" data-level="7.19" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#mccray-test"><i class="fa fa-check"></i><b>7.19</b> McCray test</a></li>
 <li class="chapter" data-level="7.20" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#robustez"><i class="fa fa-check"></i><b>7.20</b> Robustez</a></li>
-<li class="chapter" data-level="7.21" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#densidade-descontínua---código"><i class="fa fa-check"></i><b>7.21</b> Densidade descontínua - código</a></li>
-<li class="chapter" data-level="7.22" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#densidade-descontínua---results"><i class="fa fa-check"></i><b>7.22</b> Densidade descontínua - results</a></li>
-<li class="chapter" data-level="7.23" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#densidade-descontínua---plot"><i class="fa fa-check"></i><b>7.23</b> Densidade descontínua - plot</a></li>
-<li class="chapter" data-level="7.24" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#regressão-rdd"><i class="fa fa-check"></i><b>7.24</b> Regressão RDD</a></li>
-<li class="chapter" data-level="7.25" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#regressão-rdd---summary"><i class="fa fa-check"></i><b>7.25</b> Regressão RDD - summary</a></li>
-<li class="chapter" data-level="7.26" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#placebo-tests"><i class="fa fa-check"></i><b>7.26</b> Placebo Tests</a></li>
-<li class="chapter" data-level="7.27" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#pcrd"><i class="fa fa-check"></i><b>7.27</b> PCRD</a></li>
-<li class="chapter" data-level="7.28" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#checlist-para-um-paper"><i class="fa fa-check"></i><b>7.28</b> Checlist para um paper</a></li>
-<li class="chapter" data-level="7.29" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#referências-4"><i class="fa fa-check"></i><b>7.29</b> Referências</a></li>
+<li class="chapter" data-level="7.21" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#densidade-descontínua---results"><i class="fa fa-check"></i><b>7.21</b> Densidade descontínua - results</a></li>
+<li class="chapter" data-level="7.22" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#regressão-rdd"><i class="fa fa-check"></i><b>7.22</b> Regressão RDD</a></li>
+<li class="chapter" data-level="7.23" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#placebo-tests"><i class="fa fa-check"></i><b>7.23</b> Placebo Tests</a></li>
+<li class="chapter" data-level="7.24" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#pcrd"><i class="fa fa-check"></i><b>7.24</b> PCRD</a></li>
+<li class="chapter" data-level="7.25" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#checlist-para-um-paper"><i class="fa fa-check"></i><b>7.25</b> Checlist para um paper</a></li>
+<li class="chapter" data-level="7.26" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#referências-4"><i class="fa fa-check"></i><b>7.26</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html"><i class="fa fa-check"></i><b>8</b> Diferença em Diferenças</a></li>
 <li class="chapter" data-level="9" data-path="synthetic-control.html"><a href="synthetic-control.html"><i class="fa fa-check"></i><b>9</b> Synthetic Control</a>
@@ -526,6 +523,22 @@ Em palavras, estimamos o efeito causal médio, <span class="math inline">\(\tau\
 <li><p>Calcule o efeito médio do tratamento da política, <span class="math inline">\(\mathbb{E}[\tau_i]\)</span>, utilizando uma simples diferença de médias.</p></li>
 <li><p>Calcule o efeito médio do tratamento sobre os tratados da política, <span class="math inline">\(\mathbb{E}[\tau_i|treat=1]\)</span>. Como ele se compara à parte (a)?</p></li>
 </ol>
+<pre><code>## data.table 1.17.0 using 7 threads (see ?getDTthreads).  Latest news: r-datatable.com
+## 
+## Attaching package: &#39;data.table&#39;
+## 
+## The following objects are masked from &#39;package:lubridate&#39;:
+## 
+##     hour, isoweek, mday, minute, month, quarter, second, wday, week, yday,
+##     year
+## 
+## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     between, first, last
+## 
+## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     transpose</code></pre>
 <pre><code>## [1] 1794.342</code></pre>
 <pre><code>## [1] 1794.342</code></pre>
 </div>
