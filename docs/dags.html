@@ -389,26 +389,26 @@ Representação:</p>
 <div id="simulação-no-r-ilustrando-o-collider-bias" class="section level2 hasAnchor" number="3.4">
 <h2><span class="header-section-number">3.4</span> Simulação no R: Ilustrando o Collider Bias<a href="dags.html#simulação-no-r-ilustrando-o-collider-bias" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Vamos rodar uma simulação para ilustrar o collider bias. Suponha que 10% das pessoas fazem ciência política e 5% são canhotas.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="dags.html#cb11-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb11-2"><a href="dags.html#cb11-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
-<span id="cb11-3"><a href="dags.html#cb11-3" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="dags.html#cb11-4" tabindex="-1"></a><span class="co"># Gerando as variáveis</span></span>
-<span id="cb11-5"><a href="dags.html#cb11-5" tabindex="-1"></a>cp <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1000</span>, <span class="dv">1</span>, <span class="at">p =</span> <span class="fl">0.1</span>)      <span class="co"># 10% fazem ciência política</span></span>
-<span id="cb11-6"><a href="dags.html#cb11-6" tabindex="-1"></a>canhoto <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1000</span>, <span class="dv">1</span>, <span class="at">p =</span> <span class="fl">0.05</span>)  <span class="co"># 5% são canhotos</span></span>
-<span id="cb11-7"><a href="dags.html#cb11-7" tabindex="-1"></a></span>
-<span id="cb11-8"><a href="dags.html#cb11-8" tabindex="-1"></a><span class="co"># Definindo a condição da festa: convida se faz ciência política ou é canhoto</span></span>
-<span id="cb11-9"><a href="dags.html#cb11-9" tabindex="-1"></a>festa <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(cp <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="fu">ifelse</span>(canhoto <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
-<span id="cb11-10"><a href="dags.html#cb11-10" tabindex="-1"></a>tabela <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(cp, canhoto, festa)</span>
-<span id="cb11-11"><a href="dags.html#cb11-11" tabindex="-1"></a></span>
-<span id="cb11-12"><a href="dags.html#cb11-12" tabindex="-1"></a><span class="co"># Correlação na população geral</span></span>
-<span id="cb11-13"><a href="dags.html#cb11-13" tabindex="-1"></a>cor_geral <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">cor</span>(cp, canhoto), <span class="dv">2</span>)</span>
-<span id="cb11-14"><a href="dags.html#cb11-14" tabindex="-1"></a><span class="fu">print</span>(cor_geral)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="dags.html#cb8-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb8-2"><a href="dags.html#cb8-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
+<span id="cb8-3"><a href="dags.html#cb8-3" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="dags.html#cb8-4" tabindex="-1"></a><span class="co"># Gerando as variáveis</span></span>
+<span id="cb8-5"><a href="dags.html#cb8-5" tabindex="-1"></a>cp <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1000</span>, <span class="dv">1</span>, <span class="at">p =</span> <span class="fl">0.1</span>)      <span class="co"># 10% fazem ciência política</span></span>
+<span id="cb8-6"><a href="dags.html#cb8-6" tabindex="-1"></a>canhoto <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1000</span>, <span class="dv">1</span>, <span class="at">p =</span> <span class="fl">0.05</span>)  <span class="co"># 5% são canhotos</span></span>
+<span id="cb8-7"><a href="dags.html#cb8-7" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="dags.html#cb8-8" tabindex="-1"></a><span class="co"># Definindo a condição da festa: convida se faz ciência política ou é canhoto</span></span>
+<span id="cb8-9"><a href="dags.html#cb8-9" tabindex="-1"></a>festa <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(cp <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="fu">ifelse</span>(canhoto <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb8-10"><a href="dags.html#cb8-10" tabindex="-1"></a>tabela <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(cp, canhoto, festa)</span>
+<span id="cb8-11"><a href="dags.html#cb8-11" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="dags.html#cb8-12" tabindex="-1"></a><span class="co"># Correlação na população geral</span></span>
+<span id="cb8-13"><a href="dags.html#cb8-13" tabindex="-1"></a>cor_geral <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">cor</span>(cp, canhoto), <span class="dv">2</span>)</span>
+<span id="cb8-14"><a href="dags.html#cb8-14" tabindex="-1"></a><span class="fu">print</span>(cor_geral)</span></code></pre></div>
 <pre><code>## [1] -0.02</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="dags.html#cb13-1" tabindex="-1"></a><span class="co"># Correlação entre os que foram à festa</span></span>
-<span id="cb13-2"><a href="dags.html#cb13-2" tabindex="-1"></a>cor_festa <span class="ot">&lt;-</span> tabela <span class="sc">%&gt;%</span></span>
-<span id="cb13-3"><a href="dags.html#cb13-3" tabindex="-1"></a>  <span class="fu">filter</span>(festa <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb13-4"><a href="dags.html#cb13-4" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">cor =</span> <span class="fu">round</span>(<span class="fu">cor</span>(cp, canhoto), <span class="dv">2</span>))</span>
-<span id="cb13-5"><a href="dags.html#cb13-5" tabindex="-1"></a><span class="fu">print</span>(cor_festa)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="dags.html#cb10-1" tabindex="-1"></a><span class="co"># Correlação entre os que foram à festa</span></span>
+<span id="cb10-2"><a href="dags.html#cb10-2" tabindex="-1"></a>cor_festa <span class="ot">&lt;-</span> tabela <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="dags.html#cb10-3" tabindex="-1"></a>  <span class="fu">filter</span>(festa <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-4"><a href="dags.html#cb10-4" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">cor =</span> <span class="fu">round</span>(<span class="fu">cor</span>(cp, canhoto), <span class="dv">2</span>))</span>
+<span id="cb10-5"><a href="dags.html#cb10-5" tabindex="-1"></a><span class="fu">print</span>(cor_festa)</span></code></pre></div>
 <pre><code>##     cor
 ## 1 -0.95</code></pre>
 <p>Na população em geral, a correlação é próxima de zero (aproximadamente -0,02). Porém, entre as pessoas que foram à festa, a correlação pode chegar a -0,95, evidenciando como condicionar em um collider (neste caso, a variável festa) pode induzir correlação espúria.</p>
