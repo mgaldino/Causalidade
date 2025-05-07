@@ -281,7 +281,7 @@ Y1 <- Y0 + 2 - 1.5*U^3 # treatment potential outcome
 Treatment <- ( X >= 0)
 # What we observe
 Y = Y1* Treatment + Y0*(1- Treatment )
-mean(Y1 - Y0)
+
 df <- data.frame(y=Y, x=X, treatment = Treatment, y0 = Y0, y1=Y1)
 
 
@@ -328,7 +328,7 @@ Y0[X < .4 & X > -.4] <- rnorm(m , 2, sd = .3)
 Treatment <- ( X >= 0)
 # What we observe
 Y = Y1* Treatment + Y0*(1- Treatment )
-mean(Y1 - Y0)
+
 df <- data.frame(y=Y, x=X, treatment = Treatment, y0 = Y0, y1=Y1)
 
 df <- data.frame(y=Y, x=X, treatment = Treatment, y0 = Y0, y1=Y1, u = U)
@@ -356,14 +356,17 @@ ggplot(df, aes(x = x, y = y, colour = treatment)) +
   theme_minimal() +
   theme(legend.position = "none")
 
-mean(df$y1 - df$y0)
-mean(Y1 - Y0)
-basic_model <- rdrobust(y = df$y, x = df$x, c = 0)
-summary(basic_model)
-summary(lm(y ~ x, data=df))
-library(rdrobust)
+# mean(df$y1 - df$y0)
+# mean(Y1 - Y0)
+# basic_model <- rdrobust(y = df$y, x = df$x, c = 0)
+# summary(basic_model)
+# summary(lm(y ~ x, data=df))
+# library(rdrobust)
 rdplot(y=df$y, x=df$x, binselect = "qs")
+
 ```
+
+
 
 
 ## Raw Data versus Bin
