@@ -4,7 +4,7 @@
 
 Na aula de hoje, iremos aprender sobre identificação causal do do aspecto mais simples da RD e como funciona
 
-Em seguida, estimação. Se tivermos tempo, extensões. 
+Em seguida, estimação e checagem. Falaremos rapidamente de extensões.
 
 ## Características-chave da RDD
 
@@ -20,9 +20,7 @@ Em um desenho RDD *sharp*, uma unidade é tratada se $X_i \geq c$ e não tratada
 
 - Nesse caso, a regra serve como variável instrumental ao redor do ponto de corte.
 
-- Tudo se passa como se houvesse always-takers e/ou never-takers ao redor do ponto de limiar.
-
-- Ex.: regra de voto determina número de cadeiras. Mas migração partidária altera o número. Então quem fica abaixo do número mínimo em um distrito pode ter cadeiras naquele distrito via migração partidária. São always-takers.
+- Ex.: regra de voto determina número de cadeiras. Mas migração partidária altera o número. Então quem fica abaixo do número mínimo em um distrito pode ter cadeiras naquele distrito via migração partidária.
 
 ### Observação e Corte
 
@@ -30,14 +28,16 @@ Em um desenho RDD *sharp*, uma unidade é tratada se $X_i \geq c$ e não tratada
 
 Uma das suposições da RDD é que ela requer a continuidade da variável $X$ para identificação, embora, na prática, alguns estudos de RDD tenham usado *running variables* discretas. A continuidade de $X$ é necessária porque a identificação ocorre no limite.
 
+Mas a suposiçao chave é que os resultados potenciais devem ser contínuos ao redor do ponto de corte. Como sempre, essa suposição é intestável, devido ao problema fundamental da inferência causal. Lee (2008), em um artigo clássico, mostrou que uma condição mais restritiva é suficiente para identificação causal: que as unidades podem controlar a running varibale, exceto ao redor do ponto de corte. Isso implica também que as covariáveis de pré-tratamento são contínuas no cutoff. Isso é potencialmente testável, pelo menos nas variáveis observadas e em geral olhando para a média das variáveis, o que não é a mesma coisa que olhar para outros momentos, que podem ser descontínuos.
+
 ### Estimativa dos Efeitos do Tratamento
 
 A comparação de $\lim_{x \uparrow c} E[Y_i | X_i = x]$ com $\lim_{x \downarrow c} E[Y_i | X_i = x]$ fornece uma estimativa dos efeitos do tratamento (note a direção das setas).
 
-Esta comparação é equivalente a: $\lim_{x \to c} E[Y_i | X_i = x, T_i=0]$ e $\lim_{x \leftarrow c} E[Y_i | X_i = x, T_i=1]$, uma vez que, neste exemplo, à direita de $c$ todos recebem tratamento; à esquerda, ninguém recebe. Portanto:
+Esta comparação é equivalente a: $\lim_{x \uparrow c} E[Y_i | X_i = x, T_i=0]$ e $\lim_{x \downarrow c} E[Y_i | X_i = x, T_i=1]$, uma vez que, neste exemplo, à direita de $c$ todos recebem tratamento; à esquerda, ninguém recebe. Portanto:
 
-- $\lim_{x \to c} E[Y_i | X_i = x] \approx E[Y_{0i} | X_i = c]$
-- $\lim_{x \leftarrow c} E[Y_i | X_i = x] \approx E[Y_{1i} | X_i = c]$
+- $\lim_{x \uparrow c} E[Y_i | X_i = x] \approx E[Y_{0i} | X_i = c]$
+- $\lim_{x \downarrow c} E[Y_i | X_i = x] \approx E[Y_{1i} | X_i = c]$
 
 Se fôssemos usar regressão linear, o modelo seria:
 $y_i = \alpha + \beta_1 (x_i > c) + \beta_2 x_i + \beta_3 x (x_i > c) + e_i$, em que $c$ é o ponto de corte, e $x$ é a *running variable*.
@@ -133,7 +133,7 @@ library(tidyverse)
 
 # df
 df <- data.frame(y=Y, x=X, treatment = Treatment, y0 = Y0, y1=Y1)
-
+df_aux <- df
 ```
 
 ```{r plot-treatment-assignment, echo=FALSE}
@@ -173,13 +173,14 @@ df %>%
 ## Simulação - Potential Outcomes Y1 e Y0
 
 
-```{r plot-po-y1-Y0, echo=FALSE}
+```{r plot-po-y1-Y0, echo=FALSE, message=FALSE}
 df_long <- df %>%
   pivot_longer(
     cols = c("y0", "y1"),
     names_to = "outcome_type",
     values_to = "outcome"
   )
+df_long_aux <- df_long
 
 ggplot(df_long, aes(x = x, y = outcome, colour = interaction(treatment, outcome_type))) +
   geom_point() +
@@ -191,7 +192,11 @@ ggplot(df_long, aes(x = x, y = outcome, colour = interaction(treatment, outcome_
 
 df_long %>%
   ggplot(aes(x=x, y=outcome, group = outcome_type)) + geom_smooth(se=FALSE) +
-  geom_vline(xintercept = 0)
+  geom_vline(xintercept = 0)  +
+  scale_color_manual(values = c(
+    "y0" = "blue",
+    "y1" = "red"
+  ))
 ```
 
 ## Simulação - Y observado
@@ -205,8 +210,167 @@ ggplot(df, aes(x = x, y = y, colour = treatment)) +
   theme(legend.position = "none")
 ```
 
-```{r plot-binscatter, echo=FALSE}
+## Quando o RDD funciona?
 
+A suposição chave para o RDD é que tenha descontinuidade ao redor do ponto de corte, e que não haja descontinuidade ao redor do ponto de corte em outra variável omitida. Vamos ver o que isso significa, comparando quator gráficos, três em que a estimativa do RDD é válida, mas com diferentes validades "externas" e uma em que é inválida.
+
+```{r multiplos_rdds, echo=FALSE, message=FALSE}
+library(rdrobust)
+set.seed(123)
+N <- 1000 # number of observations
+U <- rnorm(N)
+X <- runif (N , -5,5) - U
+X <- X - mean(X)
+Y0 <- rnorm ( n =N , mean =X , sd=2) + 2*U^2  # control potential outcome
+Y1 <- Y0 + 2 + 2*U^2  # treatment potential outcome
+#You only get treatment if X>0
+Treatment <- ( X >= 0)
+# What we observe
+Y = Y1* Treatment + Y0*(1- Treatment )
+mean(Y1 - Y0)
+df <- data.frame(y=Y, x=X, treatment = Treatment, y0 = Y0, y1=Y1)
+
+
+df_long <- df %>%
+  pivot_longer(
+    cols = c("y0", "y1"),
+    names_to = "outcome_type",
+    values_to = "outcome"
+  )
+
+df_long %>%
+  ggplot(aes(x=x, y=outcome, group = outcome_type, colour = outcome_type)) + geom_smooth(se=FALSE) +
+  geom_vline(xintercept = 0) +
+  scale_color_manual(values = c(
+    "y0" = "blue",
+    "y1" = "red"
+  ))
+# 2
+
+Y0 <- rnorm ( n =N , mean =X , sd=1) + .5*U^2 - X*U # control potential outcome
+Y1 <- Y0 + 2 + 2*X*U # treatment potential outcome
+#You only get treatment if X>0
+Treatment <- ( X >= 0)
+# What we observe
+Y = Y1* Treatment + Y0*(1- Treatment )
+mean(Y1 - Y0)
+df <- data.frame(y=Y, x=X, treatment = Treatment, y0 = Y0, y1=Y1, u = U)
+df_u <- df
+
+df_long <- df %>%
+  pivot_longer(
+    cols = c("y0", "y1"),
+    names_to = "outcome_type",
+    values_to = "outcome"
+  )
+
+df_long %>%
+  ggplot(aes(x=x, y=outcome, group = outcome_type, colour = outcome_type)) + geom_smooth(se=FALSE) +
+  geom_vline(xintercept = 0) +
+  scale_color_manual(values = c(
+    "y0" = "blue",
+    "y1" = "red"
+  ))
+
+
+# 3
+Y0 <- rnorm ( n =N , mean =X , sd=1) + U^2   # control potential outcome
+
+Y1 <- Y0 + 2 - 1.5*U^3 # treatment potential outcome
+#You only get treatment if X>0
+Treatment <- ( X >= 0)
+# What we observe
+Y = Y1* Treatment + Y0*(1- Treatment )
+mean(Y1 - Y0)
+df <- data.frame(y=Y, x=X, treatment = Treatment, y0 = Y0, y1=Y1)
+
+
+df_long <- df %>%
+  pivot_longer(
+    cols = c("y0", "y1"),
+    names_to = "outcome_type",
+    values_to = "outcome"
+  )
+
+df_long %>%
+  ggplot(aes(x=x, y=outcome, group = outcome_type, colour = outcome_type)) + geom_smooth(se=FALSE) +
+  geom_vline(xintercept = 0) +
+  scale_color_manual(values = c(
+    "y0" = "blue",
+    "y1" = "red"
+  ))
+
+
+# 4
+f0 <- function(x) {  sin(x) * 1.5  - 0.1 * x    }       # E[Y(0)|X]
+f1 <- function(x) {  f0(x)   +  0.5 * x      }          # E[Y(1)|X], so f1(0)=f0(0)
+
+# 2. Build a long data.frame, tagging where each is observed
+x_seq <- seq(-5, 5, length.out = 400)
+df0 <- data.frame(x = x_seq, y = f0(x_seq), type = "E[Y(0)|X]")
+df1 <- data.frame(x = x_seq, y = f1(x_seq), type = "E[Y(1)|X]")
+
+df <- rbind(df0, df1)
+
+# 3. Plot
+ggplot(df, aes(x = x, y = y, color = type)) +
+  geom_line(size = 1.2) +
+  scale_color_manual(values = c(
+    "E[Y(0)|X]" = "blue",
+    "E[Y(1)|X]" = "red"
+  ))
+
+# 5
+Y0 <- rnorm ( n =N , mean =X , sd=1)    # control potential outcome
+m <- length(X[X < .4 & X > -.4])
+Y1 <- Y0 + 2 # treatment potential outcome
+Y0[X < .4 & X > -.4] <- rnorm(m , 2, sd = .3)
+Treatment <- ( X >= 0)
+# What we observe
+Y = Y1* Treatment + Y0*(1- Treatment )
+mean(Y1 - Y0)
+df <- data.frame(y=Y, x=X, treatment = Treatment, y0 = Y0, y1=Y1)
+
+df <- data.frame(y=Y, x=X, treatment = Treatment, y0 = Y0, y1=Y1, u = U)
+
+
+df_long <- df %>%
+  pivot_longer(
+    cols = c("y0", "y1"),
+    names_to = "outcome_type",
+    values_to = "outcome"
+  )
+
+df_long %>%
+  ggplot(aes(x=x, y=outcome, group = outcome_type, colour = outcome_type)) + geom_smooth(se=FALSE) +
+  geom_vline(xintercept = 0) +
+  scale_color_manual(values = c(
+    "y0" = "blue",
+    "y1" = "red"
+  ))
+
+ggplot(df, aes(x = x, y = y, colour = treatment)) +
+  geom_point() +
+  scale_colour_manual(values = c("black", "blue")) +
+  labs(x = "Running Variable", y = "Resultados observados - Y") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+mean(df$y1 - df$y0)
+mean(Y1 - Y0)
+basic_model <- rdrobust(y = df$y, x = df$x, c = 0)
+summary(basic_model)
+summary(lm(y ~ x, data=df))
+library(rdrobust)
+rdplot(y=df$y, x=df$x, binselect = "qs")
+```
+
+
+## Raw Data versus Bin
+
+```{r plot-binscatter, echo=FALSE}
+df <- df_aux
+df_long <- df_long_aux
 ggplot(df, aes(x = x, y = y, color = treatment)) +
   stat_summary_bin(
     fun = mean,        # calcula a média de Y_cont em cada bin
@@ -253,7 +417,7 @@ ggplot(df2, aes(x = x, y = y, color = treatment)) +
 
 Não faz muita diferença neste exemplo, mas usar quantis é mais transparente e mais crível retoricamente, pois não mascara a densidade.
 
-Sobre o número de bins, Cattaneo et. al (2020) discute o tema e sugere duas abordagens: 
+Sobre o número de bins, Cattaneo et. al (2020) discutem o tema e sugerem duas abordagens: 
 1. IMSE-minimizing (proporcional a $n^{1/3}$)
 2. Mimmicking-variance (proporcional a $n/log(n)^2$)
 
@@ -274,23 +438,86 @@ rdplot(y=df$y, x=df$x, binselect = "qsmv")
 
 Para checar balancing, podemos usar testes de permutação.
 
-```{r permutation-test, echo=FALSE}
+```{r permutation-test, echo=TRUE, message=FALSE}
 library(RATest)
-rdplot(y=df$y, x=df$x, binselect = "qsmv")
+df <- df_u
+head(df)
+resultado <- RDperm(
+  W = "u",  # Substitua pelos nomes das suas covariáveis
+  z = "x",              # Substitua pelo nome da sua variável de corte
+  data = df,                # Substitua pelo seu data frame
+  cutoff = 0                            # Substitua pelo valor do ponto de corte, se diferente de 0
+)
+summary(resultado)
+
+plot(resultado, w="u", "cdf")
 ```
 
-# McCray test
-rddentisity 
+Canay& Kamat (2018) utiolizaram esse teste pars revisitar o trabalho de Lee (2008) e descobrem que havia problema de balanceamento.
+
+Caughey and Sekhon (2011) na political analysis mostraram que de fato havia problemas de balanceamento no estudo de Lee (2008).
+
+
+
+Do paper da PA:
+
+```{r quote, echo=FALSE}
+
+knitr::include_graphics("/Users/manoelgaldino/Documents/DCP/Cursos/Causalidade/Causalidade/imagens/quote.png")
+
+knitr::include_graphics("/Users/manoelgaldino/Documents/DCP/Cursos/Causalidade/Causalidade/imagens/quote2.png")
+```
+
+Houve um debate na ciência política sobre isso.  Erikson & Rader (2017) e Cuesta & Imai (2016) argumentam que o RDD é identificado. Até onde eu sei, cientistas políticos não revisitaram a controvérsia com os novos metodos desenvolvidos pelos economistas.
+
+De todo modo, as evidências de De Magalhães et. al (2025) sugerem que a recomendação que estou adotando no curso de quais práticas usar são as melhores e mais robustas.
+
+
+
+## McCray test
+
+Um dos principais desafios à identificação causal em RDDs é a possibilidade de manipulação por parte dos agentes sobre ficar acima ou abaixo do ponto de corte. A lógica esperada é que se o tratamento é desejável, indivíduos tentarão receber o tratanto, levando a um gap justamente abaixo do ponte de corte. Se o tratamento é indesejável (efeitos negativos), indivíduos vão evitar o tratamento, levando a um gap justamente acima do ponto de corte.
+
+O exemplo mais evidente para nós cientistas políticos é a aprovação de um projeto de lei no legislativo. Nós sabemos que os legisladores agem estrategicamente retirando propostas que não vão ser aprovadas ou postergando a votação, até terem a maioria, ainda que por margem mínima. Nesse caso, a aplicação de RDD nesse caso produirá estimativas viesadas. McCray, em um artigo de 2008, argumentou que tais casos apareceriam como descontinuidade na densidade da *running variable* ao redor do ponto de corte. Eis o gráfico feito por McCray em seu estudo original:
+
+```{r McCay-test, echo=FALSE}
+
+knitr::include_graphics("/Users/manoelgaldino/Documents/DCP/Cursos/Causalidade/Causalidade/imagens/manipulation test.png")
+```
+
+Para formalizar essa ideia, McCray estima os limites da densidade pela esquerda e pela direita e avalia se a diferença (do logaritmo) das estimativas é estatisticamente significante diferente de zero. Portanto, rejeitar a hipótese nula é encontrar evidências de que há manipulação.  Cattaneo, Jansson, & Ma 2018; 2020 introduziram uma versão alternativa do teste, com espírito similar.
+
+Na prática, de um ponto de vista retórico, o que pesquisadores querem é falhar em rejeitar a nula. Como o teste tem baixo poder de rejeitar a nula, ausência de evidência não quer dizer evidência de ausência.
+
+```{r McCay-test1, message=FALSE}
+library(rdd)
+# Simulated data without discontinuity
+
+DCdensity(df$x, 0)  # No discontinuity
+
+```
+
+Cattaneo Density Test (Improved Version)
+
+```{r Cattaneo-test, message=FALSE}
+library(rddensity)
+
+# Simulated continuous density
+rdd <- rddensity(X = df$x, vce = "jackknife")
+summary(rdd)
+```
+
+Essa é uma área ativa de pesquisa, com novos testes sendo desenvolvidos, por exemplo, Fitzgerald (2025), que é um working paper.
+
 
 ## Robustez
 
-Mostras várias estimativas, para várias escolhas de estimações (bandwith etc.)
+Mostrar várias estimativas, para várias escolhas de estimações (bandwith etc.)
 
+Uma possibilidade é simplesmente apresentar várias estimativas, como faremos abaixo. Ou então, uma tabela. Mas o mais simples seria um gráfico dos efeitos com seus respectivos ICs, em que cada entrada no eixo x é uma estimação, e no y temos o efeito.
+Abaixo apresento duas dessas possbilidades para ilustrar como a última é a melhor.
 
-
-## Simulação - Estimativa (1)
-```{r plot-estimator-1, echo=FALSE}
-
+```{r plot-estimator-1, echo=FALSE, message=FALSE, warning=FALSE}
 
 # Calculate means for each treatment group
 mean_values <- df_long %>%
@@ -302,7 +529,10 @@ mean_black <- mean_values$mean_y[mean_values$treatment == FALSE]
 mean_blue <- mean_values$mean_y[mean_values$treatment == TRUE]
 
 # Calculate the difference (RDD estimator)
-rdd_estimate <- coef(lm(y ~ treatment, df))[2]
+basic_model <- rdrobust(df$y, df$x, p=1)
+rdd_estimate <- basic_model$coef[1]
+vec_estimate <- rdd_estimate
+se_estimate <- basic_model$se[2]
 
 
 # Define the position for the bracket and text
@@ -324,8 +554,7 @@ ggplot(df_long, aes(x = x, y = y, colour = treatment)) +
            size = 5, colour = "red", vjust = -1)
 ```
 
-## Simulação - Estimativa (2)
-```{r plot-estimator2, echo=FALSE}
+```{r plot-estimator2, echo=FALSE, message=FALSE, warning=FALSE}
 
 df_long <- df_long %>%
   filter ( x > -1 & x < 1)
@@ -339,8 +568,10 @@ mean_black <- mean_values$mean_y[mean_values$treatment == FALSE]
 mean_blue <- mean_values$mean_y[mean_values$treatment == TRUE]
 
 # Calculate the difference (RDD estimator)
-rdd_estimate <- coef(lm(y ~ treatment, subset(df, x > -1 & x < 1)))[2]
-
+basic_model <- rdrobust(df$y, df$x, p=1, h=1)
+rdd_estimate <- basic_model$coef[1]
+vec_estimate[2] <- rdd_estimate
+se_estimate[2] <- basic_model$se[2]
 
 # Define the position for the bracket and text
 bracket_height <- max(mean_black, mean_blue) + abs(mean_blue - mean_black)*0.001
@@ -363,8 +594,8 @@ ggplot(df_long, aes(x = x, y = y, colour = treatment)) +
 
 ```
 
-## Simulação - Estimativa (3)
-```{r plot-estimator3, echo=FALSE}
+
+```{r plot-estimator3, echo=FALSE, message=FALSE, warning=FALSE}
 
 df_long <- df_long %>%
   filter ( x > -.5 & x < .5)
@@ -378,7 +609,10 @@ mean_black <- mean_values$mean_y[mean_values$treatment == FALSE]
 mean_blue <- mean_values$mean_y[mean_values$treatment == TRUE]
 
 # Calculate the difference (RDD estimator)
-rdd_estimate <- coef(lm(y ~ treatment, subset(df, x > -.5 & x < .5)))[2]
+basic_model <- rdrobust(df$y, df$x, p=1, h=.5)
+rdd_estimate <- basic_model$coef[1]
+vec_estimate[3] <- rdd_estimate
+se_estimate[3] <- basic_model$se[2]
 
 
 # Define the position for the bracket and text
@@ -403,8 +637,7 @@ ggplot(df_long, aes(x = x, y = y, colour = treatment)) +
 ```
 
 
-## Simulação - Estimativa (4)
-```{r plot-estimator4, echo=FALSE}
+```{r plot-estimator4, echo=FALSE, message=FALSE, warning=FALSE}
 
 df_long <- df_long %>%
   filter ( x > -.1 & x < .1)
@@ -418,7 +651,10 @@ mean_black <- mean_values$mean_y[mean_values$treatment == FALSE]
 mean_blue <- mean_values$mean_y[mean_values$treatment == TRUE]
 
 # Calculate the difference (RDD estimator)
-rdd_estimate <- coef(lm(y ~ treatment, subset(df, x > -.1 & x < .1)))[2]
+basic_model <- rdrobust(df$y, df$x, p=1, h=.1)
+rdd_estimate <- basic_model$coef[1]
+vec_estimate[4] <- rdd_estimate
+se_estimate[4] <- basic_model$se[2]
 
 
 # Define the position for the bracket and text
@@ -442,45 +678,29 @@ ggplot(df_long, aes(x = x, y = y, colour = treatment)) +
 
 ```
 
-## Exemplo de Descontinuidade
-```{r density-plotx, echo=TRUE, message=FALSE, warning=FALSE}
-library(rdrobust)
-library(rddensity)
-library(knitr)
-rdplot(y = df$y, x = df$x, c = 0, p = 1)  # p = 2 for quadratic polynomial fit
-```
 
+```{r plot-efeitos, echo=TRUE, message=FALSE, warning=FALSE}
+df1 <- data.frame(
+  estimate = vec_estimate,
+  se       = se_estimate,
+  lower    = vec_estimate - 2 * se_estimate,
+  upper    = vec_estimate + 2 * se_estimate,
+  h     = c("Aut" , "h=1", "h=.5" , "h=.1")  # ou names(vec_estimate) se o vetor for nomeado
+)
 
-## Identificação fácil vs Estimação difícil
-
-- Identificação de RDD (com n infinito) é bem robusto
-- Problema é que a estimação depende de extrapolação
-- Extrapolação é um problema difícil
-
-## Suposição de não-manipulação
--- Densidade (não deve ter diferença se não há seleção)
-```{r density-plot, echo=FALSE, warning=FALSE, message=FALSE}
-library(rdrobust)
-library(rddensity)
-library(knitr)
-# histogram of density test
-ggplot(df,aes(x=x, fill = treatment)) + geom_histogram(binwidth=0.5) +
-xlim(-5,5) + geom_vline(xintercept = 0) + xlab("Running variable")+ scale_colour_manual(values = c("red","blue")) + theme_bw() + theme(legend.position='none')
-```
-
-## teste formal da densidade
-```{r density-test, echo=TRUE}
-rdd <- rddensity(X = df$x, vce="jackknife")
-summary_part1 <- summary(rdd)[1:4]  # Assuming you want to show the first 4 parts here
-print(summary_part1)
-```
-
-## Plot da densidade
-```{r density-plot1, echo=TRUE}
-
-rdplotdensity(rdd, df$x, plotRange = c(-5, 5), plotN = 25, CIuniform = TRUE)
+# 2) Plote com pontos e barras de erro
+ggplot(df1, aes(x = h, y = estimate)) +
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.1) +
+  labs(
+    x     = "h",
+    y     = "Estimativa",
+    title = "Efeitos estimados com IC (±2×SE)"
+  ) +
+  theme_minimal()
 
 ```
+
 
 ## Densidade descontínua - código
 ```{r density-plot2, echo=TRUE, eval=FALSE}
@@ -497,9 +717,6 @@ summary(rdd)
 # Density plot (from -2 to 2 with 25 evaluation points at each side)
 plot1 <- rdplotdensity(rdd, x, plotRange = c(-2, 2), plotN = 25)
 ```
-
-
-
 
 
 
@@ -523,10 +740,6 @@ rdplotdensity(rdd, x, plotRange = c(-2, 2), plotN = 25)
 ```
 
 
-
-
-
-
 ## Regressão RDD
 ```{r reg-rdd, echo=TRUE, eval=TRUE}
 library(rdrobust)
@@ -539,6 +752,36 @@ summary(basic_model)
 ```{r reg-rdd2, echo=FALSE}
 
 summary(basic_model)
+```
+
+## Placebo Tests
+
+Testando descontinuidade em covariáveis predeterminadas: covariáveis que não devem ser afetadas pelo tratamento não devem apresentar salto no ponto de corte.
+
+Testando descontinuidades em outros pontos: verificar a existência de descontinuidades em pontos arbitrários ao longo da variável de ordenação.
+
+Uso de VDs placebos: se uma variável dependente que não deveria ser afetada pelo tratamento apresentar descontinuidade significativa, isso levanta dúvidas sobre a validade do desenho RD.
+
+Avaliação de sensibilidade às covariáveis: as estimativas de RD não devem ser altamente sensíveis à inclusão ou exclusão de covariáveis.
+
+## PCRD
+
+Marhsall (2024) na AJPS introduz a nomenclatura do desenho de pesquisa Politician characteristic regression discontinuity (PCRD). Basicamente, o argumento é que RDD não permite identificar efeito de características de políticos (como gênero, profissão, raça, ideologia, alinhamento com govenro federal etc.)
+
+"In contrast, the treatment in PCRD designs — which instead seek to estimate the LATE of an elected politician characteristic — is defined by possessing (or not) predetermined characteristic X, conditional on narrowly winning an election. (...) restricting attention to close elections entails conditioning on candidate vote shares that may be affected by X. (...) [It] generally introduce bias — even when X is independent of other predetermined variables and the weak continuity assumption underpinning standard RD designs holds." (p. 495)
+
+Basicamente, Marshall está dizendo que nesses casos, close election é um collider, e isso abre as portas para viéses de variáveis que causem $y$ e se a eleição é apertada.
+
+```{r DAG, echo=FALSE}
+
+library(ggdag)
+dag <- dagify(
+  y ~ genero + competencia,
+  close_election ~ competencia + genero
+)
+
+ggdag(dag)
+
 ```
 
 ## Checlist para um paper
@@ -561,12 +804,26 @@ Ordem preferida: primeiro estabelecer a validade da estratégia, depois detalhes
 
 ## Referências
 
+Canay, I. A., & Kamat, V. (2018). Approximate permutation tests and induced order statistics in the regression discontinuity design. The Review of Economic Studies, 85(3), 1577-1608.
+
 Cattaneo, M. D., Idrobo, N., & Titiunik, R. (2024). A practical introduction to regression discontinuity designs: Extensions. Cambridge University Press.
 
 Cattaneo, M. D., Idrobo, N., & Titiunik, R. (2019). A Practical Introduction to Regression Discontinuity Designs: Foundations. Elements in Quantitative and Computational Methods for the Social Sciences.
 
 Cattaneo, M. D., & Titiunik, R. (2022). Regression discontinuity designs. Annual Review of Economics, 14(1), 821-851.
 
+De Magalhães, L., Hangartner, D., Hirvonen, S., Meriläinen, J., Ruiz, N. A., & Tukiainen, J. (2025). When Can We Trust Regression Discontinuity Design Estimates from Close Elections? Evidence from Experimental Benchmarks. Political Analysis, 1-8.
+
+Fitzgerald, J. (2025). Manipulation Tests in Regression Discontinuity Design: The Need for Equivalence Testing.
+
 Gelman, A., & Imbens, G. (2019). Why high-order polynomials should not be used in regression discontinuity designs. Journal of Business & Economic Statistics, 37(3), 447-456.
+
+Marshall, J. (2024). Can close election regression discontinuity designs identify effects of winning politician characteristics?. American Journal of Political Science, 68(2), 494-510.
+
+Erikson, R. S., & Rader, K. (2017). Much ado about nothing: rdd and the incumbency advantage. Political Analysis, 25(2), 269-275.
+
+De la Cuesta, B., & Imai, K. (2016). Misunderstandings about the regression discontinuity design in the study of close elections. Annual Review of Political Science, 19(1), 375-396.
+
+Marshall, J. (2024). Can close election regression discontinuity designs identify effects of winning politician characteristics?. American Journal of Political Science, 68(2), 494-510.
 
 - Tutorial: https://congressdata.joshuamccrain.com/regression_discontinuity.html

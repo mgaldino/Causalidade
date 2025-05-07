@@ -233,7 +233,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="5.9.1" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching-e-propensity-scores"><i class="fa fa-check"></i><b>5.9.1</b> Matching e Propensity scores</a></li>
 </ul></li>
-<li class="chapter" data-level="5.10" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#recomendações-práticas-sobre-matching"><i class="fa fa-check"></i><b>5.10</b> Recomendações Práticas sobre Matching</a></li>
+<li class="chapter" data-level="5.10" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#recomendações-práticas-sobre-matching"><i class="fa fa-check"></i><b>5.10</b> Recomendações Práticas sobre Matching</a>
+<ul>
+<li class="chapter" data-level="5.10.1" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#avaliação-do-matching-feito"><i class="fa fa-check"></i><b>5.10.1</b> Avaliação do matching feito</a></li>
+</ul></li>
 <li class="chapter" data-level="5.11" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#referências-2"><i class="fa fa-check"></i><b>5.11</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html"><i class="fa fa-check"></i><b>6</b> Variáveis Instrumentais</a>
@@ -294,7 +297,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.13" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#simulação---potential-outcomes-y1"><i class="fa fa-check"></i><b>7.13</b> Simulação - Potential Outcomes Y1</a></li>
 <li class="chapter" data-level="7.14" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#simulação---potential-outcomes-y1-e-y0"><i class="fa fa-check"></i><b>7.14</b> Simulação - Potential Outcomes Y1 e Y0</a></li>
 <li class="chapter" data-level="7.15" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#simulação---y-observado"><i class="fa fa-check"></i><b>7.15</b> Simulação - Y observado</a></li>
-<li class="chapter" data-level="7.16" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#permutation-tests-balancing"><i class="fa fa-check"></i><b>7.16</b> Permutation tests (balancing)</a></li>
+<li class="chapter" data-level="7.16" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#quando-o-rdd-funciona"><i class="fa fa-check"></i><b>7.16</b> Quando o RDD funciona?</a></li>
+<li class="chapter" data-level="7.17" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#permutation-tests-balancing"><i class="fa fa-check"></i><b>7.17</b> Permutation tests (balancing)</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="mccray-test.html"><a href="mccray-test.html"><i class="fa fa-check"></i><b>8</b> McCray test</a>
 <ul>
@@ -361,57 +365,73 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="simulação---estimativa-1" class="section level2 hasAnchor" number="8.2">
 <h2><span class="header-section-number">8.2</span> Simulação - Estimativa (1)<a href="mccray-test.html#simulação---estimativa-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <pre><code>## Warning in geom_segment(aes(x = min(x), xend = 0, y = mean_black, yend = mean_black), : All aesthetics have length 1, but the data has 2000 rows.
-## ℹ Please consider using `annotate()` or provide this layer with data containing a single row.</code></pre>
+## ℹ Please consider using `annotate()` or provide this layer with data containing
+##   a single row.</code></pre>
 <pre><code>## Warning in geom_segment(aes(x = 0, xend = max(x), y = mean_blue, yend = mean_blue), : All aesthetics have length 1, but the data has 2000 rows.
-## ℹ Please consider using `annotate()` or provide this layer with data containing a single row.</code></pre>
+## ℹ Please consider using `annotate()` or provide this layer with data containing
+##   a single row.</code></pre>
 <pre><code>## Warning in geom_segment(aes(x = 0, y = mean_black, xend = 0, yend = bracket_height), : All aesthetics have length 1, but the data has 2000 rows.
-## ℹ Please consider using `annotate()` or provide this layer with data containing a single row.</code></pre>
+## ℹ Please consider using `annotate()` or provide this layer with data containing
+##   a single row.</code></pre>
 <pre><code>## Warning in geom_segment(aes(x = 0, y = mean_blue, xend = 0, yend = bracket_height), : All aesthetics have length 1, but the data has 2000 rows.
-## ℹ Please consider using `annotate()` or provide this layer with data containing a single row.</code></pre>
+## ℹ Please consider using `annotate()` or provide this layer with data containing
+##   a single row.</code></pre>
 <p><img src="bookdownproj_files/figure-html/plot-estimator-1-1.png" width="672" /></p>
 </div>
 <div id="simulação---estimativa-2" class="section level2 hasAnchor" number="8.3">
 <h2><span class="header-section-number">8.3</span> Simulação - Estimativa (2)<a href="mccray-test.html#simulação---estimativa-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <pre><code>## Warning in geom_segment(aes(x = min(x), xend = 0, y = mean_black, yend = mean_black), : All aesthetics have length 1, but the data has 406 rows.
-## ℹ Please consider using `annotate()` or provide this layer with data containing a single row.</code></pre>
+## ℹ Please consider using `annotate()` or provide this layer with data containing
+##   a single row.</code></pre>
 <pre><code>## Warning in geom_segment(aes(x = 0, xend = max(x), y = mean_blue, yend = mean_blue), : All aesthetics have length 1, but the data has 406 rows.
-## ℹ Please consider using `annotate()` or provide this layer with data containing a single row.</code></pre>
+## ℹ Please consider using `annotate()` or provide this layer with data containing
+##   a single row.</code></pre>
 <pre><code>## Warning in geom_segment(aes(x = 0, y = mean_black, xend = 0, yend = bracket_height), : All aesthetics have length 1, but the data has 406 rows.
-## ℹ Please consider using `annotate()` or provide this layer with data containing a single row.</code></pre>
+## ℹ Please consider using `annotate()` or provide this layer with data containing
+##   a single row.</code></pre>
 <pre><code>## Warning in geom_segment(aes(x = 0, y = mean_blue, xend = 0, yend = bracket_height), : All aesthetics have length 1, but the data has 406 rows.
-## ℹ Please consider using `annotate()` or provide this layer with data containing a single row.</code></pre>
+## ℹ Please consider using `annotate()` or provide this layer with data containing
+##   a single row.</code></pre>
 <p><img src="bookdownproj_files/figure-html/plot-estimator2-1.png" width="672" /></p>
 </div>
 <div id="simulação---estimativa-3" class="section level2 hasAnchor" number="8.4">
 <h2><span class="header-section-number">8.4</span> Simulação - Estimativa (3)<a href="mccray-test.html#simulação---estimativa-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <pre><code>## Warning in geom_segment(aes(x = min(x), xend = 0, y = mean_black, yend = mean_black), : All aesthetics have length 1, but the data has 200 rows.
-## ℹ Please consider using `annotate()` or provide this layer with data containing a single row.</code></pre>
+## ℹ Please consider using `annotate()` or provide this layer with data containing
+##   a single row.</code></pre>
 <pre><code>## Warning in geom_segment(aes(x = 0, xend = max(x), y = mean_blue, yend = mean_blue), : All aesthetics have length 1, but the data has 200 rows.
-## ℹ Please consider using `annotate()` or provide this layer with data containing a single row.</code></pre>
+## ℹ Please consider using `annotate()` or provide this layer with data containing
+##   a single row.</code></pre>
 <pre><code>## Warning in geom_segment(aes(x = 0, y = mean_black, xend = 0, yend = bracket_height), : All aesthetics have length 1, but the data has 200 rows.
-## ℹ Please consider using `annotate()` or provide this layer with data containing a single row.</code></pre>
+## ℹ Please consider using `annotate()` or provide this layer with data containing
+##   a single row.</code></pre>
 <pre><code>## Warning in geom_segment(aes(x = 0, y = mean_blue, xend = 0, yend = bracket_height), : All aesthetics have length 1, but the data has 200 rows.
-## ℹ Please consider using `annotate()` or provide this layer with data containing a single row.</code></pre>
+## ℹ Please consider using `annotate()` or provide this layer with data containing
+##   a single row.</code></pre>
 <p><img src="bookdownproj_files/figure-html/plot-estimator3-1.png" width="672" /></p>
 </div>
 <div id="simulação---estimativa-4" class="section level2 hasAnchor" number="8.5">
 <h2><span class="header-section-number">8.5</span> Simulação - Estimativa (4)<a href="mccray-test.html#simulação---estimativa-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <pre><code>## Warning in geom_segment(aes(x = min(x), xend = 0, y = mean_black, yend = mean_black), : All aesthetics have length 1, but the data has 32 rows.
-## ℹ Please consider using `annotate()` or provide this layer with data containing a single row.</code></pre>
+## ℹ Please consider using `annotate()` or provide this layer with data containing
+##   a single row.</code></pre>
 <pre><code>## Warning in geom_segment(aes(x = 0, xend = max(x), y = mean_blue, yend = mean_blue), : All aesthetics have length 1, but the data has 32 rows.
-## ℹ Please consider using `annotate()` or provide this layer with data containing a single row.</code></pre>
+## ℹ Please consider using `annotate()` or provide this layer with data containing
+##   a single row.</code></pre>
 <pre><code>## Warning in geom_segment(aes(x = 0, y = mean_black, xend = 0, yend = bracket_height), : All aesthetics have length 1, but the data has 32 rows.
-## ℹ Please consider using `annotate()` or provide this layer with data containing a single row.</code></pre>
+## ℹ Please consider using `annotate()` or provide this layer with data containing
+##   a single row.</code></pre>
 <pre><code>## Warning in geom_segment(aes(x = 0, y = mean_blue, xend = 0, yend = bracket_height), : All aesthetics have length 1, but the data has 32 rows.
-## ℹ Please consider using `annotate()` or provide this layer with data containing a single row.</code></pre>
+## ℹ Please consider using `annotate()` or provide this layer with data containing
+##   a single row.</code></pre>
 <p><img src="bookdownproj_files/figure-html/plot-estimator4-1.png" width="672" /></p>
 </div>
 <div id="exemplo-de-descontinuidade" class="section level2 hasAnchor" number="8.6">
 <h2><span class="header-section-number">8.6</span> Exemplo de Descontinuidade<a href="mccray-test.html#exemplo-de-descontinuidade" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="mccray-test.html#cb108-1" tabindex="-1"></a><span class="fu">library</span>(rdrobust)</span>
-<span id="cb108-2"><a href="mccray-test.html#cb108-2" tabindex="-1"></a><span class="fu">library</span>(rddensity)</span>
-<span id="cb108-3"><a href="mccray-test.html#cb108-3" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb108-4"><a href="mccray-test.html#cb108-4" tabindex="-1"></a><span class="fu">rdplot</span>(<span class="at">y =</span> df<span class="sc">$</span>y, <span class="at">x =</span> df<span class="sc">$</span>x, <span class="at">c =</span> <span class="dv">0</span>, <span class="at">p =</span> <span class="dv">1</span>)  <span class="co"># p = 2 for quadratic polynomial fit</span></span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="mccray-test.html#cb31-1" tabindex="-1"></a><span class="fu">library</span>(rdrobust)</span>
+<span id="cb31-2"><a href="mccray-test.html#cb31-2" tabindex="-1"></a><span class="fu">library</span>(rddensity)</span>
+<span id="cb31-3"><a href="mccray-test.html#cb31-3" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb31-4"><a href="mccray-test.html#cb31-4" tabindex="-1"></a><span class="fu">rdplot</span>(<span class="at">y =</span> df<span class="sc">$</span>y, <span class="at">x =</span> df<span class="sc">$</span>x, <span class="at">c =</span> <span class="dv">0</span>, <span class="at">p =</span> <span class="dv">1</span>)  <span class="co"># p = 2 for quadratic polynomial fit</span></span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/density-plotx-1.png" width="672" /></p>
 </div>
 <div id="identificação-fácil-vs-estimação-difícil" class="section level2 hasAnchor" number="8.7">
@@ -429,8 +449,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="teste-formal-da-densidade" class="section level2 hasAnchor" number="8.9">
 <h2><span class="header-section-number">8.9</span> teste formal da densidade<a href="mccray-test.html#teste-formal-da-densidade" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="mccray-test.html#cb109-1" tabindex="-1"></a>rdd <span class="ot">&lt;-</span> <span class="fu">rddensity</span>(<span class="at">X =</span> df<span class="sc">$</span>x, <span class="at">vce=</span><span class="st">&quot;jackknife&quot;</span>)</span>
-<span id="cb109-2"><a href="mccray-test.html#cb109-2" tabindex="-1"></a>summary_part1 <span class="ot">&lt;-</span> <span class="fu">summary</span>(rdd)[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]  <span class="co"># Assuming you want to show the first 4 parts here</span></span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="mccray-test.html#cb32-1" tabindex="-1"></a>rdd <span class="ot">&lt;-</span> <span class="fu">rddensity</span>(<span class="at">X =</span> df<span class="sc">$</span>x, <span class="at">vce=</span><span class="st">&quot;jackknife&quot;</span>)</span>
+<span id="cb32-2"><a href="mccray-test.html#cb32-2" tabindex="-1"></a>summary_part1 <span class="ot">&lt;-</span> <span class="fu">summary</span>(rdd)[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]  <span class="co"># Assuming you want to show the first 4 parts here</span></span></code></pre></div>
 <pre><code>## 
 ## Manipulation testing using local polynomial density estimation.
 ## 
@@ -464,12 +484,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 1.468     + 1.787         155     178    0.2279
 ## 1.646     + 2.010         172     199    0.1770
 ## 1.823     + 2.234         191     218    0.1985</code></pre>
-<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="mccray-test.html#cb111-1" tabindex="-1"></a><span class="fu">print</span>(summary_part1)</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="mccray-test.html#cb34-1" tabindex="-1"></a><span class="fu">print</span>(summary_part1)</span></code></pre></div>
 <pre><code>## NULL</code></pre>
 </div>
 <div id="plot-da-densidade" class="section level2 hasAnchor" number="8.10">
 <h2><span class="header-section-number">8.10</span> Plot da densidade<a href="mccray-test.html#plot-da-densidade" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="mccray-test.html#cb113-1" tabindex="-1"></a><span class="fu">rdplotdensity</span>(rdd, df<span class="sc">$</span>x, <span class="at">plotRange =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>), <span class="at">plotN =</span> <span class="dv">25</span>, <span class="at">CIuniform =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="mccray-test.html#cb36-1" tabindex="-1"></a><span class="fu">rdplotdensity</span>(rdd, df<span class="sc">$</span>x, <span class="at">plotRange =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>), <span class="at">plotN =</span> <span class="dv">25</span>, <span class="at">CIuniform =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/density-plot1-1.png" width="672" /></p>
 <pre><code>## $Estl
 ## Call: lpdensity
@@ -502,17 +522,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="densidade-descontínua---código" class="section level2 hasAnchor" number="8.11">
 <h2><span class="header-section-number">8.11</span> Densidade descontínua - código<a href="mccray-test.html#densidade-descontínua---código" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="mccray-test.html#cb115-1" tabindex="-1"></a><span class="co"># Generate a random sample with a density discontinuity at 0</span></span>
-<span id="cb115-2"><a href="mccray-test.html#cb115-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb115-3"><a href="mccray-test.html#cb115-3" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">2000</span>, <span class="at">mean =</span> <span class="sc">-</span><span class="fl">0.5</span>)</span>
-<span id="cb115-4"><a href="mccray-test.html#cb115-4" tabindex="-1"></a>x[x <span class="sc">&gt;</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> x[x <span class="sc">&gt;</span> <span class="dv">0</span>] <span class="sc">*</span> <span class="dv">2</span></span>
-<span id="cb115-5"><a href="mccray-test.html#cb115-5" tabindex="-1"></a></span>
-<span id="cb115-6"><a href="mccray-test.html#cb115-6" tabindex="-1"></a><span class="co"># Estimation</span></span>
-<span id="cb115-7"><a href="mccray-test.html#cb115-7" tabindex="-1"></a>rdd <span class="ot">&lt;-</span> <span class="fu">rddensity</span>(<span class="at">X =</span> x)</span>
-<span id="cb115-8"><a href="mccray-test.html#cb115-8" tabindex="-1"></a><span class="fu">summary</span>(rdd)</span>
-<span id="cb115-9"><a href="mccray-test.html#cb115-9" tabindex="-1"></a></span>
-<span id="cb115-10"><a href="mccray-test.html#cb115-10" tabindex="-1"></a><span class="co"># Density plot (from -2 to 2 with 25 evaluation points at each side)</span></span>
-<span id="cb115-11"><a href="mccray-test.html#cb115-11" tabindex="-1"></a>plot1 <span class="ot">&lt;-</span> <span class="fu">rdplotdensity</span>(rdd, x, <span class="at">plotRange =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>), <span class="at">plotN =</span> <span class="dv">25</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="mccray-test.html#cb38-1" tabindex="-1"></a><span class="co"># Generate a random sample with a density discontinuity at 0</span></span>
+<span id="cb38-2"><a href="mccray-test.html#cb38-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb38-3"><a href="mccray-test.html#cb38-3" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">2000</span>, <span class="at">mean =</span> <span class="sc">-</span><span class="fl">0.5</span>)</span>
+<span id="cb38-4"><a href="mccray-test.html#cb38-4" tabindex="-1"></a>x[x <span class="sc">&gt;</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> x[x <span class="sc">&gt;</span> <span class="dv">0</span>] <span class="sc">*</span> <span class="dv">2</span></span>
+<span id="cb38-5"><a href="mccray-test.html#cb38-5" tabindex="-1"></a></span>
+<span id="cb38-6"><a href="mccray-test.html#cb38-6" tabindex="-1"></a><span class="co"># Estimation</span></span>
+<span id="cb38-7"><a href="mccray-test.html#cb38-7" tabindex="-1"></a>rdd <span class="ot">&lt;-</span> <span class="fu">rddensity</span>(<span class="at">X =</span> x)</span>
+<span id="cb38-8"><a href="mccray-test.html#cb38-8" tabindex="-1"></a><span class="fu">summary</span>(rdd)</span>
+<span id="cb38-9"><a href="mccray-test.html#cb38-9" tabindex="-1"></a></span>
+<span id="cb38-10"><a href="mccray-test.html#cb38-10" tabindex="-1"></a><span class="co"># Density plot (from -2 to 2 with 25 evaluation points at each side)</span></span>
+<span id="cb38-11"><a href="mccray-test.html#cb38-11" tabindex="-1"></a>plot1 <span class="ot">&lt;-</span> <span class="fu">rdplotdensity</span>(rdd, x, <span class="at">plotRange =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>), <span class="at">plotN =</span> <span class="dv">25</span>)</span></code></pre></div>
 </div>
 <div id="densidade-descontínua---results" class="section level2 hasAnchor" number="8.12">
 <h2><span class="header-section-number">8.12</span> Densidade descontínua - results<a href="mccray-test.html#densidade-descontínua---results" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -584,10 +604,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="regressão-rdd" class="section level2 hasAnchor" number="8.14">
 <h2><span class="header-section-number">8.14</span> Regressão RDD<a href="mccray-test.html#regressão-rdd" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="mccray-test.html#cb118-1" tabindex="-1"></a><span class="fu">library</span>(rdrobust)</span>
-<span id="cb118-2"><a href="mccray-test.html#cb118-2" tabindex="-1"></a><span class="co"># Assuming the cutoff is at x=0</span></span>
-<span id="cb118-3"><a href="mccray-test.html#cb118-3" tabindex="-1"></a>basic_model <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> df<span class="sc">$</span>y, <span class="at">x =</span> df<span class="sc">$</span>x, <span class="at">c =</span> <span class="dv">0</span>)</span>
-<span id="cb118-4"><a href="mccray-test.html#cb118-4" tabindex="-1"></a><span class="fu">summary</span>(basic_model)</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="mccray-test.html#cb41-1" tabindex="-1"></a><span class="fu">library</span>(rdrobust)</span>
+<span id="cb41-2"><a href="mccray-test.html#cb41-2" tabindex="-1"></a><span class="co"># Assuming the cutoff is at x=0</span></span>
+<span id="cb41-3"><a href="mccray-test.html#cb41-3" tabindex="-1"></a>basic_model <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> df<span class="sc">$</span>y, <span class="at">x =</span> df<span class="sc">$</span>x, <span class="at">c =</span> <span class="dv">0</span>)</span>
+<span id="cb41-4"><a href="mccray-test.html#cb41-4" tabindex="-1"></a><span class="fu">summary</span>(basic_model)</span></code></pre></div>
 <pre><code>## Sharp RD estimates using local polynomial regression.
 ## 
 ## Number of Obs.                 1000
