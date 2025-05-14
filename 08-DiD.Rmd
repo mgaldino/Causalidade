@@ -1,1 +1,268 @@
 # Diferença em Diferenças
+
+## Modelo básico 2x2
+
+Vamos considerar primeiro um cenário de dois grupos $G \in \{1,2\}$ e dois períodos de tempo $T \in \{1,2\}$.
+
+A notação de resultados potenciais é:
+$Y_{gt}(0,0)$ é o resultado potencial da unidade $g$ no período $t$ se não for tratada nos dois períodos.
+$Y_{gt}(0,1)$ é o resultado potencial da unidade $g$ no período $t$ se for tratada no segundo período.
+
+Usualmente nós simplificamos a notação com dois períodos para $Y_{gt}(0)$ e $Y_{gt}(1)$. A vantagem da notação mais complexa é para manter a ideia de que o path (caminho) pode vir a ser relevante.
+
+Supondo, como usual, que temos um tratamento binário $D$, e que ele é ativado (implementado) apenas no período $2$ para um dos grupos, temos a seguinte tabela para descrever como usualmente se pensa as relações causais.
+
+```{r tabela-did, echo=FALSE, warning=FALSE}
+library(knitr)
+library(kableExtra)
+
+# Conteúdo da tabela (linhas: D = 0 e D = 1; colunas: t = 0 e t = 1)
+tbl <- matrix(
+  c("$\\gamma_0 + \\alpha_i$",            "$\\gamma_1 + \\alpha_i$",
+    "$\\gamma_0 + \\alpha_i + \\tau_i$",  "$\\gamma_1 + \\alpha_i + \\tau_i$"),
+  nrow = 2, byrow = TRUE)
+
+# Rótulos de linhas e colunas
+rownames(tbl) <- c("$D = 0$", "$D = 1$")
+colnames(tbl) <- c("$t = 0$", "$t = 1$")
+
+# Geração da tabela
+kable(tbl, escape = FALSE, booktabs = TRUE,
+      align = c("r", "c", "c")) %>%          # alinhamento das colunas
+  kable_styling(latex_options = "hold_position") %>%  # mantém a posição no PDF
+  column_spec(1, border_right = TRUE)        # barra vertical após a 1ª coluna
+```
+
+A diferença para cada grupo $g$ é:
+$$
+y_{g1} - y_{g0} = (\lambda_1 - \lambda_0) + \tau_i(D_i1 - D_i0)
+$$
+Como pode haver mudança nos resultados apenas pela passagem do tempo, o efeito causal é não-identificado.
+Contudo, veja que:
+
+$$
+\mathbb{E}[y_{g1} - y_{g0}|D_{i1} - D_{i0} = 1] - \mathbb{E}[y_{g1} - y_{g0}|D_{i1} - D_{i0} = 0] = \mathbb{E}[\tau_i(D_{i1} - D_{i0})|D_{i1} - D_{i0} = 1]
+$$
+Unpacking:
+
+1. $\mathbb{E}[y_{g1} - y_{g0}|D_i1 - D_{i0} = 1]  = (\lambda_1 - \lambda_0) + \mathbb{E}[\tau_i|(D_{i1} - D_{i0})=1]$ e 
+
+2. $\mathbb{E}[y_{g1} - y_{g0}|D_i1 - D_{i0} = 0] = (\lambda_1 - \lambda_0)$,
+
+então a diferença é $(\lambda_1 - \lambda_0) + \tau_i -  (\lambda_1 - \lambda_0) = \mathbb{E}[\tau_i|D_{i1}=1]$.
+
+## TWFE
+
+É possível estimar um modelo de DiD com regressão.
+
+$$
+y_{gt} = \alpha + \beta_1 Post_t + \beta_2 Treat_g + \tau (Post_t \times Treat_g) + e_{gt}
+$$
+Outras parametrização é:
+$$
+y_{gt} = \alpha_g + \lambda_t + \tau D_{it} + e_{gt}
+$$
+
+A segunda parametrização é chamada de "two-way fixed effects", pois usamos um efeito fixo de unidade e um de tempo.
+
+## Pressupostos
+
+Os pressupostos de identificação de DiD são:
+
+1. Tendências Paralelas."Na ausência de tratamento, a média dos resultados potenciais teriam evoluído em paralelo".
+
+$\mathbb{E}[Y_{g2}(0) - Y_{g1}(0)|D_g=1] = \mathbb{E}[Y_{g2}(0) - Y_{g1}(0)|D_g=0]$
+
+Suposição paramétrica das PT: $Y_{gt}(0) = \alpha_g + \lambda_t + e_{it}$
+Isso é na verdade um resultado: é possível mostrar que supor este modelo implica PT.
+
+2. Não-antecipação: tratamento não possui efeito no período anterior.
+$\mathbb{E}[Y_{g1}(0)] = \mathbb{E}[Y_{g1}(1)]$
+
+## Aplicação
+
+Vamos ver um exemplo no R, a partir de um estudo meu. Os dados são de um projeto da Transparência Brasil, chamado de Obra Transparente. O projeto consistiu em uma intervenção em 20 cidades do Sudeste, em que treinamento e informações foram dados a ongs locais para monitoramento de obras de creches e escolas. O projeto começou em maio de 2017 e terminou em junho de 2019. Os dados trazem informações sobre as obras nas cidades do projeto e nas demais cidades onde havia obras similares nos mesmos estados.
+
+```{r obra-transparente-import, warning=FALSE, message=FALSE}
+library(here, quietly=TRUE)
+library(knitr)
+data_ot <- readRDS(here("Dados", "obra_transparente.RDS"))
+head(data_ot) %>%
+  kable()
+```
+
+Como o gráfico abaixo mostra, o grupo controle possui percentual mais elevado de obras concluídas em comparação ao grupo de tratamento, mesmo antes do projeto ter se iniciado. Olhando para outras covariáveis (não mostradas aqui), de fato os dois grupos eram bastante desbalanceados. Porém, apesar da diferença de nível, as mudanças (evolução temposal) são similares. Isso sugere um dif in dif como uma metodologia adequada para estimar o efeito causal.
+
+```{r obra-transparente, warning=FALSE, message=FALSE, echo=FALSE}
+library(ggplot2)
+library(tidyverse)
+
+data_ot %>%
+  mutate(group_treated = ifelse(group_treated == 0, "Controle", "Tratamento")) %>%
+  group_by(periodo, group_treated) %>%
+  summarise(taxa_conclusao = mean(concluida)) %>%
+  ggplot(aes(y=taxa_conclusao, x= periodo)) + geom_point(aes(colour = factor(group_treated))) +
+  geom_vline(xintercept=4) +
+  geom_line(aes(colour = factor(group_treated))) + theme_bw() + ylab("Percentual de obras concluídas") + xlab("Período") +
+  scale_colour_manual(values = c("Controle" = "red", "Tratamento" = "blue"), name=NULL)
+```
+
+A partir do período 4 o tratamento já poderia fazer efeito, mas ele é muito pequeno (leve mudança na inclinação) e o efeito é relevante apenas após o período 5. Temos portando efeitos dinâmicos.Vamos inicialmente ajustar um modelo estático, considerando apenas o período 1 e 5.
+
+```{r obra-transparente-did, warning=FALSE, message=FALSE, echo=TRUE}
+library(estimatr)
+library(modelsummary)
+library(fixest)
+data_ot_reg <- data_ot %>%
+  filter(periodo %in% c(1,5)) %>%
+  mutate(post = ifelse(periodo == 5, 1, 0))
+
+did <- lm_robust(concluida ~ post + group_treated + post*group_treated, data=data_ot_reg,
+                 clusters = municipio)
+msummary(did, stars = c('*' = .1, '**' = .05, '***' = .01))
+
+did_alt <- feols(concluida ~ post_treat| municipio + periodo,
+                              cluster = "municipio",
+                              data = data_ot_reg)
+etable(did_alt) %>%
+  kable()
+```
+
+## Múltiplos períodos
+
+O que acontece se tivermos múltiplos períodos, isto é, $t>2$?
+
+1. Múltiplos períodos antes do tratamento ser implementado
+
+2. Múltiplos períodos após o tratamento ser implementado.
+Precisamos escolher um período de comparação, $t_0$.
+
+Nos últimos 10 anos, uma grande problematização e desenvolvimento de testes ,estimadores e entendimento do que é DiD com múltiplos períodos. Impossível cobrir tudo em uma única aula. Recomendo as vídeo-aulas do [grupo de estudo em DiD](https://www.youtube.com/playlist?list=PLVObvb_htcuBt8mV9yNagt7hK9FL5KXeE).
+
+## Tendências Paralelas
+
+A suposição de tendências paralelas significa que $\mathbb{E}[[Y_{i,t}(0) − Y_{g,t−1}(0)]$ não varia entre grupos $g$. Essa suposição implica que os nunca-tratados seguem um modelo de efeitos fixos duplo (Two-way fixed effects ou TWFE):
+
+$$
+\mathbb{E}[Y_{g,t}(0)] = \alpha_i + \lambda_t
+$$
+Uma outra forma de escrever essa suposição é:
+$$
+Y_{g,t}(0) = \alpha_i + \lambda_t + e_{it} \text{, com } \mathbb{E}[e_{it}] = 0
+$$
+Demonstrar equivalência é demonstrar que um implica o outro. Vamos começar mostrando que TWFE implica PT.
+
+Supondo que TWFE é verdade, então $\mathbb{E}[[Y_{i,t}(0) − Y_{g,t−1}(0)] = \alpha_i + \lambda_t - (\alpha_i + \lambda_{t-1}) = \lambda_t - \lambda_{t-1})$, para todo $g$. Como a diferença no tempo $\lambda_t - \lambda_{t-1})$ não depende de $g$, então a PT é satisfeita.
+
+Vamos agora mostrar a otra implicação. Sem perda de generalidade, defina $\lambda_1 = 0$, isto é, o efeito do período 1 é 0. Poderia ser qualquer outro valor, mas zero vai facilitar. E vamos definir $\alpha_g = \mathbb{E}[Y_{g,1}0]$, ou seja, 
+
+Se as tendências não forem exatamente paralelas, Rambachan e Roth (2023) desenvolveram uma forma de impor restrições sobre quão diferentes as tendências podem não ser paralelas pós-tratamento em comparação com o período pré-tratamento. O pacote no R honestDiD permite implementar isso. Assim conseguimos obter identificação parcial (intervalo para as estimativas), em vez de estimação pontual. O parâmetro M controla quanto o desvio é maior em relação ao observado no pré-teste. Se M é igual a 1, temos o mesmo desvio no máximo. Se M igual a 2, duas vezes maior e assim por diante.
+
+```{r HonestDiD, warning=FALSE}
+library(HonestDiD)
+library(tidyverse)
+library(knitr)
+library(fixest)
+
+# Install remotes package if not installed
+#install.packages("remotes")
+
+# Turn off warning-error-conversion, because the tiniest warning stops installation
+#Sys.setenv("R_REMOTES_NO_ERRORS_FROM_WARNINGS" = "true")
+
+# install from github
+#remotes::install_github("asheshrambachan/HonestDiD")
+
+
+# Run model
+# twfe_results <- feols(rating ~ i(goodr, qa) | year_month + asin,
+#                 cluster = c("asin"),
+#                 data = GoodAma)
+# 
+# fixest::iplot(twfe_results)
+# 
+# # Save coefficients
+# betahat <- summary(model_4)$coefficients
+# 
+# # Save the covariance matrix
+# sigma <- summary(model_4)$cov.scaled
+# 
+# ## Identificação Parcial
+# 
+# delta_rm_results <- createSensitivityResults_relativeMagnitudes(
+#     betahat = betahat, #coefficients
+#     sigma = sigma, #covariance matrix
+#     numPrePeriods = 1, #num. of pre-treatment coefs
+#     numPostPeriods = 1, #num. of post-treatment coefs
+#     Mbarvec = seq(0.5,2,by=0.5) #values of Mbar
+#   )
+# 
+# delta_rm_results %>%
+#   kable()
+```
+
+## Múltiplos períodos pós-tratamento
+
+Problem 1: 
+$\tau$ não é constante no tempo e entre unidades. Efeito do tratamento pode depender de quando começou. Pode depender da duração. Precisamos de um modelo mais sofisticado de regressão.
+
+$$
+y_{gt} = \alpha_g + \lambda_t + \tau_{gt}D_{it} + e_{gt}
+$$
+Podemos pensar que o $\tau$ é a média dos $\tau_{gt}$. Veja que se nós pudéssemos reescrever a equação de regressão como 
+$y_{gt} -\alpha_g - \lambda_t =  \tau_{gt}D_{it} + e_{gt}$, bastaria rodar um modelo de OLS tradicional e estimar essa média. Nossa vd seria $y_{gt} -\alpha_g - \lambda_t$ e o tratamento uma variável binária indicando se o tratamento ocorreu. 
+Acontece que não sabemos os efeitos fixos. E se nós estimarmos eles? Utilizando o torema FWL, temos:
+
+Primeiro, extraio os resíduos de uma regressão apenas com os efeitos fixos:
+$$
+y_{gt} = \alpha_g + \lambda_t + \text{resíduos}_Y
+$$
+Se chamar os resíduos de $\tilde{y}_{gt}$, tenho tudo de $y_{gt}$ que não é explicado pelos efeitos fixos. E posso reescrever: $y_{gt} = \alpha_g + \lambda_t + \text{resíduos}_Y$ como $\tilde{y}_{gt} = y_{gt} -\alpha_g - \lambda_t$.
+
+
+Em seguida, residualizo o tratamento:
+$$
+D_{gt} = \alpha_g + \lambda_t + \text{resíduos}_D
+$$
+Novamente, vou chamar os resíduos de $\tilde{D}_{gt}$
+
+
+
+Então, posso rodar uma regressão $\tilde{y}_{gt} = \tilde{D}_{gt} + e_{gt}$. Ou ainda:
+
+$$
+y_{gt} - \tilde{\alpha}_g - \tilde{\lambda}_t = \tau_{gt}\tilde{D}_{it} + e_{gt}
+$$
+Essa regressão estima $\hat{\tau} = \sum w_{gt}\tau_{gt} \neq \tau$.
+
+Esses pesos podem até mesm oser negartivos e a estimativa $\hat{\tau}$ ter sinal oposto a $\tau$. A intuição é porque estamos comparando bananas com laranjas. Há grupos que são tratados em momentos distintos, e dependendo do tamanho dos efeitos em cada momento do tempo, a média ponderada dessas comparações dá algo estranho.
+
+A solução proposta do Gardner de regressão DiD em dois estágios é justamente evitar esse problema rodando $y_{gt} - \tilde{\alpha}_g - \tilde{\lambda}_t = \tau_{gt}D_{it} + e_{gt}$.
+
+Estágio 1: Estime os efeitos fixos usando observações não tratadas ou ainda não tratadas.
+
+Estágio 2. Rode a regressão $y_{gt} - \tilde{\alpha}_g - \tilde{\lambda}_t = \tau_{gt}D_{it} + e_{gt}$.
+
+Obviamente, o cálculo do erro padrão se torna mais complexo nesse caso, pois há ruído extra introduzido na nova VD. Felizmente, o pacote {did2s} faz tudo isso pra gente.
+
+Se você olhar os papers mais recentes publicados nos top journals, eles estão usando esse tipo de estimador.
+
+## DiD generalizado
+
+Nós permitimos que cada unidade ,por exemplo, tenha sua própria tendência. Ou que o resultado potencial do controle (não-tratado) dependa de covariáveis que variam no tempo, ou seja, a tendência paralela é condicional às covariáveis.
+A única coisa não permitida é interação entre efeitos fixos de unidade e tempo.
+
+
+```{r obra-transparente-did-din, warning=FALSE, message=FALSE, echo=TRUE}
+
+did_din = feols(concluida ~ i(periodo, group_treated, ref=3) | id + periodo, data_ot)
+
+etable(did_din) %>%
+  kable()
+```
+## Referências
+
+de Chaisemartin, C., & D’Haultfœuille, X. (2023). Credible answers to hard questions: Differences-in-differences for natural experiments. Available at SSRN.
+
+Rambachan, A., & Roth, J. (2023). A more credible approach to parallel trends. Review of Economic Studies, 90(5), 2555-2591.
+
