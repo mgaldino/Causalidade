@@ -127,8 +127,17 @@ pcrd
 checlist-para-um-paper
 referências-4
 diferença-em-diferenças
+modelo-básico-2x2
+twfe
+aplicação
+múltiplos-períodos
+tendências-paralelas
+múltiplos-períodos-pós-tratamento
+did-generalizado
+referências-5
 synthetic-control
 implementação-no-r
+llms-e-outras
 interferência-spillover-e-dinâmica
 suposições-simplifcadoras
 po-com-tratamento-de-múltiplos-valores-multi-valued

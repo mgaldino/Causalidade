@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Capítulo 10 Interferência, spillover e dinâmica | Curso de Inferência Causal</title>
-  <meta name="description" content="Capítulo 10 Interferência, spillover e dinâmica | Curso de Inferência Causal" />
+  <title>Capítulo 11 Interferência, spillover e dinâmica | Curso de Inferência Causal</title>
+  <meta name="description" content="Capítulo 11 Interferência, spillover e dinâmica | Curso de Inferência Causal" />
   <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Capítulo 10 Interferência, spillover e dinâmica | Curso de Inferência Causal" />
+  <meta property="og:title" content="Capítulo 11 Interferência, spillover e dinâmica | Curso de Inferência Causal" />
   <meta property="og:type" content="book" />
   
   
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Capítulo 10 Interferência, spillover e dinâmica | Curso de Inferência Causal" />
+  <meta name="twitter:title" content="Capítulo 11 Interferência, spillover e dinâmica | Curso de Inferência Causal" />
   
   
   
@@ -23,14 +23,14 @@
 <meta name="author" content="Manoel Galdino" />
 
 
-<meta name="date" content="2025-05-07" />
+<meta name="date" content="2025-05-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="synthetic-control.html"/>
+<link rel="prev" href="llms-e-outras.html"/>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -52,6 +52,8 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
 
 <style type="text/css">
@@ -306,20 +308,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.25" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#checlist-para-um-paper"><i class="fa fa-check"></i><b>7.25</b> Checlist para um paper</a></li>
 <li class="chapter" data-level="7.26" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#referências-4"><i class="fa fa-check"></i><b>7.26</b> Referências</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html"><i class="fa fa-check"></i><b>8</b> Diferença em Diferenças</a></li>
+<li class="chapter" data-level="8" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html"><i class="fa fa-check"></i><b>8</b> Diferença em Diferenças</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#modelo-básico-2x2"><i class="fa fa-check"></i><b>8.1</b> Modelo básico 2x2</a></li>
+<li class="chapter" data-level="8.2" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#twfe"><i class="fa fa-check"></i><b>8.2</b> TWFE</a></li>
+<li class="chapter" data-level="8.3" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#aplicação"><i class="fa fa-check"></i><b>8.3</b> Aplicação</a></li>
+<li class="chapter" data-level="8.4" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#múltiplos-períodos"><i class="fa fa-check"></i><b>8.4</b> Múltiplos períodos</a></li>
+<li class="chapter" data-level="8.5" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#tendências-paralelas"><i class="fa fa-check"></i><b>8.5</b> Tendências Paralelas</a></li>
+<li class="chapter" data-level="8.6" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#múltiplos-períodos-pós-tratamento"><i class="fa fa-check"></i><b>8.6</b> Múltiplos períodos pós-tratamento</a></li>
+<li class="chapter" data-level="8.7" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#did-generalizado"><i class="fa fa-check"></i><b>8.7</b> DiD generalizado</a></li>
+<li class="chapter" data-level="8.8" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#referências-5"><i class="fa fa-check"></i><b>8.8</b> Referências</a></li>
+</ul></li>
 <li class="chapter" data-level="9" data-path="synthetic-control.html"><a href="synthetic-control.html"><i class="fa fa-check"></i><b>9</b> Synthetic Control</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="synthetic-control.html"><a href="synthetic-control.html#implementação-no-r"><i class="fa fa-check"></i><b>9.1</b> Implementação no R</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html"><i class="fa fa-check"></i><b>10</b> Interferência, spillover e dinâmica</a>
+<li class="chapter" data-level="10" data-path="llms-e-outras.html"><a href="llms-e-outras.html"><i class="fa fa-check"></i><b>10</b> LLMs e outras</a></li>
+<li class="chapter" data-level="11" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html"><i class="fa fa-check"></i><b>11</b> Interferência, spillover e dinâmica</a>
 <ul>
-<li class="chapter" data-level="10.1" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#suposições-simplifcadoras"><i class="fa fa-check"></i><b>10.1</b> Suposições simplifcadoras</a></li>
-<li class="chapter" data-level="10.2" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#po-com-tratamento-de-múltiplos-valores-multi-valued"><i class="fa fa-check"></i><b>10.2</b> PO com tratamento de múltiplos valores (multi-valued)</a>
+<li class="chapter" data-level="11.1" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#suposições-simplifcadoras"><i class="fa fa-check"></i><b>11.1</b> Suposições simplifcadoras</a></li>
+<li class="chapter" data-level="11.2" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#po-com-tratamento-de-múltiplos-valores-multi-valued"><i class="fa fa-check"></i><b>11.2</b> PO com tratamento de múltiplos valores (multi-valued)</a>
 <ul>
-<li class="chapter" data-level="10.2.1" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#multi-valued-discreto"><i class="fa fa-check"></i><b>10.2.1</b> Multi-valued discreto</a></li>
+<li class="chapter" data-level="11.2.1" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#multi-valued-discreto"><i class="fa fa-check"></i><b>11.2.1</b> Multi-valued discreto</a></li>
 </ul></li>
-<li class="chapter" data-level="10.3" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#dinâmica"><i class="fa fa-check"></i><b>10.3</b> Dinâmica</a></li>
-<li class="chapter" data-level="10.4" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#interferência"><i class="fa fa-check"></i><b>10.4</b> Interferência</a></li>
+<li class="chapter" data-level="11.3" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#dinâmica"><i class="fa fa-check"></i><b>11.3</b> Dinâmica</a></li>
+<li class="chapter" data-level="11.4" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#interferência"><i class="fa fa-check"></i><b>11.4</b> Interferência</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -341,21 +354,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="interferência-spillover-e-dinâmica" class="section level1 hasAnchor" number="10">
-<h1><span class="header-section-number">Capítulo 10</span> Interferência, spillover e dinâmica<a href="interferência-spillover-e-dinâmica.html#interferência-spillover-e-dinâmica" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="interferência-spillover-e-dinâmica" class="section level1 hasAnchor" number="11">
+<h1><span class="header-section-number">Capítulo 11</span> Interferência, spillover e dinâmica<a href="interferência-spillover-e-dinâmica.html#interferência-spillover-e-dinâmica" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Agora iremos relaxar algumas simplifcações do modelo de Resultados potenciais que vimos até agora.</p>
-<div id="suposições-simplifcadoras" class="section level2 hasAnchor" number="10.1">
-<h2><span class="header-section-number">10.1</span> Suposições simplifcadoras<a href="interferência-spillover-e-dinâmica.html#suposições-simplifcadoras" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="suposições-simplifcadoras" class="section level2 hasAnchor" number="11.1">
+<h2><span class="header-section-number">11.1</span> Suposições simplifcadoras<a href="interferência-spillover-e-dinâmica.html#suposições-simplifcadoras" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ol style="list-style-type: decimal">
 <li>Tratamento binário</li>
 <li>Único período de tempo (um tratamento “within unit” )</li>
 <li>SUTVA</li>
 </ol>
 </div>
-<div id="po-com-tratamento-de-múltiplos-valores-multi-valued" class="section level2 hasAnchor" number="10.2">
-<h2><span class="header-section-number">10.2</span> PO com tratamento de múltiplos valores (multi-valued)<a href="interferência-spillover-e-dinâmica.html#po-com-tratamento-de-múltiplos-valores-multi-valued" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div id="multi-valued-discreto" class="section level3 hasAnchor" number="10.2.1">
-<h3><span class="header-section-number">10.2.1</span> Multi-valued discreto<a href="interferência-spillover-e-dinâmica.html#multi-valued-discreto" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="po-com-tratamento-de-múltiplos-valores-multi-valued" class="section level2 hasAnchor" number="11.2">
+<h2><span class="header-section-number">11.2</span> PO com tratamento de múltiplos valores (multi-valued)<a href="interferência-spillover-e-dinâmica.html#po-com-tratamento-de-múltiplos-valores-multi-valued" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="multi-valued-discreto" class="section level3 hasAnchor" number="11.2.1">
+<h3><span class="header-section-number">11.2.1</span> Multi-valued discreto<a href="interferência-spillover-e-dinâmica.html#multi-valued-discreto" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Vamos estender o modelo de tratamewnto binário começando por tratamentos discretos. Digamos que temos <span class="math inline">\(D_i \in \{0, 1, ..., d\}\)</span>, isto é, tratamentos ordenados. Por exemplo, múltiplas categorias de uma política pública (100 reais, 200 reais, 300 reais etc.). Definimos o resultado potencial da unidade <span class="math inline">\(i\)</span> para qualquer <span class="math inline">\(d \in D\)</span> como <span class="math inline">\(Y_i(d)\)</span></p>
 <p>Nós vamos precisar da suposição de ignorability forte.</p>
 <p><span class="math inline">\(\tau_i(D, D&#39;) = Y_i(d) - Y_i(d&#39;)\)</span>, ou seja, o efeito causal entre dois níveis do tratamento. Como antes, podemos computar a esperança: <span class="math inline">\(\mathbb{E}[\tau_i(D, D&#39;)] = \mathbb{E}[Y_i(d) - Y_i(d&#39;)]\)</span>. E se ignorability forte vale, então <span class="math inline">\(\mathbb{E}[\tau_i(D, D&#39;)] = \mathbb{E}[Y_i|D_i = d] - \mathbb{E}[Y_i|D_i = d&#39;]\)</span></p>
@@ -363,8 +376,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Exemplo onde mesmo com atribuição aleatória, há efeitos não-identificados. Aleatoriamente atribuir <span class="math inline">\(D_1\)</span> e, para os que receberam <span class="math inline">\(D_1\)</span>, aleatoriamente atribui <span class="math inline">\(D-2\)</span>. Onde isso poderia acontecer? Primeira e segunda dose de vacina! Por definição, a segunda dose só é dada para quem recebeu a primeira dose. Nunca é possível estimar efeito relativo a <span class="math inline">\(Y_i(0,1)\)</span>, isto é, o resultado potencial de quem não recebeu a primeira dose, mas recebeu a segunda. Essa é uma pessoa que recebeu a primeira dose quando a segunda estava sendo aplicada.</p>
 </div>
 </div>
-<div id="dinâmica" class="section level2 hasAnchor" number="10.3">
-<h2><span class="header-section-number">10.3</span> Dinâmica<a href="interferência-spillover-e-dinâmica.html#dinâmica" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="dinâmica" class="section level2 hasAnchor" number="11.3">
+<h2><span class="header-section-number">11.3</span> Dinâmica<a href="interferência-spillover-e-dinâmica.html#dinâmica" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Considere que agora nós observamos <span class="math inline">\(T\)</span> períodos de tempo para uma unidade: <span class="math inline">\(Y_i\)</span> = (Y_{i1}, Y_{i2}, …, Y_{iT}). Para cada período, há um tratamento <span class="math inline">\(D_{it} \in \{0,1\}\)</span>, isto é, sempre binário. Chamamos de <span class="math inline">\(\mathbf{D_i} = (D_{i1}, D_{i2}, ..., D_{iT})\)</span> o vetor de tratamentos em todos os <span class="math inline">\(T\)</span> períodos. Implicitamente, muitas pessoas abordam modelos dinâmicos supondo que podemos olhar apenas para o resultado pontencial para a unidade <span class="math inline">\(i\)</span> no período <span class="math inline">\(t\)</span>, ou seja, <span class="math inline">\(Y_{it}(D_{it})\)</span>. Porém, isso significa que apenas o tratamento do período <span class="math inline">\(t\)</span> impacta o resultado potencial do período <span class="math inline">\(t\)</span>. De maneira mais geral, teríamos: <span class="math inline">\(\mathbf{D_i} = (D_{i1}, D_{i2}, ..., D_{iT})\)</span> e definiríamos o resultado potencial no período <span class="math inline">\(t\)</span> como <span class="math inline">\(Y_{it}(\mathbf{D_i})\)</span>. <span class="math inline">\(Y(\mathbf{D})\)</span>. Nesse caso, fomos para o lado oposto: tratamentos futuros impactando o resultado potencial do presente. Isso não necessariamente significa que o futuro afeta o passado. Pode ocorrer por antecipação de tratamentos futuros. De todo modo, também parece extremo. Ainda assim, continuamos evitando a possibilidade de spillovers.</p>
 <p>Uma suposição comum, portanto, é a de não-antecipação, que pode ser representada por: <span class="math inline">\(Y_{it}(d_1, d_2, ..., d_t, d_{t+1}, ..., d_T) = Y_{it}(d_1, d_2, ..., d_t)\)</span>. Ou seja, os resultados potenciais até <span class="math inline">\(t\)</span> não dependem dos resultados potenciais após essa data.</p>
 <p>Outra suposição comum é: ausência de efeitos dinâmicos:
@@ -378,8 +391,8 @@ Em palavras, essa suposição requer que o resultado potencial do presente não 
 </ol>
 <p>Nós iremos aprofundar essas questões nas aulas sobre DiD e Efeitos Fixos. Por ora, quero notar que no fundo estamos falando de spillovers no tempo, isto é, tratamento no tempo <span class="math inline">\(t\)</span> impatacando resultados potenciais de períodos furutos <span class="math inline">\(t+(1:k)\)</span>, em que <span class="math inline">\(k &gt;0\)</span>.</p>
 </div>
-<div id="interferência" class="section level2 hasAnchor" number="10.4">
-<h2><span class="header-section-number">10.4</span> Interferência<a href="interferência-spillover-e-dinâmica.html#interferência" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="interferência" class="section level2 hasAnchor" number="11.4">
+<h2><span class="header-section-number">11.4</span> Interferência<a href="interferência-spillover-e-dinâmica.html#interferência" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Interferência ocorre quando o resultado potencial de uma unidade depende do tratamento de outra unidade. Tipicamente, em ciências sociais, spillovers podem envolver:</p>
 <ol style="list-style-type: decimal">
 <li><p>Efeitos de pares</p></li>
@@ -399,7 +412,7 @@ Charles F Manski. Identification of treatment response with social interactions.
           </div>
         </div>
       </div>
-<a href="synthetic-control.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="llms-e-outras.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
     </div>
   </div>
