@@ -203,12 +203,30 @@ library(fixest)
 
 ## Múltiplos períodos pós-tratamento
 
-Problem 1: 
-$\tau$ não é constante no tempo e entre unidades. Efeito do tratamento pode depender de quando começou. Pode depender da duração. Precisamos de um modelo mais sofisticado de regressão.
+Provavelmente, $\tau$ não é constante no tempo e entre unidades. Efeito do tratamento pode depender de quando começou. Pode depender da duração. Precisamos de um modelo mais sofisticado de regressão. O modelo que fizemos estima uma média dos efeitos. É preciso ter cuidado, pois se a amostra não for completa (não-balanceada), pode gerar problemas. 
+
+A primeira extensão do modelo é considerar um did dinâmico. Como fazemos isso?
+
+$$
+Y_{g,t} = \alpha_i + \lambda_t + \sum_{t=1, t \neq t_0}^T \delta_t D_{gt} + e_{gt}
+$$
+Essa equação toma como referência o período $t_0$, em que o tratamento foi implementado (para todas as unidades tratadas) ao mesmo tempo.
+
+Um dos coeficientes é não identificado por causa do $\alpha_i$, por isso precisamos excluir um período como categoria de referência.
+E todos os coeficientes medem o efeito relativo ao período $t_0$ de referência.
+
+Suposição de PT foi mais forte no modelo acima: $Y_{g,t}(d) - Y_{g,t-k}(d) = \lambda_t - \lambda_{t-k}$ para todos os $k$ e $d$. 
+
+Podemos testar pré-tratamento.
+
+
+## Análise de sensibilidade em DiD
+
 
 $$
 y_{gt} = \alpha_g + \lambda_t + \tau_{gt}D_{it} + e_{gt}
 $$
+
 Podemos pensar que o $\tau$ é a média dos $\tau_{gt}$. Veja que se nós pudéssemos reescrever a equação de regressão como 
 $y_{gt} -\alpha_g - \lambda_t =  \tau_{gt}D_{it} + e_{gt}$, bastaria rodar um modelo de OLS tradicional e estimar essa média. Nossa vd seria $y_{gt} -\alpha_g - \lambda_t$ e o tratamento uma variável binária indicando se o tratamento ocorreu. 
 Acontece que não sabemos os efeitos fixos. E se nós estimarmos eles? Utilizando o torema FWL, temos:
@@ -249,7 +267,7 @@ Se você olhar os papers mais recentes publicados nos top journals, eles estão 
 
 ## DiD generalizado
 
-Nós permitimos que cada unidade ,por exemplo, tenha sua própria tendência. Ou que o resultado potencial do controle (não-tratado) dependa de covariáveis que variam no tempo, ou seja, a tendência paralela é condicional às covariáveis.
+Nós permitimos que cada unidade, por exemplo, tenha sua própria tendência. Ou que o resultado potencial do controle (não-tratado) dependa de covariáveis que variam no tempo, ou seja, a tendência paralela é condicional às covariáveis.
 A única coisa não permitida é interação entre efeitos fixos de unidade e tempo.
 
 
@@ -260,6 +278,53 @@ did_din = feols(concluida ~ i(periodo, group_treated, ref=3) | id + periodo, dat
 etable(did_din) %>%
   kable()
 ```
+
+## DID com adoção escalonada (staggered timing)
+
+No meu exemplo, tratamento foi o mesmo para todas as unidades ao mesmo tempo. Mas é comum que não aconteça assim. 
+
+1. Qual é o estimando quando tenho adoção escalonada no tempo? Com quem estou comparando?
+
+Digamos que quero ver o efeito da biometria sobre comparecimento eleitoral. Como ela foi escalonada no tempo, podemos adotar um modelo de DiD. Nesse caso, uma vez implementado (turned on), não volta atrás (turn off). Porém, há casos em que a política pode ser ativada ou desativada. Exemplo: política de uso de câmeras corporais pela política. Tarcísio desativou por um tempo (STF impediu). Isso cria complicações para definir o grupo de controle adequado.
+
+## Paper Voter Gratitude Last Long?
+
+```{r elbe-import, warning=FALSE, message=FALSE, echo=TRUE}
+library(haven)
+elbe1994_98 <- read_dta(here("Dados", "Elbe", "1994_1998.dta")) 
+
+elbe0 <- elbe1994_98 %>%
+  dplyr::select(wkr, wkrname, year, spd_z_vs, Flooded)
+
+elbe1998_02 <- read_dta(here("data",  "Elbe", "1998_2002.dta"))
+
+elbe1 <- elbe1998_02 %>%
+  dplyr::select(wkr, wkrname, year, spd_z_vs, Flooded) %>%
+  dplyr::filter(year == 2002) 
+
+
+elbe1998_05 <- read_dta(here("data",  "Elbe", "1998_2005.dta"))
+
+elbe2 <- elbe1998_05 %>%
+  dplyr::filter(year == 2005) %>%
+  dplyr::select(wkr, wkrname, year, spd_z_vs, Flooded)
+
+elbe <- bind_rows(elbe0, elbe1, elbe2)
+
+```
+
+```{r elbe-did, warning=FALSE, message=FALSE, echo=TRUE}
+did_short <- feols(spd_z_vs ~ Flooded| wkr + year,
+                 cluster = "wkr",
+                 data = elbe1998_02)
+etable(did_short)
+
+did_din = feols(spd_z_vs ~ i(year, Flooded, ref=1998) | wkr + year, elbe)
+etable(did_din)
+
+```
+
+
 ## Referências
 
 de Chaisemartin, C., & D’Haultfœuille, X. (2023). Credible answers to hard questions: Differences-in-differences for natural experiments. Available at SSRN.

@@ -129,11 +129,15 @@ referências-4
 diferença-em-diferenças
 modelo-básico-2x2
 twfe
+pressupostos
 aplicação
 múltiplos-períodos
 tendências-paralelas
 múltiplos-períodos-pós-tratamento
+análise-de-sensibilidade-em-did
 did-generalizado
+did-com-adoção-escalonada-staggered-timing
+paper-voter-gratitude-last-long
 referências-5
 synthetic-control
 implementação-no-r
