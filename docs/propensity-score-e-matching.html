@@ -391,119 +391,119 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>O propensity score nada mais é que a probabilidade de uma unidade ser tratada, dada as covariáveis, ou seja, <span class="math inline">\(Pr(D_i = 1| X_i)\)</span>.</p>
 <p>A ideia chave para propensity-score vem de um paper de Rosenbaum-Rubin (1983) em que eles mostram que, se a condição 1 de ignorabilidade forte (isto é, <span class="math inline">\(Y_i(1), Y_i(0) \perp D_i|X_i\)</span>) for satisfeita, então também é verdade que a condição <span class="math inline">\(Y_i(1), Y_i(0) \perp D_i|\pi(X_i)\)</span> também é satisfeita. E por que isso é importante? Nós nunca sabemos o verdadeiro modelo que relaciona as convariáveis <span class="math inline">\(X_i\)</span> com <span class="math inline">\(D_i\)</span> e <span class="math inline">\(Y_i\)</span>, de modo que podemos ter algum problema de modelo mal especificado (por exemplo, supomos um modelo linear, quando na verdade é não-linear). Então, em vez de estimar dezenas de modelos, posso condicionar (“controlar”) apenas pelo propensity score <span class="math inline">\(\pi(X_i)\)</span>. A intuição é que o propensity score cria balanceamento entre tratados e não-tratados.</p>
 <p>Para ilustrar o poder desse reusltado, vamos considerar um exemplo simulado, em que ignorability forte é satisfeita, mas um modelo mal-especificado gera amostras não-balanceadas e, portanto, estimativas viesadas.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="propensity-score-e-matching.html#cb46-1" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb46-2"><a href="propensity-score-e-matching.html#cb46-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb46-3"><a href="propensity-score-e-matching.html#cb46-3" tabindex="-1"></a><span class="fu">library</span>(ggdag)</span>
-<span id="cb46-4"><a href="propensity-score-e-matching.html#cb46-4" tabindex="-1"></a><span class="fu">library</span>(arm)</span>
-<span id="cb46-5"><a href="propensity-score-e-matching.html#cb46-5" tabindex="-1"></a><span class="co"># true DGP</span></span>
-<span id="cb46-6"><a href="propensity-score-e-matching.html#cb46-6" tabindex="-1"></a>dag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
-<span id="cb46-7"><a href="propensity-score-e-matching.html#cb46-7" tabindex="-1"></a>  y <span class="sc">~</span> D <span class="sc">+</span> w1,</span>
-<span id="cb46-8"><a href="propensity-score-e-matching.html#cb46-8" tabindex="-1"></a>  D <span class="sc">~</span> w1</span>
-<span id="cb46-9"><a href="propensity-score-e-matching.html#cb46-9" tabindex="-1"></a>)</span>
-<span id="cb46-10"><a href="propensity-score-e-matching.html#cb46-10" tabindex="-1"></a></span>
-<span id="cb46-11"><a href="propensity-score-e-matching.html#cb46-11" tabindex="-1"></a><span class="fu">ggdag</span>(dag)</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="propensity-score-e-matching.html#cb43-1" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb43-2"><a href="propensity-score-e-matching.html#cb43-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb43-3"><a href="propensity-score-e-matching.html#cb43-3" tabindex="-1"></a><span class="fu">library</span>(ggdag)</span>
+<span id="cb43-4"><a href="propensity-score-e-matching.html#cb43-4" tabindex="-1"></a><span class="fu">library</span>(arm)</span>
+<span id="cb43-5"><a href="propensity-score-e-matching.html#cb43-5" tabindex="-1"></a><span class="co"># true DGP</span></span>
+<span id="cb43-6"><a href="propensity-score-e-matching.html#cb43-6" tabindex="-1"></a>dag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
+<span id="cb43-7"><a href="propensity-score-e-matching.html#cb43-7" tabindex="-1"></a>  y <span class="sc">~</span> D <span class="sc">+</span> w1,</span>
+<span id="cb43-8"><a href="propensity-score-e-matching.html#cb43-8" tabindex="-1"></a>  D <span class="sc">~</span> w1</span>
+<span id="cb43-9"><a href="propensity-score-e-matching.html#cb43-9" tabindex="-1"></a>)</span>
+<span id="cb43-10"><a href="propensity-score-e-matching.html#cb43-10" tabindex="-1"></a></span>
+<span id="cb43-11"><a href="propensity-score-e-matching.html#cb43-11" tabindex="-1"></a><span class="fu">ggdag</span>(dag)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/modelo-mal-especificado-DAG-1.png" width="672" /></p>
 <p>O DAG acima ilustra bem qual a relação causal entre variáveis. Para estimar o ATE de <span class="math inline">\(D\)</span> sobre <span class="math inline">\(Y\)</span>, precisamos fechar o backdoor de <span class="math inline">\(w_1\)</span>. A forma usual como fazemos isso é com regressão. O problema que estamos abordando aqui é quando a amostra é não-balanceada entre tratados e não-tratados, isto é. Vamos visualizar dois tipos de relações (uma linear e outra não-linear) entre a variável de controle <span class="math inline">\(w_1\)</span> e a resposta <span class="math inline">\(Y\)</span> para ilustrar o problema do desbalanceamento:</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="propensity-score-e-matching.html#cb47-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb47-2"><a href="propensity-score-e-matching.html#cb47-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">202</span>)</span>
-<span id="cb47-3"><a href="propensity-score-e-matching.html#cb47-3" tabindex="-1"></a>n  <span class="ot">&lt;-</span> <span class="fl">1e4</span></span>
-<span id="cb47-4"><a href="propensity-score-e-matching.html#cb47-4" tabindex="-1"></a>w1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)                       <span class="co"># único confundidor</span></span>
-<span id="cb47-5"><a href="propensity-score-e-matching.html#cb47-5" tabindex="-1"></a>tau <span class="ot">&lt;-</span> <span class="dv">3</span>                             <span class="co"># efeito causal verdadeiro</span></span>
-<span id="cb47-6"><a href="propensity-score-e-matching.html#cb47-6" tabindex="-1"></a></span>
-<span id="cb47-7"><a href="propensity-score-e-matching.html#cb47-7" tabindex="-1"></a><span class="co"># GERAMOS UM PROPENSITY SCORE NÃO‐LINEAR</span></span>
-<span id="cb47-8"><a href="propensity-score-e-matching.html#cb47-8" tabindex="-1"></a>p  <span class="ot">&lt;-</span> <span class="fu">plogis</span>(<span class="sc">-</span><span class="fl">0.5</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> w1) </span>
-<span id="cb47-9"><a href="propensity-score-e-matching.html#cb47-9" tabindex="-1"></a>D  <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, p)</span>
-<span id="cb47-10"><a href="propensity-score-e-matching.html#cb47-10" tabindex="-1"></a></span>
-<span id="cb47-11"><a href="propensity-score-e-matching.html#cb47-11" tabindex="-1"></a><span class="co"># GERAÇÃO DOS RESULTADOS POTENCIAIS linear (apenas função de w1, forte ignorabilidade):</span></span>
-<span id="cb47-12"><a href="propensity-score-e-matching.html#cb47-12" tabindex="-1"></a>y0 <span class="ot">&lt;-</span>  <span class="dv">5</span> <span class="sc">*</span> w1 <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb47-13"><a href="propensity-score-e-matching.html#cb47-13" tabindex="-1"></a>y1 <span class="ot">&lt;-</span> y0 <span class="sc">-</span> tau                       <span class="co"># efeito constante</span></span>
-<span id="cb47-14"><a href="propensity-score-e-matching.html#cb47-14" tabindex="-1"></a></span>
-<span id="cb47-15"><a href="propensity-score-e-matching.html#cb47-15" tabindex="-1"></a>y  <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(D <span class="sc">==</span> <span class="dv">1</span>, y1, y0)</span>
-<span id="cb47-16"><a href="propensity-score-e-matching.html#cb47-16" tabindex="-1"></a></span>
-<span id="cb47-17"><a href="propensity-score-e-matching.html#cb47-17" tabindex="-1"></a></span>
-<span id="cb47-18"><a href="propensity-score-e-matching.html#cb47-18" tabindex="-1"></a></span>
-<span id="cb47-19"><a href="propensity-score-e-matching.html#cb47-19" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">y=</span>y, <span class="at">D=</span>D, <span class="at">w1=</span>w1)</span>
-<span id="cb47-20"><a href="propensity-score-e-matching.html#cb47-20" tabindex="-1"></a></span>
-<span id="cb47-21"><a href="propensity-score-e-matching.html#cb47-21" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
-<span id="cb47-22"><a href="propensity-score-e-matching.html#cb47-22" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb47-23"><a href="propensity-score-e-matching.html#cb47-23" tabindex="-1"></a>    <span class="at">D =</span> <span class="fu">factor</span>(D, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
-<span id="cb47-24"><a href="propensity-score-e-matching.html#cb47-24" tabindex="-1"></a>               <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Controle (D = 0)&quot;</span>, <span class="st">&quot;Tratado (D = 1)&quot;</span>))</span>
-<span id="cb47-25"><a href="propensity-score-e-matching.html#cb47-25" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb47-26"><a href="propensity-score-e-matching.html#cb47-26" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> w1, <span class="at">y =</span> y, <span class="at">colour =</span> D)) <span class="sc">+</span></span>
-<span id="cb47-27"><a href="propensity-score-e-matching.html#cb47-27" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb47-28"><a href="propensity-score-e-matching.html#cb47-28" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(</span>
-<span id="cb47-29"><a href="propensity-score-e-matching.html#cb47-29" tabindex="-1"></a>    <span class="at">name   =</span> <span class="st">&quot;Tratamento (binário)&quot;</span>,</span>
-<span id="cb47-30"><a href="propensity-score-e-matching.html#cb47-30" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;Controle (D = 0)&quot;</span> <span class="ot">=</span> <span class="st">&quot;steelblue&quot;</span>, </span>
-<span id="cb47-31"><a href="propensity-score-e-matching.html#cb47-31" tabindex="-1"></a>               <span class="st">&quot;Tratado (D = 1)&quot;</span>  <span class="ot">=</span> <span class="st">&quot;firebrick&quot;</span>)</span>
-<span id="cb47-32"><a href="propensity-score-e-matching.html#cb47-32" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="propensity-score-e-matching.html#cb44-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb44-2"><a href="propensity-score-e-matching.html#cb44-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">202</span>)</span>
+<span id="cb44-3"><a href="propensity-score-e-matching.html#cb44-3" tabindex="-1"></a>n  <span class="ot">&lt;-</span> <span class="fl">1e4</span></span>
+<span id="cb44-4"><a href="propensity-score-e-matching.html#cb44-4" tabindex="-1"></a>w1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)                       <span class="co"># único confundidor</span></span>
+<span id="cb44-5"><a href="propensity-score-e-matching.html#cb44-5" tabindex="-1"></a>tau <span class="ot">&lt;-</span> <span class="dv">3</span>                             <span class="co"># efeito causal verdadeiro</span></span>
+<span id="cb44-6"><a href="propensity-score-e-matching.html#cb44-6" tabindex="-1"></a></span>
+<span id="cb44-7"><a href="propensity-score-e-matching.html#cb44-7" tabindex="-1"></a><span class="co"># GERAMOS UM PROPENSITY SCORE NÃO‐LINEAR</span></span>
+<span id="cb44-8"><a href="propensity-score-e-matching.html#cb44-8" tabindex="-1"></a>p  <span class="ot">&lt;-</span> <span class="fu">plogis</span>(<span class="sc">-</span><span class="fl">0.5</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> w1) </span>
+<span id="cb44-9"><a href="propensity-score-e-matching.html#cb44-9" tabindex="-1"></a>D  <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, p)</span>
+<span id="cb44-10"><a href="propensity-score-e-matching.html#cb44-10" tabindex="-1"></a></span>
+<span id="cb44-11"><a href="propensity-score-e-matching.html#cb44-11" tabindex="-1"></a><span class="co"># GERAÇÃO DOS RESULTADOS POTENCIAIS linear (apenas função de w1, forte ignorabilidade):</span></span>
+<span id="cb44-12"><a href="propensity-score-e-matching.html#cb44-12" tabindex="-1"></a>y0 <span class="ot">&lt;-</span>  <span class="dv">5</span> <span class="sc">*</span> w1 <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb44-13"><a href="propensity-score-e-matching.html#cb44-13" tabindex="-1"></a>y1 <span class="ot">&lt;-</span> y0 <span class="sc">-</span> tau                       <span class="co"># efeito constante</span></span>
+<span id="cb44-14"><a href="propensity-score-e-matching.html#cb44-14" tabindex="-1"></a></span>
+<span id="cb44-15"><a href="propensity-score-e-matching.html#cb44-15" tabindex="-1"></a>y  <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(D <span class="sc">==</span> <span class="dv">1</span>, y1, y0)</span>
+<span id="cb44-16"><a href="propensity-score-e-matching.html#cb44-16" tabindex="-1"></a></span>
+<span id="cb44-17"><a href="propensity-score-e-matching.html#cb44-17" tabindex="-1"></a></span>
+<span id="cb44-18"><a href="propensity-score-e-matching.html#cb44-18" tabindex="-1"></a></span>
+<span id="cb44-19"><a href="propensity-score-e-matching.html#cb44-19" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">y=</span>y, <span class="at">D=</span>D, <span class="at">w1=</span>w1)</span>
+<span id="cb44-20"><a href="propensity-score-e-matching.html#cb44-20" tabindex="-1"></a></span>
+<span id="cb44-21"><a href="propensity-score-e-matching.html#cb44-21" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb44-22"><a href="propensity-score-e-matching.html#cb44-22" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb44-23"><a href="propensity-score-e-matching.html#cb44-23" tabindex="-1"></a>    <span class="at">D =</span> <span class="fu">factor</span>(D, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb44-24"><a href="propensity-score-e-matching.html#cb44-24" tabindex="-1"></a>               <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Controle (D = 0)&quot;</span>, <span class="st">&quot;Tratado (D = 1)&quot;</span>))</span>
+<span id="cb44-25"><a href="propensity-score-e-matching.html#cb44-25" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb44-26"><a href="propensity-score-e-matching.html#cb44-26" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> w1, <span class="at">y =</span> y, <span class="at">colour =</span> D)) <span class="sc">+</span></span>
+<span id="cb44-27"><a href="propensity-score-e-matching.html#cb44-27" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb44-28"><a href="propensity-score-e-matching.html#cb44-28" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(</span>
+<span id="cb44-29"><a href="propensity-score-e-matching.html#cb44-29" tabindex="-1"></a>    <span class="at">name   =</span> <span class="st">&quot;Tratamento (binário)&quot;</span>,</span>
+<span id="cb44-30"><a href="propensity-score-e-matching.html#cb44-30" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;Controle (D = 0)&quot;</span> <span class="ot">=</span> <span class="st">&quot;steelblue&quot;</span>, </span>
+<span id="cb44-31"><a href="propensity-score-e-matching.html#cb44-31" tabindex="-1"></a>               <span class="st">&quot;Tratado (D = 1)&quot;</span>  <span class="ot">=</span> <span class="st">&quot;firebrick&quot;</span>)</span>
+<span id="cb44-32"><a href="propensity-score-e-matching.html#cb44-32" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/modelo-mal-especificado-plot1-1.png" width="672" /></p>
 <p>No primeiro gráfico, o efeito causal (ATE) do tratamento é <span class="math inline">\(-3\)</span> e podemos ver nos dados que de fato em média a resposta é menor entre tratados que no controle. Além disso, vemos também que o efeito é basicamente linear. Mas o pontpo importante aqui é que existem duas regiões dos dados em que praticamente só temos unidades no controle (<span class="math inline">\(w_1 &lt; -2\)</span>) e ou no tratamento (<span class="math inline">\(w_1 &gt; -2\)</span>). Isso significa que para que a regressão possa estimar o efeito causal deve extrapolar a estimativa da região em que ambos tratamento e controle estão presentes nos dados para uma região em que não estão presentes. Como o efeito é constante para todas as regiões de <span class="math inline">\(w_1\)</span>, isso não causa problema e a regressão consegue recuperar o ATE sem viés. O gráfico abaixo ilustra o que a regressão está fazendo:</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="propensity-score-e-matching.html#cb48-1" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
-<span id="cb48-2"><a href="propensity-score-e-matching.html#cb48-2" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb48-3"><a href="propensity-score-e-matching.html#cb48-3" tabindex="-1"></a>    <span class="at">D =</span> <span class="fu">factor</span>(D, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
-<span id="cb48-4"><a href="propensity-score-e-matching.html#cb48-4" tabindex="-1"></a>               <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Controle (D = 0)&quot;</span>, <span class="st">&quot;Tratado (D = 1)&quot;</span>))</span>
-<span id="cb48-5"><a href="propensity-score-e-matching.html#cb48-5" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb48-6"><a href="propensity-score-e-matching.html#cb48-6" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> w1, <span class="at">y =</span> y, <span class="at">colour =</span> D)) <span class="sc">+</span></span>
-<span id="cb48-7"><a href="propensity-score-e-matching.html#cb48-7" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb48-8"><a href="propensity-score-e-matching.html#cb48-8" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>) <span class="sc">+</span></span>
-<span id="cb48-9"><a href="propensity-score-e-matching.html#cb48-9" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(</span>
-<span id="cb48-10"><a href="propensity-score-e-matching.html#cb48-10" tabindex="-1"></a>    <span class="at">name   =</span> <span class="st">&quot;Tratamento (binário)&quot;</span>,</span>
-<span id="cb48-11"><a href="propensity-score-e-matching.html#cb48-11" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;Controle (D = 0)&quot;</span> <span class="ot">=</span> <span class="st">&quot;steelblue&quot;</span>, </span>
-<span id="cb48-12"><a href="propensity-score-e-matching.html#cb48-12" tabindex="-1"></a>               <span class="st">&quot;Tratado (D = 1)&quot;</span>  <span class="ot">=</span> <span class="st">&quot;firebrick&quot;</span>)</span>
-<span id="cb48-13"><a href="propensity-score-e-matching.html#cb48-13" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="propensity-score-e-matching.html#cb45-1" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb45-2"><a href="propensity-score-e-matching.html#cb45-2" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb45-3"><a href="propensity-score-e-matching.html#cb45-3" tabindex="-1"></a>    <span class="at">D =</span> <span class="fu">factor</span>(D, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb45-4"><a href="propensity-score-e-matching.html#cb45-4" tabindex="-1"></a>               <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Controle (D = 0)&quot;</span>, <span class="st">&quot;Tratado (D = 1)&quot;</span>))</span>
+<span id="cb45-5"><a href="propensity-score-e-matching.html#cb45-5" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb45-6"><a href="propensity-score-e-matching.html#cb45-6" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> w1, <span class="at">y =</span> y, <span class="at">colour =</span> D)) <span class="sc">+</span></span>
+<span id="cb45-7"><a href="propensity-score-e-matching.html#cb45-7" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb45-8"><a href="propensity-score-e-matching.html#cb45-8" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>) <span class="sc">+</span></span>
+<span id="cb45-9"><a href="propensity-score-e-matching.html#cb45-9" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(</span>
+<span id="cb45-10"><a href="propensity-score-e-matching.html#cb45-10" tabindex="-1"></a>    <span class="at">name   =</span> <span class="st">&quot;Tratamento (binário)&quot;</span>,</span>
+<span id="cb45-11"><a href="propensity-score-e-matching.html#cb45-11" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;Controle (D = 0)&quot;</span> <span class="ot">=</span> <span class="st">&quot;steelblue&quot;</span>, </span>
+<span id="cb45-12"><a href="propensity-score-e-matching.html#cb45-12" tabindex="-1"></a>               <span class="st">&quot;Tratado (D = 1)&quot;</span>  <span class="ot">=</span> <span class="st">&quot;firebrick&quot;</span>)</span>
+<span id="cb45-13"><a href="propensity-score-e-matching.html#cb45-13" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/modelo-mal-especificado-plot1-reg-1.png" width="672" /></p>
 <p>O gráfico mostra duas retas de regressão ajustadas, uma para o controle (em azul) e outra para o tratamento (em vermelho). Efetivamente, temos de estender as duas retas para as regiões em que não há dados, por meio de extrapolação, que no caso significa continuar a linha reta. Assim, temos uma estimativa dos resultados potenciais nessas regiões e podemos computar o efeito causal médio. Como a extrapolação é razoável, não há problema.</p>
 <p>Vejamos agora uma situação em que o efeito de <span class="math inline">\(w_1\)</span> é não linear sobre <span class="math inline">\(Y\)</span>.</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="propensity-score-e-matching.html#cb49-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">202</span>)</span>
-<span id="cb49-2"><a href="propensity-score-e-matching.html#cb49-2" tabindex="-1"></a>n  <span class="ot">&lt;-</span> <span class="fl">1e4</span></span>
-<span id="cb49-3"><a href="propensity-score-e-matching.html#cb49-3" tabindex="-1"></a>w1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)                       <span class="co"># único confundidor</span></span>
-<span id="cb49-4"><a href="propensity-score-e-matching.html#cb49-4" tabindex="-1"></a>tau <span class="ot">&lt;-</span> <span class="dv">3</span>                             <span class="co"># efeito causal verdadeiro</span></span>
-<span id="cb49-5"><a href="propensity-score-e-matching.html#cb49-5" tabindex="-1"></a></span>
-<span id="cb49-6"><a href="propensity-score-e-matching.html#cb49-6" tabindex="-1"></a><span class="co"># GERAMOS UM PROPENSITY SCORE NÃO‐LINEAR</span></span>
-<span id="cb49-7"><a href="propensity-score-e-matching.html#cb49-7" tabindex="-1"></a>p  <span class="ot">&lt;-</span> <span class="fu">plogis</span>(<span class="sc">-</span><span class="fl">0.5</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> w1) </span>
-<span id="cb49-8"><a href="propensity-score-e-matching.html#cb49-8" tabindex="-1"></a>D  <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, p)</span>
-<span id="cb49-9"><a href="propensity-score-e-matching.html#cb49-9" tabindex="-1"></a></span>
-<span id="cb49-10"><a href="propensity-score-e-matching.html#cb49-10" tabindex="-1"></a><span class="co"># GERAÇÃO DOS RESULTADOS POTENCIAIS não-linear (apenas função de w1, forte ignorabilidade):</span></span>
-<span id="cb49-11"><a href="propensity-score-e-matching.html#cb49-11" tabindex="-1"></a>y0 <span class="ot">&lt;-</span>  <span class="dv">5</span> <span class="sc">*</span> w1<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb49-12"><a href="propensity-score-e-matching.html#cb49-12" tabindex="-1"></a>y1 <span class="ot">&lt;-</span> y0 <span class="sc">-</span> tau                       <span class="co"># efeito constante</span></span>
-<span id="cb49-13"><a href="propensity-score-e-matching.html#cb49-13" tabindex="-1"></a></span>
-<span id="cb49-14"><a href="propensity-score-e-matching.html#cb49-14" tabindex="-1"></a>y  <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(D <span class="sc">==</span> <span class="dv">1</span>, y1, y0)</span>
-<span id="cb49-15"><a href="propensity-score-e-matching.html#cb49-15" tabindex="-1"></a></span>
-<span id="cb49-16"><a href="propensity-score-e-matching.html#cb49-16" tabindex="-1"></a></span>
-<span id="cb49-17"><a href="propensity-score-e-matching.html#cb49-17" tabindex="-1"></a></span>
-<span id="cb49-18"><a href="propensity-score-e-matching.html#cb49-18" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">y=</span>y, <span class="at">D=</span>D, <span class="at">w1=</span>w1)</span>
-<span id="cb49-19"><a href="propensity-score-e-matching.html#cb49-19" tabindex="-1"></a></span>
-<span id="cb49-20"><a href="propensity-score-e-matching.html#cb49-20" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
-<span id="cb49-21"><a href="propensity-score-e-matching.html#cb49-21" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb49-22"><a href="propensity-score-e-matching.html#cb49-22" tabindex="-1"></a>    <span class="at">D =</span> <span class="fu">factor</span>(D, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
-<span id="cb49-23"><a href="propensity-score-e-matching.html#cb49-23" tabindex="-1"></a>               <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Controle (D = 0)&quot;</span>, <span class="st">&quot;Tratado (D = 1)&quot;</span>))</span>
-<span id="cb49-24"><a href="propensity-score-e-matching.html#cb49-24" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb49-25"><a href="propensity-score-e-matching.html#cb49-25" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> w1, <span class="at">y =</span> y, <span class="at">colour =</span> D)) <span class="sc">+</span></span>
-<span id="cb49-26"><a href="propensity-score-e-matching.html#cb49-26" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb49-27"><a href="propensity-score-e-matching.html#cb49-27" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(</span>
-<span id="cb49-28"><a href="propensity-score-e-matching.html#cb49-28" tabindex="-1"></a>    <span class="at">name   =</span> <span class="st">&quot;Tratamento (binário)&quot;</span>,</span>
-<span id="cb49-29"><a href="propensity-score-e-matching.html#cb49-29" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;Controle (D = 0)&quot;</span> <span class="ot">=</span> <span class="st">&quot;steelblue&quot;</span>, </span>
-<span id="cb49-30"><a href="propensity-score-e-matching.html#cb49-30" tabindex="-1"></a>               <span class="st">&quot;Tratado (D = 1)&quot;</span>  <span class="ot">=</span> <span class="st">&quot;firebrick&quot;</span>)</span>
-<span id="cb49-31"><a href="propensity-score-e-matching.html#cb49-31" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="propensity-score-e-matching.html#cb46-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">202</span>)</span>
+<span id="cb46-2"><a href="propensity-score-e-matching.html#cb46-2" tabindex="-1"></a>n  <span class="ot">&lt;-</span> <span class="fl">1e4</span></span>
+<span id="cb46-3"><a href="propensity-score-e-matching.html#cb46-3" tabindex="-1"></a>w1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)                       <span class="co"># único confundidor</span></span>
+<span id="cb46-4"><a href="propensity-score-e-matching.html#cb46-4" tabindex="-1"></a>tau <span class="ot">&lt;-</span> <span class="dv">3</span>                             <span class="co"># efeito causal verdadeiro</span></span>
+<span id="cb46-5"><a href="propensity-score-e-matching.html#cb46-5" tabindex="-1"></a></span>
+<span id="cb46-6"><a href="propensity-score-e-matching.html#cb46-6" tabindex="-1"></a><span class="co"># GERAMOS UM PROPENSITY SCORE NÃO‐LINEAR</span></span>
+<span id="cb46-7"><a href="propensity-score-e-matching.html#cb46-7" tabindex="-1"></a>p  <span class="ot">&lt;-</span> <span class="fu">plogis</span>(<span class="sc">-</span><span class="fl">0.5</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> w1) </span>
+<span id="cb46-8"><a href="propensity-score-e-matching.html#cb46-8" tabindex="-1"></a>D  <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, p)</span>
+<span id="cb46-9"><a href="propensity-score-e-matching.html#cb46-9" tabindex="-1"></a></span>
+<span id="cb46-10"><a href="propensity-score-e-matching.html#cb46-10" tabindex="-1"></a><span class="co"># GERAÇÃO DOS RESULTADOS POTENCIAIS não-linear (apenas função de w1, forte ignorabilidade):</span></span>
+<span id="cb46-11"><a href="propensity-score-e-matching.html#cb46-11" tabindex="-1"></a>y0 <span class="ot">&lt;-</span>  <span class="dv">5</span> <span class="sc">*</span> w1<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb46-12"><a href="propensity-score-e-matching.html#cb46-12" tabindex="-1"></a>y1 <span class="ot">&lt;-</span> y0 <span class="sc">-</span> tau                       <span class="co"># efeito constante</span></span>
+<span id="cb46-13"><a href="propensity-score-e-matching.html#cb46-13" tabindex="-1"></a></span>
+<span id="cb46-14"><a href="propensity-score-e-matching.html#cb46-14" tabindex="-1"></a>y  <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(D <span class="sc">==</span> <span class="dv">1</span>, y1, y0)</span>
+<span id="cb46-15"><a href="propensity-score-e-matching.html#cb46-15" tabindex="-1"></a></span>
+<span id="cb46-16"><a href="propensity-score-e-matching.html#cb46-16" tabindex="-1"></a></span>
+<span id="cb46-17"><a href="propensity-score-e-matching.html#cb46-17" tabindex="-1"></a></span>
+<span id="cb46-18"><a href="propensity-score-e-matching.html#cb46-18" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">y=</span>y, <span class="at">D=</span>D, <span class="at">w1=</span>w1)</span>
+<span id="cb46-19"><a href="propensity-score-e-matching.html#cb46-19" tabindex="-1"></a></span>
+<span id="cb46-20"><a href="propensity-score-e-matching.html#cb46-20" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb46-21"><a href="propensity-score-e-matching.html#cb46-21" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb46-22"><a href="propensity-score-e-matching.html#cb46-22" tabindex="-1"></a>    <span class="at">D =</span> <span class="fu">factor</span>(D, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb46-23"><a href="propensity-score-e-matching.html#cb46-23" tabindex="-1"></a>               <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Controle (D = 0)&quot;</span>, <span class="st">&quot;Tratado (D = 1)&quot;</span>))</span>
+<span id="cb46-24"><a href="propensity-score-e-matching.html#cb46-24" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb46-25"><a href="propensity-score-e-matching.html#cb46-25" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> w1, <span class="at">y =</span> y, <span class="at">colour =</span> D)) <span class="sc">+</span></span>
+<span id="cb46-26"><a href="propensity-score-e-matching.html#cb46-26" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb46-27"><a href="propensity-score-e-matching.html#cb46-27" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(</span>
+<span id="cb46-28"><a href="propensity-score-e-matching.html#cb46-28" tabindex="-1"></a>    <span class="at">name   =</span> <span class="st">&quot;Tratamento (binário)&quot;</span>,</span>
+<span id="cb46-29"><a href="propensity-score-e-matching.html#cb46-29" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;Controle (D = 0)&quot;</span> <span class="ot">=</span> <span class="st">&quot;steelblue&quot;</span>, </span>
+<span id="cb46-30"><a href="propensity-score-e-matching.html#cb46-30" tabindex="-1"></a>               <span class="st">&quot;Tratado (D = 1)&quot;</span>  <span class="ot">=</span> <span class="st">&quot;firebrick&quot;</span>)</span>
+<span id="cb46-31"><a href="propensity-score-e-matching.html#cb46-31" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/modelo-mal-especificado-plot2-1.png" width="672" /></p>
 <p>Aqui, vemos que o efeito é não-linear de <span class="math inline">\(w_1\)</span> sobre <span class="math inline">\(Y\)</span> e também o desbalanceamento na amostra. Vamos ver o mesmo gráfico com as duas retas ajustadas para entender como a extrapolação pode ficar bem ruim nesse caso.</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="propensity-score-e-matching.html#cb50-1" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
-<span id="cb50-2"><a href="propensity-score-e-matching.html#cb50-2" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb50-3"><a href="propensity-score-e-matching.html#cb50-3" tabindex="-1"></a>    <span class="at">D =</span> <span class="fu">factor</span>(D, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
-<span id="cb50-4"><a href="propensity-score-e-matching.html#cb50-4" tabindex="-1"></a>               <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Controle (D = 0)&quot;</span>, <span class="st">&quot;Tratado (D = 1)&quot;</span>))</span>
-<span id="cb50-5"><a href="propensity-score-e-matching.html#cb50-5" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb50-6"><a href="propensity-score-e-matching.html#cb50-6" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> w1, <span class="at">y =</span> y, <span class="at">colour =</span> D)) <span class="sc">+</span></span>
-<span id="cb50-7"><a href="propensity-score-e-matching.html#cb50-7" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb50-8"><a href="propensity-score-e-matching.html#cb50-8" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>) <span class="sc">+</span></span>
-<span id="cb50-9"><a href="propensity-score-e-matching.html#cb50-9" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(</span>
-<span id="cb50-10"><a href="propensity-score-e-matching.html#cb50-10" tabindex="-1"></a>    <span class="at">name   =</span> <span class="st">&quot;Tratamento (binário)&quot;</span>,</span>
-<span id="cb50-11"><a href="propensity-score-e-matching.html#cb50-11" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;Controle (D = 0)&quot;</span> <span class="ot">=</span> <span class="st">&quot;steelblue&quot;</span>, </span>
-<span id="cb50-12"><a href="propensity-score-e-matching.html#cb50-12" tabindex="-1"></a>               <span class="st">&quot;Tratado (D = 1)&quot;</span>  <span class="ot">=</span> <span class="st">&quot;firebrick&quot;</span>)</span>
-<span id="cb50-13"><a href="propensity-score-e-matching.html#cb50-13" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="propensity-score-e-matching.html#cb47-1" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb47-2"><a href="propensity-score-e-matching.html#cb47-2" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb47-3"><a href="propensity-score-e-matching.html#cb47-3" tabindex="-1"></a>    <span class="at">D =</span> <span class="fu">factor</span>(D, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb47-4"><a href="propensity-score-e-matching.html#cb47-4" tabindex="-1"></a>               <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Controle (D = 0)&quot;</span>, <span class="st">&quot;Tratado (D = 1)&quot;</span>))</span>
+<span id="cb47-5"><a href="propensity-score-e-matching.html#cb47-5" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb47-6"><a href="propensity-score-e-matching.html#cb47-6" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> w1, <span class="at">y =</span> y, <span class="at">colour =</span> D)) <span class="sc">+</span></span>
+<span id="cb47-7"><a href="propensity-score-e-matching.html#cb47-7" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb47-8"><a href="propensity-score-e-matching.html#cb47-8" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>) <span class="sc">+</span></span>
+<span id="cb47-9"><a href="propensity-score-e-matching.html#cb47-9" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(</span>
+<span id="cb47-10"><a href="propensity-score-e-matching.html#cb47-10" tabindex="-1"></a>    <span class="at">name   =</span> <span class="st">&quot;Tratamento (binário)&quot;</span>,</span>
+<span id="cb47-11"><a href="propensity-score-e-matching.html#cb47-11" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;Controle (D = 0)&quot;</span> <span class="ot">=</span> <span class="st">&quot;steelblue&quot;</span>, </span>
+<span id="cb47-12"><a href="propensity-score-e-matching.html#cb47-12" tabindex="-1"></a>               <span class="st">&quot;Tratado (D = 1)&quot;</span>  <span class="ot">=</span> <span class="st">&quot;firebrick&quot;</span>)</span>
+<span id="cb47-13"><a href="propensity-score-e-matching.html#cb47-13" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/modelo-mal-especificado-plot2-reg-1.png" width="672" /></p>
 <p>Um problema óbvio do modelo é que o efeito de w1 é quadrático, então podemos tentar corrigir isso incluindo um termo quadrático.</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="propensity-score-e-matching.html#cb51-1" tabindex="-1"></a>reg_sq <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> D <span class="sc">+</span> w1 <span class="sc">+</span> w1<span class="sc">^</span><span class="dv">2</span>, <span class="at">data =</span> df)</span>
-<span id="cb51-2"><a href="propensity-score-e-matching.html#cb51-2" tabindex="-1"></a><span class="fu">summary</span>(reg_sq)</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="propensity-score-e-matching.html#cb48-1" tabindex="-1"></a>reg_sq <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> D <span class="sc">+</span> w1 <span class="sc">+</span> w1<span class="sc">^</span><span class="dv">2</span>, <span class="at">data =</span> df)</span>
+<span id="cb48-2"><a href="propensity-score-e-matching.html#cb48-2" tabindex="-1"></a><span class="fu">summary</span>(reg_sq)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = y ~ D + w1 + w1^2, data = df)
@@ -526,15 +526,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>O efeito causal é negativo, o que é bom, pois está na direção certa, mas ainda está distante do efeito verdadeiro. Isso ilustra também como a estimativa é dependente do modelo, o que é bem ruim, pois não sabemos qual o modelo certo.</p>
 <p>Em resumo, quando há desbalancamento, causamos dependência do modelo, o que é problemático.</p>
 <p>Agora, vamos comparar com o propensity score:</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="propensity-score-e-matching.html#cb53-1" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb53-2"><a href="propensity-score-e-matching.html#cb53-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb53-3"><a href="propensity-score-e-matching.html#cb53-3" tabindex="-1"></a><span class="fu">library</span>(ggdag)</span>
-<span id="cb53-4"><a href="propensity-score-e-matching.html#cb53-4" tabindex="-1"></a><span class="co"># true DGP</span></span>
-<span id="cb53-5"><a href="propensity-score-e-matching.html#cb53-5" tabindex="-1"></a></span>
-<span id="cb53-6"><a href="propensity-score-e-matching.html#cb53-6" tabindex="-1"></a>reg_aux<span class="ot">&lt;-</span> <span class="fu">glm</span>(D  <span class="sc">~</span> w1, <span class="at">family =</span> binomial, <span class="at">data=</span>df)</span>
-<span id="cb53-7"><a href="propensity-score-e-matching.html#cb53-7" tabindex="-1"></a>p_score <span class="ot">&lt;-</span> reg_aux<span class="sc">$</span>fitted.values</span>
-<span id="cb53-8"><a href="propensity-score-e-matching.html#cb53-8" tabindex="-1"></a>reg1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> D <span class="sc">+</span> p_score)</span>
-<span id="cb53-9"><a href="propensity-score-e-matching.html#cb53-9" tabindex="-1"></a><span class="fu">summary</span>(reg1)</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="propensity-score-e-matching.html#cb50-1" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb50-2"><a href="propensity-score-e-matching.html#cb50-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb50-3"><a href="propensity-score-e-matching.html#cb50-3" tabindex="-1"></a><span class="fu">library</span>(ggdag)</span>
+<span id="cb50-4"><a href="propensity-score-e-matching.html#cb50-4" tabindex="-1"></a><span class="co"># true DGP</span></span>
+<span id="cb50-5"><a href="propensity-score-e-matching.html#cb50-5" tabindex="-1"></a></span>
+<span id="cb50-6"><a href="propensity-score-e-matching.html#cb50-6" tabindex="-1"></a>reg_aux<span class="ot">&lt;-</span> <span class="fu">glm</span>(D  <span class="sc">~</span> w1, <span class="at">family =</span> binomial, <span class="at">data=</span>df)</span>
+<span id="cb50-7"><a href="propensity-score-e-matching.html#cb50-7" tabindex="-1"></a>p_score <span class="ot">&lt;-</span> reg_aux<span class="sc">$</span>fitted.values</span>
+<span id="cb50-8"><a href="propensity-score-e-matching.html#cb50-8" tabindex="-1"></a>reg1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> D <span class="sc">+</span> p_score)</span>
+<span id="cb50-9"><a href="propensity-score-e-matching.html#cb50-9" tabindex="-1"></a><span class="fu">summary</span>(reg1)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = y ~ D + p_score)
@@ -554,10 +554,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Residual standard error: 7.069 on 9997 degrees of freedom
 ## Multiple R-squared:  0.02781,    Adjusted R-squared:  0.02761 
 ## F-statistic:   143 on 2 and 9997 DF,  p-value: &lt; 2.2e-16</code></pre>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="propensity-score-e-matching.html#cb55-1" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(D <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span><span class="sc">/</span>p_score, <span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p_score))   <span class="co"># pesos IPTW</span></span>
-<span id="cb55-2"><a href="propensity-score-e-matching.html#cb55-2" tabindex="-1"></a></span>
-<span id="cb55-3"><a href="propensity-score-e-matching.html#cb55-3" tabindex="-1"></a>reg2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> D , <span class="at">weights =</span> w)</span>
-<span id="cb55-4"><a href="propensity-score-e-matching.html#cb55-4" tabindex="-1"></a><span class="fu">summary</span>(reg2)</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="propensity-score-e-matching.html#cb52-1" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(D <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span><span class="sc">/</span>p_score, <span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p_score))   <span class="co"># pesos IPTW</span></span>
+<span id="cb52-2"><a href="propensity-score-e-matching.html#cb52-2" tabindex="-1"></a></span>
+<span id="cb52-3"><a href="propensity-score-e-matching.html#cb52-3" tabindex="-1"></a>reg2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> D , <span class="at">weights =</span> w)</span>
+<span id="cb52-4"><a href="propensity-score-e-matching.html#cb52-4" tabindex="-1"></a><span class="fu">summary</span>(reg2)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = y ~ D, weights = w)
@@ -578,37 +578,37 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## F-statistic: 365.1 on 1 and 9998 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Conseguimos recuperar o ATE sem problemas. E não precisei especificar corretamente a forma funcional da variáveil de controle <span class="math inline">\(w_1\)</span> no modelo principal, pois usei o propensity score. Note que precisei modelar corretamente a regreessão que calcula o propensity score.</p>
 <p>É útil ver como o pscore está distribuído entre os grupos de tratamento e controle:</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="propensity-score-e-matching.html#cb57-1" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb57-2"><a href="propensity-score-e-matching.html#cb57-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb57-3"><a href="propensity-score-e-matching.html#cb57-3" tabindex="-1"></a><span class="fu">library</span>(ggdag)</span>
-<span id="cb57-4"><a href="propensity-score-e-matching.html#cb57-4" tabindex="-1"></a><span class="co"># true DGP</span></span>
-<span id="cb57-5"><a href="propensity-score-e-matching.html#cb57-5" tabindex="-1"></a></span>
-<span id="cb57-6"><a href="propensity-score-e-matching.html#cb57-6" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb57-7"><a href="propensity-score-e-matching.html#cb57-7" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pscore =</span> p_score)</span>
-<span id="cb57-8"><a href="propensity-score-e-matching.html#cb57-8" tabindex="-1"></a></span>
-<span id="cb57-9"><a href="propensity-score-e-matching.html#cb57-9" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
-<span id="cb57-10"><a href="propensity-score-e-matching.html#cb57-10" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(pscore, <span class="at">group=</span>D)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="propensity-score-e-matching.html#cb54-1" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb54-2"><a href="propensity-score-e-matching.html#cb54-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb54-3"><a href="propensity-score-e-matching.html#cb54-3" tabindex="-1"></a><span class="fu">library</span>(ggdag)</span>
+<span id="cb54-4"><a href="propensity-score-e-matching.html#cb54-4" tabindex="-1"></a><span class="co"># true DGP</span></span>
+<span id="cb54-5"><a href="propensity-score-e-matching.html#cb54-5" tabindex="-1"></a></span>
+<span id="cb54-6"><a href="propensity-score-e-matching.html#cb54-6" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb54-7"><a href="propensity-score-e-matching.html#cb54-7" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pscore =</span> p_score)</span>
+<span id="cb54-8"><a href="propensity-score-e-matching.html#cb54-8" tabindex="-1"></a></span>
+<span id="cb54-9"><a href="propensity-score-e-matching.html#cb54-9" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb54-10"><a href="propensity-score-e-matching.html#cb54-10" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(pscore, <span class="at">group=</span>D)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/distribuicao-pscore-1.png" width="672" /></p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="propensity-score-e-matching.html#cb58-1" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
-<span id="cb58-2"><a href="propensity-score-e-matching.html#cb58-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">D =</span> <span class="fu">as.factor</span>(D)) <span class="sc">%&gt;%</span></span>
-<span id="cb58-3"><a href="propensity-score-e-matching.html#cb58-3" tabindex="-1"></a>  <span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb58-4"><a href="propensity-score-e-matching.html#cb58-4" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">x=</span>pscore, <span class="at">group=</span>D, <span class="at">colour =</span> D))</span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="propensity-score-e-matching.html#cb55-1" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb55-2"><a href="propensity-score-e-matching.html#cb55-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">D =</span> <span class="fu">as.factor</span>(D)) <span class="sc">%&gt;%</span></span>
+<span id="cb55-3"><a href="propensity-score-e-matching.html#cb55-3" tabindex="-1"></a>  <span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb55-4"><a href="propensity-score-e-matching.html#cb55-4" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">x=</span>pscore, <span class="at">group=</span>D, <span class="at">colour =</span> D))</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/distribuicao-pscore-2.png" width="672" /></p>
 <p>Há desbalanceamento e falta de overlap ou suporte comum, o que leva à extrapolação.</p>
 </div>
 <div id="matching" class="section level2 hasAnchor" number="5.3">
 <h2><span class="header-section-number">5.3</span> Matching<a href="propensity-score-e-matching.html#matching" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>A Ideia do matching pode ser ilustrada se notarmos o seguinte. A projeção da reta vermelha para pontos abaixo de <span class="math inline">\(-2\)</span> é de um <span class="math inline">\(y\)</span> médio muito baixo, enquanto que o <span class="math inline">\(y\)</span> médio é muito alto para o controle. O oposto é verificado para a região em que <span class="math inline">\(w_1 &gt; 2\)</span>. Portanto, se eu restringir (excluir os casos) a análise para uma região onde a necessidade de extrapolação é menor, o resultado tende a ser aproximar do ATE</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="propensity-score-e-matching.html#cb59-1" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb59-2"><a href="propensity-score-e-matching.html#cb59-2" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb59-3"><a href="propensity-score-e-matching.html#cb59-3" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
-<span id="cb59-4"><a href="propensity-score-e-matching.html#cb59-4" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
-<span id="cb59-5"><a href="propensity-score-e-matching.html#cb59-5" tabindex="-1"></a></span>
-<span id="cb59-6"><a href="propensity-score-e-matching.html#cb59-6" tabindex="-1"></a>reg_sub <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> D <span class="sc">+</span> w1, <span class="at">data =</span> df)</span>
-<span id="cb59-7"><a href="propensity-score-e-matching.html#cb59-7" tabindex="-1"></a></span>
-<span id="cb59-8"><a href="propensity-score-e-matching.html#cb59-8" tabindex="-1"></a>reg_sub <span class="sc">%&gt;%</span></span>
-<span id="cb59-9"><a href="propensity-score-e-matching.html#cb59-9" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb59-10"><a href="propensity-score-e-matching.html#cb59-10" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="propensity-score-e-matching.html#cb56-1" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb56-2"><a href="propensity-score-e-matching.html#cb56-2" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb56-3"><a href="propensity-score-e-matching.html#cb56-3" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb56-4"><a href="propensity-score-e-matching.html#cb56-4" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb56-5"><a href="propensity-score-e-matching.html#cb56-5" tabindex="-1"></a></span>
+<span id="cb56-6"><a href="propensity-score-e-matching.html#cb56-6" tabindex="-1"></a>reg_sub <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> D <span class="sc">+</span> w1, <span class="at">data =</span> df)</span>
+<span id="cb56-7"><a href="propensity-score-e-matching.html#cb56-7" tabindex="-1"></a></span>
+<span id="cb56-8"><a href="propensity-score-e-matching.html#cb56-8" tabindex="-1"></a>reg_sub <span class="sc">%&gt;%</span></span>
+<span id="cb56-9"><a href="propensity-score-e-matching.html#cb56-9" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb56-10"><a href="propensity-score-e-matching.html#cb56-10" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span></code></pre></div>
 <pre><code>## Warning in attr(x, &quot;align&quot;): &#39;xfun::attr()&#39; is deprecated.
 ## Use &#39;xfun::attr2()&#39; instead.
 ## See help(&quot;Deprecated&quot;)</code></pre>
@@ -649,11 +649,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="propensity-score-e-matching.html#cb62-1" tabindex="-1"></a>reg_sub <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> D <span class="sc">+</span> w1, <span class="at">data =</span> <span class="fu">subset</span>(df, w1 <span class="sc">&gt;</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">&amp;</span> w1 <span class="sc">&lt;</span> <span class="dv">2</span>))</span>
-<span id="cb62-2"><a href="propensity-score-e-matching.html#cb62-2" tabindex="-1"></a></span>
-<span id="cb62-3"><a href="propensity-score-e-matching.html#cb62-3" tabindex="-1"></a>reg_sub <span class="sc">%&gt;%</span></span>
-<span id="cb62-4"><a href="propensity-score-e-matching.html#cb62-4" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb62-5"><a href="propensity-score-e-matching.html#cb62-5" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="propensity-score-e-matching.html#cb59-1" tabindex="-1"></a>reg_sub <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> D <span class="sc">+</span> w1, <span class="at">data =</span> <span class="fu">subset</span>(df, w1 <span class="sc">&gt;</span> <span class="sc">-</span><span class="dv">2</span> <span class="sc">&amp;</span> w1 <span class="sc">&lt;</span> <span class="dv">2</span>))</span>
+<span id="cb59-2"><a href="propensity-score-e-matching.html#cb59-2" tabindex="-1"></a></span>
+<span id="cb59-3"><a href="propensity-score-e-matching.html#cb59-3" tabindex="-1"></a>reg_sub <span class="sc">%&gt;%</span></span>
+<span id="cb59-4"><a href="propensity-score-e-matching.html#cb59-4" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb59-5"><a href="propensity-score-e-matching.html#cb59-5" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span></code></pre></div>
 <pre><code>## Warning in attr(x, &quot;align&quot;): &#39;xfun::attr()&#39; is deprecated.
 ## Use &#39;xfun::attr2()&#39; instead.
 ## See help(&quot;Deprecated&quot;)
@@ -694,11 +694,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="propensity-score-e-matching.html#cb64-1" tabindex="-1"></a>reg_sub <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> D <span class="sc">+</span> w1, <span class="at">data =</span> <span class="fu">subset</span>(df, w1 <span class="sc">&gt;</span> <span class="sc">-</span><span class="fl">1.5</span> <span class="sc">&amp;</span> w1 <span class="sc">&lt;</span> <span class="fl">1.5</span>))</span>
-<span id="cb64-2"><a href="propensity-score-e-matching.html#cb64-2" tabindex="-1"></a></span>
-<span id="cb64-3"><a href="propensity-score-e-matching.html#cb64-3" tabindex="-1"></a>reg_sub <span class="sc">%&gt;%</span></span>
-<span id="cb64-4"><a href="propensity-score-e-matching.html#cb64-4" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb64-5"><a href="propensity-score-e-matching.html#cb64-5" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="propensity-score-e-matching.html#cb61-1" tabindex="-1"></a>reg_sub <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> D <span class="sc">+</span> w1, <span class="at">data =</span> <span class="fu">subset</span>(df, w1 <span class="sc">&gt;</span> <span class="sc">-</span><span class="fl">1.5</span> <span class="sc">&amp;</span> w1 <span class="sc">&lt;</span> <span class="fl">1.5</span>))</span>
+<span id="cb61-2"><a href="propensity-score-e-matching.html#cb61-2" tabindex="-1"></a></span>
+<span id="cb61-3"><a href="propensity-score-e-matching.html#cb61-3" tabindex="-1"></a>reg_sub <span class="sc">%&gt;%</span></span>
+<span id="cb61-4"><a href="propensity-score-e-matching.html#cb61-4" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb61-5"><a href="propensity-score-e-matching.html#cb61-5" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span></code></pre></div>
 <pre><code>## Warning in attr(x, &quot;align&quot;): &#39;xfun::attr()&#39; is deprecated.
 ## Use &#39;xfun::attr2()&#39; instead.
 ## See help(&quot;Deprecated&quot;)
@@ -739,11 +739,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="propensity-score-e-matching.html#cb66-1" tabindex="-1"></a>reg_sub <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> D <span class="sc">+</span> w1, <span class="at">data =</span> <span class="fu">subset</span>(df, w1 <span class="sc">&gt;</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">&amp;</span> w1 <span class="sc">&lt;</span> <span class="dv">1</span>))</span>
-<span id="cb66-2"><a href="propensity-score-e-matching.html#cb66-2" tabindex="-1"></a></span>
-<span id="cb66-3"><a href="propensity-score-e-matching.html#cb66-3" tabindex="-1"></a>reg_sub <span class="sc">%&gt;%</span></span>
-<span id="cb66-4"><a href="propensity-score-e-matching.html#cb66-4" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb66-5"><a href="propensity-score-e-matching.html#cb66-5" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="propensity-score-e-matching.html#cb63-1" tabindex="-1"></a>reg_sub <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> D <span class="sc">+</span> w1, <span class="at">data =</span> <span class="fu">subset</span>(df, w1 <span class="sc">&gt;</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">&amp;</span> w1 <span class="sc">&lt;</span> <span class="dv">1</span>))</span>
+<span id="cb63-2"><a href="propensity-score-e-matching.html#cb63-2" tabindex="-1"></a></span>
+<span id="cb63-3"><a href="propensity-score-e-matching.html#cb63-3" tabindex="-1"></a>reg_sub <span class="sc">%&gt;%</span></span>
+<span id="cb63-4"><a href="propensity-score-e-matching.html#cb63-4" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb63-5"><a href="propensity-score-e-matching.html#cb63-5" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span></code></pre></div>
 <pre><code>## Warning in attr(x, &quot;align&quot;): &#39;xfun::attr()&#39; is deprecated.
 ## Use &#39;xfun::attr2()&#39; instead.
 ## See help(&quot;Deprecated&quot;)
@@ -784,11 +784,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="propensity-score-e-matching.html#cb68-1" tabindex="-1"></a>reg_sub <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> D <span class="sc">+</span> w1, <span class="at">data =</span> <span class="fu">subset</span>(df, w1 <span class="sc">&gt;</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">&amp;</span> w1 <span class="sc">&lt;</span> <span class="dv">1</span>))</span>
-<span id="cb68-2"><a href="propensity-score-e-matching.html#cb68-2" tabindex="-1"></a></span>
-<span id="cb68-3"><a href="propensity-score-e-matching.html#cb68-3" tabindex="-1"></a>reg_sub <span class="sc">%&gt;%</span></span>
-<span id="cb68-4"><a href="propensity-score-e-matching.html#cb68-4" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb68-5"><a href="propensity-score-e-matching.html#cb68-5" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="propensity-score-e-matching.html#cb65-1" tabindex="-1"></a>reg_sub <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> D <span class="sc">+</span> w1, <span class="at">data =</span> <span class="fu">subset</span>(df, w1 <span class="sc">&gt;</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">&amp;</span> w1 <span class="sc">&lt;</span> <span class="dv">1</span>))</span>
+<span id="cb65-2"><a href="propensity-score-e-matching.html#cb65-2" tabindex="-1"></a></span>
+<span id="cb65-3"><a href="propensity-score-e-matching.html#cb65-3" tabindex="-1"></a>reg_sub <span class="sc">%&gt;%</span></span>
+<span id="cb65-4"><a href="propensity-score-e-matching.html#cb65-4" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb65-5"><a href="propensity-score-e-matching.html#cb65-5" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span></code></pre></div>
 <pre><code>## Warning in attr(x, &quot;align&quot;): &#39;xfun::attr()&#39; is deprecated.
 ## Use &#39;xfun::attr2()&#39; instead.
 ## See help(&quot;Deprecated&quot;)
@@ -880,9 +880,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span class="math display">\[
 \widehat{\delta}_{ATT} = \dfrac{1}{N_T} \sum_{D_i=1} (Y_i - Y_{j(i)})
 \]</span></p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="propensity-score-e-matching.html#cb70-1" tabindex="-1"></a><span class="fu">library</span>(MatchIt)</span>
-<span id="cb70-2"><a href="propensity-score-e-matching.html#cb70-2" tabindex="-1"></a>result_0 <span class="ot">&lt;-</span> <span class="fu">matchit</span>(D <span class="sc">~</span> w1, <span class="at">data =</span> df, <span class="at">method =</span> <span class="cn">NULL</span>, <span class="at">distance =</span> <span class="st">&#39;glm&#39;</span>)</span>
-<span id="cb70-3"><a href="propensity-score-e-matching.html#cb70-3" tabindex="-1"></a><span class="fu">summary</span>(result_0)</span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="propensity-score-e-matching.html#cb67-1" tabindex="-1"></a><span class="fu">library</span>(MatchIt)</span>
+<span id="cb67-2"><a href="propensity-score-e-matching.html#cb67-2" tabindex="-1"></a>result_0 <span class="ot">&lt;-</span> <span class="fu">matchit</span>(D <span class="sc">~</span> w1, <span class="at">data =</span> df, <span class="at">method =</span> <span class="cn">NULL</span>, <span class="at">distance =</span> <span class="st">&#39;glm&#39;</span>)</span>
+<span id="cb67-3"><a href="propensity-score-e-matching.html#cb67-3" tabindex="-1"></a><span class="fu">summary</span>(result_0)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## matchit(formula = D ~ w1, data = df, method = NULL, distance = &quot;glm&quot;)
@@ -904,22 +904,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Pode ser útil usar o declare design para investigar o uso de matching. Vamos fazer isso para o dataset lalonde.</p>
 <p>Esse é um banco de dados famoso na economia, pois o pesquisador Lalonde (1986) foi investigar se aplicação de métodos (então) tradicionais de modelagem econométrica eram capaz de recuperar o efeito causal de um estudo experimental chamada National Supported Work Demonstration (NSW), um programa de emprego temporário para dar experiência de trabalho. Ele coletou dados de um survey “representativo” de trabalhadores americanos (PSID) e elencou esses trabalhadores como grupo controle e empregou métodos econométricos para tentat estimar o efeito causal. Os resultados foram desastrosos, no sentido de altamente variáveis dependendo do modelo e subconjunto de dados e longe da estimativa experimental (incluindo com sinal errado).</p>
 <p>Vamos replicar esse trabalho, usando matching e pscore. A variável resposta do banco de dados é <code>re78</code> (real earnings in 1978). O tratamento é a variável <code>treat</code>. As demais variáveis são covariáveis.</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="propensity-score-e-matching.html#cb72-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb72-2"><a href="propensity-score-e-matching.html#cb72-2" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
-<span id="cb72-3"><a href="propensity-score-e-matching.html#cb72-3" tabindex="-1"></a><span class="fu">library</span>(here, <span class="at">quietly=</span><span class="cn">TRUE</span>)</span>
-<span id="cb72-4"><a href="propensity-score-e-matching.html#cb72-4" tabindex="-1"></a><span class="fu">library</span>(fixest)</span>
-<span id="cb72-5"><a href="propensity-score-e-matching.html#cb72-5" tabindex="-1"></a><span class="fu">here</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="propensity-score-e-matching.html#cb69-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb69-2"><a href="propensity-score-e-matching.html#cb69-2" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb69-3"><a href="propensity-score-e-matching.html#cb69-3" tabindex="-1"></a><span class="fu">library</span>(here, <span class="at">quietly=</span><span class="cn">TRUE</span>)</span>
+<span id="cb69-4"><a href="propensity-score-e-matching.html#cb69-4" tabindex="-1"></a><span class="fu">library</span>(fixest)</span>
+<span id="cb69-5"><a href="propensity-score-e-matching.html#cb69-5" tabindex="-1"></a><span class="fu">here</span>()</span></code></pre></div>
 <pre><code>## [1] &quot;/Users/manoelgaldino/Documents/DCP/Cursos/Causalidade/Causalidade&quot;</code></pre>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="propensity-score-e-matching.html#cb74-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="propensity-score-e-matching.html#cb75-1" tabindex="-1"></a>lalonde <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="fu">here</span>(<span class="st">&quot;Dados&quot;</span>, <span class="st">&quot;lalonde_nsw.csv&quot;</span>))</span>
-<span id="cb75-2"><a href="propensity-score-e-matching.html#cb75-2" tabindex="-1"></a></span>
-<span id="cb75-3"><a href="propensity-score-e-matching.html#cb75-3" tabindex="-1"></a>dt <span class="ot">&lt;-</span> lalonde[, .(re78, treat)] <span class="sc">%&gt;%</span></span>
-<span id="cb75-4"><a href="propensity-score-e-matching.html#cb75-4" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="at">Y =</span> re78, <span class="at">D =</span> treat)</span>
-<span id="cb75-5"><a href="propensity-score-e-matching.html#cb75-5" tabindex="-1"></a></span>
-<span id="cb75-6"><a href="propensity-score-e-matching.html#cb75-6" tabindex="-1"></a>dt <span class="sc">%&gt;%</span></span>
-<span id="cb75-7"><a href="propensity-score-e-matching.html#cb75-7" tabindex="-1"></a>    <span class="fu">group_by</span>(D) <span class="sc">%&gt;%</span></span>
-<span id="cb75-8"><a href="propensity-score-e-matching.html#cb75-8" tabindex="-1"></a>    <span class="fu">sample_n</span>(<span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb75-9"><a href="propensity-score-e-matching.html#cb75-9" tabindex="-1"></a>    kableExtra<span class="sc">::</span><span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">0</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Income&quot;</span>, <span class="st">&quot;Treatment&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="propensity-score-e-matching.html#cb71-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="propensity-score-e-matching.html#cb72-1" tabindex="-1"></a>lalonde <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="fu">here</span>(<span class="st">&quot;Dados&quot;</span>, <span class="st">&quot;lalonde_nsw.csv&quot;</span>))</span>
+<span id="cb72-2"><a href="propensity-score-e-matching.html#cb72-2" tabindex="-1"></a></span>
+<span id="cb72-3"><a href="propensity-score-e-matching.html#cb72-3" tabindex="-1"></a>dt <span class="ot">&lt;-</span> lalonde[, .(re78, treat)] <span class="sc">%&gt;%</span></span>
+<span id="cb72-4"><a href="propensity-score-e-matching.html#cb72-4" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="at">Y =</span> re78, <span class="at">D =</span> treat)</span>
+<span id="cb72-5"><a href="propensity-score-e-matching.html#cb72-5" tabindex="-1"></a></span>
+<span id="cb72-6"><a href="propensity-score-e-matching.html#cb72-6" tabindex="-1"></a>dt <span class="sc">%&gt;%</span></span>
+<span id="cb72-7"><a href="propensity-score-e-matching.html#cb72-7" tabindex="-1"></a>    <span class="fu">group_by</span>(D) <span class="sc">%&gt;%</span></span>
+<span id="cb72-8"><a href="propensity-score-e-matching.html#cb72-8" tabindex="-1"></a>    <span class="fu">sample_n</span>(<span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb72-9"><a href="propensity-score-e-matching.html#cb72-9" tabindex="-1"></a>    kableExtra<span class="sc">::</span><span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">0</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Income&quot;</span>, <span class="st">&quot;Treatment&quot;</span>))</span></code></pre></div>
 <pre><code>## Warning in attr(x, &quot;align&quot;): &#39;xfun::attr()&#39; is deprecated.
 ## Use &#39;xfun::attr2()&#39; instead.
 ## See help(&quot;Deprecated&quot;)</code></pre>
@@ -960,10 +960,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="propensity-score-e-matching.html#cb78-1" tabindex="-1"></a>dt <span class="sc">%&gt;%</span></span>
-<span id="cb78-2"><a href="propensity-score-e-matching.html#cb78-2" tabindex="-1"></a>    <span class="fu">group_by</span>(D) <span class="sc">%&gt;%</span></span>
-<span id="cb78-3"><a href="propensity-score-e-matching.html#cb78-3" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">mean</span>(Y)) <span class="sc">%&gt;%</span></span>
-<span id="cb78-4"><a href="propensity-score-e-matching.html#cb78-4" tabindex="-1"></a>    kableExtra<span class="sc">::</span><span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">0</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Treatment&quot;</span>, <span class="st">&quot;Income&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="propensity-score-e-matching.html#cb75-1" tabindex="-1"></a>dt <span class="sc">%&gt;%</span></span>
+<span id="cb75-2"><a href="propensity-score-e-matching.html#cb75-2" tabindex="-1"></a>    <span class="fu">group_by</span>(D) <span class="sc">%&gt;%</span></span>
+<span id="cb75-3"><a href="propensity-score-e-matching.html#cb75-3" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="fu">mean</span>(Y)) <span class="sc">%&gt;%</span></span>
+<span id="cb75-4"><a href="propensity-score-e-matching.html#cb75-4" tabindex="-1"></a>    kableExtra<span class="sc">::</span><span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">0</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Treatment&quot;</span>, <span class="st">&quot;Income&quot;</span>))</span></code></pre></div>
 <pre><code>## Warning in attr(x, &quot;align&quot;): &#39;xfun::attr()&#39; is deprecated.
 ## Use &#39;xfun::attr2()&#39; instead.
 ## See help(&quot;Deprecated&quot;)</code></pre>
@@ -988,28 +988,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="propensity-score-e-matching.html#cb81-1" tabindex="-1"></a>y1 <span class="ot">=</span> dt[dt<span class="sc">$</span>D <span class="sc">==</span> <span class="dv">1</span>, Y]</span>
-<span id="cb81-2"><a href="propensity-score-e-matching.html#cb81-2" tabindex="-1"></a>y0 <span class="ot">&lt;-</span> dt[dt<span class="sc">$</span>D <span class="sc">==</span> <span class="dv">0</span>, Y]</span>
-<span id="cb81-3"><a href="propensity-score-e-matching.html#cb81-3" tabindex="-1"></a>tau <span class="ot">&lt;-</span> <span class="fu">mean</span>(y1) <span class="sc">-</span> <span class="fu">mean</span>(y0)</span></code></pre></div>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="propensity-score-e-matching.html#cb78-1" tabindex="-1"></a>y1 <span class="ot">=</span> dt[dt<span class="sc">$</span>D <span class="sc">==</span> <span class="dv">1</span>, Y]</span>
+<span id="cb78-2"><a href="propensity-score-e-matching.html#cb78-2" tabindex="-1"></a>y0 <span class="ot">&lt;-</span> dt[dt<span class="sc">$</span>D <span class="sc">==</span> <span class="dv">0</span>, Y]</span>
+<span id="cb78-3"><a href="propensity-score-e-matching.html#cb78-3" tabindex="-1"></a>tau <span class="ot">&lt;-</span> <span class="fu">mean</span>(y1) <span class="sc">-</span> <span class="fu">mean</span>(y0)</span></code></pre></div>
 <p>A diferença simples na média é 1794.</p>
 <div id="matching-e-propensity-scores" class="section level3 hasAnchor" number="5.9.1">
 <h3><span class="header-section-number">5.9.1</span> Matching e Propensity scores<a href="propensity-score-e-matching.html#matching-e-propensity-scores" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Usando <code>age, education, hispanic, black, married, nodegree, RE74</code> e <code>RE75</code>, vamos moelar o propensity score usando o grupo dos tratados em <code>lalonde_nsw.csv</code> e a amostra de controle de <code>lalonde_psid.csv</code>. Report the average p-score for the treated and control samples, and plot the propensity score densities for the treatment and control groups.</p>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="propensity-score-e-matching.html#cb82-1" tabindex="-1"></a>nsw_data <span class="ot">&lt;-</span> lalonde</span>
-<span id="cb82-2"><a href="propensity-score-e-matching.html#cb82-2" tabindex="-1"></a>psid_data <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="fu">here</span>(<span class="st">&quot;Dados&quot;</span>, <span class="st">&quot;lalonde_psid.csv&quot;</span>))</span>
-<span id="cb82-3"><a href="propensity-score-e-matching.html#cb82-3" tabindex="-1"></a></span>
-<span id="cb82-4"><a href="propensity-score-e-matching.html#cb82-4" tabindex="-1"></a>nsw_treat <span class="ot">&lt;-</span> nsw_data[nsw_data<span class="sc">$</span>treat <span class="sc">==</span> <span class="dv">1</span>, ]</span>
-<span id="cb82-5"><a href="propensity-score-e-matching.html#cb82-5" tabindex="-1"></a>psid_control <span class="ot">&lt;-</span> psid_data[psid_data<span class="sc">$</span>treat <span class="sc">==</span> <span class="dv">0</span>, ]</span>
-<span id="cb82-6"><a href="propensity-score-e-matching.html#cb82-6" tabindex="-1"></a></span>
-<span id="cb82-7"><a href="propensity-score-e-matching.html#cb82-7" tabindex="-1"></a>dw_data <span class="ot">&lt;-</span> <span class="fu">rbind</span>(nsw_treat, psid_control)</span>
-<span id="cb82-8"><a href="propensity-score-e-matching.html#cb82-8" tabindex="-1"></a></span>
-<span id="cb82-9"><a href="propensity-score-e-matching.html#cb82-9" tabindex="-1"></a><span class="fu">library</span>(MatchIt)</span>
-<span id="cb82-10"><a href="propensity-score-e-matching.html#cb82-10" tabindex="-1"></a>m.out1 <span class="ot">&lt;-</span> <span class="fu">matchit</span>(treat <span class="sc">~</span> age <span class="sc">+</span> education <span class="sc">+</span> hispanic <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span> nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75,</span>
-<span id="cb82-11"><a href="propensity-score-e-matching.html#cb82-11" tabindex="-1"></a>                  <span class="at">data =</span> dw_data,</span>
-<span id="cb82-12"><a href="propensity-score-e-matching.html#cb82-12" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">&quot;nearest&quot;</span>,</span>
-<span id="cb82-13"><a href="propensity-score-e-matching.html#cb82-13" tabindex="-1"></a>                  <span class="at">distance =</span> <span class="st">&quot;glm&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="propensity-score-e-matching.html#cb79-1" tabindex="-1"></a>nsw_data <span class="ot">&lt;-</span> lalonde</span>
+<span id="cb79-2"><a href="propensity-score-e-matching.html#cb79-2" tabindex="-1"></a>psid_data <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="fu">here</span>(<span class="st">&quot;Dados&quot;</span>, <span class="st">&quot;lalonde_psid.csv&quot;</span>))</span>
+<span id="cb79-3"><a href="propensity-score-e-matching.html#cb79-3" tabindex="-1"></a></span>
+<span id="cb79-4"><a href="propensity-score-e-matching.html#cb79-4" tabindex="-1"></a>nsw_treat <span class="ot">&lt;-</span> nsw_data[nsw_data<span class="sc">$</span>treat <span class="sc">==</span> <span class="dv">1</span>, ]</span>
+<span id="cb79-5"><a href="propensity-score-e-matching.html#cb79-5" tabindex="-1"></a>psid_control <span class="ot">&lt;-</span> psid_data[psid_data<span class="sc">$</span>treat <span class="sc">==</span> <span class="dv">0</span>, ]</span>
+<span id="cb79-6"><a href="propensity-score-e-matching.html#cb79-6" tabindex="-1"></a></span>
+<span id="cb79-7"><a href="propensity-score-e-matching.html#cb79-7" tabindex="-1"></a>dw_data <span class="ot">&lt;-</span> <span class="fu">rbind</span>(nsw_treat, psid_control)</span>
+<span id="cb79-8"><a href="propensity-score-e-matching.html#cb79-8" tabindex="-1"></a></span>
+<span id="cb79-9"><a href="propensity-score-e-matching.html#cb79-9" tabindex="-1"></a><span class="fu">library</span>(MatchIt)</span>
+<span id="cb79-10"><a href="propensity-score-e-matching.html#cb79-10" tabindex="-1"></a>m.out1 <span class="ot">&lt;-</span> <span class="fu">matchit</span>(treat <span class="sc">~</span> age <span class="sc">+</span> education <span class="sc">+</span> hispanic <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span> nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75,</span>
+<span id="cb79-11"><a href="propensity-score-e-matching.html#cb79-11" tabindex="-1"></a>                  <span class="at">data =</span> dw_data,</span>
+<span id="cb79-12"><a href="propensity-score-e-matching.html#cb79-12" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">&quot;nearest&quot;</span>,</span>
+<span id="cb79-13"><a href="propensity-score-e-matching.html#cb79-13" tabindex="-1"></a>                  <span class="at">distance =</span> <span class="st">&quot;glm&quot;</span>)</span></code></pre></div>
 <pre><code>## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred</code></pre>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="propensity-score-e-matching.html#cb84-1" tabindex="-1"></a><span class="fu">summary</span>(m.out1)</span></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="propensity-score-e-matching.html#cb81-1" tabindex="-1"></a><span class="fu">summary</span>(m.out1)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## matchit(formula = treat ~ age + education + hispanic + black + 
@@ -1046,11 +1046,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Matched       185     185
 ## Unmatched    2305       0
 ## Discarded       0       0</code></pre>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="propensity-score-e-matching.html#cb86-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">summary</span>(m.out1))</span></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="propensity-score-e-matching.html#cb83-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">summary</span>(m.out1))</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/observational-data-1.png" width="672" /></p>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="propensity-score-e-matching.html#cb87-1" tabindex="-1"></a>m.data <span class="ot">&lt;-</span> <span class="fu">match_data</span>(m.out1)</span>
-<span id="cb87-2"><a href="propensity-score-e-matching.html#cb87-2" tabindex="-1"></a></span>
-<span id="cb87-3"><a href="propensity-score-e-matching.html#cb87-3" tabindex="-1"></a><span class="fu">head</span>(m.data)</span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="propensity-score-e-matching.html#cb84-1" tabindex="-1"></a>m.data <span class="ot">&lt;-</span> <span class="fu">match_data</span>(m.out1)</span>
+<span id="cb84-2"><a href="propensity-score-e-matching.html#cb84-2" tabindex="-1"></a></span>
+<span id="cb84-3"><a href="propensity-score-e-matching.html#cb84-3" tabindex="-1"></a><span class="fu">head</span>(m.data)</span></code></pre></div>
 <pre><code>##    treat   age education black hispanic married nodegree  re74  re75       re78  distance weights subclass
 ##    &lt;int&gt; &lt;int&gt;     &lt;int&gt; &lt;int&gt;    &lt;int&gt;   &lt;int&gt;    &lt;int&gt; &lt;num&gt; &lt;num&gt;      &lt;num&gt;     &lt;num&gt;   &lt;num&gt;   &lt;fctr&gt;
 ## 1:     1    37        11     1        0       1        1     0     0  9930.0459 0.3773454       1        1
@@ -1059,17 +1059,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 4:     1    27        11     1        0       0        1     0     0  7506.1460 0.8717413       1        4
 ## 5:     1    33         8     1        0       0        1     0     0   289.7899 0.7896888       1        5
 ## 6:     1    22         9     1        0       0        1     0     0  4056.4939 0.9030698       1        6</code></pre>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="propensity-score-e-matching.html#cb89-1" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;marginaleffects&quot;</span>)</span>
-<span id="cb89-2"><a href="propensity-score-e-matching.html#cb89-2" tabindex="-1"></a></span>
-<span id="cb89-3"><a href="propensity-score-e-matching.html#cb89-3" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(re78 <span class="sc">~</span> treat <span class="sc">*</span> (age <span class="sc">+</span> education <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span></span>
-<span id="cb89-4"><a href="propensity-score-e-matching.html#cb89-4" tabindex="-1"></a>                            nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75),</span>
-<span id="cb89-5"><a href="propensity-score-e-matching.html#cb89-5" tabindex="-1"></a>          <span class="at">data =</span> m.data,</span>
-<span id="cb89-6"><a href="propensity-score-e-matching.html#cb89-6" tabindex="-1"></a>          <span class="at">weights =</span> weights)</span>
-<span id="cb89-7"><a href="propensity-score-e-matching.html#cb89-7" tabindex="-1"></a></span>
-<span id="cb89-8"><a href="propensity-score-e-matching.html#cb89-8" tabindex="-1"></a><span class="fu">avg_comparisons</span>(fit,</span>
-<span id="cb89-9"><a href="propensity-score-e-matching.html#cb89-9" tabindex="-1"></a>                <span class="at">variables =</span> <span class="st">&quot;treat&quot;</span>,</span>
-<span id="cb89-10"><a href="propensity-score-e-matching.html#cb89-10" tabindex="-1"></a>                <span class="at">vcov =</span> <span class="sc">~</span>subclass,</span>
-<span id="cb89-11"><a href="propensity-score-e-matching.html#cb89-11" tabindex="-1"></a>                <span class="at">newdata =</span> <span class="fu">subset</span>(treat <span class="sc">==</span> <span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="propensity-score-e-matching.html#cb86-1" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;marginaleffects&quot;</span>)</span>
+<span id="cb86-2"><a href="propensity-score-e-matching.html#cb86-2" tabindex="-1"></a></span>
+<span id="cb86-3"><a href="propensity-score-e-matching.html#cb86-3" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(re78 <span class="sc">~</span> treat <span class="sc">*</span> (age <span class="sc">+</span> education <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span></span>
+<span id="cb86-4"><a href="propensity-score-e-matching.html#cb86-4" tabindex="-1"></a>                            nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75),</span>
+<span id="cb86-5"><a href="propensity-score-e-matching.html#cb86-5" tabindex="-1"></a>          <span class="at">data =</span> m.data,</span>
+<span id="cb86-6"><a href="propensity-score-e-matching.html#cb86-6" tabindex="-1"></a>          <span class="at">weights =</span> weights)</span>
+<span id="cb86-7"><a href="propensity-score-e-matching.html#cb86-7" tabindex="-1"></a></span>
+<span id="cb86-8"><a href="propensity-score-e-matching.html#cb86-8" tabindex="-1"></a><span class="fu">avg_comparisons</span>(fit,</span>
+<span id="cb86-9"><a href="propensity-score-e-matching.html#cb86-9" tabindex="-1"></a>                <span class="at">variables =</span> <span class="st">&quot;treat&quot;</span>,</span>
+<span id="cb86-10"><a href="propensity-score-e-matching.html#cb86-10" tabindex="-1"></a>                <span class="at">vcov =</span> <span class="sc">~</span>subclass,</span>
+<span id="cb86-11"><a href="propensity-score-e-matching.html#cb86-11" tabindex="-1"></a>                <span class="at">newdata =</span> <span class="fu">subset</span>(treat <span class="sc">==</span> <span class="dv">1</span>))</span></code></pre></div>
 <pre><code>## 
 ##  Estimate Std. Error    z Pr(&gt;|z|)   S 2.5 % 97.5 %
 ##      1881        879 2.14   0.0325 4.9   157   3605
@@ -1077,43 +1077,43 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Term: treat
 ## Type:  response 
 ## Comparison: 1 - 0</code></pre>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="propensity-score-e-matching.html#cb91-1" tabindex="-1"></a><span class="fu">library</span>(MatchIt)</span>
-<span id="cb91-2"><a href="propensity-score-e-matching.html#cb91-2" tabindex="-1"></a><span class="fu">library</span>(DeclareDesign)</span>
-<span id="cb91-3"><a href="propensity-score-e-matching.html#cb91-3" tabindex="-1"></a>exact_matching <span class="ot">&lt;-</span></span>
-<span id="cb91-4"><a href="propensity-score-e-matching.html#cb91-4" tabindex="-1"></a>  <span class="cf">function</span>(data) {</span>
-<span id="cb91-5"><a href="propensity-score-e-matching.html#cb91-5" tabindex="-1"></a>    matched <span class="ot">&lt;-</span> <span class="fu">matchit</span>(D <span class="sc">~</span> X, <span class="at">method =</span> <span class="st">&quot;exact&quot;</span>, <span class="at">data =</span> data)</span>
-<span id="cb91-6"><a href="propensity-score-e-matching.html#cb91-6" tabindex="-1"></a>    <span class="fu">match.data</span>(matched)</span>
-<span id="cb91-7"><a href="propensity-score-e-matching.html#cb91-7" tabindex="-1"></a>  }</span>
-<span id="cb91-8"><a href="propensity-score-e-matching.html#cb91-8" tabindex="-1"></a></span>
-<span id="cb91-9"><a href="propensity-score-e-matching.html#cb91-9" tabindex="-1"></a>declaration_16<span class="fl">.2</span> <span class="ot">&lt;-</span></span>
-<span id="cb91-10"><a href="propensity-score-e-matching.html#cb91-10" tabindex="-1"></a>  <span class="fu">declare_model</span>(</span>
-<span id="cb91-11"><a href="propensity-score-e-matching.html#cb91-11" tabindex="-1"></a>    <span class="at">N =</span> <span class="dv">100</span>,</span>
-<span id="cb91-12"><a href="propensity-score-e-matching.html#cb91-12" tabindex="-1"></a>    <span class="at">U =</span> <span class="fu">rnorm</span>(N),</span>
-<span id="cb91-13"><a href="propensity-score-e-matching.html#cb91-13" tabindex="-1"></a>    <span class="at">X =</span> <span class="fu">rbinom</span>(N, <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.5</span>),</span>
-<span id="cb91-14"><a href="propensity-score-e-matching.html#cb91-14" tabindex="-1"></a>    <span class="at">D =</span> <span class="fu">rbinom</span>(N, <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.25</span> <span class="sc">+</span> <span class="fl">0.5</span> <span class="sc">*</span> X),</span>
-<span id="cb91-15"><a href="propensity-score-e-matching.html#cb91-15" tabindex="-1"></a>    <span class="at">Y_D_0 =</span> <span class="fl">0.2</span> <span class="sc">*</span> X <span class="sc">+</span> U,</span>
-<span id="cb91-16"><a href="propensity-score-e-matching.html#cb91-16" tabindex="-1"></a>    <span class="at">Y_D_1 =</span> Y_D_0 <span class="sc">+</span> <span class="fl">0.5</span></span>
-<span id="cb91-17"><a href="propensity-score-e-matching.html#cb91-17" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb91-18"><a href="propensity-score-e-matching.html#cb91-18" tabindex="-1"></a>  <span class="fu">declare_inquiry</span>(<span class="at">ATT =</span> <span class="fu">mean</span>(Y_D_1[D <span class="sc">==</span> <span class="dv">1</span>] <span class="sc">-</span> Y_D_0[D <span class="sc">==</span> <span class="dv">1</span>])) <span class="sc">+</span></span>
-<span id="cb91-19"><a href="propensity-score-e-matching.html#cb91-19" tabindex="-1"></a>  <span class="fu">declare_step</span>(<span class="at">handler =</span> exact_matching) <span class="sc">+</span></span>
-<span id="cb91-20"><a href="propensity-score-e-matching.html#cb91-20" tabindex="-1"></a>  <span class="fu">declare_measurement</span>(<span class="at">Y =</span> <span class="fu">reveal_outcomes</span>(Y <span class="sc">~</span> D)) <span class="sc">+</span></span>
-<span id="cb91-21"><a href="propensity-score-e-matching.html#cb91-21" tabindex="-1"></a>  <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> D,</span>
-<span id="cb91-22"><a href="propensity-score-e-matching.html#cb91-22" tabindex="-1"></a>                    <span class="at">weights =</span> weights,</span>
-<span id="cb91-23"><a href="propensity-score-e-matching.html#cb91-23" tabindex="-1"></a>                    <span class="at">.method =</span> difference_in_means,</span>
-<span id="cb91-24"><a href="propensity-score-e-matching.html#cb91-24" tabindex="-1"></a>                    <span class="at">inquiry =</span> <span class="st">&quot;ATT&quot;</span>,</span>
-<span id="cb91-25"><a href="propensity-score-e-matching.html#cb91-25" tabindex="-1"></a>                    <span class="at">label =</span> <span class="st">&quot;Matched difference-in-means&quot;</span>) <span class="sc">+</span></span>
-<span id="cb91-26"><a href="propensity-score-e-matching.html#cb91-26" tabindex="-1"></a>  <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> D,</span>
-<span id="cb91-27"><a href="propensity-score-e-matching.html#cb91-27" tabindex="-1"></a>                    <span class="at">.method =</span> difference_in_means,</span>
-<span id="cb91-28"><a href="propensity-score-e-matching.html#cb91-28" tabindex="-1"></a>                    <span class="at">inquiry =</span> <span class="st">&quot;ATT&quot;</span>,</span>
-<span id="cb91-29"><a href="propensity-score-e-matching.html#cb91-29" tabindex="-1"></a>                    <span class="at">label =</span> <span class="st">&quot;Raw difference-in-means&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="propensity-score-e-matching.html#cb92-1" tabindex="-1"></a><span class="fu">library</span>(MatchIt)</span>
-<span id="cb92-2"><a href="propensity-score-e-matching.html#cb92-2" tabindex="-1"></a>m.out0 <span class="ot">&lt;-</span> <span class="fu">matchit</span>(treat <span class="sc">~</span> age <span class="sc">+</span> education <span class="sc">+</span> hispanic <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span> nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75,</span>
-<span id="cb92-3"><a href="propensity-score-e-matching.html#cb92-3" tabindex="-1"></a>                  <span class="at">data =</span> dw_data,</span>
-<span id="cb92-4"><a href="propensity-score-e-matching.html#cb92-4" tabindex="-1"></a>                  <span class="at">method =</span> <span class="cn">NULL</span>,</span>
-<span id="cb92-5"><a href="propensity-score-e-matching.html#cb92-5" tabindex="-1"></a>                  <span class="at">distance =</span> <span class="st">&quot;glm&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="propensity-score-e-matching.html#cb88-1" tabindex="-1"></a><span class="fu">library</span>(MatchIt)</span>
+<span id="cb88-2"><a href="propensity-score-e-matching.html#cb88-2" tabindex="-1"></a><span class="fu">library</span>(DeclareDesign)</span>
+<span id="cb88-3"><a href="propensity-score-e-matching.html#cb88-3" tabindex="-1"></a>exact_matching <span class="ot">&lt;-</span></span>
+<span id="cb88-4"><a href="propensity-score-e-matching.html#cb88-4" tabindex="-1"></a>  <span class="cf">function</span>(data) {</span>
+<span id="cb88-5"><a href="propensity-score-e-matching.html#cb88-5" tabindex="-1"></a>    matched <span class="ot">&lt;-</span> <span class="fu">matchit</span>(D <span class="sc">~</span> X, <span class="at">method =</span> <span class="st">&quot;exact&quot;</span>, <span class="at">data =</span> data)</span>
+<span id="cb88-6"><a href="propensity-score-e-matching.html#cb88-6" tabindex="-1"></a>    <span class="fu">match.data</span>(matched)</span>
+<span id="cb88-7"><a href="propensity-score-e-matching.html#cb88-7" tabindex="-1"></a>  }</span>
+<span id="cb88-8"><a href="propensity-score-e-matching.html#cb88-8" tabindex="-1"></a></span>
+<span id="cb88-9"><a href="propensity-score-e-matching.html#cb88-9" tabindex="-1"></a>declaration_16<span class="fl">.2</span> <span class="ot">&lt;-</span></span>
+<span id="cb88-10"><a href="propensity-score-e-matching.html#cb88-10" tabindex="-1"></a>  <span class="fu">declare_model</span>(</span>
+<span id="cb88-11"><a href="propensity-score-e-matching.html#cb88-11" tabindex="-1"></a>    <span class="at">N =</span> <span class="dv">100</span>,</span>
+<span id="cb88-12"><a href="propensity-score-e-matching.html#cb88-12" tabindex="-1"></a>    <span class="at">U =</span> <span class="fu">rnorm</span>(N),</span>
+<span id="cb88-13"><a href="propensity-score-e-matching.html#cb88-13" tabindex="-1"></a>    <span class="at">X =</span> <span class="fu">rbinom</span>(N, <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.5</span>),</span>
+<span id="cb88-14"><a href="propensity-score-e-matching.html#cb88-14" tabindex="-1"></a>    <span class="at">D =</span> <span class="fu">rbinom</span>(N, <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.25</span> <span class="sc">+</span> <span class="fl">0.5</span> <span class="sc">*</span> X),</span>
+<span id="cb88-15"><a href="propensity-score-e-matching.html#cb88-15" tabindex="-1"></a>    <span class="at">Y_D_0 =</span> <span class="fl">0.2</span> <span class="sc">*</span> X <span class="sc">+</span> U,</span>
+<span id="cb88-16"><a href="propensity-score-e-matching.html#cb88-16" tabindex="-1"></a>    <span class="at">Y_D_1 =</span> Y_D_0 <span class="sc">+</span> <span class="fl">0.5</span></span>
+<span id="cb88-17"><a href="propensity-score-e-matching.html#cb88-17" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb88-18"><a href="propensity-score-e-matching.html#cb88-18" tabindex="-1"></a>  <span class="fu">declare_inquiry</span>(<span class="at">ATT =</span> <span class="fu">mean</span>(Y_D_1[D <span class="sc">==</span> <span class="dv">1</span>] <span class="sc">-</span> Y_D_0[D <span class="sc">==</span> <span class="dv">1</span>])) <span class="sc">+</span></span>
+<span id="cb88-19"><a href="propensity-score-e-matching.html#cb88-19" tabindex="-1"></a>  <span class="fu">declare_step</span>(<span class="at">handler =</span> exact_matching) <span class="sc">+</span></span>
+<span id="cb88-20"><a href="propensity-score-e-matching.html#cb88-20" tabindex="-1"></a>  <span class="fu">declare_measurement</span>(<span class="at">Y =</span> <span class="fu">reveal_outcomes</span>(Y <span class="sc">~</span> D)) <span class="sc">+</span></span>
+<span id="cb88-21"><a href="propensity-score-e-matching.html#cb88-21" tabindex="-1"></a>  <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> D,</span>
+<span id="cb88-22"><a href="propensity-score-e-matching.html#cb88-22" tabindex="-1"></a>                    <span class="at">weights =</span> weights,</span>
+<span id="cb88-23"><a href="propensity-score-e-matching.html#cb88-23" tabindex="-1"></a>                    <span class="at">.method =</span> difference_in_means,</span>
+<span id="cb88-24"><a href="propensity-score-e-matching.html#cb88-24" tabindex="-1"></a>                    <span class="at">inquiry =</span> <span class="st">&quot;ATT&quot;</span>,</span>
+<span id="cb88-25"><a href="propensity-score-e-matching.html#cb88-25" tabindex="-1"></a>                    <span class="at">label =</span> <span class="st">&quot;Matched difference-in-means&quot;</span>) <span class="sc">+</span></span>
+<span id="cb88-26"><a href="propensity-score-e-matching.html#cb88-26" tabindex="-1"></a>  <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> D,</span>
+<span id="cb88-27"><a href="propensity-score-e-matching.html#cb88-27" tabindex="-1"></a>                    <span class="at">.method =</span> difference_in_means,</span>
+<span id="cb88-28"><a href="propensity-score-e-matching.html#cb88-28" tabindex="-1"></a>                    <span class="at">inquiry =</span> <span class="st">&quot;ATT&quot;</span>,</span>
+<span id="cb88-29"><a href="propensity-score-e-matching.html#cb88-29" tabindex="-1"></a>                    <span class="at">label =</span> <span class="st">&quot;Raw difference-in-means&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="propensity-score-e-matching.html#cb89-1" tabindex="-1"></a><span class="fu">library</span>(MatchIt)</span>
+<span id="cb89-2"><a href="propensity-score-e-matching.html#cb89-2" tabindex="-1"></a>m.out0 <span class="ot">&lt;-</span> <span class="fu">matchit</span>(treat <span class="sc">~</span> age <span class="sc">+</span> education <span class="sc">+</span> hispanic <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span> nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75,</span>
+<span id="cb89-3"><a href="propensity-score-e-matching.html#cb89-3" tabindex="-1"></a>                  <span class="at">data =</span> dw_data,</span>
+<span id="cb89-4"><a href="propensity-score-e-matching.html#cb89-4" tabindex="-1"></a>                  <span class="at">method =</span> <span class="cn">NULL</span>,</span>
+<span id="cb89-5"><a href="propensity-score-e-matching.html#cb89-5" tabindex="-1"></a>                  <span class="at">distance =</span> <span class="st">&quot;glm&quot;</span>)</span></code></pre></div>
 <pre><code>## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred</code></pre>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="propensity-score-e-matching.html#cb94-1" tabindex="-1"></a><span class="co"># Checking balance prior to matching</span></span>
-<span id="cb94-2"><a href="propensity-score-e-matching.html#cb94-2" tabindex="-1"></a><span class="fu">summary</span>(m.out0)</span></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="propensity-score-e-matching.html#cb91-1" tabindex="-1"></a><span class="co"># Checking balance prior to matching</span></span>
+<span id="cb91-2"><a href="propensity-score-e-matching.html#cb91-2" tabindex="-1"></a><span class="fu">summary</span>(m.out0)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## matchit(formula = treat ~ age + education + hispanic + black + 
@@ -1138,33 +1138,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Matched      2490     185
 ## Unmatched       0       0
 ## Discarded       0       0</code></pre>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="propensity-score-e-matching.html#cb96-1" tabindex="-1"></a><span class="fu">library</span>(MatchIt)</span>
-<span id="cb96-2"><a href="propensity-score-e-matching.html#cb96-2" tabindex="-1"></a>m.out1 <span class="ot">&lt;-</span> <span class="fu">matchit</span>(treat <span class="sc">~</span> age <span class="sc">+</span> education <span class="sc">+</span> hispanic <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span> nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75,</span>
-<span id="cb96-3"><a href="propensity-score-e-matching.html#cb96-3" tabindex="-1"></a>                  <span class="at">data =</span> dw_data,</span>
-<span id="cb96-4"><a href="propensity-score-e-matching.html#cb96-4" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">&quot;nearest&quot;</span>,</span>
-<span id="cb96-5"><a href="propensity-score-e-matching.html#cb96-5" tabindex="-1"></a>                  <span class="at">distance =</span> <span class="st">&quot;glm&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="propensity-score-e-matching.html#cb93-1" tabindex="-1"></a><span class="fu">library</span>(MatchIt)</span>
+<span id="cb93-2"><a href="propensity-score-e-matching.html#cb93-2" tabindex="-1"></a>m.out1 <span class="ot">&lt;-</span> <span class="fu">matchit</span>(treat <span class="sc">~</span> age <span class="sc">+</span> education <span class="sc">+</span> hispanic <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span> nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75,</span>
+<span id="cb93-3"><a href="propensity-score-e-matching.html#cb93-3" tabindex="-1"></a>                  <span class="at">data =</span> dw_data,</span>
+<span id="cb93-4"><a href="propensity-score-e-matching.html#cb93-4" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">&quot;nearest&quot;</span>,</span>
+<span id="cb93-5"><a href="propensity-score-e-matching.html#cb93-5" tabindex="-1"></a>                  <span class="at">distance =</span> <span class="st">&quot;glm&quot;</span>)</span></code></pre></div>
 <pre><code>## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred</code></pre>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="propensity-score-e-matching.html#cb98-1" tabindex="-1"></a><span class="co"># Full matching on a probit PS</span></span>
-<span id="cb98-2"><a href="propensity-score-e-matching.html#cb98-2" tabindex="-1"></a>m.out2 <span class="ot">&lt;-</span> <span class="fu">matchit</span>(treat <span class="sc">~</span> age <span class="sc">+</span> education <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span> </span>
-<span id="cb98-3"><a href="propensity-score-e-matching.html#cb98-3" tabindex="-1"></a>                    nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75,</span>
-<span id="cb98-4"><a href="propensity-score-e-matching.html#cb98-4" tabindex="-1"></a>                  <span class="at">data =</span> lalonde,</span>
-<span id="cb98-5"><a href="propensity-score-e-matching.html#cb98-5" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">&quot;full&quot;</span>,</span>
-<span id="cb98-6"><a href="propensity-score-e-matching.html#cb98-6" tabindex="-1"></a>                  <span class="at">distance =</span> <span class="st">&quot;glm&quot;</span>,</span>
-<span id="cb98-7"><a href="propensity-score-e-matching.html#cb98-7" tabindex="-1"></a>                  <span class="at">link =</span> <span class="st">&quot;probit&quot;</span>)</span>
-<span id="cb98-8"><a href="propensity-score-e-matching.html#cb98-8" tabindex="-1"></a></span>
-<span id="cb98-9"><a href="propensity-score-e-matching.html#cb98-9" tabindex="-1"></a>m.data <span class="ot">&lt;-</span> <span class="fu">match_data</span>(m.out2)</span>
-<span id="cb98-10"><a href="propensity-score-e-matching.html#cb98-10" tabindex="-1"></a></span>
-<span id="cb98-11"><a href="propensity-score-e-matching.html#cb98-11" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;marginaleffects&quot;</span>)</span>
-<span id="cb98-12"><a href="propensity-score-e-matching.html#cb98-12" tabindex="-1"></a></span>
-<span id="cb98-13"><a href="propensity-score-e-matching.html#cb98-13" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(re78 <span class="sc">~</span> treat <span class="sc">*</span> (age <span class="sc">+</span> education <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span></span>
-<span id="cb98-14"><a href="propensity-score-e-matching.html#cb98-14" tabindex="-1"></a>                            nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75),</span>
-<span id="cb98-15"><a href="propensity-score-e-matching.html#cb98-15" tabindex="-1"></a>          <span class="at">data =</span> m.data,</span>
-<span id="cb98-16"><a href="propensity-score-e-matching.html#cb98-16" tabindex="-1"></a>          <span class="at">weights =</span> weights)</span>
-<span id="cb98-17"><a href="propensity-score-e-matching.html#cb98-17" tabindex="-1"></a></span>
-<span id="cb98-18"><a href="propensity-score-e-matching.html#cb98-18" tabindex="-1"></a><span class="fu">avg_comparisons</span>(fit,</span>
-<span id="cb98-19"><a href="propensity-score-e-matching.html#cb98-19" tabindex="-1"></a>                <span class="at">variables =</span> <span class="st">&quot;treat&quot;</span>,</span>
-<span id="cb98-20"><a href="propensity-score-e-matching.html#cb98-20" tabindex="-1"></a>                <span class="at">vcov =</span> <span class="sc">~</span>subclass,</span>
-<span id="cb98-21"><a href="propensity-score-e-matching.html#cb98-21" tabindex="-1"></a>                <span class="at">newdata =</span> <span class="fu">subset</span>(treat <span class="sc">==</span> <span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="propensity-score-e-matching.html#cb95-1" tabindex="-1"></a><span class="co"># Full matching on a probit PS</span></span>
+<span id="cb95-2"><a href="propensity-score-e-matching.html#cb95-2" tabindex="-1"></a>m.out2 <span class="ot">&lt;-</span> <span class="fu">matchit</span>(treat <span class="sc">~</span> age <span class="sc">+</span> education <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span> </span>
+<span id="cb95-3"><a href="propensity-score-e-matching.html#cb95-3" tabindex="-1"></a>                    nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75,</span>
+<span id="cb95-4"><a href="propensity-score-e-matching.html#cb95-4" tabindex="-1"></a>                  <span class="at">data =</span> lalonde,</span>
+<span id="cb95-5"><a href="propensity-score-e-matching.html#cb95-5" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">&quot;full&quot;</span>,</span>
+<span id="cb95-6"><a href="propensity-score-e-matching.html#cb95-6" tabindex="-1"></a>                  <span class="at">distance =</span> <span class="st">&quot;glm&quot;</span>,</span>
+<span id="cb95-7"><a href="propensity-score-e-matching.html#cb95-7" tabindex="-1"></a>                  <span class="at">link =</span> <span class="st">&quot;probit&quot;</span>)</span>
+<span id="cb95-8"><a href="propensity-score-e-matching.html#cb95-8" tabindex="-1"></a></span>
+<span id="cb95-9"><a href="propensity-score-e-matching.html#cb95-9" tabindex="-1"></a>m.data <span class="ot">&lt;-</span> <span class="fu">match_data</span>(m.out2)</span>
+<span id="cb95-10"><a href="propensity-score-e-matching.html#cb95-10" tabindex="-1"></a></span>
+<span id="cb95-11"><a href="propensity-score-e-matching.html#cb95-11" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;marginaleffects&quot;</span>)</span>
+<span id="cb95-12"><a href="propensity-score-e-matching.html#cb95-12" tabindex="-1"></a></span>
+<span id="cb95-13"><a href="propensity-score-e-matching.html#cb95-13" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(re78 <span class="sc">~</span> treat <span class="sc">*</span> (age <span class="sc">+</span> education <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span></span>
+<span id="cb95-14"><a href="propensity-score-e-matching.html#cb95-14" tabindex="-1"></a>                            nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75),</span>
+<span id="cb95-15"><a href="propensity-score-e-matching.html#cb95-15" tabindex="-1"></a>          <span class="at">data =</span> m.data,</span>
+<span id="cb95-16"><a href="propensity-score-e-matching.html#cb95-16" tabindex="-1"></a>          <span class="at">weights =</span> weights)</span>
+<span id="cb95-17"><a href="propensity-score-e-matching.html#cb95-17" tabindex="-1"></a></span>
+<span id="cb95-18"><a href="propensity-score-e-matching.html#cb95-18" tabindex="-1"></a><span class="fu">avg_comparisons</span>(fit,</span>
+<span id="cb95-19"><a href="propensity-score-e-matching.html#cb95-19" tabindex="-1"></a>                <span class="at">variables =</span> <span class="st">&quot;treat&quot;</span>,</span>
+<span id="cb95-20"><a href="propensity-score-e-matching.html#cb95-20" tabindex="-1"></a>                <span class="at">vcov =</span> <span class="sc">~</span>subclass,</span>
+<span id="cb95-21"><a href="propensity-score-e-matching.html#cb95-21" tabindex="-1"></a>                <span class="at">newdata =</span> <span class="fu">subset</span>(treat <span class="sc">==</span> <span class="dv">1</span>))</span></code></pre></div>
 <pre><code>## 
 ##  Estimate Std. Error    z Pr(&gt;|z|)   S 2.5 % 97.5 %
 ##      2064        679 3.04  0.00238 8.7   733   3396
@@ -1172,33 +1172,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Term: treat
 ## Type:  response 
 ## Comparison: 1 - 0</code></pre>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="propensity-score-e-matching.html#cb100-1" tabindex="-1"></a>full_matching <span class="ot">&lt;-</span></span>
-<span id="cb100-2"><a href="propensity-score-e-matching.html#cb100-2" tabindex="-1"></a>  <span class="cf">function</span>(data) {</span>
-<span id="cb100-3"><a href="propensity-score-e-matching.html#cb100-3" tabindex="-1"></a>    matched <span class="ot">&lt;-</span> <span class="fu">matchit</span>(treat <span class="sc">~</span> age <span class="sc">+</span> education <span class="sc">+</span> hispanic <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span> nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75, <span class="at">method =</span> <span class="st">&quot;full&quot;</span>, <span class="at">data =</span> data)</span>
-<span id="cb100-4"><a href="propensity-score-e-matching.html#cb100-4" tabindex="-1"></a>    <span class="fu">match.data</span>(matched)</span>
-<span id="cb100-5"><a href="propensity-score-e-matching.html#cb100-5" tabindex="-1"></a>  }</span>
-<span id="cb100-6"><a href="propensity-score-e-matching.html#cb100-6" tabindex="-1"></a></span>
-<span id="cb100-7"><a href="propensity-score-e-matching.html#cb100-7" tabindex="-1"></a>declaration_16<span class="fl">.2</span> <span class="ot">&lt;-</span></span>
-<span id="cb100-8"><a href="propensity-score-e-matching.html#cb100-8" tabindex="-1"></a>  <span class="fu">declare_model</span>(</span>
-<span id="cb100-9"><a href="propensity-score-e-matching.html#cb100-9" tabindex="-1"></a>    <span class="at">N =</span> <span class="dv">1000</span>,</span>
-<span id="cb100-10"><a href="propensity-score-e-matching.html#cb100-10" tabindex="-1"></a>    <span class="at">U =</span> <span class="fu">rnorm</span>(N),</span>
-<span id="cb100-11"><a href="propensity-score-e-matching.html#cb100-11" tabindex="-1"></a>    <span class="at">X =</span> <span class="fu">rbinom</span>(N, <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.5</span>),</span>
-<span id="cb100-12"><a href="propensity-score-e-matching.html#cb100-12" tabindex="-1"></a>    <span class="at">D =</span> <span class="fu">rbinom</span>(N, <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.25</span> <span class="sc">+</span> <span class="fl">0.5</span> <span class="sc">*</span> X),</span>
-<span id="cb100-13"><a href="propensity-score-e-matching.html#cb100-13" tabindex="-1"></a>    <span class="at">Y_D_0 =</span> <span class="fl">0.2</span> <span class="sc">*</span> X <span class="sc">+</span> U,</span>
-<span id="cb100-14"><a href="propensity-score-e-matching.html#cb100-14" tabindex="-1"></a>    <span class="at">Y_D_1 =</span> Y_D_0 <span class="sc">+</span> <span class="fl">0.5</span></span>
-<span id="cb100-15"><a href="propensity-score-e-matching.html#cb100-15" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb100-16"><a href="propensity-score-e-matching.html#cb100-16" tabindex="-1"></a>  <span class="fu">declare_inquiry</span>(<span class="at">ATT =</span> <span class="fu">mean</span>(Y_D_1[D <span class="sc">==</span> <span class="dv">1</span>] <span class="sc">-</span> Y_D_0[D <span class="sc">==</span> <span class="dv">1</span>])) <span class="sc">+</span></span>
-<span id="cb100-17"><a href="propensity-score-e-matching.html#cb100-17" tabindex="-1"></a>  <span class="fu">declare_step</span>(<span class="at">handler =</span> exact_matching) <span class="sc">+</span></span>
-<span id="cb100-18"><a href="propensity-score-e-matching.html#cb100-18" tabindex="-1"></a>  <span class="fu">declare_measurement</span>(<span class="at">Y =</span> <span class="fu">reveal_outcomes</span>(Y <span class="sc">~</span> D)) <span class="sc">+</span></span>
-<span id="cb100-19"><a href="propensity-score-e-matching.html#cb100-19" tabindex="-1"></a>  <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> D,</span>
-<span id="cb100-20"><a href="propensity-score-e-matching.html#cb100-20" tabindex="-1"></a>                    <span class="at">weights =</span> weights,</span>
-<span id="cb100-21"><a href="propensity-score-e-matching.html#cb100-21" tabindex="-1"></a>                    <span class="at">.method =</span> difference_in_means,</span>
-<span id="cb100-22"><a href="propensity-score-e-matching.html#cb100-22" tabindex="-1"></a>                    <span class="at">inquiry =</span> <span class="st">&quot;ATT&quot;</span>,</span>
-<span id="cb100-23"><a href="propensity-score-e-matching.html#cb100-23" tabindex="-1"></a>                    <span class="at">label =</span> <span class="st">&quot;Matched difference-in-means&quot;</span>) <span class="sc">+</span></span>
-<span id="cb100-24"><a href="propensity-score-e-matching.html#cb100-24" tabindex="-1"></a>  <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> D,</span>
-<span id="cb100-25"><a href="propensity-score-e-matching.html#cb100-25" tabindex="-1"></a>                    <span class="at">.method =</span> difference_in_means,</span>
-<span id="cb100-26"><a href="propensity-score-e-matching.html#cb100-26" tabindex="-1"></a>                    <span class="at">inquiry =</span> <span class="st">&quot;ATT&quot;</span>,</span>
-<span id="cb100-27"><a href="propensity-score-e-matching.html#cb100-27" tabindex="-1"></a>                    <span class="at">label =</span> <span class="st">&quot;Raw difference-in-means&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="propensity-score-e-matching.html#cb97-1" tabindex="-1"></a>full_matching <span class="ot">&lt;-</span></span>
+<span id="cb97-2"><a href="propensity-score-e-matching.html#cb97-2" tabindex="-1"></a>  <span class="cf">function</span>(data) {</span>
+<span id="cb97-3"><a href="propensity-score-e-matching.html#cb97-3" tabindex="-1"></a>    matched <span class="ot">&lt;-</span> <span class="fu">matchit</span>(treat <span class="sc">~</span> age <span class="sc">+</span> education <span class="sc">+</span> hispanic <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span> nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75, <span class="at">method =</span> <span class="st">&quot;full&quot;</span>, <span class="at">data =</span> data)</span>
+<span id="cb97-4"><a href="propensity-score-e-matching.html#cb97-4" tabindex="-1"></a>    <span class="fu">match.data</span>(matched)</span>
+<span id="cb97-5"><a href="propensity-score-e-matching.html#cb97-5" tabindex="-1"></a>  }</span>
+<span id="cb97-6"><a href="propensity-score-e-matching.html#cb97-6" tabindex="-1"></a></span>
+<span id="cb97-7"><a href="propensity-score-e-matching.html#cb97-7" tabindex="-1"></a>declaration_16<span class="fl">.2</span> <span class="ot">&lt;-</span></span>
+<span id="cb97-8"><a href="propensity-score-e-matching.html#cb97-8" tabindex="-1"></a>  <span class="fu">declare_model</span>(</span>
+<span id="cb97-9"><a href="propensity-score-e-matching.html#cb97-9" tabindex="-1"></a>    <span class="at">N =</span> <span class="dv">1000</span>,</span>
+<span id="cb97-10"><a href="propensity-score-e-matching.html#cb97-10" tabindex="-1"></a>    <span class="at">U =</span> <span class="fu">rnorm</span>(N),</span>
+<span id="cb97-11"><a href="propensity-score-e-matching.html#cb97-11" tabindex="-1"></a>    <span class="at">X =</span> <span class="fu">rbinom</span>(N, <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.5</span>),</span>
+<span id="cb97-12"><a href="propensity-score-e-matching.html#cb97-12" tabindex="-1"></a>    <span class="at">D =</span> <span class="fu">rbinom</span>(N, <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.25</span> <span class="sc">+</span> <span class="fl">0.5</span> <span class="sc">*</span> X),</span>
+<span id="cb97-13"><a href="propensity-score-e-matching.html#cb97-13" tabindex="-1"></a>    <span class="at">Y_D_0 =</span> <span class="fl">0.2</span> <span class="sc">*</span> X <span class="sc">+</span> U,</span>
+<span id="cb97-14"><a href="propensity-score-e-matching.html#cb97-14" tabindex="-1"></a>    <span class="at">Y_D_1 =</span> Y_D_0 <span class="sc">+</span> <span class="fl">0.5</span></span>
+<span id="cb97-15"><a href="propensity-score-e-matching.html#cb97-15" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb97-16"><a href="propensity-score-e-matching.html#cb97-16" tabindex="-1"></a>  <span class="fu">declare_inquiry</span>(<span class="at">ATT =</span> <span class="fu">mean</span>(Y_D_1[D <span class="sc">==</span> <span class="dv">1</span>] <span class="sc">-</span> Y_D_0[D <span class="sc">==</span> <span class="dv">1</span>])) <span class="sc">+</span></span>
+<span id="cb97-17"><a href="propensity-score-e-matching.html#cb97-17" tabindex="-1"></a>  <span class="fu">declare_step</span>(<span class="at">handler =</span> exact_matching) <span class="sc">+</span></span>
+<span id="cb97-18"><a href="propensity-score-e-matching.html#cb97-18" tabindex="-1"></a>  <span class="fu">declare_measurement</span>(<span class="at">Y =</span> <span class="fu">reveal_outcomes</span>(Y <span class="sc">~</span> D)) <span class="sc">+</span></span>
+<span id="cb97-19"><a href="propensity-score-e-matching.html#cb97-19" tabindex="-1"></a>  <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> D,</span>
+<span id="cb97-20"><a href="propensity-score-e-matching.html#cb97-20" tabindex="-1"></a>                    <span class="at">weights =</span> weights,</span>
+<span id="cb97-21"><a href="propensity-score-e-matching.html#cb97-21" tabindex="-1"></a>                    <span class="at">.method =</span> difference_in_means,</span>
+<span id="cb97-22"><a href="propensity-score-e-matching.html#cb97-22" tabindex="-1"></a>                    <span class="at">inquiry =</span> <span class="st">&quot;ATT&quot;</span>,</span>
+<span id="cb97-23"><a href="propensity-score-e-matching.html#cb97-23" tabindex="-1"></a>                    <span class="at">label =</span> <span class="st">&quot;Matched difference-in-means&quot;</span>) <span class="sc">+</span></span>
+<span id="cb97-24"><a href="propensity-score-e-matching.html#cb97-24" tabindex="-1"></a>  <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> D,</span>
+<span id="cb97-25"><a href="propensity-score-e-matching.html#cb97-25" tabindex="-1"></a>                    <span class="at">.method =</span> difference_in_means,</span>
+<span id="cb97-26"><a href="propensity-score-e-matching.html#cb97-26" tabindex="-1"></a>                    <span class="at">inquiry =</span> <span class="st">&quot;ATT&quot;</span>,</span>
+<span id="cb97-27"><a href="propensity-score-e-matching.html#cb97-27" tabindex="-1"></a>                    <span class="at">label =</span> <span class="st">&quot;Raw difference-in-means&quot;</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="recomendações-práticas-sobre-matching" class="section level2 hasAnchor" number="5.10">
