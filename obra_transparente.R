@@ -114,7 +114,7 @@ obras_final <- obras %>%
          pos = ifelse(periodo > 2, 1, 0),
          post_treat = pos*bin_time_treated) %>%
   rename(group_treated = time_treated) %>%
-  select(id, municipio, concluida, group_treated, periodo, time_treated1)
+  select(id, municipio, concluida, group_treated, periodo, time_treated1, post_treat)
 
 saveRDS(obras_final, file =  here("Dados", "obra_transparente.RDS"))
   
@@ -127,10 +127,12 @@ obras_final2x2 <- obras_final %>%
 did <- lm(concluida ~ as.factor(time_treated) + factor(pos) +   as.factor(time_treated):factor(pos) ,data = obras_final2x2)
 summary(did)
 
+data_ot <- readRDS(here("Dados", "obra_transparente.RDS"))
+
 #Run the TWFE spec
 twfe_results <- fixest::feols(concluida ~ post_treat| municipio + periodo,
                               cluster = "municipio",
-                              data = obras_final)
+                              data = data_ot)
 
 
 msummary(twfe_results, stars = c('*' = .1, '**' = .05, '***' = .01))
@@ -213,3 +215,62 @@ iplot(est_did)
 # Using i() for factors
 est_bis = feols(concluida ~ i(periodo, keep = 3:5) + i(periodo, time_treated, 5) | id, obras_final)
 coefplot(est_bis, keep = "trea")
+
+##
+
+library(haven)
+elbe1994_98 <- read_dta(here("data",  "Elbe", "1994_1998.dta")) 
+
+elbe0 <- elbe1994_98 %>%
+  dplyr::select(wkr, wkrname, year, spd_z_vs, Flooded)
+
+elbe1998_02 <- read_dta(here("data",  "Elbe", "1998_2002.dta"))
+
+elbe1 <- elbe1998_02 %>%
+  dplyr::select(wkr, wkrname, year, spd_z_vs, Flooded) %>%
+  dplyr::filter(year == 2002) 
+
+
+elbe1998_05 <- read_dta(here("data",  "Elbe", "1998_2005.dta"))
+
+elbe2 <- elbe1998_05 %>%
+  dplyr::filter(year == 2005) %>%
+  dplyr::select(wkr, wkrname, year, spd_z_vs, Flooded)
+
+elbe <- bind_rows(elbe0, elbe1, elbe2)
+
+did_din = feols(spd_z_vs ~ i(year, Flooded, ref=1998) | wkr + year, elbe)
+
+dput(etable(did_din))
+
+
+elbe1998_02
+did <- lm_robust(spd_z_vs ~ PostPeriod + Flooded + PostPeriod*Flooded, data=elbe1998_02,
+                 clusters = "wkr")
+
+did_alt <- feols(spd_z_vs ~ Flooded| wkr + year,
+                 cluster = "wkr",
+                 data = elbe1998_02)
+etable(did_alt)
+
+## corrigindo efeito heterogêneo
+
+elbe <- elbe %>%
+  mutate(time_treated = ifelse(year == 2002 & Flooded== 1, 2002, 0),
+         dup = duplicated(spd_z_vs)) %>%
+  arrange(wkr)
+
+attgt <- att_gt(yname = "spd_z_vs",
+                        tname = "year",
+                        idname = "wkr",
+                        gname = "time_treated",
+                        data = elbe
+)
+
+
+ggdid(attgt)
+
+summary(attgt)
+  
+summary(did)
+msummary(did, stars = c('*' = .1, '**' = .05, '***' = .01))

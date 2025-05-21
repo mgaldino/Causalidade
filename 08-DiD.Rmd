@@ -324,7 +324,37 @@ etable(did_din)
 
 ```
 
+```{r elbe-did-het, warning=FALSE, message=FALSE, echo=TRUE}
+Sys.setenv(RGL_USE_NULL = TRUE)
+library(DIDmultiplegtDYN)
 
+elbe_het <- elbe %>%
+  rename(Y = spd_z_vs,
+         G = wkr,
+         D = Flooded,
+         T = year)
+
+did_het <- did_multiplegt_dyn(
+    df = elbe,
+    outcome = "spd_z_vs",
+    group = "wkr",
+    time = "year",
+    treatment = "Flooded",
+    effects = 2,
+    placebo = 2,
+    cluster = "wkr"
+)
+
+summary(did_het)
+did_short <- feols(spd_z_vs ~ Flooded| wkr + year,
+                 cluster = "wkr",
+                 data = elbe1998_02)
+etable(did_short)
+
+did_din = feols(spd_z_vs ~ i(year, Flooded, ref=1998) | wkr + year, elbe)
+etable(did_din)
+
+```
 ## Referências
 
 de Chaisemartin, C., & D’Haultfœuille, X. (2023). Credible answers to hard questions: Differences-in-differences for natural experiments. Available at SSRN.
