@@ -411,14 +411,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="ovb" class="section level2 hasAnchor" number="9.2">
 <h2><span class="header-section-number">9.2</span> OVB<a href="time-series-cross-section-tscs.html#ovb" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Suponha o DAG abaixo, em que <span class="math inline">\(a\)</span>, uma variável invariante no tempo é não observada:</p>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="time-series-cross-section-tscs.html#cb140-1" tabindex="-1"></a><span class="fu">library</span>(ggdag)</span>
-<span id="cb140-2"><a href="time-series-cross-section-tscs.html#cb140-2" tabindex="-1"></a>dag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
-<span id="cb140-3"><a href="time-series-cross-section-tscs.html#cb140-3" tabindex="-1"></a>  y <span class="sc">~</span> x <span class="sc">+</span> a,</span>
-<span id="cb140-4"><a href="time-series-cross-section-tscs.html#cb140-4" tabindex="-1"></a>  x <span class="sc">~</span> a,</span>
-<span id="cb140-5"><a href="time-series-cross-section-tscs.html#cb140-5" tabindex="-1"></a>  <span class="at">latent =</span> <span class="st">&quot;a&quot;</span></span>
-<span id="cb140-6"><a href="time-series-cross-section-tscs.html#cb140-6" tabindex="-1"></a>)</span>
-<span id="cb140-7"><a href="time-series-cross-section-tscs.html#cb140-7" tabindex="-1"></a></span>
-<span id="cb140-8"><a href="time-series-cross-section-tscs.html#cb140-8" tabindex="-1"></a><span class="fu">ggdag</span>(dag)</span></code></pre></div>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="time-series-cross-section-tscs.html#cb136-1" tabindex="-1"></a><span class="fu">library</span>(ggdag)</span>
+<span id="cb136-2"><a href="time-series-cross-section-tscs.html#cb136-2" tabindex="-1"></a>dag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
+<span id="cb136-3"><a href="time-series-cross-section-tscs.html#cb136-3" tabindex="-1"></a>  y <span class="sc">~</span> x <span class="sc">+</span> a,</span>
+<span id="cb136-4"><a href="time-series-cross-section-tscs.html#cb136-4" tabindex="-1"></a>  x <span class="sc">~</span> a,</span>
+<span id="cb136-5"><a href="time-series-cross-section-tscs.html#cb136-5" tabindex="-1"></a>  <span class="at">latent =</span> <span class="st">&quot;a&quot;</span></span>
+<span id="cb136-6"><a href="time-series-cross-section-tscs.html#cb136-6" tabindex="-1"></a>)</span>
+<span id="cb136-7"><a href="time-series-cross-section-tscs.html#cb136-7" tabindex="-1"></a></span>
+<span id="cb136-8"><a href="time-series-cross-section-tscs.html#cb136-8" tabindex="-1"></a><span class="fu">ggdag</span>(dag)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/dag-fe-1.png" width="672" /></p>
 <p>Ela leva ao clássico problema de variável omitida. Dados de painel nos permite remover essa variável de confusão. Há várias formas de mostrar isso, e vou optar pela abordagem de centrar as variáveis. Suponha uma forma paramétrica do modelo estrutural dado por: <span class="math inline">\(y_{it} = \alpha + \beta_0 x_{it} + a_i + e_{it}\)</span>. Suponha, para simplificar, que o painel é completo.</p>
 <p>Agora, considerem os seguintes passos:</p>
@@ -530,48 +530,55 @@ y(x_{i1}, x_{i2}, \cdots, x_{it}, \cdots x_{iT}) = y(\sum_{t=1}^T x_{it})
 <div id="remark-1" class="section level3 hasAnchor" number="9.8.1">
 <h3><span class="header-section-number">9.8.1</span> Remark<a href="time-series-cross-section-tscs.html#remark-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Problemas de correlação serial impactam o cálculo do erro padrão, mas não o viés.</p>
-<p>models with lagged dependent variables must violate Assumption TS.3.</p>
 </div>
 </div>
 <div id="efeitos-aleatórios" class="section level2 hasAnchor" number="9.9">
 <h2><span class="header-section-number">9.9</span> Efeitos aleatórios<a href="time-series-cross-section-tscs.html#efeitos-aleatórios" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The RE solution to this dependency is to partition the unexplained residual variance into two: higher-level variance between higher-level entities and lower-level variance within these entities, between occasions. This is achieved by having a residual term at each level; the higher-level residual is the so-called random effect. As such, a simple standard RE model would be</p>
+<p>Um modelo simples de efeito aleatório é dado por:</p>
 <p><span class="math inline">\(y_{it} = \beta_{0t} + \beta_1 x_{it} + e_{it}\)</span>, micro model</p>
 <p><span class="math inline">\(\beta_{0t} = \beta_0 + \beta_2 z_t + \mu_t\)</span>, macro model</p>
 <p>Modelo completo:</p>
 <p><span class="math display">\[
 y_{it} = \beta_0 + \beta_2 z_t + \beta_1 x_{it} + (e_{it} + \mu_t)
-\]</span>
-A parte “fixa” é <span class="math inline">\(beta_0 + \beta_2 z_t + \beta_1 x_{it}\)</span> e a parte “aleatória” é <span class="math inline">\(e_{it} + \mu_t\)</span>. Tipicamente, assumimos que <span class="math inline">\(\mu_t \sim N(0, \sigma^2_{\mu})\)</span> e <span class="math inline">\(e_{it} \sim N(0, \sigma^2_e)\)</span>.</p>
+\]</span></p>
+<p>A parte “fixa” é <span class="math inline">\(beta_0 + \beta_2 z_t + \beta_1 x_{it}\)</span> e a parte “aleatória” é <span class="math inline">\(e_{it} + \mu_t\)</span>. Tipicamente, assumimos que <span class="math inline">\(\mu_t \sim N(0, \sigma^2_{\mu})\)</span> e <span class="math inline">\(e_{it} \sim N(0, \sigma^2_e)\)</span>.</p>
 <p>Isso é também chamado de partial pooling (shrinkage), pois os “varying-intercept” possuem uma distribuição comum, com variância estimada pelos dados. Vejam que, se <span class="math inline">\(\sigma^2_{\mu} = 0\)</span>, então os interceptos são todos iguais, e temos uma “pooled regression”. Se <span class="math inline">\(\sigma^2_{\mu} \to \in \infty\)</span>, então cada intercepto poderia ser estimado separadamente para cada <span class="math inline">\(t\)</span>: “unpooled regression”.</p>
-<p>A suposição dse identificação é:
-<span class="math display">\[
+<p>A suposição de identificação é:</p>
+<p><span class="math display">\[
 \mathbb{E}[e_{it}|x_{it}, z_t] = 0
 \]</span></p>
 <p>e</p>
 <p><span class="math display">\[
 \mathbb{E}[\mu_{t}|x_{it}, z_t] = 0
-\]</span>
-As implicações dos dois pressupostos é que <span class="math inline">\(Cov(e_{it},x_{it}) = 0\)</span> e <span class="math inline">\(Cov(\mu_{t},x_{it}) = 0\)</span>. Vamos comparar com o modelo de feitos fixos, mas usando outra formulação. O modelo padrão com varráveis binárias pode ser escrit como:
-<span class="math display">\[
+\]</span></p>
+<p>As implicações dos dois pressupostos é que <span class="math inline">\(Cov(e_{it},x_{it}) = 0\)</span> e <span class="math inline">\(Cov(\mu_{t},x_{it}) = 0\)</span>. Vamos comparar com o modelo de feitos fixos, mas usando outra formulação. O modelo padrão com varráveis binárias pode ser escrito como:</p>
+<p><span class="math display">\[
 y_{it} = \sum_{t=1}^T \beta_{0t} D_t +  \beta_1 x_{it} + e_{it}
-\]</span>
-Nós podemos estimar esse modelo diretamente, e nesse caso teremos uma estimativa para os efeitos fixos <span class="math inline">\(\beta_{0t}\)</span>. Porém, tipicamente eles não são de interesse, e portanto, uma outra parametrização equivalente mostra a suposta vantagem dos efeitos fixos. Vamos centrar todas as variáveis do modelo. Primeiro, vamos definir:
-<span class="math inline">\(\bar{y}_t = \sum_{i=1}^N y_{it}\)</span></p>
+\]</span></p>
+<p>Nós podemos estimar esse modelo diretamente, e nesse caso teremos uma estimativa para os efeitos fixos <span class="math inline">\(\beta_{0t}\)</span>. Porém, tipicamente eles não são de interesse, e portanto, uma outra parametrização equivalente mostra a suposta vantagem dos efeitos fixos. Vamos centrar todas as variáveis do modelo. Primeiro, vamos definir:</p>
+<p><span class="math inline">\(\bar{y}_t = \sum_{i=1}^N y_{it}\)</span></p>
 <p><span class="math inline">\(\bar{x}_t = \sum_{i=1}^N x_{it}\)</span></p>
 <p><span class="math inline">\(\bar{e}_t = \sum_{i=1}^N e_{it}\)</span></p>
 <p><span class="math inline">\(\bar{e}_t = \sum_{i=1}^N z_{it}\)</span></p>
 <p>Defina a equação de regressão centrada na média como:</p>
 <p><span class="math display">\[
 \bar{y}_t = \frac{1}{N} \sum_{i=1}^N y_{it} = \frac{1}{N} \sum_{i=1}^N (\beta_0 + \beta_2 z_{it} + \beta_1 x_{it} + \mu_t + e_it)= \beta_0 + \beta_2\bar{z_{t}} + \beta_1\bar{x}_t + \mu_t + \bar{e}_t
-\]</span>
-Subtraindo esta equação da original, temos:</p>
+\]</span></p>
+<p>Subtraindo esta equação da original, temos:</p>
 <p><span class="math display">\[
 y_{it} - \bar{y_{t}} =  \beta_2 (z_t - \bar{z_{t}}) + \beta_1 (x_{it} - \bar{x_{t}}) + (e_{it} - \bar{e}_t)
-\]</span>
-E eliminamos o intercepto e os efeitos fixos da equação, de modo que não precisamos mais de nenhum pressuposto sobre os efeitos fixos e os termos de erro.</p>
+\]</span></p>
+<p>E eliminamos o intercepto e os efeitos fixos da equação, de modo que não precisamos mais de nenhum pressuposto sobre os efeitos fixos e os termos de erro.</p>
 <p>O custo que nós pagamos é remover a variação entre unidades, ou seja, estamos estimando um modelo apenas com base na variação “within”, isto é, intra-unidades no tempo.</p>
 <p>Obviamente, não há nada especial em termos utilizado efeitos fixos de tempo. Poderíamos igualmente usar um efeito fixo de unidade, centrar e subtrair do modelo original, e obter estimativas apenas com variação entre unidades, mas não intra-unidades.</p>
+<p>O problema de OVB com efeitos aleatórios pode ser explicado da seguinte maneira (seguindo Bell e Jones, 2015). A variação no tratamento pode ser decomposta em: <span class="math inline">\(x_{it} = x_t^B + x_{it}^W\)</span></p>
+<p>No modelo de efeitos aleatórios <span class="math inline">\(y_{it} = \beta_0 + \beta_2 z_t + \beta_1 x_{it} + (e_{it} + \mu_t)\)</span>, implicitamente assumimos que o efeito between e within sao iguais. Quando são diferentes, <span class="math inline">\(\beta_1\)</span> é uma média ponderada dos dois processos, e isso produz justamente o OVB, porque o efeito between é omitido. Bell e Jones chamam de “heterogeneity bias”, para distinguir do clásico OVB.</p>
+<p>A solução proposta por Bell e Jones, ecoando Mundlak, é adicionar um termo que caputre o efeito between: a média temporal. A equaçao fica então:</p>
+<p><span class="math inline">\(y_{it} = \beta_0 + \beta_2 z_t + \beta_1 x_{it} + \beta_3 \bar{x}_t +  (e_{it} + \mu_t)\)</span>. Essa equação pode ser reformulada para:</p>
+<p><span class="math display">\[
+y_{it} = \beta_0 + \beta_2 z_t + \beta_1 (x_{it} - \bar{x}_t) + \beta_4 \bar{x}_t  +  (e_{it} + \mu_t)
+\]</span>
+<span class="math inline">\(\beta_1\)</span> é o efeito within, e <span class="math inline">\(\beta_4\)</span> é o efeito between.</p>
 </div>
 <div id="referências-6" class="section level2 hasAnchor" number="9.10">
 <h2><span class="header-section-number">9.10</span> Referências<a href="time-series-cross-section-tscs.html#referências-6" class="anchor-section" aria-label="Anchor link to header"></a></h2>

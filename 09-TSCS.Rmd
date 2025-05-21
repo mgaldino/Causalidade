@@ -208,11 +208,10 @@ Para fazer inferência (calcular o erro padrão e fazer testes de hipótese, por
 
 Problemas de correlação serial impactam o cálculo do erro padrão, mas não o viés. 
 
-models with lagged dependent variables must violate Assumption TS.3.
 
 ## Efeitos aleatórios
 
-The RE solution to this dependency is to partition the unexplained residual variance into two: higher-level variance between higher-level entities and lower-level variance within these entities, between occasions. This is achieved by having a residual term at each level; the higher-level residual is the so-called random effect. As such, a simple standard RE model would be
+Um modelo simples de efeito aleatório é dado por:
 
 $y_{it} = \beta_{0t} + \beta_1 x_{it} + e_{it}$, micro model
 
@@ -223,11 +222,13 @@ Modelo completo:
 $$
 y_{it} = \beta_0 + \beta_2 z_t + \beta_1 x_{it} + (e_{it} + \mu_t)
 $$
+
 A parte "fixa" é $beta_0 + \beta_2 z_t + \beta_1 x_{it}$ e a parte "aleatória" é $e_{it} + \mu_t$. Tipicamente, assumimos que $\mu_t \sim N(0, \sigma^2_{\mu})$ e $e_{it} \sim N(0, \sigma^2_e)$.
 
 Isso é também chamado de partial pooling (shrinkage), pois os "varying-intercept" possuem uma distribuição comum, com variância estimada pelos dados. Vejam que, se $\sigma^2_{\mu} = 0$, então os interceptos são todos iguais, e temos uma "pooled regression". Se $\sigma^2_{\mu} \to \in \infty$, então cada intercepto poderia ser estimado separadamente para cada $t$: "unpooled regression".
 
-A suposição dse identificação é:
+A suposição de identificação é:
+
 $$
 \mathbb{E}[e_{it}|x_{it}, z_t] = 0
 $$
@@ -237,11 +238,15 @@ e
 $$
 \mathbb{E}[\mu_{t}|x_{it}, z_t] = 0
 $$
-As implicações dos dois pressupostos é que $Cov(e_{it},x_{it}) = 0$ e $Cov(\mu_{t},x_{it}) = 0$. Vamos comparar com o modelo de feitos fixos, mas usando outra formulação. O modelo padrão com varráveis binárias pode ser escrit como:
+
+As implicações dos dois pressupostos é que $Cov(e_{it},x_{it}) = 0$ e $Cov(\mu_{t},x_{it}) = 0$. Vamos comparar com o modelo de feitos fixos, mas usando outra formulação. O modelo padrão com varráveis binárias pode ser escrito como:
+
 $$
 y_{it} = \sum_{t=1}^T \beta_{0t} D_t +  \beta_1 x_{it} + e_{it}
 $$
+
 Nós podemos estimar esse modelo diretamente, e nesse caso teremos uma estimativa para os efeitos fixos $\beta_{0t}$. Porém, tipicamente eles não são de interesse, e portanto, uma outra parametrização equivalente mostra a suposta vantagem dos efeitos fixos. Vamos centrar todas as variáveis do modelo. Primeiro, vamos definir: 
+
 $\bar{y}_t = \sum_{i=1}^N y_{it}$
 
 $\bar{x}_t = \sum_{i=1}^N x_{it}$
@@ -255,16 +260,33 @@ Defina a equação de regressão centrada na média como:
 $$
 \bar{y}_t = \frac{1}{N} \sum_{i=1}^N y_{it} = \frac{1}{N} \sum_{i=1}^N (\beta_0 + \beta_2 z_{it} + \beta_1 x_{it} + \mu_t + e_it)= \beta_0 + \beta_2\bar{z_{t}} + \beta_1\bar{x}_t + \mu_t + \bar{e}_t
 $$
+
 Subtraindo esta equação da original, temos:
 
 $$
 y_{it} - \bar{y_{t}} =  \beta_2 (z_t - \bar{z_{t}}) + \beta_1 (x_{it} - \bar{x_{t}}) + (e_{it} - \bar{e}_t)
 $$
+
 E eliminamos o intercepto e os efeitos fixos da equação, de modo que não precisamos mais de nenhum pressuposto sobre os efeitos fixos e os termos de erro.
 
 O custo que nós pagamos é remover a variação entre unidades, ou seja, estamos estimando um modelo apenas com base na variação "within", isto é, intra-unidades no tempo.
 
 Obviamente, não há nada especial em termos utilizado efeitos fixos de tempo. Poderíamos igualmente usar um efeito fixo de unidade, centrar e subtrair do modelo original, e obter estimativas apenas com variação entre unidades, mas não intra-unidades.
+
+O problema de OVB com efeitos aleatórios pode ser explicado da seguinte maneira (seguindo Bell e Jones, 2015). A variação no tratamento pode ser decomposta em: $x_{it} = x_t^B + x_{it}^W$
+
+No modelo de efeitos aleatórios $y_{it} = \beta_0 + \beta_2 z_t + \beta_1 x_{it} + (e_{it} + \mu_t)$, implicitamente assumimos que o efeito between e within sao iguais. Quando são diferentes, $\beta_1$ é uma média ponderada dos dois processos, e isso produz justamente o OVB, porque o efeito between é omitido. Bell e Jones chamam de "heterogeneity bias", para distinguir do clásico OVB.
+
+A solução proposta por Bell e Jones, ecoando Mundlak, é adicionar um termo que caputre o efeito between: a média temporal. A equaçao fica então:
+
+$y_{it} = \beta_0 + \beta_2 z_t + \beta_1 x_{it} + \beta_3 \bar{x}_t +  (e_{it} + \mu_t)$. Essa equação pode ser reformulada para:
+
+$$
+y_{it} = \beta_0 + \beta_2 z_t + \beta_1 (x_{it} - \bar{x}_t) + \beta_4 \bar{x}_t  +  (e_{it} + \mu_t)
+$$
+$\beta_1$ é o efeito within, e $\beta_4$ é o efeito between.
+
+
 
 ## Referências
 
