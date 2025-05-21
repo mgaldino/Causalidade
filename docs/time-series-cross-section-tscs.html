@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Capítulo 10 Synthetic Control | Curso de Inferência Causal</title>
-  <meta name="description" content="Capítulo 10 Synthetic Control | Curso de Inferência Causal" />
+  <title>Capítulo 9 Time-Series Cross-Section (TSCS) | Curso de Inferência Causal</title>
+  <meta name="description" content="Capítulo 9 Time-Series Cross-Section (TSCS) | Curso de Inferência Causal" />
   <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Capítulo 10 Synthetic Control | Curso de Inferência Causal" />
+  <meta property="og:title" content="Capítulo 9 Time-Series Cross-Section (TSCS) | Curso de Inferência Causal" />
   <meta property="og:type" content="book" />
   
   
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Capítulo 10 Synthetic Control | Curso de Inferência Causal" />
+  <meta name="twitter:title" content="Capítulo 9 Time-Series Cross-Section (TSCS) | Curso de Inferência Causal" />
   
   
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="time-series-cross-section-tscs.html"/>
-<link rel="next" href="llms-e-outras.html"/>
+<link rel="prev" href="diferença-em-diferenças.html"/>
+<link rel="next" href="synthetic-control.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -380,12 +380,204 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="synthetic-control" class="section level1 hasAnchor" number="10">
-<h1><span class="header-section-number">Capítulo 10</span> Synthetic Control<a href="synthetic-control.html#synthetic-control" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Suponha que obtivemos dados para <span class="math inline">\(J+1\)</span> unidades para unidades <span class="math inline">\(j = 1, 2, ..., J+1\)</span>, e sem perda de generalidade, a primeira unidade <span class="math inline">\(j=1\)</span> é a de tratamento ou sob intervenção. O potencial de unidades para comparação é dado por <span class="math inline">\(j = 2, ..., J+1\)</span>, uma coleção de unidade não-tratadas. Os dados sõa observados por <span class="math inline">\(T\)</span> períodos <span class="math inline">\(1, 2, ..., t_0, t_1, t_2, ..., T\)</span>, em que de <span class="math inline">\(1\)</span> até <span class="math inline">\(t_0\)</span> nenhuma unidade foi tratada ou sofreu intervenção. Para cada unidade <span class="math inline">\(j\)</span>, observamos também um conjunto de <span class="math inline">\(k\)</span> preditores, <span class="math inline">\(X_{1j}, X_{2j}, ..., X_{kj}\)</span>, que pode incluir vaores pré-intervenção da variável resposta <span class="math inline">\(y_{jt}\)</span>.</p>
-<div id="implementação-no-r" class="section level2 hasAnchor" number="10.1">
-<h2><span class="header-section-number">10.1</span> Implementação no R<a href="synthetic-control.html#implementação-no-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="synthetic-control.html#cb141-1" tabindex="-1"></a><span class="co"># install.packages(&#39;scpi&#39;)</span></span></code></pre></div>
+<div id="time-series-cross-section-tscs" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">Capítulo 9</span> Time-Series Cross-Section (TSCS)<a href="time-series-cross-section-tscs.html#time-series-cross-section-tscs" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="introdução-5" class="section level2 hasAnchor" number="9.1">
+<h2><span class="header-section-number">9.1</span> Introdução<a href="time-series-cross-section-tscs.html#introdução-5" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Dados de Painel são definidos como consistindo de observações repetidas de uma mesma unidade <span class="math inline">\(i = 1, \cdot, N\)</span> no período <span class="math inline">\(t = 1, \cdot, T\)</span>. O termo dados de painel tem origem em surveys em ondas, em que o mesmo indivíduo era rastreado ao longo do tempo. Em ciência política também chamamos esse tipo de dado de <strong>Time-Series Cross-Section</strong>, TSCS abreviado. É basicamernte a mesma coisa. A distinção foi introduzida na literatura de ciência política portque tipicamente surveys em ondas possuem <span class="math inline">\(T\)</span> pequeno, enquanto dados de TSCE (país, estados municípios) típicos da política comparada e Relaçòes Internacionais possuem <span class="math inline">\(T\)</span> “grande”, eventualmente maior do que <span class="math inline">\(N\)</span> (exemplo, países da OCDE ao longo de 50 anos, estados brasileiros ao longo de 30 anos etc.).</p>
+<p>Uma observação de uma Vd e uma VI é dada pelo par <span class="math inline">\((y_{it}, x_{it})\)</span>, em que <span class="math inline">\(i\)</span> indexa a unidade e <span class="math inline">\(t\)</span> o tempo.</p>
+<p>Tradicionalmente a literatura categorizava os dados de painel em balanceados (mesmo período de tempo para todas as unidades) e não-balanceado (períodos de tempo diferentes para as unidades). Essa terminologia confunde com nossa ideia de balanceamento em matching, de forma que mais recentemente tem sido substituída por dados completos (todas as unidades são observadas pelo mesmo período <span class="math inline">\(T\)</span>) ou incompletos (algumas observações são ausentes para alguns períodos de algumas unidades).</p>
+<p>Em TSCS, podemos ter países que deixam de existir (URSS, Yugoslávia) ou serem criados (Sérvia, Montenegro). Isso vale também para estados e municípios. Não é muito claro que pensar como dados ausente faz sentido, pois não é que não foram observados (como em um survey), mas a entidade nem existe mais (ou passou a existir apenas após um tempo). Isso cria potencialmente alguns tipos de problemas que a literatura metodológica basicamente tem ignorado. Em meu doutorado, eu estudei o efeito de regimes políticos sobre a adesão a tratados de patentes. Porém, não é muito claro se a adesão da URSS em um período <span class="math inline">\(t^{\star}\)</span> deve ser atribuída à Rússia em (<span class="math inline">\(t &gt; t^{\star}\)</span>). E no caso da Yuguslávia? Ou Sérvia e Montenegro, que posteriormente se dividiram? As consequências dessas decisões é uma questão tanto substantiva quanto metodológica. Mas, até onde sei, pouco ou nada investigada.</p>
+<p>Os dados podem ser organizados no banco de dados em dois formatos: <strong>long</strong> e <strong>wide</strong>. O formato long, que é o padrão, organizada os dados com a coluna de unidade repetindo nas linhas tantas vezes quanto observações no tempo existirem. Já o formato wide apresenta cada unidade aparecendo em uma única linha.</p>
+<div class="float">
+<img src="https://tavareshugo.github.io/r-intro-tidyverse-gapminder/fig/07-data_shapes.png" alt="long vs wide format. Fonte: https://tavareshugo.github.io/r-intro-tidyverse-gapminder/09-reshaping/index.html" />
+<div class="figcaption">long vs wide format. Fonte: <a href="https://tavareshugo.github.io/r-intro-tidyverse-gapminder/09-reshaping/index.html" class="uri">https://tavareshugo.github.io/r-intro-tidyverse-gapminder/09-reshaping/index.html</a></div>
+</div>
+<div id="within-versus-between" class="section level3 hasAnchor" number="9.1.1">
+<h3><span class="header-section-number">9.1.1</span> Within versus Between<a href="time-series-cross-section-tscs.html#within-versus-between" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Uma distinção importante quando se trata de dados de painel é entre variação <em>within subject</em> e <em>between subject</em>. Para entender essa discintção, contrastemos dois estudos hipotéticos. Em um estudo “within subject”, cada indivíduo é exposto às múltiplas versões do tratamento (ex. trataamento e controle) e analisamos como os indivíduos mudaram entre exposições às variações do tratamento. Em um desenho “between-subject”, aleatorizamos o tratamento e controle em dois grupos de indivíduos, os tratados e não-tratados e comparamos a diferença na variável resposta dos dois grupos.</p>
+<p>Em dados de painel, a questão retorna, pois observamos as mesmas unidades repetidamente no tempo. Isso quer dizer que podemos, potencialmente, fazer comparações entre unidades (“between) e intra-unidades (within). Imagine que tenho uma variável <span class="math inline">\(y_{it}\)</span> medida para <span class="math inline">\(N\)</span> indivíduos em <span class="math inline">\(T\)</span> períodos, por exemplo, intenção de voto no candidato democrata. Posso então fazer os seguintes cálculos:</p>
+<ol style="list-style-type: decimal">
+<li><p>média individual: <span class="math inline">\(\bar{x}_i = \frac{1}{T}\sum_{t=1}^T x_{it}\)</span>. Ou seja, média de intenção de votos de cada indivíduo nos <span class="math inline">\(T\)</span> períodos.</p></li>
+<li><p>média temporal: <span class="math inline">\(\bar{x}_t = \frac{1}{N}\sum_{i=1}^N x_{it}\)</span>. Ou seja, a média de intencão de voto de cada período de tempo.</p></li>
+<li><p>Média geral: <span class="math inline">\(\bar{x} = \frac{1}{NT}\sum_{i=1}^N\sum_{t=1}^T x_{it}\)</span></p></li>
+</ol>
+<p>Podemos então definir a variação <em>between</em>: <span class="math inline">\(B = \sum_{i=1}^N n_i(\bar{x}_i - \bar{x})^2\)</span>. Se o painel é completo, a fórmula simplifica para: <span class="math inline">\(B = n\sum_{i=1}^N(\bar{x}_i - \bar{x})^2\)</span>. Veja que essa fórmula mede quanto de variação temos nos dados que se deve à variação entre unidades.</p>
+<p>Para definir a variação within, temos:</p>
+<p>Para um dado indivíduo <span class="math inline">\(i\)</span>, a variabilidade das suas observações ao longo do tempo, em relação à sua média <span class="math inline">\(\bar{x}_i\)</span>, é dado por <span class="math inline">\(\sum_t (x_{it} - \bar{x}i)^2\)</span>. Se quisermos medir a soma total da variação within, podemos então definir: <span class="math inline">\(W =  \sum_{i=1}^N \sum_{t=1}^{n_i}(x_{it} - \bar{x}_i)^2\)</span>.</p>
+<p>A variação total, ou seja, a soma da variação em torno da média geral, é dada por: <span class="math inline">\(\sum_{i=1}^N\sum_{i=1}^{n_i} (x_{it} - \bar{x})^2 = W + B\)</span></p>
+</div>
+</div>
+<div id="ovb" class="section level2 hasAnchor" number="9.2">
+<h2><span class="header-section-number">9.2</span> OVB<a href="time-series-cross-section-tscs.html#ovb" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Suponha o DAG abaixo, em que <span class="math inline">\(a\)</span>, uma variável invariante no tempo é não observada:</p>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="time-series-cross-section-tscs.html#cb140-1" tabindex="-1"></a><span class="fu">library</span>(ggdag)</span>
+<span id="cb140-2"><a href="time-series-cross-section-tscs.html#cb140-2" tabindex="-1"></a>dag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
+<span id="cb140-3"><a href="time-series-cross-section-tscs.html#cb140-3" tabindex="-1"></a>  y <span class="sc">~</span> x <span class="sc">+</span> a,</span>
+<span id="cb140-4"><a href="time-series-cross-section-tscs.html#cb140-4" tabindex="-1"></a>  x <span class="sc">~</span> a,</span>
+<span id="cb140-5"><a href="time-series-cross-section-tscs.html#cb140-5" tabindex="-1"></a>  <span class="at">latent =</span> <span class="st">&quot;a&quot;</span></span>
+<span id="cb140-6"><a href="time-series-cross-section-tscs.html#cb140-6" tabindex="-1"></a>)</span>
+<span id="cb140-7"><a href="time-series-cross-section-tscs.html#cb140-7" tabindex="-1"></a></span>
+<span id="cb140-8"><a href="time-series-cross-section-tscs.html#cb140-8" tabindex="-1"></a><span class="fu">ggdag</span>(dag)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/dag-fe-1.png" width="672" /></p>
+<p>Ela leva ao clássico problema de variável omitida. Dados de painel nos permite remover essa variável de confusão. Há várias formas de mostrar isso, e vou optar pela abordagem de centrar as variáveis. Suponha uma forma paramétrica do modelo estrutural dado por: <span class="math inline">\(y_{it} = \alpha + \beta_0 x_{it} + a_i + e_{it}\)</span>. Suponha, para simplificar, que o painel é completo.</p>
+<p>Agora, considerem os seguintes passos:</p>
+<span class="math display">\[\begin{aligned}
+\bar{y}_i &amp;= \frac{1}{T}\sum_{t=1}^T y_{it} \\
+         &amp;= \frac{1}{T}\sum_{t=1}^T (\alpha + \beta_0 x_{it} + a_i + e_{it}) \\
+         &amp;= \frac{1}{T}\sum_{t=1}^T \alpha + \frac{1}{T}\sum_{t=1}^T\beta_0 x_{it} + \frac{1}{T}\sum_{t=1}^T a_i + \frac{1}{T}\sum_{t=1}^Te_{it}) \\
+         &amp;= \alpha + \frac{\beta_0}{T}\sum_{t=1}^T x_{it} + a_i + \frac{1}{T}\sum_{t=1}^Te_{it} \\
+         &amp;= \alpha + \beta_0 \bar{x}_i + a_i + \bar{e}_i
+\end{aligned}\]</span>
+<p>Agora, definindo <span class="math inline">\(\tilde{y}_{it} = y_{it} - \bar{y}_i\)</span>, temos:</p>
+<span class="math display">\[\begin{aligned}
+\tilde{y}_{it}i &amp;= y_it - \bar{y}_i \\
+         &amp;= \alpha + \beta_0 x_{it} + a_i + e_{it} - (\alpha + \beta_0 \bar{x}_i + a_i + \bar{e}_i) \\
+         &amp;= (\alpha - \alpha) + (\beta_0 x_{it} - \beta_0 \bar{x}_i) + (a_i - a_i) + (e_{it}  - \bar{e}_i)  \\
+         &amp;= \beta_0(x_{it} - \bar{x}_i) + (e_{it}  - \bar{e}_i) \\
+         &amp;= \beta_0 \tilde{x} + \tilde{e}_{it} \text{, em que } \tilde{x} = x_{it} - \bar{x}_i \text{ e } \tilde{e}_{it} = e_{it}  - \bar{e}_i
+\end{aligned}\]</span>
+<p>Temos então um modelo de regressão em que os <span class="math inline">\(\a_i\)</span> foram removidos da equação estrutural e, portanto, não podem mais causal viés de variável omitida.</p>
+<p>A pergunta para vocês agora é: qual o estimando que tal estimador estima?</p>
+<p>Pensem antes de responder…</p>
+<p>Vamos formular a questão um pouco em termos de resultados potenciais.</p>
+</div>
+<div id="estimandos" class="section level2 hasAnchor" number="9.3">
+<h2><span class="header-section-number">9.3</span> Estimandos<a href="time-series-cross-section-tscs.html#estimandos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Há muitos estimandos possíveis com dados TSCS. Eis alguns possíveis estimandos de interesse (baseado em Blackwell e Glynn, 2018). Antes ,vamos definir: todos os tratamentos para uma dada unidade formam a história do tratamento <span class="math inline">\(X_i = \{x_{i1}, x_{i2}, \cdots, x_{iT}\}\)</span>. A história parcial dos tratamentos até <span class="math inline">\(t\)</span> é <span class="math inline">\(X_{i, 1:t} = \{x_{i1}, x_{i2}, \cdots, x_{it}\}\)</span>. Variáveis de controle <span class="math inline">\(W\)</span> podem ser definidas de maneira similar.</p>
+<ol style="list-style-type: decimal">
+<li>O efeito de uma história de tratamento. Posso estar interessado em entender o efeito de uma particular história em contraposição a outra. Digamos, um país que sempre foi democracia versus um que sempre foi ditadura. Em termos de resultados potenciais: <span class="math inline">\(Y_{it}(X_{i, 1:t}) - Y_{it}(X^{\prime}_{i, 1:t})\)</span>, em que <span class="math inline">\(\prime\)</span> indica uma história alternativa. No caso, <span class="math inline">\(Y_{it}(1, 1, \cdots, 1)\)</span> versus <span class="math inline">\(Y_{it}(0, 0, \cdots, 0)\)</span>. Como sempre, nosso estimando típico é uma média, isto é: <span class="math inline">\(\tau_{X_{i, 1:t}, X^{\prime}_{i, 1:t}} = \mathbb{E}[Y_{it}(X_{i, 1:t}) - Y_{it}(X^{\prime}_{i, 1:t})]\)</span>.</li>
+</ol>
+<p>Obviamente, existem muitas combinações de histórias possíveis (de fato, <span class="math inline">\(2^t\)</span> se o tratamento é binário). Como vamos observar muitas histórias distintas, teremos em geral poucas ou nenhuma observação de uma dada história para estimar o efeito causal com precisão.</p>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Efeito de história parcial (recente) do tratamento. Vamos definir resultado potencial dos últimos <span class="math inline">\(j\)</span> períodos <span class="math inline">\(Y_{it}(X_{t-j:t}) = Y_{it}(X_{i,1: t-j-1}, X_{t-j:t})\)</span>. Nós interpretamos essa quantidade como o efeito causal de observar a história até o período <span class="math inline">\(t-j-1\)</span> e então fixar o valor do tratamento na história <span class="math inline">\(X_{t-j,:t}\)</span>.</p></li>
+<li><p>Efeito Contemporâneo do Tratamento (Contemporaneous Treatment Effect, CET): <span class="math inline">\(\tau_c(t) = \mathbb{E}[Y_{it}(X_{i,1: t-j-1}, X_{t-j:1}) - Y_{it}(X_{i,1: t-j-1}, X_{t-j:0})]\)</span>. Ou seja, deixamos as unidades terem qualqquer história, e investigamos o efeito do tratamento no último período. Veja que estamos calculando a média sobre todas as histórias até o período <span class="math inline">\(t\)</span>.</p></li>
+</ol>
+</div>
+<div id="resultados-potenciais-1" class="section level2 hasAnchor" number="9.4">
+<h2><span class="header-section-number">9.4</span> Resultados Potenciais<a href="time-series-cross-section-tscs.html#resultados-potenciais-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Vamos considerar, inicialmente, um caso de depois períodos e em que indíviduos são tratados nos dois períodos ou não tratados nos dois períodos. Isso significa que de quatro resultados potenciais possívels <span class="math inline">\(Y_i(0,0), Y_i(0,1), Y(1,0)_i, Y_i(1,1)\)</span> só observamos <span class="math inline">\(Y_i(0,0), Y_i(1,1)\)</span>.</p>
+<p>Digamos que estamos interessados em <span class="math inline">\(\mathbb{E}[Y_i(1,1) - Y_i(0,0)]\)</span>. Se a sequência de tratamento for atribuída aleatoriamente, isto é, sorteamos que irá receber <span class="math inline">\(x_i = (1,1)\)</span> e <span class="math inline">\(x_i = (0,0)\)</span>, então podemos utilizar os resultados observados para recuperar nosso estimando: <span class="math inline">\(\mathbb{E}[Y_i|x_{i1} = 1, x_{i2}=1] - \mathbb{E}[Y_i|x_{i1} = 0, x_{i2}=0]\)</span>. Veja que nós aleatorizamos a sequência dos tratamentos. Tal tipo de aleatorização implica que exogeneidade estrita é statisfeita, que formalizamos a seguir com resultados potenciais:</p>
+<p><span class="math display">\[
+Y_{it}(1), Y_{it}(0) \perp x_{it}|\mathbf{W}^{1:T}_i, a_i, \mathbf{f}^{1:T}\text{, para todo } i, t, s,
+\]</span></p>
+<p>As variáveis em negrito indicam que são (potencialmente) um vetor de variáveis. A suposição de exogeneidade estrita implica a suposição de tendências paralelas.</p>
+<p>Em palavras, essa suposição (que é um restrição de exclusão) quer dizer que:</p>
+<ol style="list-style-type: decimal">
+<li><p>não há time-varying confoundings;</p></li>
+<li><p>Resposta passada não causa diretamente resposta presente, isto é, sem flecha de <span class="math inline">\(y_{t-1}\)</span> para <span class="math inline">\(y_t\)</span>;</p></li>
+<li><p>Semfeedback de variáveis causadas por tratamentos passados (resultados passados ou outras covariáveis) e o status de tratamento corrente e futuro. Ou seja, sem flechas de <span class="math inline">\(y_{t-1}\)</span> para <span class="math inline">\(x_t\)</span> ou de <span class="math inline">\(w_{t-1}\)</span> para <span class="math inline">\(x_t\)</span>.</p></li>
+<li><p>Sem “carryover effects” do tratamento presente para resultados futuros, ou seja, sem flecha de <span class="math inline">\(x_{t-1}\)</span> para <span class="math inline">\(y_t\)</span> ou <span class="math inline">\(y_{t+1}\)</span>.</p></li>
+</ol>
+<p>Qualquer violação de uma ou mais condições acima implica que a suposição de exogeneidade restrita não foi satisfeita.</p>
+<p>O DAG abaixo apresena exogeneidade estrita para um caso simplificado de três períodos:</p>
+<p><img src="imagens/DAG%20estrita%20exogeneidade.png" width="845" /></p>
+<p>Obviamente, essa restrição de exclusão é difícil de ser satisfeita na prática.</p>
+<p>Se supusermos <span class="math inline">\(\mathbb{E}[e_t|x_{t1}, x_{t2}, \cdots, x_{tk}]=0\)</span>, temos o que chamamos de <strong>exogeneidade contemporânea</strong>, ou seja, as variáveis independentes e o termo de erro são não-correlacionadas no tempo <span class="math inline">\(t\)</span>. Isso, porém, não garante que o estimador de OLS é não-viesado. Para obtermos um estimador não-viesado, precisamos supor <strong>exogeneidade estrita</strong>: É possível mostrar, porém, que o estimador de OLS é consistente com exogeneidade contemporânea.</p>
+<p>Vale destacar que exogeneidade estrita exclui a possibilidade de que o termo de erro no presente possa causar mudanças futuras em <span class="math inline">\(x\)</span>. Ou seja, não pode haver feedback do <span class="math inline">\(y\)</span> para futuros valores de <span class="math inline">\(x\)</span>. Em outras palavras, tratamentos estritamente exógenos não podem reagir pelo que aconteceu com o <span class="math inline">\(y\)</span> no passado.</p>
+<p>Considere o que a literatura chama de Distributed Lag Model (DLM), que basicamente consiste em introduzir valores defasados (além do presente) do tratamento. O modelo simples, fica:</p>
+<p><span class="math display">\[
+y_{it} = \alpha + \beta_1x_{it} + \beta_2 x_{it-1} + \cdots + \beta_2 x_{it-k} + e_{it}
+\]</span>
+Um modelo relacionado, chamado de ADL (autoregressive distributed lag) incluida VD defasada:
+Se for um AR(1), temos:</p>
+<p><span class="math display">\[
+y_{it} = \alpha + \alpha_1y_{it-1} + \beta_1x_{it} + \beta_2 x_{it-1} + e_{it}
+\]</span>
+Vale a pena escrever a equação de resultado potenciais implicada por esse modelo:</p>
+<p><span class="math display">\[
+Y_{it}(x_{1:t}) = \alpha + \alpha_1 y_{it-1}(x_{1:t-1}) + \beta_1x_{it} + \beta_2 x_{it-1} + e_{it}
+\]</span>
+Nessa formulação fica claro porque é difícil interpretar o efeito causal do tratamento em <span class="math inline">\(t-1\)</span>, pois ele te mum efeito direto, via <span class="math inline">\(\beta_2\)</span> e um efeito indireto, via <span class="math inline">\(y_{it-1}\)</span>.</p>
+</div>
+<div id="modelo-ar1" class="section level2 hasAnchor" number="9.5">
+<h2><span class="header-section-number">9.5</span> Modelo AR(1)<a href="time-series-cross-section-tscs.html#modelo-ar1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Considere o modelo AR(1):
+<span class="math display">\[
+y_{t} = \beta_0 + \beta_1 y_{t-1} + e_t
+\]</span></p>
+<p>Suponha ademais que <span class="math inline">\(\mathbb{E}[e_t|y_{t-1}, y_{t-2}, ...] = 0\)</span>. Esse pressuposto implica que <span class="math inline">\(\mathbb{E}y_{t}|y_{t-1}, y_{t-2}, ...] = \mathbb{E}[\beta_0 + \beta_1 y_{t-1} + e_t|y_{t-1}, y_{t-2}, ...] = \beta_0 + \beta_1\mathbb{E}y_{t-1}|y_{t-1}, y_{t-2}, ...] + 0 = \beta_0 + \beta_1 y_{t-1}\)</span>.</p>
+<p>Portanto, <span class="math inline">\(e_t\)</span> e <span class="math inline">\(y_{t}\)</span> são correlacionados. O modelo AR(1), isto é, com VD defasa, viola exogeneidade estrita.</p>
+</div>
+<div id="sequential-ignorability" class="section level2 hasAnchor" number="9.6">
+<h2><span class="header-section-number">9.6</span> Sequential ignorability<a href="time-series-cross-section-tscs.html#sequential-ignorability" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Uma suposição alternativa e menos demandante é a de ignorability sequencial (sequential ignorability).</p>
+<p>O experimento equivalente a essa suposição seria quando, em cada período, o tratamento <span class="math inline">\(x_{it}\)</span> é aleatorizado condicional aos valores passados do tratamento e covariáveis variantes no tempo (incluindo valores passados da variável resposta, <span class="math inline">\(y\)</span>).</p>
+<p>O DAG abaixo ilustra a suposição de ignorability sequencial.</p>
+<p><img src="imagens/sequential%20ignorability.png" width="909" /></p>
+</div>
+<div id="resumo" class="section level2 hasAnchor" number="9.7">
+<h2><span class="header-section-number">9.7</span> Resumo<a href="time-series-cross-section-tscs.html#resumo" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="imagens/identification%20regimes.png" width="869" /></p>
+<p>A princípio, e de maneira mais geral, se a história importa (isto é, os estados passados, bem como sua ordem importam), o que Scott Page (200) chamou de path dependence, então precisamos escrever os resultados potenciais de um indivíduo <span class="math inline">\(i\)</span> em <span class="math inline">\(t = 1, \cdots, T\)</span>, para um tratamento binário <span class="math inline">\(x_{it} \in \{0,1\}\)</span> da seguinte forma:
+<span class="math display">\[
+y(x_{i1}, x_{i2}, \cdots, x_{it}, \cdots x_{iT})
+\]</span>
+Em que o valor de <span class="math inline">\(x_{it} \in \{0,1\}\)</span> determina se, naquele período, o indivíduo foi tratado ou não. Se a história importa, no sentido de path dependence, então cada sequência é substantivamente diferente. Uma outra possibilidade é que importe quantos tratamentos e controles a unidade recebeu, mas não a ordem. Nesse caso:</p>
+<p><span class="math display">\[
+y(x_{i1}, x_{i2}, \cdots, x_{it}, \cdots x_{iT}) = y(\sum_{t=1}^T x_{it})
+\]</span></p>
+<p>Para uma dada unidade <span class="math inline">\(i\)</span> no tempo <span class="math inline">\(t\)</span>, e supondo um tratamento binário <span class="math inline">\(x_{it}\)</span>, o resultado potencial é: <span class="math inline">\(Y(1)_{it}\)</span> para o tratamento, e <span class="math inline">\(Y(1)_{it}\)</span> para o controle. Uma suposição implícita na nossa derivação é que se eu denotar a sequência (ou caminho) de tratamento e controle no tempo por algo como <span class="math inline">\(Y(1,0,..., 1)_{it^{\star}}\)</span> para uma resposta em <span class="math inline">\(t^{\star} &gt; 1\)</span>, a história dos resultados potenciais é irrelevante, de modo que posso simpliesmente escrever <span class="math inline">\(Y(1)_{it^{\star}}\)</span> e similarmente para o controle. Então, sabemos que <span class="math inline">\(Y(1)_{it^{\star}} = \alpha + \beta_0 x_{it^{\star}} + a_i + e_{it^{\star}}\)</span> e <span class="math inline">\(Y(0)_{it^{\star}} = \alpha + a_i + e_{it^{\star}}\)</span>.</p>
+<p>O efeito do tratamento entre indivíduos no período t^{} é dado justamente por <span class="math inline">\(Y(1)_{it^{\star}} - Y(0)_{it^{\star}} = \alpha + \beta_0 x_{it^{\star}} + a_i + e_{it^{\star}} - (\alpha + a_i + e_{it^{\star}}) = beta_0 x_{it^{\star}\)</span>. Como só posso observar um dos resultados potenciais para cada indivíduo no período t^{}, parece natual pensar que inha regressão de efeitos.</p>
+<div id="remark" class="section level3 hasAnchor" number="9.7.1">
+<h3><span class="header-section-number">9.7.1</span> Remark<a href="time-series-cross-section-tscs.html#remark" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Sob a suposição de <strong>exogeneidade contemporânea</strong>, o estimador de OLS é consistente, isto é, converge para o verdadeiro valor do parâmetro quando a amostra vai para infinito. Supondo que a série é estacionária e fracamente dependente. Formalmente, a dependência fraca implica que <span class="math inline">\(|\beta_1| &lt; 1\)</span>.</p>
+</div>
+</div>
+<div id="suposições-para-inferência" class="section level2 hasAnchor" number="9.8">
+<h2><span class="header-section-number">9.8</span> Suposições para Inferência<a href="time-series-cross-section-tscs.html#suposições-para-inferência" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Para fazer inferência (calcular o erro padrão e fazer testes de hipótese, por exemplo), precisamos supor, além da exogeneidade estrita, a suposição de não-correlação serial. Ou seja, Conditional on X, the errors in two different time periods are uncorrelated: Corr ut,us X 5 0, for all t 2 s.</p>
+<div id="remark-1" class="section level3 hasAnchor" number="9.8.1">
+<h3><span class="header-section-number">9.8.1</span> Remark<a href="time-series-cross-section-tscs.html#remark-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Problemas de correlação serial impactam o cálculo do erro padrão, mas não o viés.</p>
+<p>models with lagged dependent variables must violate Assumption TS.3.</p>
+</div>
+</div>
+<div id="efeitos-aleatórios" class="section level2 hasAnchor" number="9.9">
+<h2><span class="header-section-number">9.9</span> Efeitos aleatórios<a href="time-series-cross-section-tscs.html#efeitos-aleatórios" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The RE solution to this dependency is to partition the unexplained residual variance into two: higher-level variance between higher-level entities and lower-level variance within these entities, between occasions. This is achieved by having a residual term at each level; the higher-level residual is the so-called random effect. As such, a simple standard RE model would be</p>
+<p><span class="math inline">\(y_{it} = \beta_{0t} + \beta_1 x_{it} + e_{it}\)</span>, micro model</p>
+<p><span class="math inline">\(\beta_{0t} = \beta_0 + \beta_2 z_t + \mu_t\)</span>, macro model</p>
+<p>Modelo completo:</p>
+<p><span class="math display">\[
+y_{it} = \beta_0 + \beta_2 z_t + \beta_1 x_{it} + (e_{it} + \mu_t)
+\]</span>
+A parte “fixa” é <span class="math inline">\(beta_0 + \beta_2 z_t + \beta_1 x_{it}\)</span> e a parte “aleatória” é <span class="math inline">\(e_{it} + \mu_t\)</span>. Tipicamente, assumimos que <span class="math inline">\(\mu_t \sim N(0, \sigma^2_{\mu})\)</span> e <span class="math inline">\(e_{it} \sim N(0, \sigma^2_e)\)</span>.</p>
+<p>Isso é também chamado de partial pooling (shrinkage), pois os “varying-intercept” possuem uma distribuição comum, com variância estimada pelos dados. Vejam que, se <span class="math inline">\(\sigma^2_{\mu} = 0\)</span>, então os interceptos são todos iguais, e temos uma “pooled regression”. Se <span class="math inline">\(\sigma^2_{\mu} \to \in \infty\)</span>, então cada intercepto poderia ser estimado separadamente para cada <span class="math inline">\(t\)</span>: “unpooled regression”.</p>
+<p>A suposição dse identificação é:
+<span class="math display">\[
+\mathbb{E}[e_{it}|x_{it}, z_t] = 0
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+\mathbb{E}[\mu_{t}|x_{it}, z_t] = 0
+\]</span>
+As implicações dos dois pressupostos é que <span class="math inline">\(Cov(e_{it},x_{it}) = 0\)</span> e <span class="math inline">\(Cov(\mu_{t},x_{it}) = 0\)</span>. Vamos comparar com o modelo de feitos fixos, mas usando outra formulação. O modelo padrão com varráveis binárias pode ser escrit como:
+<span class="math display">\[
+y_{it} = \sum_{t=1}^T \beta_{0t} D_t +  \beta_1 x_{it} + e_{it}
+\]</span>
+Nós podemos estimar esse modelo diretamente, e nesse caso teremos uma estimativa para os efeitos fixos <span class="math inline">\(\beta_{0t}\)</span>. Porém, tipicamente eles não são de interesse, e portanto, uma outra parametrização equivalente mostra a suposta vantagem dos efeitos fixos. Vamos centrar todas as variáveis do modelo. Primeiro, vamos definir:
+<span class="math inline">\(\bar{y}_t = \sum_{i=1}^N y_{it}\)</span></p>
+<p><span class="math inline">\(\bar{x}_t = \sum_{i=1}^N x_{it}\)</span></p>
+<p><span class="math inline">\(\bar{e}_t = \sum_{i=1}^N e_{it}\)</span></p>
+<p><span class="math inline">\(\bar{e}_t = \sum_{i=1}^N z_{it}\)</span></p>
+<p>Defina a equação de regressão centrada na média como:</p>
+<p><span class="math display">\[
+\bar{y}_t = \frac{1}{N} \sum_{i=1}^N y_{it} = \frac{1}{N} \sum_{i=1}^N (\beta_0 + \beta_2 z_{it} + \beta_1 x_{it} + \mu_t + e_it)= \beta_0 + \beta_2\bar{z_{t}} + \beta_1\bar{x}_t + \mu_t + \bar{e}_t
+\]</span>
+Subtraindo esta equação da original, temos:</p>
+<p><span class="math display">\[
+y_{it} - \bar{y_{t}} =  \beta_2 (z_t - \bar{z_{t}}) + \beta_1 (x_{it} - \bar{x_{t}}) + (e_{it} - \bar{e}_t)
+\]</span>
+E eliminamos o intercepto e os efeitos fixos da equação, de modo que não precisamos mais de nenhum pressuposto sobre os efeitos fixos e os termos de erro.</p>
+<p>O custo que nós pagamos é remover a variação entre unidades, ou seja, estamos estimando um modelo apenas com base na variação “within”, isto é, intra-unidades no tempo.</p>
+<p>Obviamente, não há nada especial em termos utilizado efeitos fixos de tempo. Poderíamos igualmente usar um efeito fixo de unidade, centrar e subtrair do modelo original, e obter estimativas apenas com variação entre unidades, mas não intra-unidades.</p>
+</div>
+<div id="referências-6" class="section level2 hasAnchor" number="9.10">
+<h2><span class="header-section-number">9.10</span> Referências<a href="time-series-cross-section-tscs.html#referências-6" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Bell, A., &amp; Jones, K. (2015). Explaining fixed effects: Random effects modeling of time-series cross-sectional and panel data. Political Science Research and Methods, 3(1), 133-153.</p>
+<p>Blackwell, M., &amp; Glynn, A. N. (2018). How to make causal inferences with time-series cross-sectional data under selection on observables. American Political Science Review, 112(4), 1067-1082.</p>
+<p>Page, S. E. (2006). Path dependence. Quarterly Journal of Political Science, 1(1), 87-115.</p>
 
 </div>
 </div>
@@ -394,8 +586,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="time-series-cross-section-tscs.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="llms-e-outras.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="diferença-em-diferenças.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="synthetic-control.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -426,7 +618,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/mgaldino/Causalidade/edit/main/11-Synth.Rmd",
+    "link": "https://github.com/mgaldino/Causalidade/edit/main/09-TSCS.Rmd",
     "text": "Edit"
   },
   "history": {
@@ -434,7 +626,7 @@ gitbook.start({
     "text": null
   },
   "view": {
-    "link": "https://github.com/mgaldino/Causalidade/blob/main/11-Synth.Rmd",
+    "link": "https://github.com/mgaldino/Causalidade/blob/main/09-TSCS.Rmd",
     "text": null
   },
   "download": null,
