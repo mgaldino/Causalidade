@@ -1,5 +1,20 @@
 # LLMs e outras
 
+
+
+## Google Colab
+
+Para a aula de hoje, vamos usar o Google Colab, que é uma ferramenta online, gratuita, para programa e analisar dados. Ela permite escrever e rodar códigos em Python sem a necessidade de instalar nenhum programa. Além disso, é poss[ivel ter acesso a processadores poderosos, inclusive de GPUs, se necessário (mas pagando).
+
+Para usar o google colab, precisamos de uma conta google, o que nós já temos com nosso e-mail usp.
+Vamos acessar o endeeço: https://colab.google
+
+Vamos clicar em new notebook.
+Vamos renomear o arquivo para aula_llm.ipynb
+
+A teminação diz que é um netebook. Que é como se fosse um Rmarkdown no R, só que nesse caso, hospedado online.
+
+
 https://macartan.github.io/dd_bootcamp/dd.html#/using-a-design-1
 https://macartan.github.io/dd_bootcamp/exercises.html
 https://gist.github.com/saudiwin/dd0edec5786c7edb393bd84615aafb45
