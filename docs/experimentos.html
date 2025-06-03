@@ -23,7 +23,7 @@
 <meta name="author" content="Manoel Galdino" />
 
 
-<meta name="date" content="2025-05-21" />
+<meta name="date" content="2025-06-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -347,9 +347,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="10" data-path="synthetic-control.html"><a href="synthetic-control.html"><i class="fa fa-check"></i><b>10</b> Synthetic Control</a>
 <ul>
+<li class="chapter" data-level="10.0.1" data-path="synthetic-control.html"><a href="synthetic-control.html#tratamento"><i class="fa fa-check"></i><b>10.0.1</b> Tratamento</a></li>
 <li class="chapter" data-level="10.1" data-path="synthetic-control.html"><a href="synthetic-control.html#implementação-no-r"><i class="fa fa-check"></i><b>10.1</b> Implementação no R</a></li>
+<li class="chapter" data-level="10.2" data-path="synthetic-control.html"><a href="synthetic-control.html#synthethic-did"><i class="fa fa-check"></i><b>10.2</b> Synthethic DiD</a></li>
+<li class="chapter" data-level="10.3" data-path="synthetic-control.html"><a href="synthetic-control.html#referências-7"><i class="fa fa-check"></i><b>10.3</b> Referências</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="llms-e-outras.html"><a href="llms-e-outras.html"><i class="fa fa-check"></i><b>11</b> LLMs e outras</a></li>
+<li class="chapter" data-level="11" data-path="llms-e-outras.html"><a href="llms-e-outras.html"><i class="fa fa-check"></i><b>11</b> LLMs e outras</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="llms-e-outras.html"><a href="llms-e-outras.html#google-colab"><i class="fa fa-check"></i><b>11.1</b> Google Colab</a></li>
+</ul></li>
 <li class="chapter" data-level="12" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html"><i class="fa fa-check"></i><b>12</b> Interferência, spillover e dinâmica</a>
 <ul>
 <li class="chapter" data-level="12.1" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#suposições-simplifcadoras"><i class="fa fa-check"></i><b>12.1</b> Suposições simplifcadoras</a></li>
@@ -721,26 +727,40 @@ Outras possibilidaes incluem o ATT e CATE: , por exemplo. Formulação equivalen
 <pre><code>## 
 ## Research design diagnosis based on 100 simulations. Diagnosis completed in 0 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).
 ## 
-##         Design Inquiry Estimator Outcome Term N Sims Mean Estimand Mean Estimate   Bias SD Estimate   RMSE  Power Coverage
-##  two_arm_trial     ATE estimator       Y    Z    100          0.20          0.20   0.00        0.05   0.05   0.99     0.95
-##                                                             (0.00)        (0.00) (0.00)      (0.00) (0.00) (0.01)   (0.02)</code></pre>
+##         Design Inquiry Estimator Outcome Term N Sims Mean Estimand Mean Estimate   Bias SD Estimate   RMSE  Power
+##  two_arm_trial     ATE estimator       Y    Z    100          0.20          0.20   0.00        0.05   0.05   0.99
+##                                                             (0.00)        (0.00) (0.00)      (0.00) (0.00) (0.01)
+##  Coverage
+##      0.95
+##    (0.02)</code></pre>
 <p>Podemos ajustar o desenh ode pesquisa</p>
 <div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="experimentos.html#cb41-1" tabindex="-1"></a>designs <span class="ot">&lt;-</span> <span class="fu">redesign</span>(two_arm_trial, <span class="at">N =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">300</span>, <span class="dv">400</span>, <span class="dv">500</span>))</span>
 <span id="cb41-2"><a href="experimentos.html#cb41-2" tabindex="-1"></a><span class="fu">diagnose_design</span>(designs)</span></code></pre></div>
 <pre><code>## 
 ## Research design diagnosis based on 500 simulations. Diagnosis completed in 8 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).
 ## 
-##    Design   N Inquiry Estimator Outcome Term N Sims Mean Estimand Mean Estimate   Bias SD Estimate   RMSE  Power Coverage
-##  design_1 100     ATE estimator       Y    Z    500          0.20          0.20  -0.00        0.05   0.05   0.97     0.94
-##                                                            (0.00)        (0.00) (0.00)      (0.00) (0.00) (0.01)   (0.01)
-##  design_2 200     ATE estimator       Y    Z    500          0.20          0.20   0.00        0.05   0.05   0.98     0.95
-##                                                            (0.00)        (0.00) (0.00)      (0.00) (0.00) (0.01)   (0.01)
-##  design_3 300     ATE estimator       Y    Z    500          0.20          0.20  -0.00        0.05   0.05   0.97     0.95
-##                                                            (0.00)        (0.00) (0.00)      (0.00) (0.00) (0.01)   (0.01)
-##  design_4 400     ATE estimator       Y    Z    500          0.20          0.20  -0.00        0.05   0.05   0.98     0.95
-##                                                            (0.00)        (0.00) (0.00)      (0.00) (0.00) (0.01)   (0.01)
-##  design_5 500     ATE estimator       Y    Z    500          0.20          0.20  -0.00        0.05   0.05   0.98     0.96
-##                                                            (0.00)        (0.00) (0.00)      (0.00) (0.00) (0.01)   (0.01)</code></pre>
+##    Design   N Inquiry Estimator Outcome Term N Sims Mean Estimand Mean Estimate   Bias SD Estimate   RMSE  Power
+##  design_1 100     ATE estimator       Y    Z    500          0.20          0.20  -0.00        0.05   0.05   0.97
+##                                                            (0.00)        (0.00) (0.00)      (0.00) (0.00) (0.01)
+##  design_2 200     ATE estimator       Y    Z    500          0.20          0.20   0.00        0.05   0.05   0.98
+##                                                            (0.00)        (0.00) (0.00)      (0.00) (0.00) (0.01)
+##  design_3 300     ATE estimator       Y    Z    500          0.20          0.20  -0.00        0.05   0.05   0.97
+##                                                            (0.00)        (0.00) (0.00)      (0.00) (0.00) (0.01)
+##  design_4 400     ATE estimator       Y    Z    500          0.20          0.20  -0.00        0.05   0.05   0.98
+##                                                            (0.00)        (0.00) (0.00)      (0.00) (0.00) (0.01)
+##  design_5 500     ATE estimator       Y    Z    500          0.20          0.20  -0.00        0.05   0.05   0.98
+##                                                            (0.00)        (0.00) (0.00)      (0.00) (0.00) (0.01)
+##  Coverage
+##      0.94
+##    (0.01)
+##      0.95
+##    (0.01)
+##      0.95
+##    (0.01)
+##      0.95
+##    (0.01)
+##      0.96
+##    (0.01)</code></pre>
 </div>
 <div id="exercício" class="section level2 hasAnchor" number="4.8">
 <h2><span class="header-section-number">4.8</span> Exercício<a href="experimentos.html#exercício" class="anchor-section" aria-label="Anchor link to header"></a></h2>

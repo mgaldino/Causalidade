@@ -23,7 +23,7 @@
 <meta name="author" content="Manoel Galdino" />
 
 
-<meta name="date" content="2025-05-21" />
+<meta name="date" content="2025-06-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -347,9 +347,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="10" data-path="synthetic-control.html"><a href="synthetic-control.html"><i class="fa fa-check"></i><b>10</b> Synthetic Control</a>
 <ul>
+<li class="chapter" data-level="10.0.1" data-path="synthetic-control.html"><a href="synthetic-control.html#tratamento"><i class="fa fa-check"></i><b>10.0.1</b> Tratamento</a></li>
 <li class="chapter" data-level="10.1" data-path="synthetic-control.html"><a href="synthetic-control.html#implementação-no-r"><i class="fa fa-check"></i><b>10.1</b> Implementação no R</a></li>
+<li class="chapter" data-level="10.2" data-path="synthetic-control.html"><a href="synthetic-control.html#synthethic-did"><i class="fa fa-check"></i><b>10.2</b> Synthethic DiD</a></li>
+<li class="chapter" data-level="10.3" data-path="synthetic-control.html"><a href="synthetic-control.html#referências-7"><i class="fa fa-check"></i><b>10.3</b> Referências</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="llms-e-outras.html"><a href="llms-e-outras.html"><i class="fa fa-check"></i><b>11</b> LLMs e outras</a></li>
+<li class="chapter" data-level="11" data-path="llms-e-outras.html"><a href="llms-e-outras.html"><i class="fa fa-check"></i><b>11</b> LLMs e outras</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="llms-e-outras.html"><a href="llms-e-outras.html#google-colab"><i class="fa fa-check"></i><b>11.1</b> Google Colab</a></li>
+</ul></li>
 <li class="chapter" data-level="12" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html"><i class="fa fa-check"></i><b>12</b> Interferência, spillover e dinâmica</a>
 <ul>
 <li class="chapter" data-level="12.1" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#suposições-simplifcadoras"><i class="fa fa-check"></i><b>12.1</b> Suposições simplifcadoras</a></li>
@@ -731,62 +737,17 @@ Isso é na verdade um resultado: é possível mostrar que supor este modelo impl
 <div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="diferença-em-diferenças.html#cb121-1" tabindex="-1"></a>did_alt <span class="ot">&lt;-</span> <span class="fu">feols</span>(concluida <span class="sc">~</span> post_treat<span class="sc">|</span> municipio <span class="sc">+</span> periodo,</span>
 <span id="cb121-2"><a href="diferença-em-diferenças.html#cb121-2" tabindex="-1"></a>                              <span class="at">cluster =</span> <span class="st">&quot;municipio&quot;</span>,</span>
 <span id="cb121-3"><a href="diferença-em-diferenças.html#cb121-3" tabindex="-1"></a>                              <span class="at">data =</span> data_ot_reg)</span>
-<span id="cb121-4"><a href="diferença-em-diferenças.html#cb121-4" tabindex="-1"></a><span class="fu">etable</span>(did_alt) <span class="sc">%&gt;%</span></span>
-<span id="cb121-5"><a href="diferença-em-diferenças.html#cb121-5" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div>
-<table>
-<thead>
-<tr class="header">
-<th align="left"></th>
-<th align="left">did_alt</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Dependent Var.:</td>
-<td align="left">concluida</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-<tr class="odd">
-<td align="left">post_treat</td>
-<td align="left">0.1540** (0.0592)</td>
-</tr>
-<tr class="even">
-<td align="left">Fixed-Effects:</td>
-<td align="left">—————–</td>
-</tr>
-<tr class="odd">
-<td align="left">municipio</td>
-<td align="left">Yes</td>
-</tr>
-<tr class="even">
-<td align="left">periodo</td>
-<td align="left">Yes</td>
-</tr>
-<tr class="odd">
-<td align="left">_______________</td>
-<td align="left">_________________</td>
-</tr>
-<tr class="even">
-<td align="left">S.E.: Clustered</td>
-<td align="left">by: municipio</td>
-</tr>
-<tr class="odd">
-<td align="left">Observations</td>
-<td align="left">9,020</td>
-</tr>
-<tr class="even">
-<td align="left">R2</td>
-<td align="left">0.51653</td>
-</tr>
-<tr class="odd">
-<td align="left">Within R2</td>
-<td align="left">0.00243</td>
-</tr>
-</tbody>
-</table>
+<span id="cb121-4"><a href="diferença-em-diferenças.html#cb121-4" tabindex="-1"></a><span class="fu">summary</span>(did_alt)</span></code></pre></div>
+<pre><code>## OLS estimation, Dep. Var.: concluida
+## Observations: 9,020
+## Fixed-effects: municipio: 2,020,  periodo: 2
+## Standard-errors: Clustered (municipio) 
+##            Estimate Std. Error t value  Pr(&gt;|t|)    
+## post_treat  0.15401   0.059179 2.60247 0.0093232 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## RMSE: 0.338161     Adj. R2: 0.376909
+##                  Within R2: 0.002425</code></pre>
 </div>
 <div id="múltiplos-períodos" class="section level2 hasAnchor" number="8.5">
 <h2><span class="header-section-number">8.5</span> Múltiplos períodos<a href="diferença-em-diferenças.html#múltiplos-períodos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -812,46 +773,46 @@ Demonstrar equivalência é demonstrar que um implica o outro. Vamos começar mo
 <p>Supondo que TWFE é verdade, então <span class="math inline">\(\mathbb{E}[[Y_{i,t}(0) − Y_{g,t−1}(0)] = \alpha_i + \lambda_t - (\alpha_i + \lambda_{t-1}) = \lambda_t - \lambda_{t-1})\)</span>, para todo <span class="math inline">\(g\)</span>. Como a diferença no tempo <span class="math inline">\(\lambda_t - \lambda_{t-1})\)</span> não depende de <span class="math inline">\(g\)</span>, então a PT é satisfeita.</p>
 <p>Vamos agora mostrar a otra implicação. Sem perda de generalidade, defina <span class="math inline">\(\lambda_1 = 0\)</span>, isto é, o efeito do período 1 é 0. Poderia ser qualquer outro valor, mas zero vai facilitar. E vamos definir <span class="math inline">\(\alpha_g = \mathbb{E}[Y_{g,1}0]\)</span>, ou seja,</p>
 <p>Se as tendências não forem exatamente paralelas, Rambachan e Roth (2023) desenvolveram uma forma de impor restrições sobre quão diferentes as tendências podem não ser paralelas pós-tratamento em comparação com o período pré-tratamento. O pacote no R honestDiD permite implementar isso. Assim conseguimos obter identificação parcial (intervalo para as estimativas), em vez de estimação pontual. O parâmetro M controla quanto o desvio é maior em relação ao observado no pré-teste. Se M é igual a 1, temos o mesmo desvio no máximo. Se M igual a 2, duas vezes maior e assim por diante.</p>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="diferença-em-diferenças.html#cb122-1" tabindex="-1"></a><span class="fu">library</span>(HonestDiD)</span>
-<span id="cb122-2"><a href="diferença-em-diferenças.html#cb122-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb122-3"><a href="diferença-em-diferenças.html#cb122-3" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb122-4"><a href="diferença-em-diferenças.html#cb122-4" tabindex="-1"></a><span class="fu">library</span>(fixest)</span>
-<span id="cb122-5"><a href="diferença-em-diferenças.html#cb122-5" tabindex="-1"></a></span>
-<span id="cb122-6"><a href="diferença-em-diferenças.html#cb122-6" tabindex="-1"></a><span class="co"># Install remotes package if not installed</span></span>
-<span id="cb122-7"><a href="diferença-em-diferenças.html#cb122-7" tabindex="-1"></a><span class="co">#install.packages(&quot;remotes&quot;)</span></span>
-<span id="cb122-8"><a href="diferença-em-diferenças.html#cb122-8" tabindex="-1"></a></span>
-<span id="cb122-9"><a href="diferença-em-diferenças.html#cb122-9" tabindex="-1"></a><span class="co"># Turn off warning-error-conversion, because the tiniest warning stops installation</span></span>
-<span id="cb122-10"><a href="diferença-em-diferenças.html#cb122-10" tabindex="-1"></a><span class="co">#Sys.setenv(&quot;R_REMOTES_NO_ERRORS_FROM_WARNINGS&quot; = &quot;true&quot;)</span></span>
-<span id="cb122-11"><a href="diferença-em-diferenças.html#cb122-11" tabindex="-1"></a></span>
-<span id="cb122-12"><a href="diferença-em-diferenças.html#cb122-12" tabindex="-1"></a><span class="co"># install from github</span></span>
-<span id="cb122-13"><a href="diferença-em-diferenças.html#cb122-13" tabindex="-1"></a><span class="co">#remotes::install_github(&quot;asheshrambachan/HonestDiD&quot;)</span></span>
-<span id="cb122-14"><a href="diferença-em-diferenças.html#cb122-14" tabindex="-1"></a></span>
-<span id="cb122-15"><a href="diferença-em-diferenças.html#cb122-15" tabindex="-1"></a></span>
-<span id="cb122-16"><a href="diferença-em-diferenças.html#cb122-16" tabindex="-1"></a><span class="co"># Run model</span></span>
-<span id="cb122-17"><a href="diferença-em-diferenças.html#cb122-17" tabindex="-1"></a><span class="co"># twfe_results &lt;- feols(rating ~ i(goodr, qa) | year_month + asin,</span></span>
-<span id="cb122-18"><a href="diferença-em-diferenças.html#cb122-18" tabindex="-1"></a><span class="co">#                 cluster = c(&quot;asin&quot;),</span></span>
-<span id="cb122-19"><a href="diferença-em-diferenças.html#cb122-19" tabindex="-1"></a><span class="co">#                 data = GoodAma)</span></span>
-<span id="cb122-20"><a href="diferença-em-diferenças.html#cb122-20" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb122-21"><a href="diferença-em-diferenças.html#cb122-21" tabindex="-1"></a><span class="co"># fixest::iplot(twfe_results)</span></span>
-<span id="cb122-22"><a href="diferença-em-diferenças.html#cb122-22" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb122-23"><a href="diferença-em-diferenças.html#cb122-23" tabindex="-1"></a><span class="co"># # Save coefficients</span></span>
-<span id="cb122-24"><a href="diferença-em-diferenças.html#cb122-24" tabindex="-1"></a><span class="co"># betahat &lt;- summary(model_4)$coefficients</span></span>
-<span id="cb122-25"><a href="diferença-em-diferenças.html#cb122-25" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb122-26"><a href="diferença-em-diferenças.html#cb122-26" tabindex="-1"></a><span class="co"># # Save the covariance matrix</span></span>
-<span id="cb122-27"><a href="diferença-em-diferenças.html#cb122-27" tabindex="-1"></a><span class="co"># sigma &lt;- summary(model_4)$cov.scaled</span></span>
-<span id="cb122-28"><a href="diferença-em-diferenças.html#cb122-28" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb122-29"><a href="diferença-em-diferenças.html#cb122-29" tabindex="-1"></a><span class="co"># ## Identificação Parcial</span></span>
-<span id="cb122-30"><a href="diferença-em-diferenças.html#cb122-30" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb122-31"><a href="diferença-em-diferenças.html#cb122-31" tabindex="-1"></a><span class="co"># delta_rm_results &lt;- createSensitivityResults_relativeMagnitudes(</span></span>
-<span id="cb122-32"><a href="diferença-em-diferenças.html#cb122-32" tabindex="-1"></a><span class="co">#     betahat = betahat, #coefficients</span></span>
-<span id="cb122-33"><a href="diferença-em-diferenças.html#cb122-33" tabindex="-1"></a><span class="co">#     sigma = sigma, #covariance matrix</span></span>
-<span id="cb122-34"><a href="diferença-em-diferenças.html#cb122-34" tabindex="-1"></a><span class="co">#     numPrePeriods = 1, #num. of pre-treatment coefs</span></span>
-<span id="cb122-35"><a href="diferença-em-diferenças.html#cb122-35" tabindex="-1"></a><span class="co">#     numPostPeriods = 1, #num. of post-treatment coefs</span></span>
-<span id="cb122-36"><a href="diferença-em-diferenças.html#cb122-36" tabindex="-1"></a><span class="co">#     Mbarvec = seq(0.5,2,by=0.5) #values of Mbar</span></span>
-<span id="cb122-37"><a href="diferença-em-diferenças.html#cb122-37" tabindex="-1"></a><span class="co">#   )</span></span>
-<span id="cb122-38"><a href="diferença-em-diferenças.html#cb122-38" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb122-39"><a href="diferença-em-diferenças.html#cb122-39" tabindex="-1"></a><span class="co"># delta_rm_results %&gt;%</span></span>
-<span id="cb122-40"><a href="diferença-em-diferenças.html#cb122-40" tabindex="-1"></a><span class="co">#   kable()</span></span></code></pre></div>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="diferença-em-diferenças.html#cb123-1" tabindex="-1"></a><span class="fu">library</span>(HonestDiD)</span>
+<span id="cb123-2"><a href="diferença-em-diferenças.html#cb123-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb123-3"><a href="diferença-em-diferenças.html#cb123-3" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb123-4"><a href="diferença-em-diferenças.html#cb123-4" tabindex="-1"></a><span class="fu">library</span>(fixest)</span>
+<span id="cb123-5"><a href="diferença-em-diferenças.html#cb123-5" tabindex="-1"></a></span>
+<span id="cb123-6"><a href="diferença-em-diferenças.html#cb123-6" tabindex="-1"></a><span class="co"># Install remotes package if not installed</span></span>
+<span id="cb123-7"><a href="diferença-em-diferenças.html#cb123-7" tabindex="-1"></a><span class="co">#install.packages(&quot;remotes&quot;)</span></span>
+<span id="cb123-8"><a href="diferença-em-diferenças.html#cb123-8" tabindex="-1"></a></span>
+<span id="cb123-9"><a href="diferença-em-diferenças.html#cb123-9" tabindex="-1"></a><span class="co"># Turn off warning-error-conversion, because the tiniest warning stops installation</span></span>
+<span id="cb123-10"><a href="diferença-em-diferenças.html#cb123-10" tabindex="-1"></a><span class="co">#Sys.setenv(&quot;R_REMOTES_NO_ERRORS_FROM_WARNINGS&quot; = &quot;true&quot;)</span></span>
+<span id="cb123-11"><a href="diferença-em-diferenças.html#cb123-11" tabindex="-1"></a></span>
+<span id="cb123-12"><a href="diferença-em-diferenças.html#cb123-12" tabindex="-1"></a><span class="co"># install from github</span></span>
+<span id="cb123-13"><a href="diferença-em-diferenças.html#cb123-13" tabindex="-1"></a><span class="co">#remotes::install_github(&quot;asheshrambachan/HonestDiD&quot;)</span></span>
+<span id="cb123-14"><a href="diferença-em-diferenças.html#cb123-14" tabindex="-1"></a></span>
+<span id="cb123-15"><a href="diferença-em-diferenças.html#cb123-15" tabindex="-1"></a></span>
+<span id="cb123-16"><a href="diferença-em-diferenças.html#cb123-16" tabindex="-1"></a><span class="co"># Run model</span></span>
+<span id="cb123-17"><a href="diferença-em-diferenças.html#cb123-17" tabindex="-1"></a><span class="co"># twfe_results &lt;- feols(rating ~ i(goodr, qa) | year_month + asin,</span></span>
+<span id="cb123-18"><a href="diferença-em-diferenças.html#cb123-18" tabindex="-1"></a><span class="co">#                 cluster = c(&quot;asin&quot;),</span></span>
+<span id="cb123-19"><a href="diferença-em-diferenças.html#cb123-19" tabindex="-1"></a><span class="co">#                 data = GoodAma)</span></span>
+<span id="cb123-20"><a href="diferença-em-diferenças.html#cb123-20" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb123-21"><a href="diferença-em-diferenças.html#cb123-21" tabindex="-1"></a><span class="co"># fixest::iplot(twfe_results)</span></span>
+<span id="cb123-22"><a href="diferença-em-diferenças.html#cb123-22" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb123-23"><a href="diferença-em-diferenças.html#cb123-23" tabindex="-1"></a><span class="co"># # Save coefficients</span></span>
+<span id="cb123-24"><a href="diferença-em-diferenças.html#cb123-24" tabindex="-1"></a><span class="co"># betahat &lt;- summary(model_4)$coefficients</span></span>
+<span id="cb123-25"><a href="diferença-em-diferenças.html#cb123-25" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb123-26"><a href="diferença-em-diferenças.html#cb123-26" tabindex="-1"></a><span class="co"># # Save the covariance matrix</span></span>
+<span id="cb123-27"><a href="diferença-em-diferenças.html#cb123-27" tabindex="-1"></a><span class="co"># sigma &lt;- summary(model_4)$cov.scaled</span></span>
+<span id="cb123-28"><a href="diferença-em-diferenças.html#cb123-28" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb123-29"><a href="diferença-em-diferenças.html#cb123-29" tabindex="-1"></a><span class="co"># ## Identificação Parcial</span></span>
+<span id="cb123-30"><a href="diferença-em-diferenças.html#cb123-30" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb123-31"><a href="diferença-em-diferenças.html#cb123-31" tabindex="-1"></a><span class="co"># delta_rm_results &lt;- createSensitivityResults_relativeMagnitudes(</span></span>
+<span id="cb123-32"><a href="diferença-em-diferenças.html#cb123-32" tabindex="-1"></a><span class="co">#     betahat = betahat, #coefficients</span></span>
+<span id="cb123-33"><a href="diferença-em-diferenças.html#cb123-33" tabindex="-1"></a><span class="co">#     sigma = sigma, #covariance matrix</span></span>
+<span id="cb123-34"><a href="diferença-em-diferenças.html#cb123-34" tabindex="-1"></a><span class="co">#     numPrePeriods = 1, #num. of pre-treatment coefs</span></span>
+<span id="cb123-35"><a href="diferença-em-diferenças.html#cb123-35" tabindex="-1"></a><span class="co">#     numPostPeriods = 1, #num. of post-treatment coefs</span></span>
+<span id="cb123-36"><a href="diferença-em-diferenças.html#cb123-36" tabindex="-1"></a><span class="co">#     Mbarvec = seq(0.5,2,by=0.5) #values of Mbar</span></span>
+<span id="cb123-37"><a href="diferença-em-diferenças.html#cb123-37" tabindex="-1"></a><span class="co">#   )</span></span>
+<span id="cb123-38"><a href="diferença-em-diferenças.html#cb123-38" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb123-39"><a href="diferença-em-diferenças.html#cb123-39" tabindex="-1"></a><span class="co"># delta_rm_results %&gt;%</span></span>
+<span id="cb123-40"><a href="diferença-em-diferenças.html#cb123-40" tabindex="-1"></a><span class="co">#   kable()</span></span></code></pre></div>
 </div>
 <div id="múltiplos-períodos-pós-tratamento" class="section level2 hasAnchor" number="8.7">
 <h2><span class="header-section-number">8.7</span> Múltiplos períodos pós-tratamento<a href="diferença-em-diferenças.html#múltiplos-períodos-pós-tratamento" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -900,76 +861,22 @@ Essa regressão estima <span class="math inline">\(\hat{\tau} = \sum w_{gt}\tau_
 <h2><span class="header-section-number">8.9</span> DiD generalizado<a href="diferença-em-diferenças.html#did-generalizado" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Nós permitimos que cada unidade, por exemplo, tenha sua própria tendência. Ou que o resultado potencial do controle (não-tratado) dependa de covariáveis que variam no tempo, ou seja, a tendência paralela é condicional às covariáveis.
 A única coisa não permitida é interação entre efeitos fixos de unidade e tempo.</p>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="diferença-em-diferenças.html#cb123-1" tabindex="-1"></a>did_din <span class="ot">=</span> <span class="fu">feols</span>(concluida <span class="sc">~</span> <span class="fu">i</span>(periodo, group_treated, <span class="at">ref=</span><span class="dv">3</span>) <span class="sc">|</span> id <span class="sc">+</span> periodo, data_ot)</span>
-<span id="cb123-2"><a href="diferença-em-diferenças.html#cb123-2" tabindex="-1"></a></span>
-<span id="cb123-3"><a href="diferença-em-diferenças.html#cb123-3" tabindex="-1"></a><span class="fu">etable</span>(did_din) <span class="sc">%&gt;%</span></span>
-<span id="cb123-4"><a href="diferença-em-diferenças.html#cb123-4" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div>
-<table>
-<thead>
-<tr class="header">
-<th align="left"></th>
-<th align="left">did_din</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Dependent Var.:</td>
-<td align="left">concluida</td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-<tr class="odd">
-<td align="left">group_treated x periodo = 1</td>
-<td align="left">-0.0098 (0.0281)</td>
-</tr>
-<tr class="even">
-<td align="left">group_treated x periodo = 2</td>
-<td align="left">-0.0040 (0.0182)</td>
-</tr>
-<tr class="odd">
-<td align="left">group_treated x periodo = 4</td>
-<td align="left">0.0222 (0.0154)</td>
-</tr>
-<tr class="even">
-<td align="left">group_treated x periodo = 5</td>
-<td align="left">0.1437*** (0.0338)</td>
-</tr>
-<tr class="odd">
-<td align="left">Fixed-Effects:</td>
-<td align="left">——————</td>
-</tr>
-<tr class="even">
-<td align="left">id</td>
-<td align="left">Yes</td>
-</tr>
-<tr class="odd">
-<td align="left">periodo</td>
-<td align="left">Yes</td>
-</tr>
-<tr class="even">
-<td align="left">___________________________</td>
-<td align="left">__________________</td>
-</tr>
-<tr class="odd">
-<td align="left">S.E.: Clustered</td>
-<td align="left">by: id</td>
-</tr>
-<tr class="even">
-<td align="left">Observations</td>
-<td align="left">22,609</td>
-</tr>
-<tr class="odd">
-<td align="left">R2</td>
-<td align="left">0.74858</td>
-</tr>
-<tr class="even">
-<td align="left">Within R2</td>
-<td align="left">0.00254</td>
-</tr>
-</tbody>
-</table>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="diferença-em-diferenças.html#cb124-1" tabindex="-1"></a>did_din <span class="ot">=</span> <span class="fu">feols</span>(concluida <span class="sc">~</span> <span class="fu">i</span>(periodo, group_treated, <span class="at">ref=</span><span class="dv">3</span>) <span class="sc">|</span> id <span class="sc">+</span> periodo, data_ot)</span>
+<span id="cb124-2"><a href="diferença-em-diferenças.html#cb124-2" tabindex="-1"></a></span>
+<span id="cb124-3"><a href="diferença-em-diferenças.html#cb124-3" tabindex="-1"></a><span class="fu">summary</span>(did_din)</span></code></pre></div>
+<pre><code>## OLS estimation, Dep. Var.: concluida
+## Observations: 22,609
+## Fixed-effects: id: 4,530,  periodo: 5
+## Standard-errors: Clustered (id) 
+##                           Estimate Std. Error   t value   Pr(&gt;|t|)    
+## periodo::1:group_treated -0.009828   0.028085 -0.349923 7.2641e-01    
+## periodo::2:group_treated -0.004025   0.018226 -0.220847 8.2522e-01    
+## periodo::4:group_treated  0.022207   0.015355  1.446207 1.4819e-01    
+## periodo::5:group_treated  0.143744   0.033830  4.249033 2.1901e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## RMSE: 0.247446     Adj. R2: 0.685451
+##                  Within R2: 0.002541</code></pre>
 </div>
 <div id="did-com-adoção-escalonada-staggered-timing" class="section level2 hasAnchor" number="8.10">
 <h2><span class="header-section-number">8.10</span> DID com adoção escalonada (staggered timing)<a href="diferença-em-diferenças.html#did-com-adoção-escalonada-staggered-timing" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -981,82 +888,75 @@ A única coisa não permitida é interação entre efeitos fixos de unidade e te
 </div>
 <div id="paper-voter-gratitude-last-long" class="section level2 hasAnchor" number="8.11">
 <h2><span class="header-section-number">8.11</span> Paper Voter Gratitude Last Long?<a href="diferença-em-diferenças.html#paper-voter-gratitude-last-long" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="diferença-em-diferenças.html#cb124-1" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
-<span id="cb124-2"><a href="diferença-em-diferenças.html#cb124-2" tabindex="-1"></a>elbe1994_98 <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="fu">here</span>(<span class="st">&quot;Dados&quot;</span>, <span class="st">&quot;Elbe&quot;</span>, <span class="st">&quot;1994_1998.dta&quot;</span>)) </span>
-<span id="cb124-3"><a href="diferença-em-diferenças.html#cb124-3" tabindex="-1"></a></span>
-<span id="cb124-4"><a href="diferença-em-diferenças.html#cb124-4" tabindex="-1"></a>elbe0 <span class="ot">&lt;-</span> elbe1994_98 <span class="sc">%&gt;%</span></span>
-<span id="cb124-5"><a href="diferença-em-diferenças.html#cb124-5" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(wkr, wkrname, year, spd_z_vs, Flooded)</span>
-<span id="cb124-6"><a href="diferença-em-diferenças.html#cb124-6" tabindex="-1"></a></span>
-<span id="cb124-7"><a href="diferença-em-diferenças.html#cb124-7" tabindex="-1"></a>elbe1998_02 <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,  <span class="st">&quot;Elbe&quot;</span>, <span class="st">&quot;1998_2002.dta&quot;</span>))</span>
-<span id="cb124-8"><a href="diferença-em-diferenças.html#cb124-8" tabindex="-1"></a></span>
-<span id="cb124-9"><a href="diferença-em-diferenças.html#cb124-9" tabindex="-1"></a>elbe1 <span class="ot">&lt;-</span> elbe1998_02 <span class="sc">%&gt;%</span></span>
-<span id="cb124-10"><a href="diferença-em-diferenças.html#cb124-10" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(wkr, wkrname, year, spd_z_vs, Flooded) <span class="sc">%&gt;%</span></span>
-<span id="cb124-11"><a href="diferença-em-diferenças.html#cb124-11" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2002</span>) </span>
-<span id="cb124-12"><a href="diferença-em-diferenças.html#cb124-12" tabindex="-1"></a></span>
-<span id="cb124-13"><a href="diferença-em-diferenças.html#cb124-13" tabindex="-1"></a></span>
-<span id="cb124-14"><a href="diferença-em-diferenças.html#cb124-14" tabindex="-1"></a>elbe1998_05 <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,  <span class="st">&quot;Elbe&quot;</span>, <span class="st">&quot;1998_2005.dta&quot;</span>))</span>
-<span id="cb124-15"><a href="diferença-em-diferenças.html#cb124-15" tabindex="-1"></a></span>
-<span id="cb124-16"><a href="diferença-em-diferenças.html#cb124-16" tabindex="-1"></a>elbe2 <span class="ot">&lt;-</span> elbe1998_05 <span class="sc">%&gt;%</span></span>
-<span id="cb124-17"><a href="diferença-em-diferenças.html#cb124-17" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2005</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb124-18"><a href="diferença-em-diferenças.html#cb124-18" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(wkr, wkrname, year, spd_z_vs, Flooded)</span>
-<span id="cb124-19"><a href="diferença-em-diferenças.html#cb124-19" tabindex="-1"></a></span>
-<span id="cb124-20"><a href="diferença-em-diferenças.html#cb124-20" tabindex="-1"></a>elbe <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(elbe0, elbe1, elbe2)</span></code></pre></div>
-<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="diferença-em-diferenças.html#cb125-1" tabindex="-1"></a>did_short <span class="ot">&lt;-</span> <span class="fu">feols</span>(spd_z_vs <span class="sc">~</span> Flooded<span class="sc">|</span> wkr <span class="sc">+</span> year,</span>
-<span id="cb125-2"><a href="diferença-em-diferenças.html#cb125-2" tabindex="-1"></a>                 <span class="at">cluster =</span> <span class="st">&quot;wkr&quot;</span>,</span>
-<span id="cb125-3"><a href="diferença-em-diferenças.html#cb125-3" tabindex="-1"></a>                 <span class="at">data =</span> elbe1998_02)</span>
-<span id="cb125-4"><a href="diferença-em-diferenças.html#cb125-4" tabindex="-1"></a><span class="fu">etable</span>(did_short)</span></code></pre></div>
-<pre><code>##                         did_short
-## Dependent Var.:          spd_z_vs
-##                                  
-## Flooded         7.144*** (0.4682)
-## Fixed-Effects:  -----------------
-## wkr                           Yes
-## year                          Yes
-## _______________ _________________
-## S.E.: Clustered           by: wkr
-## Observations                  598
-## R2                        0.95275
-## Within R2                 0.25515
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="diferença-em-diferenças.html#cb126-1" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb126-2"><a href="diferença-em-diferenças.html#cb126-2" tabindex="-1"></a>elbe1994_98 <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="fu">here</span>(<span class="st">&quot;Dados&quot;</span>, <span class="st">&quot;Elbe&quot;</span>, <span class="st">&quot;1994_1998.dta&quot;</span>)) </span>
+<span id="cb126-3"><a href="diferença-em-diferenças.html#cb126-3" tabindex="-1"></a></span>
+<span id="cb126-4"><a href="diferença-em-diferenças.html#cb126-4" tabindex="-1"></a>elbe0 <span class="ot">&lt;-</span> elbe1994_98 <span class="sc">%&gt;%</span></span>
+<span id="cb126-5"><a href="diferença-em-diferenças.html#cb126-5" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(wkr, wkrname, year, spd_z_vs, Flooded)</span>
+<span id="cb126-6"><a href="diferença-em-diferenças.html#cb126-6" tabindex="-1"></a></span>
+<span id="cb126-7"><a href="diferença-em-diferenças.html#cb126-7" tabindex="-1"></a>elbe1998_02 <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,  <span class="st">&quot;Elbe&quot;</span>, <span class="st">&quot;1998_2002.dta&quot;</span>))</span>
+<span id="cb126-8"><a href="diferença-em-diferenças.html#cb126-8" tabindex="-1"></a></span>
+<span id="cb126-9"><a href="diferença-em-diferenças.html#cb126-9" tabindex="-1"></a>elbe1 <span class="ot">&lt;-</span> elbe1998_02 <span class="sc">%&gt;%</span></span>
+<span id="cb126-10"><a href="diferença-em-diferenças.html#cb126-10" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(wkr, wkrname, year, spd_z_vs, Flooded) <span class="sc">%&gt;%</span></span>
+<span id="cb126-11"><a href="diferença-em-diferenças.html#cb126-11" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2002</span>) </span>
+<span id="cb126-12"><a href="diferença-em-diferenças.html#cb126-12" tabindex="-1"></a></span>
+<span id="cb126-13"><a href="diferença-em-diferenças.html#cb126-13" tabindex="-1"></a></span>
+<span id="cb126-14"><a href="diferença-em-diferenças.html#cb126-14" tabindex="-1"></a>elbe1998_05 <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,  <span class="st">&quot;Elbe&quot;</span>, <span class="st">&quot;1998_2005.dta&quot;</span>))</span>
+<span id="cb126-15"><a href="diferença-em-diferenças.html#cb126-15" tabindex="-1"></a></span>
+<span id="cb126-16"><a href="diferença-em-diferenças.html#cb126-16" tabindex="-1"></a>elbe2 <span class="ot">&lt;-</span> elbe1998_05 <span class="sc">%&gt;%</span></span>
+<span id="cb126-17"><a href="diferença-em-diferenças.html#cb126-17" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2005</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb126-18"><a href="diferença-em-diferenças.html#cb126-18" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(wkr, wkrname, year, spd_z_vs, Flooded)</span>
+<span id="cb126-19"><a href="diferença-em-diferenças.html#cb126-19" tabindex="-1"></a></span>
+<span id="cb126-20"><a href="diferença-em-diferenças.html#cb126-20" tabindex="-1"></a>elbe <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(elbe0, elbe1, elbe2)</span></code></pre></div>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="diferença-em-diferenças.html#cb127-1" tabindex="-1"></a>did_short <span class="ot">&lt;-</span> <span class="fu">feols</span>(spd_z_vs <span class="sc">~</span> Flooded<span class="sc">|</span> wkr <span class="sc">+</span> year,</span>
+<span id="cb127-2"><a href="diferença-em-diferenças.html#cb127-2" tabindex="-1"></a>                 <span class="at">cluster =</span> <span class="st">&quot;wkr&quot;</span>,</span>
+<span id="cb127-3"><a href="diferença-em-diferenças.html#cb127-3" tabindex="-1"></a>                 <span class="at">data =</span> elbe1998_02)</span>
+<span id="cb127-4"><a href="diferença-em-diferenças.html#cb127-4" tabindex="-1"></a><span class="fu">summary</span>(did_short)</span></code></pre></div>
+<pre><code>## OLS estimation, Dep. Var.: spd_z_vs
+## Observations: 598
+## Fixed-effects: wkr: 299,  year: 2
+## Standard-errors: Clustered (wkr) 
+##         Estimate Std. Error t value  Pr(&gt;|t|)    
+## Flooded  7.14401   0.468184  15.259 &lt; 2.2e-16 ***
 ## ---
-## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="diferença-em-diferenças.html#cb127-1" tabindex="-1"></a>did_din <span class="ot">=</span> <span class="fu">feols</span>(spd_z_vs <span class="sc">~</span> <span class="fu">i</span>(year, Flooded, <span class="at">ref=</span><span class="dv">1998</span>) <span class="sc">|</span> wkr <span class="sc">+</span> year, elbe)</span>
-<span id="cb127-2"><a href="diferença-em-diferenças.html#cb127-2" tabindex="-1"></a><span class="fu">etable</span>(did_din)</span></code></pre></div>
-<pre><code>##                                 did_din
-## Dependent Var.:                spd_z_vs
-##                                        
-## Flooded x year = 2002    0.4586 (1.524)
-## Flooded x year = 2005 -4.807*** (1.344)
-## Fixed-Effects:        -----------------
-## wkr                                 Yes
-## year                                Yes
-## _____________________ _________________
-## S.E.: Clustered                 by: wkr
-## Observations                      1,254
-## R2                              0.69987
-## Within R2                       0.01711
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## RMSE: 1.80615     Adj. R2: 0.905029
+##                 Within R2: 0.255154</code></pre>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="diferença-em-diferenças.html#cb129-1" tabindex="-1"></a>did_din <span class="ot">=</span> <span class="fu">feols</span>(spd_z_vs <span class="sc">~</span> <span class="fu">i</span>(year, Flooded, <span class="at">ref=</span><span class="dv">1998</span>) <span class="sc">|</span> wkr <span class="sc">+</span> year, elbe)</span>
+<span id="cb129-2"><a href="diferença-em-diferenças.html#cb129-2" tabindex="-1"></a><span class="fu">summary</span>(did_din)</span></code></pre></div>
+<pre><code>## OLS estimation, Dep. Var.: spd_z_vs
+## Observations: 1,254
+## Fixed-effects: wkr: 328,  year: 4
+## Standard-errors: Clustered (wkr) 
+##                     Estimate Std. Error   t value  Pr(&gt;|t|)    
+## year::2002:Flooded  0.458643    1.52364  0.301018 0.7635917    
+## year::2005:Flooded -4.806790    1.34447 -3.575220 0.0004027 ***
+## ... 1 variable was removed because of collinearity (year::1994:Flooded)
 ## ---
-## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="diferença-em-diferenças.html#cb129-1" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="at">RGL_USE_NULL =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb129-2"><a href="diferença-em-diferenças.html#cb129-2" tabindex="-1"></a><span class="fu">library</span>(DIDmultiplegtDYN)</span>
-<span id="cb129-3"><a href="diferença-em-diferenças.html#cb129-3" tabindex="-1"></a></span>
-<span id="cb129-4"><a href="diferença-em-diferenças.html#cb129-4" tabindex="-1"></a>elbe_het <span class="ot">&lt;-</span> elbe <span class="sc">%&gt;%</span></span>
-<span id="cb129-5"><a href="diferença-em-diferenças.html#cb129-5" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">Y =</span> spd_z_vs,</span>
-<span id="cb129-6"><a href="diferença-em-diferenças.html#cb129-6" tabindex="-1"></a>         <span class="at">G =</span> wkr,</span>
-<span id="cb129-7"><a href="diferença-em-diferenças.html#cb129-7" tabindex="-1"></a>         <span class="at">D =</span> Flooded,</span>
-<span id="cb129-8"><a href="diferença-em-diferenças.html#cb129-8" tabindex="-1"></a>         <span class="at">T =</span> year)</span>
-<span id="cb129-9"><a href="diferença-em-diferenças.html#cb129-9" tabindex="-1"></a></span>
-<span id="cb129-10"><a href="diferença-em-diferenças.html#cb129-10" tabindex="-1"></a>did_het <span class="ot">&lt;-</span> <span class="fu">did_multiplegt_dyn</span>(</span>
-<span id="cb129-11"><a href="diferença-em-diferenças.html#cb129-11" tabindex="-1"></a>    <span class="at">df =</span> elbe,</span>
-<span id="cb129-12"><a href="diferença-em-diferenças.html#cb129-12" tabindex="-1"></a>    <span class="at">outcome =</span> <span class="st">&quot;spd_z_vs&quot;</span>,</span>
-<span id="cb129-13"><a href="diferença-em-diferenças.html#cb129-13" tabindex="-1"></a>    <span class="at">group =</span> <span class="st">&quot;wkr&quot;</span>,</span>
-<span id="cb129-14"><a href="diferença-em-diferenças.html#cb129-14" tabindex="-1"></a>    <span class="at">time =</span> <span class="st">&quot;year&quot;</span>,</span>
-<span id="cb129-15"><a href="diferença-em-diferenças.html#cb129-15" tabindex="-1"></a>    <span class="at">treatment =</span> <span class="st">&quot;Flooded&quot;</span>,</span>
-<span id="cb129-16"><a href="diferença-em-diferenças.html#cb129-16" tabindex="-1"></a>    <span class="at">effects =</span> <span class="dv">2</span>,</span>
-<span id="cb129-17"><a href="diferença-em-diferenças.html#cb129-17" tabindex="-1"></a>    <span class="at">placebo =</span> <span class="dv">2</span>,</span>
-<span id="cb129-18"><a href="diferença-em-diferenças.html#cb129-18" tabindex="-1"></a>    <span class="at">cluster =</span> <span class="st">&quot;wkr&quot;</span></span>
-<span id="cb129-19"><a href="diferença-em-diferenças.html#cb129-19" tabindex="-1"></a>)</span></code></pre></div>
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## RMSE: 4.71647     Adj. R2: 0.591674
+##                 Within R2: 0.017113</code></pre>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="diferença-em-diferenças.html#cb131-1" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="at">RGL_USE_NULL =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb131-2"><a href="diferença-em-diferenças.html#cb131-2" tabindex="-1"></a><span class="fu">library</span>(DIDmultiplegtDYN)</span>
+<span id="cb131-3"><a href="diferença-em-diferenças.html#cb131-3" tabindex="-1"></a></span>
+<span id="cb131-4"><a href="diferença-em-diferenças.html#cb131-4" tabindex="-1"></a>elbe_het <span class="ot">&lt;-</span> elbe <span class="sc">%&gt;%</span></span>
+<span id="cb131-5"><a href="diferença-em-diferenças.html#cb131-5" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">Y =</span> spd_z_vs,</span>
+<span id="cb131-6"><a href="diferença-em-diferenças.html#cb131-6" tabindex="-1"></a>         <span class="at">G =</span> wkr,</span>
+<span id="cb131-7"><a href="diferença-em-diferenças.html#cb131-7" tabindex="-1"></a>         <span class="at">D =</span> Flooded,</span>
+<span id="cb131-8"><a href="diferença-em-diferenças.html#cb131-8" tabindex="-1"></a>         <span class="at">T =</span> year)</span>
+<span id="cb131-9"><a href="diferença-em-diferenças.html#cb131-9" tabindex="-1"></a></span>
+<span id="cb131-10"><a href="diferença-em-diferenças.html#cb131-10" tabindex="-1"></a>did_het <span class="ot">&lt;-</span> <span class="fu">did_multiplegt_dyn</span>(</span>
+<span id="cb131-11"><a href="diferença-em-diferenças.html#cb131-11" tabindex="-1"></a>    <span class="at">df =</span> elbe,</span>
+<span id="cb131-12"><a href="diferença-em-diferenças.html#cb131-12" tabindex="-1"></a>    <span class="at">outcome =</span> <span class="st">&quot;spd_z_vs&quot;</span>,</span>
+<span id="cb131-13"><a href="diferença-em-diferenças.html#cb131-13" tabindex="-1"></a>    <span class="at">group =</span> <span class="st">&quot;wkr&quot;</span>,</span>
+<span id="cb131-14"><a href="diferença-em-diferenças.html#cb131-14" tabindex="-1"></a>    <span class="at">time =</span> <span class="st">&quot;year&quot;</span>,</span>
+<span id="cb131-15"><a href="diferença-em-diferenças.html#cb131-15" tabindex="-1"></a>    <span class="at">treatment =</span> <span class="st">&quot;Flooded&quot;</span>,</span>
+<span id="cb131-16"><a href="diferença-em-diferenças.html#cb131-16" tabindex="-1"></a>    <span class="at">effects =</span> <span class="dv">2</span>,</span>
+<span id="cb131-17"><a href="diferença-em-diferenças.html#cb131-17" tabindex="-1"></a>    <span class="at">placebo =</span> <span class="dv">2</span>,</span>
+<span id="cb131-18"><a href="diferença-em-diferenças.html#cb131-18" tabindex="-1"></a>    <span class="at">cluster =</span> <span class="st">&quot;wkr&quot;</span></span>
+<span id="cb131-19"><a href="diferença-em-diferenças.html#cb131-19" tabindex="-1"></a>)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/elbe-did-het-1.png" width="672" /></p>
-<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="diferença-em-diferenças.html#cb130-1" tabindex="-1"></a><span class="fu">summary</span>(did_het)</span></code></pre></div>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="diferença-em-diferenças.html#cb132-1" tabindex="-1"></a><span class="fu">summary</span>(did_het)</span></code></pre></div>
 <pre><code>## 
 ## ----------------------------------------------------------------------
 ##        Estimation of treatment effects: Event-study effects
@@ -1084,41 +984,34 @@ A única coisa não permitida é interação entre efeitos fixos de unidade e te
 ## 
 ## The development of this package was funded by the European Union.
 ## ERC REALLYCREDIBLE - GA N. 101043899</code></pre>
-<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="diferença-em-diferenças.html#cb132-1" tabindex="-1"></a>did_short <span class="ot">&lt;-</span> <span class="fu">feols</span>(spd_z_vs <span class="sc">~</span> Flooded<span class="sc">|</span> wkr <span class="sc">+</span> year,</span>
-<span id="cb132-2"><a href="diferença-em-diferenças.html#cb132-2" tabindex="-1"></a>                 <span class="at">cluster =</span> <span class="st">&quot;wkr&quot;</span>,</span>
-<span id="cb132-3"><a href="diferença-em-diferenças.html#cb132-3" tabindex="-1"></a>                 <span class="at">data =</span> elbe1998_02)</span>
-<span id="cb132-4"><a href="diferença-em-diferenças.html#cb132-4" tabindex="-1"></a><span class="fu">etable</span>(did_short)</span></code></pre></div>
-<pre><code>##                         did_short
-## Dependent Var.:          spd_z_vs
-##                                  
-## Flooded         7.144*** (0.4682)
-## Fixed-Effects:  -----------------
-## wkr                           Yes
-## year                          Yes
-## _______________ _________________
-## S.E.: Clustered           by: wkr
-## Observations                  598
-## R2                        0.95275
-## Within R2                 0.25515
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="diferença-em-diferenças.html#cb134-1" tabindex="-1"></a>did_short <span class="ot">&lt;-</span> <span class="fu">feols</span>(spd_z_vs <span class="sc">~</span> Flooded<span class="sc">|</span> wkr <span class="sc">+</span> year,</span>
+<span id="cb134-2"><a href="diferença-em-diferenças.html#cb134-2" tabindex="-1"></a>                 <span class="at">cluster =</span> <span class="st">&quot;wkr&quot;</span>,</span>
+<span id="cb134-3"><a href="diferença-em-diferenças.html#cb134-3" tabindex="-1"></a>                 <span class="at">data =</span> elbe1998_02)</span>
+<span id="cb134-4"><a href="diferença-em-diferenças.html#cb134-4" tabindex="-1"></a><span class="fu">summary</span>(did_short)</span></code></pre></div>
+<pre><code>## OLS estimation, Dep. Var.: spd_z_vs
+## Observations: 598
+## Fixed-effects: wkr: 299,  year: 2
+## Standard-errors: Clustered (wkr) 
+##         Estimate Std. Error t value  Pr(&gt;|t|)    
+## Flooded  7.14401   0.468184  15.259 &lt; 2.2e-16 ***
 ## ---
-## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="diferença-em-diferenças.html#cb134-1" tabindex="-1"></a>did_din <span class="ot">=</span> <span class="fu">feols</span>(spd_z_vs <span class="sc">~</span> <span class="fu">i</span>(year, Flooded, <span class="at">ref=</span><span class="dv">1998</span>) <span class="sc">|</span> wkr <span class="sc">+</span> year, elbe)</span>
-<span id="cb134-2"><a href="diferença-em-diferenças.html#cb134-2" tabindex="-1"></a><span class="fu">etable</span>(did_din)</span></code></pre></div>
-<pre><code>##                                 did_din
-## Dependent Var.:                spd_z_vs
-##                                        
-## Flooded x year = 2002    0.4586 (1.524)
-## Flooded x year = 2005 -4.807*** (1.344)
-## Fixed-Effects:        -----------------
-## wkr                                 Yes
-## year                                Yes
-## _____________________ _________________
-## S.E.: Clustered                 by: wkr
-## Observations                      1,254
-## R2                              0.69987
-## Within R2                       0.01711
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## RMSE: 1.80615     Adj. R2: 0.905029
+##                 Within R2: 0.255154</code></pre>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="diferença-em-diferenças.html#cb136-1" tabindex="-1"></a>did_din <span class="ot">=</span> <span class="fu">feols</span>(spd_z_vs <span class="sc">~</span> <span class="fu">i</span>(year, Flooded, <span class="at">ref=</span><span class="dv">1998</span>) <span class="sc">|</span> wkr <span class="sc">+</span> year, elbe)</span>
+<span id="cb136-2"><a href="diferença-em-diferenças.html#cb136-2" tabindex="-1"></a><span class="fu">summary</span>(did_din)</span></code></pre></div>
+<pre><code>## OLS estimation, Dep. Var.: spd_z_vs
+## Observations: 1,254
+## Fixed-effects: wkr: 328,  year: 4
+## Standard-errors: Clustered (wkr) 
+##                     Estimate Std. Error   t value  Pr(&gt;|t|)    
+## year::2002:Flooded  0.458643    1.52364  0.301018 0.7635917    
+## year::2005:Flooded -4.806790    1.34447 -3.575220 0.0004027 ***
+## ... 1 variable was removed because of collinearity (year::1994:Flooded)
 ## ---
-## Signif. codes: 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## RMSE: 4.71647     Adj. R2: 0.591674
+##                 Within R2: 0.017113</code></pre>
 </div>
 <div id="referências-5" class="section level2 hasAnchor" number="8.12">
 <h2><span class="header-section-number">8.12</span> Referências<a href="diferença-em-diferenças.html#referências-5" class="anchor-section" aria-label="Anchor link to header"></a></h2>

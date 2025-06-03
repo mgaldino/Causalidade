@@ -124,8 +124,7 @@ msummary(did, stars = c('*' = .1, '**' = .05, '***' = .01))
 did_alt <- feols(concluida ~ post_treat| municipio + periodo,
                               cluster = "municipio",
                               data = data_ot_reg)
-etable(did_alt) %>%
-  kable()
+summary(did_alt)
 ```
 
 ## Múltiplos períodos
@@ -275,8 +274,7 @@ A única coisa não permitida é interação entre efeitos fixos de unidade e te
 
 did_din = feols(concluida ~ i(periodo, group_treated, ref=3) | id + periodo, data_ot)
 
-etable(did_din) %>%
-  kable()
+summary(did_din)
 ```
 
 ## DID com adoção escalonada (staggered timing)
@@ -317,10 +315,10 @@ elbe <- bind_rows(elbe0, elbe1, elbe2)
 did_short <- feols(spd_z_vs ~ Flooded| wkr + year,
                  cluster = "wkr",
                  data = elbe1998_02)
-etable(did_short)
+summary(did_short)
 
 did_din = feols(spd_z_vs ~ i(year, Flooded, ref=1998) | wkr + year, elbe)
-etable(did_din)
+summary(did_din)
 
 ```
 
@@ -349,10 +347,10 @@ summary(did_het)
 did_short <- feols(spd_z_vs ~ Flooded| wkr + year,
                  cluster = "wkr",
                  data = elbe1998_02)
-etable(did_short)
+summary(did_short)
 
 did_din = feols(spd_z_vs ~ i(year, Flooded, ref=1998) | wkr + year, elbe)
-etable(did_din)
+summary(did_din)
 
 ```
 ## Referências

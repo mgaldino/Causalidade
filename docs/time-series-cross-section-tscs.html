@@ -23,7 +23,7 @@
 <meta name="author" content="Manoel Galdino" />
 
 
-<meta name="date" content="2025-05-21" />
+<meta name="date" content="2025-06-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -347,9 +347,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="10" data-path="synthetic-control.html"><a href="synthetic-control.html"><i class="fa fa-check"></i><b>10</b> Synthetic Control</a>
 <ul>
+<li class="chapter" data-level="10.0.1" data-path="synthetic-control.html"><a href="synthetic-control.html#tratamento"><i class="fa fa-check"></i><b>10.0.1</b> Tratamento</a></li>
 <li class="chapter" data-level="10.1" data-path="synthetic-control.html"><a href="synthetic-control.html#implementação-no-r"><i class="fa fa-check"></i><b>10.1</b> Implementação no R</a></li>
+<li class="chapter" data-level="10.2" data-path="synthetic-control.html"><a href="synthetic-control.html#synthethic-did"><i class="fa fa-check"></i><b>10.2</b> Synthethic DiD</a></li>
+<li class="chapter" data-level="10.3" data-path="synthetic-control.html"><a href="synthetic-control.html#referências-7"><i class="fa fa-check"></i><b>10.3</b> Referências</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="llms-e-outras.html"><a href="llms-e-outras.html"><i class="fa fa-check"></i><b>11</b> LLMs e outras</a></li>
+<li class="chapter" data-level="11" data-path="llms-e-outras.html"><a href="llms-e-outras.html"><i class="fa fa-check"></i><b>11</b> LLMs e outras</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="llms-e-outras.html"><a href="llms-e-outras.html#google-colab"><i class="fa fa-check"></i><b>11.1</b> Google Colab</a></li>
+</ul></li>
 <li class="chapter" data-level="12" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html"><i class="fa fa-check"></i><b>12</b> Interferência, spillover e dinâmica</a>
 <ul>
 <li class="chapter" data-level="12.1" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#suposições-simplifcadoras"><i class="fa fa-check"></i><b>12.1</b> Suposições simplifcadoras</a></li>
@@ -411,14 +417,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="ovb" class="section level2 hasAnchor" number="9.2">
 <h2><span class="header-section-number">9.2</span> OVB<a href="time-series-cross-section-tscs.html#ovb" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Suponha o DAG abaixo, em que <span class="math inline">\(a\)</span>, uma variável invariante no tempo é não observada:</p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="time-series-cross-section-tscs.html#cb136-1" tabindex="-1"></a><span class="fu">library</span>(ggdag)</span>
-<span id="cb136-2"><a href="time-series-cross-section-tscs.html#cb136-2" tabindex="-1"></a>dag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
-<span id="cb136-3"><a href="time-series-cross-section-tscs.html#cb136-3" tabindex="-1"></a>  y <span class="sc">~</span> x <span class="sc">+</span> a,</span>
-<span id="cb136-4"><a href="time-series-cross-section-tscs.html#cb136-4" tabindex="-1"></a>  x <span class="sc">~</span> a,</span>
-<span id="cb136-5"><a href="time-series-cross-section-tscs.html#cb136-5" tabindex="-1"></a>  <span class="at">latent =</span> <span class="st">&quot;a&quot;</span></span>
-<span id="cb136-6"><a href="time-series-cross-section-tscs.html#cb136-6" tabindex="-1"></a>)</span>
-<span id="cb136-7"><a href="time-series-cross-section-tscs.html#cb136-7" tabindex="-1"></a></span>
-<span id="cb136-8"><a href="time-series-cross-section-tscs.html#cb136-8" tabindex="-1"></a><span class="fu">ggdag</span>(dag)</span></code></pre></div>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="time-series-cross-section-tscs.html#cb138-1" tabindex="-1"></a><span class="fu">library</span>(ggdag)</span>
+<span id="cb138-2"><a href="time-series-cross-section-tscs.html#cb138-2" tabindex="-1"></a>dag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
+<span id="cb138-3"><a href="time-series-cross-section-tscs.html#cb138-3" tabindex="-1"></a>  y <span class="sc">~</span> x <span class="sc">+</span> a,</span>
+<span id="cb138-4"><a href="time-series-cross-section-tscs.html#cb138-4" tabindex="-1"></a>  x <span class="sc">~</span> a,</span>
+<span id="cb138-5"><a href="time-series-cross-section-tscs.html#cb138-5" tabindex="-1"></a>  <span class="at">latent =</span> <span class="st">&quot;a&quot;</span></span>
+<span id="cb138-6"><a href="time-series-cross-section-tscs.html#cb138-6" tabindex="-1"></a>)</span>
+<span id="cb138-7"><a href="time-series-cross-section-tscs.html#cb138-7" tabindex="-1"></a></span>
+<span id="cb138-8"><a href="time-series-cross-section-tscs.html#cb138-8" tabindex="-1"></a><span class="fu">ggdag</span>(dag)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/dag-fe-1.png" width="672" /></p>
 <p>Ela leva ao clássico problema de variável omitida. Dados de painel nos permite remover essa variável de confusão. Há várias formas de mostrar isso, e vou optar pela abordagem de centrar as variáveis. Suponha uma forma paramétrica do modelo estrutural dado por: <span class="math inline">\(y_{it} = \alpha + \beta_0 x_{it} + a_i + e_{it}\)</span>. Suponha, para simplificar, que o painel é completo.</p>
 <p>Agora, considerem os seguintes passos:</p>

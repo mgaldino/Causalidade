@@ -269,7 +269,7 @@ smoking_did <- smoking %>%
   mutate(treatment = ifelse(state == "California" & year > 1988, 1, 0))
 did <- feols(cigsale ~ treatment | state + year, data = smoking_did)
 
-etable(did)
+summary(did)
 ```
 
 O problema dessa. estimativa é que a suposição de tendências paralelas na média não é muito crível.
