@@ -417,14 +417,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="ovb" class="section level2 hasAnchor" number="9.2">
 <h2><span class="header-section-number">9.2</span> OVB<a href="time-series-cross-section-tscs.html#ovb" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Suponha o DAG abaixo, em que <span class="math inline">\(a\)</span>, uma variável invariante no tempo é não observada:</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="time-series-cross-section-tscs.html#cb138-1" tabindex="-1"></a><span class="fu">library</span>(ggdag)</span>
-<span id="cb138-2"><a href="time-series-cross-section-tscs.html#cb138-2" tabindex="-1"></a>dag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
-<span id="cb138-3"><a href="time-series-cross-section-tscs.html#cb138-3" tabindex="-1"></a>  y <span class="sc">~</span> x <span class="sc">+</span> a,</span>
-<span id="cb138-4"><a href="time-series-cross-section-tscs.html#cb138-4" tabindex="-1"></a>  x <span class="sc">~</span> a,</span>
-<span id="cb138-5"><a href="time-series-cross-section-tscs.html#cb138-5" tabindex="-1"></a>  <span class="at">latent =</span> <span class="st">&quot;a&quot;</span></span>
-<span id="cb138-6"><a href="time-series-cross-section-tscs.html#cb138-6" tabindex="-1"></a>)</span>
-<span id="cb138-7"><a href="time-series-cross-section-tscs.html#cb138-7" tabindex="-1"></a></span>
-<span id="cb138-8"><a href="time-series-cross-section-tscs.html#cb138-8" tabindex="-1"></a><span class="fu">ggdag</span>(dag)</span></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="time-series-cross-section-tscs.html#cb142-1" tabindex="-1"></a><span class="fu">library</span>(ggdag)</span>
+<span id="cb142-2"><a href="time-series-cross-section-tscs.html#cb142-2" tabindex="-1"></a>dag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
+<span id="cb142-3"><a href="time-series-cross-section-tscs.html#cb142-3" tabindex="-1"></a>  y <span class="sc">~</span> x <span class="sc">+</span> a,</span>
+<span id="cb142-4"><a href="time-series-cross-section-tscs.html#cb142-4" tabindex="-1"></a>  x <span class="sc">~</span> a,</span>
+<span id="cb142-5"><a href="time-series-cross-section-tscs.html#cb142-5" tabindex="-1"></a>  <span class="at">latent =</span> <span class="st">&quot;a&quot;</span></span>
+<span id="cb142-6"><a href="time-series-cross-section-tscs.html#cb142-6" tabindex="-1"></a>)</span>
+<span id="cb142-7"><a href="time-series-cross-section-tscs.html#cb142-7" tabindex="-1"></a></span>
+<span id="cb142-8"><a href="time-series-cross-section-tscs.html#cb142-8" tabindex="-1"></a><span class="fu">ggdag</span>(dag)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/dag-fe-1.png" width="672" /></p>
 <p>Ela leva ao clássico problema de variável omitida. Dados de painel nos permite remover essa variável de confusão. Há várias formas de mostrar isso, e vou optar pela abordagem de centrar as variáveis. Suponha uma forma paramétrica do modelo estrutural dado por: <span class="math inline">\(y_{it} = \alpha + \beta_0 x_{it} + a_i + e_{it}\)</span>. Suponha, para simplificar, que o painel é completo.</p>
 <p>Agora, considerem os seguintes passos:</p>

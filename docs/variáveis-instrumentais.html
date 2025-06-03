@@ -438,19 +438,19 @@ A restrição de exclusão do tratamento <span class="math inline">\(D_i\)</span
                                     &amp; = E[Y_i(D_i^1,1)] - E[Y_i(D_i^0,0)]  
 \end{align}\]</span></p>
 <p>O estimador é o efeito causal (total) de <span class="math inline">\(Z\)</span> sobre <span class="math inline">\(Y\)</span>. Em um experimento, isso é chamado de <em>intent to treat</em>, pois se a aleatorização é o instrumento, então é o efeito causal da intenção de tratar.</p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="variáveis-instrumentais.html#cb98-1" tabindex="-1"></a><span class="fu">library</span>(stargazer)</span>
-<span id="cb98-2"><a href="variáveis-instrumentais.html#cb98-2" tabindex="-1"></a></span>
-<span id="cb98-3"><a href="variáveis-instrumentais.html#cb98-3" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100000</span></span>
-<span id="cb98-4"><a href="variáveis-instrumentais.html#cb98-4" tabindex="-1"></a></span>
-<span id="cb98-5"><a href="variáveis-instrumentais.html#cb98-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb98-6"><a href="variáveis-instrumentais.html#cb98-6" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb98-7"><a href="variáveis-instrumentais.html#cb98-7" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span> , <span class="dv">3</span>)</span>
-<span id="cb98-8"><a href="variáveis-instrumentais.html#cb98-8" tabindex="-1"></a>treatment <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">plogis</span>(z <span class="sc">-</span> u <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">2</span>)))</span>
-<span id="cb98-9"><a href="variáveis-instrumentais.html#cb98-9" tabindex="-1"></a></span>
-<span id="cb98-10"><a href="variáveis-instrumentais.html#cb98-10" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span>treatment <span class="sc">+</span> u</span>
-<span id="cb98-11"><a href="variáveis-instrumentais.html#cb98-11" tabindex="-1"></a></span>
-<span id="cb98-12"><a href="variáveis-instrumentais.html#cb98-12" tabindex="-1"></a>reg_vies <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> treatment)</span>
-<span id="cb98-13"><a href="variáveis-instrumentais.html#cb98-13" tabindex="-1"></a><span class="fu">summary</span>(reg_vies)</span></code></pre></div>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="variáveis-instrumentais.html#cb101-1" tabindex="-1"></a><span class="fu">library</span>(stargazer)</span>
+<span id="cb101-2"><a href="variáveis-instrumentais.html#cb101-2" tabindex="-1"></a></span>
+<span id="cb101-3"><a href="variáveis-instrumentais.html#cb101-3" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100000</span></span>
+<span id="cb101-4"><a href="variáveis-instrumentais.html#cb101-4" tabindex="-1"></a></span>
+<span id="cb101-5"><a href="variáveis-instrumentais.html#cb101-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb101-6"><a href="variáveis-instrumentais.html#cb101-6" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb101-7"><a href="variáveis-instrumentais.html#cb101-7" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span> , <span class="dv">3</span>)</span>
+<span id="cb101-8"><a href="variáveis-instrumentais.html#cb101-8" tabindex="-1"></a>treatment <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">plogis</span>(z <span class="sc">-</span> u <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">2</span>)))</span>
+<span id="cb101-9"><a href="variáveis-instrumentais.html#cb101-9" tabindex="-1"></a></span>
+<span id="cb101-10"><a href="variáveis-instrumentais.html#cb101-10" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span>treatment <span class="sc">+</span> u</span>
+<span id="cb101-11"><a href="variáveis-instrumentais.html#cb101-11" tabindex="-1"></a></span>
+<span id="cb101-12"><a href="variáveis-instrumentais.html#cb101-12" tabindex="-1"></a>reg_vies <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> treatment)</span>
+<span id="cb101-13"><a href="variáveis-instrumentais.html#cb101-13" tabindex="-1"></a><span class="fu">summary</span>(reg_vies)</span></code></pre></div>
 <p>Call:
 lm(formula = y ~ treatment)</p>
 <p>Residuals:
@@ -465,9 +465,9 @@ Signif. codes: 0 ‘<em><strong>’ 0.001 ’</strong>’ 0.01 ’</em>’ 0.05 
 <p>Residual standard error: 2.453 on 99998 degrees of freedom
 Multiple R-squared: 0.08495, Adjusted R-squared: 0.08494
 F-statistic: 9283 on 1 and 99998 DF, p-value: &lt; 2.2e-16</p>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="variáveis-instrumentais.html#cb99-1" tabindex="-1"></a>reg_1s <span class="ot">&lt;-</span> <span class="fu">lm</span>(treatment <span class="sc">~</span> z)</span>
-<span id="cb99-2"><a href="variáveis-instrumentais.html#cb99-2" tabindex="-1"></a>reg_2s <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="fu">fitted</span>(reg_1s))</span>
-<span id="cb99-3"><a href="variáveis-instrumentais.html#cb99-3" tabindex="-1"></a><span class="fu">stargazer</span>(reg_vies, reg_1s, reg_2s, <span class="at">type =</span> <span class="st">&quot;html&quot;</span>,  <span class="at">title=</span><span class="st">&quot;OLS e 2SLS&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="variáveis-instrumentais.html#cb102-1" tabindex="-1"></a>reg_1s <span class="ot">&lt;-</span> <span class="fu">lm</span>(treatment <span class="sc">~</span> z)</span>
+<span id="cb102-2"><a href="variáveis-instrumentais.html#cb102-2" tabindex="-1"></a>reg_2s <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="fu">fitted</span>(reg_1s))</span>
+<span id="cb102-3"><a href="variáveis-instrumentais.html#cb102-3" tabindex="-1"></a><span class="fu">stargazer</span>(reg_vies, reg_1s, reg_2s, <span class="at">type =</span> <span class="st">&quot;html&quot;</span>,  <span class="at">title=</span><span class="st">&quot;OLS e 2SLS&quot;</span>)</span></code></pre></div>
 <table style="text-align:center">
 <caption>
 <strong>OLS e 2SLS</strong>
@@ -743,7 +743,7 @@ F Statistic (df = 1; 99998)
 </tr>
 </table>
 <p>Uma regra de bolso, baseada em um artigo de Stock &amp; Yogo (2002), diz que a estatística F da regressão do primeiro estágio deve ser maior que 10.</p>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="variáveis-instrumentais.html#cb100-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="variáveis-instrumentais.html#cb103-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 <pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
@@ -754,58 +754,58 @@ F Statistic (df = 1; 99998)
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="variáveis-instrumentais.html#cb102-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb102-2"><a href="variáveis-instrumentais.html#cb102-2" tabindex="-1"></a></span>
-<span id="cb102-3"><a href="variáveis-instrumentais.html#cb102-3" tabindex="-1"></a>simulate_and_fit <span class="ot">&lt;-</span> <span class="cf">function</span>(n) {</span>
-<span id="cb102-4"><a href="variáveis-instrumentais.html#cb102-4" tabindex="-1"></a>  z <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb102-5"><a href="variáveis-instrumentais.html#cb102-5" tabindex="-1"></a>  u <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">3</span>)</span>
-<span id="cb102-6"><a href="variáveis-instrumentais.html#cb102-6" tabindex="-1"></a>  treatment <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">plogis</span>(z <span class="sc">-</span> u <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">2</span>)))</span>
-<span id="cb102-7"><a href="variáveis-instrumentais.html#cb102-7" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> treatment <span class="sc">+</span> u</span>
-<span id="cb102-8"><a href="variáveis-instrumentais.html#cb102-8" tabindex="-1"></a>  </span>
-<span id="cb102-9"><a href="variáveis-instrumentais.html#cb102-9" tabindex="-1"></a>  <span class="co"># Naive regression</span></span>
-<span id="cb102-10"><a href="variáveis-instrumentais.html#cb102-10" tabindex="-1"></a>  reg_vies <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> treatment)</span>
-<span id="cb102-11"><a href="variáveis-instrumentais.html#cb102-11" tabindex="-1"></a>  </span>
-<span id="cb102-12"><a href="variáveis-instrumentais.html#cb102-12" tabindex="-1"></a>  <span class="co"># 2SLS</span></span>
-<span id="cb102-13"><a href="variáveis-instrumentais.html#cb102-13" tabindex="-1"></a>  reg_1s <span class="ot">&lt;-</span> <span class="fu">lm</span>(treatment <span class="sc">~</span> z)</span>
-<span id="cb102-14"><a href="variáveis-instrumentais.html#cb102-14" tabindex="-1"></a>  predicted_treatment <span class="ot">&lt;-</span> <span class="fu">predict</span>(reg_1s)</span>
-<span id="cb102-15"><a href="variáveis-instrumentais.html#cb102-15" tabindex="-1"></a>  reg_2s <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> predicted_treatment)</span>
-<span id="cb102-16"><a href="variáveis-instrumentais.html#cb102-16" tabindex="-1"></a>  </span>
-<span id="cb102-17"><a href="variáveis-instrumentais.html#cb102-17" tabindex="-1"></a>  <span class="co"># Return coefficients</span></span>
-<span id="cb102-18"><a href="variáveis-instrumentais.html#cb102-18" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
-<span id="cb102-19"><a href="variáveis-instrumentais.html#cb102-19" tabindex="-1"></a>    <span class="at">naive_coef =</span> <span class="fu">coef</span>(reg_vies)[<span class="dv">2</span>],</span>
-<span id="cb102-20"><a href="variáveis-instrumentais.html#cb102-20" tabindex="-1"></a>    <span class="at">tsls_coef =</span> <span class="fu">coef</span>(reg_2s)[<span class="dv">2</span>]</span>
-<span id="cb102-21"><a href="variáveis-instrumentais.html#cb102-21" tabindex="-1"></a>  )</span>
-<span id="cb102-22"><a href="variáveis-instrumentais.html#cb102-22" tabindex="-1"></a>}</span>
-<span id="cb102-23"><a href="variáveis-instrumentais.html#cb102-23" tabindex="-1"></a></span>
-<span id="cb102-24"><a href="variáveis-instrumentais.html#cb102-24" tabindex="-1"></a></span>
-<span id="cb102-25"><a href="variáveis-instrumentais.html#cb102-25" tabindex="-1"></a><span class="co"># Sample sizes to simulate</span></span>
-<span id="cb102-26"><a href="variáveis-instrumentais.html#cb102-26" tabindex="-1"></a>sample_sizes <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1000</span>, <span class="dv">100000</span>, <span class="at">by =</span> <span class="dv">1000</span>)</span>
-<span id="cb102-27"><a href="variáveis-instrumentais.html#cb102-27" tabindex="-1"></a></span>
-<span id="cb102-28"><a href="variáveis-instrumentais.html#cb102-28" tabindex="-1"></a><span class="co"># Use map to apply the function to each sample size</span></span>
-<span id="cb102-29"><a href="variáveis-instrumentais.html#cb102-29" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">sample_size =</span> sample_sizes) <span class="sc">%&gt;%</span></span>
-<span id="cb102-30"><a href="variáveis-instrumentais.html#cb102-30" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb102-31"><a href="variáveis-instrumentais.html#cb102-31" tabindex="-1"></a>    <span class="at">simulation_results =</span> <span class="fu">map</span>(sample_size, simulate_and_fit)</span>
-<span id="cb102-32"><a href="variáveis-instrumentais.html#cb102-32" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb102-33"><a href="variáveis-instrumentais.html#cb102-33" tabindex="-1"></a>  <span class="fu">unnest</span>(<span class="at">cols =</span> <span class="fu">c</span>(simulation_results))</span>
-<span id="cb102-34"><a href="variáveis-instrumentais.html#cb102-34" tabindex="-1"></a></span>
-<span id="cb102-35"><a href="variáveis-instrumentais.html#cb102-35" tabindex="-1"></a>results <span class="sc">%&gt;%</span></span>
-<span id="cb102-36"><a href="variáveis-instrumentais.html#cb102-36" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(naive_coef, tsls_coef), <span class="at">names_to =</span> <span class="st">&quot;method&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;coefficient&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb102-37"><a href="variáveis-instrumentais.html#cb102-37" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> sample_size, <span class="at">y =</span> coefficient, <span class="at">color =</span> method)) <span class="sc">+</span></span>
-<span id="cb102-38"><a href="variáveis-instrumentais.html#cb102-38" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb102-39"><a href="variáveis-instrumentais.html#cb102-39" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> . <span class="sc">%&gt;%</span> <span class="fu">filter</span>(method <span class="sc">==</span> <span class="st">&quot;2sls_coef&quot;</span>), <span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
-<span id="cb102-40"><a href="variáveis-instrumentais.html#cb102-40" tabindex="-1"></a></span>
-<span id="cb102-41"><a href="variáveis-instrumentais.html#cb102-41" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb102-42"><a href="variáveis-instrumentais.html#cb102-42" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Convergence of Regression Coefficients with Increasing Sample Size&quot;</span>,</span>
-<span id="cb102-43"><a href="variáveis-instrumentais.html#cb102-43" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Sample Size&quot;</span>,</span>
-<span id="cb102-44"><a href="variáveis-instrumentais.html#cb102-44" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Estimated Coefficient&quot;</span>,</span>
-<span id="cb102-45"><a href="variáveis-instrumentais.html#cb102-45" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Method&quot;</span></span>
-<span id="cb102-46"><a href="variáveis-instrumentais.html#cb102-46" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb102-47"><a href="variáveis-instrumentais.html#cb102-47" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb102-48"><a href="variáveis-instrumentais.html#cb102-48" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;naive_coef&quot;</span> <span class="ot">=</span> <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;tsls_coef&quot;</span> <span class="ot">=</span> <span class="st">&quot;red&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb102-49"><a href="variáveis-instrumentais.html#cb102-49" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb102-50"><a href="variáveis-instrumentais.html#cb102-50" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
-<span id="cb102-51"><a href="variáveis-instrumentais.html#cb102-51" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_blank</span>()</span>
-<span id="cb102-52"><a href="variáveis-instrumentais.html#cb102-52" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="variáveis-instrumentais.html#cb105-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb105-2"><a href="variáveis-instrumentais.html#cb105-2" tabindex="-1"></a></span>
+<span id="cb105-3"><a href="variáveis-instrumentais.html#cb105-3" tabindex="-1"></a>simulate_and_fit <span class="ot">&lt;-</span> <span class="cf">function</span>(n) {</span>
+<span id="cb105-4"><a href="variáveis-instrumentais.html#cb105-4" tabindex="-1"></a>  z <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb105-5"><a href="variáveis-instrumentais.html#cb105-5" tabindex="-1"></a>  u <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">3</span>)</span>
+<span id="cb105-6"><a href="variáveis-instrumentais.html#cb105-6" tabindex="-1"></a>  treatment <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">plogis</span>(z <span class="sc">-</span> u <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">2</span>)))</span>
+<span id="cb105-7"><a href="variáveis-instrumentais.html#cb105-7" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> treatment <span class="sc">+</span> u</span>
+<span id="cb105-8"><a href="variáveis-instrumentais.html#cb105-8" tabindex="-1"></a>  </span>
+<span id="cb105-9"><a href="variáveis-instrumentais.html#cb105-9" tabindex="-1"></a>  <span class="co"># Naive regression</span></span>
+<span id="cb105-10"><a href="variáveis-instrumentais.html#cb105-10" tabindex="-1"></a>  reg_vies <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> treatment)</span>
+<span id="cb105-11"><a href="variáveis-instrumentais.html#cb105-11" tabindex="-1"></a>  </span>
+<span id="cb105-12"><a href="variáveis-instrumentais.html#cb105-12" tabindex="-1"></a>  <span class="co"># 2SLS</span></span>
+<span id="cb105-13"><a href="variáveis-instrumentais.html#cb105-13" tabindex="-1"></a>  reg_1s <span class="ot">&lt;-</span> <span class="fu">lm</span>(treatment <span class="sc">~</span> z)</span>
+<span id="cb105-14"><a href="variáveis-instrumentais.html#cb105-14" tabindex="-1"></a>  predicted_treatment <span class="ot">&lt;-</span> <span class="fu">predict</span>(reg_1s)</span>
+<span id="cb105-15"><a href="variáveis-instrumentais.html#cb105-15" tabindex="-1"></a>  reg_2s <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> predicted_treatment)</span>
+<span id="cb105-16"><a href="variáveis-instrumentais.html#cb105-16" tabindex="-1"></a>  </span>
+<span id="cb105-17"><a href="variáveis-instrumentais.html#cb105-17" tabindex="-1"></a>  <span class="co"># Return coefficients</span></span>
+<span id="cb105-18"><a href="variáveis-instrumentais.html#cb105-18" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
+<span id="cb105-19"><a href="variáveis-instrumentais.html#cb105-19" tabindex="-1"></a>    <span class="at">naive_coef =</span> <span class="fu">coef</span>(reg_vies)[<span class="dv">2</span>],</span>
+<span id="cb105-20"><a href="variáveis-instrumentais.html#cb105-20" tabindex="-1"></a>    <span class="at">tsls_coef =</span> <span class="fu">coef</span>(reg_2s)[<span class="dv">2</span>]</span>
+<span id="cb105-21"><a href="variáveis-instrumentais.html#cb105-21" tabindex="-1"></a>  )</span>
+<span id="cb105-22"><a href="variáveis-instrumentais.html#cb105-22" tabindex="-1"></a>}</span>
+<span id="cb105-23"><a href="variáveis-instrumentais.html#cb105-23" tabindex="-1"></a></span>
+<span id="cb105-24"><a href="variáveis-instrumentais.html#cb105-24" tabindex="-1"></a></span>
+<span id="cb105-25"><a href="variáveis-instrumentais.html#cb105-25" tabindex="-1"></a><span class="co"># Sample sizes to simulate</span></span>
+<span id="cb105-26"><a href="variáveis-instrumentais.html#cb105-26" tabindex="-1"></a>sample_sizes <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1000</span>, <span class="dv">100000</span>, <span class="at">by =</span> <span class="dv">1000</span>)</span>
+<span id="cb105-27"><a href="variáveis-instrumentais.html#cb105-27" tabindex="-1"></a></span>
+<span id="cb105-28"><a href="variáveis-instrumentais.html#cb105-28" tabindex="-1"></a><span class="co"># Use map to apply the function to each sample size</span></span>
+<span id="cb105-29"><a href="variáveis-instrumentais.html#cb105-29" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">sample_size =</span> sample_sizes) <span class="sc">%&gt;%</span></span>
+<span id="cb105-30"><a href="variáveis-instrumentais.html#cb105-30" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb105-31"><a href="variáveis-instrumentais.html#cb105-31" tabindex="-1"></a>    <span class="at">simulation_results =</span> <span class="fu">map</span>(sample_size, simulate_and_fit)</span>
+<span id="cb105-32"><a href="variáveis-instrumentais.html#cb105-32" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb105-33"><a href="variáveis-instrumentais.html#cb105-33" tabindex="-1"></a>  <span class="fu">unnest</span>(<span class="at">cols =</span> <span class="fu">c</span>(simulation_results))</span>
+<span id="cb105-34"><a href="variáveis-instrumentais.html#cb105-34" tabindex="-1"></a></span>
+<span id="cb105-35"><a href="variáveis-instrumentais.html#cb105-35" tabindex="-1"></a>results <span class="sc">%&gt;%</span></span>
+<span id="cb105-36"><a href="variáveis-instrumentais.html#cb105-36" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(naive_coef, tsls_coef), <span class="at">names_to =</span> <span class="st">&quot;method&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;coefficient&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb105-37"><a href="variáveis-instrumentais.html#cb105-37" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> sample_size, <span class="at">y =</span> coefficient, <span class="at">color =</span> method)) <span class="sc">+</span></span>
+<span id="cb105-38"><a href="variáveis-instrumentais.html#cb105-38" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb105-39"><a href="variáveis-instrumentais.html#cb105-39" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> . <span class="sc">%&gt;%</span> <span class="fu">filter</span>(method <span class="sc">==</span> <span class="st">&quot;2sls_coef&quot;</span>), <span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb105-40"><a href="variáveis-instrumentais.html#cb105-40" tabindex="-1"></a></span>
+<span id="cb105-41"><a href="variáveis-instrumentais.html#cb105-41" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb105-42"><a href="variáveis-instrumentais.html#cb105-42" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Convergence of Regression Coefficients with Increasing Sample Size&quot;</span>,</span>
+<span id="cb105-43"><a href="variáveis-instrumentais.html#cb105-43" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Sample Size&quot;</span>,</span>
+<span id="cb105-44"><a href="variáveis-instrumentais.html#cb105-44" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Estimated Coefficient&quot;</span>,</span>
+<span id="cb105-45"><a href="variáveis-instrumentais.html#cb105-45" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Method&quot;</span></span>
+<span id="cb105-46"><a href="variáveis-instrumentais.html#cb105-46" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb105-47"><a href="variáveis-instrumentais.html#cb105-47" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb105-48"><a href="variáveis-instrumentais.html#cb105-48" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;naive_coef&quot;</span> <span class="ot">=</span> <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;tsls_coef&quot;</span> <span class="ot">=</span> <span class="st">&quot;red&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb105-49"><a href="variáveis-instrumentais.html#cb105-49" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb105-50"><a href="variáveis-instrumentais.html#cb105-50" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb105-51"><a href="variáveis-instrumentais.html#cb105-51" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb105-52"><a href="variáveis-instrumentais.html#cb105-52" tabindex="-1"></a>  )</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/sim-dag-canonico-n-1.png" width="672" /></p>
 </div>
 <div id="principais-usos-de-iv" class="section level2 hasAnchor" number="6.4">
