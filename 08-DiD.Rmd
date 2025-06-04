@@ -105,6 +105,8 @@ data_ot %>%
   geom_vline(xintercept=4) +
   geom_line(aes(colour = factor(group_treated))) + theme_bw() + ylab("Percentual de obras concluídas") + xlab("Período") +
   scale_colour_manual(values = c("Controle" = "red", "Tratamento" = "blue"), name=NULL)
+
+
 ```
 
 A partir do período 4 o tratamento já poderia fazer efeito, mas ele é muito pequeno (leve mudança na inclinação) e o efeito é relevante apenas após o período 5. Temos portando efeitos dinâmicos.Vamos inicialmente ajustar um modelo estático, considerando apenas o período 1 e 5.
@@ -125,6 +127,29 @@ did_alt <- feols(concluida ~ post_treat| municipio + periodo,
                               cluster = "municipio",
                               data = data_ot_reg)
 summary(did_alt)
+
+# teste de hipóteses paralelas
+# Create dataset
+start_t <- 1
+end_t <- 5
+data_ot_reg_pt <- 
+  data_ot_reg %>%
+  dplyr::group_by(id) %>%
+  # Create group variable that take value end_t if state was ever treated in this period, and 0 otherwise
+  dplyr::mutate(group = max(group_treated > 0, na.rm=TRUE)*end_t)
+
+test_2007_2015 <- didFF(
+  data        = data_ot_reg_pt,
+  idname      = "id",
+  yname       = "concluida",
+  tname       = "periodo",
+  gname       = "group",
+  est_method  = "reg",
+  allow_unbalanced_panel = TRUE,
+  seed        = 1
+)
+
+test_2007_2015$plot
 ```
 
 ## Múltiplos períodos
