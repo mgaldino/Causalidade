@@ -32,44 +32,86 @@ sit_obras_final %>%
   summarise(n())
 
 obras4 <- simec23 %>%
-  select(id, municipio, uf, situacao) %>%
+  dplyr::select(id, municipio, uf, situacao, percentual_de_execucao, tipo_de_ensino_modalidade, data_prevista_de_conclusao_da_obra,
+                tipo_do_projeto, tipo_da_obra, classificacao_da_obra, rede_de_ensino_publico,
+                valor_pactuado_pelo_fnde, modalidade_de_licitacao , valor_do_contrato) %>%
   mutate(data_coleta = as.Date("2023-11-01"),
          concluida = ifelse(grepl("Concluída", situacao), 1, 0),
          cancelada = ifelse(grepl("Cancelada", situacao), 1, 0)) 
 
 obras3 <- sit_obras_final %>%
-  select(id, municipio, uf, concluida, cancelada) %>%
-  mutate(data_coleta = as.Date("2018-11-01")) 
+  dplyr::select(id, municipio, uf, concluida, cancelada,
+         percentual_de_execucao, data_prevista_de_conclusao_da_obra,
+         tipo_do_projeto, responsabilidade, projeto_obra_transparente) %>%
+  mutate(data_coleta = as.Date("2018-11-01")) %>%
+  rename(rede_de_ensino_publico = responsabilidade)
 
 ot <- sit_obras_final %>%
-  select(id, municipio, uf, projeto_obra_transparente) %>%
+  dplyr::select(id, municipio, uf, projeto_obra_transparente) %>%
   rename(treat = projeto_obra_transparente)
+
+
 
 obras0 <- simec_14 %>%
   mutate(id = str_extract(nome_da_obra, "\\([0-9]+\\)"),
          id = gsub("\\(", "", id),
          id = gsub("\\)", "", id)) %>%
-  select(id, municipio, uf, situacao_da_obra) %>%
+  dplyr::select(id, municipio, uf, situacao_da_obra) %>%
   mutate(data_coleta = as.Date("2014-12-01"),
          concluida = ifelse(grepl("Concluída", situacao_da_obra), 1, 0),
          cancelada = ifelse(grepl("Cancelada", situacao_da_obra), 1, 0)) %>%
-  select(-situacao_da_obra) %>%
+  dplyr::select(-situacao_da_obra) %>%
   mutate(id = as.numeric(id))
+
+# só pra fazer balancing pré-tratamento
+obras0_balancing <- simec_14 %>%
+  mutate(id = str_extract(nome_da_obra, "\\([0-9]+\\)"),
+         id = gsub("\\(", "", id),
+         id = gsub("\\)", "", id)) %>%
+  mutate(data_coleta = as.Date("2014-12-01"),
+         concluida = ifelse(grepl("Concluída", situacao_da_obra), 1, 0),
+         cancelada = ifelse(grepl("Cancelada", situacao_da_obra), 1, 0)) %>%
+  dplyr::select(-situacao_da_obra) %>%
+  mutate(id = as.numeric(id))
+
+balancing <- obras0_balancing %>%
+  inner_join(ot, by = join_by(municipio, uf, id) ) %>%
+  dplyr::filter(uf %in% c("SP", "PR", "SC", "RS", "MG")) %>%
+  mutate(uf = as.factor(uf),
+         tipologia = as.factor(tipologia),
+         valor_fnde_r = as.numeric(valor_fnde_r)) %>%
+  dplyr::filter(!is.na(valor_fnde_r))
+  
+
+# option 1
+library(tableone)
+# 1. Specify the vector of covariate names
+covs <- c("uf", "concluida", "cancelada", "valor_fnde_r", "tipologia")
+
+# 2. Create a TableOne object, stratified by `treat`
+tab1 <- CreateTableOne(vars = covs,
+                       strata = "treat",
+                       data   = balancing,
+                       factorVars = c("uf", "concluida", "cancelada", "tipologia"))
+
+# 3. Print with standardized differences
+print(tab1, 
+      smd = TRUE)  
 
 
 obras1 <- obras_inicio_projeto %>%
-  select(id, municipio, uf, situacao) %>%
+  dplyr::select(id, municipio, uf, situacao) %>%
   mutate(data_coleta = as.Date("2017-05-01"),
          concluida = ifelse(grepl("Concluída", situacao), 1, 0),
          cancelada = ifelse(grepl("Cancelada", situacao), 1, 0)) %>%
-  select(-situacao)
+  dplyr::select(-situacao)
 
 obras2 <- obras_fim_seg_fase %>%
-  select(id, municipio, uf, situacao) %>%
+  dplyr::select(id, municipio, uf, situacao) %>%
   mutate(data_coleta = as.Date("2018-12-01"),
          concluida = ifelse(grepl("Concluída", situacao), 1, 0),
          cancelada = ifelse(grepl("Cancelada", situacao), 1, 0)) %>%
-  select(-situacao) %>%
+  dplyr::select(-situacao) %>%
   mutate(id = as.numeric(id))
 
 obras0_final <- obras0 %>%
@@ -82,14 +124,18 @@ obras2_final <- obras2 %>%
   mutate(excluir = FALSE)
 
 obras3_final <- obras3 %>%
+  dplyr::select(id, municipio, uf, data_coleta, concluida, cancelada) %>%
   mutate(excluir = FALSE)
 
 obras4_final <- obras4 %>%
+  dplyr::select(id, municipio, uf, data_coleta, concluida, cancelada) %>%
   mutate(excluir = FALSE)
 
 obras <- bind_rows(obras0_final, obras1_final, obras2_final, obras3_final, obras4_final) %>%
-  inner_join(select(ot, id, treat), by = join_by(id)) %>%
-  inner_join(select(obras_inicio_projeto, id, percentual_de_execucao), by = join_by(id))
+  inner_join(dplyr::select(ot, id, treat), by = join_by(id)) %>%
+  inner_join(dplyr::select(obras_inicio_projeto, id, percentual_de_execucao), by = join_by(id))
+
+
 
 
 # install.packages("did")
@@ -114,7 +160,7 @@ obras_final <- obras %>%
          pos = ifelse(periodo > 2, 1, 0),
          post_treat = pos*bin_time_treated) %>%
   rename(group_treated = time_treated) %>%
-  select(id, municipio, concluida, group_treated, periodo, time_treated1, post_treat)
+  dplyr::select(id, municipio, uf, concluida, group_treated, periodo, time_treated1, post_treat)
 
 saveRDS(obras_final, file =  here("Dados", "obra_transparente.RDS"))
   
@@ -124,7 +170,7 @@ glimpse(obras_final)
 obras_final2x2 <- obras_final %>%
   filter(periodo %in% c(2,5))
 
-did <- lm(concluida ~ as.factor(time_treated) + factor(pos) +   as.factor(time_treated):factor(pos) ,data = obras_final2x2)
+did <- lm(concluida ~ as.factor(time_treated1) + factor(post_treat) +   as.factor(time_treated1):factor(post_treat) ,data = obras_final2x2)
 summary(did)
 
 data_ot <- readRDS(here("Dados", "obra_transparente.RDS"))
@@ -141,6 +187,7 @@ twfe_dynamic <- fixest::feols(concluida ~ i(time, treatedgroup)| municipio + per
                               cluster = "municipio",
                               data = obras_final)
 
+summary(twfe_results)
 
 msummary(twfe_dynamic, stars = c('*' = .1, '**' = .05, '***' = .01))
 # aumento de 0.9 pontos percentuais na conclusão de obras.
@@ -161,7 +208,7 @@ obras_final %>%
 
 est_did = feols(concluida ~ i(periodo, group_treated, ref=3) | id + periodo, obras_final)
 summary(est_did)
-
+msummary(est_did, stars = c('*' = .1, '**' = .05, '***' = .01))
 
 # Passar de 51% para 52%. Efeito pequeno.
 
@@ -274,3 +321,28 @@ summary(attgt)
   
 summary(did)
 msummary(did, stars = c('*' = .1, '**' = .05, '***' = .01))
+
+## sdid
+
+library(synthdid)
+# converte para matriz
+ot_sdid <- obras_final %>%
+  dplyr::select(id, periodo, concluida, post_treat) %>%
+  mutate(treatment = as.integer(post_treat),
+         period = as.integer(periodo)) %>%
+  dplyr::select( -period, -post_treat) %>% 
+  group_by(id) %>%
+  mutate(num_periodos = n()) %>%
+  ungroup() %>%
+  mutate(max_num_periodos = max(num_periodos)) %>%
+  group_by(id) %>%
+  mutate(permanece = ifelse(max(num_periodos) < max_num_periodos, F, T)) %>%
+  filter(permanece) %>%
+  dplyr::select(-num_periodos, -max_num_periodos, - permanece) %>%
+  arrange(id, periodo) %>%
+  ungroup() %>%
+  as.data.frame() # aparentemente panel.matrices não funciona com tibble
+
+setup <- panel.matrices(ot_sdid)
+estimate = synthdid_estimate(setup$Y, setup$N0, setup$T0)
+plot(estimate)

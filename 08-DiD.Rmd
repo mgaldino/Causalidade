@@ -138,18 +138,18 @@ data_ot_reg_pt <-
   # Create group variable that take value end_t if state was ever treated in this period, and 0 otherwise
   dplyr::mutate(group = max(group_treated > 0, na.rm=TRUE)*end_t)
 
-test_2007_2015 <- didFF(
-  data        = data_ot_reg_pt,
-  idname      = "id",
-  yname       = "concluida",
-  tname       = "periodo",
-  gname       = "group",
-  est_method  = "reg",
-  allow_unbalanced_panel = TRUE,
-  seed        = 1
-)
-
-test_2007_2015$plot
+# test_2007_2015 <- didFF(
+#   data        = data_ot_reg_pt,
+#   idname      = "id",
+#   yname       = "concluida",
+#   tname       = "periodo",
+#   gname       = "group",
+#   est_method  = "reg",
+#   allow_unbalanced_panel = TRUE,
+#   seed        = 1
+# )
+# 
+# test_2007_2015$plot
 ```
 
 ## Múltiplos períodos

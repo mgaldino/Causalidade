@@ -1,0 +1,127 @@
+# Resumo
+
+## Matching
+
+Selling point: evitar viés da extrapolação de OLS baseado na forma funcional (overlapping). Estimação não paramétrica do ATT (mais robusto).
+
+Estimando: ATT (em geral)
+
+Suposição de identificação chave: selection on observables (conditional ignorability)
+
+Suposição de identificação testável: balancing de covaráveis
+
+Questões de estimação: ??
+
+Status: difícil convencer que conditional ignorability é satisfeita.
+
+## IV
+
+Selling point: Mais fácil obter ignorability do que selection on observables em regressão ou matching.
+
+Estimando: LATE (com heterogeneidade). Supõe monoticidade.
+
+Suposição de identificação chave: exclusion restriction
+
+Suposição de identificação testável: teste com múltiplos instrumentos
+
+Questões de estimação: IV fraca (estatística F > 23)
+
+Status: difícil convencer que temos IV boa
+
+## RDD
+
+Selling point: Intuitivo e mais crível de obter ignorability que outros métodos
+
+Estimando: Fuzzy: LATE. Sharp: ATE local? Mesma coisa que LATE?
+
+Suposição de identificação chave: continuidade do resultado potencial dos não tratados ao redor do ponto de corte
+
+Suposição de identificação testável: não-manipulação ao redor do ponto de corte (teste de McRay etc.)
+
+Questões de estimação: Reportar correção de viés de Cataneo para bandas automáticas.
+
+Status: N. 1. Mas cuidado com Politician characteristic regression discontinuity (PCRD). Não será mais crível.
+
+## DiD
+
+Selling point: Suposições transparentes? Não depende de ignorability, mas tendências paralelas (mais fácil de obter?).
+
+Estimando: ATT
+
+Suposição de identificação chave: tendências paralelas e, em casos dinâmicos, comparação correta com grupo controle adequado.
+
+Suposição de identificação testável: tendências paralelas pré-exposição ao tratamento. Event studies.
+
+Questões de estimação: Tendências paralelas depende da mensuração da VD (log? etc.). Depende de forma funcional paramétrica.
+
+Status: N. 2? 
+
+### TSCS
+
+Selling point: Todo mundo usa e "entende"
+
+Estimando: ATT
+
+Suposição de identificação chave: tendências paralelas, exogeneidade estrita ou exogeneidade contemporânea (random effects).
+
+Suposição de identificação testável: ?
+
+Questões de estimação: Em RE, usar correção de Mundlak. 
+
+Status: Benchmark? Usar para generalização de efeito estimado por outro método local?
+
+## SCM
+
+Selling point: Ótimo para efeito causal de um caso
+
+Estimando: ATT
+
+Suposição de identificação chave: Controle sintético aproxima bem resultado potencial?
+
+Suposição de identificação testável: Controle sintético aproxima bem controle pré-exposição
+
+Questões de estimação: Erro padrão e p-valor com randomization test. 
+
+Status: ???
+
+## DiD Sintético
+
+Selling point: Mais robusto a violações de tendências paralelas que DiD
+
+Estimando: ATT
+
+Suposição de identificação chave: tendências paralelas
+
+Suposição de identificação testável: tendências paralelas pré-exposição
+
+Questões de estimação: ?
+
+Status: Ninguem entende direito. 
+
+## Double LASSO
+
+Selling point: 
+
+Estimando: 
+
+Suposição de identificação chave: Ignorability condicional
+
+Suposição de identificação testável: ?
+
+Questões de estimação: ?
+
+Status: Potencialmente útil em contextos em que ignorability condicional é satisfeita, como experimentos ou DiD?
+
+## DML
+
+Selling point: Resolve o problema de má especificação da forma funcional dos controles
+
+Estimando: Depende da aplicação. De ATE, a ATT e LATE.
+
+Suposição de identificação chave: Ignorability condicional
+
+Suposição de identificação testável: ?
+
+Questões de estimação: Muitas. Sensível a qual ML usar, sensível ao número de folds, estrutura dependente pode dificultar cross-validação (dados de rede?), como escolehr fine-tunning de parâmetros, qual métrica usar.
+
+Status: Promissor para complementar outras técnicas (IV, DiD etc.), mas ainda em desenvolvimento. Seu uso sinaliza sofisticação metodológica.
