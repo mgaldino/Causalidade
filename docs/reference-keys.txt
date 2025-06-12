@@ -162,12 +162,12 @@ llms-e-outras
 google-colab
 machine-learning
 introdução-6
-lasso
 terminologia
-lasso-1
+lasso
 double-lasso
 outras-soluções-ineficazes
-dml---algoritmo
+dl---algoritmo
+termos-de-interação
 aplicação-1
 dml
 double-debiasing

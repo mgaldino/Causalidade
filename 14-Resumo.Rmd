@@ -22,7 +22,7 @@ Estimando: LATE (com heterogeneidade). Supõe monoticidade.
 
 Suposição de identificação chave: exclusion restriction
 
-Suposição de identificação testável: teste com múltiplos instrumentos
+Suposição de identificação testável: Testes de sobreidentificação (Sargan–Hansen) para múltiplos instrumentos.
 
 Questões de estimação: IV fraca (estatística F > 23)
 
@@ -32,13 +32,13 @@ Status: difícil convencer que temos IV boa
 
 Selling point: Intuitivo e mais crível de obter ignorability que outros métodos
 
-Estimando: Fuzzy: LATE. Sharp: ATE local? Mesma coisa que LATE?
+Estimando: LATE
 
 Suposição de identificação chave: continuidade do resultado potencial dos não tratados ao redor do ponto de corte
 
 Suposição de identificação testável: não-manipulação ao redor do ponto de corte (teste de McRay etc.)
 
-Questões de estimação: Reportar correção de viés de Cataneo para bandas automáticas.
+Questões de estimação: Correção de viés de banda larga e construção de intervalos de confiança robustos. Ordem do polinômio e sensibilidade à forma funcional (geralmente recomenda-se local linear).
 
 Status: N. 1. Mas cuidado com Politician characteristic regression discontinuity (PCRD). Não será mais crível.
 
@@ -80,7 +80,7 @@ Suposição de identificação chave: Controle sintético aproxima bem resultado
 
 Suposição de identificação testável: Controle sintético aproxima bem controle pré-exposição
 
-Questões de estimação: Erro padrão e p-valor com randomization test. 
+Questões de estimação: Erro padrão e p-valor com randomization test. Seleção de conjunto de doadores e covariáveis preditoras (pouca teoria aqui).
 
 Status: ???
 
@@ -108,7 +108,7 @@ Suposição de identificação chave: Ignorability condicional
 
 Suposição de identificação testável: ?
 
-Questões de estimação: ?
+Questões de estimação: Definição de penalização (λ) e folds para cross-validation.
 
 Status: Potencialmente útil em contextos em que ignorability condicional é satisfeita, como experimentos ou DiD?
 
