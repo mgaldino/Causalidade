@@ -33,7 +33,7 @@ E agora aplicamos nosso truque usual de somar e subtrair o mesmo termo, no caso,
 
 $X_{ijt} =\sum_j w_{ij0}D_{ijt} + (w_{ijt} - w_{ij0}) D_{ijt} = \sum_j w_{ij0} D_{ijt} + \sum_jw_{ij0}\bar{D}_{jt} - \sum_jw_{ij0}\bar{D}_{jt} + \sum_j  (w_{ijt} - w_{ij0}) D_{ijt} = \underbrace{\sum_jw_{ij0}\bar{D}_{jt}}_{\text{A: votação esperada}} + \underbrace{\sum_j w_{ij0} (D_{ijt} - \bar{D}_{jt})}_{\text{B: choque partidário}} + \underbrace{\sum_j  (w_{ijt} - w_{ij0}) D_{ijt}}_{\text{C: choque temporal}}$
 
-A interpretação de cada componente é: $A: votação esperada$ reflete a tendencia ou média de votação dos partidos no estado $i$ no ano $t$ levando em conta a composição inicial da distribuição de votos por partido $w_{ij0}$. 
+A interpretação de cada componente é: $A: votação esperada$ reflete a tendencia ou média de votação dos partidos no estado $i$ no ano $t$ levando em conta a composição inicial da distribuição de votos por partido $w_{ij0}$.
 
 O Componente $B: choque partidário$ reflete a mudança na distribuição de votos por partido por estado. Cada termo $w_{ij0}(D_{ijt} - \bar{D}{jt})$ mede quanto a votação do partido $j$ no estado $i$ se desviou da referência média $\bar{D}_{jt}$ naquele ano. Se $D_{ijt} - \bar{D}{jt}$ for positivo, significa que o partido $j$ teve um desempenho acima do esperado no estado $i$ (um choque positivo ali), contribuindo para aumentar $X_{it}$. Se for negativo, o partido $j$ foi pior que a média no estado (choque negativo), reduzindo $X_{it}$ em relação ao esperado. Importante: esses desvios são ponderados por $w_{ij0}$ (quão importante era o partido $j$ no estado $i$ inicialmente), de modo que choques em partidos que tinham grande presença inicial no estado impactam mais o total $X_{it}$ do que choques em partidos com pouca presença inicial. Este componente é chamado de shift porque reflete as mudanças (shifts) no desempenho dos partidos a nível nacional/setorial afetando o estado conforme sua composição inicial.
 
@@ -41,3 +41,283 @@ O componente $C: choque temporal$ representa o impacto das mudanças na particip
 
 Em conjunto, esses três componentes (A, B e C) formam o instrumento de shift-share desejado. Eles nos permitem entender $X_{it}$ da seguinte forma: (A) o que seria esperado dada a tendência geral (tamanho dos partidos em nível nacional e composição inicial do estado), (B) o quanto o estado ganhou ou perdeu devido a shifts no desempenho dos partidos (os choques dos partidos ponderados pela estrutura inicial do estado) e (C) o quanto se deve a mudanças internas do próprio estado na distribuição de votos (share regional). Cada passo da derivação acima evidencia explicitamente como chegamos a essa decomposição, tornando claros os papéis de $w_{ij0}$ (participações iniciais), de $D_{ijt} - \bar{D}{jt}$ (choques de desempenho dos partidos) e de $w_{ijt} - w_{ij0}$ (choques de participação regionais) na construção do instrumento de shift-share.
 
+## O instrumento shift-share como variável instrumental
+
+A decomposição acima é útil descritivamente, mas o verdadeiro poder do shift-share está no seu uso como variável instrumental. Vamos formalizar a construção e entender as condições de identificação.
+
+### Construção formal
+
+Considere $N$ regiões (indexadas por $i$) e $K$ setores (indexadas por $k$). Para cada região $i$, observamos a parcela (*share*) do setor $k$ no emprego local em um período base $t_0$:
+
+$$w_{ik} = \frac{L_{ik,t_0}}{L_{i,t_0}}$$
+
+onde $L_{ik,t_0}$ é o emprego no setor $k$ na região $i$ no período base, e $L_{i,t_0}$ é o emprego total na região $i$. Note que $\sum_k w_{ik} = 1$.
+
+Observamos também um choque (*shift*) agregado no nível do setor $k$, denotado $g_k$. No exemplo clássico de Bartik (1991), $g_k$ é a taxa de crescimento nacional do emprego no setor $k$:
+
+$$g_k = \frac{\Delta L_k^{Nacional}}{L_{k,t_0}^{Nacional}}$$
+
+O **instrumento shift-share** (ou instrumento Bartik) para a região $i$ é definido como:
+
+$$B_i = \sum_{k=1}^{K} w_{ik} \cdot g_k$$
+
+Este instrumento calcula a média ponderada dos choques setoriais, usando as shares pré-determinadas como pesos. A intuição é que regiões com composição setorial diferente serão diferencialmente afetadas pelos mesmos choques agregados.
+
+### O modelo estrutural e o IV
+
+O objetivo típico é estimar o efeito causal de uma variável endógena $X_i$ sobre uma variável de resultado $Y_i$. O modelo estrutural é:
+
+$$Y_i = \alpha + \beta X_i + \varepsilon_i$$
+
+onde $X_i$ é endógena (por exemplo, crescimento do emprego local, que é tanto causa quanto consequência de outros fatores locais). OLS é inconsistente porque $\text{Cov}(X_i, \varepsilon_i) \neq 0$.
+
+**Primeiro estágio (first stage)**: O instrumento $B_i$ prevê $X_i$:
+
+$$X_i = \gamma_0 + \gamma_1 B_i + \nu_i$$
+
+A condição de relevância exige $\gamma_1 \neq 0$: as shares combinadas com os shifts devem efetivamente prever a variável endógena.
+
+**Segundo estágio (second stage)**: Substitui-se $X_i$ por $\hat{X}_i$:
+
+$$Y_i = \alpha + \beta \hat{X}_i + \eta_i$$
+
+A condição de exclusão exige $\text{Cov}(B_i, \varepsilon_i) = 0$: o instrumento só afeta $Y_i$ através de $X_i$. É aqui que a recente literatura diverge sobre *de onde* vem essa exogeneidade.
+
+## Duas estratégias de identificação
+
+Uma revolução metodológica recente (2018-2025) esclareceu que há duas maneiras distintas de justificar a exogeneidade do instrumento shift-share. A referência pedagógica central é Borusyak, Hull & Jaravel (2025), publicada no *Journal of Economic Perspectives*.
+
+### Estratégia 1: Exogeneidade das shares (GPSS 2020)
+
+Goldsmith-Pinkham, Sorkin & Swift (2020) demonstram um resultado de equivalência fundamental: o estimador IV usando $B_i = \sum_k w_{ik} g_k$ como instrumento é **numericamente idêntico** a um estimador GMM que usa cada share $w_{ik}$ (para $k = 1, ..., K$) como instrumento separado, com os shifts $g_k$ servindo apenas como pesos na combinação ótima:
+
+$$\hat{\beta}^{IV} = \sum_k \hat{\alpha}_k \hat{\beta}_k$$
+
+onde $\hat{\beta}_k$ é a estimativa just-identified usando apenas $w_{ik}$ como instrumento (para o setor $k$), e $\hat{\alpha}_k$ é o **peso de Rotemberg** que mede a influência relativa do setor $k$ na estimativa global. Os pesos de Rotemberg satisfazem $\sum_k \hat{\alpha}_k = 1$ mas podem ser **negativos**, o que é um sinal de alerta.
+
+**Hipótese de identificação**: As shares iniciais $w_{ik}$ são exógenas -- isto é, não-correlacionadas com fatores não-observados que afetam $Y_i$:
+
+$$\mathbb{E}[w_{ik} \cdot \varepsilon_i] = 0 \quad \forall k$$
+
+Os shifts $g_k$ não precisam ser exógenos; eles apenas afetam a ponderação e a relevância do instrumento.
+
+**Diagnósticos**: Calcular os Rotemberg weights $\hat{\alpha}_k$ para identificar quais setores mais influenciam a estimativa. Testar balanceamento das shares mais influentes contra covariáveis pré-determinadas.
+
+### Estratégia 2: Exogeneidade dos shifts (BHJ 2022)
+
+Borusyak, Hull & Jaravel (2022) oferecem um framework alternativo. A regressão IV no nível regional é numericamente equivalente a uma regressão IV no **nível do choque** (setor), onde a variável de resultado e o tratamento são agregados ao nível do choque usando as shares como pesos:
+
+$$\bar{Y}_k = \sum_i s_{ik} Y_i, \quad \bar{X}_k = \sum_i s_{ik} X_i$$
+
+onde $s_{ik} = w_{ik} / \sum_i w_{ik}$ normaliza os pesos. A regressão no nível do choque:
+
+$$\bar{Y}_k = \alpha + \beta \bar{X}_k + \bar{\varepsilon}_k$$
+
+instrumentada por $g_k$, produz **exatamente a mesma estimativa** $\hat{\beta}$ que a regressão regional com $B_i$.
+
+**Hipótese de identificação**: Os choques $g_k$ são quasi-aleatoriamente atribuídos -- isto é, não-correlacionados com a média ponderada (por shares) dos fatores não-observados regionais:
+
+$$\mathbb{E}[g_k \cdot \bar{\varepsilon}_k] = 0 \quad \forall k$$
+
+As shares $w_{ik}$ podem ser endógenas. A identificação vem inteiramente da aleatoriedade dos choques, dado que há muitos choques independentes ($K \to \infty$).
+
+**Diagnósticos**: Testes de pré-tendências e balanceamento no nível do choque. Verificar se $g_k$ correlaciona-se com $\bar{\varepsilon}_k$ pré-tratamento.
+
+### Resumo das duas estratégias
+
+| | **Exogenous Shares** (GPSS 2020) | **Exogenous Shifts** (BHJ 2022) |
+|---|---|---|
+| **Hipótese-chave** | $\mathbb{E}[w_{ik} \cdot \varepsilon_i] = 0$ | $\mathbb{E}[g_k \cdot \bar{\varepsilon}_k] = 0$ |
+| **Shares podem ser endógenos?** | Não | Sim |
+| **Shifts podem ser endógenos?** | Sim (só afetam pesos) | Não |
+| **N. de choques necessário** | Pode funcionar com poucos | Precisa de muitos ($K$ grande) |
+| **Diagnósticos** | Rotemberg weights, balanceamento nas shares | Pré-tendências e balanceamento no nível do choque |
+| **Aplicações típicas** | Elasticidades de oferta de trabalho, especialização histórica exógena | Imigração (enclave), comércio (China Shock) |
+
+## O problema de inferência
+
+Adão, Kolesar & Morales (2019) identificam um problema crítico: erros-padrão convencionais (incluindo clustered por região ou estado) são **severamente subdimensionados** em regressões shift-share. Em exercícios de placebo, testes ao nível nominal de 5% rejeitam a hipótese nula verdadeira até **55%** das vezes.
+
+O problema surge porque resíduos $\hat{\varepsilon}_i$ são correlacionados entre regiões com composição setorial similar, independentemente de proximidade geográfica. Duas regiões $i$ e $j$ com shares parecidos ($w_{ik} \approx w_{jk}$) compartilham exposição aos mesmos choques setoriais, induzindo correlação em $\hat{\varepsilon}_i$ e $\hat{\varepsilon}_j$ que não é capturada por clustering geográfico.
+
+Na prática, os intervalos de confiança corrigidos por AKM são substancialmente mais largos que os convencionais.
+
+**Alternativa BHJ**: Em vez de corrigir os erros-padrão no nível regional, rodar a regressão diretamente no nível do choque (via `ssaggregate`) e usar erros-padrão convencionais (heteroscedasticidade-robustos) no nível do choque. Se os choques são independentes, a inferência convencional é válida.
+
+## Implementação em R
+
+### Construção do instrumento
+
+O instrumento $B_i = \sum_k w_{ik} g_k$ é uma simples multiplicação matricial:
+
+```{r shift-share-construcao, eval=FALSE}
+# shares: matriz N x K de exposure shares (cada linha soma 1)
+# shocks: vetor K x 1 de choques setoriais
+bartik_instrument <- shares %*% shocks
+```
+
+### Estimação IV
+
+Diversos pacotes R permitem estimar 2SLS. O `fixest` é recomendado por sua velocidade e suporte a efeitos fixos:
+
+```{r shift-share-iv, eval=FALSE}
+library(fixest)
+
+# Construir instrumento
+dados$bartik <- as.numeric(shares %*% shocks)
+
+# IV com efeitos fixos de estado
+modelo <- feols(y ~ controles | estado | x_endogeno ~ bartik, data = dados)
+summary(modelo)
+```
+
+### Erros-padrão corrigidos: pacote `ShiftShareSE`
+
+O pacote `ShiftShareSE`, de Michal Kolesar, está disponível no CRAN e implementa os erros-padrão AKM (Adão, Kolesar & Morales, 2019):
+
+```{r shift-share-se, eval=FALSE}
+install.packages("ShiftShareSE")
+library(ShiftShareSE)
+
+# IV com SEs corrigidos para shift-share
+resultado <- ivreg_ss(y ~ x_endogeno | bartik,
+                       X = shares_matrix,    # matriz N x K de shares
+                       data = dados)
+summary(resultado)
+```
+
+Este pacote é essencial porque, como demonstrado por AKM, erros-padrão convencionais (mesmo clusterizados por geografia) são severamente subdimensionados em designs shift-share.
+
+### Agregação ao nível do choque: pacote `ssaggregate`
+
+O pacote `ssaggregate`, de Kyle Butts, implementa a agregação ao nível do choque de Borusyak, Hull & Jaravel (2022). Está disponível apenas no GitHub:
+
+```{r shift-share-ssaggregate, eval=FALSE}
+# install: remotes::install_github("kylebutts/ssaggregate")
+library(ssaggregate)
+
+# Agregar dados regionais para o nível do choque
+dados_choque <- ssaggregate(
+  data = dados_long,     # formato longo: região x setor
+  shares = "share",
+  n = "regiao",
+  s = "setor",
+  t = "ano",
+  y = c("y", "x_endogeno")
+)
+
+# Agora rodar IV convencional no nível do choque
+feols(y ~ 1 | x_endogeno ~ g_k, data = dados_choque)
+```
+
+### Ecossistema R vs. Stata
+
+Uma comparação do ecossistema de software para shift-share revela diferenças importantes:
+
+| Funcionalidade | Stata | R | Status R |
+|---|---|---|---|
+| Agregação BHJ | `ssaggregate` (Borusyak et al.) | `ssaggregate` (Kyle Butts) | GitHub apenas |
+| SEs AKM | `ShiftShareSE` (ado) | `ShiftShareSE` (Kolesar) | **No CRAN** |
+| Rotemberg weights | `bartik_weight` (GPSS) | **Nenhum pacote** | Gap principal |
+| IV básico | `ivregress`, `ivreg2` | `fixest`, `ivreg`, `estimatr` | Excelente |
+
+O principal gap no R é a ausência de um pacote para calcular **Rotemberg weights** -- o diagnóstico central da abordagem GPSS (2020). Em Stata, o comando `bartik_weight` de Goldsmith-Pinkham, Sorkin & Swift calcula automaticamente esses pesos. Em R, o pesquisador precisa adaptar o código de replicação disponível no GitHub dos autores (github.com/paulgp/bartik-weight) ou implementar manualmente, o que envolve rodar $K$ regressões just-identified (uma por setor).
+
+Essa lacuna pode desencorajar o uso de diagnósticos adequados, enviesar a escolha metodológica em favor da abordagem BHJ (que tem melhor suporte em R via `ssaggregate`), e criar uma barreira de entrada para pesquisadores de CP e RI que tipicamente usam R.
+
+## Aplicações em Ciência Política
+
+O instrumento shift-share tem sido cada vez mais utilizado em ciência política, especialmente para estudar os efeitos políticos de choques comerciais.
+
+### Comércio e voto nos EUA
+
+Baccini & Weymouth (2021, *APSR*) mostram que, em condados dos EUA afetados pela desindustrialização via importações chinesas, brancos votaram mais em republicanos e negros mais em democratas -- sugerindo que a desindustrialização ameaça o status do grupo dominante. Feigenbaum & Hall (2015, *Journal of Politics*) encontram que choques de importação chinesa fazem legisladores votarem de forma mais protecionista em projetos de comércio, mas sem efeito em outras votações nem na reeleição. Margalit (2011, *APSR*) mostra que eleitores são mais sensíveis a demissões por competição estrangeira do que por outros fatores, e que a compensação governamental (via Trade Adjustment Assistance) mitiga o backlash político.
+
+### Comércio e nacionalismo na Europa
+
+Colantone & Stanig publicaram dois artigos seminais: em 2018 no *APSR*, mostram que o voto Leave no Brexit foi sistematicamente maior em regiões mais expostas à competição chinesa (um desvio-padrão no choque = ~2pp a mais de Leave); e no mesmo ano no *AJPS*, encontram que maior exposição ao choque chinês aumentou apoio a partidos nacionalistas e de extrema-direita em 15 países europeus (1988-2007). Hays, Lim & Spoon (2019, *Electoral Studies*) confirmam esse padrão para o populismo de direita na Europa, e Rommel & Walter (2022, *Comparative Political Studies*) estendem para offshoring, mostrando que regiões mais expostas tiveram aumento no apoio a partidos de direita radical.
+
+### Valores autoritários
+
+Ballard-Rosa, Malik, Rickard & Scheve (2021, *Comparative Political Studies*) mostram que regiões britânicas mais afetadas por importações chinesas têm valores significativamente mais autoritários, via mecanismo de frustração-agressão. Ballard-Rosa, Jensen & Scheve (2022, *International Studies Quarterly*) replicam o achado para os EUA: competição chinesa em regiões diversas gera valores mais autoritários, afetando a identidade social de grupos dominantes.
+
+### Welfare state histórico
+
+Scheve & Serlin (2023, *APSR*) usam um shift-share histórico para mostrar que importações alemãs na Grã-Bretanha (1880-1910) pioraram o mercado de trabalho e mudaram crenças sobre a "merecimento" dos pobres, contribuindo para o surgimento do welfare state britânico.
+
+### Automação e redistribuição
+
+Thewissen & Rueda (2019, *Comparative Political Studies*) mostram que trabalhadores mais expostos à automação expressam preferências mais fortes por redistribuição, com o efeito mediado pelo contexto institucional.
+
+### Brasil
+
+Campello & Urdinez (2021, *Comparative Political Studies*) é uma das poucas aplicações fora dos EUA/Europa. Mostram que municípios brasileiros afetados por importações chinesas veem a China como risco, mas municípios beneficiados por exportações *não* veem como oportunidade -- as perdas moldam percepções de política externa mais que os ganhos.
+
+## Aplicações em Relações Internacionais
+
+O shift-share também tem sido publicado em journals de RI, especialmente *International Organization* e *International Studies Quarterly*.
+
+### Comércio e política externa
+
+Jensen, Quinn & Weymouth (2017, *International Organization*) mostram que importações reduzem o voto no incumbente presidencial nos EUA enquanto exportações aumentam, com swing states de manufatura de baixa qualificação especialmente vulneráveis. Broz, Frieden & Weymouth (2021, *International Organization*) encontram que regiões simultaneamente expostas a importações e automação tiveram o maior aumento no voto populista (Trump 2016), com a interação dos dois choques mais poderosa que cada um isoladamente.
+
+### Comportamento legislativo em política comercial
+
+Kuk, Seligsohn & Zhang (2018, *Journal of Contemporary China*) mostram que, após 2003 (pós-acessão da China à OMC), legisladores americanos de distritos afetados por importações chinesas tornaram-se sistematicamente mais hostis à China em votos de política externa -- mais hostis do que após o massacre de Tiananmen. Owen (2017, *International Studies Quarterly*) mostra que congressistas de distritos mais expostos a offshoring votaram mais contra o acordo DR-CAFTA.
+
+### Temas com potencial inexplorado em RI
+
+A metodologia shift-share tem aplicações potenciais em diversos temas de RI que permanecem pouco explorados:
+
+- **Sanções internacionais**: Exposição diferencial de países a sanções, usando shares de parceiros comerciais e shifts de sanções impostas.
+- **Cooperação internacional**: Efeitos de choques econômicos sobre apoio a organizações internacionais e tratados.
+- **Conflito**: Na interface com economia, Dube & Vargas (2013, *Review of Economic Studies*) oferecem um exemplo elegante usando preços de commodities e conflito na Colômbia com dois mecanismos opostos (custo de oportunidade vs. rapacidade), e Gallea (2023, *Journal of Development Economics*) usa transferências de armas e conflito na África, mas essas aplicações foram publicadas em journals de economia, não de RI.
+- **China Shock no Sul Global**: Além de Campello & Urdinez (2021) sobre o Brasil, há pouquíssimas aplicações do China Shock político em países em desenvolvimento.
+
+## Referências
+
+Adão, Rodrigo, Michal Kolesar, and Eduardo Morales. 2019. "Shift-Share Designs: Theory and Inference." *Quarterly Journal of Economics* 134(4): 1949-2010.
+
+Baccini, Leonardo, and Stephen Weymouth. 2021. "Gone For Good: Deindustrialization, White Voter Backlash, and US Presidential Voting." *American Political Science Review* 115(2): 550-567.
+
+Ballard-Rosa, Cameron, Amalie Jensen, and Kenneth Scheve. 2022. "Economic Decline, Social Identity, and Authoritarian Values in the United States." *International Studies Quarterly* 66(1).
+
+Ballard-Rosa, Cameron, Mashail Malik, Stephanie Rickard, and Kenneth Scheve. 2021. "The Economic Origins of Authoritarian Values." *Comparative Political Studies* 54(13): 2321-2353.
+
+Bartik, Timothy J. 1991. *Who Benefits from State and Local Economic Development Policies?* Kalamazoo, MI: W.E. Upjohn Institute.
+
+Borusyak, Kirill, Peter Hull, and Xavier Jaravel. 2022. "Quasi-Experimental Shift-Share Research Designs." *Review of Economic Studies* 89(1): 181-213.
+
+Borusyak, Kirill, Peter Hull, and Xavier Jaravel. 2025. "A Practical Guide to Shift-Share Instruments." *Journal of Economic Perspectives* 39(1): 181-204.
+
+Broz, J. Lawrence, Jeffry Frieden, and Stephen Weymouth. 2021. "Populism in Place: The Economic Geography of the Globalization Backlash." *International Organization*.
+
+Campello, Daniela, and Francisco Urdinez. 2021. "Voter and Legislator Responses to Localized Trade Shocks from China in Brazil." *Comparative Political Studies* 54(7): 1131-1162.
+
+Colantone, Italo, and Piero Stanig. 2018. "Global Competition and Brexit." *American Political Science Review* 112(2): 201-218.
+
+Colantone, Italo, and Piero Stanig. 2018. "The Trade Origins of Economic Nationalism." *American Journal of Political Science* 62(4): 936-953.
+
+Dube, Oeindrila, and Juan Vargas. 2013. "Commodity Price Shocks and Civil Conflict: Evidence from Colombia." *Review of Economic Studies* 80(4): 1384-1421.
+
+Feigenbaum, James, and Andrew Hall. 2015. "How Legislators Respond to Localized Economic Shocks." *Journal of Politics* 77(4).
+
+Gallea, Quentin. 2023. "Weapons and War: The Effect of Arms Transfers on Internal Conflict." *Journal of Development Economics* 160.
+
+Goldsmith-Pinkham, Paul, Isaac Sorkin, and Henry Swift. 2020. "Bartik Instruments: What, When, Why, and How." *American Economic Review* 110(8): 2586-2624.
+
+Hays, Jude, Junghyun Lim, and Jae-Jae Spoon. 2019. "The Path from Trade to Right-Wing Populism in Europe." *Electoral Studies*.
+
+Jensen, J. Bradford, Dennis Quinn, and Stephen Weymouth. 2017. "Winners and Losers in International Trade." *International Organization* 71(3): 423-457.
+
+Kuk, John Seungmin, Deborah Seligsohn, and Jiakun Jack Zhang. 2018. "From Tiananmen to Outsourcing." *Journal of Contemporary China* 27(109).
+
+Margalit, Yotam. 2011. "Costly Jobs: Trade-related Layoffs, Government Compensation, and Voting in U.S. Elections." *American Political Science Review* 105(1): 166-188.
+
+Owen, Erica. 2017. "Exposure to Offshoring and the Politics of Trade Liberalization." *International Studies Quarterly*.
+
+Rommel, Tobias, and Stefanie Walter. 2022. "The Electoral Consequences of Offshoring." *Comparative Political Studies*.
+
+Scheve, Kenneth, and Theo Serlin. 2023. "The German Trade Shock and the Rise of the Neo-Welfare State." *American Political Science Review* 117(2): 557-574.
+
+Thewissen, Stefan, and David Rueda. 2019. "Automation and the Welfare State." *Comparative Political Studies*.
