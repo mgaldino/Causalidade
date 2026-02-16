@@ -39,9 +39,9 @@ Do ponto de vista não paramétrico (DAGs), dizemos que a variável $Z$ é uma *
 
 3. A variável instrumental $Z$ não compartilha causa comum com $Y$, incluindo, portanto, não ser descendente de $T$. **Causa comum**.
 
-Remark: Pode acontecer de ser necessário controlar para uma conjunto de covariáveis $X$ para que a segunda condição seja satisfeita. Chamamos isso de IV condicional.
+Remark: Pode acontecer de ser necessário controlar para um conjunto de covariáveis $X$ para que a segunda condição seja satisfeita. Chamamos isso de IV condicional.
 
-Remark 2: Dizemos que uma variável $Z$ é **candidata** a ser VI porque as três condições acima, ainda que necessárias, não são suficientes para uma variável ser considerada VI. Veremos mais à frente porque isso acontece e o que mais é necessário para uma variável ser considerada VI.
+Remark 2: Dizemos que uma variável $Z$ é **candidata** a ser VI porque as três condições acima, ainda que necessárias, não são suficientes para uma variável ser considerada VI. Veremos mais à frente por que isso acontece e o que mais é necessário para uma variável ser considerada VI.
 Considere o DAG abaixo.
 
 Remark 3: A literatura econométrica não costuma deixar muito clara a condição 3. Às vezes falam que $Z$ deve causar $T$ (o que implica que não há causa comum em um DAG). Porém, isso não é correto, como o DAG abaixo mostra, em que, controlando para $V_3$, que é um collider, induzimos correlação entre $Z$ e $T$ para a condição de relevância ser satisfeita, e $Z$ é uma VI candidata.
@@ -71,7 +71,7 @@ ggdag(dag_iv, text = FALSE) +
 
 ```
 
-Do mesmo jeito, se $V_3$ for causa comum de $Z$ e $T$, não controlar para ela torna a $Z$ admissível como VI.
+Do mesmo jeito, se $V_3$ for causa comum de $Z$ e $T$, não controlar para ela torna $Z$ admissível como VI.
 
 ```{r dag-diagram3, echo=FALSE, message=FALSE}
 dag_iv <- dagify(
@@ -124,7 +124,7 @@ ggdag(dag_complex, text = FALSE) +
 
 Vamos verificar as condições. É fácil ver que $Z$ está conectado a $T$, já que temos dois caminhos abertos, um via $W$ e outro via $L$ (e ainda um via $W$ via $L$). Portanto, a primeira condição está satisfeita. Note que se eu controlar simultaneamente para $W$ e $L$, então eu fecho todos os caminhos abertos.
 
-Com relação à segunda condição, Remover a flecha de $T$ para $Y$ é, efetivamente, ter um novo DAG:
+Com relação à segunda condição, remover a flecha de $T$ para $Y$ é, efetivamente, ter um novo DAG:
 
 Por fim, $Z$ não compartilha causa comum com $Y$.
 
@@ -258,7 +258,7 @@ Quando pesquisadores utilizam o processo de assignment como instrumento para lid
 
 ### Regras com variação quasi-aleatória
 
-Kin (2019) utiliza uma regra na Suécia que obriga cidades com poplução acima de certo nível a adotar democracia direta. Dinas (2014) utiliza idade para votar no momento da eleição como instrumento para comparecimento eleitoral do eleitor.
+Kin (2019) utiliza uma regra na Suécia que obriga cidades com população acima de certo nível a adotar democracia direta. Dinas (2014) utiliza idade para votar no momento da eleição como instrumento para comparecimento eleitoral do eleitor.
 
 ### Teoria
 
@@ -268,7 +268,7 @@ Mellon (2023) revisou 289 estudos e concluiu que 195 variáveis distintas foram 
 
 Cinelli and Hazlett
 
-Freidman et. al (2000) usaram origem legal (francesa, inglesa, sueca etc.) como instrumento para qualidade das instituições. Djankov et al. (2003) usaram origem legal como instrumento para grau de formalismo de instituições.
+Friedman et al. (2000) usaram origem legal (francesa, inglesa, sueca etc.) como instrumento para qualidade das instituições. Djankov et al. (2003) usaram origem legal como instrumento para grau de formalismo de instituições.
 
 Glaeser et al. (2004) usaram origem legal como instrumento para restrições ao executivo ("executive constraints").
 
@@ -279,20 +279,20 @@ Os resultados acima supõem que o efeito do tratamento é homogêneo. Mas o que 
 ## Efeito heterogêneo
 
 
-Se houver efeito heretogêneo (apenas mulheres mudam comportamento em razão do instrumento, por exemplo), então estamos estimando o efeito apenas para aquele subgrupo (são os compliers com o instrumento).
+Se houver efeito heterogêneo (apenas mulheres mudam comportamento em razão do instrumento, por exemplo), então estamos estimando o efeito apenas para aquele subgrupo (são os compliers com o instrumento).
 
 Se o instrumento explicar pouco da variação no Tratamento, então teremos pouca variação no tratamento para explicar a variação em Y. Ou seja, o sinal é fraco. Isso se traduz em baixo poder estatístico.
 
-Para discutir efeito casual heterogêneo, vamos utilizar um estudo em ciência política (White, 2019). Qual o efeito de misdemeanor (algo como contravenção penal) sobre comparecimento eleitoral? O aturo argumenta que o efeito deve variar por raça (maior para negros que brancos), de modo que o efeito causla é heterogêneo. Segundo o autor, casos são atribuídos aleatoriamente para diferentes cortes judiciais, e elas variam em sua leniência (ou severidade). Aqui, o tratamento é a condenação ($1$ se condenado, $0$ se não), e temos uma variável instrumental, o sorteio do juiz mais ou menos leniente.
+Para discutir efeito casual heterogêneo, vamos utilizar um estudo em ciência política (White, 2019). Qual o efeito de misdemeanor (algo como contravenção penal) sobre comparecimento eleitoral? O autor argumenta que o efeito deve variar por raça (maior para negros que brancos), de modo que o efeito causal é heterogêneo. Segundo o autor, casos são atribuídos aleatoriamente para diferentes cortes judiciais, e elas variam em sua leniência (ou severidade). Aqui, o tratamento é a condenação ($1$ se condenado, $0$ se não), e temos uma variável instrumental, o sorteio do juiz mais ou menos leniente.
 
-Alguns acusados têm tantas evidências que serão condenados não importa para que tipo de corte são enviados. Outros, podem sersempre absolvidos, não importa o juiz. Há os !azarados", que só serão condenados se enviados para a corte severa. O que não faz sentido é ter alguém que só é condenado se enviado para um juiz leniente e absolvido se enviado para um severo.
+Alguns acusados têm tantas evidências que serão condenados não importa para que tipo de corte são enviados. Outros, podem ser sempre absolvidos, não importa o juiz. Há os "azarados", que só serão condenados se enviados para a corte severa. O que não faz sentido é ter alguém que só é condenado se enviado para um juiz leniente e absolvido se enviado para um severo.
 Nós iremos agrupar esses quatro tipos (incluindo o último) em quatro tipos:
 
-Os primeiros são chamado de always-takers. Sempre recebem o tratamento (são presos), não importa o que foi atribuído a eles pelo mecanismo de atribuição. O segundo são os never takers, que nunca recebem o tratamento. Por fim, o terceiro grupo são os compliers, que seguem o tratamernto prescrito e o quarto grupo são os defiers, aqueles que fazem o contrário do prescrito. Nesse caso, não faz muito sentido imaginar que existem os defiers, mas teoricamente é possível.
+Os primeiros são chamados de always-takers. Sempre recebem o tratamento (são presos), não importa o que foi atribuído a eles pelo mecanismo de atribuição. O segundo são os never takers, que nunca recebem o tratamento. Por fim, o terceiro grupo são os compliers, que seguem o tratamento prescrito e o quarto grupo são os defiers, aqueles que fazem o contrário do prescrito. Nesse caso, não faz muito sentido imaginar que existem os defiers, mas teoricamente é possível.
 
-Digmos que o efeito causal do tratamento é heterogêneo, isto é, $\delta_i = Y^1_i - Y^0_i$.
+Digamos que o efeito causal do tratamento é heterogêneo, isto é, $\delta_i = Y^1_i - Y^0_i$.
 
-Nesse caso, não podemos mais estimar o efeito causal geral (ATE), pois o efeito causla é heterogêneo e o instrumento só explica a variação no tratamento para os compliers.
+Nesse caso, não podemos mais estimar o efeito causal geral (ATE), pois o efeito causal é heterogêneo e o instrumento só explica a variação no tratamento para os compliers.
 
 ### Suposições para estimar o LATE
 
@@ -300,7 +300,7 @@ Além das suposições que já discutimos, vale sempre lembrar que temos também
 
 Resultados potenciais para unidade $i$ não estão relacionadas ao tratamento que $j$ recebe. Claramente existe potencial para SUTVA ser violada no estudo de encarceramento e voto. Se dois irmãos (indivíduo $i$ e $j$) são acusados e um deles é preso, é possível que o tratamento de um deles impacte a probabilidade de voto do outro e vice-versa. Salvo engano, White não discute essa possibilidade de violação da suposição, o que é problemático. Mas vamos supor que SUTVA está garantido.
 
-2. Vale lembrar também que Independência é diferetne da restrição de exclusão
+2. Vale lembrar também que Independência é diferente da restrição de exclusão
 
 Também chamada de *as good as random assignment* e *no confounding for the effect of Z on Y*. Afirma que a IV é independente dos resultados potenciais e das potenciais atribuições de tratamento. Em termos de nosso DAG, quer dizer que $Z$ não compartilha causa comum com $Y$. 
 
@@ -310,13 +310,13 @@ Essa suposição parece tranquilamente satisfeita no estudo em questão, já que
 
 A restrição de exclusão requer que o instrumento $Z$ afete o resultado $Y$ apenas por meio do tratamento $T$. Em outras palavras, não há efeito direto de $Z$ sobre $Y$ que não passe por $T$. Essa suposição é não testável diretamente e deve ser justificada com argumentos substantivos.
 
-## Monoticidade
+## Monotonicidade
 
-Por fim, precisamos assumir monoticidade. Ela requer que a variável instrumental opera (fracamente) em todas as direções para todos os indivíduos. Ou seja, todo mundo que é afetado pelo instrumento é afetado da mesma maneira. Em outras palavras, o instrumento apenas move as pessoas do controle para o tratamento (ou não move a pessoa), mas nunca o contrário. Ou seja, estamos assumindo que não há defiers na nossa população.
+Por fim, precisamos assumir monotonicidade. Ela requer que a variável instrumental opera (fracamente) em todas as direções para todos os indivíduos. Ou seja, todo mundo que é afetado pelo instrumento é afetado da mesma maneira. Em outras palavras, o instrumento apenas move as pessoas do controle para o tratamento (ou não move a pessoa), mas nunca o contrário. Ou seja, estamos assumindo que não há defiers na nossa população.
 
-Matematicamente e de maneira geral, dizemos que a monoticidade é válida quando $T^{Z=1} \geq T^{Z=0}$ para todas as unidades.
+Matematicamente e de maneira geral, dizemos que a monotonicidade é válida quando $T^{Z=1} \geq T^{Z=0}$ para todas as unidades.
 
-Com essas suposições, nós estiamos o LATE: Local Average Treatment Effect of T on Y. Isso porque nosso estimador é:
+Com essas suposições, nós estimamos o LATE: Local Average Treatment Effect of T on Y. Isso porque nosso estimador é:
 
 \begin{align}
   \mathbb{E}[Y(Z=1) - Y(Z=0)] = \\
@@ -353,7 +353,7 @@ Ou seja, o estimador de 2sls é a razão da forma reduzida e o primeiro estágio
 
 O que acontece se $Cov(D_i, z_i)$ for muito pequeno? Pequenas variações podem impactar bastante as estimativas.
 
-É possível mostrar (supondo homocedasticidade) como o viés do nosso estimaodr em dois estágio se releciona com a estatística F:
+É possível mostrar (supondo homocedasticidade) como o viés do nosso estimador em dois estágios se relaciona com a estatística F:
 
 $$
 \mathbb{E}[\hat{\beta_{2sls}} - \beta] \approx \underbrace{\frac{Cov(u,e)}{Var(u)}}_{\text{OVB}} \frac{k}{F + 1}
@@ -378,14 +378,14 @@ Ponto chave: quando existem muitos instrumentos, o viés aumenta.
 
 This is the approach initially developed by Staiger and Stock (1997) and Stock and Yogo (2005).
 - Typical rule of thumb: first-stage F-statistic above 10 means that bias won’t be larger than 10% with size of 5%. Very popular!
-- Suposição chave: homecedasticidade!
+- Suposição chave: homocedasticidade!
 
 Montiel Olea and Pfluger( 2013) desenvolveram um teste robusto a heterocedasticidade, com uma estatística F mais apropriada  a (allows for clustering, autocorrelation, etc.)
 - O novo ponto de corte é mais como 23.1
 
-O patoce ivDiag computa essa estatística F. Função eff_F. 
+O pacote ivDiag computa essa estatística F. Função eff_F. 
 
-Alternativa é computar um invervalo de confiança de Anderson-Rubin, que é válido mesmo com instrumento fraco. Novamente, ivDiag computa esse IC.  
+Alternativa é computar um intervalo de confiança de Anderson-Rubin, que é válido mesmo com instrumento fraco. Novamente, ivDiag computa esse IC.  
 
 
 ## Resumo e próximos passos

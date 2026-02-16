@@ -2,7 +2,7 @@
 
 Vamos começar com um exemplo, já famoso na literatura, de Controle Sintético. O estado da Califórnia implementou uma proibição de uso de cigarro e digamos que queremos ver o efeito dessa proibição, isto é, nosso estimando é $\tau_{\text{ban}, \text{CA}} = Y(1)_{\text{ban}, CA} - Y(0)_{\text{ban}, \text{CA}}$.
 
-Como não observamos $Y(0)_{\text{ban}, \text{CA}}$, temos de criar uma "Califórnia sintética". Antigamente, iremos usar alguma média dos demais estados "não-tratados"para estimar o contrafactual. Contudo, não é muito convincente.
+Como não observamos $Y(0)_{\text{ban}, \text{CA}}$, temos de criar uma "Califórnia sintética". Antigamente, iremos usar alguma média dos demais estados "não-tratados" para estimar o contrafactual. Contudo, não é muito convincente.
 
 
 
@@ -82,21 +82,21 @@ ggplot(plot_data,
 ```
 
 
-Suponha que obtivemos dados para $J+1$ unidades para unidades $j = 1, 2, ..., J+1$, e sem perda de generalidade, a primeira unidade $j=1$ é a de tratamento ou sob intervenção. O grupo de unidades para comparação (*donor pool*) é dado por $j = 2, ..., J+1$, uma coleção de unidade não-tratadas. Os dados são observados por $T$ períodos $1, 2, ..., t_0, t_1, t_2, ..., T$, em que de $1$ até $t_0$ nenhuma unidade foi tratada ou sofreu intervenção. Para cada unidade $j$, observamos também um conjunto de $k$ preditores, $X_{1j}, X_{2j}, ..., X_{kj}$, que pode incluir vaores pré-intervenção da variável resposta $y_{jt}$.
+Suponha que obtivemos dados para $J+1$ unidades para unidades $j = 1, 2, ..., J+1$, e sem perda de generalidade, a primeira unidade $j=1$ é a de tratamento ou sob intervenção. O grupo de unidades para comparação (*donor pool*) é dado por $j = 2, ..., J+1$, uma coleção de unidades não-tratadas. Os dados são observados por $T$ períodos $1, 2, ..., t_0, t_1, t_2, ..., T$, em que de $1$ até $t_0$ nenhuma unidade foi tratada ou sofreu intervenção. Para cada unidade $j$, observamos também um conjunto de $k$ preditores, $X_{1j}, X_{2j}, ..., X_{kj}$, que pode incluir valores pré-intervenção da variável resposta $y_{jt}$.
 
-A ideia é usar com combinação linear do *donor pool*, com pesos apropriados, para estimar o contrafactual, isto é, o resultado potencial dos tratados. Lembrando que o estimando usual de interesse é o ATT:
+A ideia é usar uma combinação linear do *donor pool*, com pesos apropriados, para estimar o contrafactual, isto é, o resultado potencial dos tratados. Lembrando que o estimando usual de interesse é o ATT:
 $$
 \mathbb{E}[Y(1)_{it}|D_{it}=1] - \mathbb{E}[Y(0)_{it}|D_{it}=1] 
 $$
-A dificuldade, como sempre, é que não observamos $\mathbb{E}[Y(0)_{it}|D_{it}=1]$. Estimar ou imputar esse *missing data* a partir de uma média ponderada é o objetivo de nosso estimador. A ideia é um pouco parecida com matching, em que nós pareávamos unidades de controle com as tratadas, minimizando a distância a partir das covariáveis. Aqui, vamos fazer algo parecido, mas com uma diferença chave: vamos incluir nas covariáveis a variável resposta defasada. Esse método foi introduzido por Abadie et. al em um journal de ciência política.
+A dificuldade, como sempre, é que não observamos $\mathbb{E}[Y(0)_{it}|D_{it}=1]$. Estimar ou imputar esse *missing data* a partir de uma média ponderada é o objetivo de nosso estimador. A ideia é um pouco parecida com matching, em que nós pareávamos unidades de controle com as tratadas, minimizando a distância a partir das covariáveis. Aqui, vamos fazer algo parecido, mas com uma diferença chave: vamos incluir nas covariáveis a variável resposta defasada. Esse método foi introduzido por Abadie et al. em um journal de ciência política.
 
-Vamos usar a abordagem de Doudchenko e Imbens (2018) para apresentar o método, pois vai familiar a introdução posterior de diferença em diferenças sintéticas.
+Vamos usar a abordagem de Doudchenko e Imbens (2018) para apresentar o método, pois vai facilitar a introdução posterior de diferença em diferenças sintéticas.
 
 Nossos dados podem ser organizados da seguinte forma:
 
 ### Tratamento
 
-Suponha, como no caso da proposição 99, que temos uma unidade tratada e o tratamento é absorvente. O banco de dado para o tratamento pode ser representado como:
+Suponha, como no caso da proposição 99, que temos uma unidade tratada e o tratamento é absorvente. O banco de dados para o tratamento pode ser representado como:
 
 \begin{aligned}
 D \;=\;
@@ -109,7 +109,7 @@ D \;=\;
 \end{bmatrix}
 \end{aligned}
 
-Aqui, o estados estão nas colunas, Califórnia é a última coluna, e nas linhas temos os períodos de tempo. E podemos simplificar a matriz acima para apenas quatro blocos:
+Aqui, os estados estão nas colunas, Califórnia é a última coluna, e nas linhas temos os períodos de tempo. E podemos simplificar a matriz acima para apenas quatro blocos:
 
 \begin{aligned}
 D \;=\;
@@ -155,9 +155,9 @@ Em ADH (2010), as restrições são:
 
 3. $w_i \geq 0 \text{, } \forall i$
 
-Restrição 1 signifca que não há diferença de nível. Suposição 2 significa que o contrafactual tem de ser construído no suporte do *donor pool*. Suposição 3 
+Restrição 1 significa que não há diferença de nível. Suposição 2 significa que o contrafactual tem de ser construído no suporte do *donor pool*. Suposição 3 
 
-A intuição para o cálculo do peso é parecida da regressão linear, em que estamos minimizando a soma da distância. A diferença é que é uma soma diferente. 
+A intuição para o cálculo do peso é parecida com a da regressão linear, em que estamos minimizando a soma da distância. A diferença é que é uma soma diferente. 
 
 $$
 ||\mathbf{X}_{tr} - \mathbf{X}_{co}\mathbf{W}||
@@ -259,10 +259,10 @@ smoking_out %>% plot_placebos()
 
 O controle sintético apresentado acima é uma ferramenta poderosa para estudos de caso. Uma extensão natural é combinar essa ideia com o estimador de Diferença em Diferenças, gerando o chamado Synthetic DiD.
 
-## Synthethic DiD
+## Synthetic DiD
 
-Synth DiD combinar controle sintético com DiD, em algo novo. Então, vamos começar revisitando DiD.
-Nós vimos que o estimador de DiD é equivalente a uma regressão linear com efeitos fixos de unidade e tempo. Vamos aplicar nosso estimador para os dados da da proposição 99.
+Synth DiD combina controle sintético com DiD, em algo novo. Então, vamos começar revisitando DiD.
+Nós vimos que o estimador de DiD é equivalente a uma regressão linear com efeitos fixos de unidade e tempo. Vamos aplicar nosso estimador para os dados da proposição 99.
 
 ```{r did, echo=TRUE, message=FALSE, warning=FALSE}
 library(fixest)
@@ -318,13 +318,13 @@ $$
 (\hat{\mu}, \hat{\alpha}, \hat{\gamma}, \hat{\tau}) = \text{arg}\,\min\limits_{\mu, \gamma, \tau}\ \sum_i \sum_t (y_{it} - \mu - \alpha_i - \gamma_t -D_{it}\tau)^2
 $$
 
-A a proposta dos autores, o Synthetic DiD é dada pelo estimador:
+A proposta dos autores, o Synthetic DiD é dada pelo estimador:
 $$
 (\hat{\mu}, \hat{\alpha}, \hat{\gamma}, \hat{\tau}) = \text{arg}\,\min\limits_{\mu, \gamma, \tau}\ \sum_i \sum_t (y_{it} - \mu - \alpha_i - \gamma_t -D_{it}\tau)^2\hat{w}_i\hat{\lambda}_t
 $$
-Como antes, $\hat{w}_i$ são pesos para cada unidade que procuram balancear a tendência pré-exposição ao tratamento nos grupos controle e de tratamento (no exemplo, demais estados e Califórnia). E introduzem pesos $\hat{\lambda}_t$ para  os períodos de tempo $t$ que procuram balancear os períodos pré-exposição com os períodos pós-exposição.
+Como antes, $\hat{w}_i$ são pesos para cada unidade que procuram balancear a tendência pré-exposição ao tratamento nos grupos controle e de tratamento (no exemplo, demais estados e Califórnia). E introduzem pesos $\hat{\lambda}_t$ para os períodos de tempo $t$ que procuram balancear os períodos pré-exposição com os períodos pós-exposição.
 
-Contrast o SDiD com o DiD, e a diferença são os dois pesos. Basicamente, estamos estimando regressão linear local ao colocar mais peso em unidades que são, em média, mais similares aos tratados no período pré-exposição e enfatiza períodos mais similares ao algo (período tratado). Em outras palavras, "Time weights are designed so that the average post-treatment outcome for each of the control units differs by a constant from the weighted average of the pre-treatment outcomes for the same control units"(p. 4)
+Contraste o SDiD com o DiD, e a diferença são os dois pesos. Basicamente, estamos estimando regressão linear local ao colocar mais peso em unidades que são, em média, mais similares aos tratados no período pré-exposição e enfatiza períodos mais similares ao alvo (período tratado). Em outras palavras, "Time weights are designed so that the average post-treatment outcome for each of the control units differs by a constant from the weighted average of the pre-treatment outcomes for the same control units"(p. 4)
 
 Esse estimador relaxa a suposição de tendências paralelas. Agora, precisamos que um fator latente seja paralelo.
 

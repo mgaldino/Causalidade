@@ -6,7 +6,7 @@
 
 ## Introdução
 
-Uma das principais abordagens para fazer inferência causal utiliza diagramas causais chamados de Directed Acyclic Graphs (DAG). Ela foi desenvolvida na ciência da computação entre os anos 80 e 90 e é associada com o trabalho pioneiro de Judea Pearl. Veja o livro *The Book of Why* para uma história de como surgiu essa abordagem.
+Uma das principais abordagens para fazer inferência causal utiliza diagramas causais chamados de Directed Acyclic Graphs (DAG). Ela foi desenvolvida na ciência da computação entre os anos 80 e 90 e é associada ao trabalho pioneiro de Judea Pearl. Veja o livro *The Book of Why* para uma história de como surgiu essa abordagem.
 
 Abaixo temos um exemplo simples de um DAG:
 
@@ -18,14 +18,14 @@ ggdag(dag)
 ```
 Eles são chamados de DAGs porque os gráficos são direcionados (apontam em uma direção), acyclic porque não permitem ciclos (isto é, se A causa B, B não pode causar A) e graphs porque, como você pode imaginar, são grafos.
 
-No exemplo acima, o DAG é formado por três variáveis \{y, x, z\} que são, em geral, variáveis aleatórias. E as flechas indicam direção de causalidade. Ou seja, $x$ causa $y$ e $z$ causa $y$. É importante saber que DAGs são não paramétricos. Eles podem ser interpretados como: $y = f(x, z)$. Ou seja, qualquer função de x e z são igualmente possíveis. Eis alguns exemplos compatíveis com o DAG acima:
+No exemplo acima, o DAG é formado por três variáveis \{y, x, z\} que são, em geral, variáveis aleatórias. E as flechas indicam direção de causalidade. Ou seja, $x$ causa $y$ e $z$ causa $y$. É importante saber que DAGs são não paramétricos. Eles podem ser interpretados como: $y = f(x, z)$. Ou seja, qualquer função de x e z é igualmente possível. Eis alguns exemplos compatíveis com o DAG acima:
 
 - $y = x + z$
 - $y = 10 + x + z + x*z$
 - $y = 3*x^z$
 - $y = \pi*z/x + x^2 + 1/(z^3)$
 
-A razão porque não escrevemos DAGs como equações é porque $y = f(x, z)$ não expressa adequadamente a relação de causalidade pois, em matemática, é indiferente escrever $f(x, z) = y$ ou $y = f(z, x)$. Porém, dizer que $x$ e $z$ causam $y$ é muito diferente de dizer que $y$ causa $x$ e $z$. E com o DAG as flechas indicam a direção da causalidade.
+A razão pela qual não escrevemos DAGs como equações é que $y = f(x, z)$ não expressa adequadamente a relação de causalidade, pois, em matemática, é indiferente escrever $f(x, z) = y$ ou $y = f(z, x)$. Porém, dizer que $x$ e $z$ causam $y$ é muito diferente de dizer que $y$ causa $x$ e $z$. E, com o DAG, as flechas indicam a direção da causalidade.
 
 ## Os Tipos Básicos de DAGs
 
@@ -43,7 +43,7 @@ ggdag(dag)
 
 ### 2. Forks
 
-Em um *fork*, uma variável $w$ causa ambos $x$ e $y$. Dessa forma, $w$ é uma causa comum que pode gerar correlação espúria entre $x$ e $y$.  
+Em um *fork*, uma variável $w$ causa tanto $x$ quanto $y$. Dessa forma, $w$ é uma causa comum que pode gerar correlação espúria entre $x$ e $y$.  
 **Exemplo:** A qualidade de um candidato pode fazer com que ele arrecade mais dinheiro para a campanha e, ao mesmo tempo, obtenha mais votos.  
 Representação:  
 
@@ -65,7 +65,7 @@ dag <- dagify(w ~ x, w ~ y)
 ggdag(dag)
 ```
 
-**Exemplo:** Imagine que você organiza uma festa e convida apenas pessoas que fazem ciência política ou são canhotas. Na população geral pode não haver relação entre essas características, mas na festa pode surgir uma correlação: se uma pessoa é canhota, ela pode ter maior probabilidade de fazer ciência política.
+**Exemplo:** Imagine que você organiza uma festa e convida apenas pessoas que fazem ciência política ou são canhotas. Na população geral, pode não haver relação entre essas características, mas na festa pode surgir uma correlação: se uma pessoa é canhota, ela pode ter maior probabilidade de fazer ciência política.
 
 ```{r collider1, echo=FALSE, message=FALSE}
 library(ggdag)
@@ -153,7 +153,7 @@ dag <- dagify(g ~u , c ~a + b, e ~a , d ~b )
 ggdag(dag)
 ```
 
-2. Se C for um collider, elimine as flechas que vão para C e conecte os parentes de C por meio de linhas tracejadas. 
+2. Se C for um collider, elimine as flechas que vão para C e conecte os pais de C por meio de linhas tracejadas. 
 
 ```{r controle-C2, echo=FALSE, message=FALSE}
 
@@ -162,7 +162,7 @@ dag <- dagify(g ~u ,  a ~~ d, e ~a , d ~b )
 ggdag(dag)
 ```
 
-3. elimine C
+3. Elimine C
 ```{r controle-C3, echo=FALSE, message=FALSE}
 
 dag <- dagify(g ~u ,  a ~~ d, e ~a , d ~b )
@@ -178,7 +178,7 @@ Alterar o Gráfico:
 
 Para controlar a variável G (por exemplo, se relacionada a C):
 Eliminar as flechas que saem de G.
-Eliminar as flechas do collider (no caso, c e u, parentes de G) e criar relação bi-direcional espúria.
+Eliminar as flechas do collider (no caso, c e u, pais de G) e criar relação bidirecional espúria.
 Remover G do gráfico.
 
 
@@ -218,7 +218,7 @@ A Regra do produto pode ser aplicada em qualquer ordem, gerando fatorizações d
 
 ## Fatorização e DAGs
 
-Existem teoremas que mostram que existe uma relação entre DAGs e fatorização de probabilidades conjuntas. Dado um DAG, em que um nós é independente condicional a outro nó, isso implica a fatorização da probabilidade conjunta de acordo com essa relação, e vice-versa. Dois exemplos abaixo ilustram essa propriedade.
+Existem teoremas que mostram que existe uma relação entre DAGs e fatorização de probabilidades conjuntas. Dado um DAG, em que um nó é condicionalmente independente de outro nó, isso implica a fatorização da probabilidade conjunta de acordo com essa relação, e vice-versa. Dois exemplos abaixo ilustram essa propriedade.
 
 Considere o DAG abaixo:
 
@@ -233,7 +233,7 @@ Nós sabemos que, condicional a X, Y é independente de Z, W e M. Similarmente, 
 
 $$Pr(M, Z, W, X, Y) = Pr(M) Pr(Z|M) Pr(W|M) Pr(X|W,Z) Pr(Y|X)$$
 
-Ou seja, basta escrever a probabilidade condicional nas variáveis que tornam cada nós independente para descrever a distribuição de probabilidade conjunta.
+Ou seja, basta escrever a probabilidade condicional nas variáveis que tornam cada nó independente para descrever a distribuição de probabilidade conjunta.
 
 ## Fatorização, DAGs e Causalidade
 
@@ -248,9 +248,9 @@ ggdag(dag)
 
 $$Pr(Y = y |do (X = x)) = Pr(Y|X)$$
 Logo, é verdade que 
-$$Pr(Y,X) = P(X)Pr(Y|X) = Pr(X)Pr(Y = y |do (X = x))$$.
+$$Pr(Y,X) = Pr(X)Pr(Y|X) = Pr(X)Pr(Y = y |do (X = x)).$$
 
-O operador "do" aqui é uma inovação do Pearl, e diz que fizemos uma cirurgia no gráfico e determinamos, exogenamente, por assim dizer, que o valor de $X$ é $x$.
+O operador "do" aqui é uma inovação de Pearl, e diz que fizemos uma cirurgia no gráfico e determinamos, exogenamente, por assim dizer, que o valor de $X$ é $x$.
 
 
 

@@ -2,15 +2,15 @@
 
 ## Introdução
 
-Na aula de hoje, iremos aprender sobre a principal estratégia de "seleção em observáveis", que é matching. Mas antes, vamos falar de subclassificação ,que é uma técnica mais simples e é útil para introduzir a ideia de matching.
+Na aula de hoje, iremos aprender sobre a principal estratégia de "seleção em observáveis", que é matching. Mas antes, vamos falar de subclassificação, que é uma técnica mais simples e é útil para introduzir a ideia de matching.
 
 ## Propensity Score
 
-O propensity score nada mais é que a probabilidade de uma unidade ser tratada, dada as covariáveis, ou seja, $Pr(D_i = 1| X_i)$.
+O propensity score nada mais é que a probabilidade de uma unidade ser tratada, dadas as covariáveis, ou seja, $Pr(D_i = 1| X_i)$.
 
 A ideia chave para propensity-score vem de um paper de Rosenbaum-Rubin (1983) em que eles mostram que, se a condição 1 de ignorabilidade forte (isto é, $Y_i(1), Y_i(0) \perp D_i|X_i$) for satisfeita, então também é verdade que a condição $Y_i(1), Y_i(0) \perp D_i|\pi(X_i)$ também é satisfeita. E por que isso é importante? Nós nunca sabemos o verdadeiro modelo que relaciona as covariáveis $X_i$ com $D_i$ e $Y_i$, de modo que podemos ter algum problema de modelo mal especificado (por exemplo, supomos um modelo linear, quando na verdade é não-linear). Então, em vez de estimar dezenas de modelos, posso condicionar ("controlar") apenas pelo propensity score $\pi(X_i)$. A intuição é que o propensity score cria balanceamento entre tratados e não-tratados. 
 
-Para ilustrar o poder desse reusltado, vamos considerar um exemplo simulado, em que ignorability forte é satisfeita, mas um modelo mal-especificado gera amostras não-balanceadas e, portanto, estimativas viesadas.
+Para ilustrar o poder desse resultado, vamos considerar um exemplo simulado, em que ignorability forte é satisfeita, mas um modelo mal-especificado gera amostras não-balanceadas e, portanto, estimativas viesadas.
 
 ```{r modelo-mal-especificado-DAG, message=FALSE}
 library(knitr)
@@ -26,7 +26,7 @@ dag <- dagify(
 ggdag(dag)
 ```
 
-O DAG acima ilustra bem qual a relação causal entre variáveis. Para estimar o ATE de $D$ sobre $Y$, precisamos fechar o backdoor de $w_1$. A forma usual como fazemos isso é com regressão. O problema que estamos abordando aqui é quando a amostra é não-balanceada entre tratados e não-tratados, isto é. Vamos visualizar dois tipos de relações (uma linear e outra não-linear) entre a variável de controle $w_1$ e a resposta $Y$ para ilustrar o problema do desbalanceamento:
+O DAG acima ilustra bem qual a relação causal entre variáveis. Para estimar o ATE de $D$ sobre $Y$, precisamos fechar o backdoor de $w_1$. A forma usual como fazemos isso é com regressão. O problema que estamos abordando aqui é quando a amostra é não-balanceada entre tratados e não-tratados. Vamos visualizar dois tipos de relações (uma linear e outra não-linear) entre a variável de controle $w_1$ e a resposta $Y$ para ilustrar o problema do desbalanceamento:
 
 ```{r modelo-mal-especificado-plot1, message=FALSE}
 library(ggplot2)
@@ -63,7 +63,7 @@ df %>%
   ) + theme_bw()
 ```
 
-No primeiro gráfico, o efeito causal (ATE) do tratamento é $-3$ e podemos ver nos dados que de fato em média a resposta é menor entre tratados que no controle. Além disso, vemos também que o efeito é basicamente linear. Mas o pontpo importante aqui é que existem duas regiões dos dados em que praticamente só temos unidades no controle ($w_1 < -2$) e ou no tratamento ($w_1 > -2$). Isso significa que para que a regressão possa estimar o efeito causal deve extrapolar a estimativa da região em que ambos tratamento e controle estão presentes nos dados para uma região em que não estão presentes. Como o efeito é constante para todas as regiões de $w_1$, isso não causa problema e a regressão consegue recuperar o ATE sem viés. O gráfico abaixo ilustra o que a regressão está fazendo:
+No primeiro gráfico, o efeito causal (ATE) do tratamento é $-3$ e podemos ver nos dados que de fato em média a resposta é menor entre tratados que no controle. Além disso, vemos também que o efeito é basicamente linear. Mas o ponto importante aqui é que existem duas regiões dos dados em que praticamente só temos unidades no controle ($w_1 < -2$) e ou no tratamento ($w_1 > -2$). Isso significa que para que a regressão possa estimar o efeito causal deve extrapolar a estimativa da região em que ambos tratamento e controle estão presentes nos dados para uma região em que não estão presentes. Como o efeito é constante para todas as regiões de $w_1$, isso não causa problema e a regressão consegue recuperar o ATE sem viés. O gráfico abaixo ilustra o que a regressão está fazendo:
 
 ```{r modelo-mal-especificado-plot1-reg, message=FALSE}
 
@@ -145,12 +145,12 @@ df %>%
 Um problema óbvio do modelo é que o efeito de w1 é quadrático, então podemos tentar corrigir isso incluindo um termo quadrático.
 
 ```{r modelo-mal-especificado-reg-sq, message=FALSE}
-reg_sq <- lm(y ~ D + w1 + w1^2, data = df)
+reg_sq <- lm(y ~ D + w1 + I(w1^2), data = df)
 summary(reg_sq)
 ```
 O efeito causal é negativo, o que é bom, pois está na direção certa, mas ainda está distante do efeito verdadeiro. Isso ilustra também como a estimativa é dependente do modelo, o que é bem ruim, pois não sabemos qual o modelo certo.
 
-Em resumo, quando há desbalancamento, causamos dependência do modelo, o que é problemático.
+Em resumo, quando há desbalanceamento, causamos dependência do modelo, o que é problemático.
 
 Agora, vamos comparar com o propensity score:
 
@@ -201,7 +201,7 @@ Há desbalanceamento e falta de overlap ou suporte comum, o que leva à extrapol
 
 ## Matching
 
-A Ideia do matching pode ser ilustrada se notarmos o seguinte. A projeção da reta vermelha para pontos abaixo de $-2$ é de um $y$ médio muito baixo, enquanto que o $y$ médio é muito alto para o controle. O oposto é verificado para a região em que $w_1 > 2$. Portanto, se eu restringir (excluir os casos) a análise para uma região onde a necessidade de extrapolação é menor, o resultado tende a ser aproximar do ATE
+A ideia do matching pode ser ilustrada se notarmos o seguinte. A projeção da reta vermelha para pontos abaixo de $-2$ é de um $y$ médio muito baixo, enquanto que o $y$ médio é muito alto para o controle. O oposto é verificado para a região em que $w_1 > 2$. Portanto, se eu restringir (excluir os casos) a análise para uma região onde a necessidade de extrapolação é menor, o resultado tende a se aproximar do ATE.
 
 ```{r modelo-mal-especificado-reg-sub, message=FALSE}
 library(knitr)
@@ -256,9 +256,9 @@ Supondo para simplificar um tratamento binário $T$, e uma covariável categóri
 
 1. $(Y^1, Y^0) \perp T|X \text{ (Independência Condicional)}$
 
-2. $0 < P(T=1|A) < 1 \text{ (Suporte comum)}$
+2. $0 < P(T=1|X) < 1 \text{ (Suporte comum)}$
 
-Temos então a seguinte derivação (usando o fato de os resultados potenciais são independentes do *treatment assignment*, condicional à covariável) e a *switching equation* no último passo:
+Temos então a seguinte derivação (usando o fato de que os resultados potenciais são independentes do *treatment assignment*, condicional à covariável) e a *switching equation* no último passo:
 
 \begin{align}
    \mathbb{E}[Y^1-Y^0|X] & = \mathbb{E}[Y^1 - Y^0 | X, T=1] \\
@@ -276,7 +276,7 @@ Para identificar o ATE, nós precisamos supor independência condicional a ambos
 
 ## Matching
 
-A técnica de matching trata os resultados potenciais como *missing data*. Assim, pudermos supor CIA com credibilidade, pelo menos com relação a $Y^0$, então podemos imputar esses resultados potenciais e estimar o ATT. A ideia é achar uma unidade a mais similar possível a unidade tratada para servir como contrafactual. Assim, poderíamos computar "diretamente" o ATT, já que teríamos os $Y^1$ e $Y^0$ para cada unidade, este último imputado.
+A técnica de matching trata os resultados potenciais como *missing data*. Assim, se pudermos supor CIA com credibilidade, pelo menos com relação a $Y^0$, então podemos imputar esses resultados potenciais e estimar o ATT. A ideia é achar uma unidade a mais similar possível a unidade tratada para servir como contrafactual. Assim, poderíamos computar "diretamente" o ATT, já que teríamos os $Y^1$ e $Y^0$ para cada unidade, este último imputado.
 
 Há dois grandes grupos de métodos de matching: exato e aproximado. 
 
@@ -307,7 +307,7 @@ Outra métrica é a distância de Mahalanobis, que basicamente divide pela covar
 
 ## Estimando
 
-Uma vez que fizemos o matching entre unidades, qual nosso estimador? Lemrbando que o estimando é o ATT.
+Uma vez que fizemos o matching entre unidades, qual nosso estimador? Lembrando que o estimando é o ATT.
 $$
 \widehat{\delta}_{ATT} = \dfrac{1}{N_T} \sum_{D_i=1} (Y_i - Y_{j(i)})
 $$
@@ -323,7 +323,7 @@ summary(result_0)
 
 Pode ser útil usar o declare design para investigar o uso de matching. Vamos fazer isso para o dataset lalonde.
 
-Esse é um banco de dados famoso na economia, pois o pesquisador Lalonde (1986) foi investigar se aplicação de métodos (então) tradicionais de modelagem econométrica eram capaz de recuperar o efeito causal de um estudo experimental chamada National Supported Work Demonstration (NSW), um programa de emprego temporário para dar experiência de trabalho. Ele coletou dados de um survey "representativo" de trabalhadores americanos (PSID) e elencou esses trabalhadores como grupo controle e empregou métodos econométricos para tentat estimar o efeito causal. Os resultados foram desastrosos, no sentido de altamente variáveis dependendo do modelo e subconjunto de dados e longe da estimativa experimental (incluindo com sinal errado).
+Esse é um banco de dados famoso na economia, pois o pesquisador Lalonde (1986) foi investigar se a aplicação de métodos (então) tradicionais de modelagem econométrica eram capazes de recuperar o efeito causal de um estudo experimental chamado National Supported Work Demonstration (NSW), um programa de emprego temporário para dar experiência de trabalho. Ele coletou dados de um survey "representativo" de trabalhadores americanos (PSID) e elencou esses trabalhadores como grupo controle e empregou métodos econométricos para tentar estimar o efeito causal. Os resultados foram desastrosos, no sentido de altamente variáveis dependendo do modelo e subconjunto de dados e longe da estimativa experimental (incluindo com sinal errado).
 
 Vamos replicar esse trabalho, usando matching e pscore. A variável resposta do banco de dados é ``re78`` (real earnings in 1978). O tratamento é a variável ``treat``. As demais variáveis são covariáveis.
 
@@ -364,7 +364,7 @@ A diferença simples na média é `r round(tau, digits = 0)`.
 
 ### Matching e Propensity scores
 
-Usando ``age, education, hispanic, black, married, nodegree, RE74`` e ``RE75``, vamos moelar o propensity score usando o grupo dos tratados em ``lalonde_nsw.csv`` e a amostra de controle de ``lalonde_psid.csv``. Report the average p-score for the treated and control samples, and plot the propensity score densities for the treatment and control groups.
+Usando ``age, education, hispanic, black, married, nodegree, RE74`` e ``RE75``, vamos modelar o propensity score usando o grupo dos tratados em ``lalonde_nsw.csv`` e a amostra de controle de ``lalonde_psid.csv``. Report the average p-score for the treated and control samples, and plot the propensity score densities for the treatment and control groups.
 
 ```{r observational-data, message = FALSE}
 nsw_data <- lalonde

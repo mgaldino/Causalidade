@@ -45,9 +45,9 @@ $$
 $$
 Unpacking:
 
-1. $\mathbb{E}[y_{g1} - y_{g0}|D_i1 - D_{i0} = 1]  = (\lambda_1 - \lambda_0) + \mathbb{E}[\tau_i|(D_{i1} - D_{i0})=1]$ e 
+1. $\mathbb{E}[y_{g1} - y_{g0}|D_{i,1} - D_{i0} = 1]  = (\lambda_1 - \lambda_0) + \mathbb{E}[\tau_i|(D_{i1} - D_{i0})=1]$ e 
 
-2. $\mathbb{E}[y_{g1} - y_{g0}|D_i1 - D_{i0} = 0] = (\lambda_1 - \lambda_0)$,
+2. $\mathbb{E}[y_{g1} - y_{g0}|D_{i,1} - D_{i0} = 0] = (\lambda_1 - \lambda_0)$,
 
 então a diferença é $(\lambda_1 - \lambda_0) + \tau_i -  (\lambda_1 - \lambda_0) = \mathbb{E}[\tau_i|D_{i1}=1]$.
 
@@ -60,7 +60,7 @@ O modelo básico 2x2 nos dá a intuição do DiD. Na prática, estimamos esse ef
 $$
 y_{gt} = \alpha + \beta_1 Post_t + \beta_2 Treat_g + \tau (Post_t \times Treat_g) + e_{gt}
 $$
-Outras parametrização é:
+Outra parametrização é:
 $$
 y_{gt} = \alpha_g + \lambda_t + \tau D_{it} + e_{gt}
 $$
@@ -71,11 +71,11 @@ A segunda parametrização é chamada de "two-way fixed effects", pois usamos um
 
 Os pressupostos de identificação de DiD são:
 
-1. Tendências Paralelas."Na ausência de tratamento, a média dos resultados potenciais teriam evoluído em paralelo".
+1. Tendências Paralelas."Na ausência de tratamento, a média dos resultados potenciais teria evoluído em paralelo".
 
 $\mathbb{E}[Y_{g2}(0) - Y_{g1}(0)|D_g=1] = \mathbb{E}[Y_{g2}(0) - Y_{g1}(0)|D_g=0]$
 
-Suposição paramétrica das PT: $Y_{gt}(0) = \alpha_g + \lambda_t + e_{it}$
+Suposição paramétrica das PT: $Y_{gt}(0) = \alpha_g + \lambda_t + e_{gt}$
 Isso é na verdade um resultado: é possível mostrar que supor este modelo implica PT.
 
 2. Não-antecipação: tratamento não possui efeito no período anterior.
@@ -93,7 +93,7 @@ head(data_ot) %>%
   kable()
 ```
 
-Como o gráfico abaixo mostra, o grupo controle possui percentual mais elevado de obras concluídas em comparação ao grupo de tratamento, mesmo antes do projeto ter se iniciado. Olhando para outras covariáveis (não mostradas aqui), de fato os dois grupos eram bastante desbalanceados. Porém, apesar da diferença de nível, as mudanças (evolução temposal) são similares. Isso sugere um dif in dif como uma metodologia adequada para estimar o efeito causal.
+Como o gráfico abaixo mostra, o grupo controle possui percentual mais elevado de obras concluídas em comparação ao grupo de tratamento, mesmo antes do projeto ter se iniciado. Olhando para outras covariáveis (não mostradas aqui), de fato os dois grupos eram bastante desbalanceados. Porém, apesar da diferença de nível, as mudanças (evolução temporal) são similares. Isso sugere um dif in dif como uma metodologia adequada para estimar o efeito causal.
 
 ```{r obra-transparente, warning=FALSE, message=FALSE, echo=FALSE}
 library(ggplot2)
@@ -111,7 +111,7 @@ data_ot %>%
 
 ```
 
-A partir do período 4 o tratamento já poderia fazer efeito, mas ele é muito pequeno (leve mudança na inclinação) e o efeito é relevante apenas após o período 5. Temos portando efeitos dinâmicos.Vamos inicialmente ajustar um modelo estático, considerando apenas o período 1 e 5.
+A partir do período 4 o tratamento já poderia fazer efeito, mas ele é muito pequeno (leve mudança na inclinação) e o efeito é relevante apenas após o período 5. Temos, portanto, efeitos dinâmicos. Vamos inicialmente ajustar um modelo estático, considerando apenas o período 1 e 5.
 
 ```{r obra-transparente-did, warning=FALSE, message=FALSE, echo=TRUE}
 library(estimatr)
@@ -163,7 +163,7 @@ O que acontece se tivermos múltiplos períodos, isto é, $t>2$?
 2. Múltiplos períodos após o tratamento ser implementado.
 Precisamos escolher um período de comparação, $t_0$.
 
-Nos últimos 10 anos, uma grande problematização e desenvolvimento de testes ,estimadores e entendimento do que é DiD com múltiplos períodos. Impossível cobrir tudo em uma única aula. Recomendo as vídeo-aulas do [grupo de estudo em DiD](https://www.youtube.com/playlist?list=PLVObvb_htcuBt8mV9yNagt7hK9FL5KXeE).
+Nos últimos 10 anos, uma grande problematização e desenvolvimento de testes, estimadores e entendimento do que é DiD com múltiplos períodos. Impossível cobrir tudo em uma única aula. Recomendo as vídeo-aulas do [grupo de estudo em DiD](https://www.youtube.com/playlist?list=PLVObvb_htcuBt8mV9yNagt7hK9FL5KXeE).
 
 ## Tendências Paralelas
 
@@ -180,7 +180,7 @@ Demonstrar equivalência é demonstrar que um implica o outro. Vamos começar mo
 
 Supondo que TWFE é verdade, então $\mathbb{E}[Y_{g,t}(0) − Y_{g,t−1}(0)] = \alpha_g + \lambda_t - (\alpha_g + \lambda_{t-1}) = \lambda_t - \lambda_{t-1}$, para todo $g$. Como a diferença no tempo $\lambda_t - \lambda_{t-1}$ não depende de $g$, então a PT é satisfeita.
 
-Vamos agora mostrar a otra implicação. Sem perda de generalidade, defina $\lambda_1 = 0$, isto é, o efeito do período 1 é 0. Poderia ser qualquer outro valor, mas zero vai facilitar. E vamos definir $\alpha_g = \mathbb{E}[Y_{g,1}(0)]$, ou seja, 
+Vamos agora mostrar a outra implicação. Sem perda de generalidade, defina $\lambda_1 = 0$, isto é, o efeito do período 1 é 0. Poderia ser qualquer outro valor, mas zero vai facilitar. E vamos definir $\alpha_g = \mathbb{E}[Y_{g,1}(0)]$, ou seja, 
 
 Se as tendências não forem exatamente paralelas, Rambachan e Roth (2023) desenvolveram uma forma de impor restrições sobre quão diferentes as tendências podem não ser paralelas pós-tratamento em comparação com o período pré-tratamento. O pacote no R honestDiD permite implementar isso. Assim conseguimos obter identificação parcial (intervalo para as estimativas), em vez de estimação pontual. O parâmetro M controla quanto o desvio é maior em relação ao observado no pré-teste. Se M é igual a 1, temos o mesmo desvio no máximo. Se M igual a 2, duas vezes maior e assim por diante.
 
@@ -255,7 +255,7 @@ $$
 
 Podemos pensar que o $\tau$ é a média dos $\tau_{gt}$. Veja que se nós pudéssemos reescrever a equação de regressão como 
 $y_{gt} -\alpha_g - \lambda_t =  \tau_{gt}D_{it} + e_{gt}$, bastaria rodar um modelo de OLS tradicional e estimar essa média. Nossa vd seria $y_{gt} -\alpha_g - \lambda_t$ e o tratamento uma variável binária indicando se o tratamento ocorreu. 
-Acontece que não sabemos os efeitos fixos. E se nós estimarmos eles? Utilizando o torema FWL, temos:
+Acontece que não sabemos os efeitos fixos. E se nós estimarmos eles? Utilizando o teorema FWL, temos:
 
 Primeiro, extraio os resíduos de uma regressão apenas com os efeitos fixos:
 $$
@@ -279,7 +279,7 @@ y_{gt} - \tilde{\alpha}_g - \tilde{\lambda}_t = \tau_{gt}\tilde{D}_{it} + e_{gt}
 $$
 Essa regressão estima $\hat{\tau} = \sum w_{gt}\tau_{gt} \neq \tau$.
 
-Esses pesos podem até mesm oser negartivos e a estimativa $\hat{\tau}$ ter sinal oposto a $\tau$. A intuição é porque estamos comparando bananas com laranjas. Há grupos que são tratados em momentos distintos, e dependendo do tamanho dos efeitos em cada momento do tempo, a média ponderada dessas comparações dá algo estranho.
+Esses pesos podem até mesmo ser negativos e a estimativa $\hat{\tau}$ ter sinal oposto a $\tau$. A intuição é porque estamos comparando bananas com laranjas. Há grupos que são tratados em momentos distintos, e dependendo do tamanho dos efeitos em cada momento do tempo, a média ponderada dessas comparações dá algo estranho.
 
 A solução proposta do Gardner de regressão DiD em dois estágios é justamente evitar esse problema rodando $y_{gt} - \tilde{\alpha}_g - \tilde{\lambda}_t = \tau_{gt}D_{it} + e_{gt}$.
 
@@ -312,7 +312,7 @@ No meu exemplo, tratamento foi o mesmo para todas as unidades ao mesmo tempo. Ma
 
 1. Qual é o estimando quando tenho adoção escalonada no tempo? Com quem estou comparando?
 
-Digamos que quero ver o efeito da biometria sobre comparecimento eleitoral. Como ela foi escalonada no tempo, podemos adotar um modelo de DiD. Nesse caso, uma vez implementado (turned on), não volta atrás (turn off). Porém, há casos em que a política pode ser ativada ou desativada. Exemplo: política de uso de câmeras corporais pela política. Tarcísio desativou por um tempo (STF impediu). Isso cria complicações para definir o grupo de controle adequado.
+Digamos que quero ver o efeito da biometria sobre comparecimento eleitoral. Como ela foi escalonada no tempo, podemos adotar um modelo de DiD. Nesse caso, uma vez implementado (turned on), não volta atrás (turn off). Porém, há casos em que a política pode ser ativada ou desativada. Exemplo: política de uso de câmeras corporais pela polícia. Tarcísio desativou por um tempo (STF impediu). Isso cria complicações para definir o grupo de controle adequado.
 
 ## Paper Voter Gratitude Last Long?
 

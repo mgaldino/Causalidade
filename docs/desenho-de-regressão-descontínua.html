@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 7 Desenho de Regressão Descontínua | Curso de Inferência Causal</title>
+  <meta name="description" content="Capítulo 7 Desenho de Regressão Descontínua | Curso de Inferência Causal" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 7 Desenho de Regressão Descontínua | Curso de Inferência Causal" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 7 Desenho de Regressão Descontínua | Curso de Inferência Causal" />
+  
+  
+  
+
+<meta name="author" content="Manoel Galdino" />
+
+
+<meta name="date" content="2026-02-16" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="variáveis-instrumentais.html"/>
+<link rel="next" href="diferença-em-diferenças.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Causalidade</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="07-RDD.html"><a href="#introdu%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>1</b> Introdução</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="07-RDD.html"><a href="#revis%C3%A3o-de-regress%C3%A3o"><i class="fa fa-check"></i><b>1.1</b> Revisão de Regressão</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="07-RDD.html"><a href="#teorema-da-anatomia-da-regress%C3%A3o"><i class="fa fa-check"></i><b>1.1.1</b> Teorema da Anatomia da Regressão</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="07-RDD.html"><a href="#infer%C3%AAncia"><i class="fa fa-check"></i><b>1.2</b> Inferência</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="07-RDD.html"><a href="#generaliza%C3%A7%C3%A3o-amostral-vs.-generaliza%C3%A7%C3%A3o-causal"><i class="fa fa-check"></i><b>1.2.1</b> Generalização amostral vs. generalização causal</a></li>
+<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1.2.2</b> Incerteza com o universo dos casos</a></li>
+<li class="chapter" data-level="1.2.3" data-path="index.html"><a href="index.html#validade-externa"><i class="fa fa-check"></i><b>1.2.3</b> Validade externa</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="07-RDD.html"><a href="#resumo-e-pr%C3%B3ximos-passos"><i class="fa fa-check"></i><b>1.3</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="1.4" data-path="07-RDD.html"><a href="#refer%C3%AAncias"><i class="fa fa-check"></i><b>1.4</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html"><i class="fa fa-check"></i><b>2</b> Resultados Potenciais</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="07-RDD.html"><a href="#da-intui%C3%A7%C3%A3o-comparativa-ao-modelo-formal"><i class="fa fa-check"></i><b>2.1</b> Da intuição comparativa ao modelo formal</a></li>
+<li class="chapter" data-level="2.2" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#resultados-potenciais-potential-outcomes"><i class="fa fa-check"></i><b>2.2</b> Resultados Potenciais (<em>Potential Outcomes</em>)</a></li>
+<li class="chapter" data-level="2.3" data-path="07-RDD.html"><a href="#nota%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>2.3</b> Notação</a></li>
+<li class="chapter" data-level="2.4" data-path="07-RDD.html"><a href="#problema-fundamental-da-infer%C3%AAncia-causal"><i class="fa fa-check"></i><b>2.4</b> Problema Fundamental da Inferência Causal</a></li>
+<li class="chapter" data-level="2.5" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#estimando"><i class="fa fa-check"></i><b>2.5</b> Estimando</a></li>
+<li class="chapter" data-level="2.6" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#estimandos-mais-comuns"><i class="fa fa-check"></i><b>2.6</b> Estimandos Mais Comuns</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#ate"><i class="fa fa-check"></i><b>2.6.1</b> ATE</a></li>
+<li class="chapter" data-level="2.6.2" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#att"><i class="fa fa-check"></i><b>2.6.2</b> ATT</a></li>
+<li class="chapter" data-level="2.6.3" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#cate"><i class="fa fa-check"></i><b>2.6.3</b> CATE</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#nota-sobre-estimandos"><i class="fa fa-check"></i><b>2.7</b> Nota sobre estimandos</a></li>
+<li class="chapter" data-level="2.8" data-path="07-RDD.html"><a href="#exerc%C3%ADcio---qual-o-estimando-e-o-estimador-se-poss%C3%ADvel"><i class="fa fa-check"></i><b>2.8</b> Exercício - Qual o estimando e o estimador (se possível)?</a></li>
+<li class="chapter" data-level="2.9" data-path="07-RDD.html"><a href="#identifica%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>2.9</b> Identificação</a></li>
+<li class="chapter" data-level="2.10" data-path="07-RDD.html"><a href="#identifica%C3%A7%C3%A3o-do-ate"><i class="fa fa-check"></i><b>2.10</b> Identificação do ATE</a></li>
+<li class="chapter" data-level="2.11" data-path="07-RDD.html"><a href="#equa%C3%A7%C3%B5es-estruturais"><i class="fa fa-check"></i><b>2.11</b> Equações estruturais</a></li>
+<li class="chapter" data-level="2.12" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#modelo-versus-desenho"><i class="fa fa-check"></i><b>2.12</b> Modelo versus Desenho</a></li>
+<li class="chapter" data-level="2.13" data-path="07-RDD.html"><a href="#exerc%C3%ADcio-em-sala"><i class="fa fa-check"></i><b>2.13</b> Exercício em sala</a></li>
+<li class="chapter" data-level="2.14" data-path="07-RDD.html"><a href="#resumo-e-pr%C3%B3ximos-passos-1"><i class="fa fa-check"></i><b>2.14</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="2.15" data-path="07-RDD.html"><a href="#refer%C3%AAncias-1"><i class="fa fa-check"></i><b>2.15</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="dags.html"><a href="dags.html"><i class="fa fa-check"></i><b>3</b> DAGs</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="dags.html"><a href="dags.html#causalidade"><i class="fa fa-check"></i><b>3.1</b> Causalidade</a></li>
+<li class="chapter" data-level="3.2" data-path="07-RDD.html"><a href="#introdu%C3%A7%C3%A3o-1"><i class="fa fa-check"></i><b>3.2</b> Introdução</a></li>
+<li class="chapter" data-level="3.3" data-path="07-RDD.html"><a href="#os-tipos-b%C3%A1sicos-de-dags"><i class="fa fa-check"></i><b>3.3</b> Os Tipos Básicos de DAGs</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="dags.html"><a href="dags.html#chains"><i class="fa fa-check"></i><b>3.3.1</b> 1. Chains</a></li>
+<li class="chapter" data-level="3.3.2" data-path="dags.html"><a href="dags.html#forks"><i class="fa fa-check"></i><b>3.3.2</b> 2. Forks</a></li>
+<li class="chapter" data-level="3.3.3" data-path="dags.html"><a href="dags.html#colliders"><i class="fa fa-check"></i><b>3.3.3</b> 3. Colliders</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="07-RDD.html"><a href="#simula%C3%A7%C3%A3o-no-r-ilustrando-o-collider-bias"><i class="fa fa-check"></i><b>3.4</b> Simulação no R: Ilustrando o Collider Bias</a></li>
+<li class="chapter" data-level="3.5" data-path="07-RDD.html"><a href="#defini%C3%A7%C3%B5es"><i class="fa fa-check"></i><b>3.5</b> Definições</a>
+<ul>
+<li class="chapter" data-level="3.5.1" data-path="07-RDD.html"><a href="#rela%C3%A7%C3%B5es-entre-vari%C3%A1veis-n%C3%B3s"><i class="fa fa-check"></i><b>3.5.1</b> Relações entre Variáveis (nós):</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="dags.html"><a href="dags.html#controle-e-ajuste"><i class="fa fa-check"></i><b>3.6</b> Controle e Ajuste</a></li>
+<li class="chapter" data-level="3.7" data-path="07-RDD.html"><a href="#fatoriza%C3%A7%C3%A3o-da-probabilidade-conjunta"><i class="fa fa-check"></i><b>3.7</b> Fatorização da Probabilidade Conjunta</a></li>
+<li class="chapter" data-level="3.8" data-path="07-RDD.html"><a href="#fatoriza%C3%A7%C3%A3o-e-dags"><i class="fa fa-check"></i><b>3.8</b> Fatorização e DAGs</a></li>
+<li class="chapter" data-level="3.9" data-path="07-RDD.html"><a href="#fatoriza%C3%A7%C3%A3o-dags-e-causalidade"><i class="fa fa-check"></i><b>3.9</b> Fatorização, DAGs e Causalidade</a></li>
+<li class="chapter" data-level="3.10" data-path="07-RDD.html"><a href="#resumo-e-pr%C3%B3ximos-passos-2"><i class="fa fa-check"></i><b>3.10</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="3.11" data-path="07-RDD.html"><a href="#refer%C3%AAncias-2"><i class="fa fa-check"></i><b>3.11</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="experimentos.html"><a href="experimentos.html"><i class="fa fa-check"></i><b>4</b> Experimentos</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="07-RDD.html"><a href="#introdu%C3%A7%C3%A3o-2"><i class="fa fa-check"></i><b>4.1</b> Introdução</a></li>
+<li class="chapter" data-level="4.2" data-path="07-RDD.html"><a href="#experimentos-aleat%C3%B3rios"><i class="fa fa-check"></i><b>4.2</b> Experimentos aleatórios</a></li>
+<li class="chapter" data-level="4.3" data-path="07-RDD.html"><a href="#restri%C3%A7%C3%A3o-de-exclus%C3%A3o"><i class="fa fa-check"></i><b>4.3</b> Restrição de Exclusão</a></li>
+<li class="chapter" data-level="4.4" data-path="experimentos.html"><a href="experimentos.html#tipos-de-experimentos"><i class="fa fa-check"></i><b>4.4</b> Tipos de experimentos</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="07-RDD.html"><a href="#aleatoriza%C3%A7%C3%A3o-de-bernoulli"><i class="fa fa-check"></i><b>4.4.1</b> Aleatorização de Bernoulli</a></li>
+<li class="chapter" data-level="4.4.2" data-path="07-RDD.html"><a href="#aleatoriza%C3%A7%C3%A3o-completa"><i class="fa fa-check"></i><b>4.4.2</b> Aleatorização Completa</a></li>
+<li class="chapter" data-level="4.4.3" data-path="07-RDD.html"><a href="#aleatoriza%C3%A7%C3%A3o-condicional-block-random-assignment"><i class="fa fa-check"></i><b>4.4.3</b> Aleatorização Condicional (Block Random Assignment)</a></li>
+<li class="chapter" data-level="4.4.4" data-path="07-RDD.html"><a href="#pensando-aleatoriza%C3%A7%C3%A3o-em-bloco"><i class="fa fa-check"></i><b>4.4.4</b> Pensando aleatorização em bloco</a></li>
+<li class="chapter" data-level="4.4.5" data-path="07-RDD.html"><a href="#ate-com-aleatoriza%C3%A7%C3%A3o-condicional-bloco"><i class="fa fa-check"></i><b>4.4.5</b> ATE com Aleatorização Condicional (Bloco)</a></li>
+<li class="chapter" data-level="4.4.6" data-path="07-RDD.html"><a href="#aleatoriza%C3%A7%C3%A3o-em-bloco"><i class="fa fa-check"></i><b>4.4.6</b> Aleatorização em bloco</a></li>
+<li class="chapter" data-level="4.4.7" data-path="07-RDD.html"><a href="#precis%C3%A3o-da-aleatoriza%C3%A7%C3%A3o-em-bloco"><i class="fa fa-check"></i><b>4.4.7</b> Precisão da aleatorização em bloco</a></li>
+<li class="chapter" data-level="4.4.8" data-path="07-RDD.html"><a href="#compara%C3%A7%C3%A3o-de-ses"><i class="fa fa-check"></i><b>4.4.8</b> Comparação de SEs</a></li>
+<li class="chapter" data-level="4.4.9" data-path="experimentos.html"><a href="experimentos.html#cluster-randomization"><i class="fa fa-check"></i><b>4.4.9</b> Cluster randomization</a></li>
+<li class="chapter" data-level="4.4.10" data-path="experimentos.html"><a href="experimentos.html#tabelas-em-artigos"><i class="fa fa-check"></i><b>4.4.10</b> Tabelas em artigos</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="experimentos.html"><a href="experimentos.html#estimador-ate"><i class="fa fa-check"></i><b>4.5</b> Estimador ATE</a></li>
+<li class="chapter" data-level="4.6" data-path="07-RDD.html"><a href="#resumo-do-cap%C3%ADtulo"><i class="fa fa-check"></i><b>4.6</b> Resumo do Capítulo</a></li>
+<li class="chapter" data-level="4.7" data-path="experimentos.html"><a href="experimentos.html#declare-design"><i class="fa fa-check"></i><b>4.7</b> Declare Design</a></li>
+<li class="chapter" data-level="4.8" data-path="07-RDD.html"><a href="#exerc%C3%ADcio"><i class="fa fa-check"></i><b>4.8</b> Exercício</a>
+<ul>
+<li class="chapter" data-level="4.8.1" data-path="07-RDD.html"><a href="#experimento-com-envio-de-cart%C3%B5es-postais-e-participa%C3%A7%C3%A3o-eleitoral"><i class="fa fa-check"></i><b>4.8.1</b> Experimento com envio de cartões-postais e participação eleitoral</a></li>
+<li class="chapter" data-level="4.8.2" data-path="07-RDD.html"><a href="#experimento-com-an%C3%BAncios-de-tv-e-participa%C3%A7%C3%A3o-eleitoral"><i class="fa fa-check"></i><b>4.8.2</b> Experimento com anúncios de TV e participação eleitoral</a></li>
+<li class="chapter" data-level="4.8.3" data-path="07-RDD.html"><a href="#exclus%C3%A3o-de-participantes-em-experimentos-de-survey"><i class="fa fa-check"></i><b>4.8.3</b> Exclusão de participantes em experimentos de survey</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html"><i class="fa fa-check"></i><b>5</b> Propensity Score e Matching</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="07-RDD.html"><a href="#introdu%C3%A7%C3%A3o-3"><i class="fa fa-check"></i><b>5.1</b> Introdução</a></li>
+<li class="chapter" data-level="5.2" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#propensity-score"><i class="fa fa-check"></i><b>5.2</b> Propensity Score</a></li>
+<li class="chapter" data-level="5.3" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching"><i class="fa fa-check"></i><b>5.3</b> Matching</a></li>
+<li class="chapter" data-level="5.4" data-path="07-RDD.html"><a href="#suposi%C3%A7%C3%B5es-de-identifica%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>5.4</b> Suposições de identificação</a></li>
+<li class="chapter" data-level="5.5" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching-1"><i class="fa fa-check"></i><b>5.5</b> Matching</a></li>
+<li class="chapter" data-level="5.6" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching-exato"><i class="fa fa-check"></i><b>5.6</b> Matching exato</a></li>
+<li class="chapter" data-level="5.7" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching-aproximado"><i class="fa fa-check"></i><b>5.7</b> Matching aproximado</a></li>
+<li class="chapter" data-level="5.8" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#estimando-1"><i class="fa fa-check"></i><b>5.8</b> Estimando</a></li>
+<li class="chapter" data-level="5.9" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#declare-design-e-matching"><i class="fa fa-check"></i><b>5.9</b> Declare Design e Matching</a>
+<ul>
+<li class="chapter" data-level="5.9.1" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching-e-propensity-scores"><i class="fa fa-check"></i><b>5.9.1</b> Matching e Propensity scores</a></li>
+</ul></li>
+<li class="chapter" data-level="5.10" data-path="07-RDD.html"><a href="#recomenda%C3%A7%C3%B5es-pr%C3%A1ticas-sobre-matching"><i class="fa fa-check"></i><b>5.10</b> Recomendações Práticas sobre Matching</a></li>
+<li class="chapter" data-level="5.11" data-path="07-RDD.html"><a href="#refer%C3%AAncias-3"><i class="fa fa-check"></i><b>5.11</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="07-RDD.html"><a href="#vari%C3%A1veis-instrumentais"><i class="fa fa-check"></i><b>6</b> Variáveis Instrumentais</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="07-RDD.html"><a href="#introdu%C3%A7%C3%A3o-4"><i class="fa fa-check"></i><b>6.1</b> Introdução</a></li>
+<li class="chapter" data-level="6.2" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html"><i class="fa fa-check"></i><b>6.2</b> IV com modelo estrutural</a></li>
+<li class="chapter" data-level="6.3" data-path="07-RDD.html"><a href="#mqo-em-2-est%C3%A1gios"><i class="fa fa-check"></i><b>6.3</b> MQO em 2 Estágios</a></li>
+<li class="chapter" data-level="6.4" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#principais-usos-de-iv"><i class="fa fa-check"></i><b>6.4</b> Principais usos de IV</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#experimentos-1"><i class="fa fa-check"></i><b>6.4.1</b> Experimentos</a></li>
+<li class="chapter" data-level="6.4.2" data-path="07-RDD.html"><a href="#regras-com-varia%C3%A7%C3%A3o-quasi-aleat%C3%B3ria"><i class="fa fa-check"></i><b>6.4.2</b> Regras com variação quasi-aleatória</a></li>
+<li class="chapter" data-level="6.4.3" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#teoria"><i class="fa fa-check"></i><b>6.4.3</b> Teoria</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="07-RDD.html"><a href="#efeito-heterog%C3%AAneo"><i class="fa fa-check"></i><b>6.5</b> Efeito heterogêneo</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="07-RDD.html"><a href="#suposi%C3%A7%C3%B5es-para-estimar-o-late"><i class="fa fa-check"></i><b>6.5.1</b> Suposições para estimar o LATE</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="07-RDD.html"><a href="#restri%C3%A7%C3%A3o-de-exclus%C3%A3o-1"><i class="fa fa-check"></i><b>6.6</b> Restrição de Exclusão</a></li>
+<li class="chapter" data-level="6.7" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#monotonicidade"><i class="fa fa-check"></i><b>6.7</b> Monotonicidade</a></li>
+<li class="chapter" data-level="6.8" data-path="07-RDD.html"><a href="#estima%C3%A7%C3%A3o-aka-estat%C3%ADstica-f"><i class="fa fa-check"></i><b>6.8</b> Estimação (aka estatística F)</a>
+<ul>
+<li class="chapter" data-level="6.8.1" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#f-stat"><i class="fa fa-check"></i><b>6.8.1</b> F stat</a></li>
+</ul></li>
+<li class="chapter" data-level="6.9" data-path="07-RDD.html"><a href="#resumo-e-pr%C3%B3ximos-passos-3"><i class="fa fa-check"></i><b>6.9</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="6.10" data-path="07-RDD.html"><a href="#refer%C3%AAncias-4"><i class="fa fa-check"></i><b>6.10</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="07-RDD.html"><a href="#desenho-de-regress%C3%A3o-descont%C3%ADnua"><i class="fa fa-check"></i><b>7</b> Desenho de Regressão Descontínua</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="desenho-de-regressão-descontínua.html"><a href="desenho-de-regressão-descontínua.html"><i class="fa fa-check"></i><b>7.1</b> Outline da aula</a></li>
+<li class="chapter" data-level="7.2" data-path="07-RDD.html"><a href="#caracter%C3%ADsticas-chave-da-rdd"><i class="fa fa-check"></i><b>7.2</b> Características-chave da RDD</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="07-RDD.html"><a href="#determina%C3%A7%C3%A3o-do-tratamento"><i class="fa fa-check"></i><b>7.2.1</b> Determinação do Tratamento</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="desenho-de-regressão-descontínua.html"><a href="desenho-de-regressão-descontínua.html#fuzzy-rdd"><i class="fa fa-check"></i><b>7.3</b> Fuzzy RDD</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="07-RDD.html"><a href="#observa%C3%A7%C3%A3o-e-corte"><i class="fa fa-check"></i><b>7.3.1</b> Observação e Corte</a></li>
+<li class="chapter" data-level="7.3.2" data-path="desenho-de-regressão-descontínua.html"><a href="desenho-de-regressão-descontínua.html#estimativa-dos-efeitos-do-tratamento"><i class="fa fa-check"></i><b>7.3.2</b> Estimativa dos Efeitos do Tratamento</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="07-RDD.html"><a href="#suposi%C3%A7%C3%A3o-de-continuidade"><i class="fa fa-check"></i><b>7.4</b> Suposição de continuidade</a></li>
+<li class="chapter" data-level="7.5" data-path="07-RDD.html"><a href="#suposi%C3%A7%C3%B5es-na-rdd"><i class="fa fa-check"></i><b>7.5</b> Suposições na RDD</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="07-RDD.html"><a href="#suposi%C3%A7%C3%A3o-de-n%C3%A3o-manipula%C3%A7%C3%A3o-com-precis%C3%A3o"><i class="fa fa-check"></i><b>7.5.1</b> Suposição de Não-manipulação com Precisão</a></li>
+<li class="chapter" data-level="7.5.2" data-path="07-RDD.html"><a href="#problemas-de-manipula%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.5.2</b> Problemas de Manipulação</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="07-RDD.html"><a href="#testabilidade-da-suposi%C3%A7%C3%A3o-de-n%C3%A3o-manipula%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.6</b> Testabilidade da Suposição de não-Manipulação</a></li>
+<li class="chapter" data-level="7.7" data-path="07-RDD.html"><a href="#estima%C3%A7%C3%A3o-em-rdd"><i class="fa fa-check"></i><b>7.7</b> Estimação em RDD</a>
+<ul>
+<li class="chapter" data-level="7.7.1" data-path="desenho-de-regressão-descontínua.html"><a href="desenho-de-regressão-descontínua.html#problema-de-complete-overlapping"><i class="fa fa-check"></i><b>7.7.1</b> Problema de Complete Overlapping</a></li>
+<li class="chapter" data-level="7.7.2" data-path="07-RDD.html"><a href="#depend%C3%AAncia-de-extrapola%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.7.2</b> Dependência de Extrapolação</a></li>
+</ul></li>
+<li class="chapter" data-level="7.8" data-path="07-RDD.html"><a href="#m%C3%A9todos-de-estima%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.8</b> Métodos de Estimação</a>
+<ul>
+<li class="chapter" data-level="7.8.1" data-path="07-RDD.html"><a href="#identifica%C3%A7%C3%A3o-no-limite"><i class="fa fa-check"></i><b>7.8.1</b> Identificação no Limite</a></li>
+</ul></li>
+<li class="chapter" data-level="7.9" data-path="07-RDD.html"><a href="#trade-off-de-vi%C3%A9s-vari%C3%A2ncia"><i class="fa fa-check"></i><b>7.9</b> Trade-off de Viés-Variância</a>
+<ul>
+<li class="chapter" data-level="7.9.1" data-path="07-RDD.html"><a href="#m%C3%A9todos-de-largura-de-banda-%C3%B3tima"><i class="fa fa-check"></i><b>7.9.1</b> Métodos de Largura de Banda Ótima</a></li>
+</ul></li>
+<li class="chapter" data-level="7.10" data-path="07-RDD.html"><a href="#regras-arbitr%C3%A1rias"><i class="fa fa-check"></i><b>7.10</b> Regras arbitrárias</a></li>
+<li class="chapter" data-level="7.11" data-path="07-RDD.html"><a href="#simula%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.11</b> Simulação</a></li>
+<li class="chapter" data-level="7.12" data-path="07-RDD.html"><a href="#simula%C3%A7%C3%A3o---potential-outcomes-y0"><i class="fa fa-check"></i><b>7.12</b> Simulação - Potential Outcomes Y0</a></li>
+<li class="chapter" data-level="7.13" data-path="07-RDD.html"><a href="#simula%C3%A7%C3%A3o---potential-outcomes-y1"><i class="fa fa-check"></i><b>7.13</b> Simulação - Potential Outcomes Y1</a></li>
+<li class="chapter" data-level="7.14" data-path="07-RDD.html"><a href="#simula%C3%A7%C3%A3o---potential-outcomes-y1-e-y0"><i class="fa fa-check"></i><b>7.14</b> Simulação - Potential Outcomes Y1 e Y0</a></li>
+<li class="chapter" data-level="7.15" data-path="07-RDD.html"><a href="#simula%C3%A7%C3%A3o---y-observado"><i class="fa fa-check"></i><b>7.15</b> Simulação - Y observado</a></li>
+<li class="chapter" data-level="7.16" data-path="desenho-de-regressão-descontínua.html"><a href="desenho-de-regressão-descontínua.html#quando-o-rdd-funciona"><i class="fa fa-check"></i><b>7.16</b> Quando o RDD funciona?</a></li>
+<li class="chapter" data-level="7.17" data-path="desenho-de-regressão-descontínua.html"><a href="desenho-de-regressão-descontínua.html#raw-data-versus-bin"><i class="fa fa-check"></i><b>7.17</b> Raw Data versus Bin</a></li>
+<li class="chapter" data-level="7.18" data-path="desenho-de-regressão-descontínua.html"><a href="desenho-de-regressão-descontínua.html#permutation-tests-balancing"><i class="fa fa-check"></i><b>7.18</b> Permutation tests (balancing)</a></li>
+<li class="chapter" data-level="7.19" data-path="desenho-de-regressão-descontínua.html"><a href="desenho-de-regressão-descontínua.html#mccrary-test"><i class="fa fa-check"></i><b>7.19</b> McCrary test</a></li>
+<li class="chapter" data-level="7.20" data-path="desenho-de-regressão-descontínua.html"><a href="desenho-de-regressão-descontínua.html#robustez"><i class="fa fa-check"></i><b>7.20</b> Robustez</a></li>
+<li class="chapter" data-level="7.21" data-path="07-RDD.html"><a href="#densidade-descont%C3%ADnua---results"><i class="fa fa-check"></i><b>7.21</b> Densidade descontínua - results</a></li>
+<li class="chapter" data-level="7.22" data-path="07-RDD.html"><a href="#regress%C3%A3o-rdd"><i class="fa fa-check"></i><b>7.22</b> Regressão RDD</a></li>
+<li class="chapter" data-level="7.23" data-path="desenho-de-regressão-descontínua.html"><a href="desenho-de-regressão-descontínua.html#placebo-tests"><i class="fa fa-check"></i><b>7.23</b> Placebo Tests</a></li>
+<li class="chapter" data-level="7.24" data-path="desenho-de-regressão-descontínua.html"><a href="desenho-de-regressão-descontínua.html#pcrd"><i class="fa fa-check"></i><b>7.24</b> PCRD</a></li>
+<li class="chapter" data-level="7.25" data-path="desenho-de-regressão-descontínua.html"><a href="desenho-de-regressão-descontínua.html#checklist-para-um-paper-de-rdd"><i class="fa fa-check"></i><b>7.25</b> Checklist para um paper de RDD</a></li>
+<li class="chapter" data-level="7.26" data-path="07-RDD.html"><a href="#refer%C3%AAncias-5"><i class="fa fa-check"></i><b>7.26</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="07-RDD.html"><a href="#diferen%C3%A7a-em-diferen%C3%A7as"><i class="fa fa-check"></i><b>8</b> Diferença em Diferenças</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="07-RDD.html"><a href="#modelo-b%C3%A1sico-2x2"><i class="fa fa-check"></i><b>8.1</b> Modelo básico 2x2</a></li>
+<li class="chapter" data-level="8.2" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html"><i class="fa fa-check"></i><b>8.2</b> TWFE</a></li>
+<li class="chapter" data-level="8.3" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#pressupostos"><i class="fa fa-check"></i><b>8.3</b> Pressupostos</a></li>
+<li class="chapter" data-level="8.4" data-path="07-RDD.html"><a href="#aplica%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>8.4</b> Aplicação</a></li>
+<li class="chapter" data-level="8.5" data-path="07-RDD.html"><a href="#m%C3%BAltiplos-per%C3%ADodos"><i class="fa fa-check"></i><b>8.5</b> Múltiplos períodos</a></li>
+<li class="chapter" data-level="8.6" data-path="07-RDD.html"><a href="#tend%C3%AAncias-paralelas"><i class="fa fa-check"></i><b>8.6</b> Tendências Paralelas</a></li>
+<li class="chapter" data-level="8.7" data-path="07-RDD.html"><a href="#m%C3%BAltiplos-per%C3%ADodos-p%C3%B3s-tratamento"><i class="fa fa-check"></i><b>8.7</b> Múltiplos períodos pós-tratamento</a></li>
+<li class="chapter" data-level="8.8" data-path="07-RDD.html"><a href="#an%C3%A1lise-de-sensibilidade-em-did"><i class="fa fa-check"></i><b>8.8</b> Análise de sensibilidade em DiD</a></li>
+<li class="chapter" data-level="8.9" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#did-generalizado"><i class="fa fa-check"></i><b>8.9</b> DiD generalizado</a></li>
+<li class="chapter" data-level="8.10" data-path="07-RDD.html"><a href="#did-com-ado%C3%A7%C3%A3o-escalonada-staggered-timing"><i class="fa fa-check"></i><b>8.10</b> DID com adoção escalonada (staggered timing)</a></li>
+<li class="chapter" data-level="8.11" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#paper-voter-gratitude-last-long"><i class="fa fa-check"></i><b>8.11</b> Paper Voter Gratitude Last Long?</a></li>
+<li class="chapter" data-level="8.12" data-path="07-RDD.html"><a href="#resumo-e-pr%C3%B3ximos-passos-4"><i class="fa fa-check"></i><b>8.12</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="8.13" data-path="07-RDD.html"><a href="#refer%C3%AAncias-6"><i class="fa fa-check"></i><b>8.13</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html"><i class="fa fa-check"></i><b>9</b> Time-Series Cross-Section (TSCS)</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="07-RDD.html"><a href="#introdu%C3%A7%C3%A3o-5"><i class="fa fa-check"></i><b>9.1</b> Introdução</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#within-versus-between"><i class="fa fa-check"></i><b>9.1.1</b> Within versus Between</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#ovb"><i class="fa fa-check"></i><b>9.2</b> OVB</a></li>
+<li class="chapter" data-level="9.3" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#estimandos"><i class="fa fa-check"></i><b>9.3</b> Estimandos</a></li>
+<li class="chapter" data-level="9.4" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#resultados-potenciais-1"><i class="fa fa-check"></i><b>9.4</b> Resultados Potenciais</a></li>
+<li class="chapter" data-level="9.5" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#modelo-ar1"><i class="fa fa-check"></i><b>9.5</b> Modelo AR(1)</a></li>
+<li class="chapter" data-level="9.6" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#sequential-ignorability"><i class="fa fa-check"></i><b>9.6</b> Sequential ignorability</a></li>
+<li class="chapter" data-level="9.7" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#resumo"><i class="fa fa-check"></i><b>9.7</b> Resumo</a>
+<ul>
+<li class="chapter" data-level="9.7.1" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#remark"><i class="fa fa-check"></i><b>9.7.1</b> Remark</a></li>
+</ul></li>
+<li class="chapter" data-level="9.8" data-path="07-RDD.html"><a href="#suposi%C3%A7%C3%B5es-para-infer%C3%AAncia"><i class="fa fa-check"></i><b>9.8</b> Suposições para Inferência</a>
+<ul>
+<li class="chapter" data-level="9.8.1" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#remark-1"><i class="fa fa-check"></i><b>9.8.1</b> Remark</a></li>
+</ul></li>
+<li class="chapter" data-level="9.9" data-path="07-RDD.html"><a href="#efeitos-aleat%C3%B3rios"><i class="fa fa-check"></i><b>9.9</b> Efeitos aleatórios</a></li>
+<li class="chapter" data-level="9.10" data-path="07-RDD.html"><a href="#refer%C3%AAncias-7"><i class="fa fa-check"></i><b>9.10</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="synthetic-control.html"><a href="synthetic-control.html"><i class="fa fa-check"></i><b>10</b> Synthetic Control</a>
+<ul>
+<li class="chapter" data-level="10.0.1" data-path="synthetic-control.html"><a href="synthetic-control.html#tratamento"><i class="fa fa-check"></i><b>10.0.1</b> Tratamento</a></li>
+<li class="chapter" data-level="10.1" data-path="07-RDD.html"><a href="#implementa%C3%A7%C3%A3o-no-r"><i class="fa fa-check"></i><b>10.1</b> Implementação no R</a></li>
+<li class="chapter" data-level="10.2" data-path="synthetic-control.html"><a href="synthetic-control.html#synthetic-did"><i class="fa fa-check"></i><b>10.2</b> Synthetic DiD</a></li>
+<li class="chapter" data-level="10.3" data-path="07-RDD.html"><a href="#resumo-e-pr%C3%B3ximos-passos-5"><i class="fa fa-check"></i><b>10.3</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="10.4" data-path="07-RDD.html"><a href="#refer%C3%AAncias-8"><i class="fa fa-check"></i><b>10.4</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="llms-e-outras.html"><a href="llms-e-outras.html"><i class="fa fa-check"></i><b>11</b> LLMs e outras</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="llms-e-outras.html"><a href="llms-e-outras.html#google-colab"><i class="fa fa-check"></i><b>11.1</b> Google Colab</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="machine-learning.html"><a href="machine-learning.html"><i class="fa fa-check"></i><b>12</b> Machine Learning</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="07-RDD.html"><a href="#introdu%C3%A7%C3%A3o-6"><i class="fa fa-check"></i><b>12.1</b> Introdução</a></li>
+<li class="chapter" data-level="12.2" data-path="machine-learning.html"><a href="machine-learning.html#terminologia"><i class="fa fa-check"></i><b>12.2</b> Terminologia</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="machine-learning.html"><a href="machine-learning.html#lasso"><i class="fa fa-check"></i><b>12.2.1</b> LASSO</a></li>
+<li class="chapter" data-level="12.2.2" data-path="machine-learning.html"><a href="machine-learning.html#double-lasso"><i class="fa fa-check"></i><b>12.2.2</b> Double Lasso</a></li>
+<li class="chapter" data-level="12.2.3" data-path="07-RDD.html"><a href="#outras-solu%C3%A7%C3%B5es-ineficazes"><i class="fa fa-check"></i><b>12.2.3</b> Outras soluções ineficazes</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="machine-learning.html"><a href="machine-learning.html#dl---algoritmo"><i class="fa fa-check"></i><b>12.3</b> DL - Algoritmo</a></li>
+<li class="chapter" data-level="12.4" data-path="07-RDD.html"><a href="#termos-de-intera%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>12.4</b> Termos de Interação</a></li>
+<li class="chapter" data-level="12.5" data-path="07-RDD.html"><a href="#aplica%C3%A7%C3%A3o-1"><i class="fa fa-check"></i><b>12.5</b> Aplicação</a></li>
+<li class="chapter" data-level="12.6" data-path="machine-learning.html"><a href="machine-learning.html#dml"><i class="fa fa-check"></i><b>12.6</b> DML</a></li>
+<li class="chapter" data-level="12.7" data-path="machine-learning.html"><a href="machine-learning.html#double-debiasing"><i class="fa fa-check"></i><b>12.7</b> Double Debiasing</a></li>
+<li class="chapter" data-level="12.8" data-path="machine-learning.html"><a href="machine-learning.html#cross-fitting"><i class="fa fa-check"></i><b>12.8</b> Cross-fitting</a></li>
+<li class="chapter" data-level="12.9" data-path="07-RDD.html"><a href="#quest%C3%B5es-pr%C3%A1ticas"><i class="fa fa-check"></i><b>12.9</b> Questões Práticas</a></li>
+<li class="chapter" data-level="12.10" data-path="07-RDD.html"><a href="#resumo-e-pr%C3%B3ximos-passos-6"><i class="fa fa-check"></i><b>12.10</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="12.11" data-path="07-RDD.html"><a href="#refer%C3%AAncias-9"><i class="fa fa-check"></i><b>12.11</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="resumo-1.html"><a href="resumo-1.html"><i class="fa fa-check"></i><b>13</b> Resumo</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="resumo-1.html"><a href="resumo-1.html#matching-2"><i class="fa fa-check"></i><b>13.1</b> Matching</a></li>
+<li class="chapter" data-level="13.2" data-path="resumo-1.html"><a href="resumo-1.html#iv"><i class="fa fa-check"></i><b>13.2</b> IV</a></li>
+<li class="chapter" data-level="13.3" data-path="resumo-1.html"><a href="resumo-1.html#rdd"><i class="fa fa-check"></i><b>13.3</b> RDD</a></li>
+<li class="chapter" data-level="13.4" data-path="resumo-1.html"><a href="resumo-1.html#did"><i class="fa fa-check"></i><b>13.4</b> DiD</a>
+<ul>
+<li class="chapter" data-level="13.4.1" data-path="resumo-1.html"><a href="resumo-1.html#tscs"><i class="fa fa-check"></i><b>13.4.1</b> TSCS</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="resumo-1.html"><a href="resumo-1.html#scm"><i class="fa fa-check"></i><b>13.5</b> SCM</a></li>
+<li class="chapter" data-level="13.6" data-path="07-RDD.html"><a href="#did-sint%C3%A9tico"><i class="fa fa-check"></i><b>13.6</b> DiD Sintético</a></li>
+<li class="chapter" data-level="13.7" data-path="resumo-1.html"><a href="resumo-1.html#double-lasso-1"><i class="fa fa-check"></i><b>13.7</b> Double LASSO</a></li>
+<li class="chapter" data-level="13.8" data-path="resumo-1.html"><a href="resumo-1.html#dml-1"><i class="fa fa-check"></i><b>13.8</b> DML</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="shift-share.html"><a href="shift-share.html"><i class="fa fa-check"></i><b>14</b> Shift-share</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="07-RDD.html"><a href="#introdu%C3%A7%C3%A3o-7"><i class="fa fa-check"></i><b>14.1</b> Introdução</a>
+<ul>
+<li class="chapter" data-level="14.1.1" data-path="07-RDD.html"><a href="#aplica%C3%A7%C3%A3o-pib-por-estado-e-setor"><i class="fa fa-check"></i><b>14.1.1</b> Aplicação: PIB por estado e setor</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="07-RDD.html"><a href="#exemplos-da-pol%C3%ADtica"><i class="fa fa-check"></i><b>14.2</b> Exemplos da Política</a>
+<ul>
+<li class="chapter" data-level="14.2.1" data-path="07-RDD.html"><a href="#elei%C3%A7%C3%B5es-presidenciais-2014-e-2018"><i class="fa fa-check"></i><b>14.2.1</b> Eleições presidenciais 2014 e 2018</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="07-RDD.html"><a href="#varia%C3%A7%C3%A3o-temporal"><i class="fa fa-check"></i><b>14.3</b> Variação temporal</a>
+<ul>
+<li class="chapter" data-level="14.3.1" data-path="07-RDD.html"><a href="#decomposi%C3%A7%C3%A3o-temporal-elei%C3%A7%C3%B5es-20142018"><i class="fa fa-check"></i><b>14.3.1</b> Decomposição temporal: eleições 2014→2018</a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="07-RDD.html"><a href="#o-instrumento-shift-share-como-vari%C3%A1vel-instrumental"><i class="fa fa-check"></i><b>14.4</b> O instrumento shift-share como variável instrumental</a>
+<ul>
+<li class="chapter" data-level="14.4.1" data-path="07-RDD.html"><a href="#constru%C3%A7%C3%A3o-formal"><i class="fa fa-check"></i><b>14.4.1</b> Construção formal</a></li>
+<li class="chapter" data-level="14.4.2" data-path="shift-share.html"><a href="shift-share.html#o-modelo-estrutural-e-o-iv"><i class="fa fa-check"></i><b>14.4.2</b> O modelo estrutural e o IV</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="07-RDD.html"><a href="#duas-estrat%C3%A9gias-de-identifica%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>14.5</b> Duas estratégias de identificação</a>
+<ul>
+<li class="chapter" data-level="14.5.1" data-path="07-RDD.html"><a href="#estrat%C3%A9gia-1-exogeneidade-das-shares-gpss-2020"><i class="fa fa-check"></i><b>14.5.1</b> Estratégia 1: Exogeneidade das shares (GPSS 2020)</a></li>
+<li class="chapter" data-level="14.5.2" data-path="07-RDD.html"><a href="#estrat%C3%A9gia-2-exogeneidade-dos-shifts-bhj-2022"><i class="fa fa-check"></i><b>14.5.2</b> Estratégia 2: Exogeneidade dos shifts (BHJ 2022)</a></li>
+<li class="chapter" data-level="14.5.3" data-path="07-RDD.html"><a href="#resumo-das-duas-estrat%C3%A9gias"><i class="fa fa-check"></i><b>14.5.3</b> Resumo das duas estratégias</a></li>
+</ul></li>
+<li class="chapter" data-level="14.6" data-path="07-RDD.html"><a href="#o-problema-de-infer%C3%AAncia"><i class="fa fa-check"></i><b>14.6</b> O problema de inferência</a></li>
+<li class="chapter" data-level="14.7" data-path="07-RDD.html"><a href="#implementa%C3%A7%C3%A3o-em-r"><i class="fa fa-check"></i><b>14.7</b> Implementação em R</a>
+<ul>
+<li class="chapter" data-level="14.7.1" data-path="07-RDD.html"><a href="#constru%C3%A7%C3%A3o-do-instrumento"><i class="fa fa-check"></i><b>14.7.1</b> Construção do instrumento</a></li>
+<li class="chapter" data-level="14.7.2" data-path="07-RDD.html"><a href="#estima%C3%A7%C3%A3o-iv"><i class="fa fa-check"></i><b>14.7.2</b> Estimação IV</a></li>
+<li class="chapter" data-level="14.7.3" data-path="07-RDD.html"><a href="#erros-padr%C3%A3o-corrigidos-pacote-shiftsharese"><i class="fa fa-check"></i><b>14.7.3</b> Erros-padrão corrigidos: pacote <code>ShiftShareSE</code></a></li>
+<li class="chapter" data-level="14.7.4" data-path="07-RDD.html"><a href="#agrega%C3%A7%C3%A3o-ao-n%C3%ADvel-do-choque-pacote-ssaggregate"><i class="fa fa-check"></i><b>14.7.4</b> Agregação ao nível do choque: pacote <code>ssaggregate</code></a></li>
+<li class="chapter" data-level="14.7.5" data-path="shift-share.html"><a href="shift-share.html#ecossistema-r-vs.-stata"><i class="fa fa-check"></i><b>14.7.5</b> Ecossistema R vs. Stata</a></li>
+</ul></li>
+<li class="chapter" data-level="14.8" data-path="07-RDD.html"><a href="#aplica%C3%A7%C3%B5es-em-ci%C3%AAncia-pol%C3%ADtica"><i class="fa fa-check"></i><b>14.8</b> Aplicações em Ciência Política</a>
+<ul>
+<li class="chapter" data-level="14.8.1" data-path="07-RDD.html"><a href="#com%C3%A9rcio-e-voto-nos-eua"><i class="fa fa-check"></i><b>14.8.1</b> Comércio e voto nos EUA</a></li>
+<li class="chapter" data-level="14.8.2" data-path="07-RDD.html"><a href="#com%C3%A9rcio-e-nacionalismo-na-europa"><i class="fa fa-check"></i><b>14.8.2</b> Comércio e nacionalismo na Europa</a></li>
+<li class="chapter" data-level="14.8.3" data-path="07-RDD.html"><a href="#valores-autorit%C3%A1rios"><i class="fa fa-check"></i><b>14.8.3</b> Valores autoritários</a></li>
+<li class="chapter" data-level="14.8.4" data-path="07-RDD.html"><a href="#welfare-state-hist%C3%B3rico"><i class="fa fa-check"></i><b>14.8.4</b> Welfare state histórico</a></li>
+<li class="chapter" data-level="14.8.5" data-path="07-RDD.html"><a href="#automa%C3%A7%C3%A3o-e-redistribui%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>14.8.5</b> Automação e redistribuição</a></li>
+<li class="chapter" data-level="14.8.6" data-path="shift-share.html"><a href="shift-share.html#brasil"><i class="fa fa-check"></i><b>14.8.6</b> Brasil</a></li>
+</ul></li>
+<li class="chapter" data-level="14.9" data-path="07-RDD.html"><a href="#aplica%C3%A7%C3%B5es-em-rela%C3%A7%C3%B5es-internacionais"><i class="fa fa-check"></i><b>14.9</b> Aplicações em Relações Internacionais</a>
+<ul>
+<li class="chapter" data-level="14.9.1" data-path="07-RDD.html"><a href="#com%C3%A9rcio-e-pol%C3%ADtica-externa"><i class="fa fa-check"></i><b>14.9.1</b> Comércio e política externa</a></li>
+<li class="chapter" data-level="14.9.2" data-path="07-RDD.html"><a href="#comportamento-legislativo-em-pol%C3%ADtica-comercial"><i class="fa fa-check"></i><b>14.9.2</b> Comportamento legislativo em política comercial</a></li>
+<li class="chapter" data-level="14.9.3" data-path="shift-share.html"><a href="shift-share.html#temas-com-potencial-inexplorado-em-ri"><i class="fa fa-check"></i><b>14.9.3</b> Temas com potencial inexplorado em RI</a></li>
+</ul></li>
+<li class="chapter" data-level="14.10" data-path="07-RDD.html"><a href="#refer%C3%AAncias-10"><i class="fa fa-check"></i><b>14.10</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="07-RDD.html"><a href="#interfer%C3%AAncia-spillover-e-din%C3%A2mica"><i class="fa fa-check"></i><b>15</b> Interferência, spillover e dinâmica</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="07-RDD.html"><a href="#suposi%C3%A7%C3%B5es-simplificadoras"><i class="fa fa-check"></i><b>15.1</b> Suposições simplificadoras</a></li>
+<li class="chapter" data-level="15.2" data-path="07-RDD.html"><a href="#po-com-tratamento-de-m%C3%BAltiplos-valores-multi-valued"><i class="fa fa-check"></i><b>15.2</b> PO com tratamento de múltiplos valores (multi-valued)</a>
+<ul>
+<li class="chapter" data-level="15.2.1" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html"><i class="fa fa-check"></i><b>15.2.1</b> Multi-valued discreto</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="07-RDD.html"><a href="#din%C3%A2mica"><i class="fa fa-check"></i><b>15.3</b> Dinâmica</a></li>
+<li class="chapter" data-level="15.4" data-path="07-RDD.html"><a href="#interfer%C3%AAncia"><i class="fa fa-check"></i><b>15.4</b> Interferência</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Curso de Inferência Causal</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="desenho-de-regressão-descontínua" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Capítulo 7</span> Desenho de Regressão Descontínua<a href="#desenho-de-regress%C3%A3o-descont%C3%ADnua" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="outline-da-aula" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Outline da aula<a href="desenho-de-regressão-descontínua.html#outline-da-aula" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Na aula de hoje, iremos aprender sobre identificação causal do aspecto mais simples da RD e como funciona.</p>
+<p>Em seguida, estimação e checagem. Falaremos rapidamente de extensões.</p>
+</div>
+<div id="características-chave-da-rdd" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> Características-chave da RDD<a href="#caracter%C3%ADsticas-chave-da-rdd" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A Regressão Discontínua (RDD) é caracterizada por uma variável contínua <span class="math inline">\(X_i\)</span>, que determina quem recebe tratamento, denotado por <span class="math inline">\(T_i\)</span> (1 se tratado). Por convenção, <span class="math inline">\(X\)</span> é chamada de “running variable”, “assignment variable” ou “forcing variable”.</p>
+<div id="determinação-do-tratamento" class="section level3 hasAnchor" number="7.2.1">
+<h3><span class="header-section-number">7.2.1</span> Determinação do Tratamento<a href="#determina%C3%A7%C3%A3o-do-tratamento" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Em um desenho RDD <em>sharp</em>, uma unidade é tratada se <span class="math inline">\(X_i \geq c\)</span> e não tratada se <span class="math inline">\(X_i &lt; c\)</span>. Assim, <span class="math inline">\(T_i\)</span> é uma função determinística de <span class="math inline">\(X_i\)</span>: <span class="math inline">\(T_i = f(X_i)\)</span>. A <em>running variable</em> determina completamente quem recebe tratamento.</p>
+</div>
+</div>
+<div id="fuzzy-rdd" class="section level2 hasAnchor" number="7.3">
+<h2><span class="header-section-number">7.3</span> Fuzzy RDD<a href="desenho-de-regressão-descontínua.html#fuzzy-rdd" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li><p>Pode acontecer do ponto de corte não determinar quem recebe ou não o tratamento, mas apenas a probabilidade de receber o tratamento.</p></li>
+<li><p>Nesse caso, a regra serve como variável instrumental ao redor do ponto de corte.</p></li>
+<li><p>Ex.: regra de voto determina número de cadeiras. Mas migração partidária altera o número. Então quem fica abaixo do número mínimo em um distrito pode ter cadeiras naquele distrito via migração partidária.</p></li>
+</ul>
+<div id="observação-e-corte" class="section level3 hasAnchor" number="7.3.1">
+<h3><span class="header-section-number">7.3.1</span> Observação e Corte<a href="#observa%C3%A7%C3%A3o-e-corte" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>É essencial observar <span class="math inline">\(X\)</span> e conhecer o <strong>ponto de corte</strong> ou <strong>limiar</strong> <span class="math inline">\(c\)</span>.</p>
+<p>Uma das suposições da RDD é que ela requer a continuidade da variável <span class="math inline">\(X\)</span> para identificação, embora, na prática, alguns estudos de RDD tenham usado <em>running variables</em> discretas. A continuidade de <span class="math inline">\(X\)</span> é necessária porque a identificação ocorre no limite.</p>
+<p>Mas a suposiçao chave é que os resultados potenciais devem ser contínuos ao redor do ponto de corte. Como sempre, essa suposição é intestável, devido ao problema fundamental da inferência causal. Lee (2008), em um artigo clássico, mostrou que uma condição mais restritiva é suficiente para identificação causal: que as unidades podem controlar a running variável, exceto ao redor do ponto de corte. Isso implica também que as covariáveis de pré-tratamento são contínuas no cutoff. Isso é potencialmente testável, pelo menos nas variáveis observadas e em geral olhando para a média das variáveis, o que não é a mesma coisa que olhar para outros momentos, que podem ser descontínuos.</p>
+</div>
+<div id="estimativa-dos-efeitos-do-tratamento" class="section level3 hasAnchor" number="7.3.2">
+<h3><span class="header-section-number">7.3.2</span> Estimativa dos Efeitos do Tratamento<a href="desenho-de-regressão-descontínua.html#estimativa-dos-efeitos-do-tratamento" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A comparação de <span class="math inline">\(\lim_{x \uparrow c} E[Y_i | X_i = x]\)</span> com <span class="math inline">\(\lim_{x \downarrow c} E[Y_i | X_i = x]\)</span> fornece uma estimativa dos efeitos do tratamento (note a direção das setas).</p>
+<p>Esta comparação é equivalente a: <span class="math inline">\(\lim_{x \uparrow c} E[Y_i | X_i = x, T_i=0]\)</span> e <span class="math inline">\(\lim_{x \downarrow c} E[Y_i | X_i = x, T_i=1]\)</span>, uma vez que, neste exemplo, à direita de <span class="math inline">\(c\)</span> todos recebem tratamento; à esquerda, ninguém recebe. Portanto:</p>
+<ul>
+<li><span class="math inline">\(\lim_{x \uparrow c} E[Y_i | X_i = x] \approx E[Y_{0i} | X_i = c]\)</span></li>
+<li><span class="math inline">\(\lim_{x \downarrow c} E[Y_i | X_i = x] \approx E[Y_{1i} | X_i = c]\)</span></li>
+</ul>
+<p>Se fôssemos usar regressão linear, o modelo seria:
+<span class="math inline">\(y_i = \alpha + \beta_1 (x_i &gt; c) + \beta_2 x_i + \beta_3 x (x_i &gt; c) + e_i\)</span>, em que <span class="math inline">\(c\)</span> é o ponto de corte, e <span class="math inline">\(x\)</span> é a <em>running variable</em>.</p>
+</div>
+</div>
+<div id="suposição-de-continuidade" class="section level2 hasAnchor" number="7.4">
+<h2><span class="header-section-number">7.4</span> Suposição de continuidade<a href="#suposi%C3%A7%C3%A3o-de-continuidade" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li>A suposição de continuidade é tão crítica que vale discutirmos um pouco mais sobre ela.</li>
+<li>Se há continuidade, isso significa que, na ausência do ponto de corte <span class="math inline">\(c\)</span>, x (e outras covariáveis) não devem apresentar descontinuidade.</li>
+<li>Ex.: Suponha que estamos interessados em estudar o efeito da incumbência sobre a chance de reeleição futura ou riqueza futura desses políticos.</li>
+<li>Habilidades e carisma são variáveis que devem influenciar tanto a chance de serem incumbentes como os resultados de interesse. Em um RDD, podemos usar <em>close elections</em> para estimar o efeito. E a suposição de continuidade requer que carisma e habilidades não tenham descontinuidade no <em>cut off</em> de 50%. Na verdade, apenas o resultado eleitoral é descontínuo no <em>cut off</em>, que vai de não-eleito para eleito.</li>
+</ul>
+</div>
+<div id="suposições-na-rdd" class="section level2 hasAnchor" number="7.5">
+<h2><span class="header-section-number">7.5</span> Suposições na RDD<a href="#suposi%C3%A7%C3%B5es-na-rdd" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="suposição-de-não-manipulação-com-precisão" class="section level3 hasAnchor" number="7.5.1">
+<h3><span class="header-section-number">7.5.1</span> Suposição de Não-manipulação com Precisão<a href="#suposi%C3%A7%C3%A3o-de-n%C3%A3o-manipula%C3%A7%C3%A3o-com-precis%C3%A3o" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A identificação dos efeitos do tratamento na RDD baseia-se na premissa de que <span class="math inline">\(X\)</span> atua como um aleatorizador ao redor de <span class="math inline">\(c\)</span>. Imagine que <span class="math inline">\(X\)</span> seja uma variável aleatória uniforme usada para atribuir tratamento. Se <span class="math inline">\(X \geq c\)</span>, uma unidade recebe tratamento. Na RDD, <span class="math inline">\(X\)</span> tem o mesmo papel, exceto que não assumimos que <span class="math inline">\(X\)</span> é independente do resultado <span class="math inline">\(Y\)</span>. Na maioria das aplicações, <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> são correlacionados de alguma forma.</p>
+</div>
+<div id="problemas-de-manipulação" class="section level3 hasAnchor" number="7.5.2">
+<h3><span class="header-section-number">7.5.2</span> Problemas de Manipulação<a href="#problemas-de-manipula%C3%A7%C3%A3o" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>No entanto, se <span class="math inline">\(c\)</span> não for arbitrário ou tiver uma relação determinística com <span class="math inline">\(Y\)</span>, ou se as unidades puderem — com precisão — determinar seus escores <span class="math inline">\(X\)</span> e, assim, escolher receber tratamento ou não, então <span class="math inline">\(X\)</span> ao redor de <span class="math inline">\(c\)</span> não se comporta mais como um aleatorizador — há alguma forma de auto-seleção que poderia depender de variáveis não observáveis.</p>
+</div>
+</div>
+<div id="testabilidade-da-suposição-de-não-manipulação" class="section level2 hasAnchor" number="7.6">
+<h2><span class="header-section-number">7.6</span> Testabilidade da Suposição de não-Manipulação<a href="#testabilidade-da-suposi%C3%A7%C3%A3o-de-n%C3%A3o-manipula%C3%A7%C3%A3o" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Em parte, isso é testável. As unidades não pareceriam semelhantes perto de <span class="math inline">\(c\)</span> e haveria um “acúmulo” próximo a <span class="math inline">\(c\)</span>. No entanto, não podemos descartar a manipulação com precisão apenas com dados — devemos argumentar isso com conhecimento do assunto (é uma restrição de exclusão).</p>
+<p>Tendo estabelecido as suposições de identificação, passamos agora à questão prática: como estimar o efeito do tratamento em um RDD?</p>
+</div>
+<div id="estimação-em-rdd" class="section level2 hasAnchor" number="7.7">
+<h2><span class="header-section-number">7.7</span> Estimação em RDD<a href="#estima%C3%A7%C3%A3o-em-rdd" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="problema-de-complete-overlapping" class="section level3 hasAnchor" number="7.7.1">
+<h3><span class="header-section-number">7.7.1</span> Problema de Complete Overlapping<a href="desenho-de-regressão-descontínua.html#problema-de-complete-overlapping" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Um problema chave na estimação em RDD estrita é a completa falta de sobreposição.</p>
+<p>Em matching, discutimos como a ausência de sobreposição gerava problemas de extrapolação.</p>
+<p>Sobreposição requer que <span class="math inline">\(0 &lt; P(T_i = 1 | X_i) &lt; 1\)</span> para o domínio de <span class="math inline">\(X_i\)</span>. No domínio da <em>running variable</em> <span class="math inline">\(X_i\)</span>, isso claramente não é satisfeito. Em RDD estrita, temos <span class="math inline">\(P(T_i = 1 | X_i &lt; c) = 0\)</span> e <span class="math inline">\(P(T_i = 1 | X_i \geq c) = 1\)</span>.</p>
+</div>
+<div id="dependência-de-extrapolação" class="section level3 hasAnchor" number="7.7.2">
+<h3><span class="header-section-number">7.7.2</span> Dependência de Extrapolação<a href="#depend%C3%AAncia-de-extrapola%C3%A7%C3%A3o" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Devido à falta de sobreposição, dependemos de extrapolação para estimar os efeitos do tratamento. Dito de outra forma, podemos não ser capazes de estimar corretamente os efeitos do tratamento se errarmos a forma funcional <span class="math inline">\(Y_i = f(X_i)\)</span>. Novamente, essa foi uma motivação para usar matching.</p>
+<p>O problema é que nunca sabemos se acertamos, então a especificação do modelo é uma questão chave na estimação RDD.</p>
+</div>
+</div>
+<div id="métodos-de-estimação" class="section level2 hasAnchor" number="7.8">
+<h2><span class="header-section-number">7.8</span> Métodos de Estimação<a href="#m%C3%A9todos-de-estima%C3%A7%C3%A3o" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>O problema sugere a necessidade de um método de estimação não paramétrico. Utilizaremos métodos paramétricos, não paramétricos (ou semiparamétricos) para tentar abordar essas questões.</p>
+<div id="identificação-no-limite" class="section level3 hasAnchor" number="7.8.1">
+<h3><span class="header-section-number">7.8.1</span> Identificação no Limite<a href="#identifica%C3%A7%C3%A3o-no-limite" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A identificação dos efeitos do tratamento ocorre no limite, à medida que <span class="math inline">\(X_i \rightarrow c\)</span>. Quanto mais usarmos observações distantes de <span class="math inline">\(c\)</span> em <span class="math inline">\(X\)</span>, mais dependeremos de extrapolação e das suposições sobre a forma funcional.</p>
+</div>
+</div>
+<div id="trade-off-de-viés-variância" class="section level2 hasAnchor" number="7.9">
+<h2><span class="header-section-number">7.9</span> Trade-off de Viés-Variância<a href="#trade-off-de-vi%C3%A9s-vari%C3%A2ncia" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li><strong>Mais perto de c:</strong> Melhor em termos de precisão, mas pode haver uma amostra insuficiente. Resulta em menos viés, mas mais variância.</li>
+<li><strong>Mais distante de c:</strong> Dependemos menos de extrapolação, mas introduzimos mais viés, mesmo com menor variância.</li>
+</ul>
+<div id="métodos-de-largura-de-banda-ótima" class="section level3 hasAnchor" number="7.9.1">
+<h3><span class="header-section-number">7.9.1</span> Métodos de Largura de Banda Ótima<a href="#m%C3%A9todos-de-largura-de-banda-%C3%B3tima" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A ideia é restringir a estimativa a uma janela ao redor de <span class="math inline">\(X_i = c\)</span>, que pode ter tamanhos diferentes à esquerda ou à direita. Estes métodos buscam equilibrar a precisão das estimativas minimizando viés e variância conforme a proximidade do ponto de corte <span class="math inline">\(c\)</span>.</p>
+</div>
+</div>
+<div id="regras-arbitrárias" class="section level2 hasAnchor" number="7.10">
+<h2><span class="header-section-number">7.10</span> Regras arbitrárias<a href="#regras-arbitr%C3%A1rias" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Atribuição de “coisas” a partir de regras com pontos de cortes</p>
+<p>Bolsa família: a partir de certa renda</p>
+<p>Educação: aprovação no ensino superior a partir de certa nota de corte</p>
+<p>Espacial: política pública para donos de áreas abaixo ou acima de certas áreas.</p>
+<p>Data: regras para aposentadoria, idade para entrar na escola, data para perdão de dívida: Desenrola: “…cujas dívidas tenham sido incluídas no cadastro de inadimplentes no período entre 1º de janeiro de 2019 e 31 de dezembro de 2022”.</p>
+<p>Política: regras de número de vereadores, regras de população para ter segundo turno, regras para ter biometria etc.</p>
+</div>
+<div id="simulação" class="section level2 hasAnchor" number="7.11">
+<h2><span class="header-section-number">7.11</span> Simulação<a href="#simula%C3%A7%C3%A3o" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="desenho-de-regressão-descontínua.html#cb97-1" tabindex="-1"></a><span class="do">## Basic RD Model</span></span>
+<span id="cb97-2"><a href="desenho-de-regressão-descontínua.html#cb97-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb97-3"><a href="desenho-de-regressão-descontínua.html#cb97-3" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">1000</span> <span class="co"># number of observations</span></span>
+<span id="cb97-4"><a href="desenho-de-regressão-descontínua.html#cb97-4" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">runif</span> (N , <span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>)</span>
+<span id="cb97-5"><a href="desenho-de-regressão-descontínua.html#cb97-5" tabindex="-1"></a>Y0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span> ( <span class="at">n =</span>N , <span class="at">mean =</span>X , <span class="at">sd=</span><span class="dv">1</span>) <span class="co"># control potential outcome</span></span>
+<span id="cb97-6"><a href="desenho-de-regressão-descontínua.html#cb97-6" tabindex="-1"></a>Y1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span> ( <span class="at">n =</span>N , <span class="at">mean =</span> X<span class="sc">+</span><span class="dv">2</span>, <span class="at">sd=</span><span class="dv">1</span>) <span class="co"># treatment potential outcome</span></span>
+<span id="cb97-7"><a href="desenho-de-regressão-descontínua.html#cb97-7" tabindex="-1"></a><span class="co">#You only get treatment if X&gt;0</span></span>
+<span id="cb97-8"><a href="desenho-de-regressão-descontínua.html#cb97-8" tabindex="-1"></a>Treatment <span class="ot">&lt;-</span> ( X <span class="sc">&gt;=</span> <span class="dv">0</span>)</span>
+<span id="cb97-9"><a href="desenho-de-regressão-descontínua.html#cb97-9" tabindex="-1"></a><span class="co"># What we observe</span></span>
+<span id="cb97-10"><a href="desenho-de-regressão-descontínua.html#cb97-10" tabindex="-1"></a>Y <span class="ot">=</span> Y1<span class="sc">*</span> Treatment <span class="sc">+</span> Y0<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span> Treatment )</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/plot-treatment-assignment-1.png" alt="" width="672" /></p>
+</div>
+<div id="simulação---potential-outcomes-y0" class="section level2 hasAnchor" number="7.12">
+<h2><span class="header-section-number">7.12</span> Simulação - Potential Outcomes Y0<a href="#simula%C3%A7%C3%A3o---potential-outcomes-y0" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="bookdownproj_files/figure-html/plot-po-y0-1.png" alt="" width="672" /></p>
+</div>
+<div id="simulação---potential-outcomes-y1" class="section level2 hasAnchor" number="7.13">
+<h2><span class="header-section-number">7.13</span> Simulação - Potential Outcomes Y1<a href="#simula%C3%A7%C3%A3o---potential-outcomes-y1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="bookdownproj_files/figure-html/plot-po-y1-1.png" alt="" width="672" /></p>
+</div>
+<div id="simulação---potential-outcomes-y1-e-y0" class="section level2 hasAnchor" number="7.14">
+<h2><span class="header-section-number">7.14</span> Simulação - Potential Outcomes Y1 e Y0<a href="#simula%C3%A7%C3%A3o---potential-outcomes-y1-e-y0" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="bookdownproj_files/figure-html/plot-po-y1-Y0-1.png" alt="" width="672" /></p>
+<pre><code>## Warning: No shared levels found between `names(values)` of the manual scale and the
+## data&#39;s colour values.</code></pre>
+<p><img src="bookdownproj_files/figure-html/plot-po-y1-Y0-2.png" alt="" width="672" /></p>
+</div>
+<div id="simulação---y-observado" class="section level2 hasAnchor" number="7.15">
+<h2><span class="header-section-number">7.15</span> Simulação - Y observado<a href="#simula%C3%A7%C3%A3o---y-observado" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="bookdownproj_files/figure-html/plot-observed-1.png" alt="" width="672" /></p>
+<p>A simulação acima ilustra os elementos fundamentais de um RDD. Vejamos agora em que condições as estimativas de RDD são válidas.</p>
+</div>
+<div id="quando-o-rdd-funciona" class="section level2 hasAnchor" number="7.16">
+<h2><span class="header-section-number">7.16</span> Quando o RDD funciona?<a href="desenho-de-regressão-descontínua.html#quando-o-rdd-funciona" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A suposição chave para o RDD é que tenha descontinuidade ao redor do ponto de corte, e que não haja descontinuidade ao redor do ponto de corte em outra variável omitida. Vamos ver o que isso significa, comparando quatro gráficos, três em que a estimativa do RDD é válida, mas com diferentes validades “externas” e uma em que é inválida.</p>
+<pre><code>## [1] 3.965471</code></pre>
+<p><img src="bookdownproj_files/figure-html/multiplos_rdds-1.png" alt="" width="672" /></p>
+<pre><code>## [1] 0.1726892</code></pre>
+<p><img src="bookdownproj_files/figure-html/multiplos_rdds-2.png" alt="" width="672" /><img src="bookdownproj_files/figure-html/multiplos_rdds-3.png" alt="" width="672" /></p>
+<pre><code>## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.</code></pre>
+<p><img src="bookdownproj_files/figure-html/multiplos_rdds-4.png" alt="" width="672" /><img src="bookdownproj_files/figure-html/multiplos_rdds-5.png" alt="" width="672" /><img src="bookdownproj_files/figure-html/multiplos_rdds-6.png" alt="" width="672" /><img src="bookdownproj_files/figure-html/multiplos_rdds-7.png" alt="" width="672" /></p>
+</div>
+<div id="raw-data-versus-bin" class="section level2 hasAnchor" number="7.17">
+<h2><span class="header-section-number">7.17</span> Raw Data versus Bin<a href="desenho-de-regressão-descontínua.html#raw-data-versus-bin" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="bookdownproj_files/figure-html/plot-binscatter-1.png" alt="" width="672" /></p>
+<p>Como escolher os bins?
+1. Espaçamentos iguais ou quantis?
+2. Quantos bins?</p>
+<p>No exemplo, escolhi espaçamento igual e 20 bins. Podemos usar quantis.
+<img src="bookdownproj_files/figure-html/plot-binscatter-quantis-1.png" alt="" width="672" /></p>
+<p>Não faz muita diferença neste exemplo, mas usar quantis é mais transparente e mais crível retoricamente, pois não mascara a densidade.</p>
+<p>Sobre o número de bins, Cattaneo et al. (2020) discutem o tema e sugerem duas abordagens:
+1. IMSE-minimizing (proporcional a <span class="math inline">\(n^{1/3}\)</span>)
+2. Mimicking-variance (proporcional a <span class="math inline">\(n/log(n)^2\)</span>)</p>
+<p>E usamos o pacote rdplot para implementar isso automaticamente</p>
+<p><img src="bookdownproj_files/figure-html/plot-binscatter-quantis-rdplot-qs-1.png" alt="" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/plot-binscatter-quantis-rdplot-qsmv-1.png" alt="" width="672" /></p>
+</div>
+<div id="permutation-tests-balancing" class="section level2 hasAnchor" number="7.18">
+<h2><span class="header-section-number">7.18</span> Permutation tests (balancing)<a href="desenho-de-regressão-descontínua.html#permutation-tests-balancing" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Para checar balancing, podemos usar testes de permutação.</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="desenho-de-regressão-descontínua.html#cb102-1" tabindex="-1"></a><span class="fu">library</span>(RATest)</span>
+<span id="cb102-2"><a href="desenho-de-regressão-descontínua.html#cb102-2" tabindex="-1"></a>df <span class="ot">&lt;-</span> df_u</span>
+<span id="cb102-3"><a href="desenho-de-regressão-descontínua.html#cb102-3" tabindex="-1"></a><span class="fu">head</span>(df)</span></code></pre></div>
+<pre><code>##            y          x treatment         y0           y1           u
+## 1 -4.9108800 -2.8126930     FALSE -4.9108800   0.24201180 -0.56047565
+## 2 -3.4521053 -3.2945724     FALSE -3.4521053   0.06456756 -0.23017749
+## 3  3.3243805 -5.0368128     FALSE  3.3243805 -10.37746355  1.55870831
+## 4  1.5797551  0.1039258      TRUE -0.4349002   1.57975508  0.07050839
+## 5  0.6339174 -0.1709231     FALSE  0.6339174   2.58972091  0.12928774
+## 6  1.3680416 -0.5215457     FALSE  1.3680416   1.57907203  1.71506499</code></pre>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="desenho-de-regressão-descontínua.html#cb104-1" tabindex="-1"></a>resultado <span class="ot">&lt;-</span> <span class="fu">RDperm</span>(</span>
+<span id="cb104-2"><a href="desenho-de-regressão-descontínua.html#cb104-2" tabindex="-1"></a>  <span class="at">W =</span> <span class="st">&quot;u&quot;</span>,  <span class="co"># Substitua pelos nomes das suas covariáveis</span></span>
+<span id="cb104-3"><a href="desenho-de-regressão-descontínua.html#cb104-3" tabindex="-1"></a>  <span class="at">z =</span> <span class="st">&quot;x&quot;</span>,              <span class="co"># Substitua pelo nome da sua variável de corte</span></span>
+<span id="cb104-4"><a href="desenho-de-regressão-descontínua.html#cb104-4" tabindex="-1"></a>  <span class="at">data =</span> df,                <span class="co"># Substitua pelo seu data frame</span></span>
+<span id="cb104-5"><a href="desenho-de-regressão-descontínua.html#cb104-5" tabindex="-1"></a>  <span class="at">cutoff =</span> <span class="dv">0</span>                            <span class="co"># Substitua pelo valor do ponto de corte, se diferente de 0</span></span>
+<span id="cb104-6"><a href="desenho-de-regressão-descontínua.html#cb104-6" tabindex="-1"></a>)</span>
+<span id="cb104-7"><a href="desenho-de-regressão-descontínua.html#cb104-7" tabindex="-1"></a><span class="fu">summary</span>(resultado)</span></code></pre></div>
+<pre><code>## 
+## **********************************************************
+## **       RD Distribution Test using permutations        **
+## **********************************************************
+## Running Variable: x
+## Cutoff: 0
+## q: Defined by User
+## Test Statistic: CvM
+## Number of Permutations: 499
+## Number of Obs: 1000
+## 
+## **********************************************************
+## H0: &#39;Continuity of the baseline covariates at the cutoff&#39; 
+## **********************************************************
+## 
+## Estimates:
+##    T(Sn)  Pr(&gt;|z|)  q    
+## u  0.01   0.92      10   
+## ---
+## Signif. codes:   0.01 &#39;***&#39; 0.05 &#39;**&#39; 0.1 &#39;*&#39;</code></pre>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="desenho-de-regressão-descontínua.html#cb106-1" tabindex="-1"></a><span class="fu">plot</span>(resultado, <span class="at">w=</span><span class="st">&quot;u&quot;</span>, <span class="st">&quot;cdf&quot;</span>)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/permutation-test-1.png" alt="" width="672" /></p>
+<p>Canay &amp; Kamat (2018) utilizaram esse teste para revisitar o trabalho de Lee (2008) e descobriram que havia problema de balanceamento.</p>
+<p>Caughey and Sekhon (2011) na political analysis mostraram que de fato havia problemas de balanceamento no estudo de Lee (2008).</p>
+<p>Do paper da PA:</p>
+<p><img src="imagens/quote.png" alt="" width="1140" /><img src="imagens/quote2.png" alt="" width="1124" /></p>
+<p>Houve um debate na ciência política sobre isso. Erikson &amp; Rader (2017) e Cuesta &amp; Imai (2016) argumentam que o RDD é identificado. Até onde eu sei, cientistas políticos não revisitaram a controvérsia com os novos metodos desenvolvidos pelos economistas.</p>
+<p>De todo modo, as evidências de De Magalhães et al. (2025) sugerem que a recomendação que estou adotando no curso de quais práticas usar são as melhores e mais robustas.</p>
+</div>
+<div id="mccrary-test" class="section level2 hasAnchor" number="7.19">
+<h2><span class="header-section-number">7.19</span> McCrary test<a href="desenho-de-regressão-descontínua.html#mccrary-test" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Um dos principais desafios à identificação causal em RDDs é a possibilidade de manipulação por parte dos agentes sobre ficar acima ou abaixo do ponto de corte. A lógica esperada é que se o tratamento é desejável, indivíduos tentarão receber o tratamento, levando a um gap justamente abaixo do ponto de corte. Se o tratamento é indesejável (efeitos negativos), indivíduos vão evitar o tratamento, levando a um gap justamente acima do ponto de corte.</p>
+<p>O exemplo mais evidente para nós cientistas políticos é a aprovação de um projeto de lei no legislativo. Nós sabemos que os legisladores agem estrategicamente retirando propostas que não vão ser aprovadas ou postergando a votação, até terem a maioria, ainda que por margem mínima. Nesse caso, a aplicação de RDD produzirá estimativas viesadas. McCrary, em um artigo de 2008, argumentou que tais casos apareceriam como descontinuidade na densidade da <em>running variable</em> ao redor do ponto de corte. Eis o gráfico feito por McCrary em seu estudo original:</p>
+<p><img src="imagens/manipulation%20test.png" alt="" width="1107" /></p>
+<p>Para formalizar essa ideia, McCrary estima os limites da densidade pela esquerda e pela direita e avalia se a diferença (do logaritmo) das estimativas é estatisticamente significante diferente de zero. Portanto, rejeitar a hipótese nula é encontrar evidências de que há manipulação. Cattaneo, Jansson, &amp; Ma 2018; 2020 introduziram uma versão alternativa do teste, com espírito similar.</p>
+<p>Na prática, de um ponto de vista retórico, o que pesquisadores querem é falhar em rejeitar a nula. Como o teste tem baixo poder de rejeitar a nula, ausência de evidência não quer dizer evidência de ausência.</p>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="desenho-de-regressão-descontínua.html#cb107-1" tabindex="-1"></a><span class="fu">library</span>(rdd)</span>
+<span id="cb107-2"><a href="desenho-de-regressão-descontínua.html#cb107-2" tabindex="-1"></a><span class="co"># Simulated data without discontinuity</span></span>
+<span id="cb107-3"><a href="desenho-de-regressão-descontínua.html#cb107-3" tabindex="-1"></a></span>
+<span id="cb107-4"><a href="desenho-de-regressão-descontínua.html#cb107-4" tabindex="-1"></a><span class="fu">DCdensity</span>(df<span class="sc">$</span>x, <span class="dv">0</span>)  <span class="co"># No discontinuity</span></span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/McCay-test1-1.png" alt="" width="672" /></p>
+<pre><code>## [1] 0.6885203</code></pre>
+<p>Cattaneo Density Test (Improved Version)</p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="desenho-de-regressão-descontínua.html#cb109-1" tabindex="-1"></a><span class="fu">library</span>(rddensity)</span>
+<span id="cb109-2"><a href="desenho-de-regressão-descontínua.html#cb109-2" tabindex="-1"></a></span>
+<span id="cb109-3"><a href="desenho-de-regressão-descontínua.html#cb109-3" tabindex="-1"></a><span class="co"># Simulated continuous density</span></span>
+<span id="cb109-4"><a href="desenho-de-regressão-descontínua.html#cb109-4" tabindex="-1"></a>rdd <span class="ot">&lt;-</span> <span class="fu">rddensity</span>(<span class="at">X =</span> df<span class="sc">$</span>x, <span class="at">vce =</span> <span class="st">&quot;jackknife&quot;</span>)</span>
+<span id="cb109-5"><a href="desenho-de-regressão-descontínua.html#cb109-5" tabindex="-1"></a><span class="fu">summary</span>(rdd)</span></code></pre></div>
+<pre><code>## 
+## Manipulation testing using local polynomial density estimation.
+## 
+## Number of obs =       1000
+## Model =               unrestricted
+## Kernel =              triangular
+## BW method =           estimated
+## VCE method =          jackknife
+## 
+## c = 0                 Left of c           Right of c          
+## Number of obs         484                 516                 
+## Eff. Number of obs    136                 229                 
+## Order est. (p)        2                   2                   
+## Order bias (q)        3                   3                   
+## BW est. (h)           1.63                2.095               
+## 
+## Method                T                   P &gt; |T|             
+## Robust                0.6125              0.5402              
+## 
+## 
+## P-values of binomial tests (H0: p=0.5).
+## 
+## Window Length              &lt;c     &gt;=c    P&gt;|T|
+## 0.174     + 0.174          20      20    1.0000
+## 0.336     + 0.349          34      45    0.2604
+## 0.498     + 0.523          52      60    0.5085
+## 0.659     + 0.697          65      82    0.1868
+## 0.821     + 0.872          81      96    0.2926
+## 0.983     + 1.046          96     116    0.1918
+## 1.145     + 1.220         109     133    0.1391
+## 1.306     + 1.395         122     153    0.0702
+## 1.468     + 1.569         128     173    0.0111
+## 1.630     + 1.743         136     189    0.0039</code></pre>
+<p>Essa é uma área ativa de pesquisa, com novos testes sendo desenvolvidos, por exemplo, Fitzgerald (2025), que é um working paper.</p>
+</div>
+<div id="robustez" class="section level2 hasAnchor" number="7.20">
+<h2><span class="header-section-number">7.20</span> Robustez<a href="desenho-de-regressão-descontínua.html#robustez" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Mostrar várias estimativas, para várias escolhas de estimações (bandwidth etc.)</p>
+<p>Uma possibilidade é simplesmente apresentar várias estimativas, como faremos abaixo. Ou então, uma tabela. Mas o mais simples seria um gráfico dos efeitos com seus respectivos ICs, em que cada entrada no eixo x é uma estimação, e no y temos o efeito.
+Abaixo apresento duas dessas possibilidades para ilustrar como a última é a melhor.</p>
+<p><img src="bookdownproj_files/figure-html/plot-estimator-1-1.png" alt="" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/plot-estimator2-1.png" alt="" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/plot-estimator3-1.png" alt="" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/plot-estimator4-1.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="desenho-de-regressão-descontínua.html#cb111-1" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb111-2"><a href="desenho-de-regressão-descontínua.html#cb111-2" tabindex="-1"></a>  <span class="at">estimate =</span> vec_estimate,</span>
+<span id="cb111-3"><a href="desenho-de-regressão-descontínua.html#cb111-3" tabindex="-1"></a>  <span class="at">se       =</span> se_estimate,</span>
+<span id="cb111-4"><a href="desenho-de-regressão-descontínua.html#cb111-4" tabindex="-1"></a>  <span class="at">lower    =</span> vec_estimate <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> se_estimate,</span>
+<span id="cb111-5"><a href="desenho-de-regressão-descontínua.html#cb111-5" tabindex="-1"></a>  <span class="at">upper    =</span> vec_estimate <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> se_estimate,</span>
+<span id="cb111-6"><a href="desenho-de-regressão-descontínua.html#cb111-6" tabindex="-1"></a>  <span class="at">h     =</span> <span class="fu">c</span>(<span class="st">&quot;Aut&quot;</span> , <span class="st">&quot;h=1&quot;</span>, <span class="st">&quot;h=.5&quot;</span> , <span class="st">&quot;h=.1&quot;</span>)  <span class="co"># ou names(vec_estimate) se o vetor for nomeado</span></span>
+<span id="cb111-7"><a href="desenho-de-regressão-descontínua.html#cb111-7" tabindex="-1"></a>)</span>
+<span id="cb111-8"><a href="desenho-de-regressão-descontínua.html#cb111-8" tabindex="-1"></a></span>
+<span id="cb111-9"><a href="desenho-de-regressão-descontínua.html#cb111-9" tabindex="-1"></a><span class="co"># 2) Plote com pontos e barras de erro</span></span>
+<span id="cb111-10"><a href="desenho-de-regressão-descontínua.html#cb111-10" tabindex="-1"></a><span class="fu">ggplot</span>(df1, <span class="fu">aes</span>(<span class="at">x =</span> h, <span class="at">y =</span> estimate)) <span class="sc">+</span></span>
+<span id="cb111-11"><a href="desenho-de-regressão-descontínua.html#cb111-11" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb111-12"><a href="desenho-de-regressão-descontínua.html#cb111-12" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> lower, <span class="at">ymax =</span> upper), <span class="at">width =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb111-13"><a href="desenho-de-regressão-descontínua.html#cb111-13" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb111-14"><a href="desenho-de-regressão-descontínua.html#cb111-14" tabindex="-1"></a>    <span class="at">x     =</span> <span class="st">&quot;h&quot;</span>,</span>
+<span id="cb111-15"><a href="desenho-de-regressão-descontínua.html#cb111-15" tabindex="-1"></a>    <span class="at">y     =</span> <span class="st">&quot;Estimativa&quot;</span>,</span>
+<span id="cb111-16"><a href="desenho-de-regressão-descontínua.html#cb111-16" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Efeitos estimados com IC (±2×SE)&quot;</span></span>
+<span id="cb111-17"><a href="desenho-de-regressão-descontínua.html#cb111-17" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb111-18"><a href="desenho-de-regressão-descontínua.html#cb111-18" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/plot-efeitos-1.png" alt="" width="672" /></p>
+</div>
+<div id="densidade-descontínua---results" class="section level2 hasAnchor" number="7.21">
+<h2><span class="header-section-number">7.21</span> Densidade descontínua - results<a href="#densidade-descont%C3%ADnua---results" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+</div>
+<div id="regressão-rdd" class="section level2 hasAnchor" number="7.22">
+<h2><span class="header-section-number">7.22</span> Regressão RDD<a href="#regress%C3%A3o-rdd" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="desenho-de-regressão-descontínua.html#cb112-1" tabindex="-1"></a><span class="fu">library</span>(rdrobust)</span>
+<span id="cb112-2"><a href="desenho-de-regressão-descontínua.html#cb112-2" tabindex="-1"></a><span class="co"># Assuming the cutoff is at x=0</span></span>
+<span id="cb112-3"><a href="desenho-de-regressão-descontínua.html#cb112-3" tabindex="-1"></a>basic_model <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> df<span class="sc">$</span>y, <span class="at">x =</span> df<span class="sc">$</span>x, <span class="at">c =</span> <span class="dv">0</span>)</span>
+<span id="cb112-4"><a href="desenho-de-regressão-descontínua.html#cb112-4" tabindex="-1"></a><span class="fu">summary</span>(basic_model)</span></code></pre></div>
+<pre><code>## Sharp RD estimates using local polynomial regression.
+## 
+## Number of Obs.                 1000
+## BW type                       mserd
+## Kernel                   Triangular
+## VCE method                       NN
+## 
+## Number of Obs.                  484          516
+## Eff. Number of Obs.             124          152
+## Order est. (p)                    1            1
+## Order bias  (q)                   2            2
+## BW est. (h)                   1.375        1.375
+## BW bias (b)                   2.375        2.375
+## rho (h/b)                     0.579        0.579
+## Unique Obs.                     484          516
+## 
+## =============================================================================
+##         Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
+## =============================================================================
+##   Conventional     2.221     0.305     7.283     0.000     [1.623 , 2.818]     
+##         Robust         -         -     6.539     0.000     [1.630 , 3.025]     
+## =============================================================================</code></pre>
+</div>
+<div id="placebo-tests" class="section level2 hasAnchor" number="7.23">
+<h2><span class="header-section-number">7.23</span> Placebo Tests<a href="desenho-de-regressão-descontínua.html#placebo-tests" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Testando descontinuidade em covariáveis predeterminadas: covariáveis que não devem ser afetadas pelo tratamento não devem apresentar salto no ponto de corte.</p>
+<p>Testando descontinuidades em outros pontos: verificar a existência de descontinuidades em pontos arbitrários ao longo da variável de ordenação.</p>
+<p>Uso de VDs placebos: se uma variável dependente que não deveria ser afetada pelo tratamento apresentar descontinuidade significativa, isso levanta dúvidas sobre a validade do desenho RD.</p>
+<p>Avaliação de sensibilidade às covariáveis: as estimativas de RD não devem ser altamente sensíveis à inclusão ou exclusão de covariáveis.</p>
+</div>
+<div id="pcrd" class="section level2 hasAnchor" number="7.24">
+<h2><span class="header-section-number">7.24</span> PCRD<a href="desenho-de-regressão-descontínua.html#pcrd" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Marshall (2024) na AJPS introduz a nomenclatura do desenho de pesquisa Politician characteristic regression discontinuity (PCRD). Basicamente, o argumento é que RDD não permite identificar efeito de características de políticos (como gênero, profissão, raça, ideologia, alinhamento com governo federal etc.)</p>
+<p>“In contrast, the treatment in PCRD designs — which instead seek to estimate the LATE of an elected politician characteristic — is defined by possessing (or not) predetermined characteristic X, conditional on narrowly winning an election. (…) restricting attention to close elections entails conditioning on candidate vote shares that may be affected by X. (…) [It] generally introduce bias — even when X is independent of other predetermined variables and the weak continuity assumption underpinning standard RD designs holds.” (p. 495)</p>
+<p>Basicamente, Marshall está dizendo que nesses casos, close election é um collider, e isso abre as portas para vieses de variáveis que causem <span class="math inline">\(y\)</span> e se a eleição é apertada.</p>
+<p><img src="bookdownproj_files/figure-html/DAG-1.png" alt="" width="672" /></p>
+</div>
+<div id="checklist-para-um-paper-de-rdd" class="section level2 hasAnchor" number="7.25">
+<h2><span class="header-section-number">7.25</span> Checklist para um paper de RDD<a href="desenho-de-regressão-descontínua.html#checklist-para-um-paper-de-rdd" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Teste de balanceamento de variáveis de pré-tratamento (não impactadas pelo tratamento)</p>
+<p>Teste de permutação no cutoff (outra forma de olhar balanceamento)</p>
+<p>Densidade da running variable (teste de McCrary)</p>
+<p>Testes de placebo (cutoffs arbitrários. Estimativa não muda)</p>
+<p>Gráfico com a descontinuidade</p>
+<p>Estimativas baseadas em bandwidth ótimos, e local linear regression</p>
+<p>Análise de robustez junto com a escolha do bandwidth (apresente graficamente)</p>
+<p>Ordem preferida: primeiro estabelecer a validade da estratégia, depois detalhes da estimação.</p>
+</div>
+<div id="referências-5" class="section level2 hasAnchor" number="7.26">
+<h2><span class="header-section-number">7.26</span> Referências<a href="#refer%C3%AAncias-5" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Canay, I. A., &amp; Kamat, V. (2018). Approximate permutation tests and induced order statistics in the regression discontinuity design. The Review of Economic Studies, 85(3), 1577-1608.</p>
+<p>Cattaneo, M. D., Idrobo, N., &amp; Titiunik, R. (2024). A practical introduction to regression discontinuity designs: Extensions. Cambridge University Press.</p>
+<p>Cattaneo, M. D., Idrobo, N., &amp; Titiunik, R. (2019). A Practical Introduction to Regression Discontinuity Designs: Foundations. Elements in Quantitative and Computational Methods for the Social Sciences.</p>
+<p>Cattaneo, M. D., &amp; Titiunik, R. (2022). Regression discontinuity designs. Annual Review of Economics, 14(1), 821-851.</p>
+<p>De Magalhães, L., Hangartner, D., Hirvonen, S., Meriläinen, J., Ruiz, N. A., &amp; Tukiainen, J. (2025). When Can We Trust Regression Discontinuity Design Estimates from Close Elections? Evidence from Experimental Benchmarks. Political Analysis, 1-8.</p>
+<p>Fitzgerald, J. (2025). Manipulation Tests in Regression Discontinuity Design: The Need for Equivalence Testing.</p>
+<p>Gelman, A., &amp; Imbens, G. (2019). Why high-order polynomials should not be used in regression discontinuity designs. Journal of Business &amp; Economic Statistics, 37(3), 447-456.</p>
+<p>Marshall, J. (2024). Can close election regression discontinuity designs identify effects of winning politician characteristics?. American Journal of Political Science, 68(2), 494-510.</p>
+<p>Erikson, R. S., &amp; Rader, K. (2017). Much ado about nothing: rdd and the incumbency advantage. Political Analysis, 25(2), 269-275.</p>
+<p>De la Cuesta, B., &amp; Imai, K. (2016). Misunderstandings about the regression discontinuity design in the study of close elections. Annual Review of Political Science, 19(1), 375-396.</p>
+<p>Marshall, J. (2024). Can close election regression discontinuity designs identify effects of winning politician characteristics?. American Journal of Political Science, 68(2), 494-510.</p>
+<ul>
+<li>Tutorial: <a href="https://congressdata.joshuamccrain.com/regression_discontinuity.html" class="uri">https://congressdata.joshuamccrain.com/regression_discontinuity.html</a></li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="variáveis-instrumentais.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="diferença-em-diferenças.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/mgaldino/Causalidade/edit/main/07-RDD.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": "https://github.com/mgaldino/Causalidade/blob/main/07-RDD.Rmd",
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

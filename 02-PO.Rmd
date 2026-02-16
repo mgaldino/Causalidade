@@ -7,16 +7,16 @@ A situação mudou gradualmente com contribuições metodológicas importantes, 
 1. O efeito deveria ser grande
 2. reproduzível em estudos independentes
 3. possuir uma relação monotônica com "dose" (isto é, aumento na dose não pode reduzir o efeito se o efeito é positivo e vice-versa se for negativo).
-4. corresponde a um "experimento natural""
+4. corresponde a um "experimento natural"
 5. se comporta apropriadamente quando a causa é aplicada, removida e então reinstalada.
 6. é consistente com o conhecimento especializado do tema
 7. é, por exemplo, predita por alguma teoria bem estabelecida.
 
-Nós temos amplas evidências de que muitas intervenções são causais, mesmo na ausência de qualquer experimento aleatório controlado. Sabemos, por exemplo, que defribilação, manobra de Heimlinch e uso de paraquedas são eficazes para prevenir mortes [@howick_etal_2009].
+Nós temos amplas evidências de que muitas intervenções são causais, mesmo na ausência de qualquer experimento aleatório controlado. Sabemos, por exemplo, que desfibrilação, manobra de Heimlich e uso de paraquedas são eficazes para prevenir mortes [@howick_etal_2009].
 
-Em um artigo clássico dos primórdios da estatística escrito por Yule [@yule_1989], temos um dos primeiros exemplos de utilização da regressão para estudar o efeito causal do efeito de uma política (ajuda sobre pobreza). E a despeito do título do artigo falar em causalidade ("An investigation into the causes of changes in pauperism in england, chiefly during the last two intercensal decades"), a certa altura ele diz, em nota de rodapé, que "due to" deve ser lido como "associated to". Quase cem anos depois, o grande estatístico Cox afirmaria em um artigo sobre causalidade: "it is remarkable how relatively little causality is mentioned in the general statistics literature, except in a social science context"[@cox_1992, p. 292].
+Em um artigo clássico dos primórdios da estatística escrito por Yule [@yule_1989], temos um dos primeiros exemplos de utilização da regressão para estudar o efeito causal de uma política (ajuda sobre pobreza). E a despeito do título do artigo falar em causalidade ("An investigation into the causes of changes in pauperism in england, chiefly during the last two intercensal decades"), a certa altura ele diz, em nota de rodapé, que "due to" deve ser lido como "associated to". Quase cem anos depois, o grande estatístico Cox afirmaria em um artigo sobre causalidade: "it is remarkable how relatively little causality is mentioned in the general statistics literature, except in a social science context" [@cox_1992, p. 292].
 
-Exemplo da perspectiva de que falava Cox quando, por exemplo, @muthen_1987 chegou a afirmar que "It would be very healthy if more researchers abandon thinking of and using terms such as cause and effect" (p. 180). Algo ecoado em uma entrevista com um dos líderes da evolução causal desde os anos 70/80, Jamie Robins, que relata que seus papers (en journals de estatística) eram rejeitados por usar linguagem causal, algo rejeitado na época [@robins_2022]. Então parece bastante seguro dizer que a sensação geral na estatística até os anos 80 é que não se deveria usar linguagem causal fora de estudos experimentais, isto é, em estudos não-observacionais.
+Exemplo da perspectiva de que falava Cox quando, por exemplo, @muthen_1987 chegou a afirmar que "It would be very healthy if more researchers abandon thinking of and using terms such as cause and effect" (p. 180). Algo ecoado em uma entrevista com um dos líderes da revolução causal desde os anos 70/80, Jamie Robins, que relata que seus papers (em journals de estatística) eram rejeitados por usar linguagem causal, algo rejeitado na época [@robins_2022]. Então parece bastante seguro dizer que a sensação geral na estatística até os anos 80 é que não se deveria usar linguagem causal fora de estudos experimentais, isto é, em estudos observacionais.
 
 ## Da intuição comparativa ao modelo formal
 
@@ -58,13 +58,13 @@ Recapitulando: introduzimos três ingredientes essenciais — o tratamento biná
 
 ## Problema Fundamental da Inferência Causal
 
-Batizado por Holland (1986) de Problema Fundamental da Inferência Causal (PFIC) diz que não podemos observar, simultaneamente, ambos os resultados potenciais $Y_i(1)$ e $Y_i(0)$.
+O Problema Fundamental da Inferência Causal (PFIC), batizado assim por Holland (1986), diz que não podemos observar, simultaneamente, ambos os resultados potenciais $Y_i(1)$ e $Y_i(0)$.
 
 Para tornar o PFIC concreto, considere o seguinte exemplo. Maria participa de um programa de treinamento profissional ($D_i = 1$) e, ao final, recebe um salário de R\$ 3.000 ($Y_i(1) = 3000$). Gostaríamos de saber: qual seria o salário de Maria se ela *não* tivesse participado do programa? Esse é o resultado potencial $Y_i(0)$, que nunca observaremos — Maria não pode simultaneamente ter participado e não ter participado do programa. O efeito causal individual $\tau_i = Y_i(1) - Y_i(0)$ é, portanto, fundamentalmente não-observável.
 
-Possívels soluções para o PFIC:
+Possíveis soluções para o PFIC:
 
-1. Assumir homogeneidade temporal (comparação antes de depois da mesma unidade)
+1. Assumir homogeneidade temporal (comparação antes e depois da mesma unidade)
 
 2. Assumir homogeneidade da unidade (comparar dois indivíduos, um tratado, outro no controle)
 
@@ -76,7 +76,7 @@ O PFIC nos mostrou que o efeito causal individual $\tau_i$ é não-observável. 
 
 O que nós estamos interessados em estimar é o nosso **Estimando**.
 
-Lundberg et al. (2021), definem de maneira bem completa o que é um estimando. Informalmente, é a quantidade causal que queremos estimar. Os autores separam o estimando teórico do estimando estatístico. O estimando teórico especifica a unidade teórica de interesse (ex.: o efeito de instituicões inclusivas sobre o desenvolvimento economômico do país $i$; "A Dilma teria sofrido impeachment se a lava-jato não existisse?"). O segundo componente é a população-alvo. Se formos agregar essa unidade, é sobre quem ou quê? No primeiro caso, é a categoria de países em desenvolvimento em 1990? Todos os países independentes do globo no seçulo XX? No segundo caso, é mais difícil pensar qual é a população alvo. Talv ez já seja a população e, nesse caso, nao cabe se perguntar sobre qume agregaríamos a quantidade. Ou talvez a pergunta de pesquisa seja sobre crises econômicas e impeachment, e o Brasil é só um caso. Daí a população alvo pode ser, talvez, países latino-americanos. Nesse caso, a pesquisadora deverá argumentar sobre como o estudo de caso é informativo sobre a população-alvo.
+Lundberg et al. (2021), definem de maneira bem completa o que é um estimando. Informalmente, é a quantidade causal que queremos estimar. Os autores separam o estimando teórico do estimando estatístico. O estimando teórico especifica a unidade teórica de interesse (ex.: o efeito de instituições inclusivas sobre o desenvolvimento econômico do país $i$; "A Dilma teria sofrido impeachment se a lava-jato não existisse?"). O segundo componente é a população-alvo. Se formos agregar essa unidade, é sobre quem ou quê? No primeiro caso, é a categoria de países em desenvolvimento em 1990? Todos os países independentes do globo no século XX? No segundo caso, é mais difícil pensar qual é a população alvo. Talvez já seja a população e, nesse caso, não cabe se perguntar sobre quem agregaríamos a quantidade. Ou talvez a pergunta de pesquisa seja sobre crises econômicas e impeachment, e o Brasil é só um caso. Daí a população alvo pode ser, talvez, países latino-americanos. Nesse caso, a pesquisadora deverá argumentar sobre como o estudo de caso é informativo sobre a população-alvo.
 
 Estimando estatístico ou empírico é a quantidade que pode ser estimada estatisticamente (a princípio).
 
@@ -89,7 +89,7 @@ Estimador: o método ou fórmula para se chegar a uma estimativa para um estiman
 
 Vamos definir o ATE e mostrar condições suficientes para identificação desse estimando.
 
-O ATE é simplesmente o efeito causal médio entre todos os indivíduos de uma população. Às vezes chamado de PATE, de Populational Averate Treatment Effect.
+O ATE é simplesmente o efeito causal médio entre todos os indivíduos de uma população. Às vezes chamado de PATE, de Population Average Treatment Effect.
 
 Definição 2.1. Chamamos de ATE na população: 
 $$\tau_{\text{ATE}} = \mathbb{E}[\tau_i] = \mathbb{E}[Y_i(1) - Y_i(0)] = \mathbb{E}[Y_i(1)] - \mathbb{E}[Y_i(0)]$$
@@ -105,13 +105,13 @@ Esse estimando estima o efeito do tratamento apenas entre os tratados. Essa quan
 
 ### CATE
 
-Vamos definir o Conditional Average Treatment Effect (CATE). Seja $X_i$ um conjunto de co-variáveis pré-determinadas (não causadas pelo tratamento). Então, podemos definir o CATE como:
+Vamos definir o Conditional Average Treatment Effect (CATE). Seja $X_i$ um conjunto de covariáveis pré-determinadas (não causadas pelo tratamento). Então, podemos definir o CATE como:
 
 $$\tau_{\text{CATE}} = \mathbb{E}[\tau_i|X_i=x] = \mathbb{E}[Y_i(1) - Y_i(0)|X_i=x] = \mathbb{E}[Y_i(1)|X_i=x] - \mathbb{E}[Y_i(0)|X_i=x]$$
 Retornando ao nosso exemplo da introdução da urna eletrônica em um município sobre a pobreza municipal.
 ATE: O efeito médio de um município ter urna eletrônica sobre a pobreza municipal comparado a voto em papel.
-ATT: O efeito médio da urna eletrônica nos municípios que receberam urna eletrônica sobre a pobreza municial comparado a voto em papel.
-CATE: O efeito médio de urna eletrônica sobre a pobreza municipal, em um determinado grupos de municípios (ex. do semiárido do Nordeste), comparado a voto em papel.
+ATT: O efeito médio da urna eletrônica nos municípios que receberam urna eletrônica sobre a pobreza municipal comparado a voto em papel.
+CATE: O efeito médio de urna eletrônica sobre a pobreza municipal, em um determinado grupo de municípios (ex. do semiárido do Nordeste), comparado a voto em papel.
 
 Se $X$ for discreto, podemos estabelecer a seguinte relação entre ATE e CATE:
 $$\tau_{\text{ATE}} = \sum_{x \in X} \tau_{\text{CATE}}(x) p(X_i = x)$$
@@ -121,7 +121,7 @@ Definir o estimando é apenas o primeiro passo. A pergunta seguinte — e centra
 
 ## Nota sobre estimandos
 
-A rigor, podemos caracterizar ao nível da população dois contrastes: a distribuição de probabilidade de resultados potenciais do tratamento com a do controle, para um dado conjunto de covariáveis de pré-tratamento $\mathbf{X}$. Formalmente, sejam $f(Y(1)|\mathbf{X})$ e $f(Y(0)|\mathbf{X})$ as densidades dos dois resultados potenciais, então $f(Y(1)|\mathbf{X} - f(Y(0)|\mathbf{X})$ configura uma nova distribuição, da diferença entre os dois resultados potenciais. Nossa ênfase na esperança, portanto, é tanto uma questão de conveniência matemática quanto potencial interesse de pesquisa em um estimando em torno da média da diferença dessas duas distribuições, mas nada impede, a princípio, que estimarmos toda a distribuição da diferença.
+A rigor, podemos caracterizar ao nível da população dois contrastes: a distribuição de probabilidade de resultados potenciais do tratamento com a do controle, para um dado conjunto de covariáveis de pré-tratamento $\mathbf{X}$. Formalmente, sejam $f(Y(1)|\mathbf{X})$ e $f(Y(0)|\mathbf{X})$ as densidades dos dois resultados potenciais, então $f(Y(1)|\mathbf{X}) - f(Y(0)|\mathbf{X})$ configura uma nova distribuição, da diferença entre os dois resultados potenciais. Nossa ênfase na esperança, portanto, é tanto uma questão de conveniência matemática quanto potencial interesse de pesquisa em um estimando em torno da média da diferença dessas duas distribuições, mas nada impede, a princípio, que estimemos toda a distribuição da diferença.
 
 Outra observação: como veremos mais para frente no curso, dados longitudinais não possuem estimandos claros. Alguns pesquisadores mais rigorosos em política comparada, por exemplo, falam em efeito de país-ano, pois esta é a unidade de análise e o estimando é definido nesse nível. Como veremos também mais para frente (e é um tema de pesquisa meu), também é complicado definir as condições de identificação em dados longitudinais. Voltaremos a isso.
 
@@ -148,7 +148,7 @@ knitr::include_graphics(here("imagens", "abstract-rural.png"))
 
 ## Identificação
 
-"Econometric identification really means just one thing: model parameters or features being uniquely determined from the observable population that generates the data"(Lwebel, apud Paul GP). Ou seja, se você tiver acesso a uma amostra infinita, isto é, não há problemas inferenciais de amostra pequena, é possível estimar precisamente o parâmetro de interesse? Dizemos que, nesse caso, o estimando é identificável.
+"Econometric identification really means just one thing: model parameters or features being uniquely determined from the observable population that generates the data" (Lewbel, apud Paul GP). Ou seja, se você tiver acesso a uma amostra infinita, isto é, não há problemas inferenciais de amostra pequena, é possível estimar precisamente o parâmetro de interesse? Dizemos que, nesse caso, o estimando é identificável.
 
 O que seria um estimando não-identificável? Digamos que estou interessado em estimar o efeito causal da segunda dose de uma vacina sobre internação por uma doença. Para a pessoa receber a segunda dose, obviamente ela precisa receber a primeira. Suponha que a primeira dose ajuda a reduzir a internação. É impossível estimar o efeito causal da segunda dose.
 
@@ -158,11 +158,11 @@ Definição. Dizemos que $D_i$ é fortemente ignorável condicional a um vetor $
 1. $Y_i(1), Y_i(0) \perp D_i | \mathbf{X_i}$
 2. $\exists \eta > 0 \text{ tal que } \eta < Pr(D_i = 1 | \mathbf{X_i}) < 1 - \eta$
 
-Em palavras, a primeira condição diz que os resultados potenciais são independentes de receber ou não o tratamento. Quando pensamos em modelos com seres humanos ou unidades com agência, a principal preocupação é que as unidades não se auto-selecionam no tratamento que lhes é mais benéfico (ou que acreditam sê-lo). Às vezes na literatura essa condição aparece como permutabilidade (exchangeability): Como dizem Hernan e Robins em seu livro, "the treated and the untreated are exchangeable because the treated, had they remained untreated, would have experienced the same average outcome as the untreated did, and vice versa."(p. 29).
+Em palavras, a primeira condição diz que os resultados potenciais são independentes de receber ou não o tratamento. Quando pensamos em modelos com seres humanos ou unidades com agência, a principal preocupação é que as unidades não se auto-selecionam no tratamento que lhes é mais benéfico (ou que acreditam sê-lo). Às vezes na literatura essa condição aparece como permutabilidade (exchangeability): Como dizem Hernan e Robins em seu livro, "the treated and the untreated are exchangeable because the treated, had they remained untreated, would have experienced the same average outcome as the untreated did, and vice versa." (p. 29).
 
-A segunda condição, conhecida como *commmon support* ou *overlaping condition*, diz que não existe unidade que não possa receber o tratamento ou controle. Essa condição é mais forte do que a positividade (toda unidade tem probabilidade positiva de receber o tratamento).
+A segunda condição, conhecida como *common support* ou *overlapping condition*, diz que não existe unidade que não possa receber o tratamento ou controle. Essa condição é mais forte do que a positividade (toda unidade tem probabilidade positiva de receber o tratamento).
 
-Quero explorar aqui essa condição por meio de uma simulação. Vamos supor que um efeito causal $\tau_i$ tem distribuição normal com média $2$ e desvio-padrão $2$. E vamos supor que pessoas com $\tau_i >6$ não podem receber o tratatamento, apenas o controle. Veremos que o efeito causal para esse subgrupo não é identificado e mesmo o ATE não é identificado.
+Quero explorar aqui essa condição por meio de uma simulação. Vamos supor que um efeito causal $\tau_i$ tem distribuição normal com média $2$ e desvio-padrão $2$. E vamos supor que pessoas com $\tau_i >6$ não podem receber o tratamento, apenas o controle. Veremos que o efeito causal para esse subgrupo não é identificado e mesmo o ATE não é identificado.
 
 ```{r common support, echo=FALSE}
 
@@ -172,7 +172,7 @@ tau <- rnorm(n, 2, 2)
 y_0 <- rnorm(n, 0, 2) # resultados potenciais do controle
 y_1 <- tau + y_0 # resultados potenciais do tratamento
 d <- rbinom(n, 1, .5) # tratamento ou controle
-# violação de common suuport
+# violação de common support
 
 d1 <- ifelse(y_1 > 6, 0, d)
 table(d, d1)
@@ -202,7 +202,7 @@ Pela LIE, temos que:
 $$\mathbb{E}[Y_i(1)] = \mathbb{E}[\mathbb{E}[Y_i(1)|\mathbf{X_i}]]$$
 $$\mathbb{E}[Y_i(0)] = \mathbb{E}[\mathbb{E}[Y_i(0)|\mathbf{X_i}]]$$ 
 
-Com ignorabilidade forte, $\mathbb{E}[(Y_i(0)|\mathbf{X_i}] = \mathbb{E}[Y_i(0)|D_i=0, \mathbf{X_i}] = \mathbb{E}[Y_i|D_i=0, \mathbf{X_i}]$. Similarmente, $\mathbb{E}[(Y_i(1)|\mathbf{X_i}] = \mathbb{E}[Y_i(1)|D_i=1, \mathbf{X_i}] = \mathbb{E}[Y_i|D_i=1, \mathbf{X_i}]$. Juntando tudo, chegamos à proposição do teorema.
+Com ignorabilidade forte, $\mathbb{E}[Y_i(0)|\mathbf{X_i}] = \mathbb{E}[Y_i(0)|D_i=0, \mathbf{X_i}] = \mathbb{E}[Y_i|D_i=0, \mathbf{X_i}]$. Similarmente, $\mathbb{E}[Y_i(1)|\mathbf{X_i}] = \mathbb{E}[Y_i(1)|D_i=1, \mathbf{X_i}] = \mathbb{E}[Y_i|D_i=1, \mathbf{X_i}]$. Juntando tudo, chegamos à proposição do teorema.
 
 Ou seja, com ignorabilidade forte, podemos estimar o ATE não-parametricamente apenas a partir de observáveis. O CATE também é identificado, como corolário.
 
@@ -214,7 +214,7 @@ Até aqui, trabalhamos inteiramente com resultados potenciais e esperanças. Mas
 
 Normalmente nós temos um modelo que queremos estimar o efeito causal, e não algo sobre o mecanismo de assignment do tratamento. Vamos conectar as duas abordagens.
 
-Seja o modelo: $Y_i = \alpha + \beta D_i + \epsilon_i$. Nós intrepretamos $\beta$ como a diferença média no $y$ de uma unidade no tratamento, formalmente:
+Seja o modelo: $Y_i = \alpha + \beta D_i + \epsilon_i$. Nós interpretamos $\beta$ como a diferença média no $y$ de uma unidade no tratamento, formalmente:
 $\mathbb{E}[Y|D_i=1] - \mathbb{E}[Y|D_i=0] = \mathbb{E}[\alpha + \beta D_i + \epsilon_i|D_i=1] - \mathbb{E}[\alpha + \beta D_i + \epsilon_i|D_i=0] = \beta + \mathbb{E}[\epsilon_i|D_i=1] - \mathbb{E}[\epsilon_i|D_i=0]$.
 E dizemos que, sob a suposição de esperança condicional zero do erro, ou seja, $\mathbb{E}[\epsilon_i|D_i=1] = \mathbb{E}[\epsilon_i|D_i=0] = 0$. Portanto, temos que $\mathbb{E}[Y|D_i=1] - \mathbb{E}[Y|D_i=0] = \beta$. E o estimador de MQO é não-viesado.
 
@@ -232,7 +232,7 @@ Y_i &= Y_i(0)(1-D_i) + Y_i(1)D_i \\
 &= \underbrace{\mathbb{E}[Y_i(0)|D_i=0]}_{\alpha} + \underbrace{\tau}_{\beta} D_i + \underbrace{(\tau_i - \tau)D_i + (Y_i(0) - \mathbb{E}[Y_i(0)|D_i=0])}_{\epsilon_i} \\
 \end{aligned}
 $$
-Nós sabemos que em uma regressão estamos estimando $\mathbb{E}[Y_i|D_i]$. Podemos agora ver com clareza o que de fato estamos estimamos em termos causais.
+Nós sabemos que em uma regressão estamos estimando $\mathbb{E}[Y_i|D_i]$. Podemos agora ver com clareza o que de fato estamos estimando em termos causais.
 
 $$
 \begin{aligned}
@@ -249,7 +249,7 @@ $$
 $$
 
 Portanto, $\mathbb{E}[Y_i|D_i=1] - \mathbb{E}[Y_i|D_i=0] = \tau + (\mathbb{E}[\tau_i|D_i=1] -\tau) + \mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0]$
-Em palavras, estimamos o efeito causal médio, $\tau$, mais um componente que tem a ver com os efeitos causais heterogêneos mais um componente que é a diferença no resultado potencial do controle entre os tratados e o controle. Se $\mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0] \neq 0$, o efeito estimado é viesado. Similarmente, se $\mathbb{E}[\tau_i|D_i=1] \neq \tau$, também teremos viés, ou seja, se o efeito causal dos tratados for diferente do efeito médio da população, também temos uma estimativa viesada do ATE. Porém, nesse caso, note que estamos viesando para estimar o efeito médio dos tratados, que é o ATT. Para ver isso, suponha que não há diferença nos resultados potenciais de não receber o tratamento entre os tratados e os no grupo controle, de modo que $\mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0] = \tau + (\mathbb{E}[\tau_i|D_i=1] -\tau)  = \mathbb{E}[\tau_i|D_i=1]$, que é o ATT.
+Em palavras, estimamos o efeito causal médio, $\tau$, mais um componente que tem a ver com os efeitos causais heterogêneos mais um componente que é a diferença no resultado potencial do controle entre os tratados e o controle. Se $\mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0] \neq 0$, o efeito estimado é viesado. Similarmente, se $\mathbb{E}[\tau_i|D_i=1] \neq \tau$, também teremos viés, ou seja, se o efeito causal dos tratados for diferente do efeito médio da população, também temos uma estimativa viesada do ATE. Porém, nesse caso, note que estamos viesando para estimar o efeito médio dos tratados, que é o ATT. Para ver isso, suponha que não há diferença nos resultados potenciais de não receber o tratamento entre os tratados e os do grupo controle, de modo que $\mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0] = \tau + (\mathbb{E}[\tau_i|D_i=1] -\tau)  = \mathbb{E}[\tau_i|D_i=1]$, que é o ATT.
 
 Em resumo, a diferença de médias simples $\mathbb{E}[Y_i|D_i=1] - \mathbb{E}[Y_i|D_i=0]$ pode ser decomposta em três componentes:
 
@@ -261,7 +261,7 @@ A ignorabilidade forte elimina ambos os vieses, garantindo que a diferença de m
 
 ## Modelo versus Desenho
 
-Há na literatura (mais de economia) uma distinção entre estimando baseado em modelos e baseado em designs (desenho):
+Há na literatura (mais de economia) uma distinção entre estimando baseado em modelos e baseado em designs (desenhos):
 
 - **Model-based (baseado em modelo):** O estimando é identificado a partir de um modelo dos resultados potenciais, condicional ao tratamento e covariáveis. O exemplo arquetípico é o modelo de diferença em diferenças ou controle sintético, em que estimamos o efeito causal a partir de estimativa do contrafactual com dados observados.
 
@@ -274,7 +274,7 @@ Na década de 1970, houve um programa de treinamento e emprego conhecido como Na
 
 Os participantes do grupo de tratamento tinham emprego garantido por 9 a 18 meses, dependendo do grupo-alvo e do local. Eles trabalhavam em equipes de 3 a 5 pessoas, reunindo-se frequentemente com um orientador para discutir questões do programa e desempenho. Embora recebessem salários inferiores aos de um emprego regular, havia possibilidade de aumento conforme o desempenho e a frequência. Ao término do período, os participantes precisavam procurar emprego regular. O programa também coletou dados de renda e informações demográficas de ambos os grupos, realizando entrevistas periódicas, o que gerou diferentes tamanhos de amostra entre os estudos. O NSW utilizava um desenho experimental aleatório.
 
-Lalonde (1986) comparou os resultados experimentais com dados observacionais. Para isso, substituiu os dados do grupo controle atribuídos aleatoriamente, com dados de três amostras do Current Population Survey (CPS) e do Panel Survey of Income Dynamics (PSID). E usou as técnicas econométricas usuais para isso. O resultado não foi bom para a econometria. Voltaremos a isso mais pra frente. Por hora, vamos estimar efeitos causais com os dados experimentais.
+Lalonde (1986) comparou os resultados experimentais com dados observacionais. Para isso, substituiu os dados do grupo controle atribuídos aleatoriamente, com dados de três amostras do Current Population Survey (CPS) e do Panel Survey of Income Dynamics (PSID). E usou as técnicas econométricas usuais para isso. O resultado não foi bom para a econometria. Voltaremos a isso mais para frente. Por ora, vamos estimar efeitos causais com os dados experimentais.
 
 O exercício a seguir é adaptado do exercício disponibilizado por Paul GP em seu github, no seu curso de métodos.
 

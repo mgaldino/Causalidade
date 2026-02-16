@@ -8,7 +8,7 @@ Estimando: ATT (em geral)
 
 Suposição de identificação chave: selection on observables (conditional ignorability)
 
-Suposição de identificação testável: balancing de covaráveis
+Suposição de identificação testável: balancing de covariáveis
 
 Questões de estimação: ??
 
@@ -52,7 +52,7 @@ Suposição de identificação chave: tendências paralelas e, em casos dinâmic
 
 Suposição de identificação testável: tendências paralelas pré-exposição ao tratamento. Event studies.
 
-Questões de estimação: Tendências paralelas depende da mensuração da VD (log? etc.). Depende de forma funcional paramétrica.
+Questões de estimação: Tendências paralelas dependem da mensuração da VD (log? etc.). Depende de forma funcional paramétrica.
 
 Status: N. 2? 
 
@@ -96,7 +96,7 @@ Suposição de identificação testável: tendências paralelas pré-exposição
 
 Questões de estimação: ?
 
-Status: Ninguem entende direito. 
+Status: Ninguém entende direito. 
 
 ## Double LASSO
 

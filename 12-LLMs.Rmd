@@ -3,15 +3,15 @@
 
 ## Google Colab
 
-Para a aula de hoje, vamos usar o Google Colab, que é uma ferramenta online, gratuita, para programa e analisar dados. Ela permite escrever e rodar códigos em Python sem a necessidade de instalar nenhum programa. Além disso, é poss[ivel ter acesso a processadores poderosos, inclusive de GPUs, se necessário (mas pagando).
+Para a aula de hoje, vamos usar o Google Colab, que é uma ferramenta online, gratuita, para programar e analisar dados. Ela permite escrever e rodar códigos em Python sem a necessidade de instalar nenhum programa. Além disso, é possível ter acesso a processadores poderosos, inclusive de GPUs, se necessário (mas pagando).
 
-Para usar o google colab, precisamos de uma conta google, o que nós já temos com nosso e-mail usp.
-Vamos acessar o endeeço: https://colab.google
+Para usar o Google Colab, precisamos de uma conta Google, o que nós já temos com nosso e-mail usp.
+Vamos acessar o endereço: https://colab.google
 
 Vamos clicar em new notebook.
 Vamos renomear o arquivo para aula_llm.ipynb
 
-A teminação diz que é um notebook. Que é como se fosse um Rmarkdown no R, só que nesse caso, hospedado online.
+A terminação diz que é um notebook. Que é como se fosse um Rmarkdown no R, só que nesse caso, hospedado online.
 
 
 https://macartan.github.io/dd_bootcamp/dd.html#/using-a-design-1

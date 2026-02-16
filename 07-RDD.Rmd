@@ -1,8 +1,8 @@
-# Desenho de Regresão Discontínua
+# Desenho de Regressão Descontínua
 
 ## Outline da aula
 
-Na aula de hoje, iremos aprender sobre identificação causal do do aspecto mais simples da RD e como funciona
+Na aula de hoje, iremos aprender sobre identificação causal do aspecto mais simples da RD e como funciona.
 
 Em seguida, estimação e checagem. Falaremos rapidamente de extensões.
 
@@ -216,7 +216,7 @@ A simulação acima ilustra os elementos fundamentais de um RDD. Vejamos agora e
 
 ## Quando o RDD funciona?
 
-A suposição chave para o RDD é que tenha descontinuidade ao redor do ponto de corte, e que não haja descontinuidade ao redor do ponto de corte em outra variável omitida. Vamos ver o que isso significa, comparando quator gráficos, três em que a estimativa do RDD é válida, mas com diferentes validades "externas" e uma em que é inválida.
+A suposição chave para o RDD é que tenha descontinuidade ao redor do ponto de corte, e que não haja descontinuidade ao redor do ponto de corte em outra variável omitida. Vamos ver o que isso significa, comparando quatro gráficos, três em que a estimativa do RDD é válida, mas com diferentes validades "externas" e uma em que é inválida.
 
 ```{r multiplos_rdds, echo=FALSE, message=FALSE}
 library(rdrobust)
@@ -424,9 +424,9 @@ ggplot(df2, aes(x = x, y = y, color = treatment)) +
 
 Não faz muita diferença neste exemplo, mas usar quantis é mais transparente e mais crível retoricamente, pois não mascara a densidade.
 
-Sobre o número de bins, Cattaneo et. al (2020) discutem o tema e sugerem duas abordagens: 
+Sobre o número de bins, Cattaneo et al. (2020) discutem o tema e sugerem duas abordagens: 
 1. IMSE-minimizing (proporcional a $n^{1/3}$)
-2. Mimmicking-variance (proporcional a $n/log(n)^2$)
+2. Mimicking-variance (proporcional a $n/log(n)^2$)
 
 E usamos o pacote rdplot para implementar isso automaticamente
 
@@ -460,7 +460,7 @@ summary(resultado)
 plot(resultado, w="u", "cdf")
 ```
 
-Canay& Kamat (2018) utilizaram esse teste pars revisitar o trabalho de Lee (2008) e descobrem que havia problema de balanceamento.
+Canay & Kamat (2018) utilizaram esse teste para revisitar o trabalho de Lee (2008) e descobriram que havia problema de balanceamento.
 
 Caughey and Sekhon (2011) na political analysis mostraram que de fato havia problemas de balanceamento no estudo de Lee (2008).
 
@@ -477,22 +477,22 @@ knitr::include_graphics("/Users/manoelgaldino/Documents/DCP/Cursos/Causalidade/C
 
 Houve um debate na ciência política sobre isso.  Erikson & Rader (2017) e Cuesta & Imai (2016) argumentam que o RDD é identificado. Até onde eu sei, cientistas políticos não revisitaram a controvérsia com os novos metodos desenvolvidos pelos economistas.
 
-De todo modo, as evidências de De Magalhães et. al (2025) sugerem que a recomendação que estou adotando no curso de quais práticas usar são as melhores e mais robustas.
+De todo modo, as evidências de De Magalhães et al. (2025) sugerem que a recomendação que estou adotando no curso de quais práticas usar são as melhores e mais robustas.
 
 
 
-## McCray test
+## McCrary test
 
-Um dos principais desafios à identificação causal em RDDs é a possibilidade de manipulação por parte dos agentes sobre ficar acima ou abaixo do ponto de corte. A lógica esperada é que se o tratamento é desejável, indivíduos tentarão receber o tratanto, levando a um gap justamente abaixo do ponte de corte. Se o tratamento é indesejável (efeitos negativos), indivíduos vão evitar o tratamento, levando a um gap justamente acima do ponto de corte.
+Um dos principais desafios à identificação causal em RDDs é a possibilidade de manipulação por parte dos agentes sobre ficar acima ou abaixo do ponto de corte. A lógica esperada é que se o tratamento é desejável, indivíduos tentarão receber o tratamento, levando a um gap justamente abaixo do ponto de corte. Se o tratamento é indesejável (efeitos negativos), indivíduos vão evitar o tratamento, levando a um gap justamente acima do ponto de corte.
 
-O exemplo mais evidente para nós cientistas políticos é a aprovação de um projeto de lei no legislativo. Nós sabemos que os legisladores agem estrategicamente retirando propostas que não vão ser aprovadas ou postergando a votação, até terem a maioria, ainda que por margem mínima. Nesse caso, a aplicação de RDD nesse caso produzirá estimativas viesadas. McCray, em um artigo de 2008, argumentou que tais casos apareceriam como descontinuidade na densidade da *running variable* ao redor do ponto de corte. Eis o gráfico feito por McCray em seu estudo original:
+O exemplo mais evidente para nós cientistas políticos é a aprovação de um projeto de lei no legislativo. Nós sabemos que os legisladores agem estrategicamente retirando propostas que não vão ser aprovadas ou postergando a votação, até terem a maioria, ainda que por margem mínima. Nesse caso, a aplicação de RDD produzirá estimativas viesadas. McCrary, em um artigo de 2008, argumentou que tais casos apareceriam como descontinuidade na densidade da *running variable* ao redor do ponto de corte. Eis o gráfico feito por McCrary em seu estudo original:
 
 ```{r McCay-test, echo=FALSE}
 
 knitr::include_graphics("/Users/manoelgaldino/Documents/DCP/Cursos/Causalidade/Causalidade/imagens/manipulation test.png")
 ```
 
-Para formalizar essa ideia, McCray estima os limites da densidade pela esquerda e pela direita e avalia se a diferença (do logaritmo) das estimativas é estatisticamente significante diferente de zero. Portanto, rejeitar a hipótese nula é encontrar evidências de que há manipulação.  Cattaneo, Jansson, & Ma 2018; 2020 introduziram uma versão alternativa do teste, com espírito similar.
+Para formalizar essa ideia, McCrary estima os limites da densidade pela esquerda e pela direita e avalia se a diferença (do logaritmo) das estimativas é estatisticamente significante diferente de zero. Portanto, rejeitar a hipótese nula é encontrar evidências de que há manipulação.  Cattaneo, Jansson, & Ma 2018; 2020 introduziram uma versão alternativa do teste, com espírito similar.
 
 Na prática, de um ponto de vista retórico, o que pesquisadores querem é falhar em rejeitar a nula. Como o teste tem baixo poder de rejeitar a nula, ausência de evidência não quer dizer evidência de ausência.
 
@@ -519,7 +519,7 @@ Essa é uma área ativa de pesquisa, com novos testes sendo desenvolvidos, por e
 
 ## Robustez
 
-Mostrar várias estimativas, para várias escolhas de estimações (bandwith etc.)
+Mostrar várias estimativas, para várias escolhas de estimações (bandwidth etc.)
 
 Uma possibilidade é simplesmente apresentar várias estimativas, como faremos abaixo. Ou então, uma tabela. Mas o mais simples seria um gráfico dos efeitos com seus respectivos ICs, em que cada entrada no eixo x é uma estimação, e no y temos o efeito.
 Abaixo apresento duas dessas possibilidades para ilustrar como a última é a melhor.
@@ -743,11 +743,11 @@ Avaliação de sensibilidade às covariáveis: as estimativas de RD não devem s
 
 ## PCRD
 
-Marhsall (2024) na AJPS introduz a nomenclatura do desenho de pesquisa Politician characteristic regression discontinuity (PCRD). Basicamente, o argumento é que RDD não permite identificar efeito de características de políticos (como gênero, profissão, raça, ideologia, alinhamento com govenro federal etc.)
+Marshall (2024) na AJPS introduz a nomenclatura do desenho de pesquisa Politician characteristic regression discontinuity (PCRD). Basicamente, o argumento é que RDD não permite identificar efeito de características de políticos (como gênero, profissão, raça, ideologia, alinhamento com governo federal etc.)
 
 "In contrast, the treatment in PCRD designs — which instead seek to estimate the LATE of an elected politician characteristic — is defined by possessing (or not) predetermined characteristic X, conditional on narrowly winning an election. (...) restricting attention to close elections entails conditioning on candidate vote shares that may be affected by X. (...) [It] generally introduce bias — even when X is independent of other predetermined variables and the weak continuity assumption underpinning standard RD designs holds." (p. 495)
 
-Basicamente, Marshall está dizendo que nesses casos, close election é um collider, e isso abre as portas para viéses de variáveis que causem $y$ e se a eleição é apertada.
+Basicamente, Marshall está dizendo que nesses casos, close election é um collider, e isso abre as portas para vieses de variáveis que causem $y$ e se a eleição é apertada.
 
 ```{r DAG, echo=FALSE}
 
@@ -765,7 +765,7 @@ ggdag(dag)
 
 Teste de balanceamento de variáveis de pré-tratamento (não impactadas pelo tratamento)
 
-Teste de permutação no cuttoff (outra forma de olhar balanceamento)
+Teste de permutação no cutoff (outra forma de olhar balanceamento)
 
 Densidade da running variable (teste de McCrary)
 
@@ -773,9 +773,9 @@ Testes de placebo (cutoffs arbitrários. Estimativa não muda)
 
 Gráfico com a descontinuidade
 
-Estimativas baseadas em bandwith ótimos, e local linear regression
+Estimativas baseadas em bandwidth ótimos, e local linear regression
 
-Análise de robustez junto com a escolha do bandwith (apresente graficamente)
+Análise de robustez junto com a escolha do bandwidth (apresente graficamente)
 
 Ordem preferida: primeiro estabelecer a validade da estratégia, depois detalhes da estimação.
 

@@ -7,14 +7,14 @@
 - Seja $p_i = P(T_i=1)$. Então $p_i$ é conhecido e controlado pela pesquisadora.
 - Em contraposição, um estudo observacional é quando a pesquisadora não controla o mecanismo (natureza ou realidade social)
 - Quando uma quantidade potencial (estimando) pode ser descrita em função da distribuição de dados observáveis, dizemos que o estimando é identificável. De outro modo, não identificado.
-- Veremos porque experimentos produzem desenhos críveis de identificação causal
+- Veremos por que experimentos produzem desenhos críveis de identificação causal
 - Vamos supor experimentos ideais (sem attrition ou non-compliance)
 
 Nós já vimos que uma suposição crítica é a SUTVA.
 
 - Stable Unit Treatment Values Assumption
-- Não interferência e sem varição escondida no tratamento
-  - PO não varia com o tratamento atribuído a outra unidades
+- Não interferência e sem variação escondida no tratamento
+  - PO não varia com o tratamento atribuído a outras unidades
   - PO de uma unidade não é impactado pelo nível de tratamento de outras unidades
 - Para cada unidade, não há formas distintas ou versões de cada nível de tratamento
 - Definição não-ambígua do tratamento
@@ -113,7 +113,7 @@ hist(replicate(1000, sum(rbinom(n, 1, 0.5))),
 - Intuição: estamos jogando fora as aleatorizações "indesejáveis".
 - Cálculo da variância é mais complexo
 
-### Aleatorização Condicional (Block Random Assigment)
+### Aleatorização Condicional (Block Random Assignment)
 
 - **Definição**: Experimento é condicionalmente aleatório se a aleatorização depende de variáveis pré-tratamento $X$.
 - **Exemplo Binário**: Duas moedas, uma para $X=1$ e outra para $X=0$.
@@ -127,7 +127,7 @@ hist(replicate(1000, sum(rbinom(n, 1, 0.5))),
 
 ### Pensando aleatorização em bloco
 
-- Ex.: digamos que em um amostra de 100 pessoas, queremos 25 homens e 25 mulheres no tratamento e controle
+- Ex.: digamos que em uma amostra de 100 pessoas, queremos 25 homens e 25 mulheres no tratamento e controle
 - Sorteio 25 homens para tratamento e depois 25 mulheres.
 - Cada bloco possui tamanho 25, neste exemplo.
 - Blocos de tamanho $2$ são chamados de *pair-matched design*.
@@ -136,7 +136,7 @@ hist(replicate(1000, sum(rbinom(n, 1, 0.5))),
 
 ### ATE com Aleatorização Condicional (Bloco)
 
-- Estratitificação
+- Estratificação
 - Efeito heterogêneo por estrato?
 - Podemos calcular o ATE por estrato, já que é aleatório no interior de cada estrato.
 - Efeito geral na população.
@@ -155,7 +155,7 @@ hist(replicate(1000, sum(rbinom(n, 1, 0.5))),
 - Em geral a precisão aumenta (erro padrão diminui) com aleatorização em bloco.
 - Intuição é que removemos parte da variância (amostras possíveis), condicionando nos estratos
 - Vamos checar uma simulação no R para ver um exemplo do ganho na precisão
-- Lembrem-se que se $X$ e $Y$ são independentes, então $Var(aX + bY) = a^2Var(x) + b^2Var(Y)$.
+- Lembrem-se que se $X$ e $Y$ são independentes, então $Var(aX + bY) = a^2Var(X) + b^2Var(Y)$.
 
 
 ```{r echo=TRUE, eval=TRUE}
@@ -215,7 +215,7 @@ ate <- ate1 + ate2
 my_t <- ate/erro_padrao_geral
 p_value <- 2*(1 - pt(abs(my_t), df = 23.76567))
 print(erro_pad1)
-print(erro_pad1)
+print(erro_pad2)
 print(erro_padrao_geral)
 print(p_value)
 ```
@@ -250,7 +250,7 @@ comparison_table1 <- data.frame(
   p_value = c(simple_p_value, p_value)
 )
 
-knitr::kable(comparison_table1, caption = "Comparação de valoes p", align = 'c', format = "latex")
+knitr::kable(comparison_table1, caption = "Comparação de valores p", align = 'c', format = "latex")
 
 ```
 
@@ -298,13 +298,13 @@ Neste capítulo, vimos como experimentos aleatórios eliminam o viés de seleç�
 
 Uma ferramenta muito útil para experimentos (mas também para estudos observacionais) é o pacote do R Declare Design.
 
-Blair, Coppock e Humphreys criaram um framework para definir e avaliar um desenho de pesquisa. Com o resultado, escreveram um livro "Research Design in the Social Sciences", e um pacote no R para implementar os conceitos desenvolvidos no livro, chamado "DeclareDesign. Para instalar (junto com os datasets usados no livro), basta rodar `r ## install.packages(c("DeclareDesign", "rdss"))`.
+Blair, Coppock e Humphreys criaram um framework para definir e avaliar um desenho de pesquisa. Com o resultado, escreveram um livro "Research Design in the Social Sciences", e um pacote no R para implementar os conceitos desenvolvidos no livro, chamado "DeclareDesign". Para instalar (junto com os datasets usados no livro), basta rodar `r ## install.packages(c("DeclareDesign", "rdss"))`.
 
 O framework é baseado no acrônimo MIDA, que contempla os quatro elementos básicos de um desenho de pesquisa:  models, inquiries, data strategies, and answer strategies.
 
 Ou seja, você deve especificar um modelo, qual pergunta de pesquisa (aka estimando), quais dados vai utilizar e como vai estimar o estimando.
 
-Um modelo descreve o que causa o que e como. Tipicamente especifica a as unidades, o tamanho da amostra e a equação de resultados potenciais.
+Um modelo descreve o que causa o que e como. Tipicamente especifica as unidades, o tamanho da amostra e a equação de resultados potenciais.
 Suponha que quero rodar um experimento aleatório com um tratamento e controle (two-arm randomized experiment). Assim, podemos declarar um modelo com:
 
 
@@ -320,9 +320,9 @@ model <- declare_model(
 
 Vamos entender o que fizemos. 
 
-1. Declaramos que nossa população terá $500$ observações: `r N = 500`. Nesse exemplo, a amostra será igual a populacão, mas poderíamos amostrar da população se quiséssemos.
+1. Declaramos que nossa população terá $500$ observações: `r N = 500`. Nesse exemplo, a amostra será igual à população, mas poderíamos amostrar da população se quiséssemos.
 
-2. Declaramos que $X$, uma covariável, pode assumir dois valores (0,1), e atribuimos a priemria metade pra $0$ e a outra metade para $1$: `r X = rep(c(0, 1), each = N / 2)`.
+2. Declaramos que $X$, uma covariável, pode assumir dois valores (0,1), e atribuímos a primeira metade para $0$ e a outra metade para $1$: `r X = rep(c(0, 1), each = N / 2)`.
 
 3. Declaramos que existe uma variável $U$ que tem distribuição normal, com $N$ observações e média $0$ e desvio-padrão $.25$:`r U = rnorm(N, sd = 0.25)`.
  
@@ -370,11 +370,11 @@ head(draw_data(two_arm_trial), 10)
 ```
 
 
-Após declarar um desenho de pesquisa, podemos diagnosticar se nosso desenho de pesquisa pode ser respondido adequadamente (isto é, se é identificável, se possui poder para estimar com precisão o efeito de interesse etc.). Podemos inclusive modificar o desenho para responder a outras perguntas (é generalizável para outras populações, diferentes estimadores pdesempenham melhor etc.)
+Após declarar um desenho de pesquisa, podemos diagnosticar se nosso desenho de pesquisa pode ser respondido adequadamente (isto é, se é identificável, se possui poder para estimar com precisão o efeito de interesse etc.). Podemos inclusive modificar o desenho para responder a outras perguntas (é generalizável para outras populações, diferentes estimadores desempenham melhor etc.)
 
 Eis um exemplo de diagnóstico:
 
-```{r dianostico, eval=TRUE, message=FALSE}
+```{r diagnostico, eval=TRUE, message=FALSE}
 
 diagnose_design(two_arm_trial, sims = 100)
 
