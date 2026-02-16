@@ -13,9 +13,13 @@ fig:temporal-grafico
 eq:share-def
 eq:shift-def
 eq:bartik
+tab:ss-iv-shares
+tab:ss-iv-shifts
+tab:ss-iv-bartik
 eq:estrutural
 eq:first-stage
 eq:second-stage
+fig:dag-ss
 eq:gpss-equiv
 eq:gpss-id
 eq:bhj-agreg
@@ -227,7 +231,10 @@ variação-temporal
 aplicação-eleições-presidenciais-20142018
 o-instrumento-shift-share-como-variável-instrumental
 construção-formal
+voltando-ao-exemplo-construindo-w_ik-g_k-e-b_i-com-dados-eleitorais
 o-modelo-estrutural-e-o-iv
+interpretando-o-modelo-com-o-exemplo-eleitoral
+por-que-o-instrumento-seria-válido-uma-discussão-intuitiva
 duas-estratégias-de-identificação
 estratégia-1-exogeneidade-das-shares-gpss-2020
 estratégia-2-exogeneidade-dos-shifts-bhj-2022

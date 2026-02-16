@@ -345,6 +345,60 @@ Este instrumento calcula a média ponderada dos choques partidários nacionais, 
 
 Embora aqui ilustremos com votos e partidos, a mesma lógica se aplica a setores econômicos e emprego (a aplicação clássica de Bartik 1991), a parceiros comerciais e comércio, ou a qualquer variável decomponível em subunidades excludentes.
 
+### Voltando ao exemplo: construindo $w_{ik}$, $g_k$ e $B_i$ com dados eleitorais
+
+Podemos agora mapear cada elemento da construção formal nos dados das eleições 2014→2018 já analisados. Nossos "setores" ($k$) são os três blocos partidários (PT, PSDB, Outros) e nossas "regiões" ($i$) são os 27 estados.
+
+As **shares** $w_{ik}$ são a composição partidária de cada estado em 2014 (o período-base $t_0$):
+
+```{r ss-iv-shares, message=FALSE, warning=FALSE}
+# w_{ik} = fração de votos do partido k no estado i em 2014
+tab_shares <- data.frame(
+  UF = eleicoes$UF,
+  w_PT = round(shares_2014$PT_2014, 2),
+  w_PSDB = round(shares_2014$PSDB_2014, 2),
+  w_Outros = round(shares_2014$Outros_2014, 2)
+)
+
+tab_shares_sel <- tab_shares[tab_shares$UF %in% c("BA","CE","MG","SP","RS"), ]
+tab_shares_sel <- tab_shares_sel[match(c("BA","CE","MG","SP","RS"), tab_shares_sel$UF), ]
+kable(tab_shares_sel, row.names = FALSE,
+      caption = "Shares $w_{ik}$: composição partidária em 2014 (fração dos votos válidos)",
+      col.names = c("Estado (i)", "$w_{i,PT}$", "$w_{i,PSDB}$", "$w_{i,Outros}$"))
+```
+
+A Bahia tem $w_{BA,PT} = 0{,}66$: dois terços dos votos foram para o PT em 2014. Já São Paulo tem $w_{SP,PT} = 0{,}31$. Essa diferença na composição inicial é o que gera variação no instrumento.
+
+Os **shifts** $g_k$ são as mudanças nacionais na votação de cada bloco entre 2014 e 2018:
+
+```{r ss-iv-shifts}
+tab_shifts <- data.frame(
+  Partido = c("PT", "PSDB", "Outros"),
+  g_k = round(shifts * 100, 1)
+)
+kable(tab_shifts, row.names = FALSE,
+      caption = "Shifts $g_k$: mudança nacional na votação de cada bloco (pp)",
+      col.names = c("Partido ($k$)", "$g_k$ (pp)"))
+```
+
+O PT caiu cerca de 16pp nacionalmente, o PSDB desmoronou ~26pp, e o bloco Outros (liderado por Bolsonaro e Ciro) subiu ~43pp. Esses choques são os mesmos para todos os estados --- são tendências **nacionais**.
+
+Finalmente, o **instrumento Bartik** $B_i = \sum_k w_{ik} \cdot g_k$ combina as shares iniciais com os shifts nacionais:
+
+```{r ss-iv-bartik}
+tab_bartik <- data.frame(
+  UF = eleicoes$UF,
+  Bartik = round(bartik * 100, 1)
+)
+tab_bartik_sel <- tab_bartik[tab_bartik$UF %in% c("BA","CE","MG","SP","RS"), ]
+tab_bartik_sel <- tab_bartik_sel[match(c("BA","CE","MG","SP","RS"), tab_bartik_sel$UF), ]
+kable(tab_bartik_sel, row.names = FALSE,
+      caption = "Instrumento Bartik $B_i$ para cada estado (pp)",
+      col.names = c("Estado ($i$)", "$B_i$ (pp)"))
+```
+
+Observe que **os shifts $g_k$ são idênticos para todos os estados** --- o que diferencia os $B_i$ entre si são exclusivamente as shares $w_{ik}$. A Bahia, com 66% de votos no PT em 2014, é muito mais exposta à queda nacional do PT do que São Paulo, com 31%. É essa variação *cross-sectional* no instrumento, gerada pela composição inicial, que permite a identificação.
+
 ### O modelo estrutural e o IV
 
 O objetivo típico é estimar o efeito causal de uma variável endógena $X_i$ sobre uma variável de resultado $Y_i$. O modelo estrutural é:
@@ -372,7 +426,59 @@ Y_i = \alpha + \beta \hat{X}_i + \eta_i
 (\#eq:second-stage)
 \end{equation}
 
-A condição de exclusão exige $\text{Cov}(B_i, \varepsilon_i) = 0$: o instrumento só afeta $Y_i$ através de $X_i$. É aqui que a recente literatura diverge sobre *de onde* vem essa exogeneidade.
+A condição de exclusão exige $\text{Cov}(B_i, \varepsilon_i) = 0$: o instrumento só afeta $Y_i$ através de $X_i$.
+
+### Interpretando o modelo com o exemplo eleitoral
+
+Vamos dar concretude ao modelo acima usando nosso exemplo. Suponha que queremos estimar o efeito causal da **mudança na votação do PT** ($X_i$ = queda do PT em pp no estado $i$) sobre alguma variável de resultado político $Y_i$ --- por exemplo, o nível de abstenção, o gasto público municipal ou a ocorrência de protestos.
+
+O problema é que a queda do PT em cada estado não é aleatória: ela está correlacionada com fatores locais não observados ($U_i$), como a força de lideranças locais, o nível de desemprego estadual, a cobertura midiática da Lava-Jato, entre outros. Esses mesmos fatores podem afetar $Y_i$ diretamente. Por isso, OLS é inconsistente.
+
+**Primeiro estágio**: O instrumento Bartik $B_i$ prevê a queda do PT no estado $i$. A lógica é que estados com maior concentração inicial de votos no PT ($w_{i,PT}$ alto) estão mecanicamente mais expostos à tendência nacional de queda do PT. O primeiro estágio estima:
+
+$$X_i = \gamma_0 + \gamma_1 B_i + \nu_i$$
+
+Se $\gamma_1$ é significativamente diferente de zero, o instrumento é **relevante** --- as tendências nacionais, filtradas pela composição inicial, efetivamente preveem a mudança local. No nosso exemplo, o gráfico da seção anterior (mudança real vs. predição Bartik) já mostrou que essa relação é forte: estados onde o Bartik prevê queda maior de fato tiveram queda maior.
+
+**Segundo estágio**: Substituímos $X_i$ por seu valor predito $\hat{X}_i$ --- a parte da mudança local que é explicada *apenas* pelas tendências nacionais interagidas com a composição inicial:
+
+$$Y_i = \alpha + \beta \hat{X}_i + \eta_i$$
+
+A estimativa $\hat{\beta}$ captura o efeito causal de $X_i$ sobre $Y_i$, **desde que o instrumento satisfaça a restrição de exclusão**. Intuitivamente, ao usar $\hat{X}_i$ em vez de $X_i$, estamos "limpando" a variação endógena (fatores locais) e ficando apenas com a variação exógena (exposição a tendências nacionais via composição inicial).
+
+### Por que o instrumento seria válido? Uma discussão intuitiva
+
+Podemos visualizar a estrutura causal do instrumento shift-share com um DAG:
+
+```{r dag-ss, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="DAG do instrumento shift-share. O instrumento $B_i$ é construído a partir das shares iniciais ($w$) e dos choques nacionais ($g$). A restrição de exclusão exige que não haja caminho direto de $B$ para $Y$ que não passe por $X$."}
+library(ggdag)
+
+dag_ss <- dagify(
+  B ~ g + w,
+  X ~ B + U,
+  Y ~ X + U,
+  latent = "U",
+  coords = list(
+    x = c(g = -1, w = -1, B = 0.5, X = 2, U = 2, Y = 3.5),
+    y = c(g = 3, w = 1, B = 2, X = 2, U = 3.5, Y = 2)
+  )
+)
+
+ggdag(dag_ss, text = FALSE) +
+  geom_dag_text(size = 5) +
+  geom_dag_edges() +
+  theme_dag()
+```
+
+No DAG acima, $g$ representa os choques nacionais ($g_k$), $w$ as shares iniciais ($w_{ik}$), $B$ o instrumento Bartik ($B_i$), $X$ a variável endógena ($X_i$), $U$ os confundidores não observados ($U_i$) e $Y$ o resultado ($Y_i$). O confundidor $U$ cria um *backdoor* entre $X$ e $Y$, tornando OLS inconsistente. O instrumento $B$ é válido se o **único caminho** de $B$ para $Y$ passa por $X$.
+
+A **restrição de exclusão** seria violada se houvesse uma seta direta de $B$ para $Y$ (ou, equivalentemente, de $w$ ou $g$ para $Y$ por canais que não passam por $X$). No nosso exemplo eleitoral, isso aconteceria se:
+
+- A **composição partidária inicial** ($w_{ik}$) afetasse $Y_i$ diretamente. Por exemplo, se estados mais "petistas" em 2014 fossem sistematicamente mais pobres ou mais urbanizados, e essas características afetassem $Y_i$ (abstenção, protestos etc.) por canais que não passam pela mudança na votação do PT, o instrumento seria inválido.
+
+- Os **choques nacionais** ($g_k$) refletissem fatores que também afetassem $Y_i$ diretamente. Por exemplo, se a Lava-Jato afetasse tanto os votos (via $X_i$) quanto os protestos (via um canal direto), a restrição seria violada.
+
+A questão crucial que emerge é: **de onde, exatamente, vem a exogeneidade do instrumento?** Das *shares*? Dos *shifts*? De ambos? Essa pergunta tem duas respostas formais distintas, que correspondem a duas estratégias de identificação com implicações muito diferentes para diagnósticos e credibilidade. É exatamente isso que a próxima seção formaliza.
 
 ## Duas estratégias de identificação
 

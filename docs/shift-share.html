@@ -419,7 +419,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="14.4" data-path="15-Shift-Share.html"><a href="#o-instrumento-shift-share-como-vari%C3%A1vel-instrumental"><i class="fa fa-check"></i><b>14.4</b> O instrumento shift-share como variável instrumental</a>
 <ul>
 <li class="chapter" data-level="14.4.1" data-path="15-Shift-Share.html"><a href="#constru%C3%A7%C3%A3o-formal"><i class="fa fa-check"></i><b>14.4.1</b> Construção formal</a></li>
-<li class="chapter" data-level="14.4.2" data-path="shift-share.html"><a href="shift-share.html#o-modelo-estrutural-e-o-iv"><i class="fa fa-check"></i><b>14.4.2</b> O modelo estrutural e o IV</a></li>
+<li class="chapter" data-level="14.4.2" data-path="shift-share.html"><a href="shift-share.html#voltando-ao-exemplo-construindo-w_ik-g_k-e-b_i-com-dados-eleitorais"><i class="fa fa-check"></i><b>14.4.2</b> Voltando ao exemplo: construindo <span class="math inline">\(w_{ik}\)</span>, <span class="math inline">\(g_k\)</span> e <span class="math inline">\(B_i\)</span> com dados eleitorais</a></li>
+<li class="chapter" data-level="14.4.3" data-path="shift-share.html"><a href="shift-share.html#o-modelo-estrutural-e-o-iv"><i class="fa fa-check"></i><b>14.4.3</b> O modelo estrutural e o IV</a></li>
+<li class="chapter" data-level="14.4.4" data-path="shift-share.html"><a href="shift-share.html#interpretando-o-modelo-com-o-exemplo-eleitoral"><i class="fa fa-check"></i><b>14.4.4</b> Interpretando o modelo com o exemplo eleitoral</a></li>
+<li class="chapter" data-level="14.4.5" data-path="15-Shift-Share.html"><a href="#por-que-o-instrumento-seria-v%C3%A1lido-uma-discuss%C3%A3o-intuitiva"><i class="fa fa-check"></i><b>14.4.5</b> Por que o instrumento seria válido? Uma discussão intuitiva</a></li>
 </ul></li>
 <li class="chapter" data-level="14.5" data-path="15-Shift-Share.html"><a href="#duas-estrat%C3%A9gias-de-identifica%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>14.5</b> Duas estratégias de identificação</a>
 <ul>
@@ -1157,8 +1160,144 @@ B_i = \sum_{k=1}^{K} w_{ik} \cdot g_k
 <p>Este instrumento calcula a média ponderada dos choques partidários nacionais, usando as <em>shares</em> pré-determinadas como pesos. A intuição é que estados com composição partidária diferente serão diferencialmente afetados pelas mesmas tendências nacionais. Por exemplo, um estado com alta concentração inicial de votos no PT será mais afetado por uma queda nacional do PT do que um estado onde o PT era minoritário.</p>
 <p>Embora aqui ilustremos com votos e partidos, a mesma lógica se aplica a setores econômicos e emprego (a aplicação clássica de Bartik 1991), a parceiros comerciais e comércio, ou a qualquer variável decomponível em subunidades excludentes.</p>
 </div>
-<div id="o-modelo-estrutural-e-o-iv" class="section level3 hasAnchor" number="14.4.2">
-<h3><span class="header-section-number">14.4.2</span> O modelo estrutural e o IV<a href="shift-share.html#o-modelo-estrutural-e-o-iv" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="voltando-ao-exemplo-construindo-w_ik-g_k-e-b_i-com-dados-eleitorais" class="section level3 hasAnchor" number="14.4.2">
+<h3><span class="header-section-number">14.4.2</span> Voltando ao exemplo: construindo <span class="math inline">\(w_{ik}\)</span>, <span class="math inline">\(g_k\)</span> e <span class="math inline">\(B_i\)</span> com dados eleitorais<a href="shift-share.html#voltando-ao-exemplo-construindo-w_ik-g_k-e-b_i-com-dados-eleitorais" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Podemos agora mapear cada elemento da construção formal nos dados das eleições 2014→2018 já analisados. Nossos “setores” (<span class="math inline">\(k\)</span>) são os três blocos partidários (PT, PSDB, Outros) e nossas “regiões” (<span class="math inline">\(i\)</span>) são os 27 estados.</p>
+<p>As <strong>shares</strong> <span class="math inline">\(w_{ik}\)</span> são a composição partidária de cada estado em 2014 (o período-base <span class="math inline">\(t_0\)</span>):</p>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="shift-share.html#cb181-1" tabindex="-1"></a><span class="co"># w_{ik} = fração de votos do partido k no estado i em 2014</span></span>
+<span id="cb181-2"><a href="shift-share.html#cb181-2" tabindex="-1"></a>tab_shares <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb181-3"><a href="shift-share.html#cb181-3" tabindex="-1"></a>  <span class="at">UF =</span> eleicoes<span class="sc">$</span>UF,</span>
+<span id="cb181-4"><a href="shift-share.html#cb181-4" tabindex="-1"></a>  <span class="at">w_PT =</span> <span class="fu">round</span>(shares_2014<span class="sc">$</span>PT_2014, <span class="dv">2</span>),</span>
+<span id="cb181-5"><a href="shift-share.html#cb181-5" tabindex="-1"></a>  <span class="at">w_PSDB =</span> <span class="fu">round</span>(shares_2014<span class="sc">$</span>PSDB_2014, <span class="dv">2</span>),</span>
+<span id="cb181-6"><a href="shift-share.html#cb181-6" tabindex="-1"></a>  <span class="at">w_Outros =</span> <span class="fu">round</span>(shares_2014<span class="sc">$</span>Outros_2014, <span class="dv">2</span>)</span>
+<span id="cb181-7"><a href="shift-share.html#cb181-7" tabindex="-1"></a>)</span>
+<span id="cb181-8"><a href="shift-share.html#cb181-8" tabindex="-1"></a></span>
+<span id="cb181-9"><a href="shift-share.html#cb181-9" tabindex="-1"></a>tab_shares_sel <span class="ot">&lt;-</span> tab_shares[tab_shares<span class="sc">$</span>UF <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;BA&quot;</span>,<span class="st">&quot;CE&quot;</span>,<span class="st">&quot;MG&quot;</span>,<span class="st">&quot;SP&quot;</span>,<span class="st">&quot;RS&quot;</span>), ]</span>
+<span id="cb181-10"><a href="shift-share.html#cb181-10" tabindex="-1"></a>tab_shares_sel <span class="ot">&lt;-</span> tab_shares_sel[<span class="fu">match</span>(<span class="fu">c</span>(<span class="st">&quot;BA&quot;</span>,<span class="st">&quot;CE&quot;</span>,<span class="st">&quot;MG&quot;</span>,<span class="st">&quot;SP&quot;</span>,<span class="st">&quot;RS&quot;</span>), tab_shares_sel<span class="sc">$</span>UF), ]</span>
+<span id="cb181-11"><a href="shift-share.html#cb181-11" tabindex="-1"></a><span class="fu">kable</span>(tab_shares_sel, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb181-12"><a href="shift-share.html#cb181-12" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">&quot;Shares $w_{ik}$: composição partidária em 2014 (fração dos votos válidos)&quot;</span>,</span>
+<span id="cb181-13"><a href="shift-share.html#cb181-13" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Estado (i)&quot;</span>, <span class="st">&quot;$w_{i,PT}$&quot;</span>, <span class="st">&quot;$w_{i,PSDB}$&quot;</span>, <span class="st">&quot;$w_{i,Outros}$&quot;</span>))</span></code></pre></div>
+<table>
+<caption><span id="tab:ss-iv-shares">Table 14.6: </span>Shares <span class="math inline">\(w_{ik}\)</span>: composição partidária em 2014 (fração dos votos válidos)</caption>
+<thead>
+<tr class="header">
+<th align="left">Estado (i)</th>
+<th align="right"><span class="math inline">\(w_{i,PT}\)</span></th>
+<th align="right"><span class="math inline">\(w_{i,PSDB}\)</span></th>
+<th align="right"><span class="math inline">\(w_{i,Outros}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">BA</td>
+<td align="right">0.66</td>
+<td align="right">0.15</td>
+<td align="right">0.19</td>
+</tr>
+<tr class="even">
+<td align="left">CE</td>
+<td align="right">0.62</td>
+<td align="right">0.20</td>
+<td align="right">0.18</td>
+</tr>
+<tr class="odd">
+<td align="left">MG</td>
+<td align="right">0.47</td>
+<td align="right">0.34</td>
+<td align="right">0.19</td>
+</tr>
+<tr class="even">
+<td align="left">SP</td>
+<td align="right">0.31</td>
+<td align="right">0.49</td>
+<td align="right">0.20</td>
+</tr>
+<tr class="odd">
+<td align="left">RS</td>
+<td align="right">0.37</td>
+<td align="right">0.44</td>
+<td align="right">0.19</td>
+</tr>
+</tbody>
+</table>
+<p>A Bahia tem <span class="math inline">\(w_{BA,PT} = 0{,}66\)</span>: dois terços dos votos foram para o PT em 2014. Já São Paulo tem <span class="math inline">\(w_{SP,PT} = 0{,}31\)</span>. Essa diferença na composição inicial é o que gera variação no instrumento.</p>
+<p>Os <strong>shifts</strong> <span class="math inline">\(g_k\)</span> são as mudanças nacionais na votação de cada bloco entre 2014 e 2018:</p>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="shift-share.html#cb182-1" tabindex="-1"></a>tab_shifts <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb182-2"><a href="shift-share.html#cb182-2" tabindex="-1"></a>  <span class="at">Partido =</span> <span class="fu">c</span>(<span class="st">&quot;PT&quot;</span>, <span class="st">&quot;PSDB&quot;</span>, <span class="st">&quot;Outros&quot;</span>),</span>
+<span id="cb182-3"><a href="shift-share.html#cb182-3" tabindex="-1"></a>  <span class="at">g_k =</span> <span class="fu">round</span>(shifts <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span>
+<span id="cb182-4"><a href="shift-share.html#cb182-4" tabindex="-1"></a>)</span>
+<span id="cb182-5"><a href="shift-share.html#cb182-5" tabindex="-1"></a><span class="fu">kable</span>(tab_shifts, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb182-6"><a href="shift-share.html#cb182-6" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">&quot;Shifts $g_k$: mudança nacional na votação de cada bloco (pp)&quot;</span>,</span>
+<span id="cb182-7"><a href="shift-share.html#cb182-7" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Partido ($k$)&quot;</span>, <span class="st">&quot;$g_k$ (pp)&quot;</span>))</span></code></pre></div>
+<table>
+<caption><span id="tab:ss-iv-shifts">Table 14.7: </span>Shifts <span class="math inline">\(g_k\)</span>: mudança nacional na votação de cada bloco (pp)</caption>
+<thead>
+<tr class="header">
+<th align="left">Partido (<span class="math inline">\(k\)</span>)</th>
+<th align="right"><span class="math inline">\(g_k\)</span> (pp)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">PT</td>
+<td align="right">-15.2</td>
+</tr>
+<tr class="even">
+<td align="left">PSDB</td>
+<td align="right">-27.4</td>
+</tr>
+<tr class="odd">
+<td align="left">Outros</td>
+<td align="right">42.6</td>
+</tr>
+</tbody>
+</table>
+<p>O PT caiu cerca de 16pp nacionalmente, o PSDB desmoronou ~26pp, e o bloco Outros (liderado por Bolsonaro e Ciro) subiu ~43pp. Esses choques são os mesmos para todos os estados — são tendências <strong>nacionais</strong>.</p>
+<p>Finalmente, o <strong>instrumento Bartik</strong> <span class="math inline">\(B_i = \sum_k w_{ik} \cdot g_k\)</span> combina as shares iniciais com os shifts nacionais:</p>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="shift-share.html#cb183-1" tabindex="-1"></a>tab_bartik <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb183-2"><a href="shift-share.html#cb183-2" tabindex="-1"></a>  <span class="at">UF =</span> eleicoes<span class="sc">$</span>UF,</span>
+<span id="cb183-3"><a href="shift-share.html#cb183-3" tabindex="-1"></a>  <span class="at">Bartik =</span> <span class="fu">round</span>(bartik <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span>
+<span id="cb183-4"><a href="shift-share.html#cb183-4" tabindex="-1"></a>)</span>
+<span id="cb183-5"><a href="shift-share.html#cb183-5" tabindex="-1"></a>tab_bartik_sel <span class="ot">&lt;-</span> tab_bartik[tab_bartik<span class="sc">$</span>UF <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;BA&quot;</span>,<span class="st">&quot;CE&quot;</span>,<span class="st">&quot;MG&quot;</span>,<span class="st">&quot;SP&quot;</span>,<span class="st">&quot;RS&quot;</span>), ]</span>
+<span id="cb183-6"><a href="shift-share.html#cb183-6" tabindex="-1"></a>tab_bartik_sel <span class="ot">&lt;-</span> tab_bartik_sel[<span class="fu">match</span>(<span class="fu">c</span>(<span class="st">&quot;BA&quot;</span>,<span class="st">&quot;CE&quot;</span>,<span class="st">&quot;MG&quot;</span>,<span class="st">&quot;SP&quot;</span>,<span class="st">&quot;RS&quot;</span>), tab_bartik_sel<span class="sc">$</span>UF), ]</span>
+<span id="cb183-7"><a href="shift-share.html#cb183-7" tabindex="-1"></a><span class="fu">kable</span>(tab_bartik_sel, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb183-8"><a href="shift-share.html#cb183-8" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">&quot;Instrumento Bartik $B_i$ para cada estado (pp)&quot;</span>,</span>
+<span id="cb183-9"><a href="shift-share.html#cb183-9" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Estado ($i$)&quot;</span>, <span class="st">&quot;$B_i$ (pp)&quot;</span>))</span></code></pre></div>
+<table>
+<caption><span id="tab:ss-iv-bartik">Table 14.8: </span>Instrumento Bartik <span class="math inline">\(B_i\)</span> para cada estado (pp)</caption>
+<thead>
+<tr class="header">
+<th align="left">Estado (<span class="math inline">\(i\)</span>)</th>
+<th align="right"><span class="math inline">\(B_i\)</span> (pp)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">BA</td>
+<td align="right">-6.1</td>
+</tr>
+<tr class="even">
+<td align="left">CE</td>
+<td align="right">-7.2</td>
+</tr>
+<tr class="odd">
+<td align="left">MG</td>
+<td align="right">-8.4</td>
+</tr>
+<tr class="even">
+<td align="left">SP</td>
+<td align="right">-9.6</td>
+</tr>
+<tr class="odd">
+<td align="left">RS</td>
+<td align="right">-9.6</td>
+</tr>
+</tbody>
+</table>
+<p>Observe que <strong>os shifts <span class="math inline">\(g_k\)</span> são idênticos para todos os estados</strong> — o que diferencia os <span class="math inline">\(B_i\)</span> entre si são exclusivamente as shares <span class="math inline">\(w_{ik}\)</span>. A Bahia, com 66% de votos no PT em 2014, é muito mais exposta à queda nacional do PT do que São Paulo, com 31%. É essa variação <em>cross-sectional</em> no instrumento, gerada pela composição inicial, que permite a identificação.</p>
+</div>
+<div id="o-modelo-estrutural-e-o-iv" class="section level3 hasAnchor" number="14.4.3">
+<h3><span class="header-section-number">14.4.3</span> O modelo estrutural e o IV<a href="shift-share.html#o-modelo-estrutural-e-o-iv" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>O objetivo típico é estimar o efeito causal de uma variável endógena <span class="math inline">\(X_i\)</span> sobre uma variável de resultado <span class="math inline">\(Y_i\)</span>. O modelo estrutural é:</p>
 <p><span class="math display" id="eq:estrutural">\[\begin{equation}
 Y_i = \alpha + \beta X_i + \varepsilon_i
@@ -1176,7 +1315,35 @@ X_i = \gamma_0 + \gamma_1 B_i + \nu_i
 Y_i = \alpha + \beta \hat{X}_i + \eta_i
 \tag{14.11}
 \end{equation}\]</span></p>
-<p>A condição de exclusão exige <span class="math inline">\(\text{Cov}(B_i, \varepsilon_i) = 0\)</span>: o instrumento só afeta <span class="math inline">\(Y_i\)</span> através de <span class="math inline">\(X_i\)</span>. É aqui que a recente literatura diverge sobre <em>de onde</em> vem essa exogeneidade.</p>
+<p>A condição de exclusão exige <span class="math inline">\(\text{Cov}(B_i, \varepsilon_i) = 0\)</span>: o instrumento só afeta <span class="math inline">\(Y_i\)</span> através de <span class="math inline">\(X_i\)</span>.</p>
+</div>
+<div id="interpretando-o-modelo-com-o-exemplo-eleitoral" class="section level3 hasAnchor" number="14.4.4">
+<h3><span class="header-section-number">14.4.4</span> Interpretando o modelo com o exemplo eleitoral<a href="shift-share.html#interpretando-o-modelo-com-o-exemplo-eleitoral" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Vamos dar concretude ao modelo acima usando nosso exemplo. Suponha que queremos estimar o efeito causal da <strong>mudança na votação do PT</strong> (<span class="math inline">\(X_i\)</span> = queda do PT em pp no estado <span class="math inline">\(i\)</span>) sobre alguma variável de resultado político <span class="math inline">\(Y_i\)</span> — por exemplo, o nível de abstenção, o gasto público municipal ou a ocorrência de protestos.</p>
+<p>O problema é que a queda do PT em cada estado não é aleatória: ela está correlacionada com fatores locais não observados (<span class="math inline">\(U_i\)</span>), como a força de lideranças locais, o nível de desemprego estadual, a cobertura midiática da Lava-Jato, entre outros. Esses mesmos fatores podem afetar <span class="math inline">\(Y_i\)</span> diretamente. Por isso, OLS é inconsistente.</p>
+<p><strong>Primeiro estágio</strong>: O instrumento Bartik <span class="math inline">\(B_i\)</span> prevê a queda do PT no estado <span class="math inline">\(i\)</span>. A lógica é que estados com maior concentração inicial de votos no PT (<span class="math inline">\(w_{i,PT}\)</span> alto) estão mecanicamente mais expostos à tendência nacional de queda do PT. O primeiro estágio estima:</p>
+<p><span class="math display">\[X_i = \gamma_0 + \gamma_1 B_i + \nu_i\]</span></p>
+<p>Se <span class="math inline">\(\gamma_1\)</span> é significativamente diferente de zero, o instrumento é <strong>relevante</strong> — as tendências nacionais, filtradas pela composição inicial, efetivamente preveem a mudança local. No nosso exemplo, o gráfico da seção anterior (mudança real vs. predição Bartik) já mostrou que essa relação é forte: estados onde o Bartik prevê queda maior de fato tiveram queda maior.</p>
+<p><strong>Segundo estágio</strong>: Substituímos <span class="math inline">\(X_i\)</span> por seu valor predito <span class="math inline">\(\hat{X}_i\)</span> — a parte da mudança local que é explicada <em>apenas</em> pelas tendências nacionais interagidas com a composição inicial:</p>
+<p><span class="math display">\[Y_i = \alpha + \beta \hat{X}_i + \eta_i\]</span></p>
+<p>A estimativa <span class="math inline">\(\hat{\beta}\)</span> captura o efeito causal de <span class="math inline">\(X_i\)</span> sobre <span class="math inline">\(Y_i\)</span>, <strong>desde que o instrumento satisfaça a restrição de exclusão</strong>. Intuitivamente, ao usar <span class="math inline">\(\hat{X}_i\)</span> em vez de <span class="math inline">\(X_i\)</span>, estamos “limpando” a variação endógena (fatores locais) e ficando apenas com a variação exógena (exposição a tendências nacionais via composição inicial).</p>
+</div>
+<div id="por-que-o-instrumento-seria-válido-uma-discussão-intuitiva" class="section level3 hasAnchor" number="14.4.5">
+<h3><span class="header-section-number">14.4.5</span> Por que o instrumento seria válido? Uma discussão intuitiva<a href="#por-que-o-instrumento-seria-v%C3%A1lido-uma-discuss%C3%A3o-intuitiva" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Podemos visualizar a estrutura causal do instrumento shift-share com um DAG:</p>
+<div class="figure"><span style="display:block;" id="fig:dag-ss"></span>
+<img src="bookdownproj_files/figure-html/dag-ss-1.png" alt="DAG do instrumento shift-share. O instrumento $B_i$ é construído a partir das shares iniciais ($w$) e dos choques nacionais ($g$). A restrição de exclusão exige que não haja caminho direto de $B$ para $Y$ que não passe por $X$." width="672" />
+<p class="caption">
+Figure 14.3: DAG do instrumento shift-share. O instrumento <span class="math inline">\(B_i\)</span> é construído a partir das shares iniciais (<span class="math inline">\(w\)</span>) e dos choques nacionais (<span class="math inline">\(g\)</span>). A restrição de exclusão exige que não haja caminho direto de <span class="math inline">\(B\)</span> para <span class="math inline">\(Y\)</span> que não passe por <span class="math inline">\(X\)</span>.
+</p>
+</div>
+<p>No DAG acima, <span class="math inline">\(g\)</span> representa os choques nacionais (<span class="math inline">\(g_k\)</span>), <span class="math inline">\(w\)</span> as shares iniciais (<span class="math inline">\(w_{ik}\)</span>), <span class="math inline">\(B\)</span> o instrumento Bartik (<span class="math inline">\(B_i\)</span>), <span class="math inline">\(X\)</span> a variável endógena (<span class="math inline">\(X_i\)</span>), <span class="math inline">\(U\)</span> os confundidores não observados (<span class="math inline">\(U_i\)</span>) e <span class="math inline">\(Y\)</span> o resultado (<span class="math inline">\(Y_i\)</span>). O confundidor <span class="math inline">\(U\)</span> cria um <em>backdoor</em> entre <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>, tornando OLS inconsistente. O instrumento <span class="math inline">\(B\)</span> é válido se o <strong>único caminho</strong> de <span class="math inline">\(B\)</span> para <span class="math inline">\(Y\)</span> passa por <span class="math inline">\(X\)</span>.</p>
+<p>A <strong>restrição de exclusão</strong> seria violada se houvesse uma seta direta de <span class="math inline">\(B\)</span> para <span class="math inline">\(Y\)</span> (ou, equivalentemente, de <span class="math inline">\(w\)</span> ou <span class="math inline">\(g\)</span> para <span class="math inline">\(Y\)</span> por canais que não passam por <span class="math inline">\(X\)</span>). No nosso exemplo eleitoral, isso aconteceria se:</p>
+<ul>
+<li><p>A <strong>composição partidária inicial</strong> (<span class="math inline">\(w_{ik}\)</span>) afetasse <span class="math inline">\(Y_i\)</span> diretamente. Por exemplo, se estados mais “petistas” em 2014 fossem sistematicamente mais pobres ou mais urbanizados, e essas características afetassem <span class="math inline">\(Y_i\)</span> (abstenção, protestos etc.) por canais que não passam pela mudança na votação do PT, o instrumento seria inválido.</p></li>
+<li><p>Os <strong>choques nacionais</strong> (<span class="math inline">\(g_k\)</span>) refletissem fatores que também afetassem <span class="math inline">\(Y_i\)</span> diretamente. Por exemplo, se a Lava-Jato afetasse tanto os votos (via <span class="math inline">\(X_i\)</span>) quanto os protestos (via um canal direto), a restrição seria violada.</p></li>
+</ul>
+<p>A questão crucial que emerge é: <strong>de onde, exatamente, vem a exogeneidade do instrumento?</strong> Das <em>shares</em>? Dos <em>shifts</em>? De ambos? Essa pergunta tem duas respostas formais distintas, que correspondem a duas estratégias de identificação com implicações muito diferentes para diagnósticos e credibilidade. É exatamente isso que a próxima seção formaliza.</p>
 </div>
 </div>
 <div id="duas-estratégias-de-identificação" class="section level2 hasAnchor" number="14.5">
@@ -1284,53 +1451,53 @@ Y_i = \alpha + \beta \hat{X}_i + \eta_i
 <div id="construção-do-instrumento" class="section level3 hasAnchor" number="14.7.1">
 <h3><span class="header-section-number">14.7.1</span> Construção do instrumento<a href="#constru%C3%A7%C3%A3o-do-instrumento" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>O instrumento <span class="math inline">\(B_i = \sum_k w_{ik} g_k\)</span> é uma simples multiplicação matricial:</p>
-<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="shift-share.html#cb181-1" tabindex="-1"></a><span class="co"># shares: matriz N x K de exposure shares (cada linha soma 1)</span></span>
-<span id="cb181-2"><a href="shift-share.html#cb181-2" tabindex="-1"></a><span class="co"># shocks: vetor K x 1 de choques setoriais</span></span>
-<span id="cb181-3"><a href="shift-share.html#cb181-3" tabindex="-1"></a>bartik_instrument <span class="ot">&lt;-</span> shares <span class="sc">%*%</span> shocks</span></code></pre></div>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="shift-share.html#cb184-1" tabindex="-1"></a><span class="co"># shares: matriz N x K de exposure shares (cada linha soma 1)</span></span>
+<span id="cb184-2"><a href="shift-share.html#cb184-2" tabindex="-1"></a><span class="co"># shocks: vetor K x 1 de choques setoriais</span></span>
+<span id="cb184-3"><a href="shift-share.html#cb184-3" tabindex="-1"></a>bartik_instrument <span class="ot">&lt;-</span> shares <span class="sc">%*%</span> shocks</span></code></pre></div>
 </div>
 <div id="estimação-iv" class="section level3 hasAnchor" number="14.7.2">
 <h3><span class="header-section-number">14.7.2</span> Estimação IV<a href="#estima%C3%A7%C3%A3o-iv" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Diversos pacotes R permitem estimar 2SLS. O <code>fixest</code> é recomendado por sua velocidade e suporte a efeitos fixos:</p>
-<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="shift-share.html#cb182-1" tabindex="-1"></a><span class="fu">library</span>(fixest)</span>
-<span id="cb182-2"><a href="shift-share.html#cb182-2" tabindex="-1"></a></span>
-<span id="cb182-3"><a href="shift-share.html#cb182-3" tabindex="-1"></a><span class="co"># Construir instrumento</span></span>
-<span id="cb182-4"><a href="shift-share.html#cb182-4" tabindex="-1"></a>dados<span class="sc">$</span>bartik <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(shares <span class="sc">%*%</span> shocks)</span>
-<span id="cb182-5"><a href="shift-share.html#cb182-5" tabindex="-1"></a></span>
-<span id="cb182-6"><a href="shift-share.html#cb182-6" tabindex="-1"></a><span class="co"># IV com efeitos fixos de estado</span></span>
-<span id="cb182-7"><a href="shift-share.html#cb182-7" tabindex="-1"></a>modelo <span class="ot">&lt;-</span> <span class="fu">feols</span>(y <span class="sc">~</span> controles <span class="sc">|</span> estado <span class="sc">|</span> x_endogeno <span class="sc">~</span> bartik, <span class="at">data =</span> dados)</span>
-<span id="cb182-8"><a href="shift-share.html#cb182-8" tabindex="-1"></a><span class="fu">summary</span>(modelo)</span></code></pre></div>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="shift-share.html#cb185-1" tabindex="-1"></a><span class="fu">library</span>(fixest)</span>
+<span id="cb185-2"><a href="shift-share.html#cb185-2" tabindex="-1"></a></span>
+<span id="cb185-3"><a href="shift-share.html#cb185-3" tabindex="-1"></a><span class="co"># Construir instrumento</span></span>
+<span id="cb185-4"><a href="shift-share.html#cb185-4" tabindex="-1"></a>dados<span class="sc">$</span>bartik <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(shares <span class="sc">%*%</span> shocks)</span>
+<span id="cb185-5"><a href="shift-share.html#cb185-5" tabindex="-1"></a></span>
+<span id="cb185-6"><a href="shift-share.html#cb185-6" tabindex="-1"></a><span class="co"># IV com efeitos fixos de estado</span></span>
+<span id="cb185-7"><a href="shift-share.html#cb185-7" tabindex="-1"></a>modelo <span class="ot">&lt;-</span> <span class="fu">feols</span>(y <span class="sc">~</span> controles <span class="sc">|</span> estado <span class="sc">|</span> x_endogeno <span class="sc">~</span> bartik, <span class="at">data =</span> dados)</span>
+<span id="cb185-8"><a href="shift-share.html#cb185-8" tabindex="-1"></a><span class="fu">summary</span>(modelo)</span></code></pre></div>
 </div>
 <div id="erros-padrão-corrigidos-pacote-shiftsharese" class="section level3 hasAnchor" number="14.7.3">
 <h3><span class="header-section-number">14.7.3</span> Erros-padrão corrigidos: pacote <code>ShiftShareSE</code><a href="#erros-padr%C3%A3o-corrigidos-pacote-shiftsharese" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>O pacote <code>ShiftShareSE</code>, de Michal Kolesár, está disponível no CRAN e implementa os erros-padrão AKM (Adão, Kolesár &amp; Morales, 2019):</p>
-<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="shift-share.html#cb183-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;ShiftShareSE&quot;</span>)</span>
-<span id="cb183-2"><a href="shift-share.html#cb183-2" tabindex="-1"></a><span class="fu">library</span>(ShiftShareSE)</span>
-<span id="cb183-3"><a href="shift-share.html#cb183-3" tabindex="-1"></a></span>
-<span id="cb183-4"><a href="shift-share.html#cb183-4" tabindex="-1"></a><span class="co"># IV com SEs corrigidos para shift-share</span></span>
-<span id="cb183-5"><a href="shift-share.html#cb183-5" tabindex="-1"></a>resultado <span class="ot">&lt;-</span> <span class="fu">ivreg_ss</span>(y <span class="sc">~</span> x_endogeno <span class="sc">|</span> bartik,</span>
-<span id="cb183-6"><a href="shift-share.html#cb183-6" tabindex="-1"></a>                       <span class="at">X =</span> shares_matrix,    <span class="co"># matriz N x K de shares</span></span>
-<span id="cb183-7"><a href="shift-share.html#cb183-7" tabindex="-1"></a>                       <span class="at">data =</span> dados)</span>
-<span id="cb183-8"><a href="shift-share.html#cb183-8" tabindex="-1"></a><span class="fu">summary</span>(resultado)</span></code></pre></div>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="shift-share.html#cb186-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;ShiftShareSE&quot;</span>)</span>
+<span id="cb186-2"><a href="shift-share.html#cb186-2" tabindex="-1"></a><span class="fu">library</span>(ShiftShareSE)</span>
+<span id="cb186-3"><a href="shift-share.html#cb186-3" tabindex="-1"></a></span>
+<span id="cb186-4"><a href="shift-share.html#cb186-4" tabindex="-1"></a><span class="co"># IV com SEs corrigidos para shift-share</span></span>
+<span id="cb186-5"><a href="shift-share.html#cb186-5" tabindex="-1"></a>resultado <span class="ot">&lt;-</span> <span class="fu">ivreg_ss</span>(y <span class="sc">~</span> x_endogeno <span class="sc">|</span> bartik,</span>
+<span id="cb186-6"><a href="shift-share.html#cb186-6" tabindex="-1"></a>                       <span class="at">X =</span> shares_matrix,    <span class="co"># matriz N x K de shares</span></span>
+<span id="cb186-7"><a href="shift-share.html#cb186-7" tabindex="-1"></a>                       <span class="at">data =</span> dados)</span>
+<span id="cb186-8"><a href="shift-share.html#cb186-8" tabindex="-1"></a><span class="fu">summary</span>(resultado)</span></code></pre></div>
 <p>Este pacote é essencial porque, como demonstrado por AKM, erros-padrão convencionais (mesmo clusterizados por geografia) são severamente subestimados em designs shift-share.</p>
 </div>
 <div id="agregação-ao-nível-do-choque-pacote-ssaggregate" class="section level3 hasAnchor" number="14.7.4">
 <h3><span class="header-section-number">14.7.4</span> Agregação ao nível do choque: pacote <code>ssaggregate</code><a href="#agrega%C3%A7%C3%A3o-ao-n%C3%ADvel-do-choque-pacote-ssaggregate" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>O pacote <code>ssaggregate</code>, de Kyle Butts, implementa a agregação ao nível do choque de Borusyak, Hull &amp; Jaravel (2022). Está disponível apenas no GitHub:</p>
-<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="shift-share.html#cb184-1" tabindex="-1"></a><span class="co"># install: remotes::install_github(&quot;kylebutts/ssaggregate&quot;)</span></span>
-<span id="cb184-2"><a href="shift-share.html#cb184-2" tabindex="-1"></a><span class="fu">library</span>(ssaggregate)</span>
-<span id="cb184-3"><a href="shift-share.html#cb184-3" tabindex="-1"></a></span>
-<span id="cb184-4"><a href="shift-share.html#cb184-4" tabindex="-1"></a><span class="co"># Agregar dados regionais para o nível do choque</span></span>
-<span id="cb184-5"><a href="shift-share.html#cb184-5" tabindex="-1"></a>dados_choque <span class="ot">&lt;-</span> <span class="fu">ssaggregate</span>(</span>
-<span id="cb184-6"><a href="shift-share.html#cb184-6" tabindex="-1"></a>  <span class="at">data =</span> dados_long,     <span class="co"># formato longo: região x setor</span></span>
-<span id="cb184-7"><a href="shift-share.html#cb184-7" tabindex="-1"></a>  <span class="at">shares =</span> <span class="st">&quot;share&quot;</span>,</span>
-<span id="cb184-8"><a href="shift-share.html#cb184-8" tabindex="-1"></a>  <span class="at">n =</span> <span class="st">&quot;regiao&quot;</span>,</span>
-<span id="cb184-9"><a href="shift-share.html#cb184-9" tabindex="-1"></a>  <span class="at">s =</span> <span class="st">&quot;setor&quot;</span>,</span>
-<span id="cb184-10"><a href="shift-share.html#cb184-10" tabindex="-1"></a>  <span class="at">t =</span> <span class="st">&quot;ano&quot;</span>,</span>
-<span id="cb184-11"><a href="shift-share.html#cb184-11" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(<span class="st">&quot;y&quot;</span>, <span class="st">&quot;x_endogeno&quot;</span>)</span>
-<span id="cb184-12"><a href="shift-share.html#cb184-12" tabindex="-1"></a>)</span>
-<span id="cb184-13"><a href="shift-share.html#cb184-13" tabindex="-1"></a></span>
-<span id="cb184-14"><a href="shift-share.html#cb184-14" tabindex="-1"></a><span class="co"># Agora rodar IV convencional no nível do choque</span></span>
-<span id="cb184-15"><a href="shift-share.html#cb184-15" tabindex="-1"></a><span class="fu">feols</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> x_endogeno <span class="sc">~</span> g_k, <span class="at">data =</span> dados_choque)</span></code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="shift-share.html#cb187-1" tabindex="-1"></a><span class="co"># install: remotes::install_github(&quot;kylebutts/ssaggregate&quot;)</span></span>
+<span id="cb187-2"><a href="shift-share.html#cb187-2" tabindex="-1"></a><span class="fu">library</span>(ssaggregate)</span>
+<span id="cb187-3"><a href="shift-share.html#cb187-3" tabindex="-1"></a></span>
+<span id="cb187-4"><a href="shift-share.html#cb187-4" tabindex="-1"></a><span class="co"># Agregar dados regionais para o nível do choque</span></span>
+<span id="cb187-5"><a href="shift-share.html#cb187-5" tabindex="-1"></a>dados_choque <span class="ot">&lt;-</span> <span class="fu">ssaggregate</span>(</span>
+<span id="cb187-6"><a href="shift-share.html#cb187-6" tabindex="-1"></a>  <span class="at">data =</span> dados_long,     <span class="co"># formato longo: região x setor</span></span>
+<span id="cb187-7"><a href="shift-share.html#cb187-7" tabindex="-1"></a>  <span class="at">shares =</span> <span class="st">&quot;share&quot;</span>,</span>
+<span id="cb187-8"><a href="shift-share.html#cb187-8" tabindex="-1"></a>  <span class="at">n =</span> <span class="st">&quot;regiao&quot;</span>,</span>
+<span id="cb187-9"><a href="shift-share.html#cb187-9" tabindex="-1"></a>  <span class="at">s =</span> <span class="st">&quot;setor&quot;</span>,</span>
+<span id="cb187-10"><a href="shift-share.html#cb187-10" tabindex="-1"></a>  <span class="at">t =</span> <span class="st">&quot;ano&quot;</span>,</span>
+<span id="cb187-11"><a href="shift-share.html#cb187-11" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(<span class="st">&quot;y&quot;</span>, <span class="st">&quot;x_endogeno&quot;</span>)</span>
+<span id="cb187-12"><a href="shift-share.html#cb187-12" tabindex="-1"></a>)</span>
+<span id="cb187-13"><a href="shift-share.html#cb187-13" tabindex="-1"></a></span>
+<span id="cb187-14"><a href="shift-share.html#cb187-14" tabindex="-1"></a><span class="co"># Agora rodar IV convencional no nível do choque</span></span>
+<span id="cb187-15"><a href="shift-share.html#cb187-15" tabindex="-1"></a><span class="fu">feols</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> x_endogeno <span class="sc">~</span> g_k, <span class="at">data =</span> dados_choque)</span></code></pre></div>
 </div>
 <div id="ecossistema-r-vs.-stata" class="section level3 hasAnchor" number="14.7.5">
 <h3><span class="header-section-number">14.7.5</span> Ecossistema R vs. Stata<a href="shift-share.html#ecossistema-r-vs.-stata" class="anchor-section" aria-label="Anchor link to header"></a></h3>

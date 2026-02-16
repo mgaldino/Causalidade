@@ -419,7 +419,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="14.4" data-path="04-Experimentos.html"><a href="#o-instrumento-shift-share-como-vari%C3%A1vel-instrumental"><i class="fa fa-check"></i><b>14.4</b> O instrumento shift-share como variável instrumental</a>
 <ul>
 <li class="chapter" data-level="14.4.1" data-path="04-Experimentos.html"><a href="#constru%C3%A7%C3%A3o-formal"><i class="fa fa-check"></i><b>14.4.1</b> Construção formal</a></li>
-<li class="chapter" data-level="14.4.2" data-path="shift-share.html"><a href="shift-share.html#o-modelo-estrutural-e-o-iv"><i class="fa fa-check"></i><b>14.4.2</b> O modelo estrutural e o IV</a></li>
+<li class="chapter" data-level="14.4.2" data-path="shift-share.html"><a href="shift-share.html#voltando-ao-exemplo-construindo-w_ik-g_k-e-b_i-com-dados-eleitorais"><i class="fa fa-check"></i><b>14.4.2</b> Voltando ao exemplo: construindo <span class="math inline">\(w_{ik}\)</span>, <span class="math inline">\(g_k\)</span> e <span class="math inline">\(B_i\)</span> com dados eleitorais</a></li>
+<li class="chapter" data-level="14.4.3" data-path="shift-share.html"><a href="shift-share.html#o-modelo-estrutural-e-o-iv"><i class="fa fa-check"></i><b>14.4.3</b> O modelo estrutural e o IV</a></li>
+<li class="chapter" data-level="14.4.4" data-path="shift-share.html"><a href="shift-share.html#interpretando-o-modelo-com-o-exemplo-eleitoral"><i class="fa fa-check"></i><b>14.4.4</b> Interpretando o modelo com o exemplo eleitoral</a></li>
+<li class="chapter" data-level="14.4.5" data-path="04-Experimentos.html"><a href="#por-que-o-instrumento-seria-v%C3%A1lido-uma-discuss%C3%A3o-intuitiva"><i class="fa fa-check"></i><b>14.4.5</b> Por que o instrumento seria válido? Uma discussão intuitiva</a></li>
 </ul></li>
 <li class="chapter" data-level="14.5" data-path="04-Experimentos.html"><a href="#duas-estrat%C3%A9gias-de-identifica%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>14.5</b> Duas estratégias de identificação</a>
 <ul>
@@ -825,7 +828,7 @@ Outras possibilidades incluem o ATT e CATE: , por exemplo. Formulação equivale
 <div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="experimentos.html#cb45-1" tabindex="-1"></a>designs <span class="ot">&lt;-</span> <span class="fu">redesign</span>(two_arm_trial, <span class="at">N =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">300</span>, <span class="dv">400</span>, <span class="dv">500</span>))</span>
 <span id="cb45-2"><a href="experimentos.html#cb45-2" tabindex="-1"></a><span class="fu">diagnose_design</span>(designs)</span></code></pre></div>
 <pre><code>## 
-## Research design diagnosis based on 500 simulations. Diagnosis completed in 10 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).
+## Research design diagnosis based on 500 simulations. Diagnosis completed in 7 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).
 ## 
 ##    Design   N Inquiry Estimator Outcome Term N Sims Mean Estimand Mean Estimate
 ##  design_1 100     ATE estimator       Y    Z    500          0.20          0.20
