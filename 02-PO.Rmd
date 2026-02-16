@@ -18,38 +18,49 @@ Em um artigo clássico dos primórdios da estatística escrito por Yule [@yule_1
 
 Exemplo da perspectiva de que falava Cox quando, por exemplo, @muthen_1987 chegou a afirmar que "It would be very healthy if more researchers abandon thinking of and using terms such as cause and effect" (p. 180). Algo ecoado em uma entrevista com um dos líderes da evolução causal desde os anos 70/80, Jamie Robins, que relata que seus papers (en journals de estatística) eram rejeitados por usar linguagem causal, algo rejeitado na época [@robins_2022]. Então parece bastante seguro dizer que a sensação geral na estatística até os anos 80 é que não se deveria usar linguagem causal fora de estudos experimentais, isto é, em estudos não-observacionais.
 
-## Causalidade e o Método Comparativo
+## Da intuição comparativa ao modelo formal
 
-A ideia de causalidade é bastante presente na ciência política na literatura de polític comparada qualitativa. Empregando os métodos advogados por Stuart Mill, a ideia de causalidade sempre estive presente e associada a ideias de relações necessárias e ou suficientes. Nesse sentido, causalidade seria determiniística. A moderna forma de pensar causalidade abandona esse paradigma de relações necessárias e/ou suficientes, para pensar em termos de contrafactual, o que no fundo é próximo do que a pesquisa comparada fazia. Tomemos um exemplo clássico dessa literatura. [inserirautor] estava interessado em estudar o efeito ccausal de [inserir variável de tratamento] sobre [variável de resultado], e comparou [unidade de tratamento] com [unidade de controle].
+A ideia de causalidade está presente há muito tempo na ciência política, especialmente na tradição de política comparada qualitativa. Os métodos comparativos de Stuart Mill — como o método da diferença e o método da concordância — buscam identificar relações causais comparando casos que diferem apenas na presença ou ausência de um fator de interesse. No fundo, essa lógica comparativa já contém o germe do raciocínio contrafactual: perguntar "o que teria acontecido se este fator estivesse ausente?" é exatamente o que fazemos ao comparar um caso tratado com um caso de controle.
 
-## Potential Outcomes
+A moderna forma de pensar causalidade formaliza essa intuição, abandonando o paradigma de relações necessárias e/ou suficientes (que pressupõe determinismo) para adotar um framework probabilístico baseado em resultados potenciais. Essa formalização nos permite definir com precisão o que é um efeito causal, explicitar as suposições que precisamos fazer, e entender quando e por que nossas estimativas podem ser viesadas.
 
-Objetivos de aporendizado da aula:
-Aprender a diferença entre esimando, estimador e estimativa.
+## Resultados Potenciais (*Potential Outcomes*)
 
-Aprender as condições de identificação do ATE (Average Treatment Effect)
+Neste capítulo, formalizamos a ideia de causalidade usando o modelo de resultados potenciais (*potential outcomes*), também conhecido como Modelo Causal de Neyman-Rubin. Esse framework nos dará uma linguagem precisa para definir efeitos causais e explicitar as suposições necessárias para estimá-los.
 
+**Objetivos de aprendizado:**
 
+1. Compreender a notação de resultados potenciais e a *switching equation*
+2. Distinguir entre estimando, estimador e estimativa
+3. Definir os principais estimandos causais: ATE, ATT e CATE
+4. Enunciar as condições de identificação do ATE (ignorabilidade forte)
+5. Conectar o modelo de resultados potenciais à regressão linear e interpretar o viés
+
+Vamos começar fixando a notação que utilizaremos ao longo de todo o curso.
 
 ## Notação
 
 Vamos assumir que existe um tratamento binário, que recebe o valor $1$ se a unidade $i$ recebe o tratamento, e $0$ caso contrário, dado por: $D_i \in \{1,0\}$. 
 
-Suponha que eu tenha $N$ unidades que podem receber o tratamento ou controle. Então, o resultado potencial para a unidade $i$ é $Y_i(\mathbf{D})$, ou seja, o resultado (potencial) da unidade $i$ dado o conjunto de tratamento recebido por todas as $N$ unidades. Em outras palavras, o resultado potencial depende do status de tratamento de todas as unidades. O que nos leva à primeira suposição simplificadoras:
+Suponha que eu tenha $N$ unidades que podem receber o tratamento ou controle. Então, o resultado potencial para a unidade $i$ é $Y_i(\mathbf{D})$, ou seja, o resultado (potencial) da unidade $i$ dado o conjunto de tratamento recebido por todas as $N$ unidades. Em outras palavras, o resultado potencial depende do status de tratamento de todas as unidades. O que nos leva à primeira suposição simplificadora:
 
-Assumption 1 (Stable Unit Treatment Value Assumption)
-Se $D_i = D{'}_i$, então $Y_i(\mathbf{D}) = Y_i(\mathbf{D}^{'})$. Em palavras, se mudarmos o tratamento de $i$ de $D$ para $D'$, então o resultado potencial depende apenas dessa mudança, e não dos demais tratamentos. Ou seja, o resultado potencial depende apenas do próprio tratamento, não dos demais. Essa suposição també é chamada de não-interferência. Então podemos escrever o resultado potencial apenas como função de $D_i$: $Y_i(D_i)$.
+Suposição 1: SUTVA (Stable Unit Treatment Value Assumption)
+Se $D_i = D'_i$, então $Y_i(\mathbf{D}) = Y_i(\mathbf{D}')$. Em palavras, se mudarmos o tratamento de $i$ de $D$ para $D'$, então o resultado potencial depende apenas dessa mudança, e não dos demais tratamentos. Ou seja, o resultado potencial depende apenas do próprio tratamento, não dos demais. Essa suposição também é chamada de não-interferência. Então podemos escrever o resultado potencial apenas como função de $D_i$: $Y_i(D_i)$.
 
 Entretanto, os resultados potenciais não são observáveis. O que nós observamos é o resultado se a pessoa foi ou não tratada. O que nos leva à "switching equation":
-$Y_i = Y_i(1)D_i + (1-D_i)Y_i(0)$
+$Y_i = D_i \cdot Y_i(1) + (1-D_i) \cdot Y_i(0)$
 
 Podemos agora definir o efeito causal do tratamento ao nível da unidade: $\tau_i = Y_i(1) - Y_i(0)$
 
 A switching equation conecta o observado aos resultados potenciais e vice-versa. Esse modelo é chamado de Modelo Causal de Neyman-Rubin.
 
+Recapitulando: introduzimos três ingredientes essenciais — o tratamento binário $D_i$, os dois resultados potenciais $Y_i(1)$ e $Y_i(0)$, e a switching equation que liga o mundo potencial ao observado. A suposição SUTVA garante que podemos tratar cada unidade isoladamente. Com essas peças, podemos agora enfrentar o desafio central da inferência causal.
+
 ## Problema Fundamental da Inferência Causal
 
-Barizado por Holland (1986) de Problema Fundamental da Inferência Causal (PFIC) diz que não podemos observar, simultanemente, ambos os resultados potenciais $Y_i(1)$ e $Y_i(0)$.
+Batizado por Holland (1986) de Problema Fundamental da Inferência Causal (PFIC) diz que não podemos observar, simultaneamente, ambos os resultados potenciais $Y_i(1)$ e $Y_i(0)$.
+
+Para tornar o PFIC concreto, considere o seguinte exemplo. Maria participa de um programa de treinamento profissional ($D_i = 1$) e, ao final, recebe um salário de R\$ 3.000 ($Y_i(1) = 3000$). Gostaríamos de saber: qual seria o salário de Maria se ela *não* tivesse participado do programa? Esse é o resultado potencial $Y_i(0)$, que nunca observaremos — Maria não pode simultaneamente ter participado e não ter participado do programa. O efeito causal individual $\tau_i = Y_i(1) - Y_i(0)$ é, portanto, fundamentalmente não-observável.
 
 Possívels soluções para o PFIC:
 
@@ -60,6 +71,8 @@ Possívels soluções para o PFIC:
 3. Método estatístico (foco na esperança)
 
 ## Estimando
+
+O PFIC nos mostrou que o efeito causal individual $\tau_i$ é não-observável. A saída, como indicado na terceira solução acima, é trabalhar com *médias* — ou seja, com o valor esperado do efeito causal sobre uma população. Mas antes de estimar, precisamos definir com precisão *o que* queremos estimar.
 
 O que nós estamos interessados em estimar é o nosso **Estimando**.
 
@@ -76,12 +89,11 @@ Estimador: o método ou fórmula para se chegar a uma estimativa para um estiman
 
 Vamos definir o ATE e mostrar condições suficientes para identificação desse estimando.
 
-O ATT é simplesmente o efeito causal médio entre todos os indivíduos de uma população. Às vezes chamado de PATE, de Populational Averate Treatment Effect.
+O ATE é simplesmente o efeito causal médio entre todos os indivíduos de uma população. Às vezes chamado de PATE, de Populational Averate Treatment Effect.
 
 Definição 2.1. Chamamos de ATE na população: 
 $$\tau_{\text{ATE}} = \mathbb{E}[\tau_i] = \mathbb{E}[Y_i(1) - Y_i(0)] = \mathbb{E}[Y_i(1)] - \mathbb{E}[Y_i(0)]$$
-O ATE nos dá o efeito do tratamento em toda a população de interesse.
-
+O ATE nos dá o efeito do tratamento em toda a população de interesse. Note que $\tau_i = Y_i(1) - Y_i(0)$ é o efeito causal individual que definimos na seção de Notação; o ATE é simplesmente a esperança dessa quantidade sobre toda a população.
 
 ### ATT
 
@@ -89,25 +101,27 @@ Definição 2.2. Chamamos de Average Treatment Effect on the Treated (ATT):
 $$\tau_{\text{ATT}} = \mathbb{E}[\tau_i|D_i=1] = \mathbb{E}[Y_i(1) - Y_i(0)|D_i=1] = \underbrace{\mathbb{E}[Y_i(1)|D_i=1]}_{\text{observado}} - \mathbb{E}[Y_i(0)|D_i=1]$$
 Note que $\mathbb{E}[Y_i(1)|D_i=1]$ é um resultado potencial que podemos observar, já que é igual ao resultado realizado dos tratados. 
 
-Esse estimando estima o efeito do tratamento apenas entre os tratados. Essa quantidade é, tipicamente, a mais relevante em políticas públicas. Considere a política pública de vacinação. O que é mais importante, saber o efeito causal da vacina em toda a população, ou em toda a população que tomaria a vacina (tratados)? Ou para dar um exemplo mais claro ainda. Não é relevante o efeito do bolsa-famnília sobre redução da pobreza em toda a população, nem mesmo se considerarmos que a população alvo é toda a população pobre. Pessoas que não vão participar do programa não importam muito. Importam as que efetivamente irão receber o programa.
+Esse estimando estima o efeito do tratamento apenas entre os tratados. Essa quantidade é, tipicamente, a mais relevante em políticas públicas. Considere a política pública de vacinação. O que é mais importante, saber o efeito causal da vacina em toda a população, ou em toda a população que tomaria a vacina (tratados)? Ou para dar um exemplo mais claro ainda. Não é relevante o efeito do Bolsa-Família sobre redução da pobreza em toda a população, nem mesmo se considerarmos que a população alvo é toda a população pobre. Pessoas que não vão participar do programa não importam muito. Importam as que efetivamente irão receber o programa.
 
 ### CATE
 
 Vamos definir o Conditional Average Treatment Effect (CATE). Seja $X_i$ um conjunto de co-variáveis pré-determinadas (não causadas pelo tratamento). Então, podemos definir o CATE como:
 
-$$\tau_{\text{CATE}} = \mathbb{E}[\tau_i|X_i=x] = \mathbb{E}[Y_i(1) - Y_i(0)|X_i=x] =  \mathbb{E}[Y_i(1) - \mathbb{E}[Y_i(1)|X_i=x]$$
+$$\tau_{\text{CATE}} = \mathbb{E}[\tau_i|X_i=x] = \mathbb{E}[Y_i(1) - Y_i(0)|X_i=x] = \mathbb{E}[Y_i(1)|X_i=x] - \mathbb{E}[Y_i(0)|X_i=x]$$
 Retornando ao nosso exemplo da introdução da urna eletrônica em um município sobre a pobreza municipal.
 ATE: O efeito médio de um município ter urna eletrônica sobre a pobreza municipal comparado a voto em papel.
 ATT: O efeito médio da urna eletrônica nos municípios que receberam urna eletrônica sobre a pobreza municial comparado a voto em papel.
-CATE: O efeito médio de urna eletrônica sobre a pobreza municipal, em um determinado grupos de municípios (ex. do semiá-rido do Nordeste), comparado a voto em papel.
+CATE: O efeito médio de urna eletrônica sobre a pobreza municipal, em um determinado grupos de municípios (ex. do semiárido do Nordeste), comparado a voto em papel.
 
 Se $X$ for discreto, podemos estabelecer a seguinte relação entre ATE e CATE:
 $$\tau_{\text{ATE}} = \sum_{x \in X} \tau_{\text{CATE}}(x) p(X_i = x)$$
 Há outros estimandos possíveis, mas esses são os mais comuns.
 
+Definir o estimando é apenas o primeiro passo. A pergunta seguinte — e central para a inferência causal — é: sob quais condições conseguimos *identificar* esse estimando a partir de dados observáveis? É disso que trataremos a seguir.
+
 ## Nota sobre estimandos
 
-A rigor, podemos caracterizar ao nível da população dois contrastes: a distribuição de probabilidade de resultados potenciais do tratamento com a do controle, para um dado conjunto de covariáeis de pré-tratamento $\mathbf{X}$. Formalmente, sejam $f(Y(1)|\mathbf{X})$ e $f(Y(0)|\mathbf{X})$ as densidades dos dois resultados potenciais, então $f(Y(1)|\mathbf{X} - f(Y(0)|\mathbf{X})$ configura uma nova distribuição, da diferença entre os dois resultados potenciais. Nossa ênfase na esperança, portanto, é tanto uma questão de conveniência matemática quanto potencial interesse de pesquisa em um estimando em torno da média da diferença dessas duas distribuições, mas nada impede, a princípio, que estimarmos toda a distribuição da diferença.
+A rigor, podemos caracterizar ao nível da população dois contrastes: a distribuição de probabilidade de resultados potenciais do tratamento com a do controle, para um dado conjunto de covariáveis de pré-tratamento $\mathbf{X}$. Formalmente, sejam $f(Y(1)|\mathbf{X})$ e $f(Y(0)|\mathbf{X})$ as densidades dos dois resultados potenciais, então $f(Y(1)|\mathbf{X} - f(Y(0)|\mathbf{X})$ configura uma nova distribuição, da diferença entre os dois resultados potenciais. Nossa ênfase na esperança, portanto, é tanto uma questão de conveniência matemática quanto potencial interesse de pesquisa em um estimando em torno da média da diferença dessas duas distribuições, mas nada impede, a princípio, que estimarmos toda a distribuição da diferença.
 
 Outra observação: como veremos mais para frente no curso, dados longitudinais não possuem estimandos claros. Alguns pesquisadores mais rigorosos em política comparada, por exemplo, falam em efeito de país-ano, pois esta é a unidade de análise e o estimando é definido nesse nível. Como veremos também mais para frente (e é um tema de pesquisa meu), também é complicado definir as condições de identificação em dados longitudinais. Voltaremos a isso.
 
@@ -141,8 +155,8 @@ O que seria um estimando não-identificável? Digamos que estou interessado em e
 Para mostrar que o ATE é identificado, vamos supor o que chamamos de ignorabilidade forte (strong ignorability). 
 
 Definição. Dizemos que $D_i$ é fortemente ignorável condicional a um vetor $\mathbf{X_i}$ se:
-1. $Y_i(1), Y_i(0) \perp D_i$
-2. $\exists \epsilon > 0 \text{ tal que } \epsilon < Pr(D_i = 1 | \mathbf{X_i}) < 1 - \epsilon$
+1. $Y_i(1), Y_i(0) \perp D_i | \mathbf{X_i}$
+2. $\exists \eta > 0 \text{ tal que } \eta < Pr(D_i = 1 | \mathbf{X_i}) < 1 - \eta$
 
 Em palavras, a primeira condição diz que os resultados potenciais são independentes de receber ou não o tratamento. Quando pensamos em modelos com seres humanos ou unidades com agência, a principal preocupação é que as unidades não se auto-selecionam no tratamento que lhes é mais benéfico (ou que acreditam sê-lo). Às vezes na literatura essa condição aparece como permutabilidade (exchangeability): Como dizem Hernan e Robins em seu livro, "the treated and the untreated are exchangeable because the treated, had they remained untreated, would have experienced the same average outcome as the untreated did, and vice versa."(p. 29).
 
@@ -172,23 +186,31 @@ y_bias <- y_1*d1 + y_0*(1-d1)
 
 ```
 
+Note o resultado: quando todos podem receber tratamento ou controle (common support satisfeito), a diferença de médias recupera o ATE. Porém, quando impedimos que unidades com $Y_i(1) > 6$ recebam o tratamento, a estimativa se torna viesada — estamos comparando "maçãs com laranjas", pois o grupo tratado e o grupo controle passam a ter composições diferentes. Essa é a intuição central da condição de common support: precisamos que, para cada perfil de covariáveis, existam unidades tanto no tratamento quanto no controle.
+
 Um último comentário: ignorability às vezes aparece como "tratamento é exógeno". Porém, exogeneidade ignora a segunda condição e trata apenas da primeira. Em uma audiência de ciência política, dizemos que o tratamento é condicionalmente aleatório ou exógeno (o que é impreciso).
 
 ## Identificação do ATE
+
+Com as duas condições de ignorabilidade forte em mãos, podemos agora demonstrar formalmente que o ATE é identificado — isto é, que pode ser expresso inteiramente em termos de quantidades observáveis.
 
 Teorema 1: Se $D_i$ é fortemente ignorável condicional a $\mathbf{X_i}$, então:
 $$\mathbb{E}[\tau_i] = \sum_{x \in X}(\mathbb{E}[(Y_i|D_i=1, \mathbf{X_i} = x)] - \mathbb{E}[(Y_i|D_i=0, \mathbf{X_i} = x)])Pr(\mathbf{X_i = x})$$
 Prova: O ATE foi definido como:
 $$\mathbb{E}[\tau_{\text{ATE}}] = \mathbb{E}[\tau_i] = \mathbb{E}[Y_i(1)] - \mathbb{E}[Y_i(0)]$$
 Pela LIE, temos que:
-$$\mathbb{E}[Y_i(1)] = \mathbb{E}[\mathbb{E}[Y_i(1)|\mathbf{X_i}]$$
-$$\mathbb{E}[Y_i(0)] = \mathbb{E}[\mathbb{E}[Y_i(0)|\mathbf{X_i}]$$ 
+$$\mathbb{E}[Y_i(1)] = \mathbb{E}[\mathbb{E}[Y_i(1)|\mathbf{X_i}]]$$
+$$\mathbb{E}[Y_i(0)] = \mathbb{E}[\mathbb{E}[Y_i(0)|\mathbf{X_i}]]$$ 
 
 Com ignorabilidade forte, $\mathbb{E}[(Y_i(0)|\mathbf{X_i}] = \mathbb{E}[Y_i(0)|D_i=0, \mathbf{X_i}] = \mathbb{E}[Y_i|D_i=0, \mathbf{X_i}]$. Similarmente, $\mathbb{E}[(Y_i(1)|\mathbf{X_i}] = \mathbb{E}[Y_i(1)|D_i=1, \mathbf{X_i}] = \mathbb{E}[Y_i|D_i=1, \mathbf{X_i}]$. Juntando tudo, chegamos à proposição do teorema.
 
 Ou seja, com ignorabilidade forte, podemos estimar o ATE não-parametricamente apenas a partir de observáveis. O CATE também é identificado, como corolário.
 
+Em termos práticos, o teorema nos diz que, se conseguirmos argumentar convincentemente que o tratamento é "como se" aleatório condicional às covariáveis observadas $\mathbf{X_i}$, podemos estimar efeitos causais comparando tratados e controles dentro de cada estrato de $\mathbf{X_i}$ — sem precisar de suposições sobre a forma funcional da relação entre variáveis.
+
 ## Equações estruturais
+
+Até aqui, trabalhamos inteiramente com resultados potenciais e esperanças. Mas na prática, a ferramenta mais comum de estimação em ciências sociais é a regressão linear. Qual é a relação entre o modelo de resultados potenciais e a regressão? O que exatamente estamos estimando quando rodamos uma regressão do resultado sobre o tratamento?
 
 Normalmente nós temos um modelo que queremos estimar o efeito causal, e não algo sobre o mecanismo de assignment do tratamento. Vamos conectar as duas abordagens.
 
@@ -196,7 +218,7 @@ Seja o modelo: $Y_i = \alpha + \beta D_i + \epsilon_i$. Nós intrepretamos $\bet
 $\mathbb{E}[Y|D_i=1] - \mathbb{E}[Y|D_i=0] = \mathbb{E}[\alpha + \beta D_i + \epsilon_i|D_i=1] - \mathbb{E}[\alpha + \beta D_i + \epsilon_i|D_i=0] = \beta + \mathbb{E}[\epsilon_i|D_i=1] - \mathbb{E}[\epsilon_i|D_i=0]$.
 E dizemos que, sob a suposição de esperança condicional zero do erro, ou seja, $\mathbb{E}[\epsilon_i|D_i=1] = \mathbb{E}[\epsilon_i|D_i=0] = 0$. Portanto, temos que $\mathbb{E}[Y|D_i=1] - \mathbb{E}[Y|D_i=0] = \beta$. E o estimador de MQO é não-viesado.
 
-E de forma geral, temos que $\mathbb{E}[Y|D_i] = \alpha + \beta$, sob a suposição de esperança condicional zero do erro.
+E de forma geral, temos que $\mathbb{E}[Y|D_i] = \alpha + \beta D_i$, sob a suposição de esperança condicional zero do erro.
 
 Vamos mapeá-lo ao modelo de resultados potenciais com a *switching equation*.
 
@@ -220,7 +242,7 @@ $$
 &=  \mathbb{E}[(\tau_i - \tau)D_i|D_i=1] + \mathbb{E}[(Y_i(0) - \mathbb{E}[Y_i(0)|D_i=0])|D_i=1] \\
 &=  \mathbb{E}[\tau_i D_i|D_i=1] -\tau\mathbb{E}[ D_i|D_i=1] + \mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[\mathbb{E}[Y_i(0)|D_i=0]|D_i=1] \\
 &=  (\mathbb{E}[\tau_i|D_i=1] -\tau) + \mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0] \\
-\mathbb{E}[\epsilon_i|D_i=0]  &=  \mathbb{E}[(\tau_i - \tau)D_i + (Y_i(0) - \mathbb{E}[Y_i(0)|D_i=0])|D_i=1] \\
+\mathbb{E}[\epsilon_i|D_i=0]  &=  \mathbb{E}[(\tau_i - \tau)D_i + (Y_i(0) - \mathbb{E}[Y_i(0)|D_i=0])|D_i=0] \\
 &= \mathbb{E}[Y_i(0)|D_i=0] - \mathbb{E}[\mathbb{E}[Y_i(0)|D_i=0]|D_i=0] \\
 &= 0
 \end{aligned}
@@ -229,13 +251,23 @@ $$
 Portanto, $\mathbb{E}[Y_i|D_i=1] - \mathbb{E}[Y_i|D_i=0] = \tau + (\mathbb{E}[\tau_i|D_i=1] -\tau) + \mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0]$
 Em palavras, estimamos o efeito causal médio, $\tau$, mais um componente que tem a ver com os efeitos causais heterogêneos mais um componente que é a diferença no resultado potencial do controle entre os tratados e o controle. Se $\mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0] \neq 0$, o efeito estimado é viesado. Similarmente, se $\mathbb{E}[\tau_i|D_i=1] \neq \tau$, também teremos viés, ou seja, se o efeito causal dos tratados for diferente do efeito médio da população, também temos uma estimativa viesada do ATE. Porém, nesse caso, note que estamos viesando para estimar o efeito médio dos tratados, que é o ATT. Para ver isso, suponha que não há diferença nos resultados potenciais de não receber o tratamento entre os tratados e os no grupo controle, de modo que $\mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0] = \tau + (\mathbb{E}[\tau_i|D_i=1] -\tau)  = \mathbb{E}[\tau_i|D_i=1]$, que é o ATT.
 
+Em resumo, a diferença de médias simples $\mathbb{E}[Y_i|D_i=1] - \mathbb{E}[Y_i|D_i=0]$ pode ser decomposta em três componentes:
+
+- **ATE ($\tau$):** o efeito causal médio que gostaríamos de estimar;
+- **Viés de heterogeneidade ($\mathbb{E}[\tau_i|D_i=1] - \tau$):** surge quando o efeito causal dos tratados difere do efeito médio na população;
+- **Viés de seleção ($\mathbb{E}[Y_i(0)|D_i=1] - \mathbb{E}[Y_i(0)|D_i=0]$):** surge quando tratados e controles teriam resultados diferentes mesmo na ausência do tratamento.
+
+A ignorabilidade forte elimina ambos os vieses, garantindo que a diferença de médias recupere o ATE.
+
 ## Modelo versus Desenho
 
-Há na literatura (mais de economia) uma distinção entre estimando baseado em modelos e baseado em designs (desenho). 
+Há na literatura (mais de economia) uma distinção entre estimando baseado em modelos e baseado em designs (desenho):
 
-Model-based: O estimando é identificado a partir de um modelo dos resultados potenciais, condicional ao tratamento e co-variáveis. O exemplo arquetípico é modelo de diferença em diferenças ou controle sintético, em que estimamos o efeito causal a partir de estimativa do contrafactual a partir de dados observados.
+- **Model-based (baseado em modelo):** O estimando é identificado a partir de um modelo dos resultados potenciais, condicional ao tratamento e covariáveis. O exemplo arquetípico é o modelo de diferença em diferenças ou controle sintético, em que estimamos o efeito causal a partir de estimativa do contrafactual com dados observados.
 
-Design-based: O estimando é identificado a partir de suposições sobre o mecanismo de atribuição do tratamento e co-variáveis. O exemplo arquetípico desse tipo de pesquisa é o experimento aleatório controlado.
+- **Design-based (baseado em desenho):** O estimando é identificado a partir de suposições sobre o mecanismo de atribuição do tratamento e covariáveis. O exemplo arquetípico desse tipo de pesquisa é o experimento aleatório controlado.
+
+Ao longo deste curso, veremos estratégias de ambos os tipos e discutiremos quando cada abordagem é mais apropriada.
 
 ## Exercício em sala
 Na década de 1970, houve um programa de treinamento e emprego conhecido como National Supported Work (NSW). Este programa temporário visava ajudar trabalhadores desfavorecidos e sem habilidades básicas a ingressarem no mercado de trabalho, oferecendo experiência profissional e orientação em um ambiente protegido. Um aspecto inovador do NSW foi a seleção aleatória de candidatos qualificados para os treinamentos, garantindo que o grupo de tratamento recebesse todos os benefícios do programa, enquanto o grupo de controle não tinha suporte.
@@ -270,6 +302,20 @@ ate_aux$media[2] - ate_aux$media[1]
 # c
 
 ```
+
+## Resumo e próximos passos
+
+Neste capítulo, construímos o arcabouço formal dos resultados potenciais, que será a base de todo o restante do curso. Recapitulando os pontos centrais:
+
+1. **Resultados potenciais e switching equation.** Cada unidade possui dois resultados potenciais, $Y_i(1)$ e $Y_i(0)$, mas observamos apenas um deles. A switching equation $Y_i = D_i \cdot Y_i(1) + (1-D_i) \cdot Y_i(0)$ conecta os resultados potenciais ao dado observado.
+
+2. **Estimandos causais.** Definimos os três estimandos mais comuns — ATE, ATT e CATE — e discutimos quando cada um é mais relevante para a pesquisa aplicada.
+
+3. **Identificação.** Mostramos que, sob ignorabilidade forte (independência condicional e common support), o ATE é identificado a partir de quantidades observáveis, sem necessidade de suposições paramétricas.
+
+4. **Conexão com regressão.** A decomposição do viés da regressão revelou que a diferença de médias simples estima o ATE apenas sob condições restritivas; caso contrário, o viés possui dois componentes — heterogeneidade do efeito causal e diferença nos resultados potenciais de base.
+
+No próximo capítulo, introduziremos os **grafos acíclicos direcionados (DAGs)**, que oferecem uma linguagem visual e formal para representar suposições causais, complementando o framework algébrico que desenvolvemos aqui.
 
 ## Referências
 
