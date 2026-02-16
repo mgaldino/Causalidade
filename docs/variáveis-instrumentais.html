@@ -23,7 +23,7 @@
 <meta name="author" content="Manoel Galdino" />
 
 
-<meta name="date" content="2025-06-12" />
+<meta name="date" content="2026-02-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -57,8 +57,9 @@
 
 
 <style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -68,7 +69,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -142,21 +143,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Causalidade</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introdução</a>
+<li class="chapter" data-level="1" data-path="06-VI.html"><a href="#introdu%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>1</b> Introdução</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#revisão-de-regressão"><i class="fa fa-check"></i><b>1.1</b> Revisão de Regressão</a>
+<li class="chapter" data-level="1.1" data-path="06-VI.html"><a href="#revis%C3%A3o-de-regress%C3%A3o"><i class="fa fa-check"></i><b>1.1</b> Revisão de Regressão</a>
 <ul>
-<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#teorema-da-anatomia-da-regressão"><i class="fa fa-check"></i><b>1.1.1</b> Teorema da Anatomia da Regressão</a></li>
+<li class="chapter" data-level="1.1.1" data-path="06-VI.html"><a href="#teorema-da-anatomia-da-regress%C3%A3o"><i class="fa fa-check"></i><b>1.1.1</b> Teorema da Anatomia da Regressão</a></li>
 </ul></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#inferência"><i class="fa fa-check"></i><b>1.2</b> Inferência</a></li>
-<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#referências"><i class="fa fa-check"></i><b>1.3</b> Referências</a></li>
+<li class="chapter" data-level="1.2" data-path="06-VI.html"><a href="#infer%C3%AAncia"><i class="fa fa-check"></i><b>1.2</b> Inferência</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="06-VI.html"><a href="#generaliza%C3%A7%C3%A3o-amostral-vs.-generaliza%C3%A7%C3%A3o-causal"><i class="fa fa-check"></i><b>1.2.1</b> Generalização amostral vs. generalização causal</a></li>
+<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1.2.2</b> Incerteza com o universo dos casos</a></li>
+<li class="chapter" data-level="1.2.3" data-path="index.html"><a href="index.html#validade-externa"><i class="fa fa-check"></i><b>1.2.3</b> Validade externa</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="06-VI.html"><a href="#resumo-e-pr%C3%B3ximos-passos"><i class="fa fa-check"></i><b>1.3</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="1.4" data-path="06-VI.html"><a href="#refer%C3%AAncias"><i class="fa fa-check"></i><b>1.4</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html"><i class="fa fa-check"></i><b>2</b> Resultados Potenciais</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#causalidade-e-o-método-comparativo"><i class="fa fa-check"></i><b>2.1</b> Causalidade e o Método Comparativo</a></li>
-<li class="chapter" data-level="2.2" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#potential-outcomes"><i class="fa fa-check"></i><b>2.2</b> Potential Outcomes</a></li>
-<li class="chapter" data-level="2.3" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#notação"><i class="fa fa-check"></i><b>2.3</b> Notação</a></li>
-<li class="chapter" data-level="2.4" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#problema-fundamental-da-inferência-causal"><i class="fa fa-check"></i><b>2.4</b> Problema Fundamental da Inferência Causal</a></li>
+<li class="chapter" data-level="2.1" data-path="06-VI.html"><a href="#da-intui%C3%A7%C3%A3o-comparativa-ao-modelo-formal"><i class="fa fa-check"></i><b>2.1</b> Da intuição comparativa ao modelo formal</a></li>
+<li class="chapter" data-level="2.2" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#resultados-potenciais-potential-outcomes"><i class="fa fa-check"></i><b>2.2</b> Resultados Potenciais (<em>Potential Outcomes</em>)</a></li>
+<li class="chapter" data-level="2.3" data-path="06-VI.html"><a href="#nota%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>2.3</b> Notação</a></li>
+<li class="chapter" data-level="2.4" data-path="06-VI.html"><a href="#problema-fundamental-da-infer%C3%AAncia-causal"><i class="fa fa-check"></i><b>2.4</b> Problema Fundamental da Inferência Causal</a></li>
 <li class="chapter" data-level="2.5" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#estimando"><i class="fa fa-check"></i><b>2.5</b> Estimando</a></li>
 <li class="chapter" data-level="2.6" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#estimandos-mais-comuns"><i class="fa fa-check"></i><b>2.6</b> Estimandos Mais Comuns</a>
 <ul>
@@ -165,68 +172,71 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.6.3" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#cate"><i class="fa fa-check"></i><b>2.6.3</b> CATE</a></li>
 </ul></li>
 <li class="chapter" data-level="2.7" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#nota-sobre-estimandos"><i class="fa fa-check"></i><b>2.7</b> Nota sobre estimandos</a></li>
-<li class="chapter" data-level="2.8" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#exercício---qual-o-estimando-e-o-estimador-se-possível"><i class="fa fa-check"></i><b>2.8</b> Exercício - Qual o estimando e o estimador (se possível)?</a></li>
-<li class="chapter" data-level="2.9" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#identificação"><i class="fa fa-check"></i><b>2.9</b> Identificação</a></li>
-<li class="chapter" data-level="2.10" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#identificação-do-ate"><i class="fa fa-check"></i><b>2.10</b> Identificação do ATE</a></li>
-<li class="chapter" data-level="2.11" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#equações-estruturais"><i class="fa fa-check"></i><b>2.11</b> Equações estruturais</a></li>
+<li class="chapter" data-level="2.8" data-path="06-VI.html"><a href="#exerc%C3%ADcio---qual-o-estimando-e-o-estimador-se-poss%C3%ADvel"><i class="fa fa-check"></i><b>2.8</b> Exercício - Qual o estimando e o estimador (se possível)?</a></li>
+<li class="chapter" data-level="2.9" data-path="06-VI.html"><a href="#identifica%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>2.9</b> Identificação</a></li>
+<li class="chapter" data-level="2.10" data-path="06-VI.html"><a href="#identifica%C3%A7%C3%A3o-do-ate"><i class="fa fa-check"></i><b>2.10</b> Identificação do ATE</a></li>
+<li class="chapter" data-level="2.11" data-path="06-VI.html"><a href="#equa%C3%A7%C3%B5es-estruturais"><i class="fa fa-check"></i><b>2.11</b> Equações estruturais</a></li>
 <li class="chapter" data-level="2.12" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#modelo-versus-desenho"><i class="fa fa-check"></i><b>2.12</b> Modelo versus Desenho</a></li>
-<li class="chapter" data-level="2.13" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#exercício-em-sala"><i class="fa fa-check"></i><b>2.13</b> Exercício em sala</a></li>
-<li class="chapter" data-level="2.14" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#referências-1"><i class="fa fa-check"></i><b>2.14</b> Referências</a></li>
+<li class="chapter" data-level="2.13" data-path="06-VI.html"><a href="#exerc%C3%ADcio-em-sala"><i class="fa fa-check"></i><b>2.13</b> Exercício em sala</a></li>
+<li class="chapter" data-level="2.14" data-path="06-VI.html"><a href="#resumo-e-pr%C3%B3ximos-passos-1"><i class="fa fa-check"></i><b>2.14</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="2.15" data-path="06-VI.html"><a href="#refer%C3%AAncias-1"><i class="fa fa-check"></i><b>2.15</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="dags.html"><a href="dags.html"><i class="fa fa-check"></i><b>3</b> DAGs</a>
 <ul>
 <li class="chapter" data-level="3.1" data-path="dags.html"><a href="dags.html#causalidade"><i class="fa fa-check"></i><b>3.1</b> Causalidade</a></li>
-<li class="chapter" data-level="3.2" data-path="dags.html"><a href="dags.html#introdução-1"><i class="fa fa-check"></i><b>3.2</b> Introdução</a></li>
-<li class="chapter" data-level="3.3" data-path="dags.html"><a href="dags.html#os-tipos-básicos-de-dags"><i class="fa fa-check"></i><b>3.3</b> Os Tipos Básicos de DAGs</a>
+<li class="chapter" data-level="3.2" data-path="06-VI.html"><a href="#introdu%C3%A7%C3%A3o-1"><i class="fa fa-check"></i><b>3.2</b> Introdução</a></li>
+<li class="chapter" data-level="3.3" data-path="06-VI.html"><a href="#os-tipos-b%C3%A1sicos-de-dags"><i class="fa fa-check"></i><b>3.3</b> Os Tipos Básicos de DAGs</a>
 <ul>
 <li class="chapter" data-level="3.3.1" data-path="dags.html"><a href="dags.html#chains"><i class="fa fa-check"></i><b>3.3.1</b> 1. Chains</a></li>
 <li class="chapter" data-level="3.3.2" data-path="dags.html"><a href="dags.html#forks"><i class="fa fa-check"></i><b>3.3.2</b> 2. Forks</a></li>
 <li class="chapter" data-level="3.3.3" data-path="dags.html"><a href="dags.html#colliders"><i class="fa fa-check"></i><b>3.3.3</b> 3. Colliders</a></li>
 </ul></li>
-<li class="chapter" data-level="3.4" data-path="dags.html"><a href="dags.html#simulação-no-r-ilustrando-o-collider-bias"><i class="fa fa-check"></i><b>3.4</b> Simulação no R: Ilustrando o Collider Bias</a></li>
-<li class="chapter" data-level="3.5" data-path="dags.html"><a href="dags.html#definições"><i class="fa fa-check"></i><b>3.5</b> Definições</a>
+<li class="chapter" data-level="3.4" data-path="06-VI.html"><a href="#simula%C3%A7%C3%A3o-no-r-ilustrando-o-collider-bias"><i class="fa fa-check"></i><b>3.4</b> Simulação no R: Ilustrando o Collider Bias</a></li>
+<li class="chapter" data-level="3.5" data-path="06-VI.html"><a href="#defini%C3%A7%C3%B5es"><i class="fa fa-check"></i><b>3.5</b> Definições</a>
 <ul>
-<li class="chapter" data-level="3.5.1" data-path="dags.html"><a href="dags.html#relações-entre-variáveis-nós"><i class="fa fa-check"></i><b>3.5.1</b> Relações entre Variáveis (nós):</a></li>
+<li class="chapter" data-level="3.5.1" data-path="06-VI.html"><a href="#rela%C3%A7%C3%B5es-entre-vari%C3%A1veis-n%C3%B3s"><i class="fa fa-check"></i><b>3.5.1</b> Relações entre Variáveis (nós):</a></li>
 </ul></li>
 <li class="chapter" data-level="3.6" data-path="dags.html"><a href="dags.html#controle-e-ajuste"><i class="fa fa-check"></i><b>3.6</b> Controle e Ajuste</a></li>
-<li class="chapter" data-level="3.7" data-path="dags.html"><a href="dags.html#fatorização-da-probabilidade-conjunta"><i class="fa fa-check"></i><b>3.7</b> Fatorização da Probabilidade Conjunta</a></li>
-<li class="chapter" data-level="3.8" data-path="dags.html"><a href="dags.html#fatorização-e-dags"><i class="fa fa-check"></i><b>3.8</b> Fatorização e DAGs</a></li>
-<li class="chapter" data-level="3.9" data-path="dags.html"><a href="dags.html#fatorização-dags-e-causalidade"><i class="fa fa-check"></i><b>3.9</b> Fatorização, DAGs e Causalidade</a></li>
+<li class="chapter" data-level="3.7" data-path="06-VI.html"><a href="#fatoriza%C3%A7%C3%A3o-da-probabilidade-conjunta"><i class="fa fa-check"></i><b>3.7</b> Fatorização da Probabilidade Conjunta</a></li>
+<li class="chapter" data-level="3.8" data-path="06-VI.html"><a href="#fatoriza%C3%A7%C3%A3o-e-dags"><i class="fa fa-check"></i><b>3.8</b> Fatorização e DAGs</a></li>
+<li class="chapter" data-level="3.9" data-path="06-VI.html"><a href="#fatoriza%C3%A7%C3%A3o-dags-e-causalidade"><i class="fa fa-check"></i><b>3.9</b> Fatorização, DAGs e Causalidade</a></li>
+<li class="chapter" data-level="3.10" data-path="06-VI.html"><a href="#resumo-e-pr%C3%B3ximos-passos-2"><i class="fa fa-check"></i><b>3.10</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="3.11" data-path="06-VI.html"><a href="#refer%C3%AAncias-2"><i class="fa fa-check"></i><b>3.11</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="experimentos.html"><a href="experimentos.html"><i class="fa fa-check"></i><b>4</b> Experimentos</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="experimentos.html"><a href="experimentos.html#introdução-2"><i class="fa fa-check"></i><b>4.1</b> Introdução</a></li>
-<li class="chapter" data-level="4.2" data-path="experimentos.html"><a href="experimentos.html#experimentos-aleatórios"><i class="fa fa-check"></i><b>4.2</b> Experimentos aleatórios</a></li>
-<li class="chapter" data-level="4.3" data-path="experimentos.html"><a href="experimentos.html#restrição-de-exclusão"><i class="fa fa-check"></i><b>4.3</b> Restrição de Exclusão</a></li>
+<li class="chapter" data-level="4.1" data-path="06-VI.html"><a href="#introdu%C3%A7%C3%A3o-2"><i class="fa fa-check"></i><b>4.1</b> Introdução</a></li>
+<li class="chapter" data-level="4.2" data-path="06-VI.html"><a href="#experimentos-aleat%C3%B3rios"><i class="fa fa-check"></i><b>4.2</b> Experimentos aleatórios</a></li>
+<li class="chapter" data-level="4.3" data-path="06-VI.html"><a href="#restri%C3%A7%C3%A3o-de-exclus%C3%A3o"><i class="fa fa-check"></i><b>4.3</b> Restrição de Exclusão</a></li>
 <li class="chapter" data-level="4.4" data-path="experimentos.html"><a href="experimentos.html#tipos-de-experimentos"><i class="fa fa-check"></i><b>4.4</b> Tipos de experimentos</a>
 <ul>
-<li class="chapter" data-level="4.4.1" data-path="experimentos.html"><a href="experimentos.html#aleatorização-de-bernoulli"><i class="fa fa-check"></i><b>4.4.1</b> Aleatorização de Bernoulli</a></li>
-<li class="chapter" data-level="4.4.2" data-path="experimentos.html"><a href="experimentos.html#aleatorização-completa"><i class="fa fa-check"></i><b>4.4.2</b> Aleatorização Completa</a></li>
-<li class="chapter" data-level="4.4.3" data-path="experimentos.html"><a href="experimentos.html#aleatorização-condicional-block-random-assigment"><i class="fa fa-check"></i><b>4.4.3</b> Aleatorização Condicional (Block Random Assigment)</a></li>
-<li class="chapter" data-level="4.4.4" data-path="experimentos.html"><a href="experimentos.html#pensando-aleatorização-em-bloco"><i class="fa fa-check"></i><b>4.4.4</b> Pensando aleatorização em bloco</a></li>
-<li class="chapter" data-level="4.4.5" data-path="experimentos.html"><a href="experimentos.html#ate-com-aleatorização-condicional-bloco"><i class="fa fa-check"></i><b>4.4.5</b> ATE com Aleatorização Condicional (Bloco)</a></li>
-<li class="chapter" data-level="4.4.6" data-path="experimentos.html"><a href="experimentos.html#aleatorização-em-bloco"><i class="fa fa-check"></i><b>4.4.6</b> Aleatorização em bloco</a></li>
-<li class="chapter" data-level="4.4.7" data-path="experimentos.html"><a href="experimentos.html#precisão-da-aleatorização-em-bloco"><i class="fa fa-check"></i><b>4.4.7</b> Precisão da aleatorização em bloco</a></li>
-<li class="chapter" data-level="4.4.8" data-path="experimentos.html"><a href="experimentos.html#comparação-de-ses"><i class="fa fa-check"></i><b>4.4.8</b> Comparação de SEs</a></li>
+<li class="chapter" data-level="4.4.1" data-path="06-VI.html"><a href="#aleatoriza%C3%A7%C3%A3o-de-bernoulli"><i class="fa fa-check"></i><b>4.4.1</b> Aleatorização de Bernoulli</a></li>
+<li class="chapter" data-level="4.4.2" data-path="06-VI.html"><a href="#aleatoriza%C3%A7%C3%A3o-completa"><i class="fa fa-check"></i><b>4.4.2</b> Aleatorização Completa</a></li>
+<li class="chapter" data-level="4.4.3" data-path="06-VI.html"><a href="#aleatoriza%C3%A7%C3%A3o-condicional-block-random-assigment"><i class="fa fa-check"></i><b>4.4.3</b> Aleatorização Condicional (Block Random Assigment)</a></li>
+<li class="chapter" data-level="4.4.4" data-path="06-VI.html"><a href="#pensando-aleatoriza%C3%A7%C3%A3o-em-bloco"><i class="fa fa-check"></i><b>4.4.4</b> Pensando aleatorização em bloco</a></li>
+<li class="chapter" data-level="4.4.5" data-path="06-VI.html"><a href="#ate-com-aleatoriza%C3%A7%C3%A3o-condicional-bloco"><i class="fa fa-check"></i><b>4.4.5</b> ATE com Aleatorização Condicional (Bloco)</a></li>
+<li class="chapter" data-level="4.4.6" data-path="06-VI.html"><a href="#aleatoriza%C3%A7%C3%A3o-em-bloco"><i class="fa fa-check"></i><b>4.4.6</b> Aleatorização em bloco</a></li>
+<li class="chapter" data-level="4.4.7" data-path="06-VI.html"><a href="#precis%C3%A3o-da-aleatoriza%C3%A7%C3%A3o-em-bloco"><i class="fa fa-check"></i><b>4.4.7</b> Precisão da aleatorização em bloco</a></li>
+<li class="chapter" data-level="4.4.8" data-path="06-VI.html"><a href="#compara%C3%A7%C3%A3o-de-ses"><i class="fa fa-check"></i><b>4.4.8</b> Comparação de SEs</a></li>
 <li class="chapter" data-level="4.4.9" data-path="experimentos.html"><a href="experimentos.html#cluster-randomization"><i class="fa fa-check"></i><b>4.4.9</b> Cluster randomization</a></li>
 <li class="chapter" data-level="4.4.10" data-path="experimentos.html"><a href="experimentos.html#tabelas-em-artigos"><i class="fa fa-check"></i><b>4.4.10</b> Tabelas em artigos</a></li>
 </ul></li>
 <li class="chapter" data-level="4.5" data-path="experimentos.html"><a href="experimentos.html#estimador-ate"><i class="fa fa-check"></i><b>4.5</b> Estimador ATE</a></li>
-<li class="chapter" data-level="4.6" data-path="experimentos.html"><a href="experimentos.html#key-takeways"><i class="fa fa-check"></i><b>4.6</b> Key Takeways</a></li>
+<li class="chapter" data-level="4.6" data-path="06-VI.html"><a href="#resumo-do-cap%C3%ADtulo"><i class="fa fa-check"></i><b>4.6</b> Resumo do Capítulo</a></li>
 <li class="chapter" data-level="4.7" data-path="experimentos.html"><a href="experimentos.html#declare-design"><i class="fa fa-check"></i><b>4.7</b> Declare Design</a></li>
-<li class="chapter" data-level="4.8" data-path="experimentos.html"><a href="experimentos.html#exercício"><i class="fa fa-check"></i><b>4.8</b> Exercício</a>
+<li class="chapter" data-level="4.8" data-path="06-VI.html"><a href="#exerc%C3%ADcio"><i class="fa fa-check"></i><b>4.8</b> Exercício</a>
 <ul>
-<li class="chapter" data-level="4.8.1" data-path="experimentos.html"><a href="experimentos.html#experimento-com-envio-de-cartões-postais-e-participação-eleitoral"><i class="fa fa-check"></i><b>4.8.1</b> Experimento com envio de cartões-postais e participação eleitoral</a></li>
-<li class="chapter" data-level="4.8.2" data-path="experimentos.html"><a href="experimentos.html#experimento-com-anúncios-de-tv-e-participação-eleitoral"><i class="fa fa-check"></i><b>4.8.2</b> Experimento com anúncios de TV e participação eleitoral</a></li>
-<li class="chapter" data-level="4.8.3" data-path="experimentos.html"><a href="experimentos.html#exclusão-de-participantes-em-experimentos-de-survey"><i class="fa fa-check"></i><b>4.8.3</b> Exclusão de participantes em experimentos de survey</a></li>
+<li class="chapter" data-level="4.8.1" data-path="06-VI.html"><a href="#experimento-com-envio-de-cart%C3%B5es-postais-e-participa%C3%A7%C3%A3o-eleitoral"><i class="fa fa-check"></i><b>4.8.1</b> Experimento com envio de cartões-postais e participação eleitoral</a></li>
+<li class="chapter" data-level="4.8.2" data-path="06-VI.html"><a href="#experimento-com-an%C3%BAncios-de-tv-e-participa%C3%A7%C3%A3o-eleitoral"><i class="fa fa-check"></i><b>4.8.2</b> Experimento com anúncios de TV e participação eleitoral</a></li>
+<li class="chapter" data-level="4.8.3" data-path="06-VI.html"><a href="#exclus%C3%A3o-de-participantes-em-experimentos-de-survey"><i class="fa fa-check"></i><b>4.8.3</b> Exclusão de participantes em experimentos de survey</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html"><i class="fa fa-check"></i><b>5</b> Propensity Score e Matching</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#introdução-3"><i class="fa fa-check"></i><b>5.1</b> Introdução</a></li>
+<li class="chapter" data-level="5.1" data-path="06-VI.html"><a href="#introdu%C3%A7%C3%A3o-3"><i class="fa fa-check"></i><b>5.1</b> Introdução</a></li>
 <li class="chapter" data-level="5.2" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#propensity-score"><i class="fa fa-check"></i><b>5.2</b> Propensity Score</a></li>
 <li class="chapter" data-level="5.3" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching"><i class="fa fa-check"></i><b>5.3</b> Matching</a></li>
-<li class="chapter" data-level="5.4" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#suposições-de-identificação"><i class="fa fa-check"></i><b>5.4</b> Suposições de identificação</a></li>
+<li class="chapter" data-level="5.4" data-path="06-VI.html"><a href="#suposi%C3%A7%C3%B5es-de-identifica%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>5.4</b> Suposições de identificação</a></li>
 <li class="chapter" data-level="5.5" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching-1"><i class="fa fa-check"></i><b>5.5</b> Matching</a></li>
 <li class="chapter" data-level="5.6" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching-exato"><i class="fa fa-check"></i><b>5.6</b> Matching exato</a></li>
 <li class="chapter" data-level="5.7" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching-aproximado"><i class="fa fa-check"></i><b>5.7</b> Matching aproximado</a></li>
@@ -235,97 +245,102 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="5.9.1" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching-e-propensity-scores"><i class="fa fa-check"></i><b>5.9.1</b> Matching e Propensity scores</a></li>
 </ul></li>
-<li class="chapter" data-level="5.10" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#recomendações-práticas-sobre-matching"><i class="fa fa-check"></i><b>5.10</b> Recomendações Práticas sobre Matching</a></li>
-<li class="chapter" data-level="5.11" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#referências-2"><i class="fa fa-check"></i><b>5.11</b> Referências</a></li>
+<li class="chapter" data-level="5.10" data-path="06-VI.html"><a href="#recomenda%C3%A7%C3%B5es-pr%C3%A1ticas-sobre-matching"><i class="fa fa-check"></i><b>5.10</b> Recomendações Práticas sobre Matching</a></li>
+<li class="chapter" data-level="5.11" data-path="06-VI.html"><a href="#refer%C3%AAncias-3"><i class="fa fa-check"></i><b>5.11</b> Referências</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html"><i class="fa fa-check"></i><b>6</b> Variáveis Instrumentais</a>
+<li class="chapter" data-level="6" data-path="06-VI.html"><a href="#vari%C3%A1veis-instrumentais"><i class="fa fa-check"></i><b>6</b> Variáveis Instrumentais</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#introdução-4"><i class="fa fa-check"></i><b>6.1</b> Introdução</a></li>
-<li class="chapter" data-level="6.2" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#iv-com-modelo-estrutural"><i class="fa fa-check"></i><b>6.2</b> IV com modelo estrutural</a></li>
-<li class="chapter" data-level="6.3" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#mqo-em-2-estágios"><i class="fa fa-check"></i><b>6.3</b> MQO em 2 Estágios</a></li>
+<li class="chapter" data-level="6.1" data-path="06-VI.html"><a href="#introdu%C3%A7%C3%A3o-4"><i class="fa fa-check"></i><b>6.1</b> Introdução</a></li>
+<li class="chapter" data-level="6.2" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html"><i class="fa fa-check"></i><b>6.2</b> IV com modelo estrutural</a></li>
+<li class="chapter" data-level="6.3" data-path="06-VI.html"><a href="#mqo-em-2-est%C3%A1gios"><i class="fa fa-check"></i><b>6.3</b> MQO em 2 Estágios</a></li>
 <li class="chapter" data-level="6.4" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#principais-usos-de-iv"><i class="fa fa-check"></i><b>6.4</b> Principais usos de IV</a>
 <ul>
 <li class="chapter" data-level="6.4.1" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#experimentos-1"><i class="fa fa-check"></i><b>6.4.1</b> Experimentos</a></li>
-<li class="chapter" data-level="6.4.2" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#regras-com-variação-quasi-aleatória"><i class="fa fa-check"></i><b>6.4.2</b> Regras com variação quasi-aleatória</a></li>
+<li class="chapter" data-level="6.4.2" data-path="06-VI.html"><a href="#regras-com-varia%C3%A7%C3%A3o-quasi-aleat%C3%B3ria"><i class="fa fa-check"></i><b>6.4.2</b> Regras com variação quasi-aleatória</a></li>
 <li class="chapter" data-level="6.4.3" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#teoria"><i class="fa fa-check"></i><b>6.4.3</b> Teoria</a></li>
-<li class="chapter" data-level="6.4.4" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#suposições-para-estimar-o-late"><i class="fa fa-check"></i><b>6.4.4</b> Suposições para estimar o LATE</a></li>
 </ul></li>
-<li class="chapter" data-level="6.5" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#restrição-de-exclusão-1"><i class="fa fa-check"></i><b>6.5</b> Restrição de Exclusão</a></li>
-<li class="chapter" data-level="6.6" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#monoticidade"><i class="fa fa-check"></i><b>6.6</b> Monoticidade</a></li>
-<li class="chapter" data-level="6.7" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#estimação-aka-estatística-f"><i class="fa fa-check"></i><b>6.7</b> Estimação (aka estatística F)</a>
+<li class="chapter" data-level="6.5" data-path="06-VI.html"><a href="#efeito-heterog%C3%AAneo"><i class="fa fa-check"></i><b>6.5</b> Efeito heterogêneo</a>
 <ul>
-<li class="chapter" data-level="6.7.1" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#f-stat"><i class="fa fa-check"></i><b>6.7.1</b> F stat</a></li>
+<li class="chapter" data-level="6.5.1" data-path="06-VI.html"><a href="#suposi%C3%A7%C3%B5es-para-estimar-o-late"><i class="fa fa-check"></i><b>6.5.1</b> Suposições para estimar o LATE</a></li>
 </ul></li>
-<li class="chapter" data-level="6.8" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#referências-3"><i class="fa fa-check"></i><b>6.8</b> Referências</a></li>
+<li class="chapter" data-level="6.6" data-path="06-VI.html"><a href="#restri%C3%A7%C3%A3o-de-exclus%C3%A3o-1"><i class="fa fa-check"></i><b>6.6</b> Restrição de Exclusão</a></li>
+<li class="chapter" data-level="6.7" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#monoticidade"><i class="fa fa-check"></i><b>6.7</b> Monoticidade</a></li>
+<li class="chapter" data-level="6.8" data-path="06-VI.html"><a href="#estima%C3%A7%C3%A3o-aka-estat%C3%ADstica-f"><i class="fa fa-check"></i><b>6.8</b> Estimação (aka estatística F)</a>
+<ul>
+<li class="chapter" data-level="6.8.1" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#f-stat"><i class="fa fa-check"></i><b>6.8.1</b> F stat</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html"><i class="fa fa-check"></i><b>7</b> Desenho de Regresão Discontínua</a>
+<li class="chapter" data-level="6.9" data-path="06-VI.html"><a href="#resumo-e-pr%C3%B3ximos-passos-3"><i class="fa fa-check"></i><b>6.9</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="6.10" data-path="06-VI.html"><a href="#refer%C3%AAncias-4"><i class="fa fa-check"></i><b>6.10</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="06-VI.html"><a href="#desenho-de-regres%C3%A3o-discont%C3%ADnua"><i class="fa fa-check"></i><b>7</b> Desenho de Regresão Discontínua</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#outline-da-aula"><i class="fa fa-check"></i><b>7.1</b> Outline da aula</a></li>
-<li class="chapter" data-level="7.2" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#características-chave-da-rdd"><i class="fa fa-check"></i><b>7.2</b> Características-chave da RDD</a>
+<li class="chapter" data-level="7.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html"><i class="fa fa-check"></i><b>7.1</b> Outline da aula</a></li>
+<li class="chapter" data-level="7.2" data-path="06-VI.html"><a href="#caracter%C3%ADsticas-chave-da-rdd"><i class="fa fa-check"></i><b>7.2</b> Características-chave da RDD</a>
 <ul>
-<li class="chapter" data-level="7.2.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#determinação-do-tratamento"><i class="fa fa-check"></i><b>7.2.1</b> Determinação do Tratamento</a></li>
+<li class="chapter" data-level="7.2.1" data-path="06-VI.html"><a href="#determina%C3%A7%C3%A3o-do-tratamento"><i class="fa fa-check"></i><b>7.2.1</b> Determinação do Tratamento</a></li>
 </ul></li>
 <li class="chapter" data-level="7.3" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#fuzzy-rdd"><i class="fa fa-check"></i><b>7.3</b> Fuzzy RDD</a>
 <ul>
-<li class="chapter" data-level="7.3.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#observação-e-corte"><i class="fa fa-check"></i><b>7.3.1</b> Observação e Corte</a></li>
+<li class="chapter" data-level="7.3.1" data-path="06-VI.html"><a href="#observa%C3%A7%C3%A3o-e-corte"><i class="fa fa-check"></i><b>7.3.1</b> Observação e Corte</a></li>
 <li class="chapter" data-level="7.3.2" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#estimativa-dos-efeitos-do-tratamento"><i class="fa fa-check"></i><b>7.3.2</b> Estimativa dos Efeitos do Tratamento</a></li>
 </ul></li>
-<li class="chapter" data-level="7.4" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#suposição-de-continuidade"><i class="fa fa-check"></i><b>7.4</b> Suposição de continuidade</a></li>
-<li class="chapter" data-level="7.5" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#suposições-na-rdd"><i class="fa fa-check"></i><b>7.5</b> Suposições na RDD</a>
+<li class="chapter" data-level="7.4" data-path="06-VI.html"><a href="#suposi%C3%A7%C3%A3o-de-continuidade"><i class="fa fa-check"></i><b>7.4</b> Suposição de continuidade</a></li>
+<li class="chapter" data-level="7.5" data-path="06-VI.html"><a href="#suposi%C3%A7%C3%B5es-na-rdd"><i class="fa fa-check"></i><b>7.5</b> Suposições na RDD</a>
 <ul>
-<li class="chapter" data-level="7.5.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#suposição-de-não-manipulação-com-precisão"><i class="fa fa-check"></i><b>7.5.1</b> Suposição de Não-manipulação com Precisão</a></li>
-<li class="chapter" data-level="7.5.2" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#problemas-de-manipulação"><i class="fa fa-check"></i><b>7.5.2</b> Problemas de Manipulação</a></li>
+<li class="chapter" data-level="7.5.1" data-path="06-VI.html"><a href="#suposi%C3%A7%C3%A3o-de-n%C3%A3o-manipula%C3%A7%C3%A3o-com-precis%C3%A3o"><i class="fa fa-check"></i><b>7.5.1</b> Suposição de Não-manipulação com Precisão</a></li>
+<li class="chapter" data-level="7.5.2" data-path="06-VI.html"><a href="#problemas-de-manipula%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.5.2</b> Problemas de Manipulação</a></li>
 </ul></li>
-<li class="chapter" data-level="7.6" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#testabilidade-da-suposição-de-não-manipulação"><i class="fa fa-check"></i><b>7.6</b> Testabilidade da Suposição de não-Manipulação</a></li>
-<li class="chapter" data-level="7.7" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#estimação-em-rdd"><i class="fa fa-check"></i><b>7.7</b> Estimação em RDD</a>
+<li class="chapter" data-level="7.6" data-path="06-VI.html"><a href="#testabilidade-da-suposi%C3%A7%C3%A3o-de-n%C3%A3o-manipula%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.6</b> Testabilidade da Suposição de não-Manipulação</a></li>
+<li class="chapter" data-level="7.7" data-path="06-VI.html"><a href="#estima%C3%A7%C3%A3o-em-rdd"><i class="fa fa-check"></i><b>7.7</b> Estimação em RDD</a>
 <ul>
 <li class="chapter" data-level="7.7.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#problema-de-complete-overlapping"><i class="fa fa-check"></i><b>7.7.1</b> Problema de Complete Overlapping</a></li>
-<li class="chapter" data-level="7.7.2" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#dependência-de-extrapolação"><i class="fa fa-check"></i><b>7.7.2</b> Dependência de Extrapolação</a></li>
+<li class="chapter" data-level="7.7.2" data-path="06-VI.html"><a href="#depend%C3%AAncia-de-extrapola%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.7.2</b> Dependência de Extrapolação</a></li>
 </ul></li>
-<li class="chapter" data-level="7.8" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#métodos-de-estimação"><i class="fa fa-check"></i><b>7.8</b> Métodos de Estimação</a>
+<li class="chapter" data-level="7.8" data-path="06-VI.html"><a href="#m%C3%A9todos-de-estima%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.8</b> Métodos de Estimação</a>
 <ul>
-<li class="chapter" data-level="7.8.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#identificação-no-limite"><i class="fa fa-check"></i><b>7.8.1</b> Identificação no Limite</a></li>
+<li class="chapter" data-level="7.8.1" data-path="06-VI.html"><a href="#identifica%C3%A7%C3%A3o-no-limite"><i class="fa fa-check"></i><b>7.8.1</b> Identificação no Limite</a></li>
 </ul></li>
-<li class="chapter" data-level="7.9" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#trade-off-de-viés-variância"><i class="fa fa-check"></i><b>7.9</b> Trade-off de Viés-Variância</a>
+<li class="chapter" data-level="7.9" data-path="06-VI.html"><a href="#trade-off-de-vi%C3%A9s-vari%C3%A2ncia"><i class="fa fa-check"></i><b>7.9</b> Trade-off de Viés-Variância</a>
 <ul>
-<li class="chapter" data-level="7.9.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#métodos-de-largura-de-banda-ótima"><i class="fa fa-check"></i><b>7.9.1</b> Métodos de Largura de Banda Ótima</a></li>
+<li class="chapter" data-level="7.9.1" data-path="06-VI.html"><a href="#m%C3%A9todos-de-largura-de-banda-%C3%B3tima"><i class="fa fa-check"></i><b>7.9.1</b> Métodos de Largura de Banda Ótima</a></li>
 </ul></li>
-<li class="chapter" data-level="7.10" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#regras-arbitrárias"><i class="fa fa-check"></i><b>7.10</b> Regras arbitrárias</a></li>
-<li class="chapter" data-level="7.11" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#simulação"><i class="fa fa-check"></i><b>7.11</b> Simulação</a></li>
-<li class="chapter" data-level="7.12" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#simulação---potential-outcomes-y0"><i class="fa fa-check"></i><b>7.12</b> Simulação - Potential Outcomes Y0</a></li>
-<li class="chapter" data-level="7.13" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#simulação---potential-outcomes-y1"><i class="fa fa-check"></i><b>7.13</b> Simulação - Potential Outcomes Y1</a></li>
-<li class="chapter" data-level="7.14" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#simulação---potential-outcomes-y1-e-y0"><i class="fa fa-check"></i><b>7.14</b> Simulação - Potential Outcomes Y1 e Y0</a></li>
-<li class="chapter" data-level="7.15" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#simulação---y-observado"><i class="fa fa-check"></i><b>7.15</b> Simulação - Y observado</a></li>
+<li class="chapter" data-level="7.10" data-path="06-VI.html"><a href="#regras-arbitr%C3%A1rias"><i class="fa fa-check"></i><b>7.10</b> Regras arbitrárias</a></li>
+<li class="chapter" data-level="7.11" data-path="06-VI.html"><a href="#simula%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.11</b> Simulação</a></li>
+<li class="chapter" data-level="7.12" data-path="06-VI.html"><a href="#simula%C3%A7%C3%A3o---potential-outcomes-y0"><i class="fa fa-check"></i><b>7.12</b> Simulação - Potential Outcomes Y0</a></li>
+<li class="chapter" data-level="7.13" data-path="06-VI.html"><a href="#simula%C3%A7%C3%A3o---potential-outcomes-y1"><i class="fa fa-check"></i><b>7.13</b> Simulação - Potential Outcomes Y1</a></li>
+<li class="chapter" data-level="7.14" data-path="06-VI.html"><a href="#simula%C3%A7%C3%A3o---potential-outcomes-y1-e-y0"><i class="fa fa-check"></i><b>7.14</b> Simulação - Potential Outcomes Y1 e Y0</a></li>
+<li class="chapter" data-level="7.15" data-path="06-VI.html"><a href="#simula%C3%A7%C3%A3o---y-observado"><i class="fa fa-check"></i><b>7.15</b> Simulação - Y observado</a></li>
 <li class="chapter" data-level="7.16" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#quando-o-rdd-funciona"><i class="fa fa-check"></i><b>7.16</b> Quando o RDD funciona?</a></li>
 <li class="chapter" data-level="7.17" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#raw-data-versus-bin"><i class="fa fa-check"></i><b>7.17</b> Raw Data versus Bin</a></li>
 <li class="chapter" data-level="7.18" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#permutation-tests-balancing"><i class="fa fa-check"></i><b>7.18</b> Permutation tests (balancing)</a></li>
 <li class="chapter" data-level="7.19" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#mccray-test"><i class="fa fa-check"></i><b>7.19</b> McCray test</a></li>
 <li class="chapter" data-level="7.20" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#robustez"><i class="fa fa-check"></i><b>7.20</b> Robustez</a></li>
-<li class="chapter" data-level="7.21" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#densidade-descontínua---results"><i class="fa fa-check"></i><b>7.21</b> Densidade descontínua - results</a></li>
-<li class="chapter" data-level="7.22" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#regressão-rdd"><i class="fa fa-check"></i><b>7.22</b> Regressão RDD</a></li>
+<li class="chapter" data-level="7.21" data-path="06-VI.html"><a href="#densidade-descont%C3%ADnua---results"><i class="fa fa-check"></i><b>7.21</b> Densidade descontínua - results</a></li>
+<li class="chapter" data-level="7.22" data-path="06-VI.html"><a href="#regress%C3%A3o-rdd"><i class="fa fa-check"></i><b>7.22</b> Regressão RDD</a></li>
 <li class="chapter" data-level="7.23" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#placebo-tests"><i class="fa fa-check"></i><b>7.23</b> Placebo Tests</a></li>
 <li class="chapter" data-level="7.24" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#pcrd"><i class="fa fa-check"></i><b>7.24</b> PCRD</a></li>
-<li class="chapter" data-level="7.25" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#checlist-para-um-paper"><i class="fa fa-check"></i><b>7.25</b> Checlist para um paper</a></li>
-<li class="chapter" data-level="7.26" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#referências-4"><i class="fa fa-check"></i><b>7.26</b> Referências</a></li>
+<li class="chapter" data-level="7.25" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#checklist-para-um-paper-de-rdd"><i class="fa fa-check"></i><b>7.25</b> Checklist para um paper de RDD</a></li>
+<li class="chapter" data-level="7.26" data-path="06-VI.html"><a href="#refer%C3%AAncias-5"><i class="fa fa-check"></i><b>7.26</b> Referências</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html"><i class="fa fa-check"></i><b>8</b> Diferença em Diferenças</a>
+<li class="chapter" data-level="8" data-path="06-VI.html"><a href="#diferen%C3%A7a-em-diferen%C3%A7as"><i class="fa fa-check"></i><b>8</b> Diferença em Diferenças</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#modelo-básico-2x2"><i class="fa fa-check"></i><b>8.1</b> Modelo básico 2x2</a></li>
-<li class="chapter" data-level="8.2" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#twfe"><i class="fa fa-check"></i><b>8.2</b> TWFE</a></li>
+<li class="chapter" data-level="8.1" data-path="06-VI.html"><a href="#modelo-b%C3%A1sico-2x2"><i class="fa fa-check"></i><b>8.1</b> Modelo básico 2x2</a></li>
+<li class="chapter" data-level="8.2" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html"><i class="fa fa-check"></i><b>8.2</b> TWFE</a></li>
 <li class="chapter" data-level="8.3" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#pressupostos"><i class="fa fa-check"></i><b>8.3</b> Pressupostos</a></li>
-<li class="chapter" data-level="8.4" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#aplicação"><i class="fa fa-check"></i><b>8.4</b> Aplicação</a></li>
-<li class="chapter" data-level="8.5" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#múltiplos-períodos"><i class="fa fa-check"></i><b>8.5</b> Múltiplos períodos</a></li>
-<li class="chapter" data-level="8.6" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#tendências-paralelas"><i class="fa fa-check"></i><b>8.6</b> Tendências Paralelas</a></li>
-<li class="chapter" data-level="8.7" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#múltiplos-períodos-pós-tratamento"><i class="fa fa-check"></i><b>8.7</b> Múltiplos períodos pós-tratamento</a></li>
-<li class="chapter" data-level="8.8" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#análise-de-sensibilidade-em-did"><i class="fa fa-check"></i><b>8.8</b> Análise de sensibilidade em DiD</a></li>
+<li class="chapter" data-level="8.4" data-path="06-VI.html"><a href="#aplica%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>8.4</b> Aplicação</a></li>
+<li class="chapter" data-level="8.5" data-path="06-VI.html"><a href="#m%C3%BAltiplos-per%C3%ADodos"><i class="fa fa-check"></i><b>8.5</b> Múltiplos períodos</a></li>
+<li class="chapter" data-level="8.6" data-path="06-VI.html"><a href="#tend%C3%AAncias-paralelas"><i class="fa fa-check"></i><b>8.6</b> Tendências Paralelas</a></li>
+<li class="chapter" data-level="8.7" data-path="06-VI.html"><a href="#m%C3%BAltiplos-per%C3%ADodos-p%C3%B3s-tratamento"><i class="fa fa-check"></i><b>8.7</b> Múltiplos períodos pós-tratamento</a></li>
+<li class="chapter" data-level="8.8" data-path="06-VI.html"><a href="#an%C3%A1lise-de-sensibilidade-em-did"><i class="fa fa-check"></i><b>8.8</b> Análise de sensibilidade em DiD</a></li>
 <li class="chapter" data-level="8.9" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#did-generalizado"><i class="fa fa-check"></i><b>8.9</b> DiD generalizado</a></li>
-<li class="chapter" data-level="8.10" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#did-com-adoção-escalonada-staggered-timing"><i class="fa fa-check"></i><b>8.10</b> DID com adoção escalonada (staggered timing)</a></li>
+<li class="chapter" data-level="8.10" data-path="06-VI.html"><a href="#did-com-ado%C3%A7%C3%A3o-escalonada-staggered-timing"><i class="fa fa-check"></i><b>8.10</b> DID com adoção escalonada (staggered timing)</a></li>
 <li class="chapter" data-level="8.11" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#paper-voter-gratitude-last-long"><i class="fa fa-check"></i><b>8.11</b> Paper Voter Gratitude Last Long?</a></li>
-<li class="chapter" data-level="8.12" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#referências-5"><i class="fa fa-check"></i><b>8.12</b> Referências</a></li>
+<li class="chapter" data-level="8.12" data-path="06-VI.html"><a href="#resumo-e-pr%C3%B3ximos-passos-4"><i class="fa fa-check"></i><b>8.12</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="8.13" data-path="06-VI.html"><a href="#refer%C3%AAncias-6"><i class="fa fa-check"></i><b>8.13</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html"><i class="fa fa-check"></i><b>9</b> Time-Series Cross-Section (TSCS)</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#introdução-5"><i class="fa fa-check"></i><b>9.1</b> Introdução</a>
+<li class="chapter" data-level="9.1" data-path="06-VI.html"><a href="#introdu%C3%A7%C3%A3o-5"><i class="fa fa-check"></i><b>9.1</b> Introdução</a>
 <ul>
 <li class="chapter" data-level="9.1.1" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#within-versus-between"><i class="fa fa-check"></i><b>9.1.1</b> Within versus Between</a></li>
 </ul></li>
@@ -338,19 +353,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="9.7.1" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#remark"><i class="fa fa-check"></i><b>9.7.1</b> Remark</a></li>
 </ul></li>
-<li class="chapter" data-level="9.8" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#suposições-para-inferência"><i class="fa fa-check"></i><b>9.8</b> Suposições para Inferência</a>
+<li class="chapter" data-level="9.8" data-path="06-VI.html"><a href="#suposi%C3%A7%C3%B5es-para-infer%C3%AAncia"><i class="fa fa-check"></i><b>9.8</b> Suposições para Inferência</a>
 <ul>
 <li class="chapter" data-level="9.8.1" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#remark-1"><i class="fa fa-check"></i><b>9.8.1</b> Remark</a></li>
 </ul></li>
-<li class="chapter" data-level="9.9" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#efeitos-aleatórios"><i class="fa fa-check"></i><b>9.9</b> Efeitos aleatórios</a></li>
-<li class="chapter" data-level="9.10" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#referências-6"><i class="fa fa-check"></i><b>9.10</b> Referências</a></li>
+<li class="chapter" data-level="9.9" data-path="06-VI.html"><a href="#efeitos-aleat%C3%B3rios"><i class="fa fa-check"></i><b>9.9</b> Efeitos aleatórios</a></li>
+<li class="chapter" data-level="9.10" data-path="06-VI.html"><a href="#refer%C3%AAncias-7"><i class="fa fa-check"></i><b>9.10</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="synthetic-control.html"><a href="synthetic-control.html"><i class="fa fa-check"></i><b>10</b> Synthetic Control</a>
 <ul>
 <li class="chapter" data-level="10.0.1" data-path="synthetic-control.html"><a href="synthetic-control.html#tratamento"><i class="fa fa-check"></i><b>10.0.1</b> Tratamento</a></li>
-<li class="chapter" data-level="10.1" data-path="synthetic-control.html"><a href="synthetic-control.html#implementação-no-r"><i class="fa fa-check"></i><b>10.1</b> Implementação no R</a></li>
+<li class="chapter" data-level="10.1" data-path="06-VI.html"><a href="#implementa%C3%A7%C3%A3o-no-r"><i class="fa fa-check"></i><b>10.1</b> Implementação no R</a></li>
 <li class="chapter" data-level="10.2" data-path="synthetic-control.html"><a href="synthetic-control.html#synthethic-did"><i class="fa fa-check"></i><b>10.2</b> Synthethic DiD</a></li>
-<li class="chapter" data-level="10.3" data-path="synthetic-control.html"><a href="synthetic-control.html#referências-7"><i class="fa fa-check"></i><b>10.3</b> Referências</a></li>
+<li class="chapter" data-level="10.3" data-path="06-VI.html"><a href="#resumo-e-pr%C3%B3ximos-passos-5"><i class="fa fa-check"></i><b>10.3</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="10.4" data-path="06-VI.html"><a href="#refer%C3%AAncias-8"><i class="fa fa-check"></i><b>10.4</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="llms-e-outras.html"><a href="llms-e-outras.html"><i class="fa fa-check"></i><b>11</b> LLMs e outras</a>
 <ul>
@@ -358,23 +374,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="12" data-path="machine-learning.html"><a href="machine-learning.html"><i class="fa fa-check"></i><b>12</b> Machine Learning</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="machine-learning.html"><a href="machine-learning.html#introdução-6"><i class="fa fa-check"></i><b>12.1</b> Introdução</a></li>
+<li class="chapter" data-level="12.1" data-path="06-VI.html"><a href="#introdu%C3%A7%C3%A3o-6"><i class="fa fa-check"></i><b>12.1</b> Introdução</a></li>
 <li class="chapter" data-level="12.2" data-path="machine-learning.html"><a href="machine-learning.html#terminologia"><i class="fa fa-check"></i><b>12.2</b> Terminologia</a>
 <ul>
 <li class="chapter" data-level="12.2.1" data-path="machine-learning.html"><a href="machine-learning.html#lasso"><i class="fa fa-check"></i><b>12.2.1</b> LASSO</a></li>
 <li class="chapter" data-level="12.2.2" data-path="machine-learning.html"><a href="machine-learning.html#double-lasso"><i class="fa fa-check"></i><b>12.2.2</b> Double Lasso</a></li>
-<li class="chapter" data-level="12.2.3" data-path="machine-learning.html"><a href="machine-learning.html#outras-soluções-ineficazes"><i class="fa fa-check"></i><b>12.2.3</b> Outras soluções ineficazes</a></li>
+<li class="chapter" data-level="12.2.3" data-path="06-VI.html"><a href="#outras-solu%C3%A7%C3%B5es-ineficazes"><i class="fa fa-check"></i><b>12.2.3</b> Outras soluções ineficazes</a></li>
 </ul></li>
 <li class="chapter" data-level="12.3" data-path="machine-learning.html"><a href="machine-learning.html#dl---algoritmo"><i class="fa fa-check"></i><b>12.3</b> DL - Algoritmo</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="termos-de-interação.html"><a href="termos-de-interação.html"><i class="fa fa-check"></i><b>13</b> Termos de Interação</a>
+<li class="chapter" data-level="13" data-path="06-VI.html"><a href="#termos-de-intera%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>13</b> Termos de Interação</a>
 <ul>
-<li class="chapter" data-level="13.1" data-path="termos-de-interação.html"><a href="termos-de-interação.html#aplicação-1"><i class="fa fa-check"></i><b>13.1</b> Aplicação</a></li>
-<li class="chapter" data-level="13.2" data-path="termos-de-interação.html"><a href="termos-de-interação.html#dml"><i class="fa fa-check"></i><b>13.2</b> DML</a></li>
+<li class="chapter" data-level="13.1" data-path="06-VI.html"><a href="#aplica%C3%A7%C3%A3o-1"><i class="fa fa-check"></i><b>13.1</b> Aplicação</a></li>
+<li class="chapter" data-level="13.2" data-path="termos-de-interação.html"><a href="termos-de-interação.html"><i class="fa fa-check"></i><b>13.2</b> DML</a></li>
 <li class="chapter" data-level="13.3" data-path="termos-de-interação.html"><a href="termos-de-interação.html#double-debiasing"><i class="fa fa-check"></i><b>13.3</b> Double Debiasing</a></li>
 <li class="chapter" data-level="13.4" data-path="termos-de-interação.html"><a href="termos-de-interação.html#cross-fitting"><i class="fa fa-check"></i><b>13.4</b> Cross-fitting</a></li>
-<li class="chapter" data-level="13.5" data-path="termos-de-interação.html"><a href="termos-de-interação.html#questões-práticas"><i class="fa fa-check"></i><b>13.5</b> Questões Práticas</a></li>
-<li class="chapter" data-level="13.6" data-path="termos-de-interação.html"><a href="termos-de-interação.html#referências-8"><i class="fa fa-check"></i><b>13.6</b> Referências</a></li>
+<li class="chapter" data-level="13.5" data-path="06-VI.html"><a href="#quest%C3%B5es-pr%C3%A1ticas"><i class="fa fa-check"></i><b>13.5</b> Questões Práticas</a></li>
+<li class="chapter" data-level="13.6" data-path="06-VI.html"><a href="#resumo-e-pr%C3%B3ximos-passos-6"><i class="fa fa-check"></i><b>13.6</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="13.7" data-path="06-VI.html"><a href="#refer%C3%AAncias-9"><i class="fa fa-check"></i><b>13.7</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="14" data-path="resumo-1.html"><a href="resumo-1.html"><i class="fa fa-check"></i><b>14</b> Resumo</a>
 <ul>
@@ -386,19 +403,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="14.4.1" data-path="resumo-1.html"><a href="resumo-1.html#tscs"><i class="fa fa-check"></i><b>14.4.1</b> TSCS</a></li>
 </ul></li>
 <li class="chapter" data-level="14.5" data-path="resumo-1.html"><a href="resumo-1.html#scm"><i class="fa fa-check"></i><b>14.5</b> SCM</a></li>
-<li class="chapter" data-level="14.6" data-path="resumo-1.html"><a href="resumo-1.html#did-sintético"><i class="fa fa-check"></i><b>14.6</b> DiD Sintético</a></li>
+<li class="chapter" data-level="14.6" data-path="06-VI.html"><a href="#did-sint%C3%A9tico"><i class="fa fa-check"></i><b>14.6</b> DiD Sintético</a></li>
 <li class="chapter" data-level="14.7" data-path="resumo-1.html"><a href="resumo-1.html#double-lasso-1"><i class="fa fa-check"></i><b>14.7</b> Double LASSO</a></li>
 <li class="chapter" data-level="14.8" data-path="resumo-1.html"><a href="resumo-1.html#dml-1"><i class="fa fa-check"></i><b>14.8</b> DML</a></li>
 </ul></li>
-<li class="chapter" data-level="15" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html"><i class="fa fa-check"></i><b>15</b> Interferência, spillover e dinâmica</a>
+<li class="chapter" data-level="15" data-path="shift-share.html"><a href="shift-share.html"><i class="fa fa-check"></i><b>15</b> Shift-share</a>
 <ul>
-<li class="chapter" data-level="15.1" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#suposições-simplifcadoras"><i class="fa fa-check"></i><b>15.1</b> Suposições simplifcadoras</a></li>
-<li class="chapter" data-level="15.2" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#po-com-tratamento-de-múltiplos-valores-multi-valued"><i class="fa fa-check"></i><b>15.2</b> PO com tratamento de múltiplos valores (multi-valued)</a>
-<ul>
-<li class="chapter" data-level="15.2.1" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#multi-valued-discreto"><i class="fa fa-check"></i><b>15.2.1</b> Multi-valued discreto</a></li>
+<li class="chapter" data-level="15.1" data-path="06-VI.html"><a href="#introdu%C3%A7%C3%A3o-7"><i class="fa fa-check"></i><b>15.1</b> Introdução</a></li>
+<li class="chapter" data-level="15.2" data-path="06-VI.html"><a href="#exemplos-da-pol%C3%ADtica"><i class="fa fa-check"></i><b>15.2</b> Exemplos da Política</a></li>
+<li class="chapter" data-level="15.3" data-path="06-VI.html"><a href="#varia%C3%A7%C3%A3o-temporal"><i class="fa fa-check"></i><b>15.3</b> Variação temporal</a></li>
 </ul></li>
-<li class="chapter" data-level="15.3" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#dinâmica"><i class="fa fa-check"></i><b>15.3</b> Dinâmica</a></li>
-<li class="chapter" data-level="15.4" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#interferência"><i class="fa fa-check"></i><b>15.4</b> Interferência</a></li>
+<li class="chapter" data-level="16" data-path="06-VI.html"><a href="#interfer%C3%AAncia-spillover-e-din%C3%A2mica"><i class="fa fa-check"></i><b>16</b> Interferência, spillover e dinâmica</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="06-VI.html"><a href="#suposi%C3%A7%C3%B5es-simplificadoras"><i class="fa fa-check"></i><b>16.1</b> Suposições simplificadoras</a></li>
+<li class="chapter" data-level="16.2" data-path="06-VI.html"><a href="#po-com-tratamento-de-m%C3%BAltiplos-valores-multi-valued"><i class="fa fa-check"></i><b>16.2</b> PO com tratamento de múltiplos valores (multi-valued)</a>
+<ul>
+<li class="chapter" data-level="16.2.1" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html"><i class="fa fa-check"></i><b>16.2.1</b> Multi-valued discreto</a></li>
+</ul></li>
+<li class="chapter" data-level="16.3" data-path="06-VI.html"><a href="#din%C3%A2mica"><i class="fa fa-check"></i><b>16.3</b> Dinâmica</a></li>
+<li class="chapter" data-level="16.4" data-path="06-VI.html"><a href="#interfer%C3%AAncia"><i class="fa fa-check"></i><b>16.4</b> Interferência</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -421,31 +444,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="variáveis-instrumentais" class="section level1 hasAnchor" number="6">
-<h1><span class="header-section-number">Capítulo 6</span> Variáveis Instrumentais<a href="variáveis-instrumentais.html#variáveis-instrumentais" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<h1><span class="header-section-number">Capítulo 6</span> Variáveis Instrumentais<a href="#vari%C3%A1veis-instrumentais" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="introdução-4" class="section level2 hasAnchor" number="6.1">
-<h2><span class="header-section-number">6.1</span> Introdução<a href="variáveis-instrumentais.html#introdução-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">6.1</span> Introdução<a href="#introdu%C3%A7%C3%A3o-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Considere o seguinte DAG canônico de Variáveis Instrumentais:</p>
-<p><img src="bookdownproj_files/figure-html/dag-diagram1-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/dag-diagram1-1.png" alt="" width="672" /></p>
 <p>Nós vemos que o efeito causal do tratamento <span class="math inline">\(T\)</span> é confundido pela variável não observada <span class="math inline">\(U\)</span>, já que temos um <em>backdoor</em> aberto. Porém, a variável <span class="math inline">\(Z\)</span> não tem nenhum caminho aberto para <span class="math inline">\(Y\)</span> exceto via <span class="math inline">\(T\)</span>, isto é, <span class="math inline">\(T\)</span> é um mediador do efeito causal de <span class="math inline">\(Z\)</span>.</p>
 <p>Do ponto de vista não paramétrico (DAGs), dizemos que a variável <span class="math inline">\(Z\)</span> é uma <strong>candidata</strong> a variável instrumental (IV) se:</p>
 <ol style="list-style-type: decimal">
-<li><p><span class="math inline">\(Z\)</span> está conectado a X no grafo original. Condição de <strong>relevância</strong>.</p></li>
+<li><p><span class="math inline">\(Z\)</span> está conectado a <span class="math inline">\(T\)</span> no grafo original. Condição de <strong>relevância</strong>.</p></li>
 <li><p>No grafo em que a seta de <span class="math inline">\(T\)</span> para <span class="math inline">\(y\)</span> é removida, <span class="math inline">\(Z\)</span> é d-separado de <span class="math inline">\(Y\)</span>. <strong>Exclusion Restriction</strong>.</p></li>
-<li><p>A variável instrumental <span class="math inline">\(Z\)</span> não compartilha causa comum com <span class="math inline">\(y\)</span>, incluindo, portanto, não ser descendente de <span class="math inline">\(T\)</span>. <strong>Causa comum</strong>.</p></li>
+<li><p>A variável instrumental <span class="math inline">\(Z\)</span> não compartilha causa comum com <span class="math inline">\(Y\)</span>, incluindo, portanto, não ser descendente de <span class="math inline">\(T\)</span>. <strong>Causa comum</strong>.</p></li>
 </ol>
 <p>Remark: Pode acontecer de ser necessário controlar para uma conjunto de covariáveis <span class="math inline">\(X\)</span> para que a segunda condição seja satisfeita. Chamamos isso de IV condicional.</p>
 <p>Remark 2: Dizemos que uma variável <span class="math inline">\(Z\)</span> é <strong>candidata</strong> a ser VI porque as três condições acima, ainda que necessárias, não são suficientes para uma variável ser considerada VI. Veremos mais à frente porque isso acontece e o que mais é necessário para uma variável ser considerada VI.
 Considere o DAG abaixo.</p>
 <p>Remark 3: A literatura econométrica não costuma deixar muito clara a condição 3. Às vezes falam que <span class="math inline">\(Z\)</span> deve causar <span class="math inline">\(T\)</span> (o que implica que não há causa comum em um DAG). Porém, isso não é correto, como o DAG abaixo mostra, em que, controlando para <span class="math inline">\(V_3\)</span>, que é um collider, induzimos correlação entre <span class="math inline">\(Z\)</span> e <span class="math inline">\(T\)</span> para a condição de relevância ser satisfeita, e <span class="math inline">\(Z\)</span> é uma VI candidata.</p>
-<p><img src="bookdownproj_files/figure-html/dag-diagram2-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/dag-diagram2-1.png" alt="" width="672" /></p>
 <p>Do mesmo jeito, se <span class="math inline">\(V_3\)</span> for causa comum de <span class="math inline">\(Z\)</span> e <span class="math inline">\(T\)</span>, não controlar para ela torna a <span class="math inline">\(Z\)</span> admissível como VI.</p>
-<p><img src="bookdownproj_files/figure-html/dag-diagram3-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/dag-diagram3-1.png" alt="" width="672" /></p>
 <p>Será que <span class="math inline">\(Z\)</span> pode ser uma IV no DAG abaixo?</p>
-<p><img src="bookdownproj_files/figure-html/dag-diagram4-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/dag-diagram4-1.png" alt="" width="672" /></p>
 <p>Vamos verificar as condições. É fácil ver que <span class="math inline">\(Z\)</span> está conectado a <span class="math inline">\(T\)</span>, já que temos dois caminhos abertos, um via <span class="math inline">\(W\)</span> e outro via <span class="math inline">\(L\)</span> (e ainda um via <span class="math inline">\(W\)</span> via <span class="math inline">\(L\)</span>). Portanto, a primeira condição está satisfeita. Note que se eu controlar simultaneamente para <span class="math inline">\(W\)</span> e <span class="math inline">\(L\)</span>, então eu fecho todos os caminhos abertos.</p>
 <p>Com relação à segunda condição, Remover a flecha de <span class="math inline">\(T\)</span> para <span class="math inline">\(Y\)</span> é, efetivamente, ter um novo DAG:</p>
 <p>Por fim, <span class="math inline">\(Z\)</span> não compartilha causa comum com <span class="math inline">\(Y\)</span>.</p>
 <p>Nesse DAG, <span class="math inline">\(Z\)</span> não está d-separado de <span class="math inline">\(Y\)</span>, pois existe um caminho aberto para <span class="math inline">\(Y\)</span> via <span class="math inline">\(L\)</span>. Portanto, controlando para <span class="math inline">\(L\)</span> (mas não <span class="math inline">\(W\)</span>), tenho um instrumento que passa nas duas condições.</p>
+<p>Até aqui vimos as condições para que uma variável seja candidata a instrumento a partir da perspectiva de DAGs. Vejamos agora como essas condições se traduzem em um modelo estrutural paramétrico.</p>
 </div>
 <div id="iv-com-modelo-estrutural" class="section level2 hasAnchor" number="6.2">
 <h2><span class="header-section-number">6.2</span> IV com modelo estrutural<a href="variáveis-instrumentais.html#iv-com-modelo-estrutural" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -458,7 +482,7 @@ A restrição de exclusão do tratamento <span class="math inline">\(D_i\)</span
 <p>Nós sabemos que diferença simples de média identifica o ATE da segunda equação: <span class="math inline">\(\gamma = \frac{\sum_{i=1}^n z_i}{n} - \frac{\sum_{i=1}^n (1-z_i)}{n}\)</span>.</p>
 </div>
 <div id="mqo-em-2-estágios" class="section level2 hasAnchor" number="6.3">
-<h2><span class="header-section-number">6.3</span> MQO em 2 Estágios<a href="variáveis-instrumentais.html#mqo-em-2-estágios" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">6.3</span> MQO em 2 Estágios<a href="#mqo-em-2-est%C3%A1gios" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Considere novamente o DAG canônico para IV. Como poderíamos estimar o efeito causal de <span class="math inline">\(T\)</span> sobre <span class="math inline">\(Y\)</span>?</p>
 <p>Uma possibilidade é a chamada forma reduzida, que pode ser derivada a partir da suposição de independência. Antes, vamos introduzir uma notação:</p>
 <p>A notação <span class="math inline">\(Y^{T=t,Z=z}\)</span> indica o resultado potencial para um nível do tratamento <span class="math inline">\(t\)</span> efetivamente recebido, que pode ser <span class="math inline">\(0\)</span> ou <span class="math inline">\(1\)</span>, e para um nível do <em>treatment assignment</em>, que pode ser <span class="math inline">\(0\)</span> ou <span class="math inline">\(1\)</span>, para um instrumento binário.</p>
@@ -466,25 +490,25 @@ A restrição de exclusão do tratamento <span class="math inline">\(D_i\)</span
 <p>E aqui temos uma nova <em>switching equation</em>:</p>
 <p><span class="math inline">\(T_i = T^0_i + (T^1_i - T^0_i)Z_i\)</span></p>
 <p><span class="math display">\[\begin{align}
-   E\big[Y_i\mid Z_i=1\big]-E\big[Y_i\mid Z_i=0\big] &amp; = E\big[Y_i(D_i^1,1)\mid Z_i=1\mid]-
+   E\big[Y_i\mid Z_i=1\big]-E\big[Y_i\mid Z_i=0\big] &amp; = E\big[Y_i(D_i^1,1)\mid Z_i=1\big]-
    E\big[Y_i(D_i^0,0)\mid Z_i=0\big]
    \\
                                     &amp; = E[Y_i(D_i^1,1)] - E[Y_i(D_i^0,0)]  
 \end{align}\]</span></p>
 <p>O estimador é o efeito causal (total) de <span class="math inline">\(Z\)</span> sobre <span class="math inline">\(Y\)</span>. Em um experimento, isso é chamado de <em>intent to treat</em>, pois se a aleatorização é o instrumento, então é o efeito causal da intenção de tratar.</p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="variáveis-instrumentais.html#cb98-1" tabindex="-1"></a><span class="fu">library</span>(stargazer)</span>
-<span id="cb98-2"><a href="variáveis-instrumentais.html#cb98-2" tabindex="-1"></a></span>
-<span id="cb98-3"><a href="variáveis-instrumentais.html#cb98-3" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100000</span></span>
-<span id="cb98-4"><a href="variáveis-instrumentais.html#cb98-4" tabindex="-1"></a></span>
-<span id="cb98-5"><a href="variáveis-instrumentais.html#cb98-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb98-6"><a href="variáveis-instrumentais.html#cb98-6" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb98-7"><a href="variáveis-instrumentais.html#cb98-7" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span> , <span class="dv">3</span>)</span>
-<span id="cb98-8"><a href="variáveis-instrumentais.html#cb98-8" tabindex="-1"></a>treatment <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">plogis</span>(z <span class="sc">-</span> u <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">2</span>)))</span>
-<span id="cb98-9"><a href="variáveis-instrumentais.html#cb98-9" tabindex="-1"></a></span>
-<span id="cb98-10"><a href="variáveis-instrumentais.html#cb98-10" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span>treatment <span class="sc">+</span> u</span>
-<span id="cb98-11"><a href="variáveis-instrumentais.html#cb98-11" tabindex="-1"></a></span>
-<span id="cb98-12"><a href="variáveis-instrumentais.html#cb98-12" tabindex="-1"></a>reg_vies <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> treatment)</span>
-<span id="cb98-13"><a href="variáveis-instrumentais.html#cb98-13" tabindex="-1"></a><span class="fu">summary</span>(reg_vies)</span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="variáveis-instrumentais.html#cb92-1" tabindex="-1"></a><span class="fu">library</span>(stargazer)</span>
+<span id="cb92-2"><a href="variáveis-instrumentais.html#cb92-2" tabindex="-1"></a></span>
+<span id="cb92-3"><a href="variáveis-instrumentais.html#cb92-3" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100000</span></span>
+<span id="cb92-4"><a href="variáveis-instrumentais.html#cb92-4" tabindex="-1"></a></span>
+<span id="cb92-5"><a href="variáveis-instrumentais.html#cb92-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb92-6"><a href="variáveis-instrumentais.html#cb92-6" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb92-7"><a href="variáveis-instrumentais.html#cb92-7" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span> , <span class="dv">3</span>)</span>
+<span id="cb92-8"><a href="variáveis-instrumentais.html#cb92-8" tabindex="-1"></a>treatment <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">plogis</span>(z <span class="sc">-</span> u <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">2</span>)))</span>
+<span id="cb92-9"><a href="variáveis-instrumentais.html#cb92-9" tabindex="-1"></a></span>
+<span id="cb92-10"><a href="variáveis-instrumentais.html#cb92-10" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span>treatment <span class="sc">+</span> u</span>
+<span id="cb92-11"><a href="variáveis-instrumentais.html#cb92-11" tabindex="-1"></a></span>
+<span id="cb92-12"><a href="variáveis-instrumentais.html#cb92-12" tabindex="-1"></a>reg_vies <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> treatment)</span>
+<span id="cb92-13"><a href="variáveis-instrumentais.html#cb92-13" tabindex="-1"></a><span class="fu">summary</span>(reg_vies)</span></code></pre></div>
 <p>Call:
 lm(formula = y ~ treatment)</p>
 <p>Residuals:
@@ -499,9 +523,9 @@ Signif. codes: 0 ‘<em><strong>’ 0.001 ’</strong>’ 0.01 ’</em>’ 0.05 
 <p>Residual standard error: 2.453 on 99998 degrees of freedom
 Multiple R-squared: 0.08495, Adjusted R-squared: 0.08494
 F-statistic: 9283 on 1 and 99998 DF, p-value: &lt; 2.2e-16</p>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="variáveis-instrumentais.html#cb99-1" tabindex="-1"></a>reg_1s <span class="ot">&lt;-</span> <span class="fu">lm</span>(treatment <span class="sc">~</span> z)</span>
-<span id="cb99-2"><a href="variáveis-instrumentais.html#cb99-2" tabindex="-1"></a>reg_2s <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="fu">fitted</span>(reg_1s))</span>
-<span id="cb99-3"><a href="variáveis-instrumentais.html#cb99-3" tabindex="-1"></a><span class="fu">stargazer</span>(reg_vies, reg_1s, reg_2s, <span class="at">type =</span> <span class="st">&quot;html&quot;</span>,  <span class="at">title=</span><span class="st">&quot;OLS e 2SLS&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="variáveis-instrumentais.html#cb93-1" tabindex="-1"></a>reg_1s <span class="ot">&lt;-</span> <span class="fu">lm</span>(treatment <span class="sc">~</span> z)</span>
+<span id="cb93-2"><a href="variáveis-instrumentais.html#cb93-2" tabindex="-1"></a>reg_2s <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="fu">fitted</span>(reg_1s))</span>
+<span id="cb93-3"><a href="variáveis-instrumentais.html#cb93-3" tabindex="-1"></a><span class="fu">stargazer</span>(reg_vies, reg_1s, reg_2s, <span class="at">type =</span> <span class="st">&quot;html&quot;</span>,  <span class="at">title=</span><span class="st">&quot;OLS e 2SLS&quot;</span>)</span></code></pre></div>
 <table style="text-align:center">
 <caption>
 <strong>OLS e 2SLS</strong>
@@ -777,7 +801,7 @@ F Statistic (df = 1; 99998)
 </tr>
 </table>
 <p>Uma regra de bolso, baseada em um artigo de Stock &amp; Yogo (2002), diz que a estatística F da regressão do primeiro estágio deve ser maior que 10.</p>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="variáveis-instrumentais.html#cb100-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="variáveis-instrumentais.html#cb94-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 <pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
@@ -788,58 +812,58 @@ F Statistic (df = 1; 99998)
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="variáveis-instrumentais.html#cb102-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb102-2"><a href="variáveis-instrumentais.html#cb102-2" tabindex="-1"></a></span>
-<span id="cb102-3"><a href="variáveis-instrumentais.html#cb102-3" tabindex="-1"></a>simulate_and_fit <span class="ot">&lt;-</span> <span class="cf">function</span>(n) {</span>
-<span id="cb102-4"><a href="variáveis-instrumentais.html#cb102-4" tabindex="-1"></a>  z <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb102-5"><a href="variáveis-instrumentais.html#cb102-5" tabindex="-1"></a>  u <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">3</span>)</span>
-<span id="cb102-6"><a href="variáveis-instrumentais.html#cb102-6" tabindex="-1"></a>  treatment <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">plogis</span>(z <span class="sc">-</span> u <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">2</span>)))</span>
-<span id="cb102-7"><a href="variáveis-instrumentais.html#cb102-7" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> treatment <span class="sc">+</span> u</span>
-<span id="cb102-8"><a href="variáveis-instrumentais.html#cb102-8" tabindex="-1"></a>  </span>
-<span id="cb102-9"><a href="variáveis-instrumentais.html#cb102-9" tabindex="-1"></a>  <span class="co"># Naive regression</span></span>
-<span id="cb102-10"><a href="variáveis-instrumentais.html#cb102-10" tabindex="-1"></a>  reg_vies <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> treatment)</span>
-<span id="cb102-11"><a href="variáveis-instrumentais.html#cb102-11" tabindex="-1"></a>  </span>
-<span id="cb102-12"><a href="variáveis-instrumentais.html#cb102-12" tabindex="-1"></a>  <span class="co"># 2SLS</span></span>
-<span id="cb102-13"><a href="variáveis-instrumentais.html#cb102-13" tabindex="-1"></a>  reg_1s <span class="ot">&lt;-</span> <span class="fu">lm</span>(treatment <span class="sc">~</span> z)</span>
-<span id="cb102-14"><a href="variáveis-instrumentais.html#cb102-14" tabindex="-1"></a>  predicted_treatment <span class="ot">&lt;-</span> <span class="fu">predict</span>(reg_1s)</span>
-<span id="cb102-15"><a href="variáveis-instrumentais.html#cb102-15" tabindex="-1"></a>  reg_2s <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> predicted_treatment)</span>
-<span id="cb102-16"><a href="variáveis-instrumentais.html#cb102-16" tabindex="-1"></a>  </span>
-<span id="cb102-17"><a href="variáveis-instrumentais.html#cb102-17" tabindex="-1"></a>  <span class="co"># Return coefficients</span></span>
-<span id="cb102-18"><a href="variáveis-instrumentais.html#cb102-18" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
-<span id="cb102-19"><a href="variáveis-instrumentais.html#cb102-19" tabindex="-1"></a>    <span class="at">naive_coef =</span> <span class="fu">coef</span>(reg_vies)[<span class="dv">2</span>],</span>
-<span id="cb102-20"><a href="variáveis-instrumentais.html#cb102-20" tabindex="-1"></a>    <span class="at">tsls_coef =</span> <span class="fu">coef</span>(reg_2s)[<span class="dv">2</span>]</span>
-<span id="cb102-21"><a href="variáveis-instrumentais.html#cb102-21" tabindex="-1"></a>  )</span>
-<span id="cb102-22"><a href="variáveis-instrumentais.html#cb102-22" tabindex="-1"></a>}</span>
-<span id="cb102-23"><a href="variáveis-instrumentais.html#cb102-23" tabindex="-1"></a></span>
-<span id="cb102-24"><a href="variáveis-instrumentais.html#cb102-24" tabindex="-1"></a></span>
-<span id="cb102-25"><a href="variáveis-instrumentais.html#cb102-25" tabindex="-1"></a><span class="co"># Sample sizes to simulate</span></span>
-<span id="cb102-26"><a href="variáveis-instrumentais.html#cb102-26" tabindex="-1"></a>sample_sizes <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1000</span>, <span class="dv">100000</span>, <span class="at">by =</span> <span class="dv">1000</span>)</span>
-<span id="cb102-27"><a href="variáveis-instrumentais.html#cb102-27" tabindex="-1"></a></span>
-<span id="cb102-28"><a href="variáveis-instrumentais.html#cb102-28" tabindex="-1"></a><span class="co"># Use map to apply the function to each sample size</span></span>
-<span id="cb102-29"><a href="variáveis-instrumentais.html#cb102-29" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">sample_size =</span> sample_sizes) <span class="sc">%&gt;%</span></span>
-<span id="cb102-30"><a href="variáveis-instrumentais.html#cb102-30" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb102-31"><a href="variáveis-instrumentais.html#cb102-31" tabindex="-1"></a>    <span class="at">simulation_results =</span> <span class="fu">map</span>(sample_size, simulate_and_fit)</span>
-<span id="cb102-32"><a href="variáveis-instrumentais.html#cb102-32" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb102-33"><a href="variáveis-instrumentais.html#cb102-33" tabindex="-1"></a>  <span class="fu">unnest</span>(<span class="at">cols =</span> <span class="fu">c</span>(simulation_results))</span>
-<span id="cb102-34"><a href="variáveis-instrumentais.html#cb102-34" tabindex="-1"></a></span>
-<span id="cb102-35"><a href="variáveis-instrumentais.html#cb102-35" tabindex="-1"></a>results <span class="sc">%&gt;%</span></span>
-<span id="cb102-36"><a href="variáveis-instrumentais.html#cb102-36" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(naive_coef, tsls_coef), <span class="at">names_to =</span> <span class="st">&quot;method&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;coefficient&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb102-37"><a href="variáveis-instrumentais.html#cb102-37" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> sample_size, <span class="at">y =</span> coefficient, <span class="at">color =</span> method)) <span class="sc">+</span></span>
-<span id="cb102-38"><a href="variáveis-instrumentais.html#cb102-38" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb102-39"><a href="variáveis-instrumentais.html#cb102-39" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> . <span class="sc">%&gt;%</span> <span class="fu">filter</span>(method <span class="sc">==</span> <span class="st">&quot;2sls_coef&quot;</span>), <span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
-<span id="cb102-40"><a href="variáveis-instrumentais.html#cb102-40" tabindex="-1"></a></span>
-<span id="cb102-41"><a href="variáveis-instrumentais.html#cb102-41" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb102-42"><a href="variáveis-instrumentais.html#cb102-42" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Convergence of Regression Coefficients with Increasing Sample Size&quot;</span>,</span>
-<span id="cb102-43"><a href="variáveis-instrumentais.html#cb102-43" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Sample Size&quot;</span>,</span>
-<span id="cb102-44"><a href="variáveis-instrumentais.html#cb102-44" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Estimated Coefficient&quot;</span>,</span>
-<span id="cb102-45"><a href="variáveis-instrumentais.html#cb102-45" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Method&quot;</span></span>
-<span id="cb102-46"><a href="variáveis-instrumentais.html#cb102-46" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb102-47"><a href="variáveis-instrumentais.html#cb102-47" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb102-48"><a href="variáveis-instrumentais.html#cb102-48" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;naive_coef&quot;</span> <span class="ot">=</span> <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;tsls_coef&quot;</span> <span class="ot">=</span> <span class="st">&quot;red&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb102-49"><a href="variáveis-instrumentais.html#cb102-49" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb102-50"><a href="variáveis-instrumentais.html#cb102-50" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
-<span id="cb102-51"><a href="variáveis-instrumentais.html#cb102-51" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_blank</span>()</span>
-<span id="cb102-52"><a href="variáveis-instrumentais.html#cb102-52" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="variáveis-instrumentais.html#cb96-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb96-2"><a href="variáveis-instrumentais.html#cb96-2" tabindex="-1"></a></span>
+<span id="cb96-3"><a href="variáveis-instrumentais.html#cb96-3" tabindex="-1"></a>simulate_and_fit <span class="ot">&lt;-</span> <span class="cf">function</span>(n) {</span>
+<span id="cb96-4"><a href="variáveis-instrumentais.html#cb96-4" tabindex="-1"></a>  z <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb96-5"><a href="variáveis-instrumentais.html#cb96-5" tabindex="-1"></a>  u <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">3</span>)</span>
+<span id="cb96-6"><a href="variáveis-instrumentais.html#cb96-6" tabindex="-1"></a>  treatment <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">plogis</span>(z <span class="sc">-</span> u <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">2</span>)))</span>
+<span id="cb96-7"><a href="variáveis-instrumentais.html#cb96-7" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> treatment <span class="sc">+</span> u</span>
+<span id="cb96-8"><a href="variáveis-instrumentais.html#cb96-8" tabindex="-1"></a>  </span>
+<span id="cb96-9"><a href="variáveis-instrumentais.html#cb96-9" tabindex="-1"></a>  <span class="co"># Naive regression</span></span>
+<span id="cb96-10"><a href="variáveis-instrumentais.html#cb96-10" tabindex="-1"></a>  reg_vies <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> treatment)</span>
+<span id="cb96-11"><a href="variáveis-instrumentais.html#cb96-11" tabindex="-1"></a>  </span>
+<span id="cb96-12"><a href="variáveis-instrumentais.html#cb96-12" tabindex="-1"></a>  <span class="co"># 2SLS</span></span>
+<span id="cb96-13"><a href="variáveis-instrumentais.html#cb96-13" tabindex="-1"></a>  reg_1s <span class="ot">&lt;-</span> <span class="fu">lm</span>(treatment <span class="sc">~</span> z)</span>
+<span id="cb96-14"><a href="variáveis-instrumentais.html#cb96-14" tabindex="-1"></a>  predicted_treatment <span class="ot">&lt;-</span> <span class="fu">predict</span>(reg_1s)</span>
+<span id="cb96-15"><a href="variáveis-instrumentais.html#cb96-15" tabindex="-1"></a>  reg_2s <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> predicted_treatment)</span>
+<span id="cb96-16"><a href="variáveis-instrumentais.html#cb96-16" tabindex="-1"></a>  </span>
+<span id="cb96-17"><a href="variáveis-instrumentais.html#cb96-17" tabindex="-1"></a>  <span class="co"># Return coefficients</span></span>
+<span id="cb96-18"><a href="variáveis-instrumentais.html#cb96-18" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
+<span id="cb96-19"><a href="variáveis-instrumentais.html#cb96-19" tabindex="-1"></a>    <span class="at">naive_coef =</span> <span class="fu">coef</span>(reg_vies)[<span class="dv">2</span>],</span>
+<span id="cb96-20"><a href="variáveis-instrumentais.html#cb96-20" tabindex="-1"></a>    <span class="at">tsls_coef =</span> <span class="fu">coef</span>(reg_2s)[<span class="dv">2</span>]</span>
+<span id="cb96-21"><a href="variáveis-instrumentais.html#cb96-21" tabindex="-1"></a>  )</span>
+<span id="cb96-22"><a href="variáveis-instrumentais.html#cb96-22" tabindex="-1"></a>}</span>
+<span id="cb96-23"><a href="variáveis-instrumentais.html#cb96-23" tabindex="-1"></a></span>
+<span id="cb96-24"><a href="variáveis-instrumentais.html#cb96-24" tabindex="-1"></a></span>
+<span id="cb96-25"><a href="variáveis-instrumentais.html#cb96-25" tabindex="-1"></a><span class="co"># Sample sizes to simulate</span></span>
+<span id="cb96-26"><a href="variáveis-instrumentais.html#cb96-26" tabindex="-1"></a>sample_sizes <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1000</span>, <span class="dv">100000</span>, <span class="at">by =</span> <span class="dv">1000</span>)</span>
+<span id="cb96-27"><a href="variáveis-instrumentais.html#cb96-27" tabindex="-1"></a></span>
+<span id="cb96-28"><a href="variáveis-instrumentais.html#cb96-28" tabindex="-1"></a><span class="co"># Use map to apply the function to each sample size</span></span>
+<span id="cb96-29"><a href="variáveis-instrumentais.html#cb96-29" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">sample_size =</span> sample_sizes) <span class="sc">%&gt;%</span></span>
+<span id="cb96-30"><a href="variáveis-instrumentais.html#cb96-30" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb96-31"><a href="variáveis-instrumentais.html#cb96-31" tabindex="-1"></a>    <span class="at">simulation_results =</span> <span class="fu">map</span>(sample_size, simulate_and_fit)</span>
+<span id="cb96-32"><a href="variáveis-instrumentais.html#cb96-32" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb96-33"><a href="variáveis-instrumentais.html#cb96-33" tabindex="-1"></a>  <span class="fu">unnest</span>(<span class="at">cols =</span> <span class="fu">c</span>(simulation_results))</span>
+<span id="cb96-34"><a href="variáveis-instrumentais.html#cb96-34" tabindex="-1"></a></span>
+<span id="cb96-35"><a href="variáveis-instrumentais.html#cb96-35" tabindex="-1"></a>results <span class="sc">%&gt;%</span></span>
+<span id="cb96-36"><a href="variáveis-instrumentais.html#cb96-36" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(naive_coef, tsls_coef), <span class="at">names_to =</span> <span class="st">&quot;method&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;coefficient&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb96-37"><a href="variáveis-instrumentais.html#cb96-37" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> sample_size, <span class="at">y =</span> coefficient, <span class="at">color =</span> method)) <span class="sc">+</span></span>
+<span id="cb96-38"><a href="variáveis-instrumentais.html#cb96-38" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb96-39"><a href="variáveis-instrumentais.html#cb96-39" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> . <span class="sc">%&gt;%</span> <span class="fu">filter</span>(method <span class="sc">==</span> <span class="st">&quot;2sls_coef&quot;</span>), <span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb96-40"><a href="variáveis-instrumentais.html#cb96-40" tabindex="-1"></a></span>
+<span id="cb96-41"><a href="variáveis-instrumentais.html#cb96-41" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb96-42"><a href="variáveis-instrumentais.html#cb96-42" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Convergence of Regression Coefficients with Increasing Sample Size&quot;</span>,</span>
+<span id="cb96-43"><a href="variáveis-instrumentais.html#cb96-43" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Sample Size&quot;</span>,</span>
+<span id="cb96-44"><a href="variáveis-instrumentais.html#cb96-44" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Estimated Coefficient&quot;</span>,</span>
+<span id="cb96-45"><a href="variáveis-instrumentais.html#cb96-45" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Method&quot;</span></span>
+<span id="cb96-46"><a href="variáveis-instrumentais.html#cb96-46" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb96-47"><a href="variáveis-instrumentais.html#cb96-47" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb96-48"><a href="variáveis-instrumentais.html#cb96-48" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;naive_coef&quot;</span> <span class="ot">=</span> <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;tsls_coef&quot;</span> <span class="ot">=</span> <span class="st">&quot;red&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb96-49"><a href="variáveis-instrumentais.html#cb96-49" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb96-50"><a href="variáveis-instrumentais.html#cb96-50" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb96-51"><a href="variáveis-instrumentais.html#cb96-51" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb96-52"><a href="variáveis-instrumentais.html#cb96-52" tabindex="-1"></a>  )</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/sim-dag-canonico-n-1.png" width="672" /></p>
 </div>
 <div id="principais-usos-de-iv" class="section level2 hasAnchor" number="6.4">
@@ -849,7 +873,7 @@ F Statistic (df = 1; 99998)
 <p>Quando pesquisadores utilizam o processo de assignment como instrumento para lidar com problema de non-compliance. Estimativas do Local Average Treatment Effect são críveis. Contraposição a intent-to-treat estimates.</p>
 </div>
 <div id="regras-com-variação-quasi-aleatória" class="section level3 hasAnchor" number="6.4.2">
-<h3><span class="header-section-number">6.4.2</span> Regras com variação quasi-aleatória<a href="variáveis-instrumentais.html#regras-com-variação-quasi-aleatória" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<h3><span class="header-section-number">6.4.2</span> Regras com variação quasi-aleatória<a href="#regras-com-varia%C3%A7%C3%A3o-quasi-aleat%C3%B3ria" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Kin (2019) utiliza uma regra na Suécia que obriga cidades com poplução acima de certo nível a adotar democracia direta. Dinas (2014) utiliza idade para votar no momento da eleição como instrumento para comparecimento eleitoral do eleitor.</p>
 </div>
 <div id="teoria" class="section level3 hasAnchor" number="6.4.3">
@@ -860,7 +884,11 @@ F Statistic (df = 1; 99998)
 <p>Freidman et. al (2000) usaram origem legal (francesa, inglesa, sueca etc.) como instrumento para qualidade das instituições. Djankov et al. (2003) usaram origem legal como instrumento para grau de formalismo de instituições.</p>
 <p>Glaeser et al. (2004) usaram origem legal como instrumento para restrições ao executivo (“executive constraints”).</p>
 <p>Henderson and Brooks, 2016, usam chuva ao redor do dia da eleição como instrumento para votação de candidatos democratas, e concluem que aumento da chuva reduz comparecimento que causa democratas terem comportamento legislativo mais direitoso.</p>
-<p>##Efeito heterogêneo</p>
+<p>Os resultados acima supõem que o efeito do tratamento é homogêneo. Mas o que acontece quando diferentes indivíduos respondem de maneira diferente ao tratamento?</p>
+</div>
+</div>
+<div id="efeito-heterogêneo" class="section level2 hasAnchor" number="6.5">
+<h2><span class="header-section-number">6.5</span> Efeito heterogêneo<a href="#efeito-heterog%C3%AAneo" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Se houver efeito heretogêneo (apenas mulheres mudam comportamento em razão do instrumento, por exemplo), então estamos estimando o efeito apenas para aquele subgrupo (são os compliers com o instrumento).</p>
 <p>Se o instrumento explicar pouco da variação no Tratamento, então teremos pouca variação no tratamento para explicar a variação em Y. Ou seja, o sinal é fraco. Isso se traduz em baixo poder estatístico.</p>
 <p>Para discutir efeito casual heterogêneo, vamos utilizar um estudo em ciência política (White, 2019). Qual o efeito de misdemeanor (algo como contravenção penal) sobre comparecimento eleitoral? O aturo argumenta que o efeito deve variar por raça (maior para negros que brancos), de modo que o efeito causla é heterogêneo. Segundo o autor, casos são atribuídos aleatoriamente para diferentes cortes judiciais, e elas variam em sua leniência (ou severidade). Aqui, o tratamento é a condenação (<span class="math inline">\(1\)</span> se condenado, <span class="math inline">\(0\)</span> se não), e temos uma variável instrumental, o sorteio do juiz mais ou menos leniente.</p>
@@ -869,9 +897,8 @@ Nós iremos agrupar esses quatro tipos (incluindo o último) em quatro tipos:</p
 <p>Os primeiros são chamado de always-takers. Sempre recebem o tratamento (são presos), não importa o que foi atribuído a eles pelo mecanismo de atribuição. O segundo são os never takers, que nunca recebem o tratamento. Por fim, o terceiro grupo são os compliers, que seguem o tratamernto prescrito e o quarto grupo são os defiers, aqueles que fazem o contrário do prescrito. Nesse caso, não faz muito sentido imaginar que existem os defiers, mas teoricamente é possível.</p>
 <p>Digmos que o efeito causal do tratamento é heterogêneo, isto é, <span class="math inline">\(\delta_i = Y^1_i - Y^0_i\)</span>.</p>
 <p>Nesse caso, não podemos mais estimar o efeito causal geral (ATE), pois o efeito causla é heterogêneo e o instrumento só explica a variação no tratamento para os compliers.</p>
-</div>
-<div id="suposições-para-estimar-o-late" class="section level3 hasAnchor" number="6.4.4">
-<h3><span class="header-section-number">6.4.4</span> Suposições para estimar o LATE<a href="variáveis-instrumentais.html#suposições-para-estimar-o-late" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="suposições-para-estimar-o-late" class="section level3 hasAnchor" number="6.5.1">
+<h3><span class="header-section-number">6.5.1</span> Suposições para estimar o LATE<a href="#suposi%C3%A7%C3%B5es-para-estimar-o-late" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Além das suposições que já discutimos, vale sempre lembrar que temos também a SUTVA.</p>
 <p>Resultados potenciais para unidade <span class="math inline">\(i\)</span> não estão relacionadas ao tratamento que <span class="math inline">\(j\)</span> recebe. Claramente existe potencial para SUTVA ser violada no estudo de encarceramento e voto. Se dois irmãos (indivíduo <span class="math inline">\(i\)</span> e <span class="math inline">\(j\)</span>) são acusados e um deles é preso, é possível que o tratamento de um deles impacte a probabilidade de voto do outro e vice-versa. Salvo engano, White não discute essa possibilidade de violação da suposição, o que é problemático. Mas vamos supor que SUTVA está garantido.</p>
 <ol start="2" style="list-style-type: decimal">
@@ -881,13 +908,14 @@ Nós iremos agrupar esses quatro tipos (incluindo o último) em quatro tipos:</p
 <p>Essa suposição parece tranquilamente satisfeita no estudo em questão, já que a atribuição da corte é aleatória e parece difícil imaginar que algo que causa a leniência da corte ser causado por alguma variável que também causa o comparecimento. Aqui o DAG:</p>
 </div>
 </div>
-<div id="restrição-de-exclusão-1" class="section level2 hasAnchor" number="6.5">
-<h2><span class="header-section-number">6.5</span> Restrição de Exclusão<a href="variáveis-instrumentais.html#restrição-de-exclusão-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="restrição-de-exclusão-1" class="section level2 hasAnchor" number="6.6">
+<h2><span class="header-section-number">6.6</span> Restrição de Exclusão<a href="#restri%C3%A7%C3%A3o-de-exclus%C3%A3o-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A restrição de exclusão requer que o instrumento <span class="math inline">\(Z\)</span> afete o resultado <span class="math inline">\(Y\)</span> apenas por meio do tratamento <span class="math inline">\(T\)</span>. Em outras palavras, não há efeito direto de <span class="math inline">\(Z\)</span> sobre <span class="math inline">\(Y\)</span> que não passe por <span class="math inline">\(T\)</span>. Essa suposição é não testável diretamente e deve ser justificada com argumentos substantivos.</p>
 </div>
-<div id="monoticidade" class="section level2 hasAnchor" number="6.6">
-<h2><span class="header-section-number">6.6</span> Monoticidade<a href="variáveis-instrumentais.html#monoticidade" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="monoticidade" class="section level2 hasAnchor" number="6.7">
+<h2><span class="header-section-number">6.7</span> Monoticidade<a href="variáveis-instrumentais.html#monoticidade" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Por fim, precisamos assumir monoticidade. Ela requer que a variável instrumental opera (fracamente) em todas as direções para todos os indivíduos. Ou seja, todo mundo que é afetado pelo instrumento é afetado da mesma maneira. Em outras palavras, o instrumento apenas move as pessoas do controle para o tratamento (ou não move a pessoa), mas nunca o contrário. Ou seja, estamos assumindo que não há defiers na nossa população.</p>
-<p>Matematicamente e de maneira geral, dizemos que a monoticidade é válida quando <span class="math inline">\(T^{Z=1} &gt;= T^{Z=0}\)</span> para todas as unidades.</p>
+<p>Matematicamente e de maneira geral, dizemos que a monoticidade é válida quando <span class="math inline">\(T^{Z=1} \geq T^{Z=0}\)</span> para todas as unidades.</p>
 <p>Com essas suposições, nós estiamos o LATE: Local Average Treatment Effect of T on Y. Isso porque nosso estimador é:</p>
 <p><span class="math display">\[\begin{align}
   \mathbb{E}[Y(Z=1) - Y(Z=0)] = \\
@@ -897,11 +925,12 @@ Nós iremos agrupar esses quatro tipos (incluindo o último) em quatro tipos:</p
   +&amp; \mathbb{E}[Y(Z=1) - Y_i(Z=0)|T^1 = 0, T^0 = 1]P(T^1 = 0, T^0 = 1) \text{ defiers}
 \end{align}\]</span></p>
 <p>Porém, sabemos que o instrumento não tem efeito causal sobre always-takers nem never-takers, então o efeito causal é zero para esses grupos. E a proporção de defiers é zero, de modo que ficamos apenas com a parte dos compliers. E nesse grupo, <span class="math inline">\(Z = T\)</span>, de modo que o efeito do instrumento é o efeito do tratamento. Então podemos reescrever como:</p>
-<p><span class="math display">\[\delta_{IV,LATE} = \mathbb{E}[Y(1) - Y^0)|T^1 - T^0 = 1]\]</span></p>
+<p><span class="math display">\[\delta_{IV,LATE} = \mathbb{E}[Y(1) - Y(0)|T^1 - T^0 = 1]\]</span></p>
 <p>Vejam que o denominador nos dá a proporção da população que mudou seu status por causa do instrumento.</p>
+<p>O LATE é um parâmetro local: ele se refere apenas ao subgrupo de compliers. Isso é ao mesmo tempo uma força (é um efeito causal bem definido) e uma limitação (pode não representar o efeito para toda a população). Vejamos agora questões práticas de estimação.</p>
 </div>
-<div id="estimação-aka-estatística-f" class="section level2 hasAnchor" number="6.7">
-<h2><span class="header-section-number">6.7</span> Estimação (aka estatística F)<a href="variáveis-instrumentais.html#estimação-aka-estatística-f" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="estimação-aka-estatística-f" class="section level2 hasAnchor" number="6.8">
+<h2><span class="header-section-number">6.8</span> Estimação (aka estatística F)<a href="#estima%C3%A7%C3%A3o-aka-estat%C3%ADstica-f" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Considere nosso modelo em que as variáveis estão centradas (sem constante) e não há controle.</p>
 <p><span class="math inline">\(y_i = \beta D_i + e_i\)</span>
 <span class="math inline">\(D_i = \pi z_i + u_i\)</span></p>
@@ -918,8 +947,8 @@ Essa equação é chamada de forma reduzida.</p>
 <p>Se a estatística F é zero, ou seja, o poder do teste é zero, então o viés é igual ao de MQO normal, ou seja, a estimativa com IV é a mesma de OLS/MQO.</p>
 <p>Quanto maior a estatística F, menor o viés. E por fim, quanto maior o número de instrumentos (isso não está explícito, mas entra na fórmula), maior o viés em amostras finitas.</p>
 <p>É por essa razão que a literatura se concentrou em uma heurística para a estatística F, que vimos é ser maior que 10. Que basicamente é dizer que será no máximo 10% do viés com 95% de certeza.</p>
-<div id="f-stat" class="section level3 hasAnchor" number="6.7.1">
-<h3><span class="header-section-number">6.7.1</span> F stat<a href="variáveis-instrumentais.html#f-stat" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="f-stat" class="section level3 hasAnchor" number="6.8.1">
+<h3><span class="header-section-number">6.8.1</span> F stat<a href="variáveis-instrumentais.html#f-stat" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>A estatística F do primeiro estágio é a parcela explicada no primeiro estágio, relativo ao ruído no primeiro estágio. Quanto maior a estatística F, menor o viés.</p>
 <p>Se o poder é zero, <span class="math inline">\(F = 0\)</span> e IV é apenas a estimativa de MQO.</p>
 <p>Ponto chave: quando existem muitos instrumentos, o viés aumenta.</p>
@@ -932,8 +961,13 @@ Essa equação é chamada de forma reduzida.</p>
 <p>Alternativa é computar um invervalo de confiança de Anderson-Rubin, que é válido mesmo com instrumento fraco. Novamente, ivDiag computa esse IC.</p>
 </div>
 </div>
-<div id="referências-3" class="section level2 hasAnchor" number="6.8">
-<h2><span class="header-section-number">6.8</span> Referências<a href="variáveis-instrumentais.html#referências-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="resumo-e-próximos-passos-3" class="section level2 hasAnchor" number="6.9">
+<h2><span class="header-section-number">6.9</span> Resumo e próximos passos<a href="#resumo-e-pr%C3%B3ximos-passos-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Neste capítulo, vimos que variáveis instrumentais permitem estimar efeitos causais mesmo na presença de confundidores não observados. As condições para que uma variável seja um instrumento válido — relevância, restrição de exclusão e ausência de causa comum — são necessárias mas não suficientes; a monotonicidade é adicionalmente requerida para estimar o LATE. Na prática, a estatística F do primeiro estágio é uma ferramenta essencial para avaliar a força do instrumento, com limiares recomendados de 10 (regra clássica) ou 23,1 (teste robusto a heterocedasticidade).</p>
+<p>No próximo capítulo, veremos Regressão Descontínua (RDD), um desenho quasi-experimental que explora pontos de corte em variáveis contínuas para identificar efeitos causais.</p>
+</div>
+<div id="referências-4" class="section level2 hasAnchor" number="6.10">
+<h2><span class="header-section-number">6.10</span> Referências<a href="#refer%C3%AAncias-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Henderson, J., &amp; Brooks, J. (2016). Mediating the electoral connection: The information effects of voter signals on legislative behavior. The Journal of Politics, 78(3), 653-669.</p>
 <p>Mellon, J. (2023). Rain, Rain, Go Away: 195 Potential Exclusion-Restriction Violations for Studies Using Weather as an Instrumental Variable. Available at SSRN 3715610.</p>
 <p>White, A. (2019). Misdemeanor disenfranchisement? The demobilizing effects of brief jail spells on potential voters. American Political Science Review, 113(2), 311-324.</p>

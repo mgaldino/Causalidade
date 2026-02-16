@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 15 Shift-share | Curso de Inferência Causal</title>
+  <meta name="description" content="Capítulo 15 Shift-share | Curso de Inferência Causal" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 15 Shift-share | Curso de Inferência Causal" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 15 Shift-share | Curso de Inferência Causal" />
+  
+  
+  
+
+<meta name="author" content="Manoel Galdino" />
+
+
+<meta name="date" content="2026-02-16" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="resumo-1.html"/>
+<link rel="next" href="interferência-spillover-e-dinâmica.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Causalidade</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="15-Shift-Share.html"><a href="#introdu%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>1</b> Introdução</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="15-Shift-Share.html"><a href="#revis%C3%A3o-de-regress%C3%A3o"><i class="fa fa-check"></i><b>1.1</b> Revisão de Regressão</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="15-Shift-Share.html"><a href="#teorema-da-anatomia-da-regress%C3%A3o"><i class="fa fa-check"></i><b>1.1.1</b> Teorema da Anatomia da Regressão</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="15-Shift-Share.html"><a href="#infer%C3%AAncia"><i class="fa fa-check"></i><b>1.2</b> Inferência</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="15-Shift-Share.html"><a href="#generaliza%C3%A7%C3%A3o-amostral-vs.-generaliza%C3%A7%C3%A3o-causal"><i class="fa fa-check"></i><b>1.2.1</b> Generalização amostral vs. generalização causal</a></li>
+<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1.2.2</b> Incerteza com o universo dos casos</a></li>
+<li class="chapter" data-level="1.2.3" data-path="index.html"><a href="index.html#validade-externa"><i class="fa fa-check"></i><b>1.2.3</b> Validade externa</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="15-Shift-Share.html"><a href="#resumo-e-pr%C3%B3ximos-passos"><i class="fa fa-check"></i><b>1.3</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="1.4" data-path="15-Shift-Share.html"><a href="#refer%C3%AAncias"><i class="fa fa-check"></i><b>1.4</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html"><i class="fa fa-check"></i><b>2</b> Resultados Potenciais</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="15-Shift-Share.html"><a href="#da-intui%C3%A7%C3%A3o-comparativa-ao-modelo-formal"><i class="fa fa-check"></i><b>2.1</b> Da intuição comparativa ao modelo formal</a></li>
+<li class="chapter" data-level="2.2" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#resultados-potenciais-potential-outcomes"><i class="fa fa-check"></i><b>2.2</b> Resultados Potenciais (<em>Potential Outcomes</em>)</a></li>
+<li class="chapter" data-level="2.3" data-path="15-Shift-Share.html"><a href="#nota%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>2.3</b> Notação</a></li>
+<li class="chapter" data-level="2.4" data-path="15-Shift-Share.html"><a href="#problema-fundamental-da-infer%C3%AAncia-causal"><i class="fa fa-check"></i><b>2.4</b> Problema Fundamental da Inferência Causal</a></li>
+<li class="chapter" data-level="2.5" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#estimando"><i class="fa fa-check"></i><b>2.5</b> Estimando</a></li>
+<li class="chapter" data-level="2.6" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#estimandos-mais-comuns"><i class="fa fa-check"></i><b>2.6</b> Estimandos Mais Comuns</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#ate"><i class="fa fa-check"></i><b>2.6.1</b> ATE</a></li>
+<li class="chapter" data-level="2.6.2" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#att"><i class="fa fa-check"></i><b>2.6.2</b> ATT</a></li>
+<li class="chapter" data-level="2.6.3" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#cate"><i class="fa fa-check"></i><b>2.6.3</b> CATE</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#nota-sobre-estimandos"><i class="fa fa-check"></i><b>2.7</b> Nota sobre estimandos</a></li>
+<li class="chapter" data-level="2.8" data-path="15-Shift-Share.html"><a href="#exerc%C3%ADcio---qual-o-estimando-e-o-estimador-se-poss%C3%ADvel"><i class="fa fa-check"></i><b>2.8</b> Exercício - Qual o estimando e o estimador (se possível)?</a></li>
+<li class="chapter" data-level="2.9" data-path="15-Shift-Share.html"><a href="#identifica%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>2.9</b> Identificação</a></li>
+<li class="chapter" data-level="2.10" data-path="15-Shift-Share.html"><a href="#identifica%C3%A7%C3%A3o-do-ate"><i class="fa fa-check"></i><b>2.10</b> Identificação do ATE</a></li>
+<li class="chapter" data-level="2.11" data-path="15-Shift-Share.html"><a href="#equa%C3%A7%C3%B5es-estruturais"><i class="fa fa-check"></i><b>2.11</b> Equações estruturais</a></li>
+<li class="chapter" data-level="2.12" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#modelo-versus-desenho"><i class="fa fa-check"></i><b>2.12</b> Modelo versus Desenho</a></li>
+<li class="chapter" data-level="2.13" data-path="15-Shift-Share.html"><a href="#exerc%C3%ADcio-em-sala"><i class="fa fa-check"></i><b>2.13</b> Exercício em sala</a></li>
+<li class="chapter" data-level="2.14" data-path="15-Shift-Share.html"><a href="#resumo-e-pr%C3%B3ximos-passos-1"><i class="fa fa-check"></i><b>2.14</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="2.15" data-path="15-Shift-Share.html"><a href="#refer%C3%AAncias-1"><i class="fa fa-check"></i><b>2.15</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="dags.html"><a href="dags.html"><i class="fa fa-check"></i><b>3</b> DAGs</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="dags.html"><a href="dags.html#causalidade"><i class="fa fa-check"></i><b>3.1</b> Causalidade</a></li>
+<li class="chapter" data-level="3.2" data-path="15-Shift-Share.html"><a href="#introdu%C3%A7%C3%A3o-1"><i class="fa fa-check"></i><b>3.2</b> Introdução</a></li>
+<li class="chapter" data-level="3.3" data-path="15-Shift-Share.html"><a href="#os-tipos-b%C3%A1sicos-de-dags"><i class="fa fa-check"></i><b>3.3</b> Os Tipos Básicos de DAGs</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="dags.html"><a href="dags.html#chains"><i class="fa fa-check"></i><b>3.3.1</b> 1. Chains</a></li>
+<li class="chapter" data-level="3.3.2" data-path="dags.html"><a href="dags.html#forks"><i class="fa fa-check"></i><b>3.3.2</b> 2. Forks</a></li>
+<li class="chapter" data-level="3.3.3" data-path="dags.html"><a href="dags.html#colliders"><i class="fa fa-check"></i><b>3.3.3</b> 3. Colliders</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="15-Shift-Share.html"><a href="#simula%C3%A7%C3%A3o-no-r-ilustrando-o-collider-bias"><i class="fa fa-check"></i><b>3.4</b> Simulação no R: Ilustrando o Collider Bias</a></li>
+<li class="chapter" data-level="3.5" data-path="15-Shift-Share.html"><a href="#defini%C3%A7%C3%B5es"><i class="fa fa-check"></i><b>3.5</b> Definições</a>
+<ul>
+<li class="chapter" data-level="3.5.1" data-path="15-Shift-Share.html"><a href="#rela%C3%A7%C3%B5es-entre-vari%C3%A1veis-n%C3%B3s"><i class="fa fa-check"></i><b>3.5.1</b> Relações entre Variáveis (nós):</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="dags.html"><a href="dags.html#controle-e-ajuste"><i class="fa fa-check"></i><b>3.6</b> Controle e Ajuste</a></li>
+<li class="chapter" data-level="3.7" data-path="15-Shift-Share.html"><a href="#fatoriza%C3%A7%C3%A3o-da-probabilidade-conjunta"><i class="fa fa-check"></i><b>3.7</b> Fatorização da Probabilidade Conjunta</a></li>
+<li class="chapter" data-level="3.8" data-path="15-Shift-Share.html"><a href="#fatoriza%C3%A7%C3%A3o-e-dags"><i class="fa fa-check"></i><b>3.8</b> Fatorização e DAGs</a></li>
+<li class="chapter" data-level="3.9" data-path="15-Shift-Share.html"><a href="#fatoriza%C3%A7%C3%A3o-dags-e-causalidade"><i class="fa fa-check"></i><b>3.9</b> Fatorização, DAGs e Causalidade</a></li>
+<li class="chapter" data-level="3.10" data-path="15-Shift-Share.html"><a href="#resumo-e-pr%C3%B3ximos-passos-2"><i class="fa fa-check"></i><b>3.10</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="3.11" data-path="15-Shift-Share.html"><a href="#refer%C3%AAncias-2"><i class="fa fa-check"></i><b>3.11</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="experimentos.html"><a href="experimentos.html"><i class="fa fa-check"></i><b>4</b> Experimentos</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="15-Shift-Share.html"><a href="#introdu%C3%A7%C3%A3o-2"><i class="fa fa-check"></i><b>4.1</b> Introdução</a></li>
+<li class="chapter" data-level="4.2" data-path="15-Shift-Share.html"><a href="#experimentos-aleat%C3%B3rios"><i class="fa fa-check"></i><b>4.2</b> Experimentos aleatórios</a></li>
+<li class="chapter" data-level="4.3" data-path="15-Shift-Share.html"><a href="#restri%C3%A7%C3%A3o-de-exclus%C3%A3o"><i class="fa fa-check"></i><b>4.3</b> Restrição de Exclusão</a></li>
+<li class="chapter" data-level="4.4" data-path="experimentos.html"><a href="experimentos.html#tipos-de-experimentos"><i class="fa fa-check"></i><b>4.4</b> Tipos de experimentos</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="15-Shift-Share.html"><a href="#aleatoriza%C3%A7%C3%A3o-de-bernoulli"><i class="fa fa-check"></i><b>4.4.1</b> Aleatorização de Bernoulli</a></li>
+<li class="chapter" data-level="4.4.2" data-path="15-Shift-Share.html"><a href="#aleatoriza%C3%A7%C3%A3o-completa"><i class="fa fa-check"></i><b>4.4.2</b> Aleatorização Completa</a></li>
+<li class="chapter" data-level="4.4.3" data-path="15-Shift-Share.html"><a href="#aleatoriza%C3%A7%C3%A3o-condicional-block-random-assigment"><i class="fa fa-check"></i><b>4.4.3</b> Aleatorização Condicional (Block Random Assigment)</a></li>
+<li class="chapter" data-level="4.4.4" data-path="15-Shift-Share.html"><a href="#pensando-aleatoriza%C3%A7%C3%A3o-em-bloco"><i class="fa fa-check"></i><b>4.4.4</b> Pensando aleatorização em bloco</a></li>
+<li class="chapter" data-level="4.4.5" data-path="15-Shift-Share.html"><a href="#ate-com-aleatoriza%C3%A7%C3%A3o-condicional-bloco"><i class="fa fa-check"></i><b>4.4.5</b> ATE com Aleatorização Condicional (Bloco)</a></li>
+<li class="chapter" data-level="4.4.6" data-path="15-Shift-Share.html"><a href="#aleatoriza%C3%A7%C3%A3o-em-bloco"><i class="fa fa-check"></i><b>4.4.6</b> Aleatorização em bloco</a></li>
+<li class="chapter" data-level="4.4.7" data-path="15-Shift-Share.html"><a href="#precis%C3%A3o-da-aleatoriza%C3%A7%C3%A3o-em-bloco"><i class="fa fa-check"></i><b>4.4.7</b> Precisão da aleatorização em bloco</a></li>
+<li class="chapter" data-level="4.4.8" data-path="15-Shift-Share.html"><a href="#compara%C3%A7%C3%A3o-de-ses"><i class="fa fa-check"></i><b>4.4.8</b> Comparação de SEs</a></li>
+<li class="chapter" data-level="4.4.9" data-path="experimentos.html"><a href="experimentos.html#cluster-randomization"><i class="fa fa-check"></i><b>4.4.9</b> Cluster randomization</a></li>
+<li class="chapter" data-level="4.4.10" data-path="experimentos.html"><a href="experimentos.html#tabelas-em-artigos"><i class="fa fa-check"></i><b>4.4.10</b> Tabelas em artigos</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="experimentos.html"><a href="experimentos.html#estimador-ate"><i class="fa fa-check"></i><b>4.5</b> Estimador ATE</a></li>
+<li class="chapter" data-level="4.6" data-path="15-Shift-Share.html"><a href="#resumo-do-cap%C3%ADtulo"><i class="fa fa-check"></i><b>4.6</b> Resumo do Capítulo</a></li>
+<li class="chapter" data-level="4.7" data-path="experimentos.html"><a href="experimentos.html#declare-design"><i class="fa fa-check"></i><b>4.7</b> Declare Design</a></li>
+<li class="chapter" data-level="4.8" data-path="15-Shift-Share.html"><a href="#exerc%C3%ADcio"><i class="fa fa-check"></i><b>4.8</b> Exercício</a>
+<ul>
+<li class="chapter" data-level="4.8.1" data-path="15-Shift-Share.html"><a href="#experimento-com-envio-de-cart%C3%B5es-postais-e-participa%C3%A7%C3%A3o-eleitoral"><i class="fa fa-check"></i><b>4.8.1</b> Experimento com envio de cartões-postais e participação eleitoral</a></li>
+<li class="chapter" data-level="4.8.2" data-path="15-Shift-Share.html"><a href="#experimento-com-an%C3%BAncios-de-tv-e-participa%C3%A7%C3%A3o-eleitoral"><i class="fa fa-check"></i><b>4.8.2</b> Experimento com anúncios de TV e participação eleitoral</a></li>
+<li class="chapter" data-level="4.8.3" data-path="15-Shift-Share.html"><a href="#exclus%C3%A3o-de-participantes-em-experimentos-de-survey"><i class="fa fa-check"></i><b>4.8.3</b> Exclusão de participantes em experimentos de survey</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html"><i class="fa fa-check"></i><b>5</b> Propensity Score e Matching</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="15-Shift-Share.html"><a href="#introdu%C3%A7%C3%A3o-3"><i class="fa fa-check"></i><b>5.1</b> Introdução</a></li>
+<li class="chapter" data-level="5.2" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#propensity-score"><i class="fa fa-check"></i><b>5.2</b> Propensity Score</a></li>
+<li class="chapter" data-level="5.3" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching"><i class="fa fa-check"></i><b>5.3</b> Matching</a></li>
+<li class="chapter" data-level="5.4" data-path="15-Shift-Share.html"><a href="#suposi%C3%A7%C3%B5es-de-identifica%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>5.4</b> Suposições de identificação</a></li>
+<li class="chapter" data-level="5.5" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching-1"><i class="fa fa-check"></i><b>5.5</b> Matching</a></li>
+<li class="chapter" data-level="5.6" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching-exato"><i class="fa fa-check"></i><b>5.6</b> Matching exato</a></li>
+<li class="chapter" data-level="5.7" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching-aproximado"><i class="fa fa-check"></i><b>5.7</b> Matching aproximado</a></li>
+<li class="chapter" data-level="5.8" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#estimando-1"><i class="fa fa-check"></i><b>5.8</b> Estimando</a></li>
+<li class="chapter" data-level="5.9" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#declare-design-e-matching"><i class="fa fa-check"></i><b>5.9</b> Declare Design e Matching</a>
+<ul>
+<li class="chapter" data-level="5.9.1" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching-e-propensity-scores"><i class="fa fa-check"></i><b>5.9.1</b> Matching e Propensity scores</a></li>
+</ul></li>
+<li class="chapter" data-level="5.10" data-path="15-Shift-Share.html"><a href="#recomenda%C3%A7%C3%B5es-pr%C3%A1ticas-sobre-matching"><i class="fa fa-check"></i><b>5.10</b> Recomendações Práticas sobre Matching</a></li>
+<li class="chapter" data-level="5.11" data-path="15-Shift-Share.html"><a href="#refer%C3%AAncias-3"><i class="fa fa-check"></i><b>5.11</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="15-Shift-Share.html"><a href="#vari%C3%A1veis-instrumentais"><i class="fa fa-check"></i><b>6</b> Variáveis Instrumentais</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="15-Shift-Share.html"><a href="#introdu%C3%A7%C3%A3o-4"><i class="fa fa-check"></i><b>6.1</b> Introdução</a></li>
+<li class="chapter" data-level="6.2" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html"><i class="fa fa-check"></i><b>6.2</b> IV com modelo estrutural</a></li>
+<li class="chapter" data-level="6.3" data-path="15-Shift-Share.html"><a href="#mqo-em-2-est%C3%A1gios"><i class="fa fa-check"></i><b>6.3</b> MQO em 2 Estágios</a></li>
+<li class="chapter" data-level="6.4" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#principais-usos-de-iv"><i class="fa fa-check"></i><b>6.4</b> Principais usos de IV</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#experimentos-1"><i class="fa fa-check"></i><b>6.4.1</b> Experimentos</a></li>
+<li class="chapter" data-level="6.4.2" data-path="15-Shift-Share.html"><a href="#regras-com-varia%C3%A7%C3%A3o-quasi-aleat%C3%B3ria"><i class="fa fa-check"></i><b>6.4.2</b> Regras com variação quasi-aleatória</a></li>
+<li class="chapter" data-level="6.4.3" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#teoria"><i class="fa fa-check"></i><b>6.4.3</b> Teoria</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="15-Shift-Share.html"><a href="#efeito-heterog%C3%AAneo"><i class="fa fa-check"></i><b>6.5</b> Efeito heterogêneo</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="15-Shift-Share.html"><a href="#suposi%C3%A7%C3%B5es-para-estimar-o-late"><i class="fa fa-check"></i><b>6.5.1</b> Suposições para estimar o LATE</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="15-Shift-Share.html"><a href="#restri%C3%A7%C3%A3o-de-exclus%C3%A3o-1"><i class="fa fa-check"></i><b>6.6</b> Restrição de Exclusão</a></li>
+<li class="chapter" data-level="6.7" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#monoticidade"><i class="fa fa-check"></i><b>6.7</b> Monoticidade</a></li>
+<li class="chapter" data-level="6.8" data-path="15-Shift-Share.html"><a href="#estima%C3%A7%C3%A3o-aka-estat%C3%ADstica-f"><i class="fa fa-check"></i><b>6.8</b> Estimação (aka estatística F)</a>
+<ul>
+<li class="chapter" data-level="6.8.1" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#f-stat"><i class="fa fa-check"></i><b>6.8.1</b> F stat</a></li>
+</ul></li>
+<li class="chapter" data-level="6.9" data-path="15-Shift-Share.html"><a href="#resumo-e-pr%C3%B3ximos-passos-3"><i class="fa fa-check"></i><b>6.9</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="6.10" data-path="15-Shift-Share.html"><a href="#refer%C3%AAncias-4"><i class="fa fa-check"></i><b>6.10</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="15-Shift-Share.html"><a href="#desenho-de-regres%C3%A3o-discont%C3%ADnua"><i class="fa fa-check"></i><b>7</b> Desenho de Regresão Discontínua</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html"><i class="fa fa-check"></i><b>7.1</b> Outline da aula</a></li>
+<li class="chapter" data-level="7.2" data-path="15-Shift-Share.html"><a href="#caracter%C3%ADsticas-chave-da-rdd"><i class="fa fa-check"></i><b>7.2</b> Características-chave da RDD</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="15-Shift-Share.html"><a href="#determina%C3%A7%C3%A3o-do-tratamento"><i class="fa fa-check"></i><b>7.2.1</b> Determinação do Tratamento</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#fuzzy-rdd"><i class="fa fa-check"></i><b>7.3</b> Fuzzy RDD</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="15-Shift-Share.html"><a href="#observa%C3%A7%C3%A3o-e-corte"><i class="fa fa-check"></i><b>7.3.1</b> Observação e Corte</a></li>
+<li class="chapter" data-level="7.3.2" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#estimativa-dos-efeitos-do-tratamento"><i class="fa fa-check"></i><b>7.3.2</b> Estimativa dos Efeitos do Tratamento</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="15-Shift-Share.html"><a href="#suposi%C3%A7%C3%A3o-de-continuidade"><i class="fa fa-check"></i><b>7.4</b> Suposição de continuidade</a></li>
+<li class="chapter" data-level="7.5" data-path="15-Shift-Share.html"><a href="#suposi%C3%A7%C3%B5es-na-rdd"><i class="fa fa-check"></i><b>7.5</b> Suposições na RDD</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="15-Shift-Share.html"><a href="#suposi%C3%A7%C3%A3o-de-n%C3%A3o-manipula%C3%A7%C3%A3o-com-precis%C3%A3o"><i class="fa fa-check"></i><b>7.5.1</b> Suposição de Não-manipulação com Precisão</a></li>
+<li class="chapter" data-level="7.5.2" data-path="15-Shift-Share.html"><a href="#problemas-de-manipula%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.5.2</b> Problemas de Manipulação</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="15-Shift-Share.html"><a href="#testabilidade-da-suposi%C3%A7%C3%A3o-de-n%C3%A3o-manipula%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.6</b> Testabilidade da Suposição de não-Manipulação</a></li>
+<li class="chapter" data-level="7.7" data-path="15-Shift-Share.html"><a href="#estima%C3%A7%C3%A3o-em-rdd"><i class="fa fa-check"></i><b>7.7</b> Estimação em RDD</a>
+<ul>
+<li class="chapter" data-level="7.7.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#problema-de-complete-overlapping"><i class="fa fa-check"></i><b>7.7.1</b> Problema de Complete Overlapping</a></li>
+<li class="chapter" data-level="7.7.2" data-path="15-Shift-Share.html"><a href="#depend%C3%AAncia-de-extrapola%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.7.2</b> Dependência de Extrapolação</a></li>
+</ul></li>
+<li class="chapter" data-level="7.8" data-path="15-Shift-Share.html"><a href="#m%C3%A9todos-de-estima%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.8</b> Métodos de Estimação</a>
+<ul>
+<li class="chapter" data-level="7.8.1" data-path="15-Shift-Share.html"><a href="#identifica%C3%A7%C3%A3o-no-limite"><i class="fa fa-check"></i><b>7.8.1</b> Identificação no Limite</a></li>
+</ul></li>
+<li class="chapter" data-level="7.9" data-path="15-Shift-Share.html"><a href="#trade-off-de-vi%C3%A9s-vari%C3%A2ncia"><i class="fa fa-check"></i><b>7.9</b> Trade-off de Viés-Variância</a>
+<ul>
+<li class="chapter" data-level="7.9.1" data-path="15-Shift-Share.html"><a href="#m%C3%A9todos-de-largura-de-banda-%C3%B3tima"><i class="fa fa-check"></i><b>7.9.1</b> Métodos de Largura de Banda Ótima</a></li>
+</ul></li>
+<li class="chapter" data-level="7.10" data-path="15-Shift-Share.html"><a href="#regras-arbitr%C3%A1rias"><i class="fa fa-check"></i><b>7.10</b> Regras arbitrárias</a></li>
+<li class="chapter" data-level="7.11" data-path="15-Shift-Share.html"><a href="#simula%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.11</b> Simulação</a></li>
+<li class="chapter" data-level="7.12" data-path="15-Shift-Share.html"><a href="#simula%C3%A7%C3%A3o---potential-outcomes-y0"><i class="fa fa-check"></i><b>7.12</b> Simulação - Potential Outcomes Y0</a></li>
+<li class="chapter" data-level="7.13" data-path="15-Shift-Share.html"><a href="#simula%C3%A7%C3%A3o---potential-outcomes-y1"><i class="fa fa-check"></i><b>7.13</b> Simulação - Potential Outcomes Y1</a></li>
+<li class="chapter" data-level="7.14" data-path="15-Shift-Share.html"><a href="#simula%C3%A7%C3%A3o---potential-outcomes-y1-e-y0"><i class="fa fa-check"></i><b>7.14</b> Simulação - Potential Outcomes Y1 e Y0</a></li>
+<li class="chapter" data-level="7.15" data-path="15-Shift-Share.html"><a href="#simula%C3%A7%C3%A3o---y-observado"><i class="fa fa-check"></i><b>7.15</b> Simulação - Y observado</a></li>
+<li class="chapter" data-level="7.16" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#quando-o-rdd-funciona"><i class="fa fa-check"></i><b>7.16</b> Quando o RDD funciona?</a></li>
+<li class="chapter" data-level="7.17" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#raw-data-versus-bin"><i class="fa fa-check"></i><b>7.17</b> Raw Data versus Bin</a></li>
+<li class="chapter" data-level="7.18" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#permutation-tests-balancing"><i class="fa fa-check"></i><b>7.18</b> Permutation tests (balancing)</a></li>
+<li class="chapter" data-level="7.19" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#mccray-test"><i class="fa fa-check"></i><b>7.19</b> McCray test</a></li>
+<li class="chapter" data-level="7.20" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#robustez"><i class="fa fa-check"></i><b>7.20</b> Robustez</a></li>
+<li class="chapter" data-level="7.21" data-path="15-Shift-Share.html"><a href="#densidade-descont%C3%ADnua---results"><i class="fa fa-check"></i><b>7.21</b> Densidade descontínua - results</a></li>
+<li class="chapter" data-level="7.22" data-path="15-Shift-Share.html"><a href="#regress%C3%A3o-rdd"><i class="fa fa-check"></i><b>7.22</b> Regressão RDD</a></li>
+<li class="chapter" data-level="7.23" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#placebo-tests"><i class="fa fa-check"></i><b>7.23</b> Placebo Tests</a></li>
+<li class="chapter" data-level="7.24" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#pcrd"><i class="fa fa-check"></i><b>7.24</b> PCRD</a></li>
+<li class="chapter" data-level="7.25" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#checklist-para-um-paper-de-rdd"><i class="fa fa-check"></i><b>7.25</b> Checklist para um paper de RDD</a></li>
+<li class="chapter" data-level="7.26" data-path="15-Shift-Share.html"><a href="#refer%C3%AAncias-5"><i class="fa fa-check"></i><b>7.26</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="15-Shift-Share.html"><a href="#diferen%C3%A7a-em-diferen%C3%A7as"><i class="fa fa-check"></i><b>8</b> Diferença em Diferenças</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="15-Shift-Share.html"><a href="#modelo-b%C3%A1sico-2x2"><i class="fa fa-check"></i><b>8.1</b> Modelo básico 2x2</a></li>
+<li class="chapter" data-level="8.2" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html"><i class="fa fa-check"></i><b>8.2</b> TWFE</a></li>
+<li class="chapter" data-level="8.3" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#pressupostos"><i class="fa fa-check"></i><b>8.3</b> Pressupostos</a></li>
+<li class="chapter" data-level="8.4" data-path="15-Shift-Share.html"><a href="#aplica%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>8.4</b> Aplicação</a></li>
+<li class="chapter" data-level="8.5" data-path="15-Shift-Share.html"><a href="#m%C3%BAltiplos-per%C3%ADodos"><i class="fa fa-check"></i><b>8.5</b> Múltiplos períodos</a></li>
+<li class="chapter" data-level="8.6" data-path="15-Shift-Share.html"><a href="#tend%C3%AAncias-paralelas"><i class="fa fa-check"></i><b>8.6</b> Tendências Paralelas</a></li>
+<li class="chapter" data-level="8.7" data-path="15-Shift-Share.html"><a href="#m%C3%BAltiplos-per%C3%ADodos-p%C3%B3s-tratamento"><i class="fa fa-check"></i><b>8.7</b> Múltiplos períodos pós-tratamento</a></li>
+<li class="chapter" data-level="8.8" data-path="15-Shift-Share.html"><a href="#an%C3%A1lise-de-sensibilidade-em-did"><i class="fa fa-check"></i><b>8.8</b> Análise de sensibilidade em DiD</a></li>
+<li class="chapter" data-level="8.9" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#did-generalizado"><i class="fa fa-check"></i><b>8.9</b> DiD generalizado</a></li>
+<li class="chapter" data-level="8.10" data-path="15-Shift-Share.html"><a href="#did-com-ado%C3%A7%C3%A3o-escalonada-staggered-timing"><i class="fa fa-check"></i><b>8.10</b> DID com adoção escalonada (staggered timing)</a></li>
+<li class="chapter" data-level="8.11" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#paper-voter-gratitude-last-long"><i class="fa fa-check"></i><b>8.11</b> Paper Voter Gratitude Last Long?</a></li>
+<li class="chapter" data-level="8.12" data-path="15-Shift-Share.html"><a href="#resumo-e-pr%C3%B3ximos-passos-4"><i class="fa fa-check"></i><b>8.12</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="8.13" data-path="15-Shift-Share.html"><a href="#refer%C3%AAncias-6"><i class="fa fa-check"></i><b>8.13</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html"><i class="fa fa-check"></i><b>9</b> Time-Series Cross-Section (TSCS)</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="15-Shift-Share.html"><a href="#introdu%C3%A7%C3%A3o-5"><i class="fa fa-check"></i><b>9.1</b> Introdução</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#within-versus-between"><i class="fa fa-check"></i><b>9.1.1</b> Within versus Between</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#ovb"><i class="fa fa-check"></i><b>9.2</b> OVB</a></li>
+<li class="chapter" data-level="9.3" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#estimandos"><i class="fa fa-check"></i><b>9.3</b> Estimandos</a></li>
+<li class="chapter" data-level="9.4" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#resultados-potenciais-1"><i class="fa fa-check"></i><b>9.4</b> Resultados Potenciais</a></li>
+<li class="chapter" data-level="9.5" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#modelo-ar1"><i class="fa fa-check"></i><b>9.5</b> Modelo AR(1)</a></li>
+<li class="chapter" data-level="9.6" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#sequential-ignorability"><i class="fa fa-check"></i><b>9.6</b> Sequential ignorability</a></li>
+<li class="chapter" data-level="9.7" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#resumo"><i class="fa fa-check"></i><b>9.7</b> Resumo</a>
+<ul>
+<li class="chapter" data-level="9.7.1" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#remark"><i class="fa fa-check"></i><b>9.7.1</b> Remark</a></li>
+</ul></li>
+<li class="chapter" data-level="9.8" data-path="15-Shift-Share.html"><a href="#suposi%C3%A7%C3%B5es-para-infer%C3%AAncia"><i class="fa fa-check"></i><b>9.8</b> Suposições para Inferência</a>
+<ul>
+<li class="chapter" data-level="9.8.1" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#remark-1"><i class="fa fa-check"></i><b>9.8.1</b> Remark</a></li>
+</ul></li>
+<li class="chapter" data-level="9.9" data-path="15-Shift-Share.html"><a href="#efeitos-aleat%C3%B3rios"><i class="fa fa-check"></i><b>9.9</b> Efeitos aleatórios</a></li>
+<li class="chapter" data-level="9.10" data-path="15-Shift-Share.html"><a href="#refer%C3%AAncias-7"><i class="fa fa-check"></i><b>9.10</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="synthetic-control.html"><a href="synthetic-control.html"><i class="fa fa-check"></i><b>10</b> Synthetic Control</a>
+<ul>
+<li class="chapter" data-level="10.0.1" data-path="synthetic-control.html"><a href="synthetic-control.html#tratamento"><i class="fa fa-check"></i><b>10.0.1</b> Tratamento</a></li>
+<li class="chapter" data-level="10.1" data-path="15-Shift-Share.html"><a href="#implementa%C3%A7%C3%A3o-no-r"><i class="fa fa-check"></i><b>10.1</b> Implementação no R</a></li>
+<li class="chapter" data-level="10.2" data-path="synthetic-control.html"><a href="synthetic-control.html#synthethic-did"><i class="fa fa-check"></i><b>10.2</b> Synthethic DiD</a></li>
+<li class="chapter" data-level="10.3" data-path="15-Shift-Share.html"><a href="#resumo-e-pr%C3%B3ximos-passos-5"><i class="fa fa-check"></i><b>10.3</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="10.4" data-path="15-Shift-Share.html"><a href="#refer%C3%AAncias-8"><i class="fa fa-check"></i><b>10.4</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="llms-e-outras.html"><a href="llms-e-outras.html"><i class="fa fa-check"></i><b>11</b> LLMs e outras</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="llms-e-outras.html"><a href="llms-e-outras.html#google-colab"><i class="fa fa-check"></i><b>11.1</b> Google Colab</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="machine-learning.html"><a href="machine-learning.html"><i class="fa fa-check"></i><b>12</b> Machine Learning</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="15-Shift-Share.html"><a href="#introdu%C3%A7%C3%A3o-6"><i class="fa fa-check"></i><b>12.1</b> Introdução</a></li>
+<li class="chapter" data-level="12.2" data-path="machine-learning.html"><a href="machine-learning.html#terminologia"><i class="fa fa-check"></i><b>12.2</b> Terminologia</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="machine-learning.html"><a href="machine-learning.html#lasso"><i class="fa fa-check"></i><b>12.2.1</b> LASSO</a></li>
+<li class="chapter" data-level="12.2.2" data-path="machine-learning.html"><a href="machine-learning.html#double-lasso"><i class="fa fa-check"></i><b>12.2.2</b> Double Lasso</a></li>
+<li class="chapter" data-level="12.2.3" data-path="15-Shift-Share.html"><a href="#outras-solu%C3%A7%C3%B5es-ineficazes"><i class="fa fa-check"></i><b>12.2.3</b> Outras soluções ineficazes</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="machine-learning.html"><a href="machine-learning.html#dl---algoritmo"><i class="fa fa-check"></i><b>12.3</b> DL - Algoritmo</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="15-Shift-Share.html"><a href="#termos-de-intera%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>13</b> Termos de Interação</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="15-Shift-Share.html"><a href="#aplica%C3%A7%C3%A3o-1"><i class="fa fa-check"></i><b>13.1</b> Aplicação</a></li>
+<li class="chapter" data-level="13.2" data-path="termos-de-interação.html"><a href="termos-de-interação.html"><i class="fa fa-check"></i><b>13.2</b> DML</a></li>
+<li class="chapter" data-level="13.3" data-path="termos-de-interação.html"><a href="termos-de-interação.html#double-debiasing"><i class="fa fa-check"></i><b>13.3</b> Double Debiasing</a></li>
+<li class="chapter" data-level="13.4" data-path="termos-de-interação.html"><a href="termos-de-interação.html#cross-fitting"><i class="fa fa-check"></i><b>13.4</b> Cross-fitting</a></li>
+<li class="chapter" data-level="13.5" data-path="15-Shift-Share.html"><a href="#quest%C3%B5es-pr%C3%A1ticas"><i class="fa fa-check"></i><b>13.5</b> Questões Práticas</a></li>
+<li class="chapter" data-level="13.6" data-path="15-Shift-Share.html"><a href="#resumo-e-pr%C3%B3ximos-passos-6"><i class="fa fa-check"></i><b>13.6</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="13.7" data-path="15-Shift-Share.html"><a href="#refer%C3%AAncias-9"><i class="fa fa-check"></i><b>13.7</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="resumo-1.html"><a href="resumo-1.html"><i class="fa fa-check"></i><b>14</b> Resumo</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="resumo-1.html"><a href="resumo-1.html#matching-2"><i class="fa fa-check"></i><b>14.1</b> Matching</a></li>
+<li class="chapter" data-level="14.2" data-path="resumo-1.html"><a href="resumo-1.html#iv"><i class="fa fa-check"></i><b>14.2</b> IV</a></li>
+<li class="chapter" data-level="14.3" data-path="resumo-1.html"><a href="resumo-1.html#rdd"><i class="fa fa-check"></i><b>14.3</b> RDD</a></li>
+<li class="chapter" data-level="14.4" data-path="resumo-1.html"><a href="resumo-1.html#did"><i class="fa fa-check"></i><b>14.4</b> DiD</a>
+<ul>
+<li class="chapter" data-level="14.4.1" data-path="resumo-1.html"><a href="resumo-1.html#tscs"><i class="fa fa-check"></i><b>14.4.1</b> TSCS</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="resumo-1.html"><a href="resumo-1.html#scm"><i class="fa fa-check"></i><b>14.5</b> SCM</a></li>
+<li class="chapter" data-level="14.6" data-path="15-Shift-Share.html"><a href="#did-sint%C3%A9tico"><i class="fa fa-check"></i><b>14.6</b> DiD Sintético</a></li>
+<li class="chapter" data-level="14.7" data-path="resumo-1.html"><a href="resumo-1.html#double-lasso-1"><i class="fa fa-check"></i><b>14.7</b> Double LASSO</a></li>
+<li class="chapter" data-level="14.8" data-path="resumo-1.html"><a href="resumo-1.html#dml-1"><i class="fa fa-check"></i><b>14.8</b> DML</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="shift-share.html"><a href="shift-share.html"><i class="fa fa-check"></i><b>15</b> Shift-share</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="15-Shift-Share.html"><a href="#introdu%C3%A7%C3%A3o-7"><i class="fa fa-check"></i><b>15.1</b> Introdução</a></li>
+<li class="chapter" data-level="15.2" data-path="15-Shift-Share.html"><a href="#exemplos-da-pol%C3%ADtica"><i class="fa fa-check"></i><b>15.2</b> Exemplos da Política</a></li>
+<li class="chapter" data-level="15.3" data-path="15-Shift-Share.html"><a href="#varia%C3%A7%C3%A3o-temporal"><i class="fa fa-check"></i><b>15.3</b> Variação temporal</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="15-Shift-Share.html"><a href="#interfer%C3%AAncia-spillover-e-din%C3%A2mica"><i class="fa fa-check"></i><b>16</b> Interferência, spillover e dinâmica</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="15-Shift-Share.html"><a href="#suposi%C3%A7%C3%B5es-simplificadoras"><i class="fa fa-check"></i><b>16.1</b> Suposições simplificadoras</a></li>
+<li class="chapter" data-level="16.2" data-path="15-Shift-Share.html"><a href="#po-com-tratamento-de-m%C3%BAltiplos-valores-multi-valued"><i class="fa fa-check"></i><b>16.2</b> PO com tratamento de múltiplos valores (multi-valued)</a>
+<ul>
+<li class="chapter" data-level="16.2.1" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html"><i class="fa fa-check"></i><b>16.2.1</b> Multi-valued discreto</a></li>
+</ul></li>
+<li class="chapter" data-level="16.3" data-path="15-Shift-Share.html"><a href="#din%C3%A2mica"><i class="fa fa-check"></i><b>16.3</b> Dinâmica</a></li>
+<li class="chapter" data-level="16.4" data-path="15-Shift-Share.html"><a href="#interfer%C3%AAncia"><i class="fa fa-check"></i><b>16.4</b> Interferência</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Curso de Inferência Causal</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="shift-share" class="section level1 hasAnchor" number="15">
+<h1><span class="header-section-number">Capítulo 15</span> Shift-share<a href="shift-share.html#shift-share" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="introdução-7" class="section level2 hasAnchor" number="15.1">
+<h2><span class="header-section-number">15.1</span> Introdução<a href="#introdu%C3%A7%C3%A3o-7" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>O termo “shift-share” surgiu no contexto de análise que procuravam decompor uma variável econômica em subcomponentes. Até onde eu sei isso não era comum na ciência política, talvez por não ser uma questão “natural” para nós, mas vou tentar explicar a lógica dessas decomposições com exemplos da política. Mas comecemos com os primeiros exemplos na economia.</p>
+<p>Digamos que queremos decompor o pib per capita de um estado. Seja <span class="math inline">\(D_{ij}\)</span> o pib per capita do estado <span class="math inline">\(i\)</span> e indústria <span class="math inline">\(j\)</span>. Seja <span class="math inline">\(w_{ij}\)</span> a parcela (share) da economia da indústria <span class="math inline">\(j\)</span> no estado <span class="math inline">\(i\)</span>. Então, o pib per capita do estado <span class="math inline">\(i\)</span>, <span class="math inline">\(X_i\)</span> pode ser decomposto por:</p>
+<p><span class="math inline">\(X_i = \sum_j w_{ij}D_{ij} = \sum_j w_{ij}D_{ij} + \sum_j w_{ij}\bar{D}_{j} - \sum_j w_{ij}\bar{D}_{j} = \sum_j w_{ij}\bar{D}_{j} + \sum_j w_{ij}D_{ij} - \sum_j w_{ij}\bar{D}_{j} = \sum_j w_{ij}\bar{D}_{j} + \sum_j w_{ij} (D_{ij} - \bar{D}_{j})\)</span></p>
+<p><span class="math inline">\(X_i = \underbrace{\sum_j w_{ij}\bar{D}_{j}}_{\text{PIB esperado}}  +  \underbrace{\sum_j w_{ij} (D_{ij} - \bar{D}_{j})}_{\text{choque regional no PIB}}\)</span></p>
+</div>
+<div id="exemplos-da-política" class="section level2 hasAnchor" number="15.2">
+<h2><span class="header-section-number">15.2</span> Exemplos da Política<a href="#exemplos-da-pol%C3%ADtica" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Agora vamos considerar exemplos da política. Um exemplo que me parece “natural” é o voto por estado, que pode ser decomposto em voto por partido. Seja <span class="math inline">\(D_{ij}\)</span> o total de votos de um partido <span class="math inline">\(j\)</span> em um estado <span class="math inline">\(i\)</span> em eleições municipais e <span class="math inline">\(w_{ij}\)</span> a parcela de votos do partido <span class="math inline">\(j\)</span> no estado <span class="math inline">\(i\)</span>. Então, o total de votos <span class="math inline">\(X_i\)</span> no estado <span class="math inline">\(i\)</span> pode ser decomposto em:</p>
+<p><span class="math inline">\(X_i = \sum_j w_{ij}D_{ij} = \underbrace{\sum_j w_{ij}\bar{D}_{j}}_{\text{votação esperada}} +  \underbrace{\sum_j w_{ij} (D_{ij} - \bar{D}_{j})}_{\text{choque regional da votação}}\)</span></p>
+<p>A gente poderia pensar que o poder de um país poderia ser um exemplo em RI. Tipicamente ele é decomposto em componentes militares, econômicos e culturais. Contudo, não é apropriado porque os componentes se misturam, isto é, aumentar a economia ajuda a aumentar o outro, por exemplo, aspecto cultural e vice-versa. Para que a decomposição funcione, é preciso que sejam ortogonais. Um exemplo mais apropriado é volume de comércio internacional. Ele pode ser decomposto em volumes por indústria (como na economia), ou por parceiros comerciais.</p>
+<p>O aspecto crucial aqui a ser notado é que é necessário existe uma variável que pode ser decomposta em subunidades formadas por categorias mutuamente excludentes. Neste exemplo, o voto do partido exclui voto em outro partido necessariamente. No exemplo original da economia a renda per capita ou pib percapita de uma indústria exclui a de todas as outras.</p>
+<p>É curioso que não tenha havido maior utilização desse tipo de variável instrumental na ciência política e RI, na medida em que temos várias medidas potencialmente decompostas em subunidades formada por categorias excludentes.</p>
+</div>
+<div id="variação-temporal" class="section level2 hasAnchor" number="15.3">
+<h2><span class="header-section-number">15.3</span> Variação temporal<a href="#varia%C3%A7%C3%A3o-temporal" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Para construir o instrumento de <em>shift-share</em> é preciso adicionar uma dimensão temporal. Suponha que a parcela <span class="math inline">\(w_{ij}\)</span> de votos no partido <span class="math inline">\(j\)</span> no estado <span class="math inline">\(i\)</span> varia no tempo. Isso é razoável, o PT, por exemplo, vai ter variação na sua votação por estado ao longo do tempo. Vamos chamar <span class="math inline">\(w_{ijt}\)</span> a parcela <span class="math inline">\(w_{ij}\)</span> no tempo <span class="math inline">\(t=0, 1, ...\)</span>. Assim, podemos expressar <span class="math inline">\(w_{ijt}\)</span> como a soma da parcela inicial <span class="math inline">\(w_{ij0}\)</span> e a mudança ao longo do tempo <span class="math inline">\(w_{ijt} - w_{ij0}\)</span>, <span class="math inline">\(w_{ijt} = w_{ij0} + (w_{ijt} - w_{ij0})\)</span> e decompor <span class="math inline">\(X_i\)</span> em três componentes:</p>
+<p><span class="math inline">\(X_{ijt} = \sum_j w_{ijt}D_{ijt} = \sum_j w_{ij0} + (w_{ijt} - w_{ij0}) D_{ijt} = \sum_j \underbrace{w_{ij0}}_{\text{parcela inicial}}D_{ijt} +\sum_j  \underbrace{(w_{ijt} - w_{ij0})}_{\text{variação na parcela}} D_{ijt}\)</span></p>
+<p>E agora aplicamos nosso truque usual de somar e subtrair o mesmo termo, no caso, relativo a média <span class="math inline">\(\bar{D}_{jt}\)</span>, mais especificamente <span class="math inline">\(w_{ij0}\bar{D}_{jt}\)</span>. Então, temos:</p>
+<p><span class="math inline">\(X_{ijt} =\sum_j w_{ij0}D_{ijt} + (w_{ijt} - w_{ij0}) D_{ijt} = \sum_j w_{ij0} D_{ijt} + \sum_jw_{ij0}\bar{D}_{jt} - \sum_jw_{ij0}\bar{D}_{jt} + \sum_j  (w_{ijt} - w_{ij0}) D_{ijt} = \underbrace{\sum_jw_{ij0}\bar{D}_{jt}}_{\text{A: votação esperada}} + \underbrace{\sum_j w_{ij0} (D_{ijt} - \bar{D}_{jt})}_{\text{B: choque partidário}} + \underbrace{\sum_j  (w_{ijt} - w_{ij0}) D_{ijt}}_{\text{C: choque temporal}}\)</span></p>
+<p>A interpretação de cada componente é: <span class="math inline">\(A: votação esperada\)</span> reflete a tendencia ou média de votação dos partidos no estado <span class="math inline">\(i\)</span> no ano <span class="math inline">\(t\)</span> levando em conta a composição inicial da distribuição de votos por partido <span class="math inline">\(w_{ij0}\)</span>.</p>
+<p>O Componente <span class="math inline">\(B: choque partidário\)</span> reflete a mudança na distribuição de votos por partido por estado. Cada termo <span class="math inline">\(w_{ij0}(D_{ijt} - \bar{D}{jt})\)</span> mede quanto a votação do partido <span class="math inline">\(j\)</span> no estado <span class="math inline">\(i\)</span> se desviou da referência média <span class="math inline">\(\bar{D}_{jt}\)</span> naquele ano. Se <span class="math inline">\(D_{ijt} - \bar{D}{jt}\)</span> for positivo, significa que o partido <span class="math inline">\(j\)</span> teve um desempenho acima do esperado no estado <span class="math inline">\(i\)</span> (um choque positivo ali), contribuindo para aumentar <span class="math inline">\(X_{it}\)</span>. Se for negativo, o partido <span class="math inline">\(j\)</span> foi pior que a média no estado (choque negativo), reduzindo <span class="math inline">\(X_{it}\)</span> em relação ao esperado. Importante: esses desvios são ponderados por <span class="math inline">\(w_{ij0}\)</span> (quão importante era o partido <span class="math inline">\(j\)</span> no estado <span class="math inline">\(i\)</span> inicialmente), de modo que choques em partidos que tinham grande presença inicial no estado impactam mais o total <span class="math inline">\(X_{it}\)</span> do que choques em partidos com pouca presença inicial. Este componente é chamado de shift porque reflete as mudanças (shifts) no desempenho dos partidos a nível nacional/setorial afetando o estado conforme sua composição inicial.</p>
+<p>O componente <span class="math inline">\(C: choque temporal\)</span> representa o impacto das mudanças na participação dos partidos no próprio estado <span class="math inline">\(i\)</span> ao longo do tempo. Aqui consideramos a diferença <span class="math inline">\(w_{ijt} - w_{ij0}\)</span>, ou seja, o quanto a participação do partido <span class="math inline">\(j\)</span> mudou no estado <span class="math inline">\(i\)</span> desde o período inicial. Esse termo mede os choques locais ou regionais na composição dos votos. Por exemplo, se um partido <span class="math inline">\(j\)</span> ganhou espaço no estado <span class="math inline">\(i\)</span> (aumentou sua fatia <span class="math inline">\(w_{ijt}\)</span> em relação à inicial <span class="math inline">\(w_{ij0}\)</span>), isso adiciona votos ao total <span class="math inline">\(X_{it}\)</span> (já que <span class="math inline">\(D_{ijt}\)</span> é multiplicado por um <span class="math inline">\(\Delta w\)</span> positivo). Por outro lado, se um partido perdeu participação no estado, o termo será negativo, indicando que o estado <span class="math inline">\(i\)</span> teve um desempenho pior por mudança na composição dos votos entre partidos. Em suma, este componente reflete alterações estruturais próprias do estado – vantagens competitivas locais, realinhamentos políticos regionais, etc. – independentemente da tendência geral dos partidos.</p>
+<p>Em conjunto, esses três componentes (A, B e C) formam o instrumento de shift-share desejado. Eles nos permitem entender <span class="math inline">\(X_{it}\)</span> da seguinte forma: (A) o que seria esperado dada a tendência geral (tamanho dos partidos em nível nacional e composição inicial do estado), (B) o quanto o estado ganhou ou perdeu devido a shifts no desempenho dos partidos (os choques dos partidos ponderados pela estrutura inicial do estado) e (C) o quanto se deve a mudanças internas do próprio estado na distribuição de votos (share regional). Cada passo da derivação acima evidencia explicitamente como chegamos a essa decomposição, tornando claros os papéis de <span class="math inline">\(w_{ij0}\)</span> (participações iniciais), de <span class="math inline">\(D_{ijt} - \bar{D}{jt}\)</span> (choques de desempenho dos partidos) e de <span class="math inline">\(w_{ijt} - w_{ij0}\)</span> (choques de participação regionais) na construção do instrumento de shift-share.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="resumo-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="interferência-spillover-e-dinâmica.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/mgaldino/Causalidade/edit/main/15-Shift-Share.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": "https://github.com/mgaldino/Causalidade/blob/main/15-Shift-Share.Rmd",
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

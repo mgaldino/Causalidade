@@ -33,11 +33,11 @@ Nós vemos que o efeito causal do tratamento $T$ é confundido pela variável n�
 
 Do ponto de vista não paramétrico (DAGs), dizemos que a variável $Z$ é uma **candidata** a variável instrumental (IV) se:
 
-1. $Z$ está conectado a X no grafo original. Condição de **relevância**.
+1. $Z$ está conectado a $T$ no grafo original. Condição de **relevância**.
 
 2. No grafo em que a seta de $T$ para $y$ é removida, $Z$ é d-separado de $Y$. **Exclusion Restriction**.
 
-3. A variável instrumental $Z$ não compartilha causa comum com $y$, incluindo, portanto, não ser descendente de $T$. **Causa comum**.
+3. A variável instrumental $Z$ não compartilha causa comum com $Y$, incluindo, portanto, não ser descendente de $T$. **Causa comum**.
 
 Remark: Pode acontecer de ser necessário controlar para uma conjunto de covariáveis $X$ para que a segunda condição seja satisfeita. Chamamos isso de IV condicional.
 
@@ -130,6 +130,8 @@ Por fim, $Z$ não compartilha causa comum com $Y$.
 
 Nesse DAG, $Z$ não está d-separado de $Y$, pois existe um caminho aberto para $Y$ via $L$. Portanto, controlando para $L$ (mas não $W$), tenho um instrumento que passa nas duas condições.
 
+Até aqui vimos as condições para que uma variável seja candidata a instrumento a partir da perspectiva de DAGs. Vejamos agora como essas condições se traduzem em um modelo estrutural paramétrico.
+
 ## IV com modelo estrutural
 
 $y_i = \beta D_i + \delta_2 U + e_i$
@@ -161,7 +163,7 @@ E aqui temos uma nova *switching equation*:
 $T_i = T^0_i + (T^1_i - T^0_i)Z_i$
 
 \begin{align}
-   E\big[Y_i\mid Z_i=1\big]-E\big[Y_i\mid Z_i=0\big] & = E\big[Y_i(D_i^1,1)\mid Z_i=1\mid]-
+   E\big[Y_i\mid Z_i=1\big]-E\big[Y_i\mid Z_i=0\big] & = E\big[Y_i(D_i^1,1)\mid Z_i=1\big]-
    E\big[Y_i(D_i^0,0)\mid Z_i=0\big]
    \\
                                     & = E[Y_i(D_i^1,1)] - E[Y_i(D_i^0,0)]  
@@ -272,7 +274,9 @@ Glaeser et al. (2004) usaram origem legal como instrumento para restrições ao 
 
 Henderson and Brooks, 2016, usam chuva ao redor do dia da eleição como instrumento para votação de candidatos democratas, e concluem que aumento da chuva reduz comparecimento que causa democratas terem comportamento legislativo mais direitoso.
 
-##Efeito heterogêneo
+Os resultados acima supõem que o efeito do tratamento é homogêneo. Mas o que acontece quando diferentes indivíduos respondem de maneira diferente ao tratamento?
+
+## Efeito heterogêneo
 
 
 Se houver efeito heretogêneo (apenas mulheres mudam comportamento em razão do instrumento, por exemplo), então estamos estimando o efeito apenas para aquele subgrupo (são os compliers com o instrumento).
@@ -304,11 +308,13 @@ Essa suposição parece tranquilamente satisfeita no estudo em questão, já que
 
 ## Restrição de Exclusão
 
+A restrição de exclusão requer que o instrumento $Z$ afete o resultado $Y$ apenas por meio do tratamento $T$. Em outras palavras, não há efeito direto de $Z$ sobre $Y$ que não passe por $T$. Essa suposição é não testável diretamente e deve ser justificada com argumentos substantivos.
+
 ## Monoticidade
 
 Por fim, precisamos assumir monoticidade. Ela requer que a variável instrumental opera (fracamente) em todas as direções para todos os indivíduos. Ou seja, todo mundo que é afetado pelo instrumento é afetado da mesma maneira. Em outras palavras, o instrumento apenas move as pessoas do controle para o tratamento (ou não move a pessoa), mas nunca o contrário. Ou seja, estamos assumindo que não há defiers na nossa população.
 
-Matematicamente e de maneira geral, dizemos que a monoticidade é válida quando $T^{Z=1} >= T^{Z=0}$ para todas as unidades.
+Matematicamente e de maneira geral, dizemos que a monoticidade é válida quando $T^{Z=1} \geq T^{Z=0}$ para todas as unidades.
 
 Com essas suposições, nós estiamos o LATE: Local Average Treatment Effect of T on Y. Isso porque nosso estimador é:
 
@@ -323,9 +329,11 @@ Com essas suposições, nós estiamos o LATE: Local Average Treatment Effect of 
 Porém, sabemos que o instrumento não tem efeito causal sobre always-takers nem never-takers, então o efeito causal é zero para esses grupos. E a proporção de defiers é zero, de modo que ficamos apenas com a parte dos compliers. E nesse grupo, $Z = T$, de modo que o efeito do instrumento é o efeito do tratamento. Então podemos reescrever como:
 
 
-$$\delta_{IV,LATE} = \mathbb{E}[Y(1) - Y^0)|T^1 - T^0 = 1]$$
+$$\delta_{IV,LATE} = \mathbb{E}[Y(1) - Y(0)|T^1 - T^0 = 1]$$
 
 Vejam que o denominador nos dá a proporção da população que mudou seu status por causa do instrumento.
+
+O LATE é um parâmetro local: ele se refere apenas ao subgrupo de compliers. Isso é ao mesmo tempo uma força (é um efeito causal bem definido) e uma limitação (pode não representar o efeito para toda a população). Vejamos agora questões práticas de estimação.
 
 ## Estimação (aka estatística F)
 
@@ -379,6 +387,12 @@ O patoce ivDiag computa essa estatística F. Função eff_F.
 
 Alternativa é computar um invervalo de confiança de Anderson-Rubin, que é válido mesmo com instrumento fraco. Novamente, ivDiag computa esse IC.  
 
+
+## Resumo e próximos passos
+
+Neste capítulo, vimos que variáveis instrumentais permitem estimar efeitos causais mesmo na presença de confundidores não observados. As condições para que uma variável seja um instrumento válido — relevância, restrição de exclusão e ausência de causa comum — são necessárias mas não suficientes; a monotonicidade é adicionalmente requerida para estimar o LATE. Na prática, a estatística F do primeiro estágio é uma ferramenta essencial para avaliar a força do instrumento, com limiares recomendados de 10 (regra clássica) ou 23,1 (teste robusto a heterocedasticidade).
+
+No próximo capítulo, veremos Regressão Descontínua (RDD), um desenho quasi-experimental que explora pontos de corte em variáveis contínuas para identificar efeitos causais.
 
 ## Referências
 

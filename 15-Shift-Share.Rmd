@@ -1,0 +1,43 @@
+# Shift-share
+
+## Introdução
+
+O termo "shift-share" surgiu no contexto de análise que procuravam decompor uma variável econômica em subcomponentes. Até onde eu sei isso não era comum na ciência política, talvez por não ser uma questão "natural" para nós, mas vou tentar explicar a lógica dessas decomposições com exemplos da política. Mas comecemos com os primeiros exemplos na economia.
+
+Digamos que queremos decompor o pib per capita de um estado. Seja $D_{ij}$ o pib per capita do estado $i$ e indústria $j$. Seja $w_{ij}$ a parcela (share) da economia da indústria $j$ no estado $i$. Então, o pib per capita do estado $i$, $X_i$ pode ser decomposto por:
+
+$X_i = \sum_j w_{ij}D_{ij} = \sum_j w_{ij}D_{ij} + \sum_j w_{ij}\bar{D}_{j} - \sum_j w_{ij}\bar{D}_{j} = \sum_j w_{ij}\bar{D}_{j} + \sum_j w_{ij}D_{ij} - \sum_j w_{ij}\bar{D}_{j} = \sum_j w_{ij}\bar{D}_{j} + \sum_j w_{ij} (D_{ij} - \bar{D}_{j})$
+
+$X_i = \underbrace{\sum_j w_{ij}\bar{D}_{j}}_{\text{PIB esperado}}  +  \underbrace{\sum_j w_{ij} (D_{ij} - \bar{D}_{j})}_{\text{choque regional no PIB}}$
+
+## Exemplos da Política
+
+Agora vamos considerar exemplos da política. Um exemplo que me parece "natural" é o voto por estado, que pode ser decomposto em voto por partido. Seja $D_{ij}$ o total de votos de um partido $j$ em um estado $i$ em eleições municipais e $w_{ij}$ a parcela de votos do partido $j$ no estado $i$. Então, o total de votos $X_i$ no estado $i$ pode ser decomposto em:
+
+$X_i = \sum_j w_{ij}D_{ij} = \underbrace{\sum_j w_{ij}\bar{D}_{j}}_{\text{votação esperada}} +  \underbrace{\sum_j w_{ij} (D_{ij} - \bar{D}_{j})}_{\text{choque regional da votação}}$
+
+A gente poderia pensar que o poder de um país poderia ser um exemplo em RI. Tipicamente ele é decomposto em componentes militares, econômicos e culturais. Contudo, não é apropriado porque os componentes se misturam, isto é, aumentar a economia ajuda a aumentar o outro, por exemplo, aspecto cultural e vice-versa. Para que a decomposição funcione, é preciso que sejam ortogonais. Um exemplo mais apropriado é volume de comércio internacional. Ele pode ser decomposto em volumes por indústria (como na economia), ou por parceiros comerciais.
+
+O aspecto crucial aqui a ser notado é que é necessário existe uma variável que pode ser decomposta em subunidades formadas por categorias mutuamente excludentes. Neste exemplo, o voto do partido exclui voto em outro partido necessariamente. No exemplo original da economia a renda per capita ou pib percapita de uma indústria exclui a de todas as outras.
+
+É curioso que não tenha havido maior utilização desse tipo de variável instrumental na ciência política e RI, na medida em que temos várias medidas potencialmente decompostas em subunidades formada por categorias excludentes.
+
+## Variação temporal
+
+Para construir o instrumento de *shift-share* é preciso adicionar uma dimensão temporal. Suponha que a parcela $w_{ij}$ de votos no partido $j$ no estado $i$ varia no tempo. Isso é razoável, o PT, por exemplo, vai ter variação na sua votação por estado ao longo do tempo. Vamos chamar $w_{ijt}$ a parcela $w_{ij}$ no tempo $t=0, 1, ...$. Assim, podemos expressar $w_{ijt}$ como a soma da parcela inicial $w_{ij0}$ e a mudança ao longo do tempo $w_{ijt} - w_{ij0}$,  $w_{ijt} = w_{ij0} + (w_{ijt} - w_{ij0})$ e decompor $X_i$ em três componentes:
+
+$X_{ijt} = \sum_j w_{ijt}D_{ijt} = \sum_j w_{ij0} + (w_{ijt} - w_{ij0}) D_{ijt} = \sum_j \underbrace{w_{ij0}}_{\text{parcela inicial}}D_{ijt} +\sum_j  \underbrace{(w_{ijt} - w_{ij0})}_{\text{variação na parcela}} D_{ijt}$
+
+E agora aplicamos nosso truque usual de somar e subtrair o mesmo termo, no caso, relativo a média $\bar{D}_{jt}$, mais especificamente $w_{ij0}\bar{D}_{jt}$. Então, temos:
+
+
+$X_{ijt} =\sum_j w_{ij0}D_{ijt} + (w_{ijt} - w_{ij0}) D_{ijt} = \sum_j w_{ij0} D_{ijt} + \sum_jw_{ij0}\bar{D}_{jt} - \sum_jw_{ij0}\bar{D}_{jt} + \sum_j  (w_{ijt} - w_{ij0}) D_{ijt} = \underbrace{\sum_jw_{ij0}\bar{D}_{jt}}_{\text{A: votação esperada}} + \underbrace{\sum_j w_{ij0} (D_{ijt} - \bar{D}_{jt})}_{\text{B: choque partidário}} + \underbrace{\sum_j  (w_{ijt} - w_{ij0}) D_{ijt}}_{\text{C: choque temporal}}$
+
+A interpretação de cada componente é: $A: votação esperada$ reflete a tendencia ou média de votação dos partidos no estado $i$ no ano $t$ levando em conta a composição inicial da distribuição de votos por partido $w_{ij0}$. 
+
+O Componente $B: choque partidário$ reflete a mudança na distribuição de votos por partido por estado. Cada termo $w_{ij0}(D_{ijt} - \bar{D}{jt})$ mede quanto a votação do partido $j$ no estado $i$ se desviou da referência média $\bar{D}_{jt}$ naquele ano. Se $D_{ijt} - \bar{D}{jt}$ for positivo, significa que o partido $j$ teve um desempenho acima do esperado no estado $i$ (um choque positivo ali), contribuindo para aumentar $X_{it}$. Se for negativo, o partido $j$ foi pior que a média no estado (choque negativo), reduzindo $X_{it}$ em relação ao esperado. Importante: esses desvios são ponderados por $w_{ij0}$ (quão importante era o partido $j$ no estado $i$ inicialmente), de modo que choques em partidos que tinham grande presença inicial no estado impactam mais o total $X_{it}$ do que choques em partidos com pouca presença inicial. Este componente é chamado de shift porque reflete as mudanças (shifts) no desempenho dos partidos a nível nacional/setorial afetando o estado conforme sua composição inicial.
+
+O componente $C: choque temporal$ representa o impacto das mudanças na participação dos partidos no próprio estado $i$ ao longo do tempo. Aqui consideramos a diferença $w_{ijt} - w_{ij0}$, ou seja, o quanto a participação do partido $j$ mudou no estado $i$ desde o período inicial. Esse termo mede os choques locais ou regionais na composição dos votos. Por exemplo, se um partido $j$ ganhou espaço no estado $i$ (aumentou sua fatia $w_{ijt}$ em relação à inicial $w_{ij0}$), isso adiciona votos ao total $X_{it}$ (já que $D_{ijt}$ é multiplicado por um $\Delta w$ positivo). Por outro lado, se um partido perdeu participação no estado, o termo será negativo, indicando que o estado $i$ teve um desempenho pior por mudança na composição dos votos entre partidos. Em suma, este componente reflete alterações estruturais próprias do estado – vantagens competitivas locais, realinhamentos políticos regionais, etc. – independentemente da tendência geral dos partidos.
+
+Em conjunto, esses três componentes (A, B e C) formam o instrumento de shift-share desejado. Eles nos permitem entender $X_{it}$ da seguinte forma: (A) o que seria esperado dada a tendência geral (tamanho dos partidos em nível nacional e composição inicial do estado), (B) o quanto o estado ganhou ou perdeu devido a shifts no desempenho dos partidos (os choques dos partidos ponderados pela estrutura inicial do estado) e (C) o quanto se deve a mudanças internas do próprio estado na distribuição de votos (share regional). Cada passo da derivação acima evidencia explicitamente como chegamos a essa decomposição, tornando claros os papéis de $w_{ij0}$ (participações iniciais), de $D_{ijt} - \bar{D}{jt}$ (choques de desempenho dos partidos) e de $w_{ijt} - w_{ij0}$ (choques de participação regionais) na construção do instrumento de shift-share.
+

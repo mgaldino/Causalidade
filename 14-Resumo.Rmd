@@ -18,7 +18,7 @@ Status: difícil convencer que conditional ignorability é satisfeita.
 
 Selling point: Mais fácil obter ignorability do que selection on observables em regressão ou matching.
 
-Estimando: LATE (com heterogeneidade). Supõe monoticidade.
+Estimando: LATE (com heterogeneidade). Supõe monotonicidade.
 
 Suposição de identificação chave: exclusion restriction
 
@@ -36,7 +36,7 @@ Estimando: LATE
 
 Suposição de identificação chave: continuidade do resultado potencial dos não tratados ao redor do ponto de corte
 
-Suposição de identificação testável: não-manipulação ao redor do ponto de corte (teste de McRay etc.)
+Suposição de identificação testável: não-manipulação ao redor do ponto de corte (teste de McCrary etc.)
 
 Questões de estimação: Correção de viés de banda larga e construção de intervalos de confiança robustos. Ordem do polinômio e sensibilidade à forma funcional (geralmente recomenda-se local linear).
 
@@ -100,9 +100,9 @@ Status: Ninguem entende direito.
 
 ## Double LASSO
 
-Selling point: 
+Selling point: Seleção automática de variáveis de controle sem viés de regularização, mesmo com muitas covariáveis.
 
-Estimando: 
+Estimando: ATE (com ignorability condicional)
 
 Suposição de identificação chave: Ignorability condicional
 
@@ -122,6 +122,6 @@ Suposição de identificação chave: Ignorability condicional
 
 Suposição de identificação testável: ?
 
-Questões de estimação: Muitas. Sensível a qual ML usar, sensível ao número de folds, estrutura dependente pode dificultar cross-validação (dados de rede?), como escolehr fine-tunning de parâmetros, qual métrica usar.
+Questões de estimação: Muitas. Sensível a qual ML usar, sensível ao número de folds, estrutura dependente pode dificultar cross-validação (dados de rede?), como escolher fine-tuning de parâmetros, qual métrica usar.
 
 Status: Promissor para complementar outras técnicas (IV, DiD etc.), mas ainda em desenvolvimento. Seu uso sinaliza sofisticação metodológica.

@@ -35,7 +35,7 @@ kable(tbl, escape = FALSE, booktabs = TRUE,
 
 A diferença para cada grupo $g$ é:
 $$
-y_{g1} - y_{g0} = (\lambda_1 - \lambda_0) + \tau_i(D_i1 - D_i0)
+y_{g1} - y_{g0} = (\lambda_1 - \lambda_0) + \tau_i(D_{i,1} - D_{i,0})
 $$
 Como pode haver mudança nos resultados apenas pela passagem do tempo, o efeito causal é não-identificado.
 Contudo, veja que:
@@ -50,6 +50,8 @@ Unpacking:
 2. $\mathbb{E}[y_{g1} - y_{g0}|D_i1 - D_{i0} = 0] = (\lambda_1 - \lambda_0)$,
 
 então a diferença é $(\lambda_1 - \lambda_0) + \tau_i -  (\lambda_1 - \lambda_0) = \mathbb{E}[\tau_i|D_{i1}=1]$.
+
+O modelo básico 2x2 nos dá a intuição do DiD. Na prática, estimamos esse efeito por meio de regressão, como veremos a seguir.
 
 ## TWFE
 
@@ -165,20 +167,20 @@ Nos últimos 10 anos, uma grande problematização e desenvolvimento de testes ,
 
 ## Tendências Paralelas
 
-A suposição de tendências paralelas significa que $\mathbb{E}[[Y_{i,t}(0) − Y_{g,t−1}(0)]$ não varia entre grupos $g$. Essa suposição implica que os nunca-tratados seguem um modelo de efeitos fixos duplo (Two-way fixed effects ou TWFE):
+A suposição de tendências paralelas significa que $\mathbb{E}[Y_{i,t}(0) − Y_{g,t−1}(0)]$ não varia entre grupos $g$. Essa suposição implica que os nunca-tratados seguem um modelo de efeitos fixos duplo (Two-way fixed effects ou TWFE):
 
 $$
-\mathbb{E}[Y_{g,t}(0)] = \alpha_i + \lambda_t
+\mathbb{E}[Y_{g,t}(0)] = \alpha_g + \lambda_t
 $$
 Uma outra forma de escrever essa suposição é:
 $$
-Y_{g,t}(0) = \alpha_i + \lambda_t + e_{it} \text{, com } \mathbb{E}[e_{it}] = 0
+Y_{g,t}(0) = \alpha_g + \lambda_t + e_{gt} \text{, com } \mathbb{E}[e_{gt}] = 0
 $$
 Demonstrar equivalência é demonstrar que um implica o outro. Vamos começar mostrando que TWFE implica PT.
 
-Supondo que TWFE é verdade, então $\mathbb{E}[[Y_{i,t}(0) − Y_{g,t−1}(0)] = \alpha_i + \lambda_t - (\alpha_i + \lambda_{t-1}) = \lambda_t - \lambda_{t-1})$, para todo $g$. Como a diferença no tempo $\lambda_t - \lambda_{t-1})$ não depende de $g$, então a PT é satisfeita.
+Supondo que TWFE é verdade, então $\mathbb{E}[Y_{g,t}(0) − Y_{g,t−1}(0)] = \alpha_g + \lambda_t - (\alpha_g + \lambda_{t-1}) = \lambda_t - \lambda_{t-1}$, para todo $g$. Como a diferença no tempo $\lambda_t - \lambda_{t-1}$ não depende de $g$, então a PT é satisfeita.
 
-Vamos agora mostrar a otra implicação. Sem perda de generalidade, defina $\lambda_1 = 0$, isto é, o efeito do período 1 é 0. Poderia ser qualquer outro valor, mas zero vai facilitar. E vamos definir $\alpha_g = \mathbb{E}[Y_{g,1}0]$, ou seja, 
+Vamos agora mostrar a otra implicação. Sem perda de generalidade, defina $\lambda_1 = 0$, isto é, o efeito do período 1 é 0. Poderia ser qualquer outro valor, mas zero vai facilitar. E vamos definir $\alpha_g = \mathbb{E}[Y_{g,1}(0)]$, ou seja, 
 
 Se as tendências não forem exatamente paralelas, Rambachan e Roth (2023) desenvolveram uma forma de impor restrições sobre quão diferentes as tendências podem não ser paralelas pós-tratamento em comparação com o período pré-tratamento. O pacote no R honestDiD permite implementar isso. Assim conseguimos obter identificação parcial (intervalo para as estimativas), em vez de estimação pontual. O parâmetro M controla quanto o desvio é maior em relação ao observado no pré-teste. Se M é igual a 1, temos o mesmo desvio no máximo. Se M igual a 2, duas vezes maior e assim por diante.
 
@@ -302,6 +304,8 @@ did_din = feols(concluida ~ i(periodo, group_treated, ref=3) | id + periodo, dat
 summary(did_din)
 ```
 
+Até aqui, consideramos cenários em que o tratamento é implementado simultaneamente para todas as unidades tratadas. Contudo, em muitas aplicações, o tratamento é adotado em momentos diferentes por diferentes unidades.
+
 ## DID com adoção escalonada (staggered timing)
 
 No meu exemplo, tratamento foi o mesmo para todas as unidades ao mesmo tempo. Mas é comum que não aconteça assim. 
@@ -378,6 +382,13 @@ did_din = feols(spd_z_vs ~ i(year, Flooded, ref=1998) | wkr + year, elbe)
 summary(did_din)
 
 ```
+
+## Resumo e próximos passos
+
+Neste capítulo, introduzimos o estimador de Diferença em Diferenças e a suposição central de tendências paralelas. Vimos como o DiD pode ser estimado por TWFE e como extensões recentes lidam com efeitos heterogêneos, múltiplos períodos e adoção escalonada do tratamento. A análise de sensibilidade de Rambachan e Roth (2023) é uma ferramenta importante para avaliar a robustez dos resultados quando tendências paralelas não são exatamente satisfeitas.
+
+No próximo capítulo, discutiremos dados de painel (TSCS) de forma mais geral, incluindo as suposições de exogeneidade estrita e sequencial.
+
 ## Referências
 
 de Chaisemartin, C., & D’Haultfœuille, X. (2023). Credible answers to hard questions: Differences-in-differences for natural experiments. Available at SSRN.

@@ -23,7 +23,7 @@
 <meta name="author" content="Manoel Galdino" />
 
 
-<meta name="date" content="2025-06-12" />
+<meta name="date" content="2026-02-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -57,8 +57,9 @@
 
 
 <style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -68,7 +69,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -142,21 +143,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Causalidade</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introdução</a>
+<li class="chapter" data-level="1" data-path="08-DiD.html"><a href="#introdu%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>1</b> Introdução</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#revisão-de-regressão"><i class="fa fa-check"></i><b>1.1</b> Revisão de Regressão</a>
+<li class="chapter" data-level="1.1" data-path="08-DiD.html"><a href="#revis%C3%A3o-de-regress%C3%A3o"><i class="fa fa-check"></i><b>1.1</b> Revisão de Regressão</a>
 <ul>
-<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#teorema-da-anatomia-da-regressão"><i class="fa fa-check"></i><b>1.1.1</b> Teorema da Anatomia da Regressão</a></li>
+<li class="chapter" data-level="1.1.1" data-path="08-DiD.html"><a href="#teorema-da-anatomia-da-regress%C3%A3o"><i class="fa fa-check"></i><b>1.1.1</b> Teorema da Anatomia da Regressão</a></li>
 </ul></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#inferência"><i class="fa fa-check"></i><b>1.2</b> Inferência</a></li>
-<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#referências"><i class="fa fa-check"></i><b>1.3</b> Referências</a></li>
+<li class="chapter" data-level="1.2" data-path="08-DiD.html"><a href="#infer%C3%AAncia"><i class="fa fa-check"></i><b>1.2</b> Inferência</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="08-DiD.html"><a href="#generaliza%C3%A7%C3%A3o-amostral-vs.-generaliza%C3%A7%C3%A3o-causal"><i class="fa fa-check"></i><b>1.2.1</b> Generalização amostral vs. generalização causal</a></li>
+<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1.2.2</b> Incerteza com o universo dos casos</a></li>
+<li class="chapter" data-level="1.2.3" data-path="index.html"><a href="index.html#validade-externa"><i class="fa fa-check"></i><b>1.2.3</b> Validade externa</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="08-DiD.html"><a href="#resumo-e-pr%C3%B3ximos-passos"><i class="fa fa-check"></i><b>1.3</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="1.4" data-path="08-DiD.html"><a href="#refer%C3%AAncias"><i class="fa fa-check"></i><b>1.4</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html"><i class="fa fa-check"></i><b>2</b> Resultados Potenciais</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#causalidade-e-o-método-comparativo"><i class="fa fa-check"></i><b>2.1</b> Causalidade e o Método Comparativo</a></li>
-<li class="chapter" data-level="2.2" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#potential-outcomes"><i class="fa fa-check"></i><b>2.2</b> Potential Outcomes</a></li>
-<li class="chapter" data-level="2.3" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#notação"><i class="fa fa-check"></i><b>2.3</b> Notação</a></li>
-<li class="chapter" data-level="2.4" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#problema-fundamental-da-inferência-causal"><i class="fa fa-check"></i><b>2.4</b> Problema Fundamental da Inferência Causal</a></li>
+<li class="chapter" data-level="2.1" data-path="08-DiD.html"><a href="#da-intui%C3%A7%C3%A3o-comparativa-ao-modelo-formal"><i class="fa fa-check"></i><b>2.1</b> Da intuição comparativa ao modelo formal</a></li>
+<li class="chapter" data-level="2.2" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#resultados-potenciais-potential-outcomes"><i class="fa fa-check"></i><b>2.2</b> Resultados Potenciais (<em>Potential Outcomes</em>)</a></li>
+<li class="chapter" data-level="2.3" data-path="08-DiD.html"><a href="#nota%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>2.3</b> Notação</a></li>
+<li class="chapter" data-level="2.4" data-path="08-DiD.html"><a href="#problema-fundamental-da-infer%C3%AAncia-causal"><i class="fa fa-check"></i><b>2.4</b> Problema Fundamental da Inferência Causal</a></li>
 <li class="chapter" data-level="2.5" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#estimando"><i class="fa fa-check"></i><b>2.5</b> Estimando</a></li>
 <li class="chapter" data-level="2.6" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#estimandos-mais-comuns"><i class="fa fa-check"></i><b>2.6</b> Estimandos Mais Comuns</a>
 <ul>
@@ -165,68 +172,71 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.6.3" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#cate"><i class="fa fa-check"></i><b>2.6.3</b> CATE</a></li>
 </ul></li>
 <li class="chapter" data-level="2.7" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#nota-sobre-estimandos"><i class="fa fa-check"></i><b>2.7</b> Nota sobre estimandos</a></li>
-<li class="chapter" data-level="2.8" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#exercício---qual-o-estimando-e-o-estimador-se-possível"><i class="fa fa-check"></i><b>2.8</b> Exercício - Qual o estimando e o estimador (se possível)?</a></li>
-<li class="chapter" data-level="2.9" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#identificação"><i class="fa fa-check"></i><b>2.9</b> Identificação</a></li>
-<li class="chapter" data-level="2.10" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#identificação-do-ate"><i class="fa fa-check"></i><b>2.10</b> Identificação do ATE</a></li>
-<li class="chapter" data-level="2.11" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#equações-estruturais"><i class="fa fa-check"></i><b>2.11</b> Equações estruturais</a></li>
+<li class="chapter" data-level="2.8" data-path="08-DiD.html"><a href="#exerc%C3%ADcio---qual-o-estimando-e-o-estimador-se-poss%C3%ADvel"><i class="fa fa-check"></i><b>2.8</b> Exercício - Qual o estimando e o estimador (se possível)?</a></li>
+<li class="chapter" data-level="2.9" data-path="08-DiD.html"><a href="#identifica%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>2.9</b> Identificação</a></li>
+<li class="chapter" data-level="2.10" data-path="08-DiD.html"><a href="#identifica%C3%A7%C3%A3o-do-ate"><i class="fa fa-check"></i><b>2.10</b> Identificação do ATE</a></li>
+<li class="chapter" data-level="2.11" data-path="08-DiD.html"><a href="#equa%C3%A7%C3%B5es-estruturais"><i class="fa fa-check"></i><b>2.11</b> Equações estruturais</a></li>
 <li class="chapter" data-level="2.12" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#modelo-versus-desenho"><i class="fa fa-check"></i><b>2.12</b> Modelo versus Desenho</a></li>
-<li class="chapter" data-level="2.13" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#exercício-em-sala"><i class="fa fa-check"></i><b>2.13</b> Exercício em sala</a></li>
-<li class="chapter" data-level="2.14" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#referências-1"><i class="fa fa-check"></i><b>2.14</b> Referências</a></li>
+<li class="chapter" data-level="2.13" data-path="08-DiD.html"><a href="#exerc%C3%ADcio-em-sala"><i class="fa fa-check"></i><b>2.13</b> Exercício em sala</a></li>
+<li class="chapter" data-level="2.14" data-path="08-DiD.html"><a href="#resumo-e-pr%C3%B3ximos-passos-1"><i class="fa fa-check"></i><b>2.14</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="2.15" data-path="08-DiD.html"><a href="#refer%C3%AAncias-1"><i class="fa fa-check"></i><b>2.15</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="dags.html"><a href="dags.html"><i class="fa fa-check"></i><b>3</b> DAGs</a>
 <ul>
 <li class="chapter" data-level="3.1" data-path="dags.html"><a href="dags.html#causalidade"><i class="fa fa-check"></i><b>3.1</b> Causalidade</a></li>
-<li class="chapter" data-level="3.2" data-path="dags.html"><a href="dags.html#introdução-1"><i class="fa fa-check"></i><b>3.2</b> Introdução</a></li>
-<li class="chapter" data-level="3.3" data-path="dags.html"><a href="dags.html#os-tipos-básicos-de-dags"><i class="fa fa-check"></i><b>3.3</b> Os Tipos Básicos de DAGs</a>
+<li class="chapter" data-level="3.2" data-path="08-DiD.html"><a href="#introdu%C3%A7%C3%A3o-1"><i class="fa fa-check"></i><b>3.2</b> Introdução</a></li>
+<li class="chapter" data-level="3.3" data-path="08-DiD.html"><a href="#os-tipos-b%C3%A1sicos-de-dags"><i class="fa fa-check"></i><b>3.3</b> Os Tipos Básicos de DAGs</a>
 <ul>
 <li class="chapter" data-level="3.3.1" data-path="dags.html"><a href="dags.html#chains"><i class="fa fa-check"></i><b>3.3.1</b> 1. Chains</a></li>
 <li class="chapter" data-level="3.3.2" data-path="dags.html"><a href="dags.html#forks"><i class="fa fa-check"></i><b>3.3.2</b> 2. Forks</a></li>
 <li class="chapter" data-level="3.3.3" data-path="dags.html"><a href="dags.html#colliders"><i class="fa fa-check"></i><b>3.3.3</b> 3. Colliders</a></li>
 </ul></li>
-<li class="chapter" data-level="3.4" data-path="dags.html"><a href="dags.html#simulação-no-r-ilustrando-o-collider-bias"><i class="fa fa-check"></i><b>3.4</b> Simulação no R: Ilustrando o Collider Bias</a></li>
-<li class="chapter" data-level="3.5" data-path="dags.html"><a href="dags.html#definições"><i class="fa fa-check"></i><b>3.5</b> Definições</a>
+<li class="chapter" data-level="3.4" data-path="08-DiD.html"><a href="#simula%C3%A7%C3%A3o-no-r-ilustrando-o-collider-bias"><i class="fa fa-check"></i><b>3.4</b> Simulação no R: Ilustrando o Collider Bias</a></li>
+<li class="chapter" data-level="3.5" data-path="08-DiD.html"><a href="#defini%C3%A7%C3%B5es"><i class="fa fa-check"></i><b>3.5</b> Definições</a>
 <ul>
-<li class="chapter" data-level="3.5.1" data-path="dags.html"><a href="dags.html#relações-entre-variáveis-nós"><i class="fa fa-check"></i><b>3.5.1</b> Relações entre Variáveis (nós):</a></li>
+<li class="chapter" data-level="3.5.1" data-path="08-DiD.html"><a href="#rela%C3%A7%C3%B5es-entre-vari%C3%A1veis-n%C3%B3s"><i class="fa fa-check"></i><b>3.5.1</b> Relações entre Variáveis (nós):</a></li>
 </ul></li>
 <li class="chapter" data-level="3.6" data-path="dags.html"><a href="dags.html#controle-e-ajuste"><i class="fa fa-check"></i><b>3.6</b> Controle e Ajuste</a></li>
-<li class="chapter" data-level="3.7" data-path="dags.html"><a href="dags.html#fatorização-da-probabilidade-conjunta"><i class="fa fa-check"></i><b>3.7</b> Fatorização da Probabilidade Conjunta</a></li>
-<li class="chapter" data-level="3.8" data-path="dags.html"><a href="dags.html#fatorização-e-dags"><i class="fa fa-check"></i><b>3.8</b> Fatorização e DAGs</a></li>
-<li class="chapter" data-level="3.9" data-path="dags.html"><a href="dags.html#fatorização-dags-e-causalidade"><i class="fa fa-check"></i><b>3.9</b> Fatorização, DAGs e Causalidade</a></li>
+<li class="chapter" data-level="3.7" data-path="08-DiD.html"><a href="#fatoriza%C3%A7%C3%A3o-da-probabilidade-conjunta"><i class="fa fa-check"></i><b>3.7</b> Fatorização da Probabilidade Conjunta</a></li>
+<li class="chapter" data-level="3.8" data-path="08-DiD.html"><a href="#fatoriza%C3%A7%C3%A3o-e-dags"><i class="fa fa-check"></i><b>3.8</b> Fatorização e DAGs</a></li>
+<li class="chapter" data-level="3.9" data-path="08-DiD.html"><a href="#fatoriza%C3%A7%C3%A3o-dags-e-causalidade"><i class="fa fa-check"></i><b>3.9</b> Fatorização, DAGs e Causalidade</a></li>
+<li class="chapter" data-level="3.10" data-path="08-DiD.html"><a href="#resumo-e-pr%C3%B3ximos-passos-2"><i class="fa fa-check"></i><b>3.10</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="3.11" data-path="08-DiD.html"><a href="#refer%C3%AAncias-2"><i class="fa fa-check"></i><b>3.11</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="experimentos.html"><a href="experimentos.html"><i class="fa fa-check"></i><b>4</b> Experimentos</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="experimentos.html"><a href="experimentos.html#introdução-2"><i class="fa fa-check"></i><b>4.1</b> Introdução</a></li>
-<li class="chapter" data-level="4.2" data-path="experimentos.html"><a href="experimentos.html#experimentos-aleatórios"><i class="fa fa-check"></i><b>4.2</b> Experimentos aleatórios</a></li>
-<li class="chapter" data-level="4.3" data-path="experimentos.html"><a href="experimentos.html#restrição-de-exclusão"><i class="fa fa-check"></i><b>4.3</b> Restrição de Exclusão</a></li>
+<li class="chapter" data-level="4.1" data-path="08-DiD.html"><a href="#introdu%C3%A7%C3%A3o-2"><i class="fa fa-check"></i><b>4.1</b> Introdução</a></li>
+<li class="chapter" data-level="4.2" data-path="08-DiD.html"><a href="#experimentos-aleat%C3%B3rios"><i class="fa fa-check"></i><b>4.2</b> Experimentos aleatórios</a></li>
+<li class="chapter" data-level="4.3" data-path="08-DiD.html"><a href="#restri%C3%A7%C3%A3o-de-exclus%C3%A3o"><i class="fa fa-check"></i><b>4.3</b> Restrição de Exclusão</a></li>
 <li class="chapter" data-level="4.4" data-path="experimentos.html"><a href="experimentos.html#tipos-de-experimentos"><i class="fa fa-check"></i><b>4.4</b> Tipos de experimentos</a>
 <ul>
-<li class="chapter" data-level="4.4.1" data-path="experimentos.html"><a href="experimentos.html#aleatorização-de-bernoulli"><i class="fa fa-check"></i><b>4.4.1</b> Aleatorização de Bernoulli</a></li>
-<li class="chapter" data-level="4.4.2" data-path="experimentos.html"><a href="experimentos.html#aleatorização-completa"><i class="fa fa-check"></i><b>4.4.2</b> Aleatorização Completa</a></li>
-<li class="chapter" data-level="4.4.3" data-path="experimentos.html"><a href="experimentos.html#aleatorização-condicional-block-random-assigment"><i class="fa fa-check"></i><b>4.4.3</b> Aleatorização Condicional (Block Random Assigment)</a></li>
-<li class="chapter" data-level="4.4.4" data-path="experimentos.html"><a href="experimentos.html#pensando-aleatorização-em-bloco"><i class="fa fa-check"></i><b>4.4.4</b> Pensando aleatorização em bloco</a></li>
-<li class="chapter" data-level="4.4.5" data-path="experimentos.html"><a href="experimentos.html#ate-com-aleatorização-condicional-bloco"><i class="fa fa-check"></i><b>4.4.5</b> ATE com Aleatorização Condicional (Bloco)</a></li>
-<li class="chapter" data-level="4.4.6" data-path="experimentos.html"><a href="experimentos.html#aleatorização-em-bloco"><i class="fa fa-check"></i><b>4.4.6</b> Aleatorização em bloco</a></li>
-<li class="chapter" data-level="4.4.7" data-path="experimentos.html"><a href="experimentos.html#precisão-da-aleatorização-em-bloco"><i class="fa fa-check"></i><b>4.4.7</b> Precisão da aleatorização em bloco</a></li>
-<li class="chapter" data-level="4.4.8" data-path="experimentos.html"><a href="experimentos.html#comparação-de-ses"><i class="fa fa-check"></i><b>4.4.8</b> Comparação de SEs</a></li>
+<li class="chapter" data-level="4.4.1" data-path="08-DiD.html"><a href="#aleatoriza%C3%A7%C3%A3o-de-bernoulli"><i class="fa fa-check"></i><b>4.4.1</b> Aleatorização de Bernoulli</a></li>
+<li class="chapter" data-level="4.4.2" data-path="08-DiD.html"><a href="#aleatoriza%C3%A7%C3%A3o-completa"><i class="fa fa-check"></i><b>4.4.2</b> Aleatorização Completa</a></li>
+<li class="chapter" data-level="4.4.3" data-path="08-DiD.html"><a href="#aleatoriza%C3%A7%C3%A3o-condicional-block-random-assigment"><i class="fa fa-check"></i><b>4.4.3</b> Aleatorização Condicional (Block Random Assigment)</a></li>
+<li class="chapter" data-level="4.4.4" data-path="08-DiD.html"><a href="#pensando-aleatoriza%C3%A7%C3%A3o-em-bloco"><i class="fa fa-check"></i><b>4.4.4</b> Pensando aleatorização em bloco</a></li>
+<li class="chapter" data-level="4.4.5" data-path="08-DiD.html"><a href="#ate-com-aleatoriza%C3%A7%C3%A3o-condicional-bloco"><i class="fa fa-check"></i><b>4.4.5</b> ATE com Aleatorização Condicional (Bloco)</a></li>
+<li class="chapter" data-level="4.4.6" data-path="08-DiD.html"><a href="#aleatoriza%C3%A7%C3%A3o-em-bloco"><i class="fa fa-check"></i><b>4.4.6</b> Aleatorização em bloco</a></li>
+<li class="chapter" data-level="4.4.7" data-path="08-DiD.html"><a href="#precis%C3%A3o-da-aleatoriza%C3%A7%C3%A3o-em-bloco"><i class="fa fa-check"></i><b>4.4.7</b> Precisão da aleatorização em bloco</a></li>
+<li class="chapter" data-level="4.4.8" data-path="08-DiD.html"><a href="#compara%C3%A7%C3%A3o-de-ses"><i class="fa fa-check"></i><b>4.4.8</b> Comparação de SEs</a></li>
 <li class="chapter" data-level="4.4.9" data-path="experimentos.html"><a href="experimentos.html#cluster-randomization"><i class="fa fa-check"></i><b>4.4.9</b> Cluster randomization</a></li>
 <li class="chapter" data-level="4.4.10" data-path="experimentos.html"><a href="experimentos.html#tabelas-em-artigos"><i class="fa fa-check"></i><b>4.4.10</b> Tabelas em artigos</a></li>
 </ul></li>
 <li class="chapter" data-level="4.5" data-path="experimentos.html"><a href="experimentos.html#estimador-ate"><i class="fa fa-check"></i><b>4.5</b> Estimador ATE</a></li>
-<li class="chapter" data-level="4.6" data-path="experimentos.html"><a href="experimentos.html#key-takeways"><i class="fa fa-check"></i><b>4.6</b> Key Takeways</a></li>
+<li class="chapter" data-level="4.6" data-path="08-DiD.html"><a href="#resumo-do-cap%C3%ADtulo"><i class="fa fa-check"></i><b>4.6</b> Resumo do Capítulo</a></li>
 <li class="chapter" data-level="4.7" data-path="experimentos.html"><a href="experimentos.html#declare-design"><i class="fa fa-check"></i><b>4.7</b> Declare Design</a></li>
-<li class="chapter" data-level="4.8" data-path="experimentos.html"><a href="experimentos.html#exercício"><i class="fa fa-check"></i><b>4.8</b> Exercício</a>
+<li class="chapter" data-level="4.8" data-path="08-DiD.html"><a href="#exerc%C3%ADcio"><i class="fa fa-check"></i><b>4.8</b> Exercício</a>
 <ul>
-<li class="chapter" data-level="4.8.1" data-path="experimentos.html"><a href="experimentos.html#experimento-com-envio-de-cartões-postais-e-participação-eleitoral"><i class="fa fa-check"></i><b>4.8.1</b> Experimento com envio de cartões-postais e participação eleitoral</a></li>
-<li class="chapter" data-level="4.8.2" data-path="experimentos.html"><a href="experimentos.html#experimento-com-anúncios-de-tv-e-participação-eleitoral"><i class="fa fa-check"></i><b>4.8.2</b> Experimento com anúncios de TV e participação eleitoral</a></li>
-<li class="chapter" data-level="4.8.3" data-path="experimentos.html"><a href="experimentos.html#exclusão-de-participantes-em-experimentos-de-survey"><i class="fa fa-check"></i><b>4.8.3</b> Exclusão de participantes em experimentos de survey</a></li>
+<li class="chapter" data-level="4.8.1" data-path="08-DiD.html"><a href="#experimento-com-envio-de-cart%C3%B5es-postais-e-participa%C3%A7%C3%A3o-eleitoral"><i class="fa fa-check"></i><b>4.8.1</b> Experimento com envio de cartões-postais e participação eleitoral</a></li>
+<li class="chapter" data-level="4.8.2" data-path="08-DiD.html"><a href="#experimento-com-an%C3%BAncios-de-tv-e-participa%C3%A7%C3%A3o-eleitoral"><i class="fa fa-check"></i><b>4.8.2</b> Experimento com anúncios de TV e participação eleitoral</a></li>
+<li class="chapter" data-level="4.8.3" data-path="08-DiD.html"><a href="#exclus%C3%A3o-de-participantes-em-experimentos-de-survey"><i class="fa fa-check"></i><b>4.8.3</b> Exclusão de participantes em experimentos de survey</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html"><i class="fa fa-check"></i><b>5</b> Propensity Score e Matching</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#introdução-3"><i class="fa fa-check"></i><b>5.1</b> Introdução</a></li>
+<li class="chapter" data-level="5.1" data-path="08-DiD.html"><a href="#introdu%C3%A7%C3%A3o-3"><i class="fa fa-check"></i><b>5.1</b> Introdução</a></li>
 <li class="chapter" data-level="5.2" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#propensity-score"><i class="fa fa-check"></i><b>5.2</b> Propensity Score</a></li>
 <li class="chapter" data-level="5.3" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching"><i class="fa fa-check"></i><b>5.3</b> Matching</a></li>
-<li class="chapter" data-level="5.4" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#suposições-de-identificação"><i class="fa fa-check"></i><b>5.4</b> Suposições de identificação</a></li>
+<li class="chapter" data-level="5.4" data-path="08-DiD.html"><a href="#suposi%C3%A7%C3%B5es-de-identifica%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>5.4</b> Suposições de identificação</a></li>
 <li class="chapter" data-level="5.5" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching-1"><i class="fa fa-check"></i><b>5.5</b> Matching</a></li>
 <li class="chapter" data-level="5.6" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching-exato"><i class="fa fa-check"></i><b>5.6</b> Matching exato</a></li>
 <li class="chapter" data-level="5.7" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching-aproximado"><i class="fa fa-check"></i><b>5.7</b> Matching aproximado</a></li>
@@ -235,97 +245,102 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="5.9.1" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching-e-propensity-scores"><i class="fa fa-check"></i><b>5.9.1</b> Matching e Propensity scores</a></li>
 </ul></li>
-<li class="chapter" data-level="5.10" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#recomendações-práticas-sobre-matching"><i class="fa fa-check"></i><b>5.10</b> Recomendações Práticas sobre Matching</a></li>
-<li class="chapter" data-level="5.11" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#referências-2"><i class="fa fa-check"></i><b>5.11</b> Referências</a></li>
+<li class="chapter" data-level="5.10" data-path="08-DiD.html"><a href="#recomenda%C3%A7%C3%B5es-pr%C3%A1ticas-sobre-matching"><i class="fa fa-check"></i><b>5.10</b> Recomendações Práticas sobre Matching</a></li>
+<li class="chapter" data-level="5.11" data-path="08-DiD.html"><a href="#refer%C3%AAncias-3"><i class="fa fa-check"></i><b>5.11</b> Referências</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html"><i class="fa fa-check"></i><b>6</b> Variáveis Instrumentais</a>
+<li class="chapter" data-level="6" data-path="08-DiD.html"><a href="#vari%C3%A1veis-instrumentais"><i class="fa fa-check"></i><b>6</b> Variáveis Instrumentais</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#introdução-4"><i class="fa fa-check"></i><b>6.1</b> Introdução</a></li>
-<li class="chapter" data-level="6.2" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#iv-com-modelo-estrutural"><i class="fa fa-check"></i><b>6.2</b> IV com modelo estrutural</a></li>
-<li class="chapter" data-level="6.3" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#mqo-em-2-estágios"><i class="fa fa-check"></i><b>6.3</b> MQO em 2 Estágios</a></li>
+<li class="chapter" data-level="6.1" data-path="08-DiD.html"><a href="#introdu%C3%A7%C3%A3o-4"><i class="fa fa-check"></i><b>6.1</b> Introdução</a></li>
+<li class="chapter" data-level="6.2" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html"><i class="fa fa-check"></i><b>6.2</b> IV com modelo estrutural</a></li>
+<li class="chapter" data-level="6.3" data-path="08-DiD.html"><a href="#mqo-em-2-est%C3%A1gios"><i class="fa fa-check"></i><b>6.3</b> MQO em 2 Estágios</a></li>
 <li class="chapter" data-level="6.4" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#principais-usos-de-iv"><i class="fa fa-check"></i><b>6.4</b> Principais usos de IV</a>
 <ul>
 <li class="chapter" data-level="6.4.1" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#experimentos-1"><i class="fa fa-check"></i><b>6.4.1</b> Experimentos</a></li>
-<li class="chapter" data-level="6.4.2" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#regras-com-variação-quasi-aleatória"><i class="fa fa-check"></i><b>6.4.2</b> Regras com variação quasi-aleatória</a></li>
+<li class="chapter" data-level="6.4.2" data-path="08-DiD.html"><a href="#regras-com-varia%C3%A7%C3%A3o-quasi-aleat%C3%B3ria"><i class="fa fa-check"></i><b>6.4.2</b> Regras com variação quasi-aleatória</a></li>
 <li class="chapter" data-level="6.4.3" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#teoria"><i class="fa fa-check"></i><b>6.4.3</b> Teoria</a></li>
-<li class="chapter" data-level="6.4.4" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#suposições-para-estimar-o-late"><i class="fa fa-check"></i><b>6.4.4</b> Suposições para estimar o LATE</a></li>
 </ul></li>
-<li class="chapter" data-level="6.5" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#restrição-de-exclusão-1"><i class="fa fa-check"></i><b>6.5</b> Restrição de Exclusão</a></li>
-<li class="chapter" data-level="6.6" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#monoticidade"><i class="fa fa-check"></i><b>6.6</b> Monoticidade</a></li>
-<li class="chapter" data-level="6.7" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#estimação-aka-estatística-f"><i class="fa fa-check"></i><b>6.7</b> Estimação (aka estatística F)</a>
+<li class="chapter" data-level="6.5" data-path="08-DiD.html"><a href="#efeito-heterog%C3%AAneo"><i class="fa fa-check"></i><b>6.5</b> Efeito heterogêneo</a>
 <ul>
-<li class="chapter" data-level="6.7.1" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#f-stat"><i class="fa fa-check"></i><b>6.7.1</b> F stat</a></li>
+<li class="chapter" data-level="6.5.1" data-path="08-DiD.html"><a href="#suposi%C3%A7%C3%B5es-para-estimar-o-late"><i class="fa fa-check"></i><b>6.5.1</b> Suposições para estimar o LATE</a></li>
 </ul></li>
-<li class="chapter" data-level="6.8" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#referências-3"><i class="fa fa-check"></i><b>6.8</b> Referências</a></li>
+<li class="chapter" data-level="6.6" data-path="08-DiD.html"><a href="#restri%C3%A7%C3%A3o-de-exclus%C3%A3o-1"><i class="fa fa-check"></i><b>6.6</b> Restrição de Exclusão</a></li>
+<li class="chapter" data-level="6.7" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#monoticidade"><i class="fa fa-check"></i><b>6.7</b> Monoticidade</a></li>
+<li class="chapter" data-level="6.8" data-path="08-DiD.html"><a href="#estima%C3%A7%C3%A3o-aka-estat%C3%ADstica-f"><i class="fa fa-check"></i><b>6.8</b> Estimação (aka estatística F)</a>
+<ul>
+<li class="chapter" data-level="6.8.1" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#f-stat"><i class="fa fa-check"></i><b>6.8.1</b> F stat</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html"><i class="fa fa-check"></i><b>7</b> Desenho de Regresão Discontínua</a>
+<li class="chapter" data-level="6.9" data-path="08-DiD.html"><a href="#resumo-e-pr%C3%B3ximos-passos-3"><i class="fa fa-check"></i><b>6.9</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="6.10" data-path="08-DiD.html"><a href="#refer%C3%AAncias-4"><i class="fa fa-check"></i><b>6.10</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="08-DiD.html"><a href="#desenho-de-regres%C3%A3o-discont%C3%ADnua"><i class="fa fa-check"></i><b>7</b> Desenho de Regresão Discontínua</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#outline-da-aula"><i class="fa fa-check"></i><b>7.1</b> Outline da aula</a></li>
-<li class="chapter" data-level="7.2" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#características-chave-da-rdd"><i class="fa fa-check"></i><b>7.2</b> Características-chave da RDD</a>
+<li class="chapter" data-level="7.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html"><i class="fa fa-check"></i><b>7.1</b> Outline da aula</a></li>
+<li class="chapter" data-level="7.2" data-path="08-DiD.html"><a href="#caracter%C3%ADsticas-chave-da-rdd"><i class="fa fa-check"></i><b>7.2</b> Características-chave da RDD</a>
 <ul>
-<li class="chapter" data-level="7.2.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#determinação-do-tratamento"><i class="fa fa-check"></i><b>7.2.1</b> Determinação do Tratamento</a></li>
+<li class="chapter" data-level="7.2.1" data-path="08-DiD.html"><a href="#determina%C3%A7%C3%A3o-do-tratamento"><i class="fa fa-check"></i><b>7.2.1</b> Determinação do Tratamento</a></li>
 </ul></li>
 <li class="chapter" data-level="7.3" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#fuzzy-rdd"><i class="fa fa-check"></i><b>7.3</b> Fuzzy RDD</a>
 <ul>
-<li class="chapter" data-level="7.3.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#observação-e-corte"><i class="fa fa-check"></i><b>7.3.1</b> Observação e Corte</a></li>
+<li class="chapter" data-level="7.3.1" data-path="08-DiD.html"><a href="#observa%C3%A7%C3%A3o-e-corte"><i class="fa fa-check"></i><b>7.3.1</b> Observação e Corte</a></li>
 <li class="chapter" data-level="7.3.2" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#estimativa-dos-efeitos-do-tratamento"><i class="fa fa-check"></i><b>7.3.2</b> Estimativa dos Efeitos do Tratamento</a></li>
 </ul></li>
-<li class="chapter" data-level="7.4" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#suposição-de-continuidade"><i class="fa fa-check"></i><b>7.4</b> Suposição de continuidade</a></li>
-<li class="chapter" data-level="7.5" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#suposições-na-rdd"><i class="fa fa-check"></i><b>7.5</b> Suposições na RDD</a>
+<li class="chapter" data-level="7.4" data-path="08-DiD.html"><a href="#suposi%C3%A7%C3%A3o-de-continuidade"><i class="fa fa-check"></i><b>7.4</b> Suposição de continuidade</a></li>
+<li class="chapter" data-level="7.5" data-path="08-DiD.html"><a href="#suposi%C3%A7%C3%B5es-na-rdd"><i class="fa fa-check"></i><b>7.5</b> Suposições na RDD</a>
 <ul>
-<li class="chapter" data-level="7.5.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#suposição-de-não-manipulação-com-precisão"><i class="fa fa-check"></i><b>7.5.1</b> Suposição de Não-manipulação com Precisão</a></li>
-<li class="chapter" data-level="7.5.2" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#problemas-de-manipulação"><i class="fa fa-check"></i><b>7.5.2</b> Problemas de Manipulação</a></li>
+<li class="chapter" data-level="7.5.1" data-path="08-DiD.html"><a href="#suposi%C3%A7%C3%A3o-de-n%C3%A3o-manipula%C3%A7%C3%A3o-com-precis%C3%A3o"><i class="fa fa-check"></i><b>7.5.1</b> Suposição de Não-manipulação com Precisão</a></li>
+<li class="chapter" data-level="7.5.2" data-path="08-DiD.html"><a href="#problemas-de-manipula%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.5.2</b> Problemas de Manipulação</a></li>
 </ul></li>
-<li class="chapter" data-level="7.6" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#testabilidade-da-suposição-de-não-manipulação"><i class="fa fa-check"></i><b>7.6</b> Testabilidade da Suposição de não-Manipulação</a></li>
-<li class="chapter" data-level="7.7" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#estimação-em-rdd"><i class="fa fa-check"></i><b>7.7</b> Estimação em RDD</a>
+<li class="chapter" data-level="7.6" data-path="08-DiD.html"><a href="#testabilidade-da-suposi%C3%A7%C3%A3o-de-n%C3%A3o-manipula%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.6</b> Testabilidade da Suposição de não-Manipulação</a></li>
+<li class="chapter" data-level="7.7" data-path="08-DiD.html"><a href="#estima%C3%A7%C3%A3o-em-rdd"><i class="fa fa-check"></i><b>7.7</b> Estimação em RDD</a>
 <ul>
 <li class="chapter" data-level="7.7.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#problema-de-complete-overlapping"><i class="fa fa-check"></i><b>7.7.1</b> Problema de Complete Overlapping</a></li>
-<li class="chapter" data-level="7.7.2" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#dependência-de-extrapolação"><i class="fa fa-check"></i><b>7.7.2</b> Dependência de Extrapolação</a></li>
+<li class="chapter" data-level="7.7.2" data-path="08-DiD.html"><a href="#depend%C3%AAncia-de-extrapola%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.7.2</b> Dependência de Extrapolação</a></li>
 </ul></li>
-<li class="chapter" data-level="7.8" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#métodos-de-estimação"><i class="fa fa-check"></i><b>7.8</b> Métodos de Estimação</a>
+<li class="chapter" data-level="7.8" data-path="08-DiD.html"><a href="#m%C3%A9todos-de-estima%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.8</b> Métodos de Estimação</a>
 <ul>
-<li class="chapter" data-level="7.8.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#identificação-no-limite"><i class="fa fa-check"></i><b>7.8.1</b> Identificação no Limite</a></li>
+<li class="chapter" data-level="7.8.1" data-path="08-DiD.html"><a href="#identifica%C3%A7%C3%A3o-no-limite"><i class="fa fa-check"></i><b>7.8.1</b> Identificação no Limite</a></li>
 </ul></li>
-<li class="chapter" data-level="7.9" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#trade-off-de-viés-variância"><i class="fa fa-check"></i><b>7.9</b> Trade-off de Viés-Variância</a>
+<li class="chapter" data-level="7.9" data-path="08-DiD.html"><a href="#trade-off-de-vi%C3%A9s-vari%C3%A2ncia"><i class="fa fa-check"></i><b>7.9</b> Trade-off de Viés-Variância</a>
 <ul>
-<li class="chapter" data-level="7.9.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#métodos-de-largura-de-banda-ótima"><i class="fa fa-check"></i><b>7.9.1</b> Métodos de Largura de Banda Ótima</a></li>
+<li class="chapter" data-level="7.9.1" data-path="08-DiD.html"><a href="#m%C3%A9todos-de-largura-de-banda-%C3%B3tima"><i class="fa fa-check"></i><b>7.9.1</b> Métodos de Largura de Banda Ótima</a></li>
 </ul></li>
-<li class="chapter" data-level="7.10" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#regras-arbitrárias"><i class="fa fa-check"></i><b>7.10</b> Regras arbitrárias</a></li>
-<li class="chapter" data-level="7.11" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#simulação"><i class="fa fa-check"></i><b>7.11</b> Simulação</a></li>
-<li class="chapter" data-level="7.12" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#simulação---potential-outcomes-y0"><i class="fa fa-check"></i><b>7.12</b> Simulação - Potential Outcomes Y0</a></li>
-<li class="chapter" data-level="7.13" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#simulação---potential-outcomes-y1"><i class="fa fa-check"></i><b>7.13</b> Simulação - Potential Outcomes Y1</a></li>
-<li class="chapter" data-level="7.14" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#simulação---potential-outcomes-y1-e-y0"><i class="fa fa-check"></i><b>7.14</b> Simulação - Potential Outcomes Y1 e Y0</a></li>
-<li class="chapter" data-level="7.15" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#simulação---y-observado"><i class="fa fa-check"></i><b>7.15</b> Simulação - Y observado</a></li>
+<li class="chapter" data-level="7.10" data-path="08-DiD.html"><a href="#regras-arbitr%C3%A1rias"><i class="fa fa-check"></i><b>7.10</b> Regras arbitrárias</a></li>
+<li class="chapter" data-level="7.11" data-path="08-DiD.html"><a href="#simula%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.11</b> Simulação</a></li>
+<li class="chapter" data-level="7.12" data-path="08-DiD.html"><a href="#simula%C3%A7%C3%A3o---potential-outcomes-y0"><i class="fa fa-check"></i><b>7.12</b> Simulação - Potential Outcomes Y0</a></li>
+<li class="chapter" data-level="7.13" data-path="08-DiD.html"><a href="#simula%C3%A7%C3%A3o---potential-outcomes-y1"><i class="fa fa-check"></i><b>7.13</b> Simulação - Potential Outcomes Y1</a></li>
+<li class="chapter" data-level="7.14" data-path="08-DiD.html"><a href="#simula%C3%A7%C3%A3o---potential-outcomes-y1-e-y0"><i class="fa fa-check"></i><b>7.14</b> Simulação - Potential Outcomes Y1 e Y0</a></li>
+<li class="chapter" data-level="7.15" data-path="08-DiD.html"><a href="#simula%C3%A7%C3%A3o---y-observado"><i class="fa fa-check"></i><b>7.15</b> Simulação - Y observado</a></li>
 <li class="chapter" data-level="7.16" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#quando-o-rdd-funciona"><i class="fa fa-check"></i><b>7.16</b> Quando o RDD funciona?</a></li>
 <li class="chapter" data-level="7.17" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#raw-data-versus-bin"><i class="fa fa-check"></i><b>7.17</b> Raw Data versus Bin</a></li>
 <li class="chapter" data-level="7.18" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#permutation-tests-balancing"><i class="fa fa-check"></i><b>7.18</b> Permutation tests (balancing)</a></li>
 <li class="chapter" data-level="7.19" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#mccray-test"><i class="fa fa-check"></i><b>7.19</b> McCray test</a></li>
 <li class="chapter" data-level="7.20" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#robustez"><i class="fa fa-check"></i><b>7.20</b> Robustez</a></li>
-<li class="chapter" data-level="7.21" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#densidade-descontínua---results"><i class="fa fa-check"></i><b>7.21</b> Densidade descontínua - results</a></li>
-<li class="chapter" data-level="7.22" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#regressão-rdd"><i class="fa fa-check"></i><b>7.22</b> Regressão RDD</a></li>
+<li class="chapter" data-level="7.21" data-path="08-DiD.html"><a href="#densidade-descont%C3%ADnua---results"><i class="fa fa-check"></i><b>7.21</b> Densidade descontínua - results</a></li>
+<li class="chapter" data-level="7.22" data-path="08-DiD.html"><a href="#regress%C3%A3o-rdd"><i class="fa fa-check"></i><b>7.22</b> Regressão RDD</a></li>
 <li class="chapter" data-level="7.23" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#placebo-tests"><i class="fa fa-check"></i><b>7.23</b> Placebo Tests</a></li>
 <li class="chapter" data-level="7.24" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#pcrd"><i class="fa fa-check"></i><b>7.24</b> PCRD</a></li>
-<li class="chapter" data-level="7.25" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#checlist-para-um-paper"><i class="fa fa-check"></i><b>7.25</b> Checlist para um paper</a></li>
-<li class="chapter" data-level="7.26" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#referências-4"><i class="fa fa-check"></i><b>7.26</b> Referências</a></li>
+<li class="chapter" data-level="7.25" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#checklist-para-um-paper-de-rdd"><i class="fa fa-check"></i><b>7.25</b> Checklist para um paper de RDD</a></li>
+<li class="chapter" data-level="7.26" data-path="08-DiD.html"><a href="#refer%C3%AAncias-5"><i class="fa fa-check"></i><b>7.26</b> Referências</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html"><i class="fa fa-check"></i><b>8</b> Diferença em Diferenças</a>
+<li class="chapter" data-level="8" data-path="08-DiD.html"><a href="#diferen%C3%A7a-em-diferen%C3%A7as"><i class="fa fa-check"></i><b>8</b> Diferença em Diferenças</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#modelo-básico-2x2"><i class="fa fa-check"></i><b>8.1</b> Modelo básico 2x2</a></li>
-<li class="chapter" data-level="8.2" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#twfe"><i class="fa fa-check"></i><b>8.2</b> TWFE</a></li>
+<li class="chapter" data-level="8.1" data-path="08-DiD.html"><a href="#modelo-b%C3%A1sico-2x2"><i class="fa fa-check"></i><b>8.1</b> Modelo básico 2x2</a></li>
+<li class="chapter" data-level="8.2" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html"><i class="fa fa-check"></i><b>8.2</b> TWFE</a></li>
 <li class="chapter" data-level="8.3" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#pressupostos"><i class="fa fa-check"></i><b>8.3</b> Pressupostos</a></li>
-<li class="chapter" data-level="8.4" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#aplicação"><i class="fa fa-check"></i><b>8.4</b> Aplicação</a></li>
-<li class="chapter" data-level="8.5" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#múltiplos-períodos"><i class="fa fa-check"></i><b>8.5</b> Múltiplos períodos</a></li>
-<li class="chapter" data-level="8.6" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#tendências-paralelas"><i class="fa fa-check"></i><b>8.6</b> Tendências Paralelas</a></li>
-<li class="chapter" data-level="8.7" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#múltiplos-períodos-pós-tratamento"><i class="fa fa-check"></i><b>8.7</b> Múltiplos períodos pós-tratamento</a></li>
-<li class="chapter" data-level="8.8" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#análise-de-sensibilidade-em-did"><i class="fa fa-check"></i><b>8.8</b> Análise de sensibilidade em DiD</a></li>
+<li class="chapter" data-level="8.4" data-path="08-DiD.html"><a href="#aplica%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>8.4</b> Aplicação</a></li>
+<li class="chapter" data-level="8.5" data-path="08-DiD.html"><a href="#m%C3%BAltiplos-per%C3%ADodos"><i class="fa fa-check"></i><b>8.5</b> Múltiplos períodos</a></li>
+<li class="chapter" data-level="8.6" data-path="08-DiD.html"><a href="#tend%C3%AAncias-paralelas"><i class="fa fa-check"></i><b>8.6</b> Tendências Paralelas</a></li>
+<li class="chapter" data-level="8.7" data-path="08-DiD.html"><a href="#m%C3%BAltiplos-per%C3%ADodos-p%C3%B3s-tratamento"><i class="fa fa-check"></i><b>8.7</b> Múltiplos períodos pós-tratamento</a></li>
+<li class="chapter" data-level="8.8" data-path="08-DiD.html"><a href="#an%C3%A1lise-de-sensibilidade-em-did"><i class="fa fa-check"></i><b>8.8</b> Análise de sensibilidade em DiD</a></li>
 <li class="chapter" data-level="8.9" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#did-generalizado"><i class="fa fa-check"></i><b>8.9</b> DiD generalizado</a></li>
-<li class="chapter" data-level="8.10" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#did-com-adoção-escalonada-staggered-timing"><i class="fa fa-check"></i><b>8.10</b> DID com adoção escalonada (staggered timing)</a></li>
+<li class="chapter" data-level="8.10" data-path="08-DiD.html"><a href="#did-com-ado%C3%A7%C3%A3o-escalonada-staggered-timing"><i class="fa fa-check"></i><b>8.10</b> DID com adoção escalonada (staggered timing)</a></li>
 <li class="chapter" data-level="8.11" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#paper-voter-gratitude-last-long"><i class="fa fa-check"></i><b>8.11</b> Paper Voter Gratitude Last Long?</a></li>
-<li class="chapter" data-level="8.12" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#referências-5"><i class="fa fa-check"></i><b>8.12</b> Referências</a></li>
+<li class="chapter" data-level="8.12" data-path="08-DiD.html"><a href="#resumo-e-pr%C3%B3ximos-passos-4"><i class="fa fa-check"></i><b>8.12</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="8.13" data-path="08-DiD.html"><a href="#refer%C3%AAncias-6"><i class="fa fa-check"></i><b>8.13</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html"><i class="fa fa-check"></i><b>9</b> Time-Series Cross-Section (TSCS)</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#introdução-5"><i class="fa fa-check"></i><b>9.1</b> Introdução</a>
+<li class="chapter" data-level="9.1" data-path="08-DiD.html"><a href="#introdu%C3%A7%C3%A3o-5"><i class="fa fa-check"></i><b>9.1</b> Introdução</a>
 <ul>
 <li class="chapter" data-level="9.1.1" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#within-versus-between"><i class="fa fa-check"></i><b>9.1.1</b> Within versus Between</a></li>
 </ul></li>
@@ -338,19 +353,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="9.7.1" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#remark"><i class="fa fa-check"></i><b>9.7.1</b> Remark</a></li>
 </ul></li>
-<li class="chapter" data-level="9.8" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#suposições-para-inferência"><i class="fa fa-check"></i><b>9.8</b> Suposições para Inferência</a>
+<li class="chapter" data-level="9.8" data-path="08-DiD.html"><a href="#suposi%C3%A7%C3%B5es-para-infer%C3%AAncia"><i class="fa fa-check"></i><b>9.8</b> Suposições para Inferência</a>
 <ul>
 <li class="chapter" data-level="9.8.1" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#remark-1"><i class="fa fa-check"></i><b>9.8.1</b> Remark</a></li>
 </ul></li>
-<li class="chapter" data-level="9.9" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#efeitos-aleatórios"><i class="fa fa-check"></i><b>9.9</b> Efeitos aleatórios</a></li>
-<li class="chapter" data-level="9.10" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#referências-6"><i class="fa fa-check"></i><b>9.10</b> Referências</a></li>
+<li class="chapter" data-level="9.9" data-path="08-DiD.html"><a href="#efeitos-aleat%C3%B3rios"><i class="fa fa-check"></i><b>9.9</b> Efeitos aleatórios</a></li>
+<li class="chapter" data-level="9.10" data-path="08-DiD.html"><a href="#refer%C3%AAncias-7"><i class="fa fa-check"></i><b>9.10</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="synthetic-control.html"><a href="synthetic-control.html"><i class="fa fa-check"></i><b>10</b> Synthetic Control</a>
 <ul>
 <li class="chapter" data-level="10.0.1" data-path="synthetic-control.html"><a href="synthetic-control.html#tratamento"><i class="fa fa-check"></i><b>10.0.1</b> Tratamento</a></li>
-<li class="chapter" data-level="10.1" data-path="synthetic-control.html"><a href="synthetic-control.html#implementação-no-r"><i class="fa fa-check"></i><b>10.1</b> Implementação no R</a></li>
+<li class="chapter" data-level="10.1" data-path="08-DiD.html"><a href="#implementa%C3%A7%C3%A3o-no-r"><i class="fa fa-check"></i><b>10.1</b> Implementação no R</a></li>
 <li class="chapter" data-level="10.2" data-path="synthetic-control.html"><a href="synthetic-control.html#synthethic-did"><i class="fa fa-check"></i><b>10.2</b> Synthethic DiD</a></li>
-<li class="chapter" data-level="10.3" data-path="synthetic-control.html"><a href="synthetic-control.html#referências-7"><i class="fa fa-check"></i><b>10.3</b> Referências</a></li>
+<li class="chapter" data-level="10.3" data-path="08-DiD.html"><a href="#resumo-e-pr%C3%B3ximos-passos-5"><i class="fa fa-check"></i><b>10.3</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="10.4" data-path="08-DiD.html"><a href="#refer%C3%AAncias-8"><i class="fa fa-check"></i><b>10.4</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="llms-e-outras.html"><a href="llms-e-outras.html"><i class="fa fa-check"></i><b>11</b> LLMs e outras</a>
 <ul>
@@ -358,23 +374,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="12" data-path="machine-learning.html"><a href="machine-learning.html"><i class="fa fa-check"></i><b>12</b> Machine Learning</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="machine-learning.html"><a href="machine-learning.html#introdução-6"><i class="fa fa-check"></i><b>12.1</b> Introdução</a></li>
+<li class="chapter" data-level="12.1" data-path="08-DiD.html"><a href="#introdu%C3%A7%C3%A3o-6"><i class="fa fa-check"></i><b>12.1</b> Introdução</a></li>
 <li class="chapter" data-level="12.2" data-path="machine-learning.html"><a href="machine-learning.html#terminologia"><i class="fa fa-check"></i><b>12.2</b> Terminologia</a>
 <ul>
 <li class="chapter" data-level="12.2.1" data-path="machine-learning.html"><a href="machine-learning.html#lasso"><i class="fa fa-check"></i><b>12.2.1</b> LASSO</a></li>
 <li class="chapter" data-level="12.2.2" data-path="machine-learning.html"><a href="machine-learning.html#double-lasso"><i class="fa fa-check"></i><b>12.2.2</b> Double Lasso</a></li>
-<li class="chapter" data-level="12.2.3" data-path="machine-learning.html"><a href="machine-learning.html#outras-soluções-ineficazes"><i class="fa fa-check"></i><b>12.2.3</b> Outras soluções ineficazes</a></li>
+<li class="chapter" data-level="12.2.3" data-path="08-DiD.html"><a href="#outras-solu%C3%A7%C3%B5es-ineficazes"><i class="fa fa-check"></i><b>12.2.3</b> Outras soluções ineficazes</a></li>
 </ul></li>
 <li class="chapter" data-level="12.3" data-path="machine-learning.html"><a href="machine-learning.html#dl---algoritmo"><i class="fa fa-check"></i><b>12.3</b> DL - Algoritmo</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="termos-de-interação.html"><a href="termos-de-interação.html"><i class="fa fa-check"></i><b>13</b> Termos de Interação</a>
+<li class="chapter" data-level="13" data-path="08-DiD.html"><a href="#termos-de-intera%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>13</b> Termos de Interação</a>
 <ul>
-<li class="chapter" data-level="13.1" data-path="termos-de-interação.html"><a href="termos-de-interação.html#aplicação-1"><i class="fa fa-check"></i><b>13.1</b> Aplicação</a></li>
-<li class="chapter" data-level="13.2" data-path="termos-de-interação.html"><a href="termos-de-interação.html#dml"><i class="fa fa-check"></i><b>13.2</b> DML</a></li>
+<li class="chapter" data-level="13.1" data-path="08-DiD.html"><a href="#aplica%C3%A7%C3%A3o-1"><i class="fa fa-check"></i><b>13.1</b> Aplicação</a></li>
+<li class="chapter" data-level="13.2" data-path="termos-de-interação.html"><a href="termos-de-interação.html"><i class="fa fa-check"></i><b>13.2</b> DML</a></li>
 <li class="chapter" data-level="13.3" data-path="termos-de-interação.html"><a href="termos-de-interação.html#double-debiasing"><i class="fa fa-check"></i><b>13.3</b> Double Debiasing</a></li>
 <li class="chapter" data-level="13.4" data-path="termos-de-interação.html"><a href="termos-de-interação.html#cross-fitting"><i class="fa fa-check"></i><b>13.4</b> Cross-fitting</a></li>
-<li class="chapter" data-level="13.5" data-path="termos-de-interação.html"><a href="termos-de-interação.html#questões-práticas"><i class="fa fa-check"></i><b>13.5</b> Questões Práticas</a></li>
-<li class="chapter" data-level="13.6" data-path="termos-de-interação.html"><a href="termos-de-interação.html#referências-8"><i class="fa fa-check"></i><b>13.6</b> Referências</a></li>
+<li class="chapter" data-level="13.5" data-path="08-DiD.html"><a href="#quest%C3%B5es-pr%C3%A1ticas"><i class="fa fa-check"></i><b>13.5</b> Questões Práticas</a></li>
+<li class="chapter" data-level="13.6" data-path="08-DiD.html"><a href="#resumo-e-pr%C3%B3ximos-passos-6"><i class="fa fa-check"></i><b>13.6</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="13.7" data-path="08-DiD.html"><a href="#refer%C3%AAncias-9"><i class="fa fa-check"></i><b>13.7</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="14" data-path="resumo-1.html"><a href="resumo-1.html"><i class="fa fa-check"></i><b>14</b> Resumo</a>
 <ul>
@@ -386,19 +403,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="14.4.1" data-path="resumo-1.html"><a href="resumo-1.html#tscs"><i class="fa fa-check"></i><b>14.4.1</b> TSCS</a></li>
 </ul></li>
 <li class="chapter" data-level="14.5" data-path="resumo-1.html"><a href="resumo-1.html#scm"><i class="fa fa-check"></i><b>14.5</b> SCM</a></li>
-<li class="chapter" data-level="14.6" data-path="resumo-1.html"><a href="resumo-1.html#did-sintético"><i class="fa fa-check"></i><b>14.6</b> DiD Sintético</a></li>
+<li class="chapter" data-level="14.6" data-path="08-DiD.html"><a href="#did-sint%C3%A9tico"><i class="fa fa-check"></i><b>14.6</b> DiD Sintético</a></li>
 <li class="chapter" data-level="14.7" data-path="resumo-1.html"><a href="resumo-1.html#double-lasso-1"><i class="fa fa-check"></i><b>14.7</b> Double LASSO</a></li>
 <li class="chapter" data-level="14.8" data-path="resumo-1.html"><a href="resumo-1.html#dml-1"><i class="fa fa-check"></i><b>14.8</b> DML</a></li>
 </ul></li>
-<li class="chapter" data-level="15" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html"><i class="fa fa-check"></i><b>15</b> Interferência, spillover e dinâmica</a>
+<li class="chapter" data-level="15" data-path="shift-share.html"><a href="shift-share.html"><i class="fa fa-check"></i><b>15</b> Shift-share</a>
 <ul>
-<li class="chapter" data-level="15.1" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#suposições-simplifcadoras"><i class="fa fa-check"></i><b>15.1</b> Suposições simplifcadoras</a></li>
-<li class="chapter" data-level="15.2" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#po-com-tratamento-de-múltiplos-valores-multi-valued"><i class="fa fa-check"></i><b>15.2</b> PO com tratamento de múltiplos valores (multi-valued)</a>
-<ul>
-<li class="chapter" data-level="15.2.1" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#multi-valued-discreto"><i class="fa fa-check"></i><b>15.2.1</b> Multi-valued discreto</a></li>
+<li class="chapter" data-level="15.1" data-path="08-DiD.html"><a href="#introdu%C3%A7%C3%A3o-7"><i class="fa fa-check"></i><b>15.1</b> Introdução</a></li>
+<li class="chapter" data-level="15.2" data-path="08-DiD.html"><a href="#exemplos-da-pol%C3%ADtica"><i class="fa fa-check"></i><b>15.2</b> Exemplos da Política</a></li>
+<li class="chapter" data-level="15.3" data-path="08-DiD.html"><a href="#varia%C3%A7%C3%A3o-temporal"><i class="fa fa-check"></i><b>15.3</b> Variação temporal</a></li>
 </ul></li>
-<li class="chapter" data-level="15.3" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#dinâmica"><i class="fa fa-check"></i><b>15.3</b> Dinâmica</a></li>
-<li class="chapter" data-level="15.4" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#interferência"><i class="fa fa-check"></i><b>15.4</b> Interferência</a></li>
+<li class="chapter" data-level="16" data-path="08-DiD.html"><a href="#interfer%C3%AAncia-spillover-e-din%C3%A2mica"><i class="fa fa-check"></i><b>16</b> Interferência, spillover e dinâmica</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="08-DiD.html"><a href="#suposi%C3%A7%C3%B5es-simplificadoras"><i class="fa fa-check"></i><b>16.1</b> Suposições simplificadoras</a></li>
+<li class="chapter" data-level="16.2" data-path="08-DiD.html"><a href="#po-com-tratamento-de-m%C3%BAltiplos-valores-multi-valued"><i class="fa fa-check"></i><b>16.2</b> PO com tratamento de múltiplos valores (multi-valued)</a>
+<ul>
+<li class="chapter" data-level="16.2.1" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html"><i class="fa fa-check"></i><b>16.2.1</b> Multi-valued discreto</a></li>
+</ul></li>
+<li class="chapter" data-level="16.3" data-path="08-DiD.html"><a href="#din%C3%A2mica"><i class="fa fa-check"></i><b>16.3</b> Dinâmica</a></li>
+<li class="chapter" data-level="16.4" data-path="08-DiD.html"><a href="#interfer%C3%AAncia"><i class="fa fa-check"></i><b>16.4</b> Interferência</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -421,9 +444,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="diferença-em-diferenças" class="section level1 hasAnchor" number="8">
-<h1><span class="header-section-number">Capítulo 8</span> Diferença em Diferenças<a href="diferença-em-diferenças.html#diferença-em-diferenças" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<h1><span class="header-section-number">Capítulo 8</span> Diferença em Diferenças<a href="#diferen%C3%A7a-em-diferen%C3%A7as" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="modelo-básico-2x2" class="section level2 hasAnchor" number="8.1">
-<h2><span class="header-section-number">8.1</span> Modelo básico 2x2<a href="diferença-em-diferenças.html#modelo-básico-2x2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">8.1</span> Modelo básico 2x2<a href="#modelo-b%C3%A1sico-2x2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Vamos considerar primeiro um cenário de dois grupos <span class="math inline">\(G \in \{1,2\}\)</span> e dois períodos de tempo <span class="math inline">\(T \in \{1,2\}\)</span>.</p>
 <p>A notação de resultados potenciais é:
 <span class="math inline">\(Y_{gt}(0,0)\)</span> é o resultado potencial da unidade <span class="math inline">\(g\)</span> no período <span class="math inline">\(t\)</span> se não for tratada nos dois períodos.
@@ -470,7 +493,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 <p>A diferença para cada grupo <span class="math inline">\(g\)</span> é:
 <span class="math display">\[
-y_{g1} - y_{g0} = (\lambda_1 - \lambda_0) + \tau_i(D_i1 - D_i0)
+y_{g1} - y_{g0} = (\lambda_1 - \lambda_0) + \tau_i(D_{i,1} - D_{i,0})
 \]</span>
 Como pode haver mudança nos resultados apenas pela passagem do tempo, o efeito causal é não-identificado.
 Contudo, veja que:</p>
@@ -483,6 +506,7 @@ Unpacking:</p>
 <li><p><span class="math inline">\(\mathbb{E}[y_{g1} - y_{g0}|D_i1 - D_{i0} = 0] = (\lambda_1 - \lambda_0)\)</span>,</p></li>
 </ol>
 <p>então a diferença é <span class="math inline">\((\lambda_1 - \lambda_0) + \tau_i -  (\lambda_1 - \lambda_0) = \mathbb{E}[\tau_i|D_{i1}=1]\)</span>.</p>
+<p>O modelo básico 2x2 nos dá a intuição do DiD. Na prática, estimamos esse efeito por meio de regressão, como veremos a seguir.</p>
 </div>
 <div id="twfe" class="section level2 hasAnchor" number="8.2">
 <h2><span class="header-section-number">8.2</span> TWFE<a href="diferença-em-diferenças.html#twfe" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -511,18 +535,19 @@ Isso é na verdade um resultado: é possível mostrar que supor este modelo impl
 </ol>
 </div>
 <div id="aplicação" class="section level2 hasAnchor" number="8.4">
-<h2><span class="header-section-number">8.4</span> Aplicação<a href="diferença-em-diferenças.html#aplicação" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">8.4</span> Aplicação<a href="#aplica%C3%A7%C3%A3o" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Vamos ver um exemplo no R, a partir de um estudo meu. Os dados são de um projeto da Transparência Brasil, chamado de Obra Transparente. O projeto consistiu em uma intervenção em 20 cidades do Sudeste, em que treinamento e informações foram dados a ongs locais para monitoramento de obras de creches e escolas. O projeto começou em maio de 2017 e terminou em junho de 2019. Os dados trazem informações sobre as obras nas cidades do projeto e nas demais cidades onde havia obras similares nos mesmos estados.</p>
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="diferença-em-diferenças.html#cb119-1" tabindex="-1"></a><span class="fu">library</span>(here, <span class="at">quietly=</span><span class="cn">TRUE</span>)</span>
-<span id="cb119-2"><a href="diferença-em-diferenças.html#cb119-2" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb119-3"><a href="diferença-em-diferenças.html#cb119-3" tabindex="-1"></a>data_ot <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">here</span>(<span class="st">&quot;Dados&quot;</span>, <span class="st">&quot;obra_transparente.RDS&quot;</span>))</span>
-<span id="cb119-4"><a href="diferença-em-diferenças.html#cb119-4" tabindex="-1"></a><span class="fu">head</span>(data_ot) <span class="sc">%&gt;%</span></span>
-<span id="cb119-5"><a href="diferença-em-diferenças.html#cb119-5" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div>
-<table style="width:100%;">
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="diferença-em-diferenças.html#cb114-1" tabindex="-1"></a><span class="fu">library</span>(here, <span class="at">quietly=</span><span class="cn">TRUE</span>)</span>
+<span id="cb114-2"><a href="diferença-em-diferenças.html#cb114-2" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb114-3"><a href="diferença-em-diferenças.html#cb114-3" tabindex="-1"></a>data_ot <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">here</span>(<span class="st">&quot;Dados&quot;</span>, <span class="st">&quot;obra_transparente.RDS&quot;</span>))</span>
+<span id="cb114-4"><a href="diferença-em-diferenças.html#cb114-4" tabindex="-1"></a><span class="fu">head</span>(data_ot) <span class="sc">%&gt;%</span></span>
+<span id="cb114-5"><a href="diferença-em-diferenças.html#cb114-5" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div>
+<table>
 <colgroup>
 <col width="6%" />
-<col width="16%" />
-<col width="13%" />
+<col width="15%" />
+<col width="3%" />
+<col width="12%" />
 <col width="18%" />
 <col width="10%" />
 <col width="18%" />
@@ -532,6 +557,7 @@ Isso é na verdade um resultado: é possível mostrar que supor este modelo impl
 <tr class="header">
 <th align="right">id</th>
 <th align="left">municipio</th>
+<th align="left">uf</th>
 <th align="right">concluida</th>
 <th align="right">group_treated</th>
 <th align="right">periodo</th>
@@ -543,6 +569,7 @@ Isso é na verdade um resultado: é possível mostrar que supor este modelo impl
 <tr class="odd">
 <td align="right">1366</td>
 <td align="left">Conchas</td>
+<td align="left">SP</td>
 <td align="right">1</td>
 <td align="right">0</td>
 <td align="right">1</td>
@@ -552,6 +579,7 @@ Isso é na verdade um resultado: é possível mostrar que supor este modelo impl
 <tr class="even">
 <td align="right">1367</td>
 <td align="left">Itararé</td>
+<td align="left">SP</td>
 <td align="right">1</td>
 <td align="right">0</td>
 <td align="right">1</td>
@@ -561,6 +589,7 @@ Isso é na verdade um resultado: é possível mostrar que supor este modelo impl
 <tr class="odd">
 <td align="right">1391</td>
 <td align="left">Brotas</td>
+<td align="left">SP</td>
 <td align="right">1</td>
 <td align="right">0</td>
 <td align="right">1</td>
@@ -570,6 +599,7 @@ Isso é na verdade um resultado: é possível mostrar que supor este modelo impl
 <tr class="even">
 <td align="right">1392</td>
 <td align="left">Buritizal</td>
+<td align="left">SP</td>
 <td align="right">1</td>
 <td align="right">0</td>
 <td align="right">1</td>
@@ -579,6 +609,7 @@ Isso é na verdade um resultado: é possível mostrar que supor este modelo impl
 <tr class="odd">
 <td align="right">1393</td>
 <td align="left">Caconde</td>
+<td align="left">SP</td>
 <td align="right">1</td>
 <td align="right">0</td>
 <td align="right">1</td>
@@ -588,6 +619,7 @@ Isso é na verdade um resultado: é possível mostrar que supor este modelo impl
 <tr class="even">
 <td align="right">1400</td>
 <td align="left">Porteirinha</td>
+<td align="left">MG</td>
 <td align="right">1</td>
 <td align="right">0</td>
 <td align="right">1</td>
@@ -597,18 +629,18 @@ Isso é na verdade um resultado: é possível mostrar que supor este modelo impl
 </tbody>
 </table>
 <p>Como o gráfico abaixo mostra, o grupo controle possui percentual mais elevado de obras concluídas em comparação ao grupo de tratamento, mesmo antes do projeto ter se iniciado. Olhando para outras covariáveis (não mostradas aqui), de fato os dois grupos eram bastante desbalanceados. Porém, apesar da diferença de nível, as mudanças (evolução temposal) são similares. Isso sugere um dif in dif como uma metodologia adequada para estimar o efeito causal.</p>
-<p><img src="bookdownproj_files/figure-html/obra-transparente-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/obra-transparente-1.png" alt="" width="672" /></p>
 <p>A partir do período 4 o tratamento já poderia fazer efeito, mas ele é muito pequeno (leve mudança na inclinação) e o efeito é relevante apenas após o período 5. Temos portando efeitos dinâmicos.Vamos inicialmente ajustar um modelo estático, considerando apenas o período 1 e 5.</p>
-<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="diferença-em-diferenças.html#cb120-1" tabindex="-1"></a><span class="fu">library</span>(estimatr)</span>
-<span id="cb120-2"><a href="diferença-em-diferenças.html#cb120-2" tabindex="-1"></a><span class="fu">library</span>(modelsummary)</span>
-<span id="cb120-3"><a href="diferença-em-diferenças.html#cb120-3" tabindex="-1"></a><span class="fu">library</span>(fixest)</span>
-<span id="cb120-4"><a href="diferença-em-diferenças.html#cb120-4" tabindex="-1"></a>data_ot_reg <span class="ot">&lt;-</span> data_ot <span class="sc">%&gt;%</span></span>
-<span id="cb120-5"><a href="diferença-em-diferenças.html#cb120-5" tabindex="-1"></a>  <span class="fu">filter</span>(periodo <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">5</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb120-6"><a href="diferença-em-diferenças.html#cb120-6" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">post =</span> <span class="fu">ifelse</span>(periodo <span class="sc">==</span> <span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
-<span id="cb120-7"><a href="diferença-em-diferenças.html#cb120-7" tabindex="-1"></a></span>
-<span id="cb120-8"><a href="diferença-em-diferenças.html#cb120-8" tabindex="-1"></a>did <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(concluida <span class="sc">~</span> post <span class="sc">+</span> group_treated <span class="sc">+</span> post<span class="sc">*</span>group_treated, <span class="at">data=</span>data_ot_reg,</span>
-<span id="cb120-9"><a href="diferença-em-diferenças.html#cb120-9" tabindex="-1"></a>                 <span class="at">clusters =</span> municipio)</span>
-<span id="cb120-10"><a href="diferença-em-diferenças.html#cb120-10" tabindex="-1"></a><span class="fu">msummary</span>(did, <span class="at">stars =</span> <span class="fu">c</span>(<span class="st">&#39;*&#39;</span> <span class="ot">=</span> .<span class="dv">1</span>, <span class="st">&#39;**&#39;</span> <span class="ot">=</span> .<span class="dv">05</span>, <span class="st">&#39;***&#39;</span> <span class="ot">=</span> .<span class="dv">01</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="diferença-em-diferenças.html#cb115-1" tabindex="-1"></a><span class="fu">library</span>(estimatr)</span>
+<span id="cb115-2"><a href="diferença-em-diferenças.html#cb115-2" tabindex="-1"></a><span class="fu">library</span>(modelsummary)</span>
+<span id="cb115-3"><a href="diferença-em-diferenças.html#cb115-3" tabindex="-1"></a><span class="fu">library</span>(fixest)</span>
+<span id="cb115-4"><a href="diferença-em-diferenças.html#cb115-4" tabindex="-1"></a>data_ot_reg <span class="ot">&lt;-</span> data_ot <span class="sc">%&gt;%</span></span>
+<span id="cb115-5"><a href="diferença-em-diferenças.html#cb115-5" tabindex="-1"></a>  <span class="fu">filter</span>(periodo <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">5</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb115-6"><a href="diferença-em-diferenças.html#cb115-6" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">post =</span> <span class="fu">ifelse</span>(periodo <span class="sc">==</span> <span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb115-7"><a href="diferença-em-diferenças.html#cb115-7" tabindex="-1"></a></span>
+<span id="cb115-8"><a href="diferença-em-diferenças.html#cb115-8" tabindex="-1"></a>did <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(concluida <span class="sc">~</span> post <span class="sc">+</span> group_treated <span class="sc">+</span> post<span class="sc">*</span>group_treated, <span class="at">data=</span>data_ot_reg,</span>
+<span id="cb115-9"><a href="diferença-em-diferenças.html#cb115-9" tabindex="-1"></a>                 <span class="at">clusters =</span> municipio)</span>
+<span id="cb115-10"><a href="diferença-em-diferenças.html#cb115-10" tabindex="-1"></a><span class="fu">msummary</span>(did, <span class="at">stars =</span> <span class="fu">c</span>(<span class="st">&#39;*&#39;</span> <span class="ot">=</span> .<span class="dv">1</span>, <span class="st">&#39;**&#39;</span> <span class="ot">=</span> .<span class="dv">05</span>, <span class="st">&#39;***&#39;</span> <span class="ot">=</span> .<span class="dv">01</span>))</span></code></pre></div>
 <!-- preamble start -->
 
     <script>
@@ -768,10 +800,10 @@ Isso é na verdade um resultado: é possível mostrar que supor este modelo impl
       </table>
     </div>
 <!-- hack to avoid NA insertion in last line -->
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="diferença-em-diferenças.html#cb121-1" tabindex="-1"></a>did_alt <span class="ot">&lt;-</span> <span class="fu">feols</span>(concluida <span class="sc">~</span> post_treat<span class="sc">|</span> municipio <span class="sc">+</span> periodo,</span>
-<span id="cb121-2"><a href="diferença-em-diferenças.html#cb121-2" tabindex="-1"></a>                              <span class="at">cluster =</span> <span class="st">&quot;municipio&quot;</span>,</span>
-<span id="cb121-3"><a href="diferença-em-diferenças.html#cb121-3" tabindex="-1"></a>                              <span class="at">data =</span> data_ot_reg)</span>
-<span id="cb121-4"><a href="diferença-em-diferenças.html#cb121-4" tabindex="-1"></a><span class="fu">summary</span>(did_alt)</span></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="diferença-em-diferenças.html#cb116-1" tabindex="-1"></a>did_alt <span class="ot">&lt;-</span> <span class="fu">feols</span>(concluida <span class="sc">~</span> post_treat<span class="sc">|</span> municipio <span class="sc">+</span> periodo,</span>
+<span id="cb116-2"><a href="diferença-em-diferenças.html#cb116-2" tabindex="-1"></a>                              <span class="at">cluster =</span> <span class="st">&quot;municipio&quot;</span>,</span>
+<span id="cb116-3"><a href="diferença-em-diferenças.html#cb116-3" tabindex="-1"></a>                              <span class="at">data =</span> data_ot_reg)</span>
+<span id="cb116-4"><a href="diferença-em-diferenças.html#cb116-4" tabindex="-1"></a><span class="fu">summary</span>(did_alt)</span></code></pre></div>
 <pre><code>## OLS estimation, Dep. Var.: concluida
 ## Observations: 9,020
 ## Fixed-effects: municipio: 2,020,  periodo: 2
@@ -782,31 +814,31 @@ Isso é na verdade um resultado: é possível mostrar que supor este modelo impl
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## RMSE: 0.338161     Adj. R2: 0.376909
 ##                  Within R2: 0.002425</code></pre>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="diferença-em-diferenças.html#cb123-1" tabindex="-1"></a><span class="co"># teste de hipóteses paralelas</span></span>
-<span id="cb123-2"><a href="diferença-em-diferenças.html#cb123-2" tabindex="-1"></a><span class="co"># Create dataset</span></span>
-<span id="cb123-3"><a href="diferença-em-diferenças.html#cb123-3" tabindex="-1"></a>start_t <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb123-4"><a href="diferença-em-diferenças.html#cb123-4" tabindex="-1"></a>end_t <span class="ot">&lt;-</span> <span class="dv">5</span></span>
-<span id="cb123-5"><a href="diferença-em-diferenças.html#cb123-5" tabindex="-1"></a>data_ot_reg_pt <span class="ot">&lt;-</span> </span>
-<span id="cb123-6"><a href="diferença-em-diferenças.html#cb123-6" tabindex="-1"></a>  data_ot_reg <span class="sc">%&gt;%</span></span>
-<span id="cb123-7"><a href="diferença-em-diferenças.html#cb123-7" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(id) <span class="sc">%&gt;%</span></span>
-<span id="cb123-8"><a href="diferença-em-diferenças.html#cb123-8" tabindex="-1"></a>  <span class="co"># Create group variable that take value end_t if state was ever treated in this period, and 0 otherwise</span></span>
-<span id="cb123-9"><a href="diferença-em-diferenças.html#cb123-9" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">group =</span> <span class="fu">max</span>(group_treated <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">*</span>end_t)</span>
-<span id="cb123-10"><a href="diferença-em-diferenças.html#cb123-10" tabindex="-1"></a></span>
-<span id="cb123-11"><a href="diferença-em-diferenças.html#cb123-11" tabindex="-1"></a><span class="co"># test_2007_2015 &lt;- didFF(</span></span>
-<span id="cb123-12"><a href="diferença-em-diferenças.html#cb123-12" tabindex="-1"></a><span class="co">#   data        = data_ot_reg_pt,</span></span>
-<span id="cb123-13"><a href="diferença-em-diferenças.html#cb123-13" tabindex="-1"></a><span class="co">#   idname      = &quot;id&quot;,</span></span>
-<span id="cb123-14"><a href="diferença-em-diferenças.html#cb123-14" tabindex="-1"></a><span class="co">#   yname       = &quot;concluida&quot;,</span></span>
-<span id="cb123-15"><a href="diferença-em-diferenças.html#cb123-15" tabindex="-1"></a><span class="co">#   tname       = &quot;periodo&quot;,</span></span>
-<span id="cb123-16"><a href="diferença-em-diferenças.html#cb123-16" tabindex="-1"></a><span class="co">#   gname       = &quot;group&quot;,</span></span>
-<span id="cb123-17"><a href="diferença-em-diferenças.html#cb123-17" tabindex="-1"></a><span class="co">#   est_method  = &quot;reg&quot;,</span></span>
-<span id="cb123-18"><a href="diferença-em-diferenças.html#cb123-18" tabindex="-1"></a><span class="co">#   allow_unbalanced_panel = TRUE,</span></span>
-<span id="cb123-19"><a href="diferença-em-diferenças.html#cb123-19" tabindex="-1"></a><span class="co">#   seed        = 1</span></span>
-<span id="cb123-20"><a href="diferença-em-diferenças.html#cb123-20" tabindex="-1"></a><span class="co"># )</span></span>
-<span id="cb123-21"><a href="diferença-em-diferenças.html#cb123-21" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb123-22"><a href="diferença-em-diferenças.html#cb123-22" tabindex="-1"></a><span class="co"># test_2007_2015$plot</span></span></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="diferença-em-diferenças.html#cb118-1" tabindex="-1"></a><span class="co"># teste de hipóteses paralelas</span></span>
+<span id="cb118-2"><a href="diferença-em-diferenças.html#cb118-2" tabindex="-1"></a><span class="co"># Create dataset</span></span>
+<span id="cb118-3"><a href="diferença-em-diferenças.html#cb118-3" tabindex="-1"></a>start_t <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb118-4"><a href="diferença-em-diferenças.html#cb118-4" tabindex="-1"></a>end_t <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb118-5"><a href="diferença-em-diferenças.html#cb118-5" tabindex="-1"></a>data_ot_reg_pt <span class="ot">&lt;-</span> </span>
+<span id="cb118-6"><a href="diferença-em-diferenças.html#cb118-6" tabindex="-1"></a>  data_ot_reg <span class="sc">%&gt;%</span></span>
+<span id="cb118-7"><a href="diferença-em-diferenças.html#cb118-7" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(id) <span class="sc">%&gt;%</span></span>
+<span id="cb118-8"><a href="diferença-em-diferenças.html#cb118-8" tabindex="-1"></a>  <span class="co"># Create group variable that take value end_t if state was ever treated in this period, and 0 otherwise</span></span>
+<span id="cb118-9"><a href="diferença-em-diferenças.html#cb118-9" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">group =</span> <span class="fu">max</span>(group_treated <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">*</span>end_t)</span>
+<span id="cb118-10"><a href="diferença-em-diferenças.html#cb118-10" tabindex="-1"></a></span>
+<span id="cb118-11"><a href="diferença-em-diferenças.html#cb118-11" tabindex="-1"></a><span class="co"># test_2007_2015 &lt;- didFF(</span></span>
+<span id="cb118-12"><a href="diferença-em-diferenças.html#cb118-12" tabindex="-1"></a><span class="co">#   data        = data_ot_reg_pt,</span></span>
+<span id="cb118-13"><a href="diferença-em-diferenças.html#cb118-13" tabindex="-1"></a><span class="co">#   idname      = &quot;id&quot;,</span></span>
+<span id="cb118-14"><a href="diferença-em-diferenças.html#cb118-14" tabindex="-1"></a><span class="co">#   yname       = &quot;concluida&quot;,</span></span>
+<span id="cb118-15"><a href="diferença-em-diferenças.html#cb118-15" tabindex="-1"></a><span class="co">#   tname       = &quot;periodo&quot;,</span></span>
+<span id="cb118-16"><a href="diferença-em-diferenças.html#cb118-16" tabindex="-1"></a><span class="co">#   gname       = &quot;group&quot;,</span></span>
+<span id="cb118-17"><a href="diferença-em-diferenças.html#cb118-17" tabindex="-1"></a><span class="co">#   est_method  = &quot;reg&quot;,</span></span>
+<span id="cb118-18"><a href="diferença-em-diferenças.html#cb118-18" tabindex="-1"></a><span class="co">#   allow_unbalanced_panel = TRUE,</span></span>
+<span id="cb118-19"><a href="diferença-em-diferenças.html#cb118-19" tabindex="-1"></a><span class="co">#   seed        = 1</span></span>
+<span id="cb118-20"><a href="diferença-em-diferenças.html#cb118-20" tabindex="-1"></a><span class="co"># )</span></span>
+<span id="cb118-21"><a href="diferença-em-diferenças.html#cb118-21" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb118-22"><a href="diferença-em-diferenças.html#cb118-22" tabindex="-1"></a><span class="co"># test_2007_2015$plot</span></span></code></pre></div>
 </div>
 <div id="múltiplos-períodos" class="section level2 hasAnchor" number="8.5">
-<h2><span class="header-section-number">8.5</span> Múltiplos períodos<a href="diferença-em-diferenças.html#múltiplos-períodos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">8.5</span> Múltiplos períodos<a href="#m%C3%BAltiplos-per%C3%ADodos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>O que acontece se tivermos múltiplos períodos, isto é, <span class="math inline">\(t&gt;2\)</span>?</p>
 <ol style="list-style-type: decimal">
 <li><p>Múltiplos períodos antes do tratamento ser implementado</p></li>
@@ -816,62 +848,62 @@ Precisamos escolher um período de comparação, <span class="math inline">\(t_0
 <p>Nos últimos 10 anos, uma grande problematização e desenvolvimento de testes ,estimadores e entendimento do que é DiD com múltiplos períodos. Impossível cobrir tudo em uma única aula. Recomendo as vídeo-aulas do <a href="https://www.youtube.com/playlist?list=PLVObvb_htcuBt8mV9yNagt7hK9FL5KXeE">grupo de estudo em DiD</a>.</p>
 </div>
 <div id="tendências-paralelas" class="section level2 hasAnchor" number="8.6">
-<h2><span class="header-section-number">8.6</span> Tendências Paralelas<a href="diferença-em-diferenças.html#tendências-paralelas" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>A suposição de tendências paralelas significa que <span class="math inline">\(\mathbb{E}[[Y_{i,t}(0) − Y_{g,t−1}(0)]\)</span> não varia entre grupos <span class="math inline">\(g\)</span>. Essa suposição implica que os nunca-tratados seguem um modelo de efeitos fixos duplo (Two-way fixed effects ou TWFE):</p>
+<h2><span class="header-section-number">8.6</span> Tendências Paralelas<a href="#tend%C3%AAncias-paralelas" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A suposição de tendências paralelas significa que <span class="math inline">\(\mathbb{E}[Y_{i,t}(0) − Y_{g,t−1}(0)]\)</span> não varia entre grupos <span class="math inline">\(g\)</span>. Essa suposição implica que os nunca-tratados seguem um modelo de efeitos fixos duplo (Two-way fixed effects ou TWFE):</p>
 <p><span class="math display">\[
-\mathbb{E}[Y_{g,t}(0)] = \alpha_i + \lambda_t
+\mathbb{E}[Y_{g,t}(0)] = \alpha_g + \lambda_t
 \]</span>
 Uma outra forma de escrever essa suposição é:
 <span class="math display">\[
-Y_{g,t}(0) = \alpha_i + \lambda_t + e_{it} \text{, com } \mathbb{E}[e_{it}] = 0
+Y_{g,t}(0) = \alpha_g + \lambda_t + e_{gt} \text{, com } \mathbb{E}[e_{gt}] = 0
 \]</span>
 Demonstrar equivalência é demonstrar que um implica o outro. Vamos começar mostrando que TWFE implica PT.</p>
-<p>Supondo que TWFE é verdade, então <span class="math inline">\(\mathbb{E}[[Y_{i,t}(0) − Y_{g,t−1}(0)] = \alpha_i + \lambda_t - (\alpha_i + \lambda_{t-1}) = \lambda_t - \lambda_{t-1})\)</span>, para todo <span class="math inline">\(g\)</span>. Como a diferença no tempo <span class="math inline">\(\lambda_t - \lambda_{t-1})\)</span> não depende de <span class="math inline">\(g\)</span>, então a PT é satisfeita.</p>
-<p>Vamos agora mostrar a otra implicação. Sem perda de generalidade, defina <span class="math inline">\(\lambda_1 = 0\)</span>, isto é, o efeito do período 1 é 0. Poderia ser qualquer outro valor, mas zero vai facilitar. E vamos definir <span class="math inline">\(\alpha_g = \mathbb{E}[Y_{g,1}0]\)</span>, ou seja,</p>
+<p>Supondo que TWFE é verdade, então <span class="math inline">\(\mathbb{E}[Y_{g,t}(0) − Y_{g,t−1}(0)] = \alpha_g + \lambda_t - (\alpha_g + \lambda_{t-1}) = \lambda_t - \lambda_{t-1}\)</span>, para todo <span class="math inline">\(g\)</span>. Como a diferença no tempo <span class="math inline">\(\lambda_t - \lambda_{t-1}\)</span> não depende de <span class="math inline">\(g\)</span>, então a PT é satisfeita.</p>
+<p>Vamos agora mostrar a otra implicação. Sem perda de generalidade, defina <span class="math inline">\(\lambda_1 = 0\)</span>, isto é, o efeito do período 1 é 0. Poderia ser qualquer outro valor, mas zero vai facilitar. E vamos definir <span class="math inline">\(\alpha_g = \mathbb{E}[Y_{g,1}(0)]\)</span>, ou seja,</p>
 <p>Se as tendências não forem exatamente paralelas, Rambachan e Roth (2023) desenvolveram uma forma de impor restrições sobre quão diferentes as tendências podem não ser paralelas pós-tratamento em comparação com o período pré-tratamento. O pacote no R honestDiD permite implementar isso. Assim conseguimos obter identificação parcial (intervalo para as estimativas), em vez de estimação pontual. O parâmetro M controla quanto o desvio é maior em relação ao observado no pré-teste. Se M é igual a 1, temos o mesmo desvio no máximo. Se M igual a 2, duas vezes maior e assim por diante.</p>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="diferença-em-diferenças.html#cb124-1" tabindex="-1"></a><span class="fu">library</span>(HonestDiD)</span>
-<span id="cb124-2"><a href="diferença-em-diferenças.html#cb124-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb124-3"><a href="diferença-em-diferenças.html#cb124-3" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb124-4"><a href="diferença-em-diferenças.html#cb124-4" tabindex="-1"></a><span class="fu">library</span>(fixest)</span>
-<span id="cb124-5"><a href="diferença-em-diferenças.html#cb124-5" tabindex="-1"></a></span>
-<span id="cb124-6"><a href="diferença-em-diferenças.html#cb124-6" tabindex="-1"></a><span class="co"># Install remotes package if not installed</span></span>
-<span id="cb124-7"><a href="diferença-em-diferenças.html#cb124-7" tabindex="-1"></a><span class="co">#install.packages(&quot;remotes&quot;)</span></span>
-<span id="cb124-8"><a href="diferença-em-diferenças.html#cb124-8" tabindex="-1"></a></span>
-<span id="cb124-9"><a href="diferença-em-diferenças.html#cb124-9" tabindex="-1"></a><span class="co"># Turn off warning-error-conversion, because the tiniest warning stops installation</span></span>
-<span id="cb124-10"><a href="diferença-em-diferenças.html#cb124-10" tabindex="-1"></a><span class="co">#Sys.setenv(&quot;R_REMOTES_NO_ERRORS_FROM_WARNINGS&quot; = &quot;true&quot;)</span></span>
-<span id="cb124-11"><a href="diferença-em-diferenças.html#cb124-11" tabindex="-1"></a></span>
-<span id="cb124-12"><a href="diferença-em-diferenças.html#cb124-12" tabindex="-1"></a><span class="co"># install from github</span></span>
-<span id="cb124-13"><a href="diferença-em-diferenças.html#cb124-13" tabindex="-1"></a><span class="co">#remotes::install_github(&quot;asheshrambachan/HonestDiD&quot;)</span></span>
-<span id="cb124-14"><a href="diferença-em-diferenças.html#cb124-14" tabindex="-1"></a></span>
-<span id="cb124-15"><a href="diferença-em-diferenças.html#cb124-15" tabindex="-1"></a></span>
-<span id="cb124-16"><a href="diferença-em-diferenças.html#cb124-16" tabindex="-1"></a><span class="co"># Run model</span></span>
-<span id="cb124-17"><a href="diferença-em-diferenças.html#cb124-17" tabindex="-1"></a><span class="co"># twfe_results &lt;- feols(rating ~ i(goodr, qa) | year_month + asin,</span></span>
-<span id="cb124-18"><a href="diferença-em-diferenças.html#cb124-18" tabindex="-1"></a><span class="co">#                 cluster = c(&quot;asin&quot;),</span></span>
-<span id="cb124-19"><a href="diferença-em-diferenças.html#cb124-19" tabindex="-1"></a><span class="co">#                 data = GoodAma)</span></span>
-<span id="cb124-20"><a href="diferença-em-diferenças.html#cb124-20" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb124-21"><a href="diferença-em-diferenças.html#cb124-21" tabindex="-1"></a><span class="co"># fixest::iplot(twfe_results)</span></span>
-<span id="cb124-22"><a href="diferença-em-diferenças.html#cb124-22" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb124-23"><a href="diferença-em-diferenças.html#cb124-23" tabindex="-1"></a><span class="co"># # Save coefficients</span></span>
-<span id="cb124-24"><a href="diferença-em-diferenças.html#cb124-24" tabindex="-1"></a><span class="co"># betahat &lt;- summary(model_4)$coefficients</span></span>
-<span id="cb124-25"><a href="diferença-em-diferenças.html#cb124-25" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb124-26"><a href="diferença-em-diferenças.html#cb124-26" tabindex="-1"></a><span class="co"># # Save the covariance matrix</span></span>
-<span id="cb124-27"><a href="diferença-em-diferenças.html#cb124-27" tabindex="-1"></a><span class="co"># sigma &lt;- summary(model_4)$cov.scaled</span></span>
-<span id="cb124-28"><a href="diferença-em-diferenças.html#cb124-28" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb124-29"><a href="diferença-em-diferenças.html#cb124-29" tabindex="-1"></a><span class="co"># ## Identificação Parcial</span></span>
-<span id="cb124-30"><a href="diferença-em-diferenças.html#cb124-30" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb124-31"><a href="diferença-em-diferenças.html#cb124-31" tabindex="-1"></a><span class="co"># delta_rm_results &lt;- createSensitivityResults_relativeMagnitudes(</span></span>
-<span id="cb124-32"><a href="diferença-em-diferenças.html#cb124-32" tabindex="-1"></a><span class="co">#     betahat = betahat, #coefficients</span></span>
-<span id="cb124-33"><a href="diferença-em-diferenças.html#cb124-33" tabindex="-1"></a><span class="co">#     sigma = sigma, #covariance matrix</span></span>
-<span id="cb124-34"><a href="diferença-em-diferenças.html#cb124-34" tabindex="-1"></a><span class="co">#     numPrePeriods = 1, #num. of pre-treatment coefs</span></span>
-<span id="cb124-35"><a href="diferença-em-diferenças.html#cb124-35" tabindex="-1"></a><span class="co">#     numPostPeriods = 1, #num. of post-treatment coefs</span></span>
-<span id="cb124-36"><a href="diferença-em-diferenças.html#cb124-36" tabindex="-1"></a><span class="co">#     Mbarvec = seq(0.5,2,by=0.5) #values of Mbar</span></span>
-<span id="cb124-37"><a href="diferença-em-diferenças.html#cb124-37" tabindex="-1"></a><span class="co">#   )</span></span>
-<span id="cb124-38"><a href="diferença-em-diferenças.html#cb124-38" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb124-39"><a href="diferença-em-diferenças.html#cb124-39" tabindex="-1"></a><span class="co"># delta_rm_results %&gt;%</span></span>
-<span id="cb124-40"><a href="diferença-em-diferenças.html#cb124-40" tabindex="-1"></a><span class="co">#   kable()</span></span></code></pre></div>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="diferença-em-diferenças.html#cb119-1" tabindex="-1"></a><span class="fu">library</span>(HonestDiD)</span>
+<span id="cb119-2"><a href="diferença-em-diferenças.html#cb119-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb119-3"><a href="diferença-em-diferenças.html#cb119-3" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb119-4"><a href="diferença-em-diferenças.html#cb119-4" tabindex="-1"></a><span class="fu">library</span>(fixest)</span>
+<span id="cb119-5"><a href="diferença-em-diferenças.html#cb119-5" tabindex="-1"></a></span>
+<span id="cb119-6"><a href="diferença-em-diferenças.html#cb119-6" tabindex="-1"></a><span class="co"># Install remotes package if not installed</span></span>
+<span id="cb119-7"><a href="diferença-em-diferenças.html#cb119-7" tabindex="-1"></a><span class="co">#install.packages(&quot;remotes&quot;)</span></span>
+<span id="cb119-8"><a href="diferença-em-diferenças.html#cb119-8" tabindex="-1"></a></span>
+<span id="cb119-9"><a href="diferença-em-diferenças.html#cb119-9" tabindex="-1"></a><span class="co"># Turn off warning-error-conversion, because the tiniest warning stops installation</span></span>
+<span id="cb119-10"><a href="diferença-em-diferenças.html#cb119-10" tabindex="-1"></a><span class="co">#Sys.setenv(&quot;R_REMOTES_NO_ERRORS_FROM_WARNINGS&quot; = &quot;true&quot;)</span></span>
+<span id="cb119-11"><a href="diferença-em-diferenças.html#cb119-11" tabindex="-1"></a></span>
+<span id="cb119-12"><a href="diferença-em-diferenças.html#cb119-12" tabindex="-1"></a><span class="co"># install from github</span></span>
+<span id="cb119-13"><a href="diferença-em-diferenças.html#cb119-13" tabindex="-1"></a><span class="co">#remotes::install_github(&quot;asheshrambachan/HonestDiD&quot;)</span></span>
+<span id="cb119-14"><a href="diferença-em-diferenças.html#cb119-14" tabindex="-1"></a></span>
+<span id="cb119-15"><a href="diferença-em-diferenças.html#cb119-15" tabindex="-1"></a></span>
+<span id="cb119-16"><a href="diferença-em-diferenças.html#cb119-16" tabindex="-1"></a><span class="co"># Run model</span></span>
+<span id="cb119-17"><a href="diferença-em-diferenças.html#cb119-17" tabindex="-1"></a><span class="co"># twfe_results &lt;- feols(rating ~ i(goodr, qa) | year_month + asin,</span></span>
+<span id="cb119-18"><a href="diferença-em-diferenças.html#cb119-18" tabindex="-1"></a><span class="co">#                 cluster = c(&quot;asin&quot;),</span></span>
+<span id="cb119-19"><a href="diferença-em-diferenças.html#cb119-19" tabindex="-1"></a><span class="co">#                 data = GoodAma)</span></span>
+<span id="cb119-20"><a href="diferença-em-diferenças.html#cb119-20" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb119-21"><a href="diferença-em-diferenças.html#cb119-21" tabindex="-1"></a><span class="co"># fixest::iplot(twfe_results)</span></span>
+<span id="cb119-22"><a href="diferença-em-diferenças.html#cb119-22" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb119-23"><a href="diferença-em-diferenças.html#cb119-23" tabindex="-1"></a><span class="co"># # Save coefficients</span></span>
+<span id="cb119-24"><a href="diferença-em-diferenças.html#cb119-24" tabindex="-1"></a><span class="co"># betahat &lt;- summary(model_4)$coefficients</span></span>
+<span id="cb119-25"><a href="diferença-em-diferenças.html#cb119-25" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb119-26"><a href="diferença-em-diferenças.html#cb119-26" tabindex="-1"></a><span class="co"># # Save the covariance matrix</span></span>
+<span id="cb119-27"><a href="diferença-em-diferenças.html#cb119-27" tabindex="-1"></a><span class="co"># sigma &lt;- summary(model_4)$cov.scaled</span></span>
+<span id="cb119-28"><a href="diferença-em-diferenças.html#cb119-28" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb119-29"><a href="diferença-em-diferenças.html#cb119-29" tabindex="-1"></a><span class="co"># ## Identificação Parcial</span></span>
+<span id="cb119-30"><a href="diferença-em-diferenças.html#cb119-30" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb119-31"><a href="diferença-em-diferenças.html#cb119-31" tabindex="-1"></a><span class="co"># delta_rm_results &lt;- createSensitivityResults_relativeMagnitudes(</span></span>
+<span id="cb119-32"><a href="diferença-em-diferenças.html#cb119-32" tabindex="-1"></a><span class="co">#     betahat = betahat, #coefficients</span></span>
+<span id="cb119-33"><a href="diferença-em-diferenças.html#cb119-33" tabindex="-1"></a><span class="co">#     sigma = sigma, #covariance matrix</span></span>
+<span id="cb119-34"><a href="diferença-em-diferenças.html#cb119-34" tabindex="-1"></a><span class="co">#     numPrePeriods = 1, #num. of pre-treatment coefs</span></span>
+<span id="cb119-35"><a href="diferença-em-diferenças.html#cb119-35" tabindex="-1"></a><span class="co">#     numPostPeriods = 1, #num. of post-treatment coefs</span></span>
+<span id="cb119-36"><a href="diferença-em-diferenças.html#cb119-36" tabindex="-1"></a><span class="co">#     Mbarvec = seq(0.5,2,by=0.5) #values of Mbar</span></span>
+<span id="cb119-37"><a href="diferença-em-diferenças.html#cb119-37" tabindex="-1"></a><span class="co">#   )</span></span>
+<span id="cb119-38"><a href="diferença-em-diferenças.html#cb119-38" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb119-39"><a href="diferença-em-diferenças.html#cb119-39" tabindex="-1"></a><span class="co"># delta_rm_results %&gt;%</span></span>
+<span id="cb119-40"><a href="diferença-em-diferenças.html#cb119-40" tabindex="-1"></a><span class="co">#   kable()</span></span></code></pre></div>
 </div>
 <div id="múltiplos-períodos-pós-tratamento" class="section level2 hasAnchor" number="8.7">
-<h2><span class="header-section-number">8.7</span> Múltiplos períodos pós-tratamento<a href="diferença-em-diferenças.html#múltiplos-períodos-pós-tratamento" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">8.7</span> Múltiplos períodos pós-tratamento<a href="#m%C3%BAltiplos-per%C3%ADodos-p%C3%B3s-tratamento" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Provavelmente, <span class="math inline">\(\tau\)</span> não é constante no tempo e entre unidades. Efeito do tratamento pode depender de quando começou. Pode depender da duração. Precisamos de um modelo mais sofisticado de regressão. O modelo que fizemos estima uma média dos efeitos. É preciso ter cuidado, pois se a amostra não for completa (não-balanceada), pode gerar problemas.</p>
 <p>A primeira extensão do modelo é considerar um did dinâmico. Como fazemos isso?</p>
 <p><span class="math display">\[
@@ -884,7 +916,7 @@ E todos os coeficientes medem o efeito relativo ao período <span class="math in
 <p>Podemos testar pré-tratamento.</p>
 </div>
 <div id="análise-de-sensibilidade-em-did" class="section level2 hasAnchor" number="8.8">
-<h2><span class="header-section-number">8.8</span> Análise de sensibilidade em DiD<a href="diferença-em-diferenças.html#análise-de-sensibilidade-em-did" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">8.8</span> Análise de sensibilidade em DiD<a href="#an%C3%A1lise-de-sensibilidade-em-did" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><span class="math display">\[
 y_{gt} = \alpha_g + \lambda_t + \tau_{gt}D_{it} + e_{gt}
 \]</span></p>
@@ -917,9 +949,9 @@ Essa regressão estima <span class="math inline">\(\hat{\tau} = \sum w_{gt}\tau_
 <h2><span class="header-section-number">8.9</span> DiD generalizado<a href="diferença-em-diferenças.html#did-generalizado" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Nós permitimos que cada unidade, por exemplo, tenha sua própria tendência. Ou que o resultado potencial do controle (não-tratado) dependa de covariáveis que variam no tempo, ou seja, a tendência paralela é condicional às covariáveis.
 A única coisa não permitida é interação entre efeitos fixos de unidade e tempo.</p>
-<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="diferença-em-diferenças.html#cb125-1" tabindex="-1"></a>did_din <span class="ot">=</span> <span class="fu">feols</span>(concluida <span class="sc">~</span> <span class="fu">i</span>(periodo, group_treated, <span class="at">ref=</span><span class="dv">3</span>) <span class="sc">|</span> id <span class="sc">+</span> periodo, data_ot)</span>
-<span id="cb125-2"><a href="diferença-em-diferenças.html#cb125-2" tabindex="-1"></a></span>
-<span id="cb125-3"><a href="diferença-em-diferenças.html#cb125-3" tabindex="-1"></a><span class="fu">summary</span>(did_din)</span></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="diferença-em-diferenças.html#cb120-1" tabindex="-1"></a>did_din <span class="ot">=</span> <span class="fu">feols</span>(concluida <span class="sc">~</span> <span class="fu">i</span>(periodo, group_treated, <span class="at">ref=</span><span class="dv">3</span>) <span class="sc">|</span> id <span class="sc">+</span> periodo, data_ot)</span>
+<span id="cb120-2"><a href="diferença-em-diferenças.html#cb120-2" tabindex="-1"></a></span>
+<span id="cb120-3"><a href="diferença-em-diferenças.html#cb120-3" tabindex="-1"></a><span class="fu">summary</span>(did_din)</span></code></pre></div>
 <pre><code>## OLS estimation, Dep. Var.: concluida
 ## Observations: 22,609
 ## Fixed-effects: id: 4,530,  periodo: 5
@@ -933,9 +965,10 @@ A única coisa não permitida é interação entre efeitos fixos de unidade e te
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## RMSE: 0.247446     Adj. R2: 0.685451
 ##                  Within R2: 0.002541</code></pre>
+<p>Até aqui, consideramos cenários em que o tratamento é implementado simultaneamente para todas as unidades tratadas. Contudo, em muitas aplicações, o tratamento é adotado em momentos diferentes por diferentes unidades.</p>
 </div>
 <div id="did-com-adoção-escalonada-staggered-timing" class="section level2 hasAnchor" number="8.10">
-<h2><span class="header-section-number">8.10</span> DID com adoção escalonada (staggered timing)<a href="diferença-em-diferenças.html#did-com-adoção-escalonada-staggered-timing" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">8.10</span> DID com adoção escalonada (staggered timing)<a href="#did-com-ado%C3%A7%C3%A3o-escalonada-staggered-timing" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>No meu exemplo, tratamento foi o mesmo para todas as unidades ao mesmo tempo. Mas é comum que não aconteça assim.</p>
 <ol style="list-style-type: decimal">
 <li>Qual é o estimando quando tenho adoção escalonada no tempo? Com quem estou comparando?</li>
@@ -944,30 +977,30 @@ A única coisa não permitida é interação entre efeitos fixos de unidade e te
 </div>
 <div id="paper-voter-gratitude-last-long" class="section level2 hasAnchor" number="8.11">
 <h2><span class="header-section-number">8.11</span> Paper Voter Gratitude Last Long?<a href="diferença-em-diferenças.html#paper-voter-gratitude-last-long" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="diferença-em-diferenças.html#cb127-1" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
-<span id="cb127-2"><a href="diferença-em-diferenças.html#cb127-2" tabindex="-1"></a>elbe1994_98 <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="fu">here</span>(<span class="st">&quot;Dados&quot;</span>, <span class="st">&quot;Elbe&quot;</span>, <span class="st">&quot;1994_1998.dta&quot;</span>)) </span>
-<span id="cb127-3"><a href="diferença-em-diferenças.html#cb127-3" tabindex="-1"></a></span>
-<span id="cb127-4"><a href="diferença-em-diferenças.html#cb127-4" tabindex="-1"></a>elbe0 <span class="ot">&lt;-</span> elbe1994_98 <span class="sc">%&gt;%</span></span>
-<span id="cb127-5"><a href="diferença-em-diferenças.html#cb127-5" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(wkr, wkrname, year, spd_z_vs, Flooded)</span>
-<span id="cb127-6"><a href="diferença-em-diferenças.html#cb127-6" tabindex="-1"></a></span>
-<span id="cb127-7"><a href="diferença-em-diferenças.html#cb127-7" tabindex="-1"></a>elbe1998_02 <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,  <span class="st">&quot;Elbe&quot;</span>, <span class="st">&quot;1998_2002.dta&quot;</span>))</span>
-<span id="cb127-8"><a href="diferença-em-diferenças.html#cb127-8" tabindex="-1"></a></span>
-<span id="cb127-9"><a href="diferença-em-diferenças.html#cb127-9" tabindex="-1"></a>elbe1 <span class="ot">&lt;-</span> elbe1998_02 <span class="sc">%&gt;%</span></span>
-<span id="cb127-10"><a href="diferença-em-diferenças.html#cb127-10" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(wkr, wkrname, year, spd_z_vs, Flooded) <span class="sc">%&gt;%</span></span>
-<span id="cb127-11"><a href="diferença-em-diferenças.html#cb127-11" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2002</span>) </span>
-<span id="cb127-12"><a href="diferença-em-diferenças.html#cb127-12" tabindex="-1"></a></span>
-<span id="cb127-13"><a href="diferença-em-diferenças.html#cb127-13" tabindex="-1"></a></span>
-<span id="cb127-14"><a href="diferença-em-diferenças.html#cb127-14" tabindex="-1"></a>elbe1998_05 <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,  <span class="st">&quot;Elbe&quot;</span>, <span class="st">&quot;1998_2005.dta&quot;</span>))</span>
-<span id="cb127-15"><a href="diferença-em-diferenças.html#cb127-15" tabindex="-1"></a></span>
-<span id="cb127-16"><a href="diferença-em-diferenças.html#cb127-16" tabindex="-1"></a>elbe2 <span class="ot">&lt;-</span> elbe1998_05 <span class="sc">%&gt;%</span></span>
-<span id="cb127-17"><a href="diferença-em-diferenças.html#cb127-17" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2005</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb127-18"><a href="diferença-em-diferenças.html#cb127-18" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(wkr, wkrname, year, spd_z_vs, Flooded)</span>
-<span id="cb127-19"><a href="diferença-em-diferenças.html#cb127-19" tabindex="-1"></a></span>
-<span id="cb127-20"><a href="diferença-em-diferenças.html#cb127-20" tabindex="-1"></a>elbe <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(elbe0, elbe1, elbe2)</span></code></pre></div>
-<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="diferença-em-diferenças.html#cb128-1" tabindex="-1"></a>did_short <span class="ot">&lt;-</span> <span class="fu">feols</span>(spd_z_vs <span class="sc">~</span> Flooded<span class="sc">|</span> wkr <span class="sc">+</span> year,</span>
-<span id="cb128-2"><a href="diferença-em-diferenças.html#cb128-2" tabindex="-1"></a>                 <span class="at">cluster =</span> <span class="st">&quot;wkr&quot;</span>,</span>
-<span id="cb128-3"><a href="diferença-em-diferenças.html#cb128-3" tabindex="-1"></a>                 <span class="at">data =</span> elbe1998_02)</span>
-<span id="cb128-4"><a href="diferença-em-diferenças.html#cb128-4" tabindex="-1"></a><span class="fu">summary</span>(did_short)</span></code></pre></div>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="diferença-em-diferenças.html#cb122-1" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb122-2"><a href="diferença-em-diferenças.html#cb122-2" tabindex="-1"></a>elbe1994_98 <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="fu">here</span>(<span class="st">&quot;Dados&quot;</span>, <span class="st">&quot;Elbe&quot;</span>, <span class="st">&quot;1994_1998.dta&quot;</span>)) </span>
+<span id="cb122-3"><a href="diferença-em-diferenças.html#cb122-3" tabindex="-1"></a></span>
+<span id="cb122-4"><a href="diferença-em-diferenças.html#cb122-4" tabindex="-1"></a>elbe0 <span class="ot">&lt;-</span> elbe1994_98 <span class="sc">%&gt;%</span></span>
+<span id="cb122-5"><a href="diferença-em-diferenças.html#cb122-5" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(wkr, wkrname, year, spd_z_vs, Flooded)</span>
+<span id="cb122-6"><a href="diferença-em-diferenças.html#cb122-6" tabindex="-1"></a></span>
+<span id="cb122-7"><a href="diferença-em-diferenças.html#cb122-7" tabindex="-1"></a>elbe1998_02 <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,  <span class="st">&quot;Elbe&quot;</span>, <span class="st">&quot;1998_2002.dta&quot;</span>))</span>
+<span id="cb122-8"><a href="diferença-em-diferenças.html#cb122-8" tabindex="-1"></a></span>
+<span id="cb122-9"><a href="diferença-em-diferenças.html#cb122-9" tabindex="-1"></a>elbe1 <span class="ot">&lt;-</span> elbe1998_02 <span class="sc">%&gt;%</span></span>
+<span id="cb122-10"><a href="diferença-em-diferenças.html#cb122-10" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(wkr, wkrname, year, spd_z_vs, Flooded) <span class="sc">%&gt;%</span></span>
+<span id="cb122-11"><a href="diferença-em-diferenças.html#cb122-11" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2002</span>) </span>
+<span id="cb122-12"><a href="diferença-em-diferenças.html#cb122-12" tabindex="-1"></a></span>
+<span id="cb122-13"><a href="diferença-em-diferenças.html#cb122-13" tabindex="-1"></a></span>
+<span id="cb122-14"><a href="diferença-em-diferenças.html#cb122-14" tabindex="-1"></a>elbe1998_05 <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>,  <span class="st">&quot;Elbe&quot;</span>, <span class="st">&quot;1998_2005.dta&quot;</span>))</span>
+<span id="cb122-15"><a href="diferença-em-diferenças.html#cb122-15" tabindex="-1"></a></span>
+<span id="cb122-16"><a href="diferença-em-diferenças.html#cb122-16" tabindex="-1"></a>elbe2 <span class="ot">&lt;-</span> elbe1998_05 <span class="sc">%&gt;%</span></span>
+<span id="cb122-17"><a href="diferença-em-diferenças.html#cb122-17" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2005</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb122-18"><a href="diferença-em-diferenças.html#cb122-18" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(wkr, wkrname, year, spd_z_vs, Flooded)</span>
+<span id="cb122-19"><a href="diferença-em-diferenças.html#cb122-19" tabindex="-1"></a></span>
+<span id="cb122-20"><a href="diferença-em-diferenças.html#cb122-20" tabindex="-1"></a>elbe <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(elbe0, elbe1, elbe2)</span></code></pre></div>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="diferença-em-diferenças.html#cb123-1" tabindex="-1"></a>did_short <span class="ot">&lt;-</span> <span class="fu">feols</span>(spd_z_vs <span class="sc">~</span> Flooded<span class="sc">|</span> wkr <span class="sc">+</span> year,</span>
+<span id="cb123-2"><a href="diferença-em-diferenças.html#cb123-2" tabindex="-1"></a>                 <span class="at">cluster =</span> <span class="st">&quot;wkr&quot;</span>,</span>
+<span id="cb123-3"><a href="diferença-em-diferenças.html#cb123-3" tabindex="-1"></a>                 <span class="at">data =</span> elbe1998_02)</span>
+<span id="cb123-4"><a href="diferença-em-diferenças.html#cb123-4" tabindex="-1"></a><span class="fu">summary</span>(did_short)</span></code></pre></div>
 <pre><code>## OLS estimation, Dep. Var.: spd_z_vs
 ## Observations: 598
 ## Fixed-effects: wkr: 299,  year: 2
@@ -978,8 +1011,8 @@ A única coisa não permitida é interação entre efeitos fixos de unidade e te
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## RMSE: 1.80615     Adj. R2: 0.905029
 ##                 Within R2: 0.255154</code></pre>
-<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="diferença-em-diferenças.html#cb130-1" tabindex="-1"></a>did_din <span class="ot">=</span> <span class="fu">feols</span>(spd_z_vs <span class="sc">~</span> <span class="fu">i</span>(year, Flooded, <span class="at">ref=</span><span class="dv">1998</span>) <span class="sc">|</span> wkr <span class="sc">+</span> year, elbe)</span>
-<span id="cb130-2"><a href="diferença-em-diferenças.html#cb130-2" tabindex="-1"></a><span class="fu">summary</span>(did_din)</span></code></pre></div>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="diferença-em-diferenças.html#cb125-1" tabindex="-1"></a>did_din <span class="ot">=</span> <span class="fu">feols</span>(spd_z_vs <span class="sc">~</span> <span class="fu">i</span>(year, Flooded, <span class="at">ref=</span><span class="dv">1998</span>) <span class="sc">|</span> wkr <span class="sc">+</span> year, elbe)</span>
+<span id="cb125-2"><a href="diferença-em-diferenças.html#cb125-2" tabindex="-1"></a><span class="fu">summary</span>(did_din)</span></code></pre></div>
 <pre><code>## OLS estimation, Dep. Var.: spd_z_vs
 ## Observations: 1,254
 ## Fixed-effects: wkr: 328,  year: 4
@@ -992,27 +1025,27 @@ A única coisa não permitida é interação entre efeitos fixos de unidade e te
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## RMSE: 4.71647     Adj. R2: 0.591674
 ##                 Within R2: 0.017113</code></pre>
-<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="diferença-em-diferenças.html#cb132-1" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="at">RGL_USE_NULL =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb132-2"><a href="diferença-em-diferenças.html#cb132-2" tabindex="-1"></a><span class="fu">library</span>(DIDmultiplegtDYN)</span>
-<span id="cb132-3"><a href="diferença-em-diferenças.html#cb132-3" tabindex="-1"></a></span>
-<span id="cb132-4"><a href="diferença-em-diferenças.html#cb132-4" tabindex="-1"></a>elbe_het <span class="ot">&lt;-</span> elbe <span class="sc">%&gt;%</span></span>
-<span id="cb132-5"><a href="diferença-em-diferenças.html#cb132-5" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">Y =</span> spd_z_vs,</span>
-<span id="cb132-6"><a href="diferença-em-diferenças.html#cb132-6" tabindex="-1"></a>         <span class="at">G =</span> wkr,</span>
-<span id="cb132-7"><a href="diferença-em-diferenças.html#cb132-7" tabindex="-1"></a>         <span class="at">D =</span> Flooded,</span>
-<span id="cb132-8"><a href="diferença-em-diferenças.html#cb132-8" tabindex="-1"></a>         <span class="at">T =</span> year)</span>
-<span id="cb132-9"><a href="diferença-em-diferenças.html#cb132-9" tabindex="-1"></a></span>
-<span id="cb132-10"><a href="diferença-em-diferenças.html#cb132-10" tabindex="-1"></a>did_het <span class="ot">&lt;-</span> <span class="fu">did_multiplegt_dyn</span>(</span>
-<span id="cb132-11"><a href="diferença-em-diferenças.html#cb132-11" tabindex="-1"></a>    <span class="at">df =</span> elbe,</span>
-<span id="cb132-12"><a href="diferença-em-diferenças.html#cb132-12" tabindex="-1"></a>    <span class="at">outcome =</span> <span class="st">&quot;spd_z_vs&quot;</span>,</span>
-<span id="cb132-13"><a href="diferença-em-diferenças.html#cb132-13" tabindex="-1"></a>    <span class="at">group =</span> <span class="st">&quot;wkr&quot;</span>,</span>
-<span id="cb132-14"><a href="diferença-em-diferenças.html#cb132-14" tabindex="-1"></a>    <span class="at">time =</span> <span class="st">&quot;year&quot;</span>,</span>
-<span id="cb132-15"><a href="diferença-em-diferenças.html#cb132-15" tabindex="-1"></a>    <span class="at">treatment =</span> <span class="st">&quot;Flooded&quot;</span>,</span>
-<span id="cb132-16"><a href="diferença-em-diferenças.html#cb132-16" tabindex="-1"></a>    <span class="at">effects =</span> <span class="dv">2</span>,</span>
-<span id="cb132-17"><a href="diferença-em-diferenças.html#cb132-17" tabindex="-1"></a>    <span class="at">placebo =</span> <span class="dv">2</span>,</span>
-<span id="cb132-18"><a href="diferença-em-diferenças.html#cb132-18" tabindex="-1"></a>    <span class="at">cluster =</span> <span class="st">&quot;wkr&quot;</span></span>
-<span id="cb132-19"><a href="diferença-em-diferenças.html#cb132-19" tabindex="-1"></a>)</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/elbe-did-het-1.png" width="672" /></p>
-<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="diferença-em-diferenças.html#cb133-1" tabindex="-1"></a><span class="fu">summary</span>(did_het)</span></code></pre></div>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="diferença-em-diferenças.html#cb127-1" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="at">RGL_USE_NULL =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb127-2"><a href="diferença-em-diferenças.html#cb127-2" tabindex="-1"></a><span class="fu">library</span>(DIDmultiplegtDYN)</span>
+<span id="cb127-3"><a href="diferença-em-diferenças.html#cb127-3" tabindex="-1"></a></span>
+<span id="cb127-4"><a href="diferença-em-diferenças.html#cb127-4" tabindex="-1"></a>elbe_het <span class="ot">&lt;-</span> elbe <span class="sc">%&gt;%</span></span>
+<span id="cb127-5"><a href="diferença-em-diferenças.html#cb127-5" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">Y =</span> spd_z_vs,</span>
+<span id="cb127-6"><a href="diferença-em-diferenças.html#cb127-6" tabindex="-1"></a>         <span class="at">G =</span> wkr,</span>
+<span id="cb127-7"><a href="diferença-em-diferenças.html#cb127-7" tabindex="-1"></a>         <span class="at">D =</span> Flooded,</span>
+<span id="cb127-8"><a href="diferença-em-diferenças.html#cb127-8" tabindex="-1"></a>         <span class="at">T =</span> year)</span>
+<span id="cb127-9"><a href="diferença-em-diferenças.html#cb127-9" tabindex="-1"></a></span>
+<span id="cb127-10"><a href="diferença-em-diferenças.html#cb127-10" tabindex="-1"></a>did_het <span class="ot">&lt;-</span> <span class="fu">did_multiplegt_dyn</span>(</span>
+<span id="cb127-11"><a href="diferença-em-diferenças.html#cb127-11" tabindex="-1"></a>    <span class="at">df =</span> elbe,</span>
+<span id="cb127-12"><a href="diferença-em-diferenças.html#cb127-12" tabindex="-1"></a>    <span class="at">outcome =</span> <span class="st">&quot;spd_z_vs&quot;</span>,</span>
+<span id="cb127-13"><a href="diferença-em-diferenças.html#cb127-13" tabindex="-1"></a>    <span class="at">group =</span> <span class="st">&quot;wkr&quot;</span>,</span>
+<span id="cb127-14"><a href="diferença-em-diferenças.html#cb127-14" tabindex="-1"></a>    <span class="at">time =</span> <span class="st">&quot;year&quot;</span>,</span>
+<span id="cb127-15"><a href="diferença-em-diferenças.html#cb127-15" tabindex="-1"></a>    <span class="at">treatment =</span> <span class="st">&quot;Flooded&quot;</span>,</span>
+<span id="cb127-16"><a href="diferença-em-diferenças.html#cb127-16" tabindex="-1"></a>    <span class="at">effects =</span> <span class="dv">2</span>,</span>
+<span id="cb127-17"><a href="diferença-em-diferenças.html#cb127-17" tabindex="-1"></a>    <span class="at">placebo =</span> <span class="dv">2</span>,</span>
+<span id="cb127-18"><a href="diferença-em-diferenças.html#cb127-18" tabindex="-1"></a>    <span class="at">cluster =</span> <span class="st">&quot;wkr&quot;</span></span>
+<span id="cb127-19"><a href="diferença-em-diferenças.html#cb127-19" tabindex="-1"></a>)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/elbe-did-het-1.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="diferença-em-diferenças.html#cb128-1" tabindex="-1"></a><span class="fu">summary</span>(did_het)</span></code></pre></div>
 <pre><code>## 
 ## ----------------------------------------------------------------------
 ##        Estimation of treatment effects: Event-study effects
@@ -1040,10 +1073,10 @@ A única coisa não permitida é interação entre efeitos fixos de unidade e te
 ## 
 ## The development of this package was funded by the European Union.
 ## ERC REALLYCREDIBLE - GA N. 101043899</code></pre>
-<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="diferença-em-diferenças.html#cb135-1" tabindex="-1"></a>did_short <span class="ot">&lt;-</span> <span class="fu">feols</span>(spd_z_vs <span class="sc">~</span> Flooded<span class="sc">|</span> wkr <span class="sc">+</span> year,</span>
-<span id="cb135-2"><a href="diferença-em-diferenças.html#cb135-2" tabindex="-1"></a>                 <span class="at">cluster =</span> <span class="st">&quot;wkr&quot;</span>,</span>
-<span id="cb135-3"><a href="diferença-em-diferenças.html#cb135-3" tabindex="-1"></a>                 <span class="at">data =</span> elbe1998_02)</span>
-<span id="cb135-4"><a href="diferença-em-diferenças.html#cb135-4" tabindex="-1"></a><span class="fu">summary</span>(did_short)</span></code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="diferença-em-diferenças.html#cb130-1" tabindex="-1"></a>did_short <span class="ot">&lt;-</span> <span class="fu">feols</span>(spd_z_vs <span class="sc">~</span> Flooded<span class="sc">|</span> wkr <span class="sc">+</span> year,</span>
+<span id="cb130-2"><a href="diferença-em-diferenças.html#cb130-2" tabindex="-1"></a>                 <span class="at">cluster =</span> <span class="st">&quot;wkr&quot;</span>,</span>
+<span id="cb130-3"><a href="diferença-em-diferenças.html#cb130-3" tabindex="-1"></a>                 <span class="at">data =</span> elbe1998_02)</span>
+<span id="cb130-4"><a href="diferença-em-diferenças.html#cb130-4" tabindex="-1"></a><span class="fu">summary</span>(did_short)</span></code></pre></div>
 <pre><code>## OLS estimation, Dep. Var.: spd_z_vs
 ## Observations: 598
 ## Fixed-effects: wkr: 299,  year: 2
@@ -1054,8 +1087,8 @@ A única coisa não permitida é interação entre efeitos fixos de unidade e te
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## RMSE: 1.80615     Adj. R2: 0.905029
 ##                 Within R2: 0.255154</code></pre>
-<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="diferença-em-diferenças.html#cb137-1" tabindex="-1"></a>did_din <span class="ot">=</span> <span class="fu">feols</span>(spd_z_vs <span class="sc">~</span> <span class="fu">i</span>(year, Flooded, <span class="at">ref=</span><span class="dv">1998</span>) <span class="sc">|</span> wkr <span class="sc">+</span> year, elbe)</span>
-<span id="cb137-2"><a href="diferença-em-diferenças.html#cb137-2" tabindex="-1"></a><span class="fu">summary</span>(did_din)</span></code></pre></div>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="diferença-em-diferenças.html#cb132-1" tabindex="-1"></a>did_din <span class="ot">=</span> <span class="fu">feols</span>(spd_z_vs <span class="sc">~</span> <span class="fu">i</span>(year, Flooded, <span class="at">ref=</span><span class="dv">1998</span>) <span class="sc">|</span> wkr <span class="sc">+</span> year, elbe)</span>
+<span id="cb132-2"><a href="diferença-em-diferenças.html#cb132-2" tabindex="-1"></a><span class="fu">summary</span>(did_din)</span></code></pre></div>
 <pre><code>## OLS estimation, Dep. Var.: spd_z_vs
 ## Observations: 1,254
 ## Fixed-effects: wkr: 328,  year: 4
@@ -1069,8 +1102,13 @@ A única coisa não permitida é interação entre efeitos fixos de unidade e te
 ## RMSE: 4.71647     Adj. R2: 0.591674
 ##                 Within R2: 0.017113</code></pre>
 </div>
-<div id="referências-5" class="section level2 hasAnchor" number="8.12">
-<h2><span class="header-section-number">8.12</span> Referências<a href="diferença-em-diferenças.html#referências-5" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="resumo-e-próximos-passos-4" class="section level2 hasAnchor" number="8.12">
+<h2><span class="header-section-number">8.12</span> Resumo e próximos passos<a href="#resumo-e-pr%C3%B3ximos-passos-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Neste capítulo, introduzimos o estimador de Diferença em Diferenças e a suposição central de tendências paralelas. Vimos como o DiD pode ser estimado por TWFE e como extensões recentes lidam com efeitos heterogêneos, múltiplos períodos e adoção escalonada do tratamento. A análise de sensibilidade de Rambachan e Roth (2023) é uma ferramenta importante para avaliar a robustez dos resultados quando tendências paralelas não são exatamente satisfeitas.</p>
+<p>No próximo capítulo, discutiremos dados de painel (TSCS) de forma mais geral, incluindo as suposições de exogeneidade estrita e sequencial.</p>
+</div>
+<div id="referências-6" class="section level2 hasAnchor" number="8.13">
+<h2><span class="header-section-number">8.13</span> Referências<a href="#refer%C3%AAncias-6" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>de Chaisemartin, C., &amp; D’Haultfœuille, X. (2023). Credible answers to hard questions: Differences-in-differences for natural experiments. Available at SSRN.</p>
 <p>Rambachan, A., &amp; Roth, J. (2023). A more credible approach to parallel trends. Review of Economic Studies, 90(5), 2555-2591.</p>
 

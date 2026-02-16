@@ -8,7 +8,7 @@ Na aula de hoje, iremos aprender sobre a principal estratégia de "seleção em 
 
 O propensity score nada mais é que a probabilidade de uma unidade ser tratada, dada as covariáveis, ou seja, $Pr(D_i = 1| X_i)$.
 
-A ideia chave para propensity-score vem de um paper de Rosenbaum-Rubin (1983) em que eles mostram que, se a condição 1 de ignorabilidade forte (isto é, $Y_i(1), Y_i(0) \perp D_i|X_i$) for satisfeita, então também é verdade que a condição $Y_i(1), Y_i(0) \perp D_i|\pi(X_i)$ também é satisfeita. E por que isso é importante? Nós nunca sabemos o verdadeiro modelo que relaciona as convariáveis $X_i$ com $D_i$ e $Y_i$, de modo que podemos ter algum problema de modelo mal especificado (por exemplo, supomos um modelo linear, quando na verdade é não-linear). Então, em vez de estimar dezenas de modelos, posso condicionar ("controlar") apenas pelo propensity score $\pi(X_i)$. A intuição é que o propensity score cria balanceamento entre tratados e não-tratados. 
+A ideia chave para propensity-score vem de um paper de Rosenbaum-Rubin (1983) em que eles mostram que, se a condição 1 de ignorabilidade forte (isto é, $Y_i(1), Y_i(0) \perp D_i|X_i$) for satisfeita, então também é verdade que a condição $Y_i(1), Y_i(0) \perp D_i|\pi(X_i)$ também é satisfeita. E por que isso é importante? Nós nunca sabemos o verdadeiro modelo que relaciona as covariáveis $X_i$ com $D_i$ e $Y_i$, de modo que podemos ter algum problema de modelo mal especificado (por exemplo, supomos um modelo linear, quando na verdade é não-linear). Então, em vez de estimar dezenas de modelos, posso condicionar ("controlar") apenas pelo propensity score $\pi(X_i)$. A intuição é que o propensity score cria balanceamento entre tratados e não-tratados. 
 
 Para ilustrar o poder desse reusltado, vamos considerar um exemplo simulado, em que ignorability forte é satisfeita, mas um modelo mal-especificado gera amostras não-balanceadas e, portanto, estimativas viesadas.
 
@@ -173,7 +173,7 @@ summary(reg2)
 ```
 
 
-Conseguimos recuperar o ATE sem problemas. E não precisei especificar corretamente a forma funcional da variáveil de controle $w_1$ no modelo principal, pois usei o propensity score. Note que precisei modelar corretamente a regreessão que calcula o propensity score. 
+Conseguimos recuperar o ATE sem problemas. E não precisei especificar corretamente a forma funcional da variável de controle $w_1$ no modelo principal, pois usei o propensity score. Note que precisei modelar corretamente a regressão que calcula o propensity score. 
 
 É útil ver como o pscore está distribuído entre os grupos de tratamento e controle:
 
@@ -246,9 +246,11 @@ reg_sub %>%
 
 A ideia do matching é um pouco diferente do que fizemos acima, pois estamos excluindo as observações que estão no tratamento e que não possuem controle correspondente, e do controle que não possuem tratamento correspondente. Não há erro em excluir os dois tipos de observações, mas sempre temos de nos perguntar qual é o estimando de interesse. Se faço esse procedimento, o meu estimando não é nenhum dos usuais ATT ou ATE.
 
-No matchingf, nós nos concentramos em estimar o ATT, de forma que procuramos achar observações no controle que são próximas das tratadas, ou seja, excluímos os controles que não são um match para as observações tratadas.
+No matching, nós nos concentramos em estimar o ATT, de forma que procuramos achar observações no controle que são próximas das tratadas, ou seja, excluímos os controles que não são um match para as observações tratadas.
 
 ## Suposições de identificação
+
+Antes de aplicar qualquer método de matching, é fundamental explicitar as suposições que garantem a identificação causal nesse contexto.
 
 Supondo para simplificar um tratamento binário $T$, e uma covariável categórica $X$, temos:
 
@@ -280,6 +282,8 @@ Há dois grandes grupos de métodos de matching: exato e aproximado.
 
 ## Matching exato
 
+Uma vez que temos as suposições de identificação, podemos discutir os métodos para realizar o matching. O mais simples deles é o matching exato.
+
 Nesse método, nós achamos uma unidade (ou mais) que tenham um valor exatamente igual nas covariáveis (ou no propensity score), e imputamos o controle.
 
 ## Matching aproximado
@@ -290,13 +294,13 @@ $$
 \lVert X_i - X_j \rVert = \sqrt{(X_i - X_j)'(X_i - X_j)}
 $$
 $$
-\lVert X_i - X_j \rVert = \sqrt{\sum_{n=1}^k(X_{ni} - X_{nj})}
+\lVert X_i - X_j \rVert = \sqrt{\sum_{n=1}^k(X_{ni} - X_{nj})^2}
 $$
 
 A distância euclidiana utiliza a escala das próprias variáveis, então é comum usar a distância euclidiana normalizada:
 
 $$
-\lVert X_i - X_j \rVert = \sqrt{\sum_{n=1}^k(\frac{X_{ni} - X_{nj})}{\hat{\sigma}_n^2}}
+\lVert X_i - X_j \rVert = \sqrt{\sum_{n=1}^k\frac{(X_{ni} - X_{nj})^2}{\hat{\sigma}_n^2}}
 $$
 
 Outra métrica é a distância de Mahalanobis, que basicamente divide pela covariância (amostral) entre as variáveis em vez da variância. Mas na prática a gente usa a euclidiana.
@@ -533,6 +537,8 @@ Rotina ou algoritmo:
 4. Jamais use a variável resposta para fazer o matching.
 
 5. Matching com reposição gera dificuldades para calcular o erro padrão, já que as observações não são independentes.
+
+Em resumo, matching é uma ferramenta poderosa para estimar efeitos causais em estudos observacionais, mas requer atenção ao balanceamento, à escolha do método e à plausibilidade da suposição de independência condicional. No próximo capítulo, veremos uma abordagem alternativa — variáveis instrumentais — que permite a identificação causal mesmo quando a seleção em observáveis não é crível.
 
 ## Referências
 

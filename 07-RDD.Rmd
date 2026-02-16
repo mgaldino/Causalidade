@@ -28,7 +28,7 @@ Em um desenho RDD *sharp*, uma unidade é tratada se $X_i \geq c$ e não tratada
 
 Uma das suposições da RDD é que ela requer a continuidade da variável $X$ para identificação, embora, na prática, alguns estudos de RDD tenham usado *running variables* discretas. A continuidade de $X$ é necessária porque a identificação ocorre no limite.
 
-Mas a suposiçao chave é que os resultados potenciais devem ser contínuos ao redor do ponto de corte. Como sempre, essa suposição é intestável, devido ao problema fundamental da inferência causal. Lee (2008), em um artigo clássico, mostrou que uma condição mais restritiva é suficiente para identificação causal: que as unidades podem controlar a running varibale, exceto ao redor do ponto de corte. Isso implica também que as covariáveis de pré-tratamento são contínuas no cutoff. Isso é potencialmente testável, pelo menos nas variáveis observadas e em geral olhando para a média das variáveis, o que não é a mesma coisa que olhar para outros momentos, que podem ser descontínuos.
+Mas a suposiçao chave é que os resultados potenciais devem ser contínuos ao redor do ponto de corte. Como sempre, essa suposição é intestável, devido ao problema fundamental da inferência causal. Lee (2008), em um artigo clássico, mostrou que uma condição mais restritiva é suficiente para identificação causal: que as unidades podem controlar a running variável, exceto ao redor do ponto de corte. Isso implica também que as covariáveis de pré-tratamento são contínuas no cutoff. Isso é potencialmente testável, pelo menos nas variáveis observadas e em geral olhando para a média das variáveis, o que não é a mesma coisa que olhar para outros momentos, que podem ser descontínuos.
 
 ### Estimativa dos Efeitos do Tratamento
 
@@ -45,7 +45,7 @@ $y_i = \alpha + \beta_1 (x_i > c) + \beta_2 x_i + \beta_3 x (x_i > c) + e_i$, em
 ## Suposição de continuidade
 
 - A suposição de continuidade é tão crítica que vale discutirmos um pouco mais sobre ela.
-- Se há continuidade, isso significa que, na auência do ponto de corte $c$, x (e outras covariáveis) não devem apresentar descontinuidade.
+- Se há continuidade, isso significa que, na ausência do ponto de corte $c$, x (e outras covariáveis) não devem apresentar descontinuidade.
 - Ex.: Suponha que estamos interessados em estudar o efeito da incumbência sobre a chance de reeleição futura ou riqueza futura desses políticos.
 - Habilidades e carisma são variáveis que devem influenciar tanto a chance de serem incumbentes como os resultados de interesse. Em um RDD, podemos usar *close elections* para estimar o efeito. E a suposição de continuidade requer que carisma e habilidades não tenham descontinuidade no *cut off* de 50%. Na verdade, apenas o resultado eleitoral é descontínuo no *cut off*, que vai de não-eleito para eleito.
 
@@ -63,15 +63,17 @@ No entanto, se $c$ não for arbitrário ou tiver uma relação determinística c
 
 Em parte, isso é testável. As unidades não pareceriam semelhantes perto de $c$ e haveria um "acúmulo" próximo a $c$. No entanto, não podemos descartar a manipulação com precisão apenas com dados — devemos argumentar isso com conhecimento do assunto (é uma restrição de exclusão).
 
+Tendo estabelecido as suposições de identificação, passamos agora à questão prática: como estimar o efeito do tratamento em um RDD?
+
 ## Estimação em RDD
 
 ### Problema de Complete Overlapping
 
 Um problema chave na estimação em RDD estrita é a completa falta de sobreposição.
 
-Em matching, dicustimos como a ausência de sobreposição gerava problemas de extrapolação.
+Em matching, discutimos como a ausência de sobreposição gerava problemas de extrapolação.
 
-Sobreposição requer que $0 < P(D_i = 1 | X_i) < 1$ para o domínio de $X_i$. No domínio da *running vairable* $X_i$, isso claramente não é satisfeito. Em RDD estrita, temos $P(D_i = 1 | X_i < c) = 0$ e $P(D_i = 1 | X_i \geq c) = 1$.
+Sobreposição requer que $0 < P(T_i = 1 | X_i) < 1$ para o domínio de $X_i$. No domínio da *running variable* $X_i$, isso claramente não é satisfeito. Em RDD estrita, temos $P(T_i = 1 | X_i < c) = 0$ e $P(T_i = 1 | X_i \geq c) = 1$.
 
 ### Dependência de Extrapolação
 
@@ -104,7 +106,7 @@ Bolsa família: a partir de certa renda
 
 Educação: aprovação no ensino superior a partir de certa nota de corte
 
-Espacial: polítia pública para donos de áreas abaixo ou acima de certas áreas.
+Espacial: política pública para donos de áreas abaixo ou acima de certas áreas.
 
 Data: regras para aposentadoria, idade para entrar na escola, data para perdão de dívida: Desenrola: "...cujas dívidas tenham sido incluídas no cadastro de inadimplentes no período entre 1º de janeiro de 2019 e 31 de dezembro de 2022".
 
@@ -209,6 +211,8 @@ ggplot(df, aes(x = x, y = y, colour = treatment)) +
   theme_minimal() +
   theme(legend.position = "none")
 ```
+
+A simulação acima ilustra os elementos fundamentais de um RDD. Vejamos agora em que condições as estimativas de RDD são válidas.
 
 ## Quando o RDD funciona?
 
@@ -456,7 +460,7 @@ summary(resultado)
 plot(resultado, w="u", "cdf")
 ```
 
-Canay& Kamat (2018) utiolizaram esse teste pars revisitar o trabalho de Lee (2008) e descobrem que havia problema de balanceamento.
+Canay& Kamat (2018) utilizaram esse teste pars revisitar o trabalho de Lee (2008) e descobrem que havia problema de balanceamento.
 
 Caughey and Sekhon (2011) na political analysis mostraram que de fato havia problemas de balanceamento no estudo de Lee (2008).
 
@@ -481,7 +485,7 @@ De todo modo, as evidências de De Magalhães et. al (2025) sugerem que a recome
 
 Um dos principais desafios à identificação causal em RDDs é a possibilidade de manipulação por parte dos agentes sobre ficar acima ou abaixo do ponto de corte. A lógica esperada é que se o tratamento é desejável, indivíduos tentarão receber o tratanto, levando a um gap justamente abaixo do ponte de corte. Se o tratamento é indesejável (efeitos negativos), indivíduos vão evitar o tratamento, levando a um gap justamente acima do ponto de corte.
 
-O exemplo mais evidente para nós cientistas políticos é a aprovação de um projeto de lei no legislativo. Nós sabemos que os legisladores agem estrategicamente retirando propostas que não vão ser aprovadas ou postergando a votação, até terem a maioria, ainda que por margem mínima. Nesse caso, a aplicação de RDD nesse caso produirá estimativas viesadas. McCray, em um artigo de 2008, argumentou que tais casos apareceriam como descontinuidade na densidade da *running variable* ao redor do ponto de corte. Eis o gráfico feito por McCray em seu estudo original:
+O exemplo mais evidente para nós cientistas políticos é a aprovação de um projeto de lei no legislativo. Nós sabemos que os legisladores agem estrategicamente retirando propostas que não vão ser aprovadas ou postergando a votação, até terem a maioria, ainda que por margem mínima. Nesse caso, a aplicação de RDD nesse caso produzirá estimativas viesadas. McCray, em um artigo de 2008, argumentou que tais casos apareceriam como descontinuidade na densidade da *running variable* ao redor do ponto de corte. Eis o gráfico feito por McCray em seu estudo original:
 
 ```{r McCay-test, echo=FALSE}
 
@@ -518,7 +522,7 @@ Essa é uma área ativa de pesquisa, com novos testes sendo desenvolvidos, por e
 Mostrar várias estimativas, para várias escolhas de estimações (bandwith etc.)
 
 Uma possibilidade é simplesmente apresentar várias estimativas, como faremos abaixo. Ou então, uma tabela. Mas o mais simples seria um gráfico dos efeitos com seus respectivos ICs, em que cada entrada no eixo x é uma estimação, e no y temos o efeito.
-Abaixo apresento duas dessas possbilidades para ilustrar como a última é a melhor.
+Abaixo apresento duas dessas possibilidades para ilustrar como a última é a melhor.
 
 ```{r plot-estimator-1, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -757,9 +761,9 @@ ggdag(dag)
 
 ```
 
-## Checlist para um paper
+## Checklist para um paper de RDD
 
-Teste de balancemaneto de variáveis de pré-tratamento (não impactadas pelo tratamento)
+Teste de balanceamento de variáveis de pré-tratamento (não impactadas pelo tratamento)
 
 Teste de permutação no cuttoff (outra forma de olhar balanceamento)
 

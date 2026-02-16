@@ -23,7 +23,7 @@
 <meta name="author" content="Manoel Galdino" />
 
 
-<meta name="date" content="2025-06-12" />
+<meta name="date" content="2026-02-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -57,8 +57,9 @@
 
 
 <style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -68,7 +69,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -142,21 +143,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Causalidade</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introdução</a>
+<li class="chapter" data-level="1" data-path="11-Synth.html"><a href="#introdu%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>1</b> Introdução</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#revisão-de-regressão"><i class="fa fa-check"></i><b>1.1</b> Revisão de Regressão</a>
+<li class="chapter" data-level="1.1" data-path="11-Synth.html"><a href="#revis%C3%A3o-de-regress%C3%A3o"><i class="fa fa-check"></i><b>1.1</b> Revisão de Regressão</a>
 <ul>
-<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#teorema-da-anatomia-da-regressão"><i class="fa fa-check"></i><b>1.1.1</b> Teorema da Anatomia da Regressão</a></li>
+<li class="chapter" data-level="1.1.1" data-path="11-Synth.html"><a href="#teorema-da-anatomia-da-regress%C3%A3o"><i class="fa fa-check"></i><b>1.1.1</b> Teorema da Anatomia da Regressão</a></li>
 </ul></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#inferência"><i class="fa fa-check"></i><b>1.2</b> Inferência</a></li>
-<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#referências"><i class="fa fa-check"></i><b>1.3</b> Referências</a></li>
+<li class="chapter" data-level="1.2" data-path="11-Synth.html"><a href="#infer%C3%AAncia"><i class="fa fa-check"></i><b>1.2</b> Inferência</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="11-Synth.html"><a href="#generaliza%C3%A7%C3%A3o-amostral-vs.-generaliza%C3%A7%C3%A3o-causal"><i class="fa fa-check"></i><b>1.2.1</b> Generalização amostral vs. generalização causal</a></li>
+<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1.2.2</b> Incerteza com o universo dos casos</a></li>
+<li class="chapter" data-level="1.2.3" data-path="index.html"><a href="index.html#validade-externa"><i class="fa fa-check"></i><b>1.2.3</b> Validade externa</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="11-Synth.html"><a href="#resumo-e-pr%C3%B3ximos-passos"><i class="fa fa-check"></i><b>1.3</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="1.4" data-path="11-Synth.html"><a href="#refer%C3%AAncias"><i class="fa fa-check"></i><b>1.4</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html"><i class="fa fa-check"></i><b>2</b> Resultados Potenciais</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#causalidade-e-o-método-comparativo"><i class="fa fa-check"></i><b>2.1</b> Causalidade e o Método Comparativo</a></li>
-<li class="chapter" data-level="2.2" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#potential-outcomes"><i class="fa fa-check"></i><b>2.2</b> Potential Outcomes</a></li>
-<li class="chapter" data-level="2.3" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#notação"><i class="fa fa-check"></i><b>2.3</b> Notação</a></li>
-<li class="chapter" data-level="2.4" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#problema-fundamental-da-inferência-causal"><i class="fa fa-check"></i><b>2.4</b> Problema Fundamental da Inferência Causal</a></li>
+<li class="chapter" data-level="2.1" data-path="11-Synth.html"><a href="#da-intui%C3%A7%C3%A3o-comparativa-ao-modelo-formal"><i class="fa fa-check"></i><b>2.1</b> Da intuição comparativa ao modelo formal</a></li>
+<li class="chapter" data-level="2.2" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#resultados-potenciais-potential-outcomes"><i class="fa fa-check"></i><b>2.2</b> Resultados Potenciais (<em>Potential Outcomes</em>)</a></li>
+<li class="chapter" data-level="2.3" data-path="11-Synth.html"><a href="#nota%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>2.3</b> Notação</a></li>
+<li class="chapter" data-level="2.4" data-path="11-Synth.html"><a href="#problema-fundamental-da-infer%C3%AAncia-causal"><i class="fa fa-check"></i><b>2.4</b> Problema Fundamental da Inferência Causal</a></li>
 <li class="chapter" data-level="2.5" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#estimando"><i class="fa fa-check"></i><b>2.5</b> Estimando</a></li>
 <li class="chapter" data-level="2.6" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#estimandos-mais-comuns"><i class="fa fa-check"></i><b>2.6</b> Estimandos Mais Comuns</a>
 <ul>
@@ -165,68 +172,71 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.6.3" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#cate"><i class="fa fa-check"></i><b>2.6.3</b> CATE</a></li>
 </ul></li>
 <li class="chapter" data-level="2.7" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#nota-sobre-estimandos"><i class="fa fa-check"></i><b>2.7</b> Nota sobre estimandos</a></li>
-<li class="chapter" data-level="2.8" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#exercício---qual-o-estimando-e-o-estimador-se-possível"><i class="fa fa-check"></i><b>2.8</b> Exercício - Qual o estimando e o estimador (se possível)?</a></li>
-<li class="chapter" data-level="2.9" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#identificação"><i class="fa fa-check"></i><b>2.9</b> Identificação</a></li>
-<li class="chapter" data-level="2.10" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#identificação-do-ate"><i class="fa fa-check"></i><b>2.10</b> Identificação do ATE</a></li>
-<li class="chapter" data-level="2.11" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#equações-estruturais"><i class="fa fa-check"></i><b>2.11</b> Equações estruturais</a></li>
+<li class="chapter" data-level="2.8" data-path="11-Synth.html"><a href="#exerc%C3%ADcio---qual-o-estimando-e-o-estimador-se-poss%C3%ADvel"><i class="fa fa-check"></i><b>2.8</b> Exercício - Qual o estimando e o estimador (se possível)?</a></li>
+<li class="chapter" data-level="2.9" data-path="11-Synth.html"><a href="#identifica%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>2.9</b> Identificação</a></li>
+<li class="chapter" data-level="2.10" data-path="11-Synth.html"><a href="#identifica%C3%A7%C3%A3o-do-ate"><i class="fa fa-check"></i><b>2.10</b> Identificação do ATE</a></li>
+<li class="chapter" data-level="2.11" data-path="11-Synth.html"><a href="#equa%C3%A7%C3%B5es-estruturais"><i class="fa fa-check"></i><b>2.11</b> Equações estruturais</a></li>
 <li class="chapter" data-level="2.12" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#modelo-versus-desenho"><i class="fa fa-check"></i><b>2.12</b> Modelo versus Desenho</a></li>
-<li class="chapter" data-level="2.13" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#exercício-em-sala"><i class="fa fa-check"></i><b>2.13</b> Exercício em sala</a></li>
-<li class="chapter" data-level="2.14" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#referências-1"><i class="fa fa-check"></i><b>2.14</b> Referências</a></li>
+<li class="chapter" data-level="2.13" data-path="11-Synth.html"><a href="#exerc%C3%ADcio-em-sala"><i class="fa fa-check"></i><b>2.13</b> Exercício em sala</a></li>
+<li class="chapter" data-level="2.14" data-path="11-Synth.html"><a href="#resumo-e-pr%C3%B3ximos-passos-1"><i class="fa fa-check"></i><b>2.14</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="2.15" data-path="11-Synth.html"><a href="#refer%C3%AAncias-1"><i class="fa fa-check"></i><b>2.15</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="dags.html"><a href="dags.html"><i class="fa fa-check"></i><b>3</b> DAGs</a>
 <ul>
 <li class="chapter" data-level="3.1" data-path="dags.html"><a href="dags.html#causalidade"><i class="fa fa-check"></i><b>3.1</b> Causalidade</a></li>
-<li class="chapter" data-level="3.2" data-path="dags.html"><a href="dags.html#introdução-1"><i class="fa fa-check"></i><b>3.2</b> Introdução</a></li>
-<li class="chapter" data-level="3.3" data-path="dags.html"><a href="dags.html#os-tipos-básicos-de-dags"><i class="fa fa-check"></i><b>3.3</b> Os Tipos Básicos de DAGs</a>
+<li class="chapter" data-level="3.2" data-path="11-Synth.html"><a href="#introdu%C3%A7%C3%A3o-1"><i class="fa fa-check"></i><b>3.2</b> Introdução</a></li>
+<li class="chapter" data-level="3.3" data-path="11-Synth.html"><a href="#os-tipos-b%C3%A1sicos-de-dags"><i class="fa fa-check"></i><b>3.3</b> Os Tipos Básicos de DAGs</a>
 <ul>
 <li class="chapter" data-level="3.3.1" data-path="dags.html"><a href="dags.html#chains"><i class="fa fa-check"></i><b>3.3.1</b> 1. Chains</a></li>
 <li class="chapter" data-level="3.3.2" data-path="dags.html"><a href="dags.html#forks"><i class="fa fa-check"></i><b>3.3.2</b> 2. Forks</a></li>
 <li class="chapter" data-level="3.3.3" data-path="dags.html"><a href="dags.html#colliders"><i class="fa fa-check"></i><b>3.3.3</b> 3. Colliders</a></li>
 </ul></li>
-<li class="chapter" data-level="3.4" data-path="dags.html"><a href="dags.html#simulação-no-r-ilustrando-o-collider-bias"><i class="fa fa-check"></i><b>3.4</b> Simulação no R: Ilustrando o Collider Bias</a></li>
-<li class="chapter" data-level="3.5" data-path="dags.html"><a href="dags.html#definições"><i class="fa fa-check"></i><b>3.5</b> Definições</a>
+<li class="chapter" data-level="3.4" data-path="11-Synth.html"><a href="#simula%C3%A7%C3%A3o-no-r-ilustrando-o-collider-bias"><i class="fa fa-check"></i><b>3.4</b> Simulação no R: Ilustrando o Collider Bias</a></li>
+<li class="chapter" data-level="3.5" data-path="11-Synth.html"><a href="#defini%C3%A7%C3%B5es"><i class="fa fa-check"></i><b>3.5</b> Definições</a>
 <ul>
-<li class="chapter" data-level="3.5.1" data-path="dags.html"><a href="dags.html#relações-entre-variáveis-nós"><i class="fa fa-check"></i><b>3.5.1</b> Relações entre Variáveis (nós):</a></li>
+<li class="chapter" data-level="3.5.1" data-path="11-Synth.html"><a href="#rela%C3%A7%C3%B5es-entre-vari%C3%A1veis-n%C3%B3s"><i class="fa fa-check"></i><b>3.5.1</b> Relações entre Variáveis (nós):</a></li>
 </ul></li>
 <li class="chapter" data-level="3.6" data-path="dags.html"><a href="dags.html#controle-e-ajuste"><i class="fa fa-check"></i><b>3.6</b> Controle e Ajuste</a></li>
-<li class="chapter" data-level="3.7" data-path="dags.html"><a href="dags.html#fatorização-da-probabilidade-conjunta"><i class="fa fa-check"></i><b>3.7</b> Fatorização da Probabilidade Conjunta</a></li>
-<li class="chapter" data-level="3.8" data-path="dags.html"><a href="dags.html#fatorização-e-dags"><i class="fa fa-check"></i><b>3.8</b> Fatorização e DAGs</a></li>
-<li class="chapter" data-level="3.9" data-path="dags.html"><a href="dags.html#fatorização-dags-e-causalidade"><i class="fa fa-check"></i><b>3.9</b> Fatorização, DAGs e Causalidade</a></li>
+<li class="chapter" data-level="3.7" data-path="11-Synth.html"><a href="#fatoriza%C3%A7%C3%A3o-da-probabilidade-conjunta"><i class="fa fa-check"></i><b>3.7</b> Fatorização da Probabilidade Conjunta</a></li>
+<li class="chapter" data-level="3.8" data-path="11-Synth.html"><a href="#fatoriza%C3%A7%C3%A3o-e-dags"><i class="fa fa-check"></i><b>3.8</b> Fatorização e DAGs</a></li>
+<li class="chapter" data-level="3.9" data-path="11-Synth.html"><a href="#fatoriza%C3%A7%C3%A3o-dags-e-causalidade"><i class="fa fa-check"></i><b>3.9</b> Fatorização, DAGs e Causalidade</a></li>
+<li class="chapter" data-level="3.10" data-path="11-Synth.html"><a href="#resumo-e-pr%C3%B3ximos-passos-2"><i class="fa fa-check"></i><b>3.10</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="3.11" data-path="11-Synth.html"><a href="#refer%C3%AAncias-2"><i class="fa fa-check"></i><b>3.11</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="experimentos.html"><a href="experimentos.html"><i class="fa fa-check"></i><b>4</b> Experimentos</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="experimentos.html"><a href="experimentos.html#introdução-2"><i class="fa fa-check"></i><b>4.1</b> Introdução</a></li>
-<li class="chapter" data-level="4.2" data-path="experimentos.html"><a href="experimentos.html#experimentos-aleatórios"><i class="fa fa-check"></i><b>4.2</b> Experimentos aleatórios</a></li>
-<li class="chapter" data-level="4.3" data-path="experimentos.html"><a href="experimentos.html#restrição-de-exclusão"><i class="fa fa-check"></i><b>4.3</b> Restrição de Exclusão</a></li>
+<li class="chapter" data-level="4.1" data-path="11-Synth.html"><a href="#introdu%C3%A7%C3%A3o-2"><i class="fa fa-check"></i><b>4.1</b> Introdução</a></li>
+<li class="chapter" data-level="4.2" data-path="11-Synth.html"><a href="#experimentos-aleat%C3%B3rios"><i class="fa fa-check"></i><b>4.2</b> Experimentos aleatórios</a></li>
+<li class="chapter" data-level="4.3" data-path="11-Synth.html"><a href="#restri%C3%A7%C3%A3o-de-exclus%C3%A3o"><i class="fa fa-check"></i><b>4.3</b> Restrição de Exclusão</a></li>
 <li class="chapter" data-level="4.4" data-path="experimentos.html"><a href="experimentos.html#tipos-de-experimentos"><i class="fa fa-check"></i><b>4.4</b> Tipos de experimentos</a>
 <ul>
-<li class="chapter" data-level="4.4.1" data-path="experimentos.html"><a href="experimentos.html#aleatorização-de-bernoulli"><i class="fa fa-check"></i><b>4.4.1</b> Aleatorização de Bernoulli</a></li>
-<li class="chapter" data-level="4.4.2" data-path="experimentos.html"><a href="experimentos.html#aleatorização-completa"><i class="fa fa-check"></i><b>4.4.2</b> Aleatorização Completa</a></li>
-<li class="chapter" data-level="4.4.3" data-path="experimentos.html"><a href="experimentos.html#aleatorização-condicional-block-random-assigment"><i class="fa fa-check"></i><b>4.4.3</b> Aleatorização Condicional (Block Random Assigment)</a></li>
-<li class="chapter" data-level="4.4.4" data-path="experimentos.html"><a href="experimentos.html#pensando-aleatorização-em-bloco"><i class="fa fa-check"></i><b>4.4.4</b> Pensando aleatorização em bloco</a></li>
-<li class="chapter" data-level="4.4.5" data-path="experimentos.html"><a href="experimentos.html#ate-com-aleatorização-condicional-bloco"><i class="fa fa-check"></i><b>4.4.5</b> ATE com Aleatorização Condicional (Bloco)</a></li>
-<li class="chapter" data-level="4.4.6" data-path="experimentos.html"><a href="experimentos.html#aleatorização-em-bloco"><i class="fa fa-check"></i><b>4.4.6</b> Aleatorização em bloco</a></li>
-<li class="chapter" data-level="4.4.7" data-path="experimentos.html"><a href="experimentos.html#precisão-da-aleatorização-em-bloco"><i class="fa fa-check"></i><b>4.4.7</b> Precisão da aleatorização em bloco</a></li>
-<li class="chapter" data-level="4.4.8" data-path="experimentos.html"><a href="experimentos.html#comparação-de-ses"><i class="fa fa-check"></i><b>4.4.8</b> Comparação de SEs</a></li>
+<li class="chapter" data-level="4.4.1" data-path="11-Synth.html"><a href="#aleatoriza%C3%A7%C3%A3o-de-bernoulli"><i class="fa fa-check"></i><b>4.4.1</b> Aleatorização de Bernoulli</a></li>
+<li class="chapter" data-level="4.4.2" data-path="11-Synth.html"><a href="#aleatoriza%C3%A7%C3%A3o-completa"><i class="fa fa-check"></i><b>4.4.2</b> Aleatorização Completa</a></li>
+<li class="chapter" data-level="4.4.3" data-path="11-Synth.html"><a href="#aleatoriza%C3%A7%C3%A3o-condicional-block-random-assigment"><i class="fa fa-check"></i><b>4.4.3</b> Aleatorização Condicional (Block Random Assigment)</a></li>
+<li class="chapter" data-level="4.4.4" data-path="11-Synth.html"><a href="#pensando-aleatoriza%C3%A7%C3%A3o-em-bloco"><i class="fa fa-check"></i><b>4.4.4</b> Pensando aleatorização em bloco</a></li>
+<li class="chapter" data-level="4.4.5" data-path="11-Synth.html"><a href="#ate-com-aleatoriza%C3%A7%C3%A3o-condicional-bloco"><i class="fa fa-check"></i><b>4.4.5</b> ATE com Aleatorização Condicional (Bloco)</a></li>
+<li class="chapter" data-level="4.4.6" data-path="11-Synth.html"><a href="#aleatoriza%C3%A7%C3%A3o-em-bloco"><i class="fa fa-check"></i><b>4.4.6</b> Aleatorização em bloco</a></li>
+<li class="chapter" data-level="4.4.7" data-path="11-Synth.html"><a href="#precis%C3%A3o-da-aleatoriza%C3%A7%C3%A3o-em-bloco"><i class="fa fa-check"></i><b>4.4.7</b> Precisão da aleatorização em bloco</a></li>
+<li class="chapter" data-level="4.4.8" data-path="11-Synth.html"><a href="#compara%C3%A7%C3%A3o-de-ses"><i class="fa fa-check"></i><b>4.4.8</b> Comparação de SEs</a></li>
 <li class="chapter" data-level="4.4.9" data-path="experimentos.html"><a href="experimentos.html#cluster-randomization"><i class="fa fa-check"></i><b>4.4.9</b> Cluster randomization</a></li>
 <li class="chapter" data-level="4.4.10" data-path="experimentos.html"><a href="experimentos.html#tabelas-em-artigos"><i class="fa fa-check"></i><b>4.4.10</b> Tabelas em artigos</a></li>
 </ul></li>
 <li class="chapter" data-level="4.5" data-path="experimentos.html"><a href="experimentos.html#estimador-ate"><i class="fa fa-check"></i><b>4.5</b> Estimador ATE</a></li>
-<li class="chapter" data-level="4.6" data-path="experimentos.html"><a href="experimentos.html#key-takeways"><i class="fa fa-check"></i><b>4.6</b> Key Takeways</a></li>
+<li class="chapter" data-level="4.6" data-path="11-Synth.html"><a href="#resumo-do-cap%C3%ADtulo"><i class="fa fa-check"></i><b>4.6</b> Resumo do Capítulo</a></li>
 <li class="chapter" data-level="4.7" data-path="experimentos.html"><a href="experimentos.html#declare-design"><i class="fa fa-check"></i><b>4.7</b> Declare Design</a></li>
-<li class="chapter" data-level="4.8" data-path="experimentos.html"><a href="experimentos.html#exercício"><i class="fa fa-check"></i><b>4.8</b> Exercício</a>
+<li class="chapter" data-level="4.8" data-path="11-Synth.html"><a href="#exerc%C3%ADcio"><i class="fa fa-check"></i><b>4.8</b> Exercício</a>
 <ul>
-<li class="chapter" data-level="4.8.1" data-path="experimentos.html"><a href="experimentos.html#experimento-com-envio-de-cartões-postais-e-participação-eleitoral"><i class="fa fa-check"></i><b>4.8.1</b> Experimento com envio de cartões-postais e participação eleitoral</a></li>
-<li class="chapter" data-level="4.8.2" data-path="experimentos.html"><a href="experimentos.html#experimento-com-anúncios-de-tv-e-participação-eleitoral"><i class="fa fa-check"></i><b>4.8.2</b> Experimento com anúncios de TV e participação eleitoral</a></li>
-<li class="chapter" data-level="4.8.3" data-path="experimentos.html"><a href="experimentos.html#exclusão-de-participantes-em-experimentos-de-survey"><i class="fa fa-check"></i><b>4.8.3</b> Exclusão de participantes em experimentos de survey</a></li>
+<li class="chapter" data-level="4.8.1" data-path="11-Synth.html"><a href="#experimento-com-envio-de-cart%C3%B5es-postais-e-participa%C3%A7%C3%A3o-eleitoral"><i class="fa fa-check"></i><b>4.8.1</b> Experimento com envio de cartões-postais e participação eleitoral</a></li>
+<li class="chapter" data-level="4.8.2" data-path="11-Synth.html"><a href="#experimento-com-an%C3%BAncios-de-tv-e-participa%C3%A7%C3%A3o-eleitoral"><i class="fa fa-check"></i><b>4.8.2</b> Experimento com anúncios de TV e participação eleitoral</a></li>
+<li class="chapter" data-level="4.8.3" data-path="11-Synth.html"><a href="#exclus%C3%A3o-de-participantes-em-experimentos-de-survey"><i class="fa fa-check"></i><b>4.8.3</b> Exclusão de participantes em experimentos de survey</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html"><i class="fa fa-check"></i><b>5</b> Propensity Score e Matching</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#introdução-3"><i class="fa fa-check"></i><b>5.1</b> Introdução</a></li>
+<li class="chapter" data-level="5.1" data-path="11-Synth.html"><a href="#introdu%C3%A7%C3%A3o-3"><i class="fa fa-check"></i><b>5.1</b> Introdução</a></li>
 <li class="chapter" data-level="5.2" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#propensity-score"><i class="fa fa-check"></i><b>5.2</b> Propensity Score</a></li>
 <li class="chapter" data-level="5.3" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching"><i class="fa fa-check"></i><b>5.3</b> Matching</a></li>
-<li class="chapter" data-level="5.4" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#suposições-de-identificação"><i class="fa fa-check"></i><b>5.4</b> Suposições de identificação</a></li>
+<li class="chapter" data-level="5.4" data-path="11-Synth.html"><a href="#suposi%C3%A7%C3%B5es-de-identifica%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>5.4</b> Suposições de identificação</a></li>
 <li class="chapter" data-level="5.5" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching-1"><i class="fa fa-check"></i><b>5.5</b> Matching</a></li>
 <li class="chapter" data-level="5.6" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching-exato"><i class="fa fa-check"></i><b>5.6</b> Matching exato</a></li>
 <li class="chapter" data-level="5.7" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching-aproximado"><i class="fa fa-check"></i><b>5.7</b> Matching aproximado</a></li>
@@ -235,97 +245,102 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="5.9.1" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching-e-propensity-scores"><i class="fa fa-check"></i><b>5.9.1</b> Matching e Propensity scores</a></li>
 </ul></li>
-<li class="chapter" data-level="5.10" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#recomendações-práticas-sobre-matching"><i class="fa fa-check"></i><b>5.10</b> Recomendações Práticas sobre Matching</a></li>
-<li class="chapter" data-level="5.11" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#referências-2"><i class="fa fa-check"></i><b>5.11</b> Referências</a></li>
+<li class="chapter" data-level="5.10" data-path="11-Synth.html"><a href="#recomenda%C3%A7%C3%B5es-pr%C3%A1ticas-sobre-matching"><i class="fa fa-check"></i><b>5.10</b> Recomendações Práticas sobre Matching</a></li>
+<li class="chapter" data-level="5.11" data-path="11-Synth.html"><a href="#refer%C3%AAncias-3"><i class="fa fa-check"></i><b>5.11</b> Referências</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html"><i class="fa fa-check"></i><b>6</b> Variáveis Instrumentais</a>
+<li class="chapter" data-level="6" data-path="11-Synth.html"><a href="#vari%C3%A1veis-instrumentais"><i class="fa fa-check"></i><b>6</b> Variáveis Instrumentais</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#introdução-4"><i class="fa fa-check"></i><b>6.1</b> Introdução</a></li>
-<li class="chapter" data-level="6.2" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#iv-com-modelo-estrutural"><i class="fa fa-check"></i><b>6.2</b> IV com modelo estrutural</a></li>
-<li class="chapter" data-level="6.3" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#mqo-em-2-estágios"><i class="fa fa-check"></i><b>6.3</b> MQO em 2 Estágios</a></li>
+<li class="chapter" data-level="6.1" data-path="11-Synth.html"><a href="#introdu%C3%A7%C3%A3o-4"><i class="fa fa-check"></i><b>6.1</b> Introdução</a></li>
+<li class="chapter" data-level="6.2" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html"><i class="fa fa-check"></i><b>6.2</b> IV com modelo estrutural</a></li>
+<li class="chapter" data-level="6.3" data-path="11-Synth.html"><a href="#mqo-em-2-est%C3%A1gios"><i class="fa fa-check"></i><b>6.3</b> MQO em 2 Estágios</a></li>
 <li class="chapter" data-level="6.4" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#principais-usos-de-iv"><i class="fa fa-check"></i><b>6.4</b> Principais usos de IV</a>
 <ul>
 <li class="chapter" data-level="6.4.1" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#experimentos-1"><i class="fa fa-check"></i><b>6.4.1</b> Experimentos</a></li>
-<li class="chapter" data-level="6.4.2" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#regras-com-variação-quasi-aleatória"><i class="fa fa-check"></i><b>6.4.2</b> Regras com variação quasi-aleatória</a></li>
+<li class="chapter" data-level="6.4.2" data-path="11-Synth.html"><a href="#regras-com-varia%C3%A7%C3%A3o-quasi-aleat%C3%B3ria"><i class="fa fa-check"></i><b>6.4.2</b> Regras com variação quasi-aleatória</a></li>
 <li class="chapter" data-level="6.4.3" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#teoria"><i class="fa fa-check"></i><b>6.4.3</b> Teoria</a></li>
-<li class="chapter" data-level="6.4.4" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#suposições-para-estimar-o-late"><i class="fa fa-check"></i><b>6.4.4</b> Suposições para estimar o LATE</a></li>
 </ul></li>
-<li class="chapter" data-level="6.5" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#restrição-de-exclusão-1"><i class="fa fa-check"></i><b>6.5</b> Restrição de Exclusão</a></li>
-<li class="chapter" data-level="6.6" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#monoticidade"><i class="fa fa-check"></i><b>6.6</b> Monoticidade</a></li>
-<li class="chapter" data-level="6.7" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#estimação-aka-estatística-f"><i class="fa fa-check"></i><b>6.7</b> Estimação (aka estatística F)</a>
+<li class="chapter" data-level="6.5" data-path="11-Synth.html"><a href="#efeito-heterog%C3%AAneo"><i class="fa fa-check"></i><b>6.5</b> Efeito heterogêneo</a>
 <ul>
-<li class="chapter" data-level="6.7.1" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#f-stat"><i class="fa fa-check"></i><b>6.7.1</b> F stat</a></li>
+<li class="chapter" data-level="6.5.1" data-path="11-Synth.html"><a href="#suposi%C3%A7%C3%B5es-para-estimar-o-late"><i class="fa fa-check"></i><b>6.5.1</b> Suposições para estimar o LATE</a></li>
 </ul></li>
-<li class="chapter" data-level="6.8" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#referências-3"><i class="fa fa-check"></i><b>6.8</b> Referências</a></li>
+<li class="chapter" data-level="6.6" data-path="11-Synth.html"><a href="#restri%C3%A7%C3%A3o-de-exclus%C3%A3o-1"><i class="fa fa-check"></i><b>6.6</b> Restrição de Exclusão</a></li>
+<li class="chapter" data-level="6.7" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#monoticidade"><i class="fa fa-check"></i><b>6.7</b> Monoticidade</a></li>
+<li class="chapter" data-level="6.8" data-path="11-Synth.html"><a href="#estima%C3%A7%C3%A3o-aka-estat%C3%ADstica-f"><i class="fa fa-check"></i><b>6.8</b> Estimação (aka estatística F)</a>
+<ul>
+<li class="chapter" data-level="6.8.1" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#f-stat"><i class="fa fa-check"></i><b>6.8.1</b> F stat</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html"><i class="fa fa-check"></i><b>7</b> Desenho de Regresão Discontínua</a>
+<li class="chapter" data-level="6.9" data-path="11-Synth.html"><a href="#resumo-e-pr%C3%B3ximos-passos-3"><i class="fa fa-check"></i><b>6.9</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="6.10" data-path="11-Synth.html"><a href="#refer%C3%AAncias-4"><i class="fa fa-check"></i><b>6.10</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="11-Synth.html"><a href="#desenho-de-regres%C3%A3o-discont%C3%ADnua"><i class="fa fa-check"></i><b>7</b> Desenho de Regresão Discontínua</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#outline-da-aula"><i class="fa fa-check"></i><b>7.1</b> Outline da aula</a></li>
-<li class="chapter" data-level="7.2" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#características-chave-da-rdd"><i class="fa fa-check"></i><b>7.2</b> Características-chave da RDD</a>
+<li class="chapter" data-level="7.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html"><i class="fa fa-check"></i><b>7.1</b> Outline da aula</a></li>
+<li class="chapter" data-level="7.2" data-path="11-Synth.html"><a href="#caracter%C3%ADsticas-chave-da-rdd"><i class="fa fa-check"></i><b>7.2</b> Características-chave da RDD</a>
 <ul>
-<li class="chapter" data-level="7.2.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#determinação-do-tratamento"><i class="fa fa-check"></i><b>7.2.1</b> Determinação do Tratamento</a></li>
+<li class="chapter" data-level="7.2.1" data-path="11-Synth.html"><a href="#determina%C3%A7%C3%A3o-do-tratamento"><i class="fa fa-check"></i><b>7.2.1</b> Determinação do Tratamento</a></li>
 </ul></li>
 <li class="chapter" data-level="7.3" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#fuzzy-rdd"><i class="fa fa-check"></i><b>7.3</b> Fuzzy RDD</a>
 <ul>
-<li class="chapter" data-level="7.3.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#observação-e-corte"><i class="fa fa-check"></i><b>7.3.1</b> Observação e Corte</a></li>
+<li class="chapter" data-level="7.3.1" data-path="11-Synth.html"><a href="#observa%C3%A7%C3%A3o-e-corte"><i class="fa fa-check"></i><b>7.3.1</b> Observação e Corte</a></li>
 <li class="chapter" data-level="7.3.2" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#estimativa-dos-efeitos-do-tratamento"><i class="fa fa-check"></i><b>7.3.2</b> Estimativa dos Efeitos do Tratamento</a></li>
 </ul></li>
-<li class="chapter" data-level="7.4" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#suposição-de-continuidade"><i class="fa fa-check"></i><b>7.4</b> Suposição de continuidade</a></li>
-<li class="chapter" data-level="7.5" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#suposições-na-rdd"><i class="fa fa-check"></i><b>7.5</b> Suposições na RDD</a>
+<li class="chapter" data-level="7.4" data-path="11-Synth.html"><a href="#suposi%C3%A7%C3%A3o-de-continuidade"><i class="fa fa-check"></i><b>7.4</b> Suposição de continuidade</a></li>
+<li class="chapter" data-level="7.5" data-path="11-Synth.html"><a href="#suposi%C3%A7%C3%B5es-na-rdd"><i class="fa fa-check"></i><b>7.5</b> Suposições na RDD</a>
 <ul>
-<li class="chapter" data-level="7.5.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#suposição-de-não-manipulação-com-precisão"><i class="fa fa-check"></i><b>7.5.1</b> Suposição de Não-manipulação com Precisão</a></li>
-<li class="chapter" data-level="7.5.2" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#problemas-de-manipulação"><i class="fa fa-check"></i><b>7.5.2</b> Problemas de Manipulação</a></li>
+<li class="chapter" data-level="7.5.1" data-path="11-Synth.html"><a href="#suposi%C3%A7%C3%A3o-de-n%C3%A3o-manipula%C3%A7%C3%A3o-com-precis%C3%A3o"><i class="fa fa-check"></i><b>7.5.1</b> Suposição de Não-manipulação com Precisão</a></li>
+<li class="chapter" data-level="7.5.2" data-path="11-Synth.html"><a href="#problemas-de-manipula%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.5.2</b> Problemas de Manipulação</a></li>
 </ul></li>
-<li class="chapter" data-level="7.6" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#testabilidade-da-suposição-de-não-manipulação"><i class="fa fa-check"></i><b>7.6</b> Testabilidade da Suposição de não-Manipulação</a></li>
-<li class="chapter" data-level="7.7" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#estimação-em-rdd"><i class="fa fa-check"></i><b>7.7</b> Estimação em RDD</a>
+<li class="chapter" data-level="7.6" data-path="11-Synth.html"><a href="#testabilidade-da-suposi%C3%A7%C3%A3o-de-n%C3%A3o-manipula%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.6</b> Testabilidade da Suposição de não-Manipulação</a></li>
+<li class="chapter" data-level="7.7" data-path="11-Synth.html"><a href="#estima%C3%A7%C3%A3o-em-rdd"><i class="fa fa-check"></i><b>7.7</b> Estimação em RDD</a>
 <ul>
 <li class="chapter" data-level="7.7.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#problema-de-complete-overlapping"><i class="fa fa-check"></i><b>7.7.1</b> Problema de Complete Overlapping</a></li>
-<li class="chapter" data-level="7.7.2" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#dependência-de-extrapolação"><i class="fa fa-check"></i><b>7.7.2</b> Dependência de Extrapolação</a></li>
+<li class="chapter" data-level="7.7.2" data-path="11-Synth.html"><a href="#depend%C3%AAncia-de-extrapola%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.7.2</b> Dependência de Extrapolação</a></li>
 </ul></li>
-<li class="chapter" data-level="7.8" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#métodos-de-estimação"><i class="fa fa-check"></i><b>7.8</b> Métodos de Estimação</a>
+<li class="chapter" data-level="7.8" data-path="11-Synth.html"><a href="#m%C3%A9todos-de-estima%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.8</b> Métodos de Estimação</a>
 <ul>
-<li class="chapter" data-level="7.8.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#identificação-no-limite"><i class="fa fa-check"></i><b>7.8.1</b> Identificação no Limite</a></li>
+<li class="chapter" data-level="7.8.1" data-path="11-Synth.html"><a href="#identifica%C3%A7%C3%A3o-no-limite"><i class="fa fa-check"></i><b>7.8.1</b> Identificação no Limite</a></li>
 </ul></li>
-<li class="chapter" data-level="7.9" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#trade-off-de-viés-variância"><i class="fa fa-check"></i><b>7.9</b> Trade-off de Viés-Variância</a>
+<li class="chapter" data-level="7.9" data-path="11-Synth.html"><a href="#trade-off-de-vi%C3%A9s-vari%C3%A2ncia"><i class="fa fa-check"></i><b>7.9</b> Trade-off de Viés-Variância</a>
 <ul>
-<li class="chapter" data-level="7.9.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#métodos-de-largura-de-banda-ótima"><i class="fa fa-check"></i><b>7.9.1</b> Métodos de Largura de Banda Ótima</a></li>
+<li class="chapter" data-level="7.9.1" data-path="11-Synth.html"><a href="#m%C3%A9todos-de-largura-de-banda-%C3%B3tima"><i class="fa fa-check"></i><b>7.9.1</b> Métodos de Largura de Banda Ótima</a></li>
 </ul></li>
-<li class="chapter" data-level="7.10" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#regras-arbitrárias"><i class="fa fa-check"></i><b>7.10</b> Regras arbitrárias</a></li>
-<li class="chapter" data-level="7.11" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#simulação"><i class="fa fa-check"></i><b>7.11</b> Simulação</a></li>
-<li class="chapter" data-level="7.12" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#simulação---potential-outcomes-y0"><i class="fa fa-check"></i><b>7.12</b> Simulação - Potential Outcomes Y0</a></li>
-<li class="chapter" data-level="7.13" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#simulação---potential-outcomes-y1"><i class="fa fa-check"></i><b>7.13</b> Simulação - Potential Outcomes Y1</a></li>
-<li class="chapter" data-level="7.14" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#simulação---potential-outcomes-y1-e-y0"><i class="fa fa-check"></i><b>7.14</b> Simulação - Potential Outcomes Y1 e Y0</a></li>
-<li class="chapter" data-level="7.15" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#simulação---y-observado"><i class="fa fa-check"></i><b>7.15</b> Simulação - Y observado</a></li>
+<li class="chapter" data-level="7.10" data-path="11-Synth.html"><a href="#regras-arbitr%C3%A1rias"><i class="fa fa-check"></i><b>7.10</b> Regras arbitrárias</a></li>
+<li class="chapter" data-level="7.11" data-path="11-Synth.html"><a href="#simula%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.11</b> Simulação</a></li>
+<li class="chapter" data-level="7.12" data-path="11-Synth.html"><a href="#simula%C3%A7%C3%A3o---potential-outcomes-y0"><i class="fa fa-check"></i><b>7.12</b> Simulação - Potential Outcomes Y0</a></li>
+<li class="chapter" data-level="7.13" data-path="11-Synth.html"><a href="#simula%C3%A7%C3%A3o---potential-outcomes-y1"><i class="fa fa-check"></i><b>7.13</b> Simulação - Potential Outcomes Y1</a></li>
+<li class="chapter" data-level="7.14" data-path="11-Synth.html"><a href="#simula%C3%A7%C3%A3o---potential-outcomes-y1-e-y0"><i class="fa fa-check"></i><b>7.14</b> Simulação - Potential Outcomes Y1 e Y0</a></li>
+<li class="chapter" data-level="7.15" data-path="11-Synth.html"><a href="#simula%C3%A7%C3%A3o---y-observado"><i class="fa fa-check"></i><b>7.15</b> Simulação - Y observado</a></li>
 <li class="chapter" data-level="7.16" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#quando-o-rdd-funciona"><i class="fa fa-check"></i><b>7.16</b> Quando o RDD funciona?</a></li>
 <li class="chapter" data-level="7.17" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#raw-data-versus-bin"><i class="fa fa-check"></i><b>7.17</b> Raw Data versus Bin</a></li>
 <li class="chapter" data-level="7.18" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#permutation-tests-balancing"><i class="fa fa-check"></i><b>7.18</b> Permutation tests (balancing)</a></li>
 <li class="chapter" data-level="7.19" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#mccray-test"><i class="fa fa-check"></i><b>7.19</b> McCray test</a></li>
 <li class="chapter" data-level="7.20" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#robustez"><i class="fa fa-check"></i><b>7.20</b> Robustez</a></li>
-<li class="chapter" data-level="7.21" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#densidade-descontínua---results"><i class="fa fa-check"></i><b>7.21</b> Densidade descontínua - results</a></li>
-<li class="chapter" data-level="7.22" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#regressão-rdd"><i class="fa fa-check"></i><b>7.22</b> Regressão RDD</a></li>
+<li class="chapter" data-level="7.21" data-path="11-Synth.html"><a href="#densidade-descont%C3%ADnua---results"><i class="fa fa-check"></i><b>7.21</b> Densidade descontínua - results</a></li>
+<li class="chapter" data-level="7.22" data-path="11-Synth.html"><a href="#regress%C3%A3o-rdd"><i class="fa fa-check"></i><b>7.22</b> Regressão RDD</a></li>
 <li class="chapter" data-level="7.23" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#placebo-tests"><i class="fa fa-check"></i><b>7.23</b> Placebo Tests</a></li>
 <li class="chapter" data-level="7.24" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#pcrd"><i class="fa fa-check"></i><b>7.24</b> PCRD</a></li>
-<li class="chapter" data-level="7.25" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#checlist-para-um-paper"><i class="fa fa-check"></i><b>7.25</b> Checlist para um paper</a></li>
-<li class="chapter" data-level="7.26" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#referências-4"><i class="fa fa-check"></i><b>7.26</b> Referências</a></li>
+<li class="chapter" data-level="7.25" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#checklist-para-um-paper-de-rdd"><i class="fa fa-check"></i><b>7.25</b> Checklist para um paper de RDD</a></li>
+<li class="chapter" data-level="7.26" data-path="11-Synth.html"><a href="#refer%C3%AAncias-5"><i class="fa fa-check"></i><b>7.26</b> Referências</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html"><i class="fa fa-check"></i><b>8</b> Diferença em Diferenças</a>
+<li class="chapter" data-level="8" data-path="11-Synth.html"><a href="#diferen%C3%A7a-em-diferen%C3%A7as"><i class="fa fa-check"></i><b>8</b> Diferença em Diferenças</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#modelo-básico-2x2"><i class="fa fa-check"></i><b>8.1</b> Modelo básico 2x2</a></li>
-<li class="chapter" data-level="8.2" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#twfe"><i class="fa fa-check"></i><b>8.2</b> TWFE</a></li>
+<li class="chapter" data-level="8.1" data-path="11-Synth.html"><a href="#modelo-b%C3%A1sico-2x2"><i class="fa fa-check"></i><b>8.1</b> Modelo básico 2x2</a></li>
+<li class="chapter" data-level="8.2" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html"><i class="fa fa-check"></i><b>8.2</b> TWFE</a></li>
 <li class="chapter" data-level="8.3" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#pressupostos"><i class="fa fa-check"></i><b>8.3</b> Pressupostos</a></li>
-<li class="chapter" data-level="8.4" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#aplicação"><i class="fa fa-check"></i><b>8.4</b> Aplicação</a></li>
-<li class="chapter" data-level="8.5" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#múltiplos-períodos"><i class="fa fa-check"></i><b>8.5</b> Múltiplos períodos</a></li>
-<li class="chapter" data-level="8.6" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#tendências-paralelas"><i class="fa fa-check"></i><b>8.6</b> Tendências Paralelas</a></li>
-<li class="chapter" data-level="8.7" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#múltiplos-períodos-pós-tratamento"><i class="fa fa-check"></i><b>8.7</b> Múltiplos períodos pós-tratamento</a></li>
-<li class="chapter" data-level="8.8" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#análise-de-sensibilidade-em-did"><i class="fa fa-check"></i><b>8.8</b> Análise de sensibilidade em DiD</a></li>
+<li class="chapter" data-level="8.4" data-path="11-Synth.html"><a href="#aplica%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>8.4</b> Aplicação</a></li>
+<li class="chapter" data-level="8.5" data-path="11-Synth.html"><a href="#m%C3%BAltiplos-per%C3%ADodos"><i class="fa fa-check"></i><b>8.5</b> Múltiplos períodos</a></li>
+<li class="chapter" data-level="8.6" data-path="11-Synth.html"><a href="#tend%C3%AAncias-paralelas"><i class="fa fa-check"></i><b>8.6</b> Tendências Paralelas</a></li>
+<li class="chapter" data-level="8.7" data-path="11-Synth.html"><a href="#m%C3%BAltiplos-per%C3%ADodos-p%C3%B3s-tratamento"><i class="fa fa-check"></i><b>8.7</b> Múltiplos períodos pós-tratamento</a></li>
+<li class="chapter" data-level="8.8" data-path="11-Synth.html"><a href="#an%C3%A1lise-de-sensibilidade-em-did"><i class="fa fa-check"></i><b>8.8</b> Análise de sensibilidade em DiD</a></li>
 <li class="chapter" data-level="8.9" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#did-generalizado"><i class="fa fa-check"></i><b>8.9</b> DiD generalizado</a></li>
-<li class="chapter" data-level="8.10" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#did-com-adoção-escalonada-staggered-timing"><i class="fa fa-check"></i><b>8.10</b> DID com adoção escalonada (staggered timing)</a></li>
+<li class="chapter" data-level="8.10" data-path="11-Synth.html"><a href="#did-com-ado%C3%A7%C3%A3o-escalonada-staggered-timing"><i class="fa fa-check"></i><b>8.10</b> DID com adoção escalonada (staggered timing)</a></li>
 <li class="chapter" data-level="8.11" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#paper-voter-gratitude-last-long"><i class="fa fa-check"></i><b>8.11</b> Paper Voter Gratitude Last Long?</a></li>
-<li class="chapter" data-level="8.12" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#referências-5"><i class="fa fa-check"></i><b>8.12</b> Referências</a></li>
+<li class="chapter" data-level="8.12" data-path="11-Synth.html"><a href="#resumo-e-pr%C3%B3ximos-passos-4"><i class="fa fa-check"></i><b>8.12</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="8.13" data-path="11-Synth.html"><a href="#refer%C3%AAncias-6"><i class="fa fa-check"></i><b>8.13</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html"><i class="fa fa-check"></i><b>9</b> Time-Series Cross-Section (TSCS)</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#introdução-5"><i class="fa fa-check"></i><b>9.1</b> Introdução</a>
+<li class="chapter" data-level="9.1" data-path="11-Synth.html"><a href="#introdu%C3%A7%C3%A3o-5"><i class="fa fa-check"></i><b>9.1</b> Introdução</a>
 <ul>
 <li class="chapter" data-level="9.1.1" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#within-versus-between"><i class="fa fa-check"></i><b>9.1.1</b> Within versus Between</a></li>
 </ul></li>
@@ -338,19 +353,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="9.7.1" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#remark"><i class="fa fa-check"></i><b>9.7.1</b> Remark</a></li>
 </ul></li>
-<li class="chapter" data-level="9.8" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#suposições-para-inferência"><i class="fa fa-check"></i><b>9.8</b> Suposições para Inferência</a>
+<li class="chapter" data-level="9.8" data-path="11-Synth.html"><a href="#suposi%C3%A7%C3%B5es-para-infer%C3%AAncia"><i class="fa fa-check"></i><b>9.8</b> Suposições para Inferência</a>
 <ul>
 <li class="chapter" data-level="9.8.1" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#remark-1"><i class="fa fa-check"></i><b>9.8.1</b> Remark</a></li>
 </ul></li>
-<li class="chapter" data-level="9.9" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#efeitos-aleatórios"><i class="fa fa-check"></i><b>9.9</b> Efeitos aleatórios</a></li>
-<li class="chapter" data-level="9.10" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#referências-6"><i class="fa fa-check"></i><b>9.10</b> Referências</a></li>
+<li class="chapter" data-level="9.9" data-path="11-Synth.html"><a href="#efeitos-aleat%C3%B3rios"><i class="fa fa-check"></i><b>9.9</b> Efeitos aleatórios</a></li>
+<li class="chapter" data-level="9.10" data-path="11-Synth.html"><a href="#refer%C3%AAncias-7"><i class="fa fa-check"></i><b>9.10</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="synthetic-control.html"><a href="synthetic-control.html"><i class="fa fa-check"></i><b>10</b> Synthetic Control</a>
 <ul>
 <li class="chapter" data-level="10.0.1" data-path="synthetic-control.html"><a href="synthetic-control.html#tratamento"><i class="fa fa-check"></i><b>10.0.1</b> Tratamento</a></li>
-<li class="chapter" data-level="10.1" data-path="synthetic-control.html"><a href="synthetic-control.html#implementação-no-r"><i class="fa fa-check"></i><b>10.1</b> Implementação no R</a></li>
+<li class="chapter" data-level="10.1" data-path="11-Synth.html"><a href="#implementa%C3%A7%C3%A3o-no-r"><i class="fa fa-check"></i><b>10.1</b> Implementação no R</a></li>
 <li class="chapter" data-level="10.2" data-path="synthetic-control.html"><a href="synthetic-control.html#synthethic-did"><i class="fa fa-check"></i><b>10.2</b> Synthethic DiD</a></li>
-<li class="chapter" data-level="10.3" data-path="synthetic-control.html"><a href="synthetic-control.html#referências-7"><i class="fa fa-check"></i><b>10.3</b> Referências</a></li>
+<li class="chapter" data-level="10.3" data-path="11-Synth.html"><a href="#resumo-e-pr%C3%B3ximos-passos-5"><i class="fa fa-check"></i><b>10.3</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="10.4" data-path="11-Synth.html"><a href="#refer%C3%AAncias-8"><i class="fa fa-check"></i><b>10.4</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="llms-e-outras.html"><a href="llms-e-outras.html"><i class="fa fa-check"></i><b>11</b> LLMs e outras</a>
 <ul>
@@ -358,23 +374,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="12" data-path="machine-learning.html"><a href="machine-learning.html"><i class="fa fa-check"></i><b>12</b> Machine Learning</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="machine-learning.html"><a href="machine-learning.html#introdução-6"><i class="fa fa-check"></i><b>12.1</b> Introdução</a></li>
+<li class="chapter" data-level="12.1" data-path="11-Synth.html"><a href="#introdu%C3%A7%C3%A3o-6"><i class="fa fa-check"></i><b>12.1</b> Introdução</a></li>
 <li class="chapter" data-level="12.2" data-path="machine-learning.html"><a href="machine-learning.html#terminologia"><i class="fa fa-check"></i><b>12.2</b> Terminologia</a>
 <ul>
 <li class="chapter" data-level="12.2.1" data-path="machine-learning.html"><a href="machine-learning.html#lasso"><i class="fa fa-check"></i><b>12.2.1</b> LASSO</a></li>
 <li class="chapter" data-level="12.2.2" data-path="machine-learning.html"><a href="machine-learning.html#double-lasso"><i class="fa fa-check"></i><b>12.2.2</b> Double Lasso</a></li>
-<li class="chapter" data-level="12.2.3" data-path="machine-learning.html"><a href="machine-learning.html#outras-soluções-ineficazes"><i class="fa fa-check"></i><b>12.2.3</b> Outras soluções ineficazes</a></li>
+<li class="chapter" data-level="12.2.3" data-path="11-Synth.html"><a href="#outras-solu%C3%A7%C3%B5es-ineficazes"><i class="fa fa-check"></i><b>12.2.3</b> Outras soluções ineficazes</a></li>
 </ul></li>
 <li class="chapter" data-level="12.3" data-path="machine-learning.html"><a href="machine-learning.html#dl---algoritmo"><i class="fa fa-check"></i><b>12.3</b> DL - Algoritmo</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="termos-de-interação.html"><a href="termos-de-interação.html"><i class="fa fa-check"></i><b>13</b> Termos de Interação</a>
+<li class="chapter" data-level="13" data-path="11-Synth.html"><a href="#termos-de-intera%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>13</b> Termos de Interação</a>
 <ul>
-<li class="chapter" data-level="13.1" data-path="termos-de-interação.html"><a href="termos-de-interação.html#aplicação-1"><i class="fa fa-check"></i><b>13.1</b> Aplicação</a></li>
-<li class="chapter" data-level="13.2" data-path="termos-de-interação.html"><a href="termos-de-interação.html#dml"><i class="fa fa-check"></i><b>13.2</b> DML</a></li>
+<li class="chapter" data-level="13.1" data-path="11-Synth.html"><a href="#aplica%C3%A7%C3%A3o-1"><i class="fa fa-check"></i><b>13.1</b> Aplicação</a></li>
+<li class="chapter" data-level="13.2" data-path="termos-de-interação.html"><a href="termos-de-interação.html"><i class="fa fa-check"></i><b>13.2</b> DML</a></li>
 <li class="chapter" data-level="13.3" data-path="termos-de-interação.html"><a href="termos-de-interação.html#double-debiasing"><i class="fa fa-check"></i><b>13.3</b> Double Debiasing</a></li>
 <li class="chapter" data-level="13.4" data-path="termos-de-interação.html"><a href="termos-de-interação.html#cross-fitting"><i class="fa fa-check"></i><b>13.4</b> Cross-fitting</a></li>
-<li class="chapter" data-level="13.5" data-path="termos-de-interação.html"><a href="termos-de-interação.html#questões-práticas"><i class="fa fa-check"></i><b>13.5</b> Questões Práticas</a></li>
-<li class="chapter" data-level="13.6" data-path="termos-de-interação.html"><a href="termos-de-interação.html#referências-8"><i class="fa fa-check"></i><b>13.6</b> Referências</a></li>
+<li class="chapter" data-level="13.5" data-path="11-Synth.html"><a href="#quest%C3%B5es-pr%C3%A1ticas"><i class="fa fa-check"></i><b>13.5</b> Questões Práticas</a></li>
+<li class="chapter" data-level="13.6" data-path="11-Synth.html"><a href="#resumo-e-pr%C3%B3ximos-passos-6"><i class="fa fa-check"></i><b>13.6</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="13.7" data-path="11-Synth.html"><a href="#refer%C3%AAncias-9"><i class="fa fa-check"></i><b>13.7</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="14" data-path="resumo-1.html"><a href="resumo-1.html"><i class="fa fa-check"></i><b>14</b> Resumo</a>
 <ul>
@@ -386,19 +403,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="14.4.1" data-path="resumo-1.html"><a href="resumo-1.html#tscs"><i class="fa fa-check"></i><b>14.4.1</b> TSCS</a></li>
 </ul></li>
 <li class="chapter" data-level="14.5" data-path="resumo-1.html"><a href="resumo-1.html#scm"><i class="fa fa-check"></i><b>14.5</b> SCM</a></li>
-<li class="chapter" data-level="14.6" data-path="resumo-1.html"><a href="resumo-1.html#did-sintético"><i class="fa fa-check"></i><b>14.6</b> DiD Sintético</a></li>
+<li class="chapter" data-level="14.6" data-path="11-Synth.html"><a href="#did-sint%C3%A9tico"><i class="fa fa-check"></i><b>14.6</b> DiD Sintético</a></li>
 <li class="chapter" data-level="14.7" data-path="resumo-1.html"><a href="resumo-1.html#double-lasso-1"><i class="fa fa-check"></i><b>14.7</b> Double LASSO</a></li>
 <li class="chapter" data-level="14.8" data-path="resumo-1.html"><a href="resumo-1.html#dml-1"><i class="fa fa-check"></i><b>14.8</b> DML</a></li>
 </ul></li>
-<li class="chapter" data-level="15" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html"><i class="fa fa-check"></i><b>15</b> Interferência, spillover e dinâmica</a>
+<li class="chapter" data-level="15" data-path="shift-share.html"><a href="shift-share.html"><i class="fa fa-check"></i><b>15</b> Shift-share</a>
 <ul>
-<li class="chapter" data-level="15.1" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#suposições-simplifcadoras"><i class="fa fa-check"></i><b>15.1</b> Suposições simplifcadoras</a></li>
-<li class="chapter" data-level="15.2" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#po-com-tratamento-de-múltiplos-valores-multi-valued"><i class="fa fa-check"></i><b>15.2</b> PO com tratamento de múltiplos valores (multi-valued)</a>
-<ul>
-<li class="chapter" data-level="15.2.1" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#multi-valued-discreto"><i class="fa fa-check"></i><b>15.2.1</b> Multi-valued discreto</a></li>
+<li class="chapter" data-level="15.1" data-path="11-Synth.html"><a href="#introdu%C3%A7%C3%A3o-7"><i class="fa fa-check"></i><b>15.1</b> Introdução</a></li>
+<li class="chapter" data-level="15.2" data-path="11-Synth.html"><a href="#exemplos-da-pol%C3%ADtica"><i class="fa fa-check"></i><b>15.2</b> Exemplos da Política</a></li>
+<li class="chapter" data-level="15.3" data-path="11-Synth.html"><a href="#varia%C3%A7%C3%A3o-temporal"><i class="fa fa-check"></i><b>15.3</b> Variação temporal</a></li>
 </ul></li>
-<li class="chapter" data-level="15.3" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#dinâmica"><i class="fa fa-check"></i><b>15.3</b> Dinâmica</a></li>
-<li class="chapter" data-level="15.4" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#interferência"><i class="fa fa-check"></i><b>15.4</b> Interferência</a></li>
+<li class="chapter" data-level="16" data-path="11-Synth.html"><a href="#interfer%C3%AAncia-spillover-e-din%C3%A2mica"><i class="fa fa-check"></i><b>16</b> Interferência, spillover e dinâmica</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="11-Synth.html"><a href="#suposi%C3%A7%C3%B5es-simplificadoras"><i class="fa fa-check"></i><b>16.1</b> Suposições simplificadoras</a></li>
+<li class="chapter" data-level="16.2" data-path="11-Synth.html"><a href="#po-com-tratamento-de-m%C3%BAltiplos-valores-multi-valued"><i class="fa fa-check"></i><b>16.2</b> PO com tratamento de múltiplos valores (multi-valued)</a>
+<ul>
+<li class="chapter" data-level="16.2.1" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html"><i class="fa fa-check"></i><b>16.2.1</b> Multi-valued discreto</a></li>
+</ul></li>
+<li class="chapter" data-level="16.3" data-path="11-Synth.html"><a href="#din%C3%A2mica"><i class="fa fa-check"></i><b>16.3</b> Dinâmica</a></li>
+<li class="chapter" data-level="16.4" data-path="11-Synth.html"><a href="#interfer%C3%AAncia"><i class="fa fa-check"></i><b>16.4</b> Interferência</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -422,7 +445,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="synthetic-control" class="section level1 hasAnchor" number="10">
 <h1><span class="header-section-number">Capítulo 10</span> Synthetic Control<a href="synthetic-control.html#synthetic-control" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Vamos começar com um exemplo, já famoso na literatura, de Controle Sintético. O estado da Califórnia implmentou uma proibição de uso de cigarro e digamso que queremos ver o efeito dessa proibição, isto é, nosso estimando é <span class="math inline">\(\tau_{\text{ban}, \text{CA}} = Y(1)_{\text{ban}, CA} - Y(0)_{\text{ban}, \text{CA}}\)</span>.</p>
+<p>Vamos começar com um exemplo, já famoso na literatura, de Controle Sintético. O estado da Califórnia implementou uma proibição de uso de cigarro e digamos que queremos ver o efeito dessa proibição, isto é, nosso estimando é <span class="math inline">\(\tau_{\text{ban}, \text{CA}} = Y(1)_{\text{ban}, CA} - Y(0)_{\text{ban}, \text{CA}}\)</span>.</p>
 <p>Como não observamos <span class="math inline">\(Y(0)_{\text{ban}, \text{CA}}\)</span>, temos de criar uma “Califórnia sintética”. Antigamente, iremos usar alguma média dos demais estados “não-tratados”para estimar o contrafactual. Contudo, não é muito convincente.</p>
 <table>
 <thead>
@@ -486,14 +509,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<p><img src="bookdownproj_files/figure-html/cigarro-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/cigarro-1.png" alt="" width="672" /></p>
 <p>Suponha que obtivemos dados para <span class="math inline">\(J+1\)</span> unidades para unidades <span class="math inline">\(j = 1, 2, ..., J+1\)</span>, e sem perda de generalidade, a primeira unidade <span class="math inline">\(j=1\)</span> é a de tratamento ou sob intervenção. O grupo de unidades para comparação (<em>donor pool</em>) é dado por <span class="math inline">\(j = 2, ..., J+1\)</span>, uma coleção de unidade não-tratadas. Os dados são observados por <span class="math inline">\(T\)</span> períodos <span class="math inline">\(1, 2, ..., t_0, t_1, t_2, ..., T\)</span>, em que de <span class="math inline">\(1\)</span> até <span class="math inline">\(t_0\)</span> nenhuma unidade foi tratada ou sofreu intervenção. Para cada unidade <span class="math inline">\(j\)</span>, observamos também um conjunto de <span class="math inline">\(k\)</span> preditores, <span class="math inline">\(X_{1j}, X_{2j}, ..., X_{kj}\)</span>, que pode incluir vaores pré-intervenção da variável resposta <span class="math inline">\(y_{jt}\)</span>.</p>
 <p>A ideia é usar com combinação linear do <em>donor pool</em>, com pesos apropriados, para estimar o contrafactual, isto é, o resultado potencial dos tratados. Lembrando que o estimando usual de interesse é o ATT:
 <span class="math display">\[
 \mathbb{E}[Y(1)_{it}|D_{it}=1] - \mathbb{E}[Y(0)_{it}|D_{it}=1]
 \]</span>
-A dificuldade, como sempre, é que não observamos <span class="math inline">\(\mathbb{E}[Y(0)_{it}|D_{it}=1\)</span>. Estimar ou imputar esse <em>missing data</em> a partir de uma média ponderada é o objetivo de nosso estimador. A ideia é um pouco parecida com matching, em que nós pareávamos unidades de controle com as taratdas, minimizando a distância a partir das covariáveis. Aqui, vamos fazer algo parecido, mas com uma diferença chave: vamos incluir nas covariáveis a variável resposta defasada. Esse método foi introduzido por Abadie et. al em um journal de ciência política.</p>
-<p>Vamos usar a abordagem de Doudchenko e Imbens (2018) para apresentar o médo, pois vai faciliar a introdução posterior de diferença em diferenças sintéticas.</p>
+A dificuldade, como sempre, é que não observamos <span class="math inline">\(\mathbb{E}[Y(0)_{it}|D_{it}=1]\)</span>. Estimar ou imputar esse <em>missing data</em> a partir de uma média ponderada é o objetivo de nosso estimador. A ideia é um pouco parecida com matching, em que nós pareávamos unidades de controle com as tratadas, minimizando a distância a partir das covariáveis. Aqui, vamos fazer algo parecido, mas com uma diferença chave: vamos incluir nas covariáveis a variável resposta defasada. Esse método foi introduzido por Abadie et. al em um journal de ciência política.</p>
+<p>Vamos usar a abordagem de Doudchenko e Imbens (2018) para apresentar o método, pois vai familiar a introdução posterior de diferença em diferenças sintéticas.</p>
 <p>Nossos dados podem ser organizados da seguinte forma:</p>
 <div id="tratamento" class="section level3 hasAnchor" number="10.0.1">
 <h3><span class="header-section-number">10.0.1</span> Tratamento<a href="synthetic-control.html#tratamento" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -508,7 +531,7 @@ D \;=\;
 0 &amp; 0 &amp; 0 &amp; \cdots 0 &amp; 1\\
 \end{bmatrix}
 \end{aligned}\]</span>
-<p>Aqui, o estados estão nas colunas, Calinfórnia é a última coluna, e nas linhas temos os períodos de tempo. E podemos simplificar a matriz acima para apenas quatro blocos:</p>
+<p>Aqui, o estados estão nas colunas, Califórnia é a última coluna, e nas linhas temos os períodos de tempo. E podemos simplificar a matriz acima para apenas quatro blocos:</p>
 <span class="math display">\[\begin{aligned}
 D \;=\;
 \begin{pmatrix}
@@ -516,7 +539,7 @@ D \;=\;
 \mathbf{0} &amp; \mathbf{1}
 \end{pmatrix}
 \end{aligned}\]</span>
-<p>O que nos leva à seuinge matriz de resultados:</p>
+<p>O que nos leva à seguinte matriz de resultados:</p>
 <span class="math display">\[\begin{aligned}
 Y \;=\;
 \begin{pmatrix}
@@ -545,26 +568,26 @@ Em que <span class="math inline">\(w_i\)</span> são os pesos do <em>donor pool<
 <li><p><span class="math inline">\(\sum_i w_i = 1\)</span></p></li>
 <li><p><span class="math inline">\(w_i \geq 0 \text{, } \forall i\)</span></p></li>
 </ol>
-<p>Restrição 1 signifca que não há diferença de nível. Suposição 2 significa que o contrafactual tem de ser contruído no suporte do <em>donor pool</em>. Suposição 3</p>
+<p>Restrição 1 signifca que não há diferença de nível. Suposição 2 significa que o contrafactual tem de ser construído no suporte do <em>donor pool</em>. Suposição 3</p>
 <p>A intuição para o cálculo do peso é parecida da regressão linear, em que estamos minimizando a soma da distância. A diferença é que é uma soma diferente.</p>
 <p><span class="math display">\[
 ||\mathbf{X}_{tr} - \mathbf{X}_{co}\mathbf{W}||
 \]</span>
 Lembrando que vamos incluir a VD defasada em <span class="math inline">\(X\)</span>.</p>
 <p>Vamos para o R para ver isso em ação.
-Dica: Há vários pacotes, mas o original, synth, é muito complexdo de usar e não recomendamos.
+Dica: Há vários pacotes, mas o original, synth, é muito complexo de usar e não recomendamos.
 augsynth/tidysynth and synthdid packages (original package is tough to use)</p>
 </div>
 <div id="implementação-no-r" class="section level2 hasAnchor" number="10.1">
-<h2><span class="header-section-number">10.1</span> Implementação no R<a href="synthetic-control.html#implementação-no-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="synthetic-control.html#cb140-1" tabindex="-1"></a><span class="co"># tidysynth</span></span>
-<span id="cb140-2"><a href="synthetic-control.html#cb140-2" tabindex="-1"></a><span class="fu">library</span>(tidysynth)</span>
-<span id="cb140-3"><a href="synthetic-control.html#cb140-3" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb140-4"><a href="synthetic-control.html#cb140-4" tabindex="-1"></a><span class="fu">data</span>(smoking)</span>
-<span id="cb140-5"><a href="synthetic-control.html#cb140-5" tabindex="-1"></a></span>
-<span id="cb140-6"><a href="synthetic-control.html#cb140-6" tabindex="-1"></a>smoking <span class="sc">%&gt;%</span></span>
-<span id="cb140-7"><a href="synthetic-control.html#cb140-7" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb140-8"><a href="synthetic-control.html#cb140-8" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div>
+<h2><span class="header-section-number">10.1</span> Implementação no R<a href="#implementa%C3%A7%C3%A3o-no-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="synthetic-control.html#cb135-1" tabindex="-1"></a><span class="co"># tidysynth</span></span>
+<span id="cb135-2"><a href="synthetic-control.html#cb135-2" tabindex="-1"></a><span class="fu">library</span>(tidysynth)</span>
+<span id="cb135-3"><a href="synthetic-control.html#cb135-3" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb135-4"><a href="synthetic-control.html#cb135-4" tabindex="-1"></a><span class="fu">data</span>(smoking)</span>
+<span id="cb135-5"><a href="synthetic-control.html#cb135-5" tabindex="-1"></a></span>
+<span id="cb135-6"><a href="synthetic-control.html#cb135-6" tabindex="-1"></a>smoking <span class="sc">%&gt;%</span></span>
+<span id="cb135-7"><a href="synthetic-control.html#cb135-7" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb135-8"><a href="synthetic-control.html#cb135-8" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -634,58 +657,58 @@ augsynth/tidysynth and synthdid packages (original package is tough to use)</p>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="synthetic-control.html#cb141-1" tabindex="-1"></a>smoking_out <span class="ot">&lt;-</span></span>
-<span id="cb141-2"><a href="synthetic-control.html#cb141-2" tabindex="-1"></a>  smoking <span class="sc">%&gt;%</span></span>
-<span id="cb141-3"><a href="synthetic-control.html#cb141-3" tabindex="-1"></a>  <span class="co"># initial the synthetic control object</span></span>
-<span id="cb141-4"><a href="synthetic-control.html#cb141-4" tabindex="-1"></a>  <span class="fu">synthetic_control</span>(<span class="at">outcome =</span> cigsale, <span class="co"># outcome</span></span>
-<span id="cb141-5"><a href="synthetic-control.html#cb141-5" tabindex="-1"></a>                    <span class="at">unit =</span> state, <span class="co"># unit index in the panel data</span></span>
-<span id="cb141-6"><a href="synthetic-control.html#cb141-6" tabindex="-1"></a>                    <span class="at">time =</span> year, <span class="co"># time index in the panel data</span></span>
-<span id="cb141-7"><a href="synthetic-control.html#cb141-7" tabindex="-1"></a>                    <span class="at">i_unit =</span> <span class="st">&quot;California&quot;</span>, <span class="co"># unit where the intervention occurred</span></span>
-<span id="cb141-8"><a href="synthetic-control.html#cb141-8" tabindex="-1"></a>                    <span class="at">i_time =</span> <span class="dv">1988</span>, <span class="co"># time period when the intervention occurred</span></span>
-<span id="cb141-9"><a href="synthetic-control.html#cb141-9" tabindex="-1"></a>                    <span class="at">generate_placebos=</span>T <span class="co"># generate placebo synthetic controls (for inference)</span></span>
-<span id="cb141-10"><a href="synthetic-control.html#cb141-10" tabindex="-1"></a>                    ) <span class="sc">%&gt;%</span></span>
-<span id="cb141-11"><a href="synthetic-control.html#cb141-11" tabindex="-1"></a>  </span>
-<span id="cb141-12"><a href="synthetic-control.html#cb141-12" tabindex="-1"></a>  <span class="co"># Generate the aggregate predictors used to fit the weights</span></span>
-<span id="cb141-13"><a href="synthetic-control.html#cb141-13" tabindex="-1"></a>  </span>
-<span id="cb141-14"><a href="synthetic-control.html#cb141-14" tabindex="-1"></a>  <span class="co"># average log income, retail price of cigarettes, and proportion of the</span></span>
-<span id="cb141-15"><a href="synthetic-control.html#cb141-15" tabindex="-1"></a>  <span class="co"># population between 15 and 24 years of age from 1980 - 1988</span></span>
-<span id="cb141-16"><a href="synthetic-control.html#cb141-16" tabindex="-1"></a>  <span class="fu">generate_predictor</span>(<span class="at">time_window =</span> <span class="dv">1980</span><span class="sc">:</span><span class="dv">1988</span>,</span>
-<span id="cb141-17"><a href="synthetic-control.html#cb141-17" tabindex="-1"></a>                     <span class="at">ln_income =</span> <span class="fu">mean</span>(lnincome, <span class="at">na.rm =</span> T),</span>
-<span id="cb141-18"><a href="synthetic-control.html#cb141-18" tabindex="-1"></a>                     <span class="at">ret_price =</span> <span class="fu">mean</span>(retprice, <span class="at">na.rm =</span> T),</span>
-<span id="cb141-19"><a href="synthetic-control.html#cb141-19" tabindex="-1"></a>                     <span class="at">youth =</span> <span class="fu">mean</span>(age15to24, <span class="at">na.rm =</span> T)) <span class="sc">%&gt;%</span></span>
-<span id="cb141-20"><a href="synthetic-control.html#cb141-20" tabindex="-1"></a>  </span>
-<span id="cb141-21"><a href="synthetic-control.html#cb141-21" tabindex="-1"></a>  <span class="co"># average beer consumption in the donor pool from 1984 - 1988</span></span>
-<span id="cb141-22"><a href="synthetic-control.html#cb141-22" tabindex="-1"></a>  <span class="fu">generate_predictor</span>(<span class="at">time_window =</span> <span class="dv">1984</span><span class="sc">:</span><span class="dv">1988</span>,</span>
-<span id="cb141-23"><a href="synthetic-control.html#cb141-23" tabindex="-1"></a>                     <span class="at">beer_sales =</span> <span class="fu">mean</span>(beer, <span class="at">na.rm =</span> T)) <span class="sc">%&gt;%</span></span>
-<span id="cb141-24"><a href="synthetic-control.html#cb141-24" tabindex="-1"></a>  </span>
-<span id="cb141-25"><a href="synthetic-control.html#cb141-25" tabindex="-1"></a>  <span class="co"># Lagged cigarette sales </span></span>
-<span id="cb141-26"><a href="synthetic-control.html#cb141-26" tabindex="-1"></a>  <span class="fu">generate_predictor</span>(<span class="at">time_window =</span> <span class="dv">1975</span>,</span>
-<span id="cb141-27"><a href="synthetic-control.html#cb141-27" tabindex="-1"></a>                     <span class="at">cigsale_1975 =</span> cigsale) <span class="sc">%&gt;%</span></span>
-<span id="cb141-28"><a href="synthetic-control.html#cb141-28" tabindex="-1"></a>  <span class="fu">generate_predictor</span>(<span class="at">time_window =</span> <span class="dv">1980</span>,</span>
-<span id="cb141-29"><a href="synthetic-control.html#cb141-29" tabindex="-1"></a>                     <span class="at">cigsale_1980 =</span> cigsale) <span class="sc">%&gt;%</span></span>
-<span id="cb141-30"><a href="synthetic-control.html#cb141-30" tabindex="-1"></a>  <span class="fu">generate_predictor</span>(<span class="at">time_window =</span> <span class="dv">1988</span>,</span>
-<span id="cb141-31"><a href="synthetic-control.html#cb141-31" tabindex="-1"></a>                     <span class="at">cigsale_1988 =</span> cigsale) <span class="sc">%&gt;%</span></span>
-<span id="cb141-32"><a href="synthetic-control.html#cb141-32" tabindex="-1"></a>  </span>
-<span id="cb141-33"><a href="synthetic-control.html#cb141-33" tabindex="-1"></a>  </span>
-<span id="cb141-34"><a href="synthetic-control.html#cb141-34" tabindex="-1"></a>  <span class="co"># Generate the fitted weights for the synthetic control</span></span>
-<span id="cb141-35"><a href="synthetic-control.html#cb141-35" tabindex="-1"></a>  <span class="fu">generate_weights</span>(<span class="at">optimization_window =</span> <span class="dv">1970</span><span class="sc">:</span><span class="dv">1988</span>, <span class="co"># time to use in the optimization task</span></span>
-<span id="cb141-36"><a href="synthetic-control.html#cb141-36" tabindex="-1"></a>                   <span class="at">margin_ipop =</span> .<span class="dv">02</span>,<span class="at">sigf_ipop =</span> <span class="dv">7</span>,<span class="at">bound_ipop =</span> <span class="dv">6</span> <span class="co"># optimizer options</span></span>
-<span id="cb141-37"><a href="synthetic-control.html#cb141-37" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb141-38"><a href="synthetic-control.html#cb141-38" tabindex="-1"></a>  </span>
-<span id="cb141-39"><a href="synthetic-control.html#cb141-39" tabindex="-1"></a>  <span class="co"># Generate the synthetic control</span></span>
-<span id="cb141-40"><a href="synthetic-control.html#cb141-40" tabindex="-1"></a>  <span class="fu">generate_control</span>()</span>
-<span id="cb141-41"><a href="synthetic-control.html#cb141-41" tabindex="-1"></a></span>
-<span id="cb141-42"><a href="synthetic-control.html#cb141-42" tabindex="-1"></a><span class="co"># série do observado e controle sintético</span></span>
-<span id="cb141-43"><a href="synthetic-control.html#cb141-43" tabindex="-1"></a>smoking_out <span class="sc">%&gt;%</span> <span class="fu">plot_trends</span>(<span class="at">time_window =</span> <span class="dv">1970</span><span class="sc">:</span><span class="dv">2000</span>)</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/cigarro_tidysynth-1.png" width="672" /></p>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="synthetic-control.html#cb136-1" tabindex="-1"></a>smoking_out <span class="ot">&lt;-</span></span>
+<span id="cb136-2"><a href="synthetic-control.html#cb136-2" tabindex="-1"></a>  smoking <span class="sc">%&gt;%</span></span>
+<span id="cb136-3"><a href="synthetic-control.html#cb136-3" tabindex="-1"></a>  <span class="co"># initial the synthetic control object</span></span>
+<span id="cb136-4"><a href="synthetic-control.html#cb136-4" tabindex="-1"></a>  <span class="fu">synthetic_control</span>(<span class="at">outcome =</span> cigsale, <span class="co"># outcome</span></span>
+<span id="cb136-5"><a href="synthetic-control.html#cb136-5" tabindex="-1"></a>                    <span class="at">unit =</span> state, <span class="co"># unit index in the panel data</span></span>
+<span id="cb136-6"><a href="synthetic-control.html#cb136-6" tabindex="-1"></a>                    <span class="at">time =</span> year, <span class="co"># time index in the panel data</span></span>
+<span id="cb136-7"><a href="synthetic-control.html#cb136-7" tabindex="-1"></a>                    <span class="at">i_unit =</span> <span class="st">&quot;California&quot;</span>, <span class="co"># unit where the intervention occurred</span></span>
+<span id="cb136-8"><a href="synthetic-control.html#cb136-8" tabindex="-1"></a>                    <span class="at">i_time =</span> <span class="dv">1988</span>, <span class="co"># time period when the intervention occurred</span></span>
+<span id="cb136-9"><a href="synthetic-control.html#cb136-9" tabindex="-1"></a>                    <span class="at">generate_placebos=</span>T <span class="co"># generate placebo synthetic controls (for inference)</span></span>
+<span id="cb136-10"><a href="synthetic-control.html#cb136-10" tabindex="-1"></a>                    ) <span class="sc">%&gt;%</span></span>
+<span id="cb136-11"><a href="synthetic-control.html#cb136-11" tabindex="-1"></a>  </span>
+<span id="cb136-12"><a href="synthetic-control.html#cb136-12" tabindex="-1"></a>  <span class="co"># Generate the aggregate predictors used to fit the weights</span></span>
+<span id="cb136-13"><a href="synthetic-control.html#cb136-13" tabindex="-1"></a>  </span>
+<span id="cb136-14"><a href="synthetic-control.html#cb136-14" tabindex="-1"></a>  <span class="co"># average log income, retail price of cigarettes, and proportion of the</span></span>
+<span id="cb136-15"><a href="synthetic-control.html#cb136-15" tabindex="-1"></a>  <span class="co"># population between 15 and 24 years of age from 1980 - 1988</span></span>
+<span id="cb136-16"><a href="synthetic-control.html#cb136-16" tabindex="-1"></a>  <span class="fu">generate_predictor</span>(<span class="at">time_window =</span> <span class="dv">1980</span><span class="sc">:</span><span class="dv">1988</span>,</span>
+<span id="cb136-17"><a href="synthetic-control.html#cb136-17" tabindex="-1"></a>                     <span class="at">ln_income =</span> <span class="fu">mean</span>(lnincome, <span class="at">na.rm =</span> T),</span>
+<span id="cb136-18"><a href="synthetic-control.html#cb136-18" tabindex="-1"></a>                     <span class="at">ret_price =</span> <span class="fu">mean</span>(retprice, <span class="at">na.rm =</span> T),</span>
+<span id="cb136-19"><a href="synthetic-control.html#cb136-19" tabindex="-1"></a>                     <span class="at">youth =</span> <span class="fu">mean</span>(age15to24, <span class="at">na.rm =</span> T)) <span class="sc">%&gt;%</span></span>
+<span id="cb136-20"><a href="synthetic-control.html#cb136-20" tabindex="-1"></a>  </span>
+<span id="cb136-21"><a href="synthetic-control.html#cb136-21" tabindex="-1"></a>  <span class="co"># average beer consumption in the donor pool from 1984 - 1988</span></span>
+<span id="cb136-22"><a href="synthetic-control.html#cb136-22" tabindex="-1"></a>  <span class="fu">generate_predictor</span>(<span class="at">time_window =</span> <span class="dv">1984</span><span class="sc">:</span><span class="dv">1988</span>,</span>
+<span id="cb136-23"><a href="synthetic-control.html#cb136-23" tabindex="-1"></a>                     <span class="at">beer_sales =</span> <span class="fu">mean</span>(beer, <span class="at">na.rm =</span> T)) <span class="sc">%&gt;%</span></span>
+<span id="cb136-24"><a href="synthetic-control.html#cb136-24" tabindex="-1"></a>  </span>
+<span id="cb136-25"><a href="synthetic-control.html#cb136-25" tabindex="-1"></a>  <span class="co"># Lagged cigarette sales </span></span>
+<span id="cb136-26"><a href="synthetic-control.html#cb136-26" tabindex="-1"></a>  <span class="fu">generate_predictor</span>(<span class="at">time_window =</span> <span class="dv">1975</span>,</span>
+<span id="cb136-27"><a href="synthetic-control.html#cb136-27" tabindex="-1"></a>                     <span class="at">cigsale_1975 =</span> cigsale) <span class="sc">%&gt;%</span></span>
+<span id="cb136-28"><a href="synthetic-control.html#cb136-28" tabindex="-1"></a>  <span class="fu">generate_predictor</span>(<span class="at">time_window =</span> <span class="dv">1980</span>,</span>
+<span id="cb136-29"><a href="synthetic-control.html#cb136-29" tabindex="-1"></a>                     <span class="at">cigsale_1980 =</span> cigsale) <span class="sc">%&gt;%</span></span>
+<span id="cb136-30"><a href="synthetic-control.html#cb136-30" tabindex="-1"></a>  <span class="fu">generate_predictor</span>(<span class="at">time_window =</span> <span class="dv">1988</span>,</span>
+<span id="cb136-31"><a href="synthetic-control.html#cb136-31" tabindex="-1"></a>                     <span class="at">cigsale_1988 =</span> cigsale) <span class="sc">%&gt;%</span></span>
+<span id="cb136-32"><a href="synthetic-control.html#cb136-32" tabindex="-1"></a>  </span>
+<span id="cb136-33"><a href="synthetic-control.html#cb136-33" tabindex="-1"></a>  </span>
+<span id="cb136-34"><a href="synthetic-control.html#cb136-34" tabindex="-1"></a>  <span class="co"># Generate the fitted weights for the synthetic control</span></span>
+<span id="cb136-35"><a href="synthetic-control.html#cb136-35" tabindex="-1"></a>  <span class="fu">generate_weights</span>(<span class="at">optimization_window =</span> <span class="dv">1970</span><span class="sc">:</span><span class="dv">1988</span>, <span class="co"># time to use in the optimization task</span></span>
+<span id="cb136-36"><a href="synthetic-control.html#cb136-36" tabindex="-1"></a>                   <span class="at">margin_ipop =</span> .<span class="dv">02</span>,<span class="at">sigf_ipop =</span> <span class="dv">7</span>,<span class="at">bound_ipop =</span> <span class="dv">6</span> <span class="co"># optimizer options</span></span>
+<span id="cb136-37"><a href="synthetic-control.html#cb136-37" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb136-38"><a href="synthetic-control.html#cb136-38" tabindex="-1"></a>  </span>
+<span id="cb136-39"><a href="synthetic-control.html#cb136-39" tabindex="-1"></a>  <span class="co"># Generate the synthetic control</span></span>
+<span id="cb136-40"><a href="synthetic-control.html#cb136-40" tabindex="-1"></a>  <span class="fu">generate_control</span>()</span>
+<span id="cb136-41"><a href="synthetic-control.html#cb136-41" tabindex="-1"></a></span>
+<span id="cb136-42"><a href="synthetic-control.html#cb136-42" tabindex="-1"></a><span class="co"># série do observado e controle sintético</span></span>
+<span id="cb136-43"><a href="synthetic-control.html#cb136-43" tabindex="-1"></a>smoking_out <span class="sc">%&gt;%</span> <span class="fu">plot_trends</span>(<span class="at">time_window =</span> <span class="dv">1970</span><span class="sc">:</span><span class="dv">2000</span>)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/cigarro_tidysynth-1.png" alt="" width="672" /></p>
 <p>A quantidade causal de interesse pode ser visualizada do seguinte modo:</p>
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="synthetic-control.html#cb142-1" tabindex="-1"></a>smoking_out <span class="sc">%&gt;%</span> <span class="fu">plot_differences</span>()</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/cigarro_tidysynth1-1.png" width="672" /></p>
-<p>E é possível visulizar os pesos de cada unidade e das variáveis:</p>
-<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="synthetic-control.html#cb143-1" tabindex="-1"></a>smoking_out <span class="sc">%&gt;%</span> <span class="fu">plot_weights</span>()</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/cigarro_tidysynth2-1.png" width="672" /></p>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="synthetic-control.html#cb137-1" tabindex="-1"></a>smoking_out <span class="sc">%&gt;%</span> <span class="fu">plot_differences</span>()</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/cigarro_tidysynth1-1.png" alt="" width="672" /></p>
+<p>E é possível visualizar os pesos de cada unidade e das variáveis:</p>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="synthetic-control.html#cb138-1" tabindex="-1"></a>smoking_out <span class="sc">%&gt;%</span> <span class="fu">plot_weights</span>()</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/cigarro_tidysynth2-1.png" alt="" width="672" /></p>
 <p>Podemos também olhar o balanceamento entre o observado e o sintético:</p>
-<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="synthetic-control.html#cb144-1" tabindex="-1"></a>smoking_out <span class="sc">%&gt;%</span> <span class="fu">grab_balance_table</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="synthetic-control.html#cb139-1" tabindex="-1"></a>smoking_out <span class="sc">%&gt;%</span> <span class="fu">grab_balance_table</span>()</span></code></pre></div>
 <pre><code>## # A tibble: 7 × 4
 ##   variable     California synthetic_California donor_sample
 ##   &lt;chr&gt;             &lt;dbl&gt;                &lt;dbl&gt;        &lt;dbl&gt;
@@ -697,20 +720,21 @@ augsynth/tidysynth and synthdid packages (original package is tough to use)</p>
 ## 6 cigsale_1980    120.                 120.         138.   
 ## 7 cigsale_1988     90.1                 91.4        114.</code></pre>
 <p>A Inferência é complicada. O método tradicional é o chamado teste placebo, cuja intuição é a de um teste de permutação, ou seja, a gente diz que um outro estado foi tratado (NY, por exemplo), e roda o modelo de novo e assim por diante para todas as unidades do <em>donor pool</em>. O gráfico abaixo traz isso pronto.</p>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="synthetic-control.html#cb146-1" tabindex="-1"></a>smoking_out <span class="sc">%&gt;%</span> <span class="fu">plot_placebos</span>()</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/cigarro_tidysynth3-1.png" width="672" /></p>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="synthetic-control.html#cb141-1" tabindex="-1"></a>smoking_out <span class="sc">%&gt;%</span> <span class="fu">plot_placebos</span>()</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/cigarro_tidysynth3-1.png" alt="" width="672" /></p>
+<p>O controle sintético apresentado acima é uma ferramenta poderosa para estudos de caso. Uma extensão natural é combinar essa ideia com o estimador de Diferença em Diferenças, gerando o chamado Synthetic DiD.</p>
 </div>
 <div id="synthethic-did" class="section level2 hasAnchor" number="10.2">
 <h2><span class="header-section-number">10.2</span> Synthethic DiD<a href="synthetic-control.html#synthethic-did" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Synth DiD comebinar controle sintético com DiD, em algo novo. Então, vamos começar revisitando DiD.
+<p>Synth DiD combinar controle sintético com DiD, em algo novo. Então, vamos começar revisitando DiD.
 Nós vimos que o estimador de DiD é equivalente a uma regressão linear com efeitos fixos de unidade e tempo. Vamos aplicar nosso estimador para os dados da da proposição 99.</p>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="synthetic-control.html#cb147-1" tabindex="-1"></a><span class="fu">library</span>(fixest)</span>
-<span id="cb147-2"><a href="synthetic-control.html#cb147-2" tabindex="-1"></a></span>
-<span id="cb147-3"><a href="synthetic-control.html#cb147-3" tabindex="-1"></a>smoking_did <span class="ot">&lt;-</span> smoking <span class="sc">%&gt;%</span></span>
-<span id="cb147-4"><a href="synthetic-control.html#cb147-4" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">treatment =</span> <span class="fu">ifelse</span>(state <span class="sc">==</span> <span class="st">&quot;California&quot;</span> <span class="sc">&amp;</span> year <span class="sc">&gt;</span> <span class="dv">1988</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
-<span id="cb147-5"><a href="synthetic-control.html#cb147-5" tabindex="-1"></a>did <span class="ot">&lt;-</span> <span class="fu">feols</span>(cigsale <span class="sc">~</span> treatment <span class="sc">|</span> state <span class="sc">+</span> year, <span class="at">data =</span> smoking_did)</span>
-<span id="cb147-6"><a href="synthetic-control.html#cb147-6" tabindex="-1"></a></span>
-<span id="cb147-7"><a href="synthetic-control.html#cb147-7" tabindex="-1"></a><span class="fu">summary</span>(did)</span></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="synthetic-control.html#cb142-1" tabindex="-1"></a><span class="fu">library</span>(fixest)</span>
+<span id="cb142-2"><a href="synthetic-control.html#cb142-2" tabindex="-1"></a></span>
+<span id="cb142-3"><a href="synthetic-control.html#cb142-3" tabindex="-1"></a>smoking_did <span class="ot">&lt;-</span> smoking <span class="sc">%&gt;%</span></span>
+<span id="cb142-4"><a href="synthetic-control.html#cb142-4" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">treatment =</span> <span class="fu">ifelse</span>(state <span class="sc">==</span> <span class="st">&quot;California&quot;</span> <span class="sc">&amp;</span> year <span class="sc">&gt;</span> <span class="dv">1988</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb142-5"><a href="synthetic-control.html#cb142-5" tabindex="-1"></a>did <span class="ot">&lt;-</span> <span class="fu">feols</span>(cigsale <span class="sc">~</span> treatment <span class="sc">|</span> state <span class="sc">+</span> year, <span class="at">data =</span> smoking_did)</span>
+<span id="cb142-6"><a href="synthetic-control.html#cb142-6" tabindex="-1"></a></span>
+<span id="cb142-7"><a href="synthetic-control.html#cb142-7" tabindex="-1"></a><span class="fu">summary</span>(did)</span></code></pre></div>
 <pre><code>## OLS estimation, Dep. Var.: cigsale
 ## Observations: 1,209
 ## Fixed-effects: state: 39,  year: 31
@@ -722,56 +746,56 @@ Nós vimos que o estimador de DiD é equivalente a uma regressão linear com efe
 ## RMSE: 11.5     Adj. R2: 0.870229
 ##              Within R2: 0.032671</code></pre>
 <p>O problema dessa estimativa é que a suposição de tendências paralelas na média não é muito crível.</p>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="synthetic-control.html#cb149-1" tabindex="-1"></a><span class="fu">library</span>(did2s)</span>
-<span id="cb149-2"><a href="synthetic-control.html#cb149-2" tabindex="-1"></a><span class="fu">library</span>(ggfixest)</span>
-<span id="cb149-3"><a href="synthetic-control.html#cb149-3" tabindex="-1"></a></span>
-<span id="cb149-4"><a href="synthetic-control.html#cb149-4" tabindex="-1"></a>df <span class="ot">&lt;-</span> smoking_did <span class="sc">%&gt;%</span></span>
-<span id="cb149-5"><a href="synthetic-control.html#cb149-5" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">event_time =</span> year <span class="sc">-</span> <span class="dv">1988</span>,</span>
-<span id="cb149-6"><a href="synthetic-control.html#cb149-6" tabindex="-1"></a>         <span class="at">id =</span> <span class="fu">as.integer</span>(<span class="fu">as.factor</span>(state))) <span class="sc">%&gt;%</span></span>
-<span id="cb149-7"><a href="synthetic-control.html#cb149-7" tabindex="-1"></a>  <span class="fu">group_by</span>(state) <span class="sc">%&gt;%</span></span>
-<span id="cb149-8"><a href="synthetic-control.html#cb149-8" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">g =</span> <span class="fu">ifelse</span>(state <span class="sc">==</span> <span class="st">&quot;California&quot;</span>, <span class="dv">1988</span>, <span class="dv">0</span>),</span>
-<span id="cb149-9"><a href="synthetic-control.html#cb149-9" tabindex="-1"></a>         <span class="at">cohort =</span> <span class="fu">ifelse</span>(state <span class="sc">==</span> <span class="st">&quot;California&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb149-10"><a href="synthetic-control.html#cb149-10" tabindex="-1"></a>         <span class="at">g1 =</span> <span class="fu">ifelse</span>(state <span class="sc">==</span> <span class="st">&quot;California&quot;</span> <span class="sc">&amp;</span> year <span class="sc">&gt;=</span> <span class="dv">1980</span>, <span class="dv">1980</span>, <span class="dv">0</span>))</span>
-<span id="cb149-11"><a href="synthetic-control.html#cb149-11" tabindex="-1"></a></span>
-<span id="cb149-12"><a href="synthetic-control.html#cb149-12" tabindex="-1"></a><span class="co"># est_did = feols(cigsale ~  i(event_time, cohort, -1) | id+year, df)</span></span>
-<span id="cb149-13"><a href="synthetic-control.html#cb149-13" tabindex="-1"></a><span class="co"># ggiplot(est_did) ## this package</span></span>
-<span id="cb149-14"><a href="synthetic-control.html#cb149-14" tabindex="-1"></a></span>
-<span id="cb149-15"><a href="synthetic-control.html#cb149-15" tabindex="-1"></a></span>
-<span id="cb149-16"><a href="synthetic-control.html#cb149-16" tabindex="-1"></a>out_es <span class="ot">&lt;-</span> <span class="fu">event_study</span>(</span>
-<span id="cb149-17"><a href="synthetic-control.html#cb149-17" tabindex="-1"></a>  <span class="at">data =</span> df,</span>
-<span id="cb149-18"><a href="synthetic-control.html#cb149-18" tabindex="-1"></a>  <span class="at">idname =</span> <span class="st">&quot;id&quot;</span>,</span>
-<span id="cb149-19"><a href="synthetic-control.html#cb149-19" tabindex="-1"></a>  <span class="at">tname =</span> <span class="st">&quot;year&quot;</span>,</span>
-<span id="cb149-20"><a href="synthetic-control.html#cb149-20" tabindex="-1"></a>  <span class="at">gname =</span> <span class="st">&quot;g&quot;</span>,  <span class="co"># coluna que indica o período de tratamento para cada i</span></span>
-<span id="cb149-21"><a href="synthetic-control.html#cb149-21" tabindex="-1"></a>  <span class="at">yname =</span> <span class="st">&quot;cigsale&quot;</span>,</span>
-<span id="cb149-22"><a href="synthetic-control.html#cb149-22" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="st">&quot;all&quot;</span></span>
-<span id="cb149-23"><a href="synthetic-control.html#cb149-23" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="synthetic-control.html#cb144-1" tabindex="-1"></a><span class="fu">library</span>(did2s)</span>
+<span id="cb144-2"><a href="synthetic-control.html#cb144-2" tabindex="-1"></a><span class="fu">library</span>(ggfixest)</span>
+<span id="cb144-3"><a href="synthetic-control.html#cb144-3" tabindex="-1"></a></span>
+<span id="cb144-4"><a href="synthetic-control.html#cb144-4" tabindex="-1"></a>df <span class="ot">&lt;-</span> smoking_did <span class="sc">%&gt;%</span></span>
+<span id="cb144-5"><a href="synthetic-control.html#cb144-5" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">event_time =</span> year <span class="sc">-</span> <span class="dv">1988</span>,</span>
+<span id="cb144-6"><a href="synthetic-control.html#cb144-6" tabindex="-1"></a>         <span class="at">id =</span> <span class="fu">as.integer</span>(<span class="fu">as.factor</span>(state))) <span class="sc">%&gt;%</span></span>
+<span id="cb144-7"><a href="synthetic-control.html#cb144-7" tabindex="-1"></a>  <span class="fu">group_by</span>(state) <span class="sc">%&gt;%</span></span>
+<span id="cb144-8"><a href="synthetic-control.html#cb144-8" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">g =</span> <span class="fu">ifelse</span>(state <span class="sc">==</span> <span class="st">&quot;California&quot;</span>, <span class="dv">1988</span>, <span class="dv">0</span>),</span>
+<span id="cb144-9"><a href="synthetic-control.html#cb144-9" tabindex="-1"></a>         <span class="at">cohort =</span> <span class="fu">ifelse</span>(state <span class="sc">==</span> <span class="st">&quot;California&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb144-10"><a href="synthetic-control.html#cb144-10" tabindex="-1"></a>         <span class="at">g1 =</span> <span class="fu">ifelse</span>(state <span class="sc">==</span> <span class="st">&quot;California&quot;</span> <span class="sc">&amp;</span> year <span class="sc">&gt;=</span> <span class="dv">1980</span>, <span class="dv">1980</span>, <span class="dv">0</span>))</span>
+<span id="cb144-11"><a href="synthetic-control.html#cb144-11" tabindex="-1"></a></span>
+<span id="cb144-12"><a href="synthetic-control.html#cb144-12" tabindex="-1"></a><span class="co"># est_did = feols(cigsale ~  i(event_time, cohort, -1) | id+year, df)</span></span>
+<span id="cb144-13"><a href="synthetic-control.html#cb144-13" tabindex="-1"></a><span class="co"># ggiplot(est_did) ## this package</span></span>
+<span id="cb144-14"><a href="synthetic-control.html#cb144-14" tabindex="-1"></a></span>
+<span id="cb144-15"><a href="synthetic-control.html#cb144-15" tabindex="-1"></a></span>
+<span id="cb144-16"><a href="synthetic-control.html#cb144-16" tabindex="-1"></a>out_es <span class="ot">&lt;-</span> <span class="fu">event_study</span>(</span>
+<span id="cb144-17"><a href="synthetic-control.html#cb144-17" tabindex="-1"></a>  <span class="at">data =</span> df,</span>
+<span id="cb144-18"><a href="synthetic-control.html#cb144-18" tabindex="-1"></a>  <span class="at">idname =</span> <span class="st">&quot;id&quot;</span>,</span>
+<span id="cb144-19"><a href="synthetic-control.html#cb144-19" tabindex="-1"></a>  <span class="at">tname =</span> <span class="st">&quot;year&quot;</span>,</span>
+<span id="cb144-20"><a href="synthetic-control.html#cb144-20" tabindex="-1"></a>  <span class="at">gname =</span> <span class="st">&quot;g&quot;</span>,  <span class="co"># coluna que indica o período de tratamento para cada i</span></span>
+<span id="cb144-21"><a href="synthetic-control.html#cb144-21" tabindex="-1"></a>  <span class="at">yname =</span> <span class="st">&quot;cigsale&quot;</span>,</span>
+<span id="cb144-22"><a href="synthetic-control.html#cb144-22" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="st">&quot;all&quot;</span></span>
+<span id="cb144-23"><a href="synthetic-control.html#cb144-23" tabindex="-1"></a>)</span></code></pre></div>
 <pre><code>## Error in create_Atheta_list_for_event_study(eventTime = eventTime, g_list = g_list,  : 
 ##   There are no comparison cohorts for the given eventTime</code></pre>
-<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="synthetic-control.html#cb151-1" tabindex="-1"></a><span class="fu">plot_event_study</span>(out_es)</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/did1-1.png" width="672" /></p>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="synthetic-control.html#cb146-1" tabindex="-1"></a><span class="fu">plot_event_study</span>(out_es)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/did1-1.png" alt="" width="672" /></p>
 <p>E se a gente combinasse controle sintético com DiD, isto é, usasse peso para criar tendências paralelas, e então aplicasse DiD?</p>
 <p>Arkhangelsky et al (2021) mostraram que podemos reescrever o estimador de controle sintético como:</p>
 <p><span class="math display">\[
-(\hat{\mu}, \hat{\gamma}, \hat{\tau}) = \text{arg}\,\max\limits_{\mu, \gamma, \tau}\ \sum_i \sum_t (y_{it}) - \mu - \gamma_t -D_{it}\tau)^2\hat{w}_i
+(\hat{\mu}, \hat{\gamma}, \hat{\tau}) = \text{arg}\,\min\limits_{\mu, \gamma, \tau}\ \sum_i \sum_t (y_{it} - \mu - \gamma_t -D_{it}\tau)^2\hat{w}_i
 \]</span>
 Já o DiD é dado por:
 <span class="math display">\[
-(\hat{\mu}, \hat{\alpha}, \hat{\gamma}, \hat{\tau}) = \text{arg}\,\max\limits_{\mu, \gamma, \tau}\ \sum_i \sum_t (y_{it}) - \mu - \alpha_i - \gamma_t -D_{it}\tau)^2
+(\hat{\mu}, \hat{\alpha}, \hat{\gamma}, \hat{\tau}) = \text{arg}\,\min\limits_{\mu, \gamma, \tau}\ \sum_i \sum_t (y_{it} - \mu - \alpha_i - \gamma_t -D_{it}\tau)^2
 \]</span></p>
 <p>A a proposta dos autores, o Synthetic DiD é dada pelo estimador:
 <span class="math display">\[
-(\hat{\mu}, \hat{\alpha}, \hat{\gamma}, \hat{\tau}) = \text{arg}\,\max\limits_{\mu, \gamma, \tau}\ \sum_i \sum_t (y_{it}) - \mu - \alpha_i - \gamma_t -D_{it}\tau)^2\hat{w}_i\hat{\lambda}_t
+(\hat{\mu}, \hat{\alpha}, \hat{\gamma}, \hat{\tau}) = \text{arg}\,\min\limits_{\mu, \gamma, \tau}\ \sum_i \sum_t (y_{it} - \mu - \alpha_i - \gamma_t -D_{it}\tau)^2\hat{w}_i\hat{\lambda}_t
 \]</span>
-Como antes, <span class="math inline">\(\hat{w}_\)</span> são pesos para cada unidade que procuram balancear a tendência pré-exposição ao tratamento nos grupos controle e de tratamento (no exemplo, demais estados e Califórnia). E introduzem pesos <span class="math inline">\(\hat{\lambda}_t\)</span> para os períodos de tempo <span class="math inline">\(t\)</span> que procuram balancear os períodos pré-exposição com os períodos pós-exposição.</p>
-<p>Contrast o SDiD com o DiD, e a didferença são os dois pesos. Basicamente, estamos estimando regressão linear local ao colocar mais peso em unidades que são, em média, mais similares aos tratados no período pré-exposição e enfatiza períodos mais similares ao algo (período tratado). Em outras palavras, “Time weights are designed so that the average post-treatment outcome for each of the control units differs by a constant from the weighted average of the pre-treatment outcomes for the same control units”(p. 4)</p>
+Como antes, <span class="math inline">\(\hat{w}_i\)</span> são pesos para cada unidade que procuram balancear a tendência pré-exposição ao tratamento nos grupos controle e de tratamento (no exemplo, demais estados e Califórnia). E introduzem pesos <span class="math inline">\(\hat{\lambda}_t\)</span> para os períodos de tempo <span class="math inline">\(t\)</span> que procuram balancear os períodos pré-exposição com os períodos pós-exposição.</p>
+<p>Contrast o SDiD com o DiD, e a diferença são os dois pesos. Basicamente, estamos estimando regressão linear local ao colocar mais peso em unidades que são, em média, mais similares aos tratados no período pré-exposição e enfatiza períodos mais similares ao algo (período tratado). Em outras palavras, “Time weights are designed so that the average post-treatment outcome for each of the control units differs by a constant from the weighted average of the pre-treatment outcomes for the same control units”(p. 4)</p>
 <p>Esse estimador relaxa a suposição de tendências paralelas. Agora, precisamos que um fator latente seja paralelo.</p>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="synthetic-control.html#cb152-1" tabindex="-1"></a><span class="co"># devtools::install_github(&quot;synth-inference/synthdid&quot;)</span></span>
-<span id="cb152-2"><a href="synthetic-control.html#cb152-2" tabindex="-1"></a><span class="fu">library</span>(synthdid)</span>
-<span id="cb152-3"><a href="synthetic-control.html#cb152-3" tabindex="-1"></a></span>
-<span id="cb152-4"><a href="synthetic-control.html#cb152-4" tabindex="-1"></a>estimators <span class="ot">=</span> <span class="fu">list</span>(<span class="at">did=</span>did_estimate,</span>
-<span id="cb152-5"><a href="synthetic-control.html#cb152-5" tabindex="-1"></a>                  <span class="at">sc=</span>sc_estimate,</span>
-<span id="cb152-6"><a href="synthetic-control.html#cb152-6" tabindex="-1"></a>                  <span class="at">sdid=</span>synthdid_estimate)</span>
-<span id="cb152-7"><a href="synthetic-control.html#cb152-7" tabindex="-1"></a><span class="fu">str</span>(synthdid_estimate)</span></code></pre></div>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="synthetic-control.html#cb147-1" tabindex="-1"></a><span class="co"># devtools::install_github(&quot;synth-inference/synthdid&quot;)</span></span>
+<span id="cb147-2"><a href="synthetic-control.html#cb147-2" tabindex="-1"></a><span class="fu">library</span>(synthdid)</span>
+<span id="cb147-3"><a href="synthetic-control.html#cb147-3" tabindex="-1"></a></span>
+<span id="cb147-4"><a href="synthetic-control.html#cb147-4" tabindex="-1"></a>estimators <span class="ot">=</span> <span class="fu">list</span>(<span class="at">did=</span>did_estimate,</span>
+<span id="cb147-5"><a href="synthetic-control.html#cb147-5" tabindex="-1"></a>                  <span class="at">sc=</span>sc_estimate,</span>
+<span id="cb147-6"><a href="synthetic-control.html#cb147-6" tabindex="-1"></a>                  <span class="at">sdid=</span>synthdid_estimate)</span>
+<span id="cb147-7"><a href="synthetic-control.html#cb147-7" tabindex="-1"></a><span class="fu">str</span>(synthdid_estimate)</span></code></pre></div>
 <pre><code>## function (Y, N0, T0, X = array(dim = c(dim(Y), 0)), noise.level = sd(apply(Y[1:N0, 
 ##     1:T0], 1, diff)), eta.omega = ((nrow(Y) - N0) * (ncol(Y) - T0))^(1/4), 
 ##     eta.lambda = 1e-06, zeta.omega = eta.omega * noise.level, zeta.lambda = eta.lambda * 
@@ -779,17 +803,17 @@ Como antes, <span class="math inline">\(\hat{w}_\)</span> são pesos para cada u
 ##         lambda = NULL), update.omega = is.null(weights$omega), update.lambda = is.null(weights$lambda), 
 ##     min.decrease = 1e-05 * noise.level, max.iter = 10000, sparsify = sparsify_function, 
 ##     max.iter.pre.sparsify = 100)</code></pre>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="synthetic-control.html#cb154-1" tabindex="-1"></a><span class="co"># converte para matriz</span></span>
-<span id="cb154-2"><a href="synthetic-control.html#cb154-2" tabindex="-1"></a>df_sdid <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb154-3"><a href="synthetic-control.html#cb154-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(state, year, cigsale, treatment) <span class="sc">%&gt;%</span></span>
-<span id="cb154-4"><a href="synthetic-control.html#cb154-4" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">treatment =</span> <span class="fu">as.integer</span>(treatment),</span>
-<span id="cb154-5"><a href="synthetic-control.html#cb154-5" tabindex="-1"></a>         <span class="at">year =</span> <span class="fu">as.integer</span>(year),</span>
-<span id="cb154-6"><a href="synthetic-control.html#cb154-6" tabindex="-1"></a>         <span class="at">state =</span> <span class="fu">as.factor</span>(state)) <span class="sc">%&gt;%</span></span>
-<span id="cb154-7"><a href="synthetic-control.html#cb154-7" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="co"># aparentemente panel.matrices não funciona com tibble</span></span>
-<span id="cb154-8"><a href="synthetic-control.html#cb154-8" tabindex="-1"></a></span>
-<span id="cb154-9"><a href="synthetic-control.html#cb154-9" tabindex="-1"></a>setup <span class="ot">&lt;-</span> <span class="fu">panel.matrices</span>(df_sdid)</span>
-<span id="cb154-10"><a href="synthetic-control.html#cb154-10" tabindex="-1"></a><span class="fu">head</span>(setup) <span class="sc">%&gt;%</span></span>
-<span id="cb154-11"><a href="synthetic-control.html#cb154-11" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="synthetic-control.html#cb149-1" tabindex="-1"></a><span class="co"># converte para matriz</span></span>
+<span id="cb149-2"><a href="synthetic-control.html#cb149-2" tabindex="-1"></a>df_sdid <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb149-3"><a href="synthetic-control.html#cb149-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(state, year, cigsale, treatment) <span class="sc">%&gt;%</span></span>
+<span id="cb149-4"><a href="synthetic-control.html#cb149-4" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">treatment =</span> <span class="fu">as.integer</span>(treatment),</span>
+<span id="cb149-5"><a href="synthetic-control.html#cb149-5" tabindex="-1"></a>         <span class="at">year =</span> <span class="fu">as.integer</span>(year),</span>
+<span id="cb149-6"><a href="synthetic-control.html#cb149-6" tabindex="-1"></a>         <span class="at">state =</span> <span class="fu">as.factor</span>(state)) <span class="sc">%&gt;%</span></span>
+<span id="cb149-7"><a href="synthetic-control.html#cb149-7" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="co"># aparentemente panel.matrices não funciona com tibble</span></span>
+<span id="cb149-8"><a href="synthetic-control.html#cb149-8" tabindex="-1"></a></span>
+<span id="cb149-9"><a href="synthetic-control.html#cb149-9" tabindex="-1"></a>setup <span class="ot">&lt;-</span> <span class="fu">panel.matrices</span>(df_sdid)</span>
+<span id="cb149-10"><a href="synthetic-control.html#cb149-10" tabindex="-1"></a><span class="fu">head</span>(setup) <span class="sc">%&gt;%</span></span>
+<span id="cb149-11"><a href="synthetic-control.html#cb149-11" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div>
 <table class="kable_wrapper">
 <tbody>
 <tr>
@@ -3628,10 +3652,10 @@ Como antes, <span class="math inline">\(\hat{w}_\)</span> são pesos para cada u
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="synthetic-control.html#cb155-1" tabindex="-1"></a>estimates <span class="ot">&lt;-</span> <span class="fu">lapply</span>(estimators, <span class="cf">function</span>(estimator) { <span class="fu">estimator</span>(setup<span class="sc">$</span>Y,</span>
-<span id="cb155-2"><a href="synthetic-control.html#cb155-2" tabindex="-1"></a>                                                               setup<span class="sc">$</span>N0, setup<span class="sc">$</span>T0) } )</span>
-<span id="cb155-3"><a href="synthetic-control.html#cb155-3" tabindex="-1"></a></span>
-<span id="cb155-4"><a href="synthetic-control.html#cb155-4" tabindex="-1"></a><span class="fu">head</span>(estimates)</span></code></pre></div>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="synthetic-control.html#cb150-1" tabindex="-1"></a>estimates <span class="ot">&lt;-</span> <span class="fu">lapply</span>(estimators, <span class="cf">function</span>(estimator) { <span class="fu">estimator</span>(setup<span class="sc">$</span>Y,</span>
+<span id="cb150-2"><a href="synthetic-control.html#cb150-2" tabindex="-1"></a>                                                               setup<span class="sc">$</span>N0, setup<span class="sc">$</span>T0) } )</span>
+<span id="cb150-3"><a href="synthetic-control.html#cb150-3" tabindex="-1"></a></span>
+<span id="cb150-4"><a href="synthetic-control.html#cb150-4" tabindex="-1"></a><span class="fu">head</span>(estimates)</span></code></pre></div>
 <pre><code>## $did
 ## synthdid: -27.349 +- NA. Effective N0/N0 = 38.0/38~1.0. Effective T0/T0 = 19.0/19~1.0. N1,T1 = 1,12. 
 ## 
@@ -3640,32 +3664,37 @@ Como antes, <span class="math inline">\(\hat{w}_\)</span> são pesos para cada u
 ## 
 ## $sdid
 ## synthdid: -15.604 +- NA. Effective N0/N0 = 16.4/38~0.4. Effective T0/T0 = 2.8/19~0.1. N1,T1 = 1,12.</code></pre>
-<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="synthetic-control.html#cb157-1" tabindex="-1"></a>standard.errors <span class="ot">=</span> <span class="fu">mapply</span>(<span class="cf">function</span>(estimate, name) {</span>
-<span id="cb157-2"><a href="synthetic-control.html#cb157-2" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
-<span id="cb157-3"><a href="synthetic-control.html#cb157-3" tabindex="-1"></a>  <span class="cf">if</span>(name <span class="sc">==</span> <span class="st">&#39;mc&#39;</span>) { <span class="fu">mc_placebo_se</span>(setup<span class="sc">$</span>Y, setup<span class="sc">$</span>N0, setup<span class="sc">$</span>T0) }</span>
-<span id="cb157-4"><a href="synthetic-control.html#cb157-4" tabindex="-1"></a>  <span class="cf">else</span> {             <span class="fu">sqrt</span>(<span class="fu">vcov</span>(estimate, <span class="at">method=</span><span class="st">&#39;placebo&#39;</span>))     }</span>
-<span id="cb157-5"><a href="synthetic-control.html#cb157-5" tabindex="-1"></a>}, estimates, <span class="fu">names</span>(estimators))</span>
-<span id="cb157-6"><a href="synthetic-control.html#cb157-6" tabindex="-1"></a></span>
-<span id="cb157-7"><a href="synthetic-control.html#cb157-7" tabindex="-1"></a><span class="fu">head</span>(standard.errors)</span></code></pre></div>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="synthetic-control.html#cb152-1" tabindex="-1"></a>standard.errors <span class="ot">=</span> <span class="fu">mapply</span>(<span class="cf">function</span>(estimate, name) {</span>
+<span id="cb152-2"><a href="synthetic-control.html#cb152-2" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb152-3"><a href="synthetic-control.html#cb152-3" tabindex="-1"></a>  <span class="cf">if</span>(name <span class="sc">==</span> <span class="st">&#39;mc&#39;</span>) { <span class="fu">mc_placebo_se</span>(setup<span class="sc">$</span>Y, setup<span class="sc">$</span>N0, setup<span class="sc">$</span>T0) }</span>
+<span id="cb152-4"><a href="synthetic-control.html#cb152-4" tabindex="-1"></a>  <span class="cf">else</span> {             <span class="fu">sqrt</span>(<span class="fu">vcov</span>(estimate, <span class="at">method=</span><span class="st">&#39;placebo&#39;</span>))     }</span>
+<span id="cb152-5"><a href="synthetic-control.html#cb152-5" tabindex="-1"></a>}, estimates, <span class="fu">names</span>(estimators))</span>
+<span id="cb152-6"><a href="synthetic-control.html#cb152-6" tabindex="-1"></a></span>
+<span id="cb152-7"><a href="synthetic-control.html#cb152-7" tabindex="-1"></a><span class="fu">head</span>(standard.errors)</span></code></pre></div>
 <pre><code>##       did        sc      sdid 
 ## 17.740267  9.917426  8.367993</code></pre>
 <p>Plot comparando as estimativas.</p>
-<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="synthetic-control.html#cb159-1" tabindex="-1"></a><span class="fu">synthdid_plot</span>(estimates[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">facet.vertical=</span><span class="cn">FALSE</span>,</span>
-<span id="cb159-2"><a href="synthetic-control.html#cb159-2" tabindex="-1"></a>              <span class="at">control.name=</span><span class="st">&#39;control&#39;</span>, <span class="at">treated.name=</span><span class="st">&#39;california&#39;</span>,</span>
-<span id="cb159-3"><a href="synthetic-control.html#cb159-3" tabindex="-1"></a>              <span class="at">lambda.comparable=</span><span class="cn">TRUE</span>, <span class="at">se.method =</span> <span class="st">&#39;none&#39;</span>,</span>
-<span id="cb159-4"><a href="synthetic-control.html#cb159-4" tabindex="-1"></a>              <span class="at">trajectory.linetype =</span> <span class="dv">1</span>, <span class="at">line.width=</span>.<span class="dv">75</span>, <span class="at">effect.curvature=</span><span class="sc">-</span>.<span class="dv">4</span>,</span>
-<span id="cb159-5"><a href="synthetic-control.html#cb159-5" tabindex="-1"></a>              <span class="at">trajectory.alpha=</span>.<span class="dv">7</span>, <span class="at">effect.alpha=</span>.<span class="dv">7</span>,</span>
-<span id="cb159-6"><a href="synthetic-control.html#cb159-6" tabindex="-1"></a>              <span class="at">diagram.alpha=</span><span class="dv">1</span>, <span class="at">onset.alpha=</span>.<span class="dv">7</span>) <span class="sc">+</span></span>
-<span id="cb159-7"><a href="synthetic-control.html#cb159-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="fu">c</span>(.<span class="dv">26</span>,.<span class="dv">07</span>), <span class="at">legend.direction=</span><span class="st">&#39;horizontal&#39;</span>,</span>
-<span id="cb159-8"><a href="synthetic-control.html#cb159-8" tabindex="-1"></a>        <span class="at">legend.key=</span><span class="fu">element_blank</span>(), <span class="at">legend.background=</span><span class="fu">element_blank</span>(),</span>
-<span id="cb159-9"><a href="synthetic-control.html#cb159-9" tabindex="-1"></a>        <span class="at">strip.background=</span><span class="fu">element_blank</span>(), <span class="at">strip.text.x =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="synthetic-control.html#cb154-1" tabindex="-1"></a><span class="fu">synthdid_plot</span>(estimates[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">facet.vertical=</span><span class="cn">FALSE</span>,</span>
+<span id="cb154-2"><a href="synthetic-control.html#cb154-2" tabindex="-1"></a>              <span class="at">control.name=</span><span class="st">&#39;control&#39;</span>, <span class="at">treated.name=</span><span class="st">&#39;california&#39;</span>,</span>
+<span id="cb154-3"><a href="synthetic-control.html#cb154-3" tabindex="-1"></a>              <span class="at">lambda.comparable=</span><span class="cn">TRUE</span>, <span class="at">se.method =</span> <span class="st">&#39;none&#39;</span>,</span>
+<span id="cb154-4"><a href="synthetic-control.html#cb154-4" tabindex="-1"></a>              <span class="at">trajectory.linetype =</span> <span class="dv">1</span>, <span class="at">line.width=</span>.<span class="dv">75</span>, <span class="at">effect.curvature=</span><span class="sc">-</span>.<span class="dv">4</span>,</span>
+<span id="cb154-5"><a href="synthetic-control.html#cb154-5" tabindex="-1"></a>              <span class="at">trajectory.alpha=</span>.<span class="dv">7</span>, <span class="at">effect.alpha=</span>.<span class="dv">7</span>,</span>
+<span id="cb154-6"><a href="synthetic-control.html#cb154-6" tabindex="-1"></a>              <span class="at">diagram.alpha=</span><span class="dv">1</span>, <span class="at">onset.alpha=</span>.<span class="dv">7</span>) <span class="sc">+</span></span>
+<span id="cb154-7"><a href="synthetic-control.html#cb154-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="fu">c</span>(.<span class="dv">26</span>,.<span class="dv">07</span>), <span class="at">legend.direction=</span><span class="st">&#39;horizontal&#39;</span>,</span>
+<span id="cb154-8"><a href="synthetic-control.html#cb154-8" tabindex="-1"></a>        <span class="at">legend.key=</span><span class="fu">element_blank</span>(), <span class="at">legend.background=</span><span class="fu">element_blank</span>(),</span>
+<span id="cb154-9"><a href="synthetic-control.html#cb154-9" tabindex="-1"></a>        <span class="at">strip.background=</span><span class="fu">element_blank</span>(), <span class="at">strip.text.x =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/sdid1-1.png" width="672" /></p>
 <p>Plot comparando os pesos.</p>
-<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="synthetic-control.html#cb160-1" tabindex="-1"></a><span class="fu">synthdid_units_plot</span>(<span class="fu">rev</span>(estimates[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]), <span class="at">se.method=</span><span class="st">&#39;none&#39;</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="synthetic-control.html#cb155-1" tabindex="-1"></a><span class="fu">synthdid_units_plot</span>(<span class="fu">rev</span>(estimates[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]), <span class="at">se.method=</span><span class="st">&#39;none&#39;</span>) </span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/sdid2-1.png" width="672" /></p>
 </div>
-<div id="referências-7" class="section level2 hasAnchor" number="10.3">
-<h2><span class="header-section-number">10.3</span> Referências<a href="synthetic-control.html#referências-7" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="resumo-e-próximos-passos-5" class="section level2 hasAnchor" number="10.3">
+<h2><span class="header-section-number">10.3</span> Resumo e próximos passos<a href="#resumo-e-pr%C3%B3ximos-passos-5" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Neste capítulo, apresentamos o método de Controle Sintético, que permite estimar o efeito causal de uma intervenção sobre uma única unidade tratada, construindo um contrafactual a partir de uma combinação ponderada de unidades não-tratadas. Vimos também o Synthetic DiD, que combina as vantagens do controle sintético (pesos para unidades) com as do DiD (pesos para períodos de tempo), relaxando a suposição de tendências paralelas.</p>
+<p>No próximo capítulo, veremos como técnicas de Machine Learning podem ser adaptadas para inferência causal, em particular o Double LASSO e o Double/Debiased Machine Learning.</p>
+</div>
+<div id="referências-8" class="section level2 hasAnchor" number="10.4">
+<h2><span class="header-section-number">10.4</span> Referências<a href="#refer%C3%AAncias-8" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Alcocer, J. J. (2025). Minority Legislators Sponsor and Cosponsor Differently from White Legislators: Causal Evidence from U.S. Congress. The Journal of Race, Ethnicity, and Politics, 1–13. <a href="doi:10.1017/rep.2025.29" class="uri">doi:10.1017/rep.2025.29</a></p>
 <p>Arkhangelsky, D., Athey, S., Hirshberg, D. A., Imbens, G. W., &amp; Wager, S. (2021). Synthetic difference-in-differences. American Economic Review, 111(12), 4088-4118.</p>
 <p>Arkhangelsky, D., &amp; Imbens, G. (2024). Causal models for longitudinal and panel data: A survey. The Econometrics Journal, 27(3), C1-C61.</p>

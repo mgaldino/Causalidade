@@ -18,7 +18,7 @@ ggdag(dag)
 ```
 Eles são chamados de DAGs porque os gráficos são direcionados (apontam em uma direção), acyclic porque não permitem ciclos (isto é, se A causa B, B não pode causar A) e graphs porque, como você pode imaginar, são grafos.
 
-No exemplo acima, o DAG é formado por três variáveis \{y, x, z\} que são, em geral, variáveis aleatórias. E as flechas indicam direção de causalidade. Ou seja, $x$ causa $y$ e $z$ causa $x$. É importante saber que DAGs são não paramétricos. Eles podem ser interpretados como: $y = f(x, z)$. Ou seja, qualquer função de x e z são igualmente possíveis. Eis alguns exemplos compatíveis com o DAG acima:
+No exemplo acima, o DAG é formado por três variáveis \{y, x, z\} que são, em geral, variáveis aleatórias. E as flechas indicam direção de causalidade. Ou seja, $x$ causa $y$ e $z$ causa $y$. É importante saber que DAGs são não paramétricos. Eles podem ser interpretados como: $y = f(x, z)$. Ou seja, qualquer função de x e z são igualmente possíveis. Eis alguns exemplos compatíveis com o DAG acima:
 
 - $y = x + z$
 - $y = 10 + x + z + x*z$
@@ -31,7 +31,7 @@ A razão porque não escrevemos DAGs como equações é porque $y = f(x, z)$ nã
 
 ### 1. Chains
 
-Em uma *chain*, _x_ causa _w_ que, por sua vez, causa _y_. Aqui, _w_ pode ser considerado o mediador do efeito de _x_ sobre _y_.  
+Em uma *chain*, $x$ causa $w$ que, por sua vez, causa $y$. Aqui, $w$ pode ser considerado o mediador do efeito de $x$ sobre $y$.  
 **Exemplo:** O desempenho econômico de um país pode aumentar a popularidade do presidente, o que leva a mais votos.  
 Representação:  
 ```{r chain, echo=FALSE, message=FALSE}
@@ -43,7 +43,7 @@ ggdag(dag)
 
 ### 2. Forks
 
-Em um *fork*, uma variável _w_ causa ambos _x_ e _y_. Dessa forma, _w_ é uma causa comum que pode gerar correlação espúria entre _x_ e _y_.  
+Em um *fork*, uma variável $w$ causa ambos $x$ e $y$. Dessa forma, $w$ é uma causa comum que pode gerar correlação espúria entre $x$ e $y$.  
 **Exemplo:** A qualidade de um candidato pode fazer com que ele arrecade mais dinheiro para a campanha e, ao mesmo tempo, obtenha mais votos.  
 Representação:  
 
@@ -57,7 +57,7 @@ ggdag(dag)
 
 ### 3. Colliders
 
-Em um *collider*, _x_ causa _w_ e _y_ também causa _w_. Esse tipo de estrutura é também chamado de "fork invertido". Apesar de _x_ e _y_ não terem relação causal direta, controlar para _w_ (ou um de seus descendentes) pode introduzir uma correlação espúria entre _x_ e _y_.  
+Em um *collider*, $x$ causa $w$ e $y$ também causa $w$. Esse tipo de estrutura é também chamado de "fork invertido". Apesar de $x$ e $y$ não terem relação causal direta, controlar para $w$ (ou um de seus descendentes) pode introduzir uma correlação espúria entre $x$ e $y$.  
 ```{r collider, echo=FALSE, message=FALSE}
 library(ggdag)
 dag <- dagify(w ~ x, w ~ y)
@@ -73,6 +73,8 @@ dag <- dagify(festa ~ canhota, festa ~ CP)
 
 ggdag(dag)
 ```
+
+Esses três tipos básicos — chains, forks e colliders — são os blocos fundamentais a partir dos quais qualquer DAG pode ser construído. Compreender como cada um deles afeta a dependência entre variáveis é essencial para decidir quais variáveis controlar em uma análise causal. Vejamos agora uma simulação que ilustra o viés que pode surgir quando condicionamos em um collider.
 
 ## Simulação no R: Ilustrando o Collider Bias
 
@@ -101,12 +103,12 @@ cor_festa <- tabela %>%
 print(cor_festa)
 ```
 
-Na população em geral, a correlação é próxima de zero (aproximadamente -0,02). Porém, entre as pessoas que foram à festa, a correlação pode chegar a -0,95, evidenciando como condicionar em um collider (neste caso, a variável festa) pode induzir correlação espúria.
+Na população em geral, a correlação é próxima de zero (aproximadamente -0,02). Porém, entre as pessoas que foram à festa, a correlação pode chegar a -0,95, evidenciando como condicionar em um collider (neste caso, a variável festa) pode induzir correlação espúria. Esse resultado reforça a importância de entender a estrutura causal antes de decidir por quais variáveis condicionar.
 
 ## Definições
 
 **Path (caminho)**: É uma sequência de flechas conectadas.
-Um **directed path** (caminho dirigido) é aquele em que todas as flechas seguem a mesma direção (por exemplo, \( x \to z \to y \)).
+Um **directed path** (caminho dirigido) é aquele em que todas as flechas seguem a mesma direção (por exemplo, $x \to z \to y$).
 
 ### Relações entre Variáveis (nós):
 As relações são descritas usando termos da genética, como pais, filhos, ancestrais, descendentes e vizinhos.
@@ -118,6 +120,8 @@ Um path sem collider está aberto; um path com collider está fechado.
 Duas variáveis (ou conjuntos) estão **d-separated** se não houver caminho aberto entre elas. Caso contrário, podem ou não ser independentes, pois múltiplos caminhos abertos podem se cancelar.
 
 ## Controle e Ajuste
+
+Agora que conhecemos os elementos básicos dos DAGs e as definições de caminhos e d-separação, podemos abordar uma questão central: como decidir quais variáveis controlar em uma análise causal?
 
 No contexto dos DAGs, controlar para variáveis pode ter diferentes significados:
 
@@ -187,6 +191,8 @@ De modo geral, condicionar em um collider inverte o status dos caminhos: caminho
 
 ## Fatorização da Probabilidade Conjunta
 
+Até aqui, discutimos DAGs sob a perspectiva qualitativa: quais variáveis causam quais. Agora veremos como a estrutura de um DAG se conecta formalmente à distribuição de probabilidade conjunta das variáveis, por meio da fatorização.
+
 Toda distribuição de probabilidade obedece à regra da cadeia de probabilidades (nenhuma suposição adicional).
 
 Lembremos: 
@@ -197,9 +203,9 @@ Similarmente,
 
 $Pr(X,Y,Z) =  Pr(Y|X,Z) Pr(X|Z) Pr(Z) = Pr(X|Y,Z) Pr(Y|Z) Pr(Z) = Pr(Z|Y,X) Pr(X|Y) Pr(X) = \cdots$
 
-De maneira geral, se temos $n$ variáveis marginais, temos no total $n!$ maneiras distintas de fatorar a distribuição conjunta. A lógica é assim>
+De maneira geral, se temos $n$ variáveis marginais, temos no total $n!$ maneiras distintas de fatorar a distribuição conjunta. A lógica é assim:
 
-Seja uma pmf conjunta $Pr(x_1, x_2, ..., x_k)$. Então, podemos usar a regra do produto:
+Seja uma função de massa de probabilidade (pmf) conjunta $Pr(x_1, x_2, ..., x_k)$. Então, podemos usar a regra do produto:
 
 $Pr(x_1, x_2, ..., x_k) = Pr(x_1) Pr(x_2, ..., x_k|x_1)$
 
@@ -225,13 +231,13 @@ ggdag(dag)
 
 Nós sabemos que, condicional a X, Y é independente de Z, W e M. Similarmente, X é independente de M, condicional a Z e W. Podemos então fatorar a distribuição conjunta da seguinte maneira:
 
-$$Pr(M, W, X, X, Y) = Pr(M) Pr(Z|M) Pr(W|M) Pr(X|W,Z) Pr(Y|X)$$
+$$Pr(M, Z, W, X, Y) = Pr(M) Pr(Z|M) Pr(W|M) Pr(X|W,Z) Pr(Y|X)$$
 
 Ou seja, basta escrever a probabilidade condicional nas variáveis que tornam cada nós independente para descrever a distribuição de probabilidade conjunta.
 
 ## Fatorização, DAGs e Causalidade
 
-De volta à causalidade, um DAG em que não há confouding, isto é, sem back-door aberto, como o DAG abaixo, implica que a fatorização observacional é igual à fatorização intervencional:
+De volta à causalidade, um DAG em que não há confounding, isto é, sem back-door aberto, como o DAG abaixo, implica que a fatorização observacional é igual à fatorização intervencional:
 
 ```{r fatorizacao1, echo=FALSE, message=FALSE}
 
@@ -244,11 +250,17 @@ $$Pr(Y = y |do (X = x)) = Pr(Y|X)$$
 Logo, é verdade que 
 $$Pr(Y,X) = P(X)Pr(Y|X) = Pr(X)Pr(Y = y |do (X = x))$$.
 
-O operador "do" aqui é uma inovação do Pearl, e diz que fizemos uma cirurgia no gráfico e determinamos, exogenamente, por assim dizer, que o valro de $X$ é $x$.
+O operador "do" aqui é uma inovação do Pearl, e diz que fizemos uma cirurgia no gráfico e determinamos, exogenamente, por assim dizer, que o valor de $X$ é $x$.
 
 
 
-Referências
+## Resumo e próximos passos
+
+Neste capítulo, introduzimos os DAGs como ferramenta para representar e raciocinar sobre relações causais. Vimos os três tipos básicos de estruturas — chains, forks e colliders — e como eles determinam quais caminhos estão abertos ou fechados. Aprendemos que condicionar (controlar) em uma variável pode fechar um caminho aberto (no caso de forks e chains) ou abrir um caminho fechado (no caso de colliders). Também vimos como a estrutura de um DAG implica uma fatorização específica da distribuição de probabilidade conjunta, e como a fatorização observacional pode coincidir com a intervencional quando não há confounding.
+
+No próximo capítulo, utilizaremos esses conceitos para entender por que experimentos aleatórios são considerados o padrão-ouro para inferência causal: a aleatorização garante que não haja caminhos abertos entre o tratamento e os resultados potenciais.
+
+## Referências
 
 Hernán MA, Robins JM (2019). Causal Inference. Boca Raton: Chapman & Hall/CRC. Disponível temporariamente em: https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/
 Greenland, S., & Pearl, J. (2014). Causal diagrams. Wiley StatsRef: Statistics Reference Online, 1-10.

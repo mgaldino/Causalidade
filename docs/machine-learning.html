@@ -23,7 +23,7 @@
 <meta name="author" content="Manoel Galdino" />
 
 
-<meta name="date" content="2025-06-12" />
+<meta name="date" content="2026-02-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -57,8 +57,9 @@
 
 
 <style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -68,7 +69,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -142,21 +143,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Causalidade</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introdução</a>
+<li class="chapter" data-level="1" data-path="13-ML.html"><a href="#introdu%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>1</b> Introdução</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#revisão-de-regressão"><i class="fa fa-check"></i><b>1.1</b> Revisão de Regressão</a>
+<li class="chapter" data-level="1.1" data-path="13-ML.html"><a href="#revis%C3%A3o-de-regress%C3%A3o"><i class="fa fa-check"></i><b>1.1</b> Revisão de Regressão</a>
 <ul>
-<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#teorema-da-anatomia-da-regressão"><i class="fa fa-check"></i><b>1.1.1</b> Teorema da Anatomia da Regressão</a></li>
+<li class="chapter" data-level="1.1.1" data-path="13-ML.html"><a href="#teorema-da-anatomia-da-regress%C3%A3o"><i class="fa fa-check"></i><b>1.1.1</b> Teorema da Anatomia da Regressão</a></li>
 </ul></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#inferência"><i class="fa fa-check"></i><b>1.2</b> Inferência</a></li>
-<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#referências"><i class="fa fa-check"></i><b>1.3</b> Referências</a></li>
+<li class="chapter" data-level="1.2" data-path="13-ML.html"><a href="#infer%C3%AAncia"><i class="fa fa-check"></i><b>1.2</b> Inferência</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="13-ML.html"><a href="#generaliza%C3%A7%C3%A3o-amostral-vs.-generaliza%C3%A7%C3%A3o-causal"><i class="fa fa-check"></i><b>1.2.1</b> Generalização amostral vs. generalização causal</a></li>
+<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1.2.2</b> Incerteza com o universo dos casos</a></li>
+<li class="chapter" data-level="1.2.3" data-path="index.html"><a href="index.html#validade-externa"><i class="fa fa-check"></i><b>1.2.3</b> Validade externa</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="13-ML.html"><a href="#resumo-e-pr%C3%B3ximos-passos"><i class="fa fa-check"></i><b>1.3</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="1.4" data-path="13-ML.html"><a href="#refer%C3%AAncias"><i class="fa fa-check"></i><b>1.4</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html"><i class="fa fa-check"></i><b>2</b> Resultados Potenciais</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#causalidade-e-o-método-comparativo"><i class="fa fa-check"></i><b>2.1</b> Causalidade e o Método Comparativo</a></li>
-<li class="chapter" data-level="2.2" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#potential-outcomes"><i class="fa fa-check"></i><b>2.2</b> Potential Outcomes</a></li>
-<li class="chapter" data-level="2.3" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#notação"><i class="fa fa-check"></i><b>2.3</b> Notação</a></li>
-<li class="chapter" data-level="2.4" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#problema-fundamental-da-inferência-causal"><i class="fa fa-check"></i><b>2.4</b> Problema Fundamental da Inferência Causal</a></li>
+<li class="chapter" data-level="2.1" data-path="13-ML.html"><a href="#da-intui%C3%A7%C3%A3o-comparativa-ao-modelo-formal"><i class="fa fa-check"></i><b>2.1</b> Da intuição comparativa ao modelo formal</a></li>
+<li class="chapter" data-level="2.2" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#resultados-potenciais-potential-outcomes"><i class="fa fa-check"></i><b>2.2</b> Resultados Potenciais (<em>Potential Outcomes</em>)</a></li>
+<li class="chapter" data-level="2.3" data-path="13-ML.html"><a href="#nota%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>2.3</b> Notação</a></li>
+<li class="chapter" data-level="2.4" data-path="13-ML.html"><a href="#problema-fundamental-da-infer%C3%AAncia-causal"><i class="fa fa-check"></i><b>2.4</b> Problema Fundamental da Inferência Causal</a></li>
 <li class="chapter" data-level="2.5" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#estimando"><i class="fa fa-check"></i><b>2.5</b> Estimando</a></li>
 <li class="chapter" data-level="2.6" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#estimandos-mais-comuns"><i class="fa fa-check"></i><b>2.6</b> Estimandos Mais Comuns</a>
 <ul>
@@ -165,68 +172,71 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.6.3" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#cate"><i class="fa fa-check"></i><b>2.6.3</b> CATE</a></li>
 </ul></li>
 <li class="chapter" data-level="2.7" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#nota-sobre-estimandos"><i class="fa fa-check"></i><b>2.7</b> Nota sobre estimandos</a></li>
-<li class="chapter" data-level="2.8" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#exercício---qual-o-estimando-e-o-estimador-se-possível"><i class="fa fa-check"></i><b>2.8</b> Exercício - Qual o estimando e o estimador (se possível)?</a></li>
-<li class="chapter" data-level="2.9" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#identificação"><i class="fa fa-check"></i><b>2.9</b> Identificação</a></li>
-<li class="chapter" data-level="2.10" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#identificação-do-ate"><i class="fa fa-check"></i><b>2.10</b> Identificação do ATE</a></li>
-<li class="chapter" data-level="2.11" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#equações-estruturais"><i class="fa fa-check"></i><b>2.11</b> Equações estruturais</a></li>
+<li class="chapter" data-level="2.8" data-path="13-ML.html"><a href="#exerc%C3%ADcio---qual-o-estimando-e-o-estimador-se-poss%C3%ADvel"><i class="fa fa-check"></i><b>2.8</b> Exercício - Qual o estimando e o estimador (se possível)?</a></li>
+<li class="chapter" data-level="2.9" data-path="13-ML.html"><a href="#identifica%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>2.9</b> Identificação</a></li>
+<li class="chapter" data-level="2.10" data-path="13-ML.html"><a href="#identifica%C3%A7%C3%A3o-do-ate"><i class="fa fa-check"></i><b>2.10</b> Identificação do ATE</a></li>
+<li class="chapter" data-level="2.11" data-path="13-ML.html"><a href="#equa%C3%A7%C3%B5es-estruturais"><i class="fa fa-check"></i><b>2.11</b> Equações estruturais</a></li>
 <li class="chapter" data-level="2.12" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#modelo-versus-desenho"><i class="fa fa-check"></i><b>2.12</b> Modelo versus Desenho</a></li>
-<li class="chapter" data-level="2.13" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#exercício-em-sala"><i class="fa fa-check"></i><b>2.13</b> Exercício em sala</a></li>
-<li class="chapter" data-level="2.14" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#referências-1"><i class="fa fa-check"></i><b>2.14</b> Referências</a></li>
+<li class="chapter" data-level="2.13" data-path="13-ML.html"><a href="#exerc%C3%ADcio-em-sala"><i class="fa fa-check"></i><b>2.13</b> Exercício em sala</a></li>
+<li class="chapter" data-level="2.14" data-path="13-ML.html"><a href="#resumo-e-pr%C3%B3ximos-passos-1"><i class="fa fa-check"></i><b>2.14</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="2.15" data-path="13-ML.html"><a href="#refer%C3%AAncias-1"><i class="fa fa-check"></i><b>2.15</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="dags.html"><a href="dags.html"><i class="fa fa-check"></i><b>3</b> DAGs</a>
 <ul>
 <li class="chapter" data-level="3.1" data-path="dags.html"><a href="dags.html#causalidade"><i class="fa fa-check"></i><b>3.1</b> Causalidade</a></li>
-<li class="chapter" data-level="3.2" data-path="dags.html"><a href="dags.html#introdução-1"><i class="fa fa-check"></i><b>3.2</b> Introdução</a></li>
-<li class="chapter" data-level="3.3" data-path="dags.html"><a href="dags.html#os-tipos-básicos-de-dags"><i class="fa fa-check"></i><b>3.3</b> Os Tipos Básicos de DAGs</a>
+<li class="chapter" data-level="3.2" data-path="13-ML.html"><a href="#introdu%C3%A7%C3%A3o-1"><i class="fa fa-check"></i><b>3.2</b> Introdução</a></li>
+<li class="chapter" data-level="3.3" data-path="13-ML.html"><a href="#os-tipos-b%C3%A1sicos-de-dags"><i class="fa fa-check"></i><b>3.3</b> Os Tipos Básicos de DAGs</a>
 <ul>
 <li class="chapter" data-level="3.3.1" data-path="dags.html"><a href="dags.html#chains"><i class="fa fa-check"></i><b>3.3.1</b> 1. Chains</a></li>
 <li class="chapter" data-level="3.3.2" data-path="dags.html"><a href="dags.html#forks"><i class="fa fa-check"></i><b>3.3.2</b> 2. Forks</a></li>
 <li class="chapter" data-level="3.3.3" data-path="dags.html"><a href="dags.html#colliders"><i class="fa fa-check"></i><b>3.3.3</b> 3. Colliders</a></li>
 </ul></li>
-<li class="chapter" data-level="3.4" data-path="dags.html"><a href="dags.html#simulação-no-r-ilustrando-o-collider-bias"><i class="fa fa-check"></i><b>3.4</b> Simulação no R: Ilustrando o Collider Bias</a></li>
-<li class="chapter" data-level="3.5" data-path="dags.html"><a href="dags.html#definições"><i class="fa fa-check"></i><b>3.5</b> Definições</a>
+<li class="chapter" data-level="3.4" data-path="13-ML.html"><a href="#simula%C3%A7%C3%A3o-no-r-ilustrando-o-collider-bias"><i class="fa fa-check"></i><b>3.4</b> Simulação no R: Ilustrando o Collider Bias</a></li>
+<li class="chapter" data-level="3.5" data-path="13-ML.html"><a href="#defini%C3%A7%C3%B5es"><i class="fa fa-check"></i><b>3.5</b> Definições</a>
 <ul>
-<li class="chapter" data-level="3.5.1" data-path="dags.html"><a href="dags.html#relações-entre-variáveis-nós"><i class="fa fa-check"></i><b>3.5.1</b> Relações entre Variáveis (nós):</a></li>
+<li class="chapter" data-level="3.5.1" data-path="13-ML.html"><a href="#rela%C3%A7%C3%B5es-entre-vari%C3%A1veis-n%C3%B3s"><i class="fa fa-check"></i><b>3.5.1</b> Relações entre Variáveis (nós):</a></li>
 </ul></li>
 <li class="chapter" data-level="3.6" data-path="dags.html"><a href="dags.html#controle-e-ajuste"><i class="fa fa-check"></i><b>3.6</b> Controle e Ajuste</a></li>
-<li class="chapter" data-level="3.7" data-path="dags.html"><a href="dags.html#fatorização-da-probabilidade-conjunta"><i class="fa fa-check"></i><b>3.7</b> Fatorização da Probabilidade Conjunta</a></li>
-<li class="chapter" data-level="3.8" data-path="dags.html"><a href="dags.html#fatorização-e-dags"><i class="fa fa-check"></i><b>3.8</b> Fatorização e DAGs</a></li>
-<li class="chapter" data-level="3.9" data-path="dags.html"><a href="dags.html#fatorização-dags-e-causalidade"><i class="fa fa-check"></i><b>3.9</b> Fatorização, DAGs e Causalidade</a></li>
+<li class="chapter" data-level="3.7" data-path="13-ML.html"><a href="#fatoriza%C3%A7%C3%A3o-da-probabilidade-conjunta"><i class="fa fa-check"></i><b>3.7</b> Fatorização da Probabilidade Conjunta</a></li>
+<li class="chapter" data-level="3.8" data-path="13-ML.html"><a href="#fatoriza%C3%A7%C3%A3o-e-dags"><i class="fa fa-check"></i><b>3.8</b> Fatorização e DAGs</a></li>
+<li class="chapter" data-level="3.9" data-path="13-ML.html"><a href="#fatoriza%C3%A7%C3%A3o-dags-e-causalidade"><i class="fa fa-check"></i><b>3.9</b> Fatorização, DAGs e Causalidade</a></li>
+<li class="chapter" data-level="3.10" data-path="13-ML.html"><a href="#resumo-e-pr%C3%B3ximos-passos-2"><i class="fa fa-check"></i><b>3.10</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="3.11" data-path="13-ML.html"><a href="#refer%C3%AAncias-2"><i class="fa fa-check"></i><b>3.11</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="experimentos.html"><a href="experimentos.html"><i class="fa fa-check"></i><b>4</b> Experimentos</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="experimentos.html"><a href="experimentos.html#introdução-2"><i class="fa fa-check"></i><b>4.1</b> Introdução</a></li>
-<li class="chapter" data-level="4.2" data-path="experimentos.html"><a href="experimentos.html#experimentos-aleatórios"><i class="fa fa-check"></i><b>4.2</b> Experimentos aleatórios</a></li>
-<li class="chapter" data-level="4.3" data-path="experimentos.html"><a href="experimentos.html#restrição-de-exclusão"><i class="fa fa-check"></i><b>4.3</b> Restrição de Exclusão</a></li>
+<li class="chapter" data-level="4.1" data-path="13-ML.html"><a href="#introdu%C3%A7%C3%A3o-2"><i class="fa fa-check"></i><b>4.1</b> Introdução</a></li>
+<li class="chapter" data-level="4.2" data-path="13-ML.html"><a href="#experimentos-aleat%C3%B3rios"><i class="fa fa-check"></i><b>4.2</b> Experimentos aleatórios</a></li>
+<li class="chapter" data-level="4.3" data-path="13-ML.html"><a href="#restri%C3%A7%C3%A3o-de-exclus%C3%A3o"><i class="fa fa-check"></i><b>4.3</b> Restrição de Exclusão</a></li>
 <li class="chapter" data-level="4.4" data-path="experimentos.html"><a href="experimentos.html#tipos-de-experimentos"><i class="fa fa-check"></i><b>4.4</b> Tipos de experimentos</a>
 <ul>
-<li class="chapter" data-level="4.4.1" data-path="experimentos.html"><a href="experimentos.html#aleatorização-de-bernoulli"><i class="fa fa-check"></i><b>4.4.1</b> Aleatorização de Bernoulli</a></li>
-<li class="chapter" data-level="4.4.2" data-path="experimentos.html"><a href="experimentos.html#aleatorização-completa"><i class="fa fa-check"></i><b>4.4.2</b> Aleatorização Completa</a></li>
-<li class="chapter" data-level="4.4.3" data-path="experimentos.html"><a href="experimentos.html#aleatorização-condicional-block-random-assigment"><i class="fa fa-check"></i><b>4.4.3</b> Aleatorização Condicional (Block Random Assigment)</a></li>
-<li class="chapter" data-level="4.4.4" data-path="experimentos.html"><a href="experimentos.html#pensando-aleatorização-em-bloco"><i class="fa fa-check"></i><b>4.4.4</b> Pensando aleatorização em bloco</a></li>
-<li class="chapter" data-level="4.4.5" data-path="experimentos.html"><a href="experimentos.html#ate-com-aleatorização-condicional-bloco"><i class="fa fa-check"></i><b>4.4.5</b> ATE com Aleatorização Condicional (Bloco)</a></li>
-<li class="chapter" data-level="4.4.6" data-path="experimentos.html"><a href="experimentos.html#aleatorização-em-bloco"><i class="fa fa-check"></i><b>4.4.6</b> Aleatorização em bloco</a></li>
-<li class="chapter" data-level="4.4.7" data-path="experimentos.html"><a href="experimentos.html#precisão-da-aleatorização-em-bloco"><i class="fa fa-check"></i><b>4.4.7</b> Precisão da aleatorização em bloco</a></li>
-<li class="chapter" data-level="4.4.8" data-path="experimentos.html"><a href="experimentos.html#comparação-de-ses"><i class="fa fa-check"></i><b>4.4.8</b> Comparação de SEs</a></li>
+<li class="chapter" data-level="4.4.1" data-path="13-ML.html"><a href="#aleatoriza%C3%A7%C3%A3o-de-bernoulli"><i class="fa fa-check"></i><b>4.4.1</b> Aleatorização de Bernoulli</a></li>
+<li class="chapter" data-level="4.4.2" data-path="13-ML.html"><a href="#aleatoriza%C3%A7%C3%A3o-completa"><i class="fa fa-check"></i><b>4.4.2</b> Aleatorização Completa</a></li>
+<li class="chapter" data-level="4.4.3" data-path="13-ML.html"><a href="#aleatoriza%C3%A7%C3%A3o-condicional-block-random-assigment"><i class="fa fa-check"></i><b>4.4.3</b> Aleatorização Condicional (Block Random Assigment)</a></li>
+<li class="chapter" data-level="4.4.4" data-path="13-ML.html"><a href="#pensando-aleatoriza%C3%A7%C3%A3o-em-bloco"><i class="fa fa-check"></i><b>4.4.4</b> Pensando aleatorização em bloco</a></li>
+<li class="chapter" data-level="4.4.5" data-path="13-ML.html"><a href="#ate-com-aleatoriza%C3%A7%C3%A3o-condicional-bloco"><i class="fa fa-check"></i><b>4.4.5</b> ATE com Aleatorização Condicional (Bloco)</a></li>
+<li class="chapter" data-level="4.4.6" data-path="13-ML.html"><a href="#aleatoriza%C3%A7%C3%A3o-em-bloco"><i class="fa fa-check"></i><b>4.4.6</b> Aleatorização em bloco</a></li>
+<li class="chapter" data-level="4.4.7" data-path="13-ML.html"><a href="#precis%C3%A3o-da-aleatoriza%C3%A7%C3%A3o-em-bloco"><i class="fa fa-check"></i><b>4.4.7</b> Precisão da aleatorização em bloco</a></li>
+<li class="chapter" data-level="4.4.8" data-path="13-ML.html"><a href="#compara%C3%A7%C3%A3o-de-ses"><i class="fa fa-check"></i><b>4.4.8</b> Comparação de SEs</a></li>
 <li class="chapter" data-level="4.4.9" data-path="experimentos.html"><a href="experimentos.html#cluster-randomization"><i class="fa fa-check"></i><b>4.4.9</b> Cluster randomization</a></li>
 <li class="chapter" data-level="4.4.10" data-path="experimentos.html"><a href="experimentos.html#tabelas-em-artigos"><i class="fa fa-check"></i><b>4.4.10</b> Tabelas em artigos</a></li>
 </ul></li>
 <li class="chapter" data-level="4.5" data-path="experimentos.html"><a href="experimentos.html#estimador-ate"><i class="fa fa-check"></i><b>4.5</b> Estimador ATE</a></li>
-<li class="chapter" data-level="4.6" data-path="experimentos.html"><a href="experimentos.html#key-takeways"><i class="fa fa-check"></i><b>4.6</b> Key Takeways</a></li>
+<li class="chapter" data-level="4.6" data-path="13-ML.html"><a href="#resumo-do-cap%C3%ADtulo"><i class="fa fa-check"></i><b>4.6</b> Resumo do Capítulo</a></li>
 <li class="chapter" data-level="4.7" data-path="experimentos.html"><a href="experimentos.html#declare-design"><i class="fa fa-check"></i><b>4.7</b> Declare Design</a></li>
-<li class="chapter" data-level="4.8" data-path="experimentos.html"><a href="experimentos.html#exercício"><i class="fa fa-check"></i><b>4.8</b> Exercício</a>
+<li class="chapter" data-level="4.8" data-path="13-ML.html"><a href="#exerc%C3%ADcio"><i class="fa fa-check"></i><b>4.8</b> Exercício</a>
 <ul>
-<li class="chapter" data-level="4.8.1" data-path="experimentos.html"><a href="experimentos.html#experimento-com-envio-de-cartões-postais-e-participação-eleitoral"><i class="fa fa-check"></i><b>4.8.1</b> Experimento com envio de cartões-postais e participação eleitoral</a></li>
-<li class="chapter" data-level="4.8.2" data-path="experimentos.html"><a href="experimentos.html#experimento-com-anúncios-de-tv-e-participação-eleitoral"><i class="fa fa-check"></i><b>4.8.2</b> Experimento com anúncios de TV e participação eleitoral</a></li>
-<li class="chapter" data-level="4.8.3" data-path="experimentos.html"><a href="experimentos.html#exclusão-de-participantes-em-experimentos-de-survey"><i class="fa fa-check"></i><b>4.8.3</b> Exclusão de participantes em experimentos de survey</a></li>
+<li class="chapter" data-level="4.8.1" data-path="13-ML.html"><a href="#experimento-com-envio-de-cart%C3%B5es-postais-e-participa%C3%A7%C3%A3o-eleitoral"><i class="fa fa-check"></i><b>4.8.1</b> Experimento com envio de cartões-postais e participação eleitoral</a></li>
+<li class="chapter" data-level="4.8.2" data-path="13-ML.html"><a href="#experimento-com-an%C3%BAncios-de-tv-e-participa%C3%A7%C3%A3o-eleitoral"><i class="fa fa-check"></i><b>4.8.2</b> Experimento com anúncios de TV e participação eleitoral</a></li>
+<li class="chapter" data-level="4.8.3" data-path="13-ML.html"><a href="#exclus%C3%A3o-de-participantes-em-experimentos-de-survey"><i class="fa fa-check"></i><b>4.8.3</b> Exclusão de participantes em experimentos de survey</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html"><i class="fa fa-check"></i><b>5</b> Propensity Score e Matching</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#introdução-3"><i class="fa fa-check"></i><b>5.1</b> Introdução</a></li>
+<li class="chapter" data-level="5.1" data-path="13-ML.html"><a href="#introdu%C3%A7%C3%A3o-3"><i class="fa fa-check"></i><b>5.1</b> Introdução</a></li>
 <li class="chapter" data-level="5.2" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#propensity-score"><i class="fa fa-check"></i><b>5.2</b> Propensity Score</a></li>
 <li class="chapter" data-level="5.3" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching"><i class="fa fa-check"></i><b>5.3</b> Matching</a></li>
-<li class="chapter" data-level="5.4" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#suposições-de-identificação"><i class="fa fa-check"></i><b>5.4</b> Suposições de identificação</a></li>
+<li class="chapter" data-level="5.4" data-path="13-ML.html"><a href="#suposi%C3%A7%C3%B5es-de-identifica%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>5.4</b> Suposições de identificação</a></li>
 <li class="chapter" data-level="5.5" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching-1"><i class="fa fa-check"></i><b>5.5</b> Matching</a></li>
 <li class="chapter" data-level="5.6" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching-exato"><i class="fa fa-check"></i><b>5.6</b> Matching exato</a></li>
 <li class="chapter" data-level="5.7" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching-aproximado"><i class="fa fa-check"></i><b>5.7</b> Matching aproximado</a></li>
@@ -235,97 +245,102 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="5.9.1" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching-e-propensity-scores"><i class="fa fa-check"></i><b>5.9.1</b> Matching e Propensity scores</a></li>
 </ul></li>
-<li class="chapter" data-level="5.10" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#recomendações-práticas-sobre-matching"><i class="fa fa-check"></i><b>5.10</b> Recomendações Práticas sobre Matching</a></li>
-<li class="chapter" data-level="5.11" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#referências-2"><i class="fa fa-check"></i><b>5.11</b> Referências</a></li>
+<li class="chapter" data-level="5.10" data-path="13-ML.html"><a href="#recomenda%C3%A7%C3%B5es-pr%C3%A1ticas-sobre-matching"><i class="fa fa-check"></i><b>5.10</b> Recomendações Práticas sobre Matching</a></li>
+<li class="chapter" data-level="5.11" data-path="13-ML.html"><a href="#refer%C3%AAncias-3"><i class="fa fa-check"></i><b>5.11</b> Referências</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html"><i class="fa fa-check"></i><b>6</b> Variáveis Instrumentais</a>
+<li class="chapter" data-level="6" data-path="13-ML.html"><a href="#vari%C3%A1veis-instrumentais"><i class="fa fa-check"></i><b>6</b> Variáveis Instrumentais</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#introdução-4"><i class="fa fa-check"></i><b>6.1</b> Introdução</a></li>
-<li class="chapter" data-level="6.2" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#iv-com-modelo-estrutural"><i class="fa fa-check"></i><b>6.2</b> IV com modelo estrutural</a></li>
-<li class="chapter" data-level="6.3" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#mqo-em-2-estágios"><i class="fa fa-check"></i><b>6.3</b> MQO em 2 Estágios</a></li>
+<li class="chapter" data-level="6.1" data-path="13-ML.html"><a href="#introdu%C3%A7%C3%A3o-4"><i class="fa fa-check"></i><b>6.1</b> Introdução</a></li>
+<li class="chapter" data-level="6.2" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html"><i class="fa fa-check"></i><b>6.2</b> IV com modelo estrutural</a></li>
+<li class="chapter" data-level="6.3" data-path="13-ML.html"><a href="#mqo-em-2-est%C3%A1gios"><i class="fa fa-check"></i><b>6.3</b> MQO em 2 Estágios</a></li>
 <li class="chapter" data-level="6.4" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#principais-usos-de-iv"><i class="fa fa-check"></i><b>6.4</b> Principais usos de IV</a>
 <ul>
 <li class="chapter" data-level="6.4.1" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#experimentos-1"><i class="fa fa-check"></i><b>6.4.1</b> Experimentos</a></li>
-<li class="chapter" data-level="6.4.2" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#regras-com-variação-quasi-aleatória"><i class="fa fa-check"></i><b>6.4.2</b> Regras com variação quasi-aleatória</a></li>
+<li class="chapter" data-level="6.4.2" data-path="13-ML.html"><a href="#regras-com-varia%C3%A7%C3%A3o-quasi-aleat%C3%B3ria"><i class="fa fa-check"></i><b>6.4.2</b> Regras com variação quasi-aleatória</a></li>
 <li class="chapter" data-level="6.4.3" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#teoria"><i class="fa fa-check"></i><b>6.4.3</b> Teoria</a></li>
-<li class="chapter" data-level="6.4.4" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#suposições-para-estimar-o-late"><i class="fa fa-check"></i><b>6.4.4</b> Suposições para estimar o LATE</a></li>
 </ul></li>
-<li class="chapter" data-level="6.5" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#restrição-de-exclusão-1"><i class="fa fa-check"></i><b>6.5</b> Restrição de Exclusão</a></li>
-<li class="chapter" data-level="6.6" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#monoticidade"><i class="fa fa-check"></i><b>6.6</b> Monoticidade</a></li>
-<li class="chapter" data-level="6.7" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#estimação-aka-estatística-f"><i class="fa fa-check"></i><b>6.7</b> Estimação (aka estatística F)</a>
+<li class="chapter" data-level="6.5" data-path="13-ML.html"><a href="#efeito-heterog%C3%AAneo"><i class="fa fa-check"></i><b>6.5</b> Efeito heterogêneo</a>
 <ul>
-<li class="chapter" data-level="6.7.1" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#f-stat"><i class="fa fa-check"></i><b>6.7.1</b> F stat</a></li>
+<li class="chapter" data-level="6.5.1" data-path="13-ML.html"><a href="#suposi%C3%A7%C3%B5es-para-estimar-o-late"><i class="fa fa-check"></i><b>6.5.1</b> Suposições para estimar o LATE</a></li>
 </ul></li>
-<li class="chapter" data-level="6.8" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#referências-3"><i class="fa fa-check"></i><b>6.8</b> Referências</a></li>
+<li class="chapter" data-level="6.6" data-path="13-ML.html"><a href="#restri%C3%A7%C3%A3o-de-exclus%C3%A3o-1"><i class="fa fa-check"></i><b>6.6</b> Restrição de Exclusão</a></li>
+<li class="chapter" data-level="6.7" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#monoticidade"><i class="fa fa-check"></i><b>6.7</b> Monoticidade</a></li>
+<li class="chapter" data-level="6.8" data-path="13-ML.html"><a href="#estima%C3%A7%C3%A3o-aka-estat%C3%ADstica-f"><i class="fa fa-check"></i><b>6.8</b> Estimação (aka estatística F)</a>
+<ul>
+<li class="chapter" data-level="6.8.1" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#f-stat"><i class="fa fa-check"></i><b>6.8.1</b> F stat</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html"><i class="fa fa-check"></i><b>7</b> Desenho de Regresão Discontínua</a>
+<li class="chapter" data-level="6.9" data-path="13-ML.html"><a href="#resumo-e-pr%C3%B3ximos-passos-3"><i class="fa fa-check"></i><b>6.9</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="6.10" data-path="13-ML.html"><a href="#refer%C3%AAncias-4"><i class="fa fa-check"></i><b>6.10</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="13-ML.html"><a href="#desenho-de-regres%C3%A3o-discont%C3%ADnua"><i class="fa fa-check"></i><b>7</b> Desenho de Regresão Discontínua</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#outline-da-aula"><i class="fa fa-check"></i><b>7.1</b> Outline da aula</a></li>
-<li class="chapter" data-level="7.2" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#características-chave-da-rdd"><i class="fa fa-check"></i><b>7.2</b> Características-chave da RDD</a>
+<li class="chapter" data-level="7.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html"><i class="fa fa-check"></i><b>7.1</b> Outline da aula</a></li>
+<li class="chapter" data-level="7.2" data-path="13-ML.html"><a href="#caracter%C3%ADsticas-chave-da-rdd"><i class="fa fa-check"></i><b>7.2</b> Características-chave da RDD</a>
 <ul>
-<li class="chapter" data-level="7.2.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#determinação-do-tratamento"><i class="fa fa-check"></i><b>7.2.1</b> Determinação do Tratamento</a></li>
+<li class="chapter" data-level="7.2.1" data-path="13-ML.html"><a href="#determina%C3%A7%C3%A3o-do-tratamento"><i class="fa fa-check"></i><b>7.2.1</b> Determinação do Tratamento</a></li>
 </ul></li>
 <li class="chapter" data-level="7.3" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#fuzzy-rdd"><i class="fa fa-check"></i><b>7.3</b> Fuzzy RDD</a>
 <ul>
-<li class="chapter" data-level="7.3.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#observação-e-corte"><i class="fa fa-check"></i><b>7.3.1</b> Observação e Corte</a></li>
+<li class="chapter" data-level="7.3.1" data-path="13-ML.html"><a href="#observa%C3%A7%C3%A3o-e-corte"><i class="fa fa-check"></i><b>7.3.1</b> Observação e Corte</a></li>
 <li class="chapter" data-level="7.3.2" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#estimativa-dos-efeitos-do-tratamento"><i class="fa fa-check"></i><b>7.3.2</b> Estimativa dos Efeitos do Tratamento</a></li>
 </ul></li>
-<li class="chapter" data-level="7.4" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#suposição-de-continuidade"><i class="fa fa-check"></i><b>7.4</b> Suposição de continuidade</a></li>
-<li class="chapter" data-level="7.5" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#suposições-na-rdd"><i class="fa fa-check"></i><b>7.5</b> Suposições na RDD</a>
+<li class="chapter" data-level="7.4" data-path="13-ML.html"><a href="#suposi%C3%A7%C3%A3o-de-continuidade"><i class="fa fa-check"></i><b>7.4</b> Suposição de continuidade</a></li>
+<li class="chapter" data-level="7.5" data-path="13-ML.html"><a href="#suposi%C3%A7%C3%B5es-na-rdd"><i class="fa fa-check"></i><b>7.5</b> Suposições na RDD</a>
 <ul>
-<li class="chapter" data-level="7.5.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#suposição-de-não-manipulação-com-precisão"><i class="fa fa-check"></i><b>7.5.1</b> Suposição de Não-manipulação com Precisão</a></li>
-<li class="chapter" data-level="7.5.2" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#problemas-de-manipulação"><i class="fa fa-check"></i><b>7.5.2</b> Problemas de Manipulação</a></li>
+<li class="chapter" data-level="7.5.1" data-path="13-ML.html"><a href="#suposi%C3%A7%C3%A3o-de-n%C3%A3o-manipula%C3%A7%C3%A3o-com-precis%C3%A3o"><i class="fa fa-check"></i><b>7.5.1</b> Suposição de Não-manipulação com Precisão</a></li>
+<li class="chapter" data-level="7.5.2" data-path="13-ML.html"><a href="#problemas-de-manipula%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.5.2</b> Problemas de Manipulação</a></li>
 </ul></li>
-<li class="chapter" data-level="7.6" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#testabilidade-da-suposição-de-não-manipulação"><i class="fa fa-check"></i><b>7.6</b> Testabilidade da Suposição de não-Manipulação</a></li>
-<li class="chapter" data-level="7.7" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#estimação-em-rdd"><i class="fa fa-check"></i><b>7.7</b> Estimação em RDD</a>
+<li class="chapter" data-level="7.6" data-path="13-ML.html"><a href="#testabilidade-da-suposi%C3%A7%C3%A3o-de-n%C3%A3o-manipula%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.6</b> Testabilidade da Suposição de não-Manipulação</a></li>
+<li class="chapter" data-level="7.7" data-path="13-ML.html"><a href="#estima%C3%A7%C3%A3o-em-rdd"><i class="fa fa-check"></i><b>7.7</b> Estimação em RDD</a>
 <ul>
 <li class="chapter" data-level="7.7.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#problema-de-complete-overlapping"><i class="fa fa-check"></i><b>7.7.1</b> Problema de Complete Overlapping</a></li>
-<li class="chapter" data-level="7.7.2" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#dependência-de-extrapolação"><i class="fa fa-check"></i><b>7.7.2</b> Dependência de Extrapolação</a></li>
+<li class="chapter" data-level="7.7.2" data-path="13-ML.html"><a href="#depend%C3%AAncia-de-extrapola%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.7.2</b> Dependência de Extrapolação</a></li>
 </ul></li>
-<li class="chapter" data-level="7.8" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#métodos-de-estimação"><i class="fa fa-check"></i><b>7.8</b> Métodos de Estimação</a>
+<li class="chapter" data-level="7.8" data-path="13-ML.html"><a href="#m%C3%A9todos-de-estima%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.8</b> Métodos de Estimação</a>
 <ul>
-<li class="chapter" data-level="7.8.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#identificação-no-limite"><i class="fa fa-check"></i><b>7.8.1</b> Identificação no Limite</a></li>
+<li class="chapter" data-level="7.8.1" data-path="13-ML.html"><a href="#identifica%C3%A7%C3%A3o-no-limite"><i class="fa fa-check"></i><b>7.8.1</b> Identificação no Limite</a></li>
 </ul></li>
-<li class="chapter" data-level="7.9" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#trade-off-de-viés-variância"><i class="fa fa-check"></i><b>7.9</b> Trade-off de Viés-Variância</a>
+<li class="chapter" data-level="7.9" data-path="13-ML.html"><a href="#trade-off-de-vi%C3%A9s-vari%C3%A2ncia"><i class="fa fa-check"></i><b>7.9</b> Trade-off de Viés-Variância</a>
 <ul>
-<li class="chapter" data-level="7.9.1" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#métodos-de-largura-de-banda-ótima"><i class="fa fa-check"></i><b>7.9.1</b> Métodos de Largura de Banda Ótima</a></li>
+<li class="chapter" data-level="7.9.1" data-path="13-ML.html"><a href="#m%C3%A9todos-de-largura-de-banda-%C3%B3tima"><i class="fa fa-check"></i><b>7.9.1</b> Métodos de Largura de Banda Ótima</a></li>
 </ul></li>
-<li class="chapter" data-level="7.10" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#regras-arbitrárias"><i class="fa fa-check"></i><b>7.10</b> Regras arbitrárias</a></li>
-<li class="chapter" data-level="7.11" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#simulação"><i class="fa fa-check"></i><b>7.11</b> Simulação</a></li>
-<li class="chapter" data-level="7.12" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#simulação---potential-outcomes-y0"><i class="fa fa-check"></i><b>7.12</b> Simulação - Potential Outcomes Y0</a></li>
-<li class="chapter" data-level="7.13" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#simulação---potential-outcomes-y1"><i class="fa fa-check"></i><b>7.13</b> Simulação - Potential Outcomes Y1</a></li>
-<li class="chapter" data-level="7.14" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#simulação---potential-outcomes-y1-e-y0"><i class="fa fa-check"></i><b>7.14</b> Simulação - Potential Outcomes Y1 e Y0</a></li>
-<li class="chapter" data-level="7.15" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#simulação---y-observado"><i class="fa fa-check"></i><b>7.15</b> Simulação - Y observado</a></li>
+<li class="chapter" data-level="7.10" data-path="13-ML.html"><a href="#regras-arbitr%C3%A1rias"><i class="fa fa-check"></i><b>7.10</b> Regras arbitrárias</a></li>
+<li class="chapter" data-level="7.11" data-path="13-ML.html"><a href="#simula%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.11</b> Simulação</a></li>
+<li class="chapter" data-level="7.12" data-path="13-ML.html"><a href="#simula%C3%A7%C3%A3o---potential-outcomes-y0"><i class="fa fa-check"></i><b>7.12</b> Simulação - Potential Outcomes Y0</a></li>
+<li class="chapter" data-level="7.13" data-path="13-ML.html"><a href="#simula%C3%A7%C3%A3o---potential-outcomes-y1"><i class="fa fa-check"></i><b>7.13</b> Simulação - Potential Outcomes Y1</a></li>
+<li class="chapter" data-level="7.14" data-path="13-ML.html"><a href="#simula%C3%A7%C3%A3o---potential-outcomes-y1-e-y0"><i class="fa fa-check"></i><b>7.14</b> Simulação - Potential Outcomes Y1 e Y0</a></li>
+<li class="chapter" data-level="7.15" data-path="13-ML.html"><a href="#simula%C3%A7%C3%A3o---y-observado"><i class="fa fa-check"></i><b>7.15</b> Simulação - Y observado</a></li>
 <li class="chapter" data-level="7.16" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#quando-o-rdd-funciona"><i class="fa fa-check"></i><b>7.16</b> Quando o RDD funciona?</a></li>
 <li class="chapter" data-level="7.17" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#raw-data-versus-bin"><i class="fa fa-check"></i><b>7.17</b> Raw Data versus Bin</a></li>
 <li class="chapter" data-level="7.18" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#permutation-tests-balancing"><i class="fa fa-check"></i><b>7.18</b> Permutation tests (balancing)</a></li>
 <li class="chapter" data-level="7.19" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#mccray-test"><i class="fa fa-check"></i><b>7.19</b> McCray test</a></li>
 <li class="chapter" data-level="7.20" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#robustez"><i class="fa fa-check"></i><b>7.20</b> Robustez</a></li>
-<li class="chapter" data-level="7.21" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#densidade-descontínua---results"><i class="fa fa-check"></i><b>7.21</b> Densidade descontínua - results</a></li>
-<li class="chapter" data-level="7.22" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#regressão-rdd"><i class="fa fa-check"></i><b>7.22</b> Regressão RDD</a></li>
+<li class="chapter" data-level="7.21" data-path="13-ML.html"><a href="#densidade-descont%C3%ADnua---results"><i class="fa fa-check"></i><b>7.21</b> Densidade descontínua - results</a></li>
+<li class="chapter" data-level="7.22" data-path="13-ML.html"><a href="#regress%C3%A3o-rdd"><i class="fa fa-check"></i><b>7.22</b> Regressão RDD</a></li>
 <li class="chapter" data-level="7.23" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#placebo-tests"><i class="fa fa-check"></i><b>7.23</b> Placebo Tests</a></li>
 <li class="chapter" data-level="7.24" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#pcrd"><i class="fa fa-check"></i><b>7.24</b> PCRD</a></li>
-<li class="chapter" data-level="7.25" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#checlist-para-um-paper"><i class="fa fa-check"></i><b>7.25</b> Checlist para um paper</a></li>
-<li class="chapter" data-level="7.26" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#referências-4"><i class="fa fa-check"></i><b>7.26</b> Referências</a></li>
+<li class="chapter" data-level="7.25" data-path="desenho-de-regresão-discontínua.html"><a href="desenho-de-regresão-discontínua.html#checklist-para-um-paper-de-rdd"><i class="fa fa-check"></i><b>7.25</b> Checklist para um paper de RDD</a></li>
+<li class="chapter" data-level="7.26" data-path="13-ML.html"><a href="#refer%C3%AAncias-5"><i class="fa fa-check"></i><b>7.26</b> Referências</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html"><i class="fa fa-check"></i><b>8</b> Diferença em Diferenças</a>
+<li class="chapter" data-level="8" data-path="13-ML.html"><a href="#diferen%C3%A7a-em-diferen%C3%A7as"><i class="fa fa-check"></i><b>8</b> Diferença em Diferenças</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#modelo-básico-2x2"><i class="fa fa-check"></i><b>8.1</b> Modelo básico 2x2</a></li>
-<li class="chapter" data-level="8.2" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#twfe"><i class="fa fa-check"></i><b>8.2</b> TWFE</a></li>
+<li class="chapter" data-level="8.1" data-path="13-ML.html"><a href="#modelo-b%C3%A1sico-2x2"><i class="fa fa-check"></i><b>8.1</b> Modelo básico 2x2</a></li>
+<li class="chapter" data-level="8.2" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html"><i class="fa fa-check"></i><b>8.2</b> TWFE</a></li>
 <li class="chapter" data-level="8.3" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#pressupostos"><i class="fa fa-check"></i><b>8.3</b> Pressupostos</a></li>
-<li class="chapter" data-level="8.4" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#aplicação"><i class="fa fa-check"></i><b>8.4</b> Aplicação</a></li>
-<li class="chapter" data-level="8.5" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#múltiplos-períodos"><i class="fa fa-check"></i><b>8.5</b> Múltiplos períodos</a></li>
-<li class="chapter" data-level="8.6" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#tendências-paralelas"><i class="fa fa-check"></i><b>8.6</b> Tendências Paralelas</a></li>
-<li class="chapter" data-level="8.7" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#múltiplos-períodos-pós-tratamento"><i class="fa fa-check"></i><b>8.7</b> Múltiplos períodos pós-tratamento</a></li>
-<li class="chapter" data-level="8.8" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#análise-de-sensibilidade-em-did"><i class="fa fa-check"></i><b>8.8</b> Análise de sensibilidade em DiD</a></li>
+<li class="chapter" data-level="8.4" data-path="13-ML.html"><a href="#aplica%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>8.4</b> Aplicação</a></li>
+<li class="chapter" data-level="8.5" data-path="13-ML.html"><a href="#m%C3%BAltiplos-per%C3%ADodos"><i class="fa fa-check"></i><b>8.5</b> Múltiplos períodos</a></li>
+<li class="chapter" data-level="8.6" data-path="13-ML.html"><a href="#tend%C3%AAncias-paralelas"><i class="fa fa-check"></i><b>8.6</b> Tendências Paralelas</a></li>
+<li class="chapter" data-level="8.7" data-path="13-ML.html"><a href="#m%C3%BAltiplos-per%C3%ADodos-p%C3%B3s-tratamento"><i class="fa fa-check"></i><b>8.7</b> Múltiplos períodos pós-tratamento</a></li>
+<li class="chapter" data-level="8.8" data-path="13-ML.html"><a href="#an%C3%A1lise-de-sensibilidade-em-did"><i class="fa fa-check"></i><b>8.8</b> Análise de sensibilidade em DiD</a></li>
 <li class="chapter" data-level="8.9" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#did-generalizado"><i class="fa fa-check"></i><b>8.9</b> DiD generalizado</a></li>
-<li class="chapter" data-level="8.10" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#did-com-adoção-escalonada-staggered-timing"><i class="fa fa-check"></i><b>8.10</b> DID com adoção escalonada (staggered timing)</a></li>
+<li class="chapter" data-level="8.10" data-path="13-ML.html"><a href="#did-com-ado%C3%A7%C3%A3o-escalonada-staggered-timing"><i class="fa fa-check"></i><b>8.10</b> DID com adoção escalonada (staggered timing)</a></li>
 <li class="chapter" data-level="8.11" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#paper-voter-gratitude-last-long"><i class="fa fa-check"></i><b>8.11</b> Paper Voter Gratitude Last Long?</a></li>
-<li class="chapter" data-level="8.12" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#referências-5"><i class="fa fa-check"></i><b>8.12</b> Referências</a></li>
+<li class="chapter" data-level="8.12" data-path="13-ML.html"><a href="#resumo-e-pr%C3%B3ximos-passos-4"><i class="fa fa-check"></i><b>8.12</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="8.13" data-path="13-ML.html"><a href="#refer%C3%AAncias-6"><i class="fa fa-check"></i><b>8.13</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html"><i class="fa fa-check"></i><b>9</b> Time-Series Cross-Section (TSCS)</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#introdução-5"><i class="fa fa-check"></i><b>9.1</b> Introdução</a>
+<li class="chapter" data-level="9.1" data-path="13-ML.html"><a href="#introdu%C3%A7%C3%A3o-5"><i class="fa fa-check"></i><b>9.1</b> Introdução</a>
 <ul>
 <li class="chapter" data-level="9.1.1" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#within-versus-between"><i class="fa fa-check"></i><b>9.1.1</b> Within versus Between</a></li>
 </ul></li>
@@ -338,19 +353,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="9.7.1" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#remark"><i class="fa fa-check"></i><b>9.7.1</b> Remark</a></li>
 </ul></li>
-<li class="chapter" data-level="9.8" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#suposições-para-inferência"><i class="fa fa-check"></i><b>9.8</b> Suposições para Inferência</a>
+<li class="chapter" data-level="9.8" data-path="13-ML.html"><a href="#suposi%C3%A7%C3%B5es-para-infer%C3%AAncia"><i class="fa fa-check"></i><b>9.8</b> Suposições para Inferência</a>
 <ul>
 <li class="chapter" data-level="9.8.1" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#remark-1"><i class="fa fa-check"></i><b>9.8.1</b> Remark</a></li>
 </ul></li>
-<li class="chapter" data-level="9.9" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#efeitos-aleatórios"><i class="fa fa-check"></i><b>9.9</b> Efeitos aleatórios</a></li>
-<li class="chapter" data-level="9.10" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#referências-6"><i class="fa fa-check"></i><b>9.10</b> Referências</a></li>
+<li class="chapter" data-level="9.9" data-path="13-ML.html"><a href="#efeitos-aleat%C3%B3rios"><i class="fa fa-check"></i><b>9.9</b> Efeitos aleatórios</a></li>
+<li class="chapter" data-level="9.10" data-path="13-ML.html"><a href="#refer%C3%AAncias-7"><i class="fa fa-check"></i><b>9.10</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="synthetic-control.html"><a href="synthetic-control.html"><i class="fa fa-check"></i><b>10</b> Synthetic Control</a>
 <ul>
 <li class="chapter" data-level="10.0.1" data-path="synthetic-control.html"><a href="synthetic-control.html#tratamento"><i class="fa fa-check"></i><b>10.0.1</b> Tratamento</a></li>
-<li class="chapter" data-level="10.1" data-path="synthetic-control.html"><a href="synthetic-control.html#implementação-no-r"><i class="fa fa-check"></i><b>10.1</b> Implementação no R</a></li>
+<li class="chapter" data-level="10.1" data-path="13-ML.html"><a href="#implementa%C3%A7%C3%A3o-no-r"><i class="fa fa-check"></i><b>10.1</b> Implementação no R</a></li>
 <li class="chapter" data-level="10.2" data-path="synthetic-control.html"><a href="synthetic-control.html#synthethic-did"><i class="fa fa-check"></i><b>10.2</b> Synthethic DiD</a></li>
-<li class="chapter" data-level="10.3" data-path="synthetic-control.html"><a href="synthetic-control.html#referências-7"><i class="fa fa-check"></i><b>10.3</b> Referências</a></li>
+<li class="chapter" data-level="10.3" data-path="13-ML.html"><a href="#resumo-e-pr%C3%B3ximos-passos-5"><i class="fa fa-check"></i><b>10.3</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="10.4" data-path="13-ML.html"><a href="#refer%C3%AAncias-8"><i class="fa fa-check"></i><b>10.4</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="llms-e-outras.html"><a href="llms-e-outras.html"><i class="fa fa-check"></i><b>11</b> LLMs e outras</a>
 <ul>
@@ -358,23 +374,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="12" data-path="machine-learning.html"><a href="machine-learning.html"><i class="fa fa-check"></i><b>12</b> Machine Learning</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="machine-learning.html"><a href="machine-learning.html#introdução-6"><i class="fa fa-check"></i><b>12.1</b> Introdução</a></li>
+<li class="chapter" data-level="12.1" data-path="13-ML.html"><a href="#introdu%C3%A7%C3%A3o-6"><i class="fa fa-check"></i><b>12.1</b> Introdução</a></li>
 <li class="chapter" data-level="12.2" data-path="machine-learning.html"><a href="machine-learning.html#terminologia"><i class="fa fa-check"></i><b>12.2</b> Terminologia</a>
 <ul>
 <li class="chapter" data-level="12.2.1" data-path="machine-learning.html"><a href="machine-learning.html#lasso"><i class="fa fa-check"></i><b>12.2.1</b> LASSO</a></li>
 <li class="chapter" data-level="12.2.2" data-path="machine-learning.html"><a href="machine-learning.html#double-lasso"><i class="fa fa-check"></i><b>12.2.2</b> Double Lasso</a></li>
-<li class="chapter" data-level="12.2.3" data-path="machine-learning.html"><a href="machine-learning.html#outras-soluções-ineficazes"><i class="fa fa-check"></i><b>12.2.3</b> Outras soluções ineficazes</a></li>
+<li class="chapter" data-level="12.2.3" data-path="13-ML.html"><a href="#outras-solu%C3%A7%C3%B5es-ineficazes"><i class="fa fa-check"></i><b>12.2.3</b> Outras soluções ineficazes</a></li>
 </ul></li>
 <li class="chapter" data-level="12.3" data-path="machine-learning.html"><a href="machine-learning.html#dl---algoritmo"><i class="fa fa-check"></i><b>12.3</b> DL - Algoritmo</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="termos-de-interação.html"><a href="termos-de-interação.html"><i class="fa fa-check"></i><b>13</b> Termos de Interação</a>
+<li class="chapter" data-level="13" data-path="13-ML.html"><a href="#termos-de-intera%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>13</b> Termos de Interação</a>
 <ul>
-<li class="chapter" data-level="13.1" data-path="termos-de-interação.html"><a href="termos-de-interação.html#aplicação-1"><i class="fa fa-check"></i><b>13.1</b> Aplicação</a></li>
-<li class="chapter" data-level="13.2" data-path="termos-de-interação.html"><a href="termos-de-interação.html#dml"><i class="fa fa-check"></i><b>13.2</b> DML</a></li>
+<li class="chapter" data-level="13.1" data-path="13-ML.html"><a href="#aplica%C3%A7%C3%A3o-1"><i class="fa fa-check"></i><b>13.1</b> Aplicação</a></li>
+<li class="chapter" data-level="13.2" data-path="termos-de-interação.html"><a href="termos-de-interação.html"><i class="fa fa-check"></i><b>13.2</b> DML</a></li>
 <li class="chapter" data-level="13.3" data-path="termos-de-interação.html"><a href="termos-de-interação.html#double-debiasing"><i class="fa fa-check"></i><b>13.3</b> Double Debiasing</a></li>
 <li class="chapter" data-level="13.4" data-path="termos-de-interação.html"><a href="termos-de-interação.html#cross-fitting"><i class="fa fa-check"></i><b>13.4</b> Cross-fitting</a></li>
-<li class="chapter" data-level="13.5" data-path="termos-de-interação.html"><a href="termos-de-interação.html#questões-práticas"><i class="fa fa-check"></i><b>13.5</b> Questões Práticas</a></li>
-<li class="chapter" data-level="13.6" data-path="termos-de-interação.html"><a href="termos-de-interação.html#referências-8"><i class="fa fa-check"></i><b>13.6</b> Referências</a></li>
+<li class="chapter" data-level="13.5" data-path="13-ML.html"><a href="#quest%C3%B5es-pr%C3%A1ticas"><i class="fa fa-check"></i><b>13.5</b> Questões Práticas</a></li>
+<li class="chapter" data-level="13.6" data-path="13-ML.html"><a href="#resumo-e-pr%C3%B3ximos-passos-6"><i class="fa fa-check"></i><b>13.6</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="13.7" data-path="13-ML.html"><a href="#refer%C3%AAncias-9"><i class="fa fa-check"></i><b>13.7</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="14" data-path="resumo-1.html"><a href="resumo-1.html"><i class="fa fa-check"></i><b>14</b> Resumo</a>
 <ul>
@@ -386,19 +403,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="14.4.1" data-path="resumo-1.html"><a href="resumo-1.html#tscs"><i class="fa fa-check"></i><b>14.4.1</b> TSCS</a></li>
 </ul></li>
 <li class="chapter" data-level="14.5" data-path="resumo-1.html"><a href="resumo-1.html#scm"><i class="fa fa-check"></i><b>14.5</b> SCM</a></li>
-<li class="chapter" data-level="14.6" data-path="resumo-1.html"><a href="resumo-1.html#did-sintético"><i class="fa fa-check"></i><b>14.6</b> DiD Sintético</a></li>
+<li class="chapter" data-level="14.6" data-path="13-ML.html"><a href="#did-sint%C3%A9tico"><i class="fa fa-check"></i><b>14.6</b> DiD Sintético</a></li>
 <li class="chapter" data-level="14.7" data-path="resumo-1.html"><a href="resumo-1.html#double-lasso-1"><i class="fa fa-check"></i><b>14.7</b> Double LASSO</a></li>
 <li class="chapter" data-level="14.8" data-path="resumo-1.html"><a href="resumo-1.html#dml-1"><i class="fa fa-check"></i><b>14.8</b> DML</a></li>
 </ul></li>
-<li class="chapter" data-level="15" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html"><i class="fa fa-check"></i><b>15</b> Interferência, spillover e dinâmica</a>
+<li class="chapter" data-level="15" data-path="shift-share.html"><a href="shift-share.html"><i class="fa fa-check"></i><b>15</b> Shift-share</a>
 <ul>
-<li class="chapter" data-level="15.1" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#suposições-simplifcadoras"><i class="fa fa-check"></i><b>15.1</b> Suposições simplifcadoras</a></li>
-<li class="chapter" data-level="15.2" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#po-com-tratamento-de-múltiplos-valores-multi-valued"><i class="fa fa-check"></i><b>15.2</b> PO com tratamento de múltiplos valores (multi-valued)</a>
-<ul>
-<li class="chapter" data-level="15.2.1" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#multi-valued-discreto"><i class="fa fa-check"></i><b>15.2.1</b> Multi-valued discreto</a></li>
+<li class="chapter" data-level="15.1" data-path="13-ML.html"><a href="#introdu%C3%A7%C3%A3o-7"><i class="fa fa-check"></i><b>15.1</b> Introdução</a></li>
+<li class="chapter" data-level="15.2" data-path="13-ML.html"><a href="#exemplos-da-pol%C3%ADtica"><i class="fa fa-check"></i><b>15.2</b> Exemplos da Política</a></li>
+<li class="chapter" data-level="15.3" data-path="13-ML.html"><a href="#varia%C3%A7%C3%A3o-temporal"><i class="fa fa-check"></i><b>15.3</b> Variação temporal</a></li>
 </ul></li>
-<li class="chapter" data-level="15.3" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#dinâmica"><i class="fa fa-check"></i><b>15.3</b> Dinâmica</a></li>
-<li class="chapter" data-level="15.4" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html#interferência"><i class="fa fa-check"></i><b>15.4</b> Interferência</a></li>
+<li class="chapter" data-level="16" data-path="13-ML.html"><a href="#interfer%C3%AAncia-spillover-e-din%C3%A2mica"><i class="fa fa-check"></i><b>16</b> Interferência, spillover e dinâmica</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="13-ML.html"><a href="#suposi%C3%A7%C3%B5es-simplificadoras"><i class="fa fa-check"></i><b>16.1</b> Suposições simplificadoras</a></li>
+<li class="chapter" data-level="16.2" data-path="13-ML.html"><a href="#po-com-tratamento-de-m%C3%BAltiplos-valores-multi-valued"><i class="fa fa-check"></i><b>16.2</b> PO com tratamento de múltiplos valores (multi-valued)</a>
+<ul>
+<li class="chapter" data-level="16.2.1" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html"><i class="fa fa-check"></i><b>16.2.1</b> Multi-valued discreto</a></li>
+</ul></li>
+<li class="chapter" data-level="16.3" data-path="13-ML.html"><a href="#din%C3%A2mica"><i class="fa fa-check"></i><b>16.3</b> Dinâmica</a></li>
+<li class="chapter" data-level="16.4" data-path="13-ML.html"><a href="#interfer%C3%AAncia"><i class="fa fa-check"></i><b>16.4</b> Interferência</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -423,10 +446,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="machine-learning" class="section level1 hasAnchor" number="12">
 <h1><span class="header-section-number">Capítulo 12</span> Machine Learning<a href="machine-learning.html#machine-learning" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="introdução-6" class="section level2 hasAnchor" number="12.1">
-<h2><span class="header-section-number">12.1</span> Introdução<a href="machine-learning.html#introdução-6" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">12.1</span> Introdução<a href="#introdu%C3%A7%C3%A3o-6" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Em estudos observacionais, como vimos, análises baseadas no pressuposto de <em>conditional ignorability</em> do tratamento e positividade permitem a estimação de quantidades causais de interesse.
 As técnicas de machine learning foram desenvolvidas em geral voltadas para problema de previsão, não de inferência causal. Por isso, não são normalmente uma alternativa boa para as questões de identificação causal que temos discutido no curso. Contudo, com algumas adaptações, podem ser usadas para análise de causa e efeito.</p>
-<p>Uma das abordagens mais populares é a sugerida por Belloni et. al (2014), de usar LASSO (Least Absolute Shrinkage and Selection Operator) para inferir causalidade.</p>
+<p>Uma das abordagens mais populares é a sugerida por Belloni et al. (2014), de usar LASSO (Least Absolute Shrinkage and Selection Operator) para inferir causalidade.</p>
 </div>
 <div id="terminologia" class="section level2 hasAnchor" number="12.2">
 <h2><span class="header-section-number">12.2</span> Terminologia<a href="machine-learning.html#terminologia" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -437,141 +460,154 @@ As técnicas de machine learning foram desenvolvidas em geral voltadas para prob
 <p>O estimador de Mínimos Quadrados Ordinários é obtido minimizando a soma dos quadrados dos resíduos, isto é, em uma regressão <span class="math inline">\(y_i = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \ldots + \beta_p x_{pi} + e_i\)</span>, minimizamos <span class="math inline">\(\sum_{i=1}^n [y_i - (\alpha + \beta_1x_{1i} + \beta_2 x_{2i} + \ldots + \beta_px_{pi})]^2\)</span>. Nós podemos pensar essa minimização como uma função de custo. Quanto menor o erro total, menor o custo.</p>
 <p>O estimador de LASSO adiciona uma penalidade a essa função de minimização <span class="math inline">\(\lambda \sum_{j=1}^p |\beta_j|\)</span>, ou seja, passamos a minimizar: <span class="math inline">\(\sum_{i=1}^n [y_i - (\alpha + \beta_1x_{1i} + \beta_2x_{2i} + \ldots + \beta_px_{pi})]^2 + \lambda \sum_{j=1}^p |\beta_j|\)</span></p>
 <p>O termo <span class="math inline">\(\sum_{j=1}^p |\beta_j|\)</span> é chamado de norma L1. Ele envolve a soma absoluta dos parâmetros. Existem outras normas (L0, L2 etc.), isto é, outras formas de penalizar a estimação dos coeficientes. A norma L1 é conhecida como distância de Manhathan, e a intuição é que, se tenho dois pontos em Manhatan, <span class="math inline">\((x_1, y_1)\)</span> e <span class="math inline">\((x_2, y_2)\)</span>, que são ruas em esquinas opostas de uma quadra (na diagonal). Como as ruas são, em geral, em formato de grade, temos de andar uma quadra na vertical e outra na horizontal para sair de um ponto a outro. Essa distância é a norma L1. Se usássamos a norma L2, por exemplo, poderíamos ir na diagonal, que é dada pela distância euclidiana.</p>
-<p>E <span class="math inline">\(\lambda\)</span> é um parâmetro não negativo que controla a força da penalização. Veja que coeficientes positivos dos <span class="math inline">\(\beta\)</span> aumentam o custo total, de modo que eles precisam ser compensados pelo ganho gerado na capacidade preditiva da variável associada (quanto maior a correlação parcial, menor o erro). Assim, ao introduzir essa penalidade, o LASSO estimula que apenas as variáveis com maior capacidade preditiva possuam coeficientes positivos, enquanto as de baixa capacidade preditiva terão coeficiente igual a zero. Nós chamamos isso de esparsividade do voetor de coeficientes, já que muitos deles serão zero. Dizemos também que a regressão foi estimada com regularização. Veja que o LASSO é o equivalente a uma regressão Bayesiana com uma priori nos parâmetros igual a um dupla exponencial, levando à interpretação de que a priori é uma forma de regularizar estimativas.</p>
-<p>Quando <span class="math inline">\(\lambda \to 0\)</span>, of coeficientes convergem para os estimadores de MQO, e quando <span class="math inline">\(\lambda \to \infty\)</span> apenas o intercepto resta. Em ML, o método usual para achar <span class="math inline">\(\lambda\)</span> é validação cruzada (CV, de cross-validation), que é utilizada para favorecer previsões fora da amostra. Belloni et al. (2012) advoga escolhada baseada em teoria, também conhecido como LASSO rigoroso. Angrist &amp; Frandsen (2022) concluiram que essa abordagem rigorosa tende a favorecer modelos mais parsimoniosos (<span class="math inline">\(\lambda\)</span> maiores) do que com CV.</p>
+<p>E <span class="math inline">\(\lambda\)</span> é um parâmetro não negativo que controla a força da penalização. Veja que coeficientes positivos dos <span class="math inline">\(\beta\)</span> aumentam o custo total, de modo que eles precisam ser compensados pelo ganho gerado na capacidade preditiva da variável associada (quanto maior a correlação parcial, menor o erro). Assim, ao introduzir essa penalidade, o LASSO estimula que apenas as variáveis com maior capacidade preditiva possuam coeficientes positivos, enquanto as de baixa capacidade preditiva terão coeficiente igual a zero. Nós chamamos isso de esparsividade do vetor de coeficientes, já que muitos deles serão zero. Dizemos também que a regressão foi estimada com regularização. Veja que o LASSO é o equivalente a uma regressão Bayesiana com uma priori nos parâmetros igual a um dupla exponencial, levando à interpretação de que a priori é uma forma de regularizar estimativas.</p>
+<p>Quando <span class="math inline">\(\lambda \to 0\)</span>, of coeficientes convergem para os estimadores de MQO, e quando <span class="math inline">\(\lambda \to \infty\)</span> apenas o intercepto resta. Em ML, o método usual para achar <span class="math inline">\(\lambda\)</span> é validação cruzada (CV, de cross-validation), que é utilizada para favorecer previsões fora da amostra. Belloni et al. (2012) advoga escolha baseada em teoria, também conhecido como LASSO rigoroso. Angrist &amp; Frandsen (2022) concluiram que essa abordagem rigorosa tende a favorecer modelos mais parsimoniosos (<span class="math inline">\(\lambda\)</span> maiores) do que com CV.</p>
 </div>
 <div id="double-lasso" class="section level3 hasAnchor" number="12.2.2">
 <h3><span class="header-section-number">12.2.2</span> Double Lasso<a href="machine-learning.html#double-lasso" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>O estimador robusto mais popular é o Double Lasso. A ideia é que se eu tentar usar LASSO diretamente na equação de regressão <span class="math inline">\(y_i = \alpha + \beta_1D_i + BX + e_i\)</span>, variáveis correlacionadas entre si terão coeficientes zero, e potencialmente o tratamento será um delas, impedindo a estimação da quantidade causal de interesse. Estratégias como forçar D_i a permanecer na equação implicam que ficará fora da equação de penalização. Contudo, isso pode causar viés na estimação de <span class="math inline">\(\beta_1\)</span> (Belloni et al., 2014). Essa regularização força variáveis correlacionadas com o tratamento a serem dropadas, o que significa dropar potenciais variáveis de confusão.</p>
+<p>O estimador robusto mais popular é o Double Lasso. A ideia é que se eu tentar usar LASSO diretamente na equação de regressão <span class="math inline">\(y_i = \alpha + \beta_1D_i + BX + e_i\)</span>, variáveis correlacionadas entre si terão coeficientes zero, e potencialmente o tratamento será um delas, impedindo a estimação da quantidade causal de interesse. Estratégias como forçar <span class="math inline">\(D_i\)</span> a permanecer na equação implicam que ficará fora da equação de penalização. Contudo, isso pode causar viés na estimação de <span class="math inline">\(\beta_1\)</span> (Belloni et al., 2014). Essa regularização força variáveis correlacionadas com o tratamento a serem dropadas, o que significa dropar potenciais variáveis de confusão.</p>
 <p>Resumo: não use as técnicas de ML diretamente na equação de regressão.</p>
 <p>Exemplo.</p>
-<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="machine-learning.html#cb161-1" tabindex="-1"></a><span class="co"># vou rodar mil simulações com n=100</span></span>
-<span id="cb161-2"><a href="machine-learning.html#cb161-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">10</span>)</span>
-<span id="cb161-3"><a href="machine-learning.html#cb161-3" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">50</span> <span class="co"># número de controles</span></span>
-<span id="cb161-4"><a href="machine-learning.html#cb161-4" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="co"># número de obs</span></span>
-<span id="cb161-5"><a href="machine-learning.html#cb161-5" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> .<span class="dv">2</span> <span class="co"># intercepto</span></span>
-<span id="cb161-6"><a href="machine-learning.html#cb161-6" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="dv">0</span> <span class="co"># efeito do tratamento</span></span>
-<span id="cb161-7"><a href="machine-learning.html#cb161-7" tabindex="-1"></a>gamma <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">min=</span><span class="sc">-</span><span class="dv">1</span>, <span class="at">max=</span><span class="dv">1</span>, <span class="at">n=</span>k) <span class="co"># efeito do vetor de controles</span></span>
-<span id="cb161-8"><a href="machine-learning.html#cb161-8" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">min=</span><span class="sc">-</span><span class="dv">1</span>, <span class="at">max=</span><span class="dv">1</span>, <span class="at">n=</span>k) </span>
-<span id="cb161-9"><a href="machine-learning.html#cb161-9" tabindex="-1"></a>erro <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb161-10"><a href="machine-learning.html#cb161-10" tabindex="-1"></a>vec_x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n<span class="sc">*</span>k, <span class="at">mean =</span> <span class="fu">rep</span>(<span class="dv">0</span>,k)) <span class="co"># vetor de controles</span></span>
-<span id="cb161-11"><a href="machine-learning.html#cb161-11" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">matrix</span>(vec_x, <span class="at">ncol=</span>k)</span>
-<span id="cb161-12"><a href="machine-learning.html#cb161-12" tabindex="-1"></a>D <span class="ot">&lt;-</span> x<span class="sc">%*%</span>delta <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb161-13"><a href="machine-learning.html#cb161-13" tabindex="-1"></a>y <span class="ot">&lt;-</span> alpha <span class="sc">+</span> beta<span class="sc">*</span>D <span class="sc">+</span> x<span class="sc">%*%</span>gamma <span class="sc">+</span> erro</span>
-<span id="cb161-14"><a href="machine-learning.html#cb161-14" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span>D <span class="sc">+</span> x)</span></code></pre></div>
-<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="machine-learning.html#cb162-1" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
-<span id="cb162-2"><a href="machine-learning.html#cb162-2" tabindex="-1"></a></span>
-<span id="cb162-3"><a href="machine-learning.html#cb162-3" tabindex="-1"></a></span>
-<span id="cb162-4"><a href="machine-learning.html#cb162-4" tabindex="-1"></a>sim_df_ds <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">n_sim=</span><span class="dv">1000</span>, <span class="at">n_sample=</span><span class="dv">100</span>) {</span>
-<span id="cb162-5"><a href="machine-learning.html#cb162-5" tabindex="-1"></a>  vec_p_values <span class="ot">&lt;-</span> <span class="fu">numeric</span>()</span>
-<span id="cb162-6"><a href="machine-learning.html#cb162-6" tabindex="-1"></a>  lista_df <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb162-7"><a href="machine-learning.html#cb162-7" tabindex="-1"></a>  </span>
-<span id="cb162-8"><a href="machine-learning.html#cb162-8" tabindex="-1"></a>  <span class="cf">for</span> ( i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_sim) {</span>
-<span id="cb162-9"><a href="machine-learning.html#cb162-9" tabindex="-1"></a>n <span class="ot">&lt;-</span> n_sample</span>
-<span id="cb162-10"><a href="machine-learning.html#cb162-10" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> .<span class="dv">2</span></span>
-<span id="cb162-11"><a href="machine-learning.html#cb162-11" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb162-12"><a href="machine-learning.html#cb162-12" tabindex="-1"></a>gamma <span class="ot">&lt;-</span> .<span class="dv">2</span></span>
-<span id="cb162-13"><a href="machine-learning.html#cb162-13" tabindex="-1"></a>erro <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb162-14"><a href="machine-learning.html#cb162-14" tabindex="-1"></a></span>
-<span id="cb162-15"><a href="machine-learning.html#cb162-15" tabindex="-1"></a>mean_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)</span>
-<span id="cb162-16"><a href="machine-learning.html#cb162-16" tabindex="-1"></a>cov_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.8</span>, <span class="fl">0.8</span>, <span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">2</span>)</span>
-<span id="cb162-17"><a href="machine-learning.html#cb162-17" tabindex="-1"></a></span>
-<span id="cb162-18"><a href="machine-learning.html#cb162-18" tabindex="-1"></a><span class="co"># Gerando os dados</span></span>
-<span id="cb162-19"><a href="machine-learning.html#cb162-19" tabindex="-1"></a>simulated_data <span class="ot">&lt;-</span> <span class="fu">mvrnorm</span>(<span class="at">n =</span> n, <span class="at">mu =</span> mean_vector, <span class="at">Sigma =</span> cov_matrix)</span>
-<span id="cb162-20"><a href="machine-learning.html#cb162-20" tabindex="-1"></a></span>
-<span id="cb162-21"><a href="machine-learning.html#cb162-21" tabindex="-1"></a><span class="co"># Convertendo para um data frame para facilitar a manipulação</span></span>
-<span id="cb162-22"><a href="machine-learning.html#cb162-22" tabindex="-1"></a>D <span class="ot">=</span> simulated_data[,<span class="dv">1</span>]</span>
-<span id="cb162-23"><a href="machine-learning.html#cb162-23" tabindex="-1"></a>x <span class="ot">=</span> simulated_data[,<span class="dv">2</span>]</span>
-<span id="cb162-24"><a href="machine-learning.html#cb162-24" tabindex="-1"></a>y <span class="ot">&lt;-</span> alpha <span class="sc">+</span> beta<span class="sc">*</span>D <span class="sc">+</span> gamma<span class="sc">*</span>x <span class="sc">+</span> erro</span>
-<span id="cb162-25"><a href="machine-learning.html#cb162-25" tabindex="-1"></a></span>
-<span id="cb162-26"><a href="machine-learning.html#cb162-26" tabindex="-1"></a>df_sim <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(y, D, x)</span>
-<span id="cb162-27"><a href="machine-learning.html#cb162-27" tabindex="-1"></a>lista_df[[i]] <span class="ot">&lt;-</span> df_sim</span>
-<span id="cb162-28"><a href="machine-learning.html#cb162-28" tabindex="-1"></a></span>
-<span id="cb162-29"><a href="machine-learning.html#cb162-29" tabindex="-1"></a>  }</span>
-<span id="cb162-30"><a href="machine-learning.html#cb162-30" tabindex="-1"></a>  </span>
-<span id="cb162-31"><a href="machine-learning.html#cb162-31" tabindex="-1"></a>  <span class="fu">return</span>(lista_df)</span>
-<span id="cb162-32"><a href="machine-learning.html#cb162-32" tabindex="-1"></a>}</span>
-<span id="cb162-33"><a href="machine-learning.html#cb162-33" tabindex="-1"></a></span>
-<span id="cb162-34"><a href="machine-learning.html#cb162-34" tabindex="-1"></a></span>
-<span id="cb162-35"><a href="machine-learning.html#cb162-35" tabindex="-1"></a>lista_df <span class="ot">&lt;-</span> <span class="fu">sim_df_ds</span>()</span>
-<span id="cb162-36"><a href="machine-learning.html#cb162-36" tabindex="-1"></a></span>
-<span id="cb162-37"><a href="machine-learning.html#cb162-37" tabindex="-1"></a>vec_p_values <span class="ot">&lt;-</span> <span class="fu">numeric</span>()</span>
-<span id="cb162-38"><a href="machine-learning.html#cb162-38" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>) {</span>
-<span id="cb162-39"><a href="machine-learning.html#cb162-39" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span>D <span class="sc">+</span> x, <span class="at">data=</span>lista_df[[i]])</span>
-<span id="cb162-40"><a href="machine-learning.html#cb162-40" tabindex="-1"></a>  summary_fit <span class="ot">&lt;-</span> <span class="fu">summary</span>(fit)</span>
-<span id="cb162-41"><a href="machine-learning.html#cb162-41" tabindex="-1"></a>  </span>
-<span id="cb162-42"><a href="machine-learning.html#cb162-42" tabindex="-1"></a>  <span class="co"># Obtendo o valor p associado ao coeficiente de x</span></span>
-<span id="cb162-43"><a href="machine-learning.html#cb162-43" tabindex="-1"></a>  vec_p_values[i] <span class="ot">&lt;-</span> summary_fit<span class="sc">$</span>coefficients[<span class="st">&quot;D&quot;</span>, <span class="st">&quot;Pr(&gt;|t|)&quot;</span>]</span>
-<span id="cb162-44"><a href="machine-learning.html#cb162-44" tabindex="-1"></a>}</span>
-<span id="cb162-45"><a href="machine-learning.html#cb162-45" tabindex="-1"></a></span>
-<span id="cb162-46"><a href="machine-learning.html#cb162-46" tabindex="-1"></a><span class="fu">hist</span>(vec_p_values, <span class="at">breaks =</span> <span class="dv">40</span>, <span class="at">main =</span> <span class="st">&quot;Teste de signific. de D&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;p-valor&quot;</span>)</span>
-<span id="cb162-47"><a href="machine-learning.html#cb162-47" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fl">0.05</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">1</span>)</span>
-<span id="cb162-48"><a href="machine-learning.html#cb162-48" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.1</span>, <span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">4</span>] <span class="sc">*</span> <span class="fl">0.75</span>, <span class="st">&quot;0.05&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">pos =</span> <span class="dv">3</span>, <span class="at">cex=</span>.<span class="dv">5</span>)</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/cap13-sim2-1.png" width="672" /></p>
-<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="machine-learning.html#cb163-1" tabindex="-1"></a><span class="co"># percentual p-valor menor que 5%</span></span>
-<span id="cb163-2"><a href="machine-learning.html#cb163-2" tabindex="-1"></a><span class="fu">sum</span>(vec_p_values <span class="sc">&lt;=</span> .<span class="dv">05</span>)<span class="sc">/</span><span class="dv">1000</span></span></code></pre></div>
-<pre><code>## [1] 0.059</code></pre>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="machine-learning.html#cb156-1" tabindex="-1"></a><span class="co"># vou rodar mil simulações com n=100</span></span>
+<span id="cb156-2"><a href="machine-learning.html#cb156-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">10</span>)</span>
+<span id="cb156-3"><a href="machine-learning.html#cb156-3" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">90</span> <span class="co"># número de controles</span></span>
+<span id="cb156-4"><a href="machine-learning.html#cb156-4" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="co"># número de obs</span></span>
+<span id="cb156-5"><a href="machine-learning.html#cb156-5" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> .<span class="dv">2</span> <span class="co"># intercepto</span></span>
+<span id="cb156-6"><a href="machine-learning.html#cb156-6" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="dv">0</span> <span class="co"># efeito do tratamento</span></span>
+<span id="cb156-7"><a href="machine-learning.html#cb156-7" tabindex="-1"></a>gamma <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">min=</span><span class="sc">-</span><span class="dv">1</span>, <span class="at">max=</span><span class="dv">1</span>, <span class="at">n=</span>k) <span class="co"># efeito do vetor de controles</span></span>
+<span id="cb156-8"><a href="machine-learning.html#cb156-8" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">min=</span><span class="sc">-</span><span class="dv">1</span>, <span class="at">max=</span><span class="dv">1</span>, <span class="at">n=</span>k) </span>
+<span id="cb156-9"><a href="machine-learning.html#cb156-9" tabindex="-1"></a>erro <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb156-10"><a href="machine-learning.html#cb156-10" tabindex="-1"></a>vec_x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n<span class="sc">*</span>k, <span class="at">mean =</span> <span class="fu">rep</span>(<span class="dv">0</span>,k)) <span class="co"># vetor de controles</span></span>
+<span id="cb156-11"><a href="machine-learning.html#cb156-11" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">matrix</span>(vec_x, <span class="at">ncol=</span>k)</span>
+<span id="cb156-12"><a href="machine-learning.html#cb156-12" tabindex="-1"></a>D <span class="ot">&lt;-</span> x<span class="sc">%*%</span>delta <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb156-13"><a href="machine-learning.html#cb156-13" tabindex="-1"></a>y <span class="ot">&lt;-</span> alpha <span class="sc">+</span> beta<span class="sc">*</span>D <span class="sc">+</span> x<span class="sc">%*%</span>gamma <span class="sc">+</span> erro</span>
+<span id="cb156-14"><a href="machine-learning.html#cb156-14" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span>D <span class="sc">+</span> x)</span>
+<span id="cb156-15"><a href="machine-learning.html#cb156-15" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">summary</span>(fit))[<span class="dv">2</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="machine-learning.html#cb157-1" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb157-2"><a href="machine-learning.html#cb157-2" tabindex="-1"></a><span class="fu">library</span>(arm)</span>
+<span id="cb157-3"><a href="machine-learning.html#cb157-3" tabindex="-1"></a>sim_pvalue_dl <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">n_sim=</span><span class="dv">1000</span>, <span class="at">n_sample=</span><span class="dv">100</span>) {</span>
+<span id="cb157-4"><a href="machine-learning.html#cb157-4" tabindex="-1"></a>  vec_p_values <span class="ot">&lt;-</span> <span class="fu">numeric</span>()</span>
+<span id="cb157-5"><a href="machine-learning.html#cb157-5" tabindex="-1"></a>  beta_hat <span class="ot">&lt;-</span> <span class="fu">numeric</span>()</span>
+<span id="cb157-6"><a href="machine-learning.html#cb157-6" tabindex="-1"></a>  theta_hat <span class="ot">&lt;-</span> <span class="fu">numeric</span>()</span>
+<span id="cb157-7"><a href="machine-learning.html#cb157-7" tabindex="-1"></a>  lista_df <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb157-8"><a href="machine-learning.html#cb157-8" tabindex="-1"></a>  </span>
+<span id="cb157-9"><a href="machine-learning.html#cb157-9" tabindex="-1"></a>  <span class="cf">for</span> ( i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_sim) {</span>
+<span id="cb157-10"><a href="machine-learning.html#cb157-10" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">20</span> <span class="co"># número de controles</span></span>
+<span id="cb157-11"><a href="machine-learning.html#cb157-11" tabindex="-1"></a>n <span class="ot">&lt;-</span> n_sample <span class="co"># número de obs</span></span>
+<span id="cb157-12"><a href="machine-learning.html#cb157-12" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> .<span class="dv">2</span> <span class="co"># intercepto</span></span>
+<span id="cb157-13"><a href="machine-learning.html#cb157-13" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="dv">0</span> <span class="co"># efeito do tratamento</span></span>
+<span id="cb157-14"><a href="machine-learning.html#cb157-14" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># efeito D*V que nos interessa</span></span>
+<span id="cb157-15"><a href="machine-learning.html#cb157-15" tabindex="-1"></a>gamma <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">min=</span><span class="sc">-</span><span class="dv">1</span>, <span class="at">max=</span><span class="dv">1</span>, <span class="at">n=</span>k) <span class="co"># efeito do vetor de controles no y</span></span>
+<span id="cb157-16"><a href="machine-learning.html#cb157-16" tabindex="-1"></a>gamma[<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>k, (k<span class="sc">/</span><span class="dv">4</span>))] <span class="ot">&lt;-</span> <span class="dv">0</span> <span class="co"># k/4 zeros</span></span>
+<span id="cb157-17"><a href="machine-learning.html#cb157-17" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">min=</span><span class="sc">-</span><span class="dv">1</span>, <span class="at">max=</span><span class="dv">1</span>, <span class="at">n=</span>k) <span class="co"># efeito do vetor de controles no D</span></span>
+<span id="cb157-18"><a href="machine-learning.html#cb157-18" tabindex="-1"></a>erro <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">5</span>)</span>
+<span id="cb157-19"><a href="machine-learning.html#cb157-19" tabindex="-1"></a></span>
+<span id="cb157-20"><a href="machine-learning.html#cb157-20" tabindex="-1"></a><span class="co"># matriz de preditores correlacionados</span></span>
+<span id="cb157-21"><a href="machine-learning.html#cb157-21" tabindex="-1"></a>rho   <span class="ot">&lt;-</span> <span class="fl">0.7</span>                         <span class="co"># correlação entre vizinhos imediatos</span></span>
+<span id="cb157-22"><a href="machine-learning.html#cb157-22" tabindex="-1"></a>Sigma     <span class="ot">&lt;-</span> <span class="fu">toeplitz</span>(rho<span class="sc">^</span>(<span class="dv">0</span><span class="sc">:</span>(k<span class="dv">-1</span>)))     <span class="co"># R_{ij} = rho^{|i-j|}, variâncias = 1</span></span>
+<span id="cb157-23"><a href="machine-learning.html#cb157-23" tabindex="-1"></a>mean_vector <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, k)</span>
+<span id="cb157-24"><a href="machine-learning.html#cb157-24" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">mvrnorm</span>(n, mean_vector, Sigma)</span>
+<span id="cb157-25"><a href="machine-learning.html#cb157-25" tabindex="-1"></a>x_interaction <span class="ot">&lt;-</span> x[,<span class="dv">10</span>]</span>
+<span id="cb157-26"><a href="machine-learning.html#cb157-26" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">invlogit</span>(x<span class="sc">%*%</span>delta <span class="sc">+</span> <span class="fu">rnorm</span>(n)))</span>
+<span id="cb157-27"><a href="machine-learning.html#cb157-27" tabindex="-1"></a></span>
+<span id="cb157-28"><a href="machine-learning.html#cb157-28" tabindex="-1"></a>D_num <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(D)                <span class="co"># 0 ou 1</span></span>
+<span id="cb157-29"><a href="machine-learning.html#cb157-29" tabindex="-1"></a>X     <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(x_interaction)     <span class="co"># 6 × 5 no seu exemplo</span></span>
+<span id="cb157-30"><a href="machine-learning.html#cb157-30" tabindex="-1"></a></span>
+<span id="cb157-31"><a href="machine-learning.html#cb157-31" tabindex="-1"></a><span class="co"># interação: cada linha multiplicada por D[i]</span></span>
+<span id="cb157-32"><a href="machine-learning.html#cb157-32" tabindex="-1"></a>X_int <span class="ot">&lt;-</span> X <span class="sc">*</span> D_num </span>
+<span id="cb157-33"><a href="machine-learning.html#cb157-33" tabindex="-1"></a>X_int_omitida <span class="ot">&lt;-</span> x_interaction<span class="sc">*</span><span class="fu">as.matrix</span>(x[,<span class="dv">11</span><span class="sc">:</span><span class="dv">20</span>])</span>
+<span id="cb157-34"><a href="machine-learning.html#cb157-34" tabindex="-1"></a>y <span class="ot">&lt;-</span> alpha <span class="sc">+</span> beta<span class="sc">*</span>D <span class="sc">+</span> x<span class="sc">%*%</span>gamma <span class="sc">+</span> X_int<span class="sc">%*%</span>theta <span class="sc">+</span> <span class="fu">rowSums</span>(X_int_omitida) <span class="sc">+</span> erro</span>
+<span id="cb157-35"><a href="machine-learning.html#cb157-35" tabindex="-1"></a>df_sim <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(y, D, x, x_interaction)</span>
+<span id="cb157-36"><a href="machine-learning.html#cb157-36" tabindex="-1"></a>lista_df[[i]] <span class="ot">&lt;-</span> df_sim</span>
+<span id="cb157-37"><a href="machine-learning.html#cb157-37" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> D<span class="sc">*</span>x_interaction <span class="sc">+</span> x[,<span class="sc">-</span><span class="dv">10</span>], <span class="at">data =</span> df_sim)</span>
+<span id="cb157-38"><a href="machine-learning.html#cb157-38" tabindex="-1"></a>beta_hat[i] <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(fit))[<span class="dv">2</span>]</span>
+<span id="cb157-39"><a href="machine-learning.html#cb157-39" tabindex="-1"></a>vec_p_values[i] <span class="ot">&lt;-</span> <span class="fu">summary</span>(fit)<span class="sc">$</span>coefficients[,<span class="dv">4</span>][<span class="dv">2</span>]</span>
+<span id="cb157-40"><a href="machine-learning.html#cb157-40" tabindex="-1"></a>theta_hat[i] <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(fit))[<span class="dv">3</span>]</span>
+<span id="cb157-41"><a href="machine-learning.html#cb157-41" tabindex="-1"></a>  }</span>
+<span id="cb157-42"><a href="machine-learning.html#cb157-42" tabindex="-1"></a>  </span>
+<span id="cb157-43"><a href="machine-learning.html#cb157-43" tabindex="-1"></a>  df_final <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">beta =</span> beta_hat, <span class="at">p_values =</span> vec_p_values, <span class="at">theta_hat =</span> theta_hat)</span>
+<span id="cb157-44"><a href="machine-learning.html#cb157-44" tabindex="-1"></a></span>
+<span id="cb157-45"><a href="machine-learning.html#cb157-45" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">df_final =</span> df_final, <span class="at">lista_df =</span> lista_df))</span>
+<span id="cb157-46"><a href="machine-learning.html#cb157-46" tabindex="-1"></a>}</span>
+<span id="cb157-47"><a href="machine-learning.html#cb157-47" tabindex="-1"></a></span>
+<span id="cb157-48"><a href="machine-learning.html#cb157-48" tabindex="-1"></a>result_sim <span class="ot">&lt;-</span> <span class="fu">sim_pvalue_dl</span>()</span>
+<span id="cb157-49"><a href="machine-learning.html#cb157-49" tabindex="-1"></a>my_p_values_beta <span class="ot">&lt;-</span> result_sim<span class="sc">$</span>df_final</span>
+<span id="cb157-50"><a href="machine-learning.html#cb157-50" tabindex="-1"></a>lista_df <span class="ot">&lt;-</span> result_sim<span class="sc">$</span>lista_df</span>
+<span id="cb157-51"><a href="machine-learning.html#cb157-51" tabindex="-1"></a></span>
+<span id="cb157-52"><a href="machine-learning.html#cb157-52" tabindex="-1"></a><span class="fu">hist</span>(my_p_values_beta<span class="sc">$</span>p_values, <span class="at">breaks =</span> <span class="dv">30</span>, <span class="at">main =</span> <span class="st">&quot;Teste de signific. de D&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;p-valor&quot;</span>)</span>
+<span id="cb157-53"><a href="machine-learning.html#cb157-53" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fl">0.05</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">1</span>)</span>
+<span id="cb157-54"><a href="machine-learning.html#cb157-54" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.1</span>, <span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">4</span>] <span class="sc">*</span> <span class="fl">0.75</span>, <span class="st">&quot;0.05&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">pos =</span> <span class="dv">3</span>, <span class="at">cex=</span>.<span class="dv">5</span>)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/cap13-sim2-1.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="machine-learning.html#cb158-1" tabindex="-1"></a><span class="fu">hist</span>(my_p_values_beta<span class="sc">$</span>beta, <span class="at">breaks =</span> <span class="dv">30</span>, <span class="at">main =</span> <span class="st">&quot;Teste de signific. de D&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;p-valor&quot;</span>)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/cap13-sim2-2.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="machine-learning.html#cb159-1" tabindex="-1"></a><span class="co"># percentual p-valor menor que 5%</span></span>
+<span id="cb159-2"><a href="machine-learning.html#cb159-2" tabindex="-1"></a><span class="fu">sum</span>(my_p_values_beta<span class="sc">$</span>p_values <span class="sc">&lt;=</span> .<span class="dv">05</span>)<span class="sc">/</span><span class="dv">1000</span></span></code></pre></div>
+<pre><code>## [1] 0.05</code></pre>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="machine-learning.html#cb161-1" tabindex="-1"></a><span class="fu">mean</span>(my_p_values_beta<span class="sc">$</span>beta)</span></code></pre></div>
+<pre><code>## [1] -0.0199413</code></pre>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="machine-learning.html#cb163-1" tabindex="-1"></a><span class="fu">mean</span>(my_p_values_beta<span class="sc">$</span>theta_hat)</span></code></pre></div>
+<pre><code>## [1] -0.07478368</code></pre>
 <p>Nós rejeitamos a hipótese nula aproximadamente 50% do tempo.</p>
 <p>E se usarmos LASSO (single LASSO)?</p>
 <div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="machine-learning.html#cb165-1" tabindex="-1"></a><span class="co"># Instalar e carregar o pacote glmnet, se necessário</span></span>
-<span id="cb165-2"><a href="machine-learning.html#cb165-2" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
-<span id="cb165-3"><a href="machine-learning.html#cb165-3" tabindex="-1"></a></span>
-<span id="cb165-4"><a href="machine-learning.html#cb165-4" tabindex="-1"></a><span class="co"># Vetor para armazenar se x foi selecionado pelo LASSO</span></span>
-<span id="cb165-5"><a href="machine-learning.html#cb165-5" tabindex="-1"></a>lasso_selected_D <span class="ot">&lt;-</span> <span class="fu">numeric</span>()</span>
-<span id="cb165-6"><a href="machine-learning.html#cb165-6" tabindex="-1"></a></span>
-<span id="cb165-7"><a href="machine-learning.html#cb165-7" tabindex="-1"></a><span class="co"># Loop de simulação</span></span>
-<span id="cb165-8"><a href="machine-learning.html#cb165-8" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>) {</span>
-<span id="cb165-9"><a href="machine-learning.html#cb165-9" tabindex="-1"></a>  y <span class="ot">&lt;-</span> lista_df[[i]]<span class="sc">$</span>y</span>
-<span id="cb165-10"><a href="machine-learning.html#cb165-10" tabindex="-1"></a>  X <span class="ot">&lt;-</span> <span class="fu">cbind</span>(lista_df[[i]]<span class="sc">$</span>D, lista_df[[i]]<span class="sc">$</span>x) </span>
-<span id="cb165-11"><a href="machine-learning.html#cb165-11" tabindex="-1"></a>  <span class="co"># Preparando os dados para o LASSO</span></span>
-<span id="cb165-12"><a href="machine-learning.html#cb165-12" tabindex="-1"></a>  <span class="co"># Matriz de preditores (sem a interceptação)</span></span>
-<span id="cb165-13"><a href="machine-learning.html#cb165-13" tabindex="-1"></a></span>
-<span id="cb165-14"><a href="machine-learning.html#cb165-14" tabindex="-1"></a>  <span class="co"># Ajustando o modelo LASSO com validação cruzada</span></span>
-<span id="cb165-15"><a href="machine-learning.html#cb165-15" tabindex="-1"></a>  lasso_model <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(X, y, <span class="at">alpha =</span> <span class="dv">1</span>) <span class="co"># alpha = 1 para LASSO</span></span>
-<span id="cb165-16"><a href="machine-learning.html#cb165-16" tabindex="-1"></a></span>
-<span id="cb165-17"><a href="machine-learning.html#cb165-17" tabindex="-1"></a>  <span class="co"># Extraindo os coeficientes no valor de lambda que minimiza o erro</span></span>
-<span id="cb165-18"><a href="machine-learning.html#cb165-18" tabindex="-1"></a>  lasso_coefs <span class="ot">&lt;-</span> <span class="fu">coef</span>(lasso_model, <span class="at">s =</span> <span class="st">&quot;lambda.min&quot;</span>)</span>
-<span id="cb165-19"><a href="machine-learning.html#cb165-19" tabindex="-1"></a></span>
-<span id="cb165-20"><a href="machine-learning.html#cb165-20" tabindex="-1"></a>  <span class="co"># Verificando se a variável x foi selecionada pelo LASSO (coeficiente diferente de zero)</span></span>
-<span id="cb165-21"><a href="machine-learning.html#cb165-21" tabindex="-1"></a>  lasso_selected_D[i] <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(lasso_coefs[<span class="st">&quot;V1&quot;</span>, <span class="dv">1</span>] <span class="sc">!=</span> <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
-<span id="cb165-22"><a href="machine-learning.html#cb165-22" tabindex="-1"></a>}</span>
-<span id="cb165-23"><a href="machine-learning.html#cb165-23" tabindex="-1"></a></span>
-<span id="cb165-24"><a href="machine-learning.html#cb165-24" tabindex="-1"></a><span class="co"># Analisando os resultados</span></span>
-<span id="cb165-25"><a href="machine-learning.html#cb165-25" tabindex="-1"></a><span class="fu">hist</span>(lasso_selected_D, <span class="at">breaks =</span> <span class="dv">40</span>, <span class="at">main =</span> <span class="st">&quot;Seleção de x pelo LASSO&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;x selecionado (1 = sim, 0 = não)&quot;</span>)</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/cap13-sim3-1.png" width="672" /></p>
-<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="machine-learning.html#cb166-1" tabindex="-1"></a><span class="fu">sum</span>(lasso_selected_D <span class="sc">&lt;=</span> .<span class="dv">05</span>)<span class="sc">/</span><span class="dv">1000</span></span></code></pre></div>
-<pre><code>## [1] 0.564</code></pre>
+<span id="cb165-2"><a href="machine-learning.html#cb165-2" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span></code></pre></div>
+<pre><code>## Loaded glmnet 4.1-9</code></pre>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="machine-learning.html#cb167-1" tabindex="-1"></a><span class="co"># Vetor para armazenar se x foi selecionado pelo LASSO</span></span>
+<span id="cb167-2"><a href="machine-learning.html#cb167-2" tabindex="-1"></a>lasso_selected_D <span class="ot">&lt;-</span> <span class="fu">numeric</span>()</span>
+<span id="cb167-3"><a href="machine-learning.html#cb167-3" tabindex="-1"></a></span>
+<span id="cb167-4"><a href="machine-learning.html#cb167-4" tabindex="-1"></a><span class="co"># Loop de simulação</span></span>
+<span id="cb167-5"><a href="machine-learning.html#cb167-5" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>) {</span>
+<span id="cb167-6"><a href="machine-learning.html#cb167-6" tabindex="-1"></a>  y <span class="ot">&lt;-</span> lista_df[[i]]<span class="sc">$</span>y</span>
+<span id="cb167-7"><a href="machine-learning.html#cb167-7" tabindex="-1"></a>  X <span class="ot">&lt;-</span> <span class="fu">cbind</span>(lista_df[[i]]<span class="sc">$</span>D, lista_df[[i]]<span class="sc">$</span>x) </span>
+<span id="cb167-8"><a href="machine-learning.html#cb167-8" tabindex="-1"></a>  <span class="co"># Preparando os dados para o LASSO</span></span>
+<span id="cb167-9"><a href="machine-learning.html#cb167-9" tabindex="-1"></a>  <span class="co"># Matriz de preditores (sem a interceptação)</span></span>
+<span id="cb167-10"><a href="machine-learning.html#cb167-10" tabindex="-1"></a></span>
+<span id="cb167-11"><a href="machine-learning.html#cb167-11" tabindex="-1"></a>  <span class="co"># Ajustando o modelo LASSO com validação cruzada</span></span>
+<span id="cb167-12"><a href="machine-learning.html#cb167-12" tabindex="-1"></a>  lasso_model <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(X, y, <span class="at">alpha =</span> <span class="dv">1</span>) <span class="co"># alpha = 1 para LASSO</span></span>
+<span id="cb167-13"><a href="machine-learning.html#cb167-13" tabindex="-1"></a></span>
+<span id="cb167-14"><a href="machine-learning.html#cb167-14" tabindex="-1"></a>  <span class="co"># Extraindo os coeficientes no valor de lambda que minimiza o erro</span></span>
+<span id="cb167-15"><a href="machine-learning.html#cb167-15" tabindex="-1"></a>  lasso_coefs <span class="ot">&lt;-</span> <span class="fu">coef</span>(lasso_model, <span class="at">s =</span> <span class="st">&quot;lambda.min&quot;</span>)</span>
+<span id="cb167-16"><a href="machine-learning.html#cb167-16" tabindex="-1"></a></span>
+<span id="cb167-17"><a href="machine-learning.html#cb167-17" tabindex="-1"></a>  <span class="co"># Verificando se a variável x foi selecionada pelo LASSO (coeficiente diferente de zero)</span></span>
+<span id="cb167-18"><a href="machine-learning.html#cb167-18" tabindex="-1"></a>  lasso_selected_D[i] <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(lasso_coefs[<span class="st">&quot;V1&quot;</span>, <span class="dv">1</span>] <span class="sc">!=</span> <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb167-19"><a href="machine-learning.html#cb167-19" tabindex="-1"></a>}</span>
+<span id="cb167-20"><a href="machine-learning.html#cb167-20" tabindex="-1"></a></span>
+<span id="cb167-21"><a href="machine-learning.html#cb167-21" tabindex="-1"></a><span class="co"># Analisando os resultados</span></span>
+<span id="cb167-22"><a href="machine-learning.html#cb167-22" tabindex="-1"></a><span class="fu">hist</span>(lasso_selected_D, <span class="at">breaks =</span> <span class="dv">40</span>, <span class="at">main =</span> <span class="st">&quot;Seleção de x pelo LASSO&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;x selecionado (1 = sim, 0 = não)&quot;</span>)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/cap13-sim3-1.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="machine-learning.html#cb168-1" tabindex="-1"></a><span class="fu">sum</span>(lasso_selected_D <span class="sc">&lt;=</span> .<span class="dv">05</span>)<span class="sc">/</span><span class="dv">1000</span></span></code></pre></div>
+<pre><code>## [1] 0.75</code></pre>
 <p>Também não funciona, mais ou menos mesma taxa de erro.</p>
 </div>
 <div id="outras-soluções-ineficazes" class="section level3 hasAnchor" number="12.2.3">
-<h3><span class="header-section-number">12.2.3</span> Outras soluções ineficazes<a href="machine-learning.html#outras-soluções-ineficazes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<h3><span class="header-section-number">12.2.3</span> Outras soluções ineficazes<a href="#outras-solu%C3%A7%C3%B5es-ineficazes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Bootstrap (não funciona)
 Clássico: suponha que a covariável não é relevante
 Conservador: sempre inclua quantos controles puder (pode gerar Collider Bias).</p>
-<p>DL lida com essa situação fazendo uma modelagem dupla, tanto do tratamento quanto da respota. Daí o nome, Double Lasso.</p>
+<p>DL lida com essa situação fazendo uma modelagem dupla, tanto do tratamento quanto da resposta. Daí o nome, Double Lasso.</p>
 </div>
 </div>
 <div id="dl---algoritmo" class="section level2 hasAnchor" number="12.3">
 <h2><span class="header-section-number">12.3</span> DL - Algoritmo<a href="machine-learning.html#dl---algoritmo" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Passo 1. Inclua controle se ele for preditor significativo da resposta <span class="math inline">\(y_i\)</span> por um teste conservador (teste t, LASSO etc.)</p>
-<p>PAsso 2. Inclua controle se ele preditor significativo do tratamento <span class="math inline">\(D_i\)</span> por um teste conservador (teste t, LASSO etc.).</p>
+<p>Passo 2. Inclua controle se ele preditor significativo do tratamento <span class="math inline">\(D_i\)</span> por um teste conservador (teste t, LASSO etc.).</p>
 <p>Passo 3. Ajuste o modelo com as variáveis selecionadas e o tratamento. Esse passo é chamado de Pós MQO (Post OLS)</p>
-<p>Np R, podemos usar o pacote “hdm” para fazer a implementação em uma linha.</p>
-<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="machine-learning.html#cb168-1" tabindex="-1"></a><span class="fu">library</span>(hdm)</span>
-<span id="cb168-2"><a href="machine-learning.html#cb168-2" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb168-3"><a href="machine-learning.html#cb168-3" tabindex="-1"></a>d_s_vec <span class="ot">&lt;-</span> <span class="fu">numeric</span>()</span>
-<span id="cb168-4"><a href="machine-learning.html#cb168-4" tabindex="-1"></a><span class="cf">for</span> ( i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>) {</span>
-<span id="cb168-5"><a href="machine-learning.html#cb168-5" tabindex="-1"></a>  my_double_selection <span class="ot">&lt;-</span> <span class="fu">rlassoEffects</span>(y<span class="sc">~</span>. , <span class="at">I=</span><span class="sc">~</span>x <span class="sc">+</span> D, <span class="at">data=</span>lista_df[[i]])</span>
-<span id="cb168-6"><a href="machine-learning.html#cb168-6" tabindex="-1"></a>  d_s_vec[i] <span class="ot">&lt;-</span> <span class="fu">summary</span>(my_double_selection)<span class="sc">$</span>coefficients[<span class="st">&quot;D&quot;</span>, <span class="st">&quot;Pr(&gt;|t|)&quot;</span>]</span>
-<span id="cb168-7"><a href="machine-learning.html#cb168-7" tabindex="-1"></a>  </span>
-<span id="cb168-8"><a href="machine-learning.html#cb168-8" tabindex="-1"></a>}</span>
-<span id="cb168-9"><a href="machine-learning.html#cb168-9" tabindex="-1"></a></span>
-<span id="cb168-10"><a href="machine-learning.html#cb168-10" tabindex="-1"></a><span class="fu">hist</span>(d_s_vec, <span class="at">breaks =</span> <span class="dv">40</span>, <span class="at">main =</span> <span class="st">&quot;Seleção de D pelo Double LASSO&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;p-valor&quot;</span>)</span>
-<span id="cb168-11"><a href="machine-learning.html#cb168-11" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fl">0.05</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">1</span>)</span>
-<span id="cb168-12"><a href="machine-learning.html#cb168-12" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.1</span>, <span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">4</span>] <span class="sc">*</span> <span class="fl">0.75</span>, <span class="st">&quot;0.05&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">pos =</span> <span class="dv">3</span>, <span class="at">cex=</span>.<span class="dv">5</span>)</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/cap-13-hdm-1.png" width="672" /></p>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="machine-learning.html#cb169-1" tabindex="-1"></a><span class="fu">sum</span>(d_s_vec <span class="sc">&lt;=</span> .<span class="dv">05</span>)<span class="sc">/</span><span class="dv">1000</span></span></code></pre></div>
-<pre><code>## [1] 0.062</code></pre>
+<p>No R, podemos usar o pacote “hdm” para fazer a implementação em uma linha.</p>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="machine-learning.html#cb170-1" tabindex="-1"></a><span class="fu">library</span>(hdm)</span>
+<span id="cb170-2"><a href="machine-learning.html#cb170-2" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb170-3"><a href="machine-learning.html#cb170-3" tabindex="-1"></a>d_s_vec <span class="ot">&lt;-</span> <span class="fu">numeric</span>()</span>
+<span id="cb170-4"><a href="machine-learning.html#cb170-4" tabindex="-1"></a><span class="cf">for</span> ( i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>) {</span>
+<span id="cb170-5"><a href="machine-learning.html#cb170-5" tabindex="-1"></a>  my_double_selection <span class="ot">&lt;-</span> <span class="fu">rlassoEffects</span>(y<span class="sc">~</span>. , <span class="at">I=</span><span class="sc">~</span>x <span class="sc">+</span> D, <span class="at">data=</span>lista_df[[i]])</span>
+<span id="cb170-6"><a href="machine-learning.html#cb170-6" tabindex="-1"></a>  d_s_vec[i] <span class="ot">&lt;-</span> <span class="fu">summary</span>(my_double_selection)<span class="sc">$</span>coefficients[<span class="st">&quot;D&quot;</span>, <span class="st">&quot;Pr(&gt;|t|)&quot;</span>]</span>
+<span id="cb170-7"><a href="machine-learning.html#cb170-7" tabindex="-1"></a>  </span>
+<span id="cb170-8"><a href="machine-learning.html#cb170-8" tabindex="-1"></a>}</span>
+<span id="cb170-9"><a href="machine-learning.html#cb170-9" tabindex="-1"></a></span>
+<span id="cb170-10"><a href="machine-learning.html#cb170-10" tabindex="-1"></a><span class="fu">hist</span>(d_s_vec, <span class="at">breaks =</span> <span class="dv">40</span>, <span class="at">main =</span> <span class="st">&quot;Seleção de D pelo Double LASSO&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;p-valor&quot;</span>)</span>
+<span id="cb170-11"><a href="machine-learning.html#cb170-11" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fl">0.05</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">1</span>)</span>
+<span id="cb170-12"><a href="machine-learning.html#cb170-12" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.1</span>, <span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">4</span>] <span class="sc">*</span> <span class="fl">0.75</span>, <span class="st">&quot;0.05&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">pos =</span> <span class="dv">3</span>, <span class="at">cex=</span>.<span class="dv">5</span>)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/cap-13-hdm-1.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="machine-learning.html#cb171-1" tabindex="-1"></a><span class="fu">sum</span>(d_s_vec <span class="sc">&lt;=</span> .<span class="dv">05</span>)<span class="sc">/</span><span class="dv">1000</span></span></code></pre></div>
+<pre><code>## [1] 0.04</code></pre>
 <p>Como vemos, aproximadamente 5% das vezes nós rejeitamos a hipótese nula erradamente, que é o esperado do p-valor de 5%.</p>
 </div>
 </div>

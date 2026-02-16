@@ -7,7 +7,11 @@ site: bookdown::bookdown_site
 
 # Introdução
 
-Aqui pretendo guardar minhas notas de aula para meu curso de causalidade na pós-graduação. É uma forma de organizar e sistematizar meu estudo sobre o tema.
+Escolas que recebem mais recursos financeiros produzem melhores resultados educacionais? Municípios governados por prefeitos reeleitos são mais ou menos corruptos? Programas de transferência de renda reduzem a pobreza? Se olharmos os dados, frequentemente encontramos correlações que sugerem respostas — mas correlação não é causalidade. O desafio central da inferência causal é justamente ir além da associação estatística e identificar relações de causa e efeito a partir de dados observacionais ou experimentais.
+
+Este curso apresenta os principais métodos de inferência causal utilizados em Ciência Política e áreas afins. Começamos pelo modelo de resultados potenciais (*potential outcomes*) e por grafos acíclicos direcionados (DAGs), que fornecem os fundamentos teóricos. Em seguida, estudamos os principais desenhos de pesquisa: experimentos aleatorizados, *matching*, variáveis instrumentais, regressão descontínua e diferenças em diferenças. Ao longo do curso, também discutimos controle sintético, dados em painel, aprendizado de máquina para inferência causal e outros tópicos avançados.
+
+Mas por que começar com uma revisão de regressão? Porque a regressão é a ferramenta estatística mais utilizada nas ciências sociais — e muitos dos métodos causais que estudaremos são implementados por meio de alguma forma de regressão. Compreender bem o que a regressão faz (e o que ela *não* faz) é essencial para entender quando ela pode ser interpretada causalmente e quando não pode.
 
 ## Revisão de Regressão
 
@@ -18,20 +22,22 @@ As suposições básicas do modelo são:
 
 1. Média do erro é zero (sem perda de generalidade): $\mathbb{E}[u] = 0$
 
-2. Independência na média do erro: $\mathbb{E}[u|x] = \mathbb{E}[u]$. Essa é a suposição mais consequente do modelo de regressão. Como é sobre o termo de erro, não é testável. Um exemplo é útil para entender o que significa essa suposição. Suponha que estamos interessados no efeito do gasto de campanha ($x$) sobre o voto ($y$). O termo de erro $e$ seria a qualidade da candidata, não observável. A suposição implica então que a qualidade média das candidatas que gastam 100 mil reais é a mesma das que gastam 500 mil e um milhão (e assim por diante). Se candidatas melhores arrecadam mais dinheiro e, portanto, gastam mais, a suposição foi violada.
+2. Independência na média do erro: $\mathbb{E}[u|x] = \mathbb{E}[u]$. Essa é a suposição mais consequente do modelo de regressão. Como é sobre o termo de erro, não é testável. Um exemplo é útil para entender o que significa essa suposição. Suponha que estamos interessados no efeito do gasto de campanha ($x$) sobre o voto ($y$). O termo de erro $u$ seria a qualidade da candidata, não observável. A suposição implica então que a qualidade média das candidatas que gastam 100 mil reais é a mesma das que gastam 500 mil e um milhão (e assim por diante). Se candidatas melhores arrecadam mais dinheiro e, portanto, gastam mais, a suposição foi violada.
 
 Conectando 1 e 2, temos: $\mathbb{E}[u|x] = 0$. Essa suposição é chamada de "média condicional zero" ou "esperança condicional zero" do termo de erro. Ela implica que:
 $\mathbb{E}[y|x] = \beta_0 + \beta_1 x$. Essa equação é chamada de Conditional Expectation Function, ou CEF.
 
-De posse de uma amostra aleatória simples, podemos derivar os estimadores de mínimos quadrados (MQO ou OLS na sigla em inglês). Vou pular os passos da derivação. Para nós, o importante é lembrar a fórmula do $\hat{\beta_1}$:
+De posse de uma amostra aleatória simples, podemos derivar os estimadores de mínimos quadrados (MQO ou OLS na sigla em inglês). Vou pular os passos da derivação. Para nós, o importante é lembrar a fórmula do $\hat{\beta}_1$:
 
-$\hat{\beta_1} = \frac{\text{covariância amostral}}{\text{variância amostral}} = \frac{\sum_{i=1}^n(x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^n(x_i - \bar{x})^2}$
+$\hat{\beta}_1 = \frac{\text{covariância amostral}}{\text{variância amostral}} = \frac{\sum_{i=1}^n(x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^n(x_i - \bar{x})^2}$
 
-E $\hat{\beta_0} = \bar{y}  - \hat{\beta_1}\bar{x}$.
+E $\hat{\beta}_0 = \bar{y}  - \hat{\beta}_1\bar{x}$.
 
-Podemos então demonstrar que o estimador é não-viesado. Para isso, é necessário supor que o modelo é linear nos parâmetros (não nas variáveis), temos uma amostra aleatória simples da população, existe variância no preditor (para não dividir por zero na fórmula do estimador de OLS) e a média condicional zero.
+Podemos então demonstrar que o estimador é não-viesado. Para isso, é necessário supor que o modelo é linear nos parâmetros (não nas variáveis), temos uma amostra aleatória simples da população, existe variância no preditor (para não dividir por zero na fórmula do estimador de OLS) e a média condicional zero. Para a derivação completa dos estimadores e a demonstração de não-viés, ver Wooldridge (2013, cap. 2).
 
 ### Teorema da Anatomia da Regressão
+
+Na prática, raramente rodamos uma regressão com um único preditor. O que acontece quando adicionamos variáveis de controle a uma regressão? Como o coeficiente de uma variável muda quando "controlamos" por outras? O Teorema da Anatomia da Regressão nos dá uma resposta precisa a essas perguntas.
 
 Esse teorema, também conhecido como teorema de Frisch, Waugh e Lovell ou Frisch-Waugh-Lovell, é útil para ajudar a entender regressão múltipla.
 Suponha que nosso modelo possui $2$ preditores:
@@ -42,7 +48,7 @@ Agora, suponha que, em vez de rodar a regressão acima, eu rodo uma regressão (
 
 $x_{1i}=\gamma_0+\gamma_{1}x_{2i} + f_i$.
 
-E os resíduos são dados por: $\tilde{x}{1i}=x{1i} - \widehat{x}{1i}$. Então, é possível mostrar que: $\beta_1 = \frac{C(y_i, \tilde{x}{1i})}{V(\tilde{x}_{1i})}$. O que essa fórmula nos diz é que o efeito de $\beta_1$ é a covariância entre a variável dependente e o resíduo da regressão auxiliar, isto é, a parte de $x_1$ não explicada pelos demais preditores.
+E os resíduos são dados por: $\tilde{x}_{1i}=x_{1i} - \widehat{x}_{1i}$. Então, é possível mostrar que: $\beta_1 = \frac{\text{Cov}(y_i, \tilde{x}_{1i})}{\text{Var}(\tilde{x}_{1i})}$, onde $\text{Cov}(\cdot,\cdot)$ denota a covariância populacional e $\text{Var}(\cdot)$ a variância populacional. O que essa fórmula nos diz é que o efeito de $\beta_1$ é a covariância entre a variável dependente e o resíduo da regressão auxiliar, isto é, a parte de $x_1$ não explicada pelos demais preditores.
 
 Vamos visualizar essa relação com um exemplo do livro do Scott Cunningham:
 
@@ -86,19 +92,49 @@ auto %>%
   geom_smooth(data = y_single, color = "red")
 ```
 
+O gráfico acima mostra os pontos correspondentes ao preço do carro (*price*) contra o resíduo de *length* após controlar pelas demais variáveis (*length_resid*). A linha azul representa a relação estimada pela regressão múltipla (com controles), ou seja, o coeficiente de *length* após "limpar" o efeito das demais variáveis. A linha vermelha representa o coeficiente da regressão simples de *price* contra *length*, sem controles. A diferença entre as duas linhas ilustra a intuição central do Teorema FWL: controlar por outras variáveis muda o coeficiente estimado porque estamos isolando a parte da variação de *length* que não é explicada por *weight*, *headroom* e *mpg*. Quando variáveis omitidas estão correlacionadas tanto com o preditor quanto com a variável dependente, o coeficiente da regressão simples pode ser bastante diferente do coeficiente da regressão múltipla.
+
 ## Inferência
 
-Como sabemos, inferência lida com a generalização da amostra para a população e, portanto, com a variabilidade inerente de amostra para amostra. Eu não vou revisar aqui os cálculos para derivar o erro padrão. Quero apenas enfatizar dois pontos que não são usualmente abordados em cursos de regressão. Em primeiro lugar, generalização da amostra para a população é diferente de generalização causal, também conhecida como validade externa. Esse ponto foi confundido por muitos autores, em particular o livro conhecido como KKV, e levou muitos pesquisadores a acreditarem que uma regressão possuía maior capacidade de generalização causal do que estudos de caso. Uma regressão (supondo que o erro padrão foi calculado corretamente) permite generalizar as estimativas para uma população. Porém, o que significa falar em generalização quando temos o universo de casos (por exemplo, todos os deputados, ou todos os candidatos, ou todos os municípios)? Quando temos o universo, não é diferente de estudos de caso que possuem todos os casos relevantes e, portanto, a noção de generalização da amostra para população não se aplica.
+Como sabemos, inferência lida com a generalização da amostra para a população e, portanto, com a variabilidade inerente de amostra para amostra. Eu não vou revisar aqui os cálculos para derivar o erro padrão. Quero apenas enfatizar três pontos que não são usualmente abordados em cursos de regressão.
 
-O que me leva ao segundo ponto: na inferência causal, em particular nesses casos em que temos o universo dos casos, ainda assim há incerteza. O trabalho de Abadie et. al (2020) discute a ideia de *design-based* inference. Nós vamos explicar no curso em mais detalhes o que é uma pesquisa *design-based* (em oposição a *model-based*). A ideia desse tipo de incerteza (e seu correspondente erro-padrão) é a seguinte. Imagine que estamos interessados em estimar o efeito causal da reeleição de prefeitos sobre a corrupção municipal. Suponha que tenho todos os municípios na amostra. Por fim, suponha que temos um experimento natural de forma que podemos supor que (talvez condicional a algumas variáveis) a reeleição é aleatória. Não há incerteza amostral para a população, mas há incerteza sobre o que aconteceria com a corrupção para os prefeitos reeleitos, caso não fossem reeleitos (e para os que perderam, como seria a corrupção caso fossem reeleitos). Em particular, se acreditamos que a reeleição foi aleatória, então uma nova rodada de amostragem (em um universo alternativo?) produziria outra configuração de prefeitos reeleitos e não-reeleitos e alguma variação na estimativa do efeito causal. Isso antecipa nossa discussão sobre causalidade da próxima aula, mas o ponto é que existe incerteza na variação do efeito causal, que não deriva de variação amostral propriamente, mas da aleatoriedade da intervenção.
+### Generalização amostral vs. generalização causal
 
-Nas palavras dos autores: 
+Em primeiro lugar, generalização da amostra para a população é diferente de generalização causal, também conhecida como validade externa. Esse ponto foi confundido por muitos autores, em particular o livro conhecido como KKV (King, Keohane e Verba, 1994), e levou muitos pesquisadores a acreditarem que uma regressão possuía maior capacidade de generalização causal do que estudos de caso. Uma regressão (supondo que o erro padrão foi calculado corretamente) permite generalizar as estimativas para uma população. Porém, o que significa falar em generalização quando temos o universo de casos (por exemplo, todos os deputados, ou todos os candidatos, ou todos os municípios)? Quando temos o universo, não é diferente de estudos de caso que possuem todos os casos relevantes e, portanto, a noção de generalização da amostra para população não se aplica.
+
+Essa distinção nos leva a uma pergunta natural: se temos todos os casos, ainda assim existe incerteza?
+
+### Incerteza com o universo dos casos
+
+A resposta é sim. Na inferência causal, em particular nesses casos em que temos o universo dos casos, ainda assim há incerteza. O trabalho de Abadie et al. (2020) discute a ideia de *design-based* inference. Nós vamos explicar no curso em mais detalhes o que é uma pesquisa *design-based* (em oposição a *model-based*), especialmente no Capítulo 2 (Resultados Potenciais). A ideia desse tipo de incerteza (e seu correspondente erro-padrão) é a seguinte. Imagine que estamos interessados em estimar o efeito causal da reeleição de prefeitos sobre a corrupção municipal. Suponha que tenho todos os municípios na amostra. Por fim, suponha que temos um experimento natural de forma que podemos supor que (talvez condicional a algumas variáveis) a reeleição é aleatória. Não há incerteza amostral para a população, mas há incerteza sobre o que aconteceria com a corrupção para os prefeitos reeleitos, caso não fossem reeleitos (e para os que perderam, como seria a corrupção caso fossem reeleitos). Em particular, se acreditamos que a reeleição foi aleatória, então uma nova rodada de amostragem (em um universo alternativo?) produziria outra configuração de prefeitos reeleitos e não-reeleitos e alguma variação na estimativa do efeito causal. Isso antecipa nossa discussão sobre causalidade no Capítulo 2, mas o ponto central é que existe incerteza na estimativa do efeito causal que não deriva de variação amostral propriamente, mas da aleatoriedade da intervenção.
+
+Nas palavras dos autores:
 
 "it will be useful to distinguish between descriptive estimands, where uncertainty stems solely from not observing all units in the population of interest, and causal estimands, where the uncertainty stems, at least partially, from unobservability of some of the potential outcome" (p. 267). Meu ponto é que KKV e cia confundiram incerteza de estimandos descritivos com estimandos causais.
+
+### Validade externa
 
 O que me leva de volta ao ponto anterior sobre a comparação entre estudos de caso e métodos quantitativos, quando o objetivo é inferência causal. A incerteza inerente é sobre o efeito da intervenção, não sobre variações amostrais. Além disso, em ambos os casos não sabemos (a princípio) se os estudos possuem validade externa, isto é, se os resultados valem para outras populações, no tempo e espaço. É preciso avançar nessa agenda, tanto em métodos quali como quanti. É um problema em aberto e que tem atraído muitas pesquisas novas, que não iremos cobrir no curso (até por desconhecimento meu de boa parte dessa literatura).
 
 
+## Resumo e próximos passos
+
+Neste capítulo introdutório, revisamos três pontos fundamentais:
+
+1. **A regressão como ponto de partida**: o modelo de regressão por MQO estima a Função de Esperança Condicional (CEF), mas a interpretação causal do coeficiente depende de suposições fortes — em particular, a média condicional zero do termo de erro.
+
+2. **O Teorema FWL e o papel dos controles**: adicionar variáveis de controle a uma regressão muda o coeficiente estimado porque estamos isolando a variação do preditor que não é explicada pelos controles. Isso é crucial para entender o que "controlar por $X$" realmente significa.
+
+3. **Incerteza vai além da amostragem**: mesmo quando temos o universo dos casos, há incerteza causal — ela vem da aleatoriedade da intervenção, não da variação amostral. Essa distinção entre incerteza descritiva e causal é central para o curso.
+
+No próximo capítulo, formalizamos a noção de causalidade por meio do **modelo de resultados potenciais** (*potential outcomes*), que fornece a linguagem e o arcabouço teórico para definir efeitos causais de forma precisa.
+
 ## Referências
 
-Abadie, Alberto, Susan Athey, Guido W. Imbens, and Jeffrey M. Wooldridge. 2020. “Sampling-Based Versus Design-Based Uncertainty in Regression Analysis.” Econometrica 88 (0): 265–96.
+Abadie, Alberto, Susan Athey, Guido W. Imbens, and Jeffrey M. Wooldridge. 2020. "Sampling-Based Versus Design-Based Uncertainty in Regression Analysis." Econometrica 88 (0): 265–96.
+
+Angrist, Joshua D., and Jörn-Steffen Pischke. 2009. *Mostly Harmless Econometrics: An Empiricist's Companion*. Princeton University Press.
+
+King, Gary, Robert O. Keohane, and Sidney Verba. 1994. *Designing Social Inquiry: Scientific Inference in Qualitative Research*. Princeton University Press.
+
+Wooldridge, Jeffrey M. 2013. *Introductory Econometrics: A Modern Approach*. 5th ed. South-Western Cengage Learning.

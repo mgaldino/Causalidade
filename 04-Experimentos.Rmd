@@ -14,7 +14,7 @@ Nós já vimos que uma suposição crítica é a SUTVA.
 
 - Stable Unit Treatment Values Assumption
 - Não interferência e sem varição escondida no tratamento
-  - PO não varia com o tratamento atribuiído a outra unidades
+  - PO não varia com o tratamento atribuído a outra unidades
   - PO de uma unidade não é impactado pelo nível de tratamento de outras unidades
 - Para cada unidade, não há formas distintas ou versões de cada nível de tratamento
 - Definição não-ambígua do tratamento
@@ -30,7 +30,7 @@ Nós já vimos que uma suposição crítica é a SUTVA.
 - Mecanismo de atribuição de tratamento é probabilístico (Positividade): $0 < p_i < 1$.
 - Unconfoundedness ou Permutabilidade (ou *assignment mechanism–ignorability*): $P(T_i=1|y^1, y^0) = P(T_i)$.
 
-O que é Permutabilidade (uncounfoudedness)?
+O que é Permutabilidade (unconfoundedness)?
 
 - A distribuição dos resultados potenciais é independente do tratamento.
 - $\mathbb{E}[Y^1|T=1] = \mathbb{E}[Y^1|T=0]$
@@ -50,7 +50,7 @@ O que é Permutabilidade (uncounfoudedness)?
 
 - Formalmente, podemos separar a alocação do tratamento e o tratamento efetivamente recebido. Seja $Z_i$ a alocação do tratamento e $T_i$ o tratamento recebido.
 - Então, a restrição de exclusão quer dizer que o que importa é o tratamento efetivamente recebido $T_i$, e não a variável que aloca o tratamento $Z_i$.
-- Formalmente, isso quer dizer que: $Y^{1,z=1, T}_i = Y^{1,z=0, T}_i = Y^{1,T}_i$ e similarmente, $Y^{0,z=0,T}_i = Y^{0,z=0,T}_i = Y^{0,T}_i$
+- Formalmente, isso quer dizer que: $Y^{1,z=1, T}_i = Y^{1,z=0, T}_i = Y^{1,T}_i$ e similarmente, $Y^{0,z=1,T}_i = Y^{0,z=0,T}_i = Y^{0,T}_i$
 - Quando não ocorre isso? Se o mecanismo de atribuição do tratamento dispara outras causas
 - Suponha que um experimento é sobre efeito de transferência de dinheiro em bem-estar
 - Se ongs, sabendo do experimento, forem ajudar quem não tiver sido alocado para receber dinheiro
@@ -61,7 +61,7 @@ O que é Permutabilidade (uncounfoudedness)?
 
 - Nova *switching equation*.
 - Seja $e_{i1}$ o erro de mensuração cometido se uma observação é atribuída para o tratamento, e, analogamente, $e_{i0}$ o erro para o controle.
-- De $Y_i = T_iY^1_i + (1- T_i)Y^0_i$ para $Y_i = T_i(Y^1_i + e_{i1}) + (1- T_i))(Y^0_i + e_{i0})$. 
+- De $Y_i = T_iY^1_i + (1- T_i)Y^0_i$ para $Y_i = T_i(Y^1_i + e_{i1}) + (1- T_i)(Y^0_i + e_{i0})$. 
 - Novo SDO: $\mathbb{E}[Y_i|T_i=1] - \mathbb{E}[Y_i|T_i=0] = \mathbb{E}[Y^1_i + e_{i1}|T_i=1] - \mathbb{E}[Y^0_i + e_{i0}|T_i=0] = \mathbb{E}[Y^1_i|T_i=1] + \mathbb{E}[e_{i1}|T_i=1] - \mathbb{E}[Y^0_i|T_i=0] - \mathbb{E}[e_{i0}|T_i=0]$
 - Novo SDO pode se rearranjado: $\underbrace{\mathbb{E}[Y^1_i|T_i=1] - \mathbb{E}[Y^0_i|T_i=0]}_{\text{antigo SDO}} + \underbrace{\mathbb{E}[e_{i1}|T_i=1]  - \mathbb{E}[e_{i0}|T_i=0]}_{\text{Dif média no erro de mensuração}}$
 - Se $\mathbb{E}[e_{i1}|T_i=1] \neq \mathbb{E}[e_{i0}|T_i=0]$, então SDO será viesado.
@@ -78,7 +78,7 @@ Como Garantir a restrição de Exclusão?
 
 - É o experimento com aleatorização simples (basicamente, lançamento de moeda)
 - Matematicamente, $p_i(T_i=1) = p$.
-- Problema: Possível "má aleratorização" (todo mundo no controle ou tratamento)
+- Problema: Possível "má aleatorização" (todo mundo no controle ou tratamento)
 - ps.: toda aleatorização realizada é matematicamente equivalente.
 - Possui $2^n$ configurações possíveis de alocação entre tratamento e controle
 
@@ -120,7 +120,7 @@ hist(replicate(1000, sum(rbinom(n, 1, 0.5))),
 - **Aleatorização Marginal vs. Condicional**:
     - Marginal: Aleatorização uniforme para todos os indivíduos.
     - Condicional: Aleatorização depende de $X$, gerando permutabilidade condicional a $X$.
-- **Permutabilidade Condicional**: $(Y^1, Y^0 | X=x) \indep T$.
+- **Permutabilidade Condicional**: $(Y^1, Y^0 | X=x) \perp T$.
 
 - Não gera permutabilidade (não-condicional).
 - Permutabilidade condicional a $X$ é crucial para inferência em contextos com variáveis pré-tratamento.
@@ -128,7 +128,7 @@ hist(replicate(1000, sum(rbinom(n, 1, 0.5))),
 ### Pensando aleatorização em bloco
 
 - Ex.: digamos que em um amostra de 100 pessoas, queremos 25 homens e 25 mulheres no tratamento e controle
-- Sorteio 25 homens para tramento e depois 25 mulheres.
+- Sorteio 25 homens para tratamento e depois 25 mulheres.
 - Cada bloco possui tamanho 25, neste exemplo.
 - Blocos de tamanho $2$ são chamados de *pair-matched design*.
 - Em geral, estudos com *matching* em muitas variáveis
@@ -141,15 +141,15 @@ hist(replicate(1000, sum(rbinom(n, 1, 0.5))),
 - Podemos calcular o ATE por estrato, já que é aleatório no interior de cada estrato.
 - Efeito geral na população.
 - Podemos calcular ponderando os ATEs.
-- Seja $J$ o número de estratos, indixados por $j$. Seja $N$ o número de unidades e $N_j$ o número de unidades no bloco $j$. Então:
+- Seja $J$ o número de estratos, indexados por $j$. Seja $N$ o número de unidades e $N_j$ o número de unidades no bloco $j$. Então:
 - $ATE = \sum_{j=1}^J \frac{N_j}{N}ATE_j$
 
 ### Aleatorização em bloco
--- Pela Lei dos Grandes números, tende a gerar balanceamento entre blocos
--- Balanceamento quer dizer que blocos são similares
--- Em variáveis observadas e não-observadas
--- Probabilidade de tratamento pode variar por bloco. 
--- Chamada de propensity score.
+- Pela Lei dos Grandes números, tende a gerar balanceamento entre blocos
+- Balanceamento quer dizer que blocos são similares
+- Em variáveis observadas e não-observadas
+- Probabilidade de tratamento pode variar por bloco.
+- Chamada de propensity score.
 
 ### Precisão da aleatorização em bloco
 - Em geral a precisão aumenta (erro padrão diminui) com aleatorização em bloco.
@@ -284,21 +284,23 @@ t.test(treatment, control)
 
 
 
-## Key Takeways
+## Resumo do Capítulo
 
-- Experimento (sob SUTVA) elimina o viés de seleção
-- Depende de restrição de exclusão e simetria
-- Vários tipos de experimentos: block aumenta precisão
-- Com N grande, diferença diminui
-- Sempre supomos condições ideais (sem attrition, compliance perfeito etc.)
+Neste capítulo, vimos como experimentos aleatórios eliminam o viés de seleção sob a suposição de SUTVA. Os principais pontos são:
+
+- A aleatorização garante que tratamento e controle sejam comparáveis em expectativa, eliminando o viés de seleção.
+- A validade do experimento depende também da restrição de exclusão (o que importa é o tratamento efetivamente recebido) e da simetria na administração.
+- Existem vários tipos de aleatorização — Bernoulli, completa, em bloco e por cluster — cada qual com vantagens e limitações. A aleatorização em bloco tende a aumentar a precisão das estimativas.
+- Com amostras grandes, as diferenças entre os tipos de aleatorização diminuem.
+- Ao longo do capítulo, sempre supusemos condições ideais (sem attrition, compliance perfeito etc.). No próximo capítulo, veremos o que acontece quando não temos aleatorização e precisamos recorrer a estratégias observacionais como matching.
 
 ## Declare Design
 
 Uma ferramenta muito útil para experimentos (mas também para estudos observacionais) é o pacote do R Declare Design.
 
-Blair, Coppock e Humphreys criaram um framework para definir e avaliar um desenho de pesquisa. Com oresultado, escreveram um livro "Research Design in the Social Sciences", e um pacote no R para implementar os conceitos desenvolvidos no livro, chamado "DeclareDesign. Para instalar (junto com os datasets usados no livro), basta rodar `r ## install.packages(c("DeclareDesign", "rdss"))`.
+Blair, Coppock e Humphreys criaram um framework para definir e avaliar um desenho de pesquisa. Com o resultado, escreveram um livro "Research Design in the Social Sciences", e um pacote no R para implementar os conceitos desenvolvidos no livro, chamado "DeclareDesign. Para instalar (junto com os datasets usados no livro), basta rodar `r ## install.packages(c("DeclareDesign", "rdss"))`.
 
-O frameowrk é baseado no acrônimo MIDA, que contempla os quatro elementos básicos de um desenho de pesquisa:  models, inquiries, data strategies, and answer strategies.
+O framework é baseado no acrônimo MIDA, que contempla os quatro elementos básicos de um desenho de pesquisa:  models, inquiries, data strategies, and answer strategies.
 
 Ou seja, você deve especificar um modelo, qual pergunta de pesquisa (aka estimando), quais dados vai utilizar e como vai estimar o estimando.
 
@@ -336,7 +338,7 @@ inquiry <- declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
 ```
 
 Se estamos interessados no ATE, é só declarar que é a média da diferença entre os resultados potenciais. Podemos também usar a função `r # declare_estimand()`
-Outras possibilidaes incluem o ATT `r # declare_inquiry(ATT = mean(Y_Z_1 - Y_Z_0), subset = (Z == 1))` e CATE: `r # declare_inquiry(CATE = mean(Y_Z_1 - Y_Z_0), subset = X == 1)`, por exemplo. Formulação equivalente para o ATT seria `r # declare_inquiry(ATT = mean(Y_Z_1|Z = 1) - mean(Y_Z_0|Z=1))`.
+Outras possibilidades incluem o ATT `r # declare_inquiry(ATT = mean(Y_Z_1 - Y_Z_0), subset = (Z == 1))` e CATE: `r # declare_inquiry(CATE = mean(Y_Z_1 - Y_Z_0), subset = X == 1)`, por exemplo. Formulação equivalente para o ATT seria `r # declare_inquiry(ATT = mean(Y_Z_1|Z = 1) - mean(Y_Z_0|Z=1))`.
 
 Estratégia de dados
 
@@ -378,7 +380,7 @@ diagnose_design(two_arm_trial, sims = 100)
 
 ```
 
-Podemos ajustar o desenh ode pesquisa
+Podemos ajustar o desenho de pesquisa
 
 ```{r redesenho, eval=TRUE, message=FALSE}
 

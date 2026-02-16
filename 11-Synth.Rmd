@@ -1,6 +1,6 @@
 # Synthetic Control
 
-Vamos começar com um exemplo, já famoso na literatura, de Controle Sintético. O estado da Califórnia implmentou uma proibição de uso de cigarro e digamso que queremos ver o efeito dessa proibição, isto é, nosso estimando é $\tau_{\text{ban}, \text{CA}} = Y(1)_{\text{ban}, CA} - Y(0)_{\text{ban}, \text{CA}}$.
+Vamos começar com um exemplo, já famoso na literatura, de Controle Sintético. O estado da Califórnia implementou uma proibição de uso de cigarro e digamos que queremos ver o efeito dessa proibição, isto é, nosso estimando é $\tau_{\text{ban}, \text{CA}} = Y(1)_{\text{ban}, CA} - Y(0)_{\text{ban}, \text{CA}}$.
 
 Como não observamos $Y(0)_{\text{ban}, \text{CA}}$, temos de criar uma "Califórnia sintética". Antigamente, iremos usar alguma média dos demais estados "não-tratados"para estimar o contrafactual. Contudo, não é muito convincente.
 
@@ -88,9 +88,9 @@ A ideia é usar com combinação linear do *donor pool*, com pesos apropriados, 
 $$
 \mathbb{E}[Y(1)_{it}|D_{it}=1] - \mathbb{E}[Y(0)_{it}|D_{it}=1] 
 $$
-A dificuldade, como sempre, é que não observamos $\mathbb{E}[Y(0)_{it}|D_{it}=1$. Estimar ou imputar esse *missing data* a partir de uma média ponderada é o objetivo de nosso estimador. A ideia é um pouco parecida com matching, em que nós pareávamos unidades de controle com as taratdas, minimizando a distância a partir das covariáveis. Aqui, vamos fazer algo parecido, mas com uma diferença chave: vamos incluir nas covariáveis a variável resposta defasada. Esse método foi introduzido por Abadie et. al em um journal de ciência política.
+A dificuldade, como sempre, é que não observamos $\mathbb{E}[Y(0)_{it}|D_{it}=1]$. Estimar ou imputar esse *missing data* a partir de uma média ponderada é o objetivo de nosso estimador. A ideia é um pouco parecida com matching, em que nós pareávamos unidades de controle com as tratadas, minimizando a distância a partir das covariáveis. Aqui, vamos fazer algo parecido, mas com uma diferença chave: vamos incluir nas covariáveis a variável resposta defasada. Esse método foi introduzido por Abadie et. al em um journal de ciência política.
 
-Vamos usar a abordagem de Doudchenko e Imbens (2018) para apresentar o médo, pois vai faciliar a introdução posterior de diferença em diferenças sintéticas.
+Vamos usar a abordagem de Doudchenko e Imbens (2018) para apresentar o método, pois vai familiar a introdução posterior de diferença em diferenças sintéticas.
 
 Nossos dados podem ser organizados da seguinte forma:
 
@@ -109,7 +109,7 @@ D \;=\;
 \end{bmatrix}
 \end{aligned}
 
-Aqui, o estados estão nas colunas, Calinfórnia é a última coluna, e nas linhas temos os períodos de tempo. E podemos simplificar a matriz acima para apenas quatro blocos:
+Aqui, o estados estão nas colunas, Califórnia é a última coluna, e nas linhas temos os períodos de tempo. E podemos simplificar a matriz acima para apenas quatro blocos:
 
 \begin{aligned}
 D \;=\;
@@ -119,7 +119,7 @@ D \;=\;
 \end{pmatrix}
 \end{aligned}
 
-O que nos leva à seuinge matriz de resultados:
+O que nos leva à seguinte matriz de resultados:
 
 \begin{aligned}
 Y \;=\;
@@ -155,7 +155,7 @@ Em ADH (2010), as restrições são:
 
 3. $w_i \geq 0 \text{, } \forall i$
 
-Restrição 1 signifca que não há diferença de nível. Suposição 2 significa que o contrafactual tem de ser contruído no suporte do *donor pool*. Suposição 3 
+Restrição 1 signifca que não há diferença de nível. Suposição 2 significa que o contrafactual tem de ser construído no suporte do *donor pool*. Suposição 3 
 
 A intuição para o cálculo do peso é parecida da regressão linear, em que estamos minimizando a soma da distância. A diferença é que é uma soma diferente. 
 
@@ -165,7 +165,7 @@ $$
 Lembrando que vamos incluir a VD defasada em $X$. 
 
 Vamos para o R para ver isso em ação.
-Dica: Há vários pacotes, mas o original, synth, é muito complexdo de usar e não recomendamos. 
+Dica: Há vários pacotes, mas o original, synth, é muito complexo de usar e não recomendamos. 
 augsynth/tidysynth and synthdid packages (original  package is tough to use)
 
 
@@ -235,7 +235,7 @@ A quantidade causal de interesse pode ser visualizada do seguinte modo:
 smoking_out %>% plot_differences()
 ```
 
-E é possível visulizar os pesos de cada unidade e das variáveis:
+E é possível visualizar os pesos de cada unidade e das variáveis:
 
 ```{r cigarro_tidysynth2, echo=TRUE, message=FALSE, warning=FALSE}
 smoking_out %>% plot_weights()
@@ -257,9 +257,11 @@ smoking_out %>% plot_placebos()
 ```
 
 
+O controle sintético apresentado acima é uma ferramenta poderosa para estudos de caso. Uma extensão natural é combinar essa ideia com o estimador de Diferença em Diferenças, gerando o chamado Synthetic DiD.
+
 ## Synthethic DiD
 
-Synth DiD comebinar controle sintético com DiD, em algo novo. Então, vamos começar revisitando DiD.
+Synth DiD combinar controle sintético com DiD, em algo novo. Então, vamos começar revisitando DiD.
 Nós vimos que o estimador de DiD é equivalente a uma regressão linear com efeitos fixos de unidade e tempo. Vamos aplicar nosso estimador para os dados da da proposição 99.
 
 ```{r did, echo=TRUE, message=FALSE, warning=FALSE}
@@ -309,20 +311,20 @@ E se a gente combinasse controle sintético com DiD, isto é, usasse peso para c
 Arkhangelsky et al (2021) mostraram que podemos reescrever o estimador de controle sintético como:
 
 $$
-(\hat{\mu}, \hat{\gamma}, \hat{\tau}) = \text{arg}\,\max\limits_{\mu, \gamma, \tau}\ \sum_i \sum_t (y_{it}) - \mu - \gamma_t -D_{it}\tau)^2\hat{w}_i
+(\hat{\mu}, \hat{\gamma}, \hat{\tau}) = \text{arg}\,\min\limits_{\mu, \gamma, \tau}\ \sum_i \sum_t (y_{it} - \mu - \gamma_t -D_{it}\tau)^2\hat{w}_i
 $$
 Já o DiD é dado por:
 $$
-(\hat{\mu}, \hat{\alpha}, \hat{\gamma}, \hat{\tau}) = \text{arg}\,\max\limits_{\mu, \gamma, \tau}\ \sum_i \sum_t (y_{it}) - \mu - \alpha_i - \gamma_t -D_{it}\tau)^2
+(\hat{\mu}, \hat{\alpha}, \hat{\gamma}, \hat{\tau}) = \text{arg}\,\min\limits_{\mu, \gamma, \tau}\ \sum_i \sum_t (y_{it} - \mu - \alpha_i - \gamma_t -D_{it}\tau)^2
 $$
 
 A a proposta dos autores, o Synthetic DiD é dada pelo estimador:
 $$
-(\hat{\mu}, \hat{\alpha}, \hat{\gamma}, \hat{\tau}) = \text{arg}\,\max\limits_{\mu, \gamma, \tau}\ \sum_i \sum_t (y_{it}) - \mu - \alpha_i - \gamma_t -D_{it}\tau)^2\hat{w}_i\hat{\lambda}_t
+(\hat{\mu}, \hat{\alpha}, \hat{\gamma}, \hat{\tau}) = \text{arg}\,\min\limits_{\mu, \gamma, \tau}\ \sum_i \sum_t (y_{it} - \mu - \alpha_i - \gamma_t -D_{it}\tau)^2\hat{w}_i\hat{\lambda}_t
 $$
-Como antes, $\hat{w}_$ são pesos para cada unidade que procuram balancear a tendência pré-exposição ao tratamento nos grupos controle e de tratamento (no exemplo, demais estados e Califórnia). E introduzem pesos $\hat{\lambda}_t$ para  os períodos de tempo $t$ que procuram balancear os períodos pré-exposição com os períodos pós-exposição.
+Como antes, $\hat{w}_i$ são pesos para cada unidade que procuram balancear a tendência pré-exposição ao tratamento nos grupos controle e de tratamento (no exemplo, demais estados e Califórnia). E introduzem pesos $\hat{\lambda}_t$ para  os períodos de tempo $t$ que procuram balancear os períodos pré-exposição com os períodos pós-exposição.
 
-Contrast o SDiD com o DiD, e a didferença são os dois pesos. Basicamente, estamos estimando regressão linear local ao colocar mais peso em unidades que são, em média, mais similares aos tratados no período pré-exposição e enfatiza períodos mais similares ao algo (período tratado). Em outras palavras, "Time weights are designed so that the average post-treatment outcome for each of the control units differs by a constant from the weighted average of the pre-treatment outcomes for the same control units"(p. 4)
+Contrast o SDiD com o DiD, e a diferença são os dois pesos. Basicamente, estamos estimando regressão linear local ao colocar mais peso em unidades que são, em média, mais similares aos tratados no período pré-exposição e enfatiza períodos mais similares ao algo (período tratado). Em outras palavras, "Time weights are designed so that the average post-treatment outcome for each of the control units differs by a constant from the weighted average of the pre-treatment outcomes for the same control units"(p. 4)
 
 Esse estimador relaxa a suposição de tendências paralelas. Agora, precisamos que um fator latente seja paralelo.
 
@@ -382,6 +384,12 @@ synthdid_units_plot(rev(estimates[1:3]), se.method='none')
 ```
 
 
+
+## Resumo e próximos passos
+
+Neste capítulo, apresentamos o método de Controle Sintético, que permite estimar o efeito causal de uma intervenção sobre uma única unidade tratada, construindo um contrafactual a partir de uma combinação ponderada de unidades não-tratadas. Vimos também o Synthetic DiD, que combina as vantagens do controle sintético (pesos para unidades) com as do DiD (pesos para períodos de tempo), relaxando a suposição de tendências paralelas.
+
+No próximo capítulo, veremos como técnicas de Machine Learning podem ser adaptadas para inferência causal, em particular o Double LASSO e o Double/Debiased Machine Learning.
 
 ## Referências
 

@@ -5,7 +5,7 @@
 Em estudos observacionais, como vimos, análises baseadas no pressuposto de *conditional ignorability* do tratamento e positividade permitem a estimação de quantidades causais de interesse.
 As técnicas de machine learning foram desenvolvidas em geral voltadas para  problema de previsão, não de inferência causal. Por isso, não são normalmente uma alternativa boa para as questões de identificação causal que temos discutido no curso. Contudo, com algumas adaptações, podem ser usadas para análise de causa e efeito.
 
-Uma das abordagens mais populares é a sugerida por Belloni et. al (2014), de usar LASSO (Least Absolute Shrinkage and Selection Operator) para inferir causalidade.
+Uma das abordagens mais populares é a sugerida por Belloni et al. (2014), de usar LASSO (Least Absolute Shrinkage and Selection Operator) para inferir causalidade.
 
 ## Terminologia
 
@@ -22,13 +22,13 @@ O estimador de LASSO adiciona uma penalidade a essa função de minimização $\
 
 O termo $\sum_{j=1}^p |\beta_j|$ é chamado de norma L1. Ele envolve a soma absoluta dos parâmetros. Existem outras normas (L0, L2 etc.), isto é, outras formas de penalizar a estimação dos coeficientes. A norma L1 é conhecida como distância de Manhathan, e a intuição é que, se tenho dois pontos em Manhatan, $(x_1, y_1)$ e $(x_2, y_2)$, que são ruas em esquinas opostas de uma quadra (na diagonal). Como as ruas são, em geral, em formato de grade, temos de andar uma quadra na vertical e outra na horizontal para sair de um ponto a outro. Essa distância é a norma L1. Se usássamos a norma L2, por exemplo, poderíamos ir na diagonal, que é dada pela distância euclidiana. 
 
-E $\lambda$ é um parâmetro não negativo que controla a força da penalização. Veja que coeficientes positivos dos $\beta$ aumentam o custo total, de modo que eles precisam ser compensados pelo ganho gerado na capacidade preditiva da variável associada (quanto maior a correlação parcial, menor o erro). Assim, ao introduzir essa penalidade, o LASSO estimula que apenas as variáveis com maior capacidade preditiva possuam coeficientes positivos, enquanto as de baixa capacidade preditiva terão coeficiente igual a zero. Nós chamamos isso de esparsividade do voetor de coeficientes, já que muitos deles serão zero. Dizemos também que a regressão foi estimada com regularização. Veja que o LASSO é o equivalente a uma regressão Bayesiana com uma priori nos parâmetros igual a um dupla exponencial, levando à interpretação de que a priori é uma forma de regularizar estimativas.
+E $\lambda$ é um parâmetro não negativo que controla a força da penalização. Veja que coeficientes positivos dos $\beta$ aumentam o custo total, de modo que eles precisam ser compensados pelo ganho gerado na capacidade preditiva da variável associada (quanto maior a correlação parcial, menor o erro). Assim, ao introduzir essa penalidade, o LASSO estimula que apenas as variáveis com maior capacidade preditiva possuam coeficientes positivos, enquanto as de baixa capacidade preditiva terão coeficiente igual a zero. Nós chamamos isso de esparsividade do vetor de coeficientes, já que muitos deles serão zero. Dizemos também que a regressão foi estimada com regularização. Veja que o LASSO é o equivalente a uma regressão Bayesiana com uma priori nos parâmetros igual a um dupla exponencial, levando à interpretação de que a priori é uma forma de regularizar estimativas.
 
-Quando $\lambda \to 0$, of coeficientes convergem para os estimadores de MQO, e quando $\lambda \to \infty$ apenas o intercepto resta. Em ML, o método usual para achar $\lambda$ é validação cruzada (CV, de cross-validation), que é utilizada para favorecer previsões fora da amostra. Belloni et al. (2012) advoga escolhada baseada em teoria, também conhecido como LASSO rigoroso. Angrist & Frandsen (2022) concluiram que essa abordagem rigorosa tende a favorecer modelos mais parsimoniosos ($\lambda$ maiores) do que com CV.
+Quando $\lambda \to 0$, of coeficientes convergem para os estimadores de MQO, e quando $\lambda \to \infty$ apenas o intercepto resta. Em ML, o método usual para achar $\lambda$ é validação cruzada (CV, de cross-validation), que é utilizada para favorecer previsões fora da amostra. Belloni et al. (2012) advoga escolha baseada em teoria, também conhecido como LASSO rigoroso. Angrist & Frandsen (2022) concluiram que essa abordagem rigorosa tende a favorecer modelos mais parsimoniosos ($\lambda$ maiores) do que com CV.
 
 ### Double Lasso
 
-O estimador robusto mais popular é o Double Lasso. A ideia é que se eu tentar usar LASSO diretamente na equação de regressão $y_i = \alpha + \beta_1D_i + BX + e_i$, variáveis correlacionadas entre si terão coeficientes zero, e potencialmente o tratamento será um delas, impedindo a estimação da quantidade causal de interesse. Estratégias como forçar D_i a permanecer na equação implicam que ficará fora da equação de penalização. Contudo, isso pode causar viés na estimação de $\beta_1$ (Belloni et al., 2014). Essa regularização força variáveis correlacionadas com o tratamento a serem dropadas, o que significa dropar potenciais variáveis de confusão.
+O estimador robusto mais popular é o Double Lasso. A ideia é que se eu tentar usar LASSO diretamente na equação de regressão $y_i = \alpha + \beta_1D_i + BX + e_i$, variáveis correlacionadas entre si terão coeficientes zero, e potencialmente o tratamento será um delas, impedindo a estimação da quantidade causal de interesse. Estratégias como forçar $D_i$ a permanecer na equação implicam que ficará fora da equação de penalização. Contudo, isso pode causar viés na estimação de $\beta_1$ (Belloni et al., 2014). Essa regularização força variáveis correlacionadas com o tratamento a serem dropadas, o que significa dropar potenciais variáveis de confusão.
 
 Resumo: não use as técnicas de ML diretamente na equação de regressão.
 
@@ -99,10 +99,12 @@ theta_hat[i] <- coef(summary(fit))[3]
   
   df_final <- data.frame(beta = beta_hat, p_values = vec_p_values, theta_hat = theta_hat)
 
-  return(df_final)
+  return(list(df_final = df_final, lista_df = lista_df))
 }
 
-my_p_values_beta <- sim_pvalue_dl()
+result_sim <- sim_pvalue_dl()
+my_p_values_beta <- result_sim$df_final
+lista_df <- result_sim$lista_df
 
 hist(my_p_values_beta$p_values, breaks = 30, main = "Teste de signific. de D", xlab = "p-valor")
 abline(v = 0.05, col = "red", lwd = 1, lty = 1)
@@ -159,18 +161,18 @@ Bootstrap (não funciona)
 Clássico: suponha que a covariável não é relevante
 Conservador: sempre inclua quantos controles puder (pode gerar Collider Bias).
 
-DL lida com essa situação fazendo uma modelagem dupla, tanto do tratamento quanto da respota. Daí o nome, Double Lasso.
+DL lida com essa situação fazendo uma modelagem dupla, tanto do tratamento quanto da resposta. Daí o nome, Double Lasso.
 
 
 ## DL - Algoritmo
 
 Passo 1. Inclua controle se ele for preditor significativo da resposta $y_i$ por um teste conservador (teste t, LASSO etc.)
 
-PAsso 2. Inclua controle se ele preditor significativo do tratamento $D_i$ por um teste conservador (teste t, LASSO etc.).
+Passo 2. Inclua controle se ele preditor significativo do tratamento $D_i$ por um teste conservador (teste t, LASSO etc.).
 
 Passo 3. Ajuste o modelo com as variáveis selecionadas e o tratamento. Esse passo é chamado de Pós MQO (Post OLS)
 
-Np R, podemos usar o pacote "hdm" para fazer a implementação em uma linha.
+No R, podemos usar o pacote "hdm" para fazer a implementação em uma linha.
 
 ```{r cap-13-hdm, echo=TRUE}
 library(hdm)
@@ -199,7 +201,9 @@ A solução é usar o Double LASSO para escolher quais variáveis com termos de 
 
 ## Aplicação
 
-Alguns exemplos que encontrei em ciência política de aplicação do Double LASSO foi o argtigo (working paper) de Dahlum et. al (2024) e  Dutt & Tsetlin (2021).
+Alguns exemplos que encontrei em ciência política de aplicação do Double LASSO foi o argtigo (working paper) de Dahlum et al. (2024) e  Dutt & Tsetlin (2021).
+
+O Double LASSO resolve o problema de seleção de variáveis para inferência causal. Uma abordagem mais geral, que permite o uso de qualquer método de Machine Learning para estimar os parâmetros de nuisance, é o Double/Debiased Machine Learning.
 
 ## DML
 
@@ -213,16 +217,16 @@ Dado que a regressão está aproximando uma esperança condicional $\mathbb{E}[Y
 
 $\mathbb{E}[Y|D=d, \mathbf{X}= \mathbf{x}] = \eta_0(\mathbf{X}) + \theta_0(\mathbf{X})d$, em que $\eta_0 = \mathbb{E}[Y|D=0, \mathbf{X}= \mathbf{x}]$ é um *functional nuisance* e $\theta_0 = \mathbb{E}[Y|D=1, \mathbf{X}= \mathbf{x}] - \mathbb{E}[Y|D=0, \mathbf{X}= \mathbf{x}]$ é o funcional de interesse.
 
-Tipicamente, quando usamos regressão linear, estamos assumindo uma forma funcional específica para a função de *nuisance*. Se houver erro de especificação, iremos introduzir um viés na estimativa do parâmetrode interesse. Aí é que entra o Double/Debiased Machine Learning
+Tipicamente, quando usamos regressão linear, estamos assumindo uma forma funcional específica para a função de *nuisance*. Se houver erro de especificação, iremos introduzir um viés na estimativa do parâmetro de interesse. Aí é que entra o Double/Debiased Machine Learning
 
 ## Double Debiasing 
 
-O chamado Double/Debiased Machine Learning (DML) foi desenvolvido por  Chernozhukov et al. (2018). Sua inpsiração vem do teorema de Frisch-Waugh- Lovell (FWL). Vamos começar por ele. Suponha o seguinte modelo de regressão múltipla:
+O chamado Double/Debiased Machine Learning (DML) foi desenvolvido por  Chernozhukov et al. (2018). Sua inspiração vem do teorema de Frisch-Waugh- Lovell (FWL). Vamos começar por ele. Suponha o seguinte modelo de regressão múltipla:
 
 $$
 Y = \beta_0 + \beta_1X + \beta_2W_1 + \dots + \beta_{k+1}W_k + \epsilon
 $$
-Em que $X$ é a variável causal dei nteresse (tratamento) e os $W$ são variáveis de controle. São os *nuisance variables*. O teorema de FWL diz que posso estimar $\beta_1$ rodando diretamente a regressão acima, ou então pelos seguintes passos:
+Em que $X$ é a variável causal de interesse (tratamento) e os $W$ são variáveis de controle. São os *nuisance variables*. O teorema de FWL diz que posso estimar $\beta_1$ rodando diretamente a regressão acima, ou então pelos seguintes passos:
 
 1.Rodo uma regressão em que o tratamento é a VD, e os controles as VIs.
 $$
@@ -230,14 +234,16 @@ X = \alpha_0 +  \alpha_1W_1 + \dots + \alpha_{k}W_k + \epsilon
 $$
 2. Calculo os resíduos $\tilde{X} = X - \hat{X}$, em que $\hat{X} = \hat{\alpha}_0 +  \hat{\alpha}_1W_1 + \dots + \hat{\alpha}_{k}W_k$.
 
-3. 
+3. Rodo uma regressão de $Y$ nos controles $W$ e obtenho os resíduos $\tilde{Y} = Y - \hat{Y}$. Finalmente, rodo a regressão $\tilde{Y} = \beta_1 \tilde{X} + \epsilon$ para obter $\hat{\beta}_1$.
 
-A ideia do DML é usar ML para estimar os dois resíduos como no teorema de FWL, e então rodar uma regressão linear para estimar o efeito causal do tratamento. E Chernukov et. al. (2018) mostram que usar ML gera resíduos ortogonais e, portanto, permitem estimar o efeito causal.
+A ideia do DML é usar ML para estimar os dois resíduos como no teorema de FWL, e então rodar uma regressão linear para estimar o efeito causal do tratamento. E Chernozhukov et al. (2018) mostram que usar ML gera resíduos ortogonais e, portanto, permitem estimar o efeito causal.
 
+
+Um ingrediente técnico essencial do DML é o cross-fitting, que evita overfitting na estimação dos parâmetros de nuisance.
 
 ## Cross-fitting
 
-Uma questão importante para nós é como fazer a validação cruzada em um contexto de TSCS. De acordo com Ahrens et. al (2025), devemos sortear as partições entre unidades $i = 1, 2, \dots, n$, mantendo todas as séries temporais por unidades juntas. 
+Uma questão importante para nós é como fazer a validação cruzada em um contexto de TSCS. De acordo com Ahrens et al. (2025), devemos sortear as partições entre unidades $i = 1, 2, \dots, n$, mantendo todas as séries temporais por unidades juntas. 
 
 ## Questões Práticas
 
@@ -251,6 +257,12 @@ Para usar DML, precisamos fazer escolhas (não-óbvias) sobre três aspectos do 
 
 Uma exemplo de aplicação onde o DML é útil é em DiD. Nós sabemos que a suposição de tendências parelalas, condicional a controles, dependem de uma suposição da forma paramétrica dessa relação (em geral linear). Se a forma paramétrica não for corretamente especificada, a estimativa será viesada. Ao usar DML, nós ganhamos a flexibilidade de estimar o nuisance parameter corretamente e estimar o efeito causal de interesse.
   
+
+## Resumo e próximos passos
+
+Neste capítulo, vimos como técnicas de Machine Learning podem ser adaptadas para inferência causal. O Double LASSO resolve o problema de seleção de variáveis de confusão, enquanto o DML generaliza essa ideia permitindo o uso de qualquer método de ML para estimar os parâmetros de nuisance. Ambos se baseiam na lógica do teorema FWL: residualizar tanto o tratamento quanto a resposta antes de estimar o efeito causal.
+
+Estas ferramentas são especialmente úteis quando combinadas com outros métodos de identificação causal vistos no curso (como DiD ou IV), pois permitem maior flexibilidade na modelagem da forma funcional dos controles.
 
 ## Referências
 Ahrens, A., Chernozhukov, V., Hansen, C., Kozbur, D., Schaffer, M., & Wiemann, T. (2025). An Introduction to Double/Debiased Machine Learning. arXiv preprint arXiv:2504.08324.

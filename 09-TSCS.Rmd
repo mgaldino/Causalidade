@@ -2,13 +2,13 @@
 
 ## Introdução
 
-Dados de Painel são definidos como consistindo de observações repetidas de uma mesma unidade $i = 1, \cdot, N$ no período $t = 1, \cdot, T$. O termo dados de painel tem origem em surveys em ondas, em que o mesmo indivíduo era rastreado ao longo do tempo. Em ciência política também chamamos esse tipo de dado de **Time-Series Cross-Section**, TSCS abreviado. É basicamernte a mesma coisa. A distinção foi introduzida na literatura de ciência política portque tipicamente surveys em ondas possuem $T$ pequeno, enquanto dados de TSCE (país, estados municípios) típicos da política comparada e Relaçòes Internacionais possuem $T$ "grande", eventualmente maior do que $N$ (exemplo, países da OCDE ao longo de 50 anos, estados brasileiros ao longo de 30 anos etc.).
+Dados de Painel são definidos como consistindo de observações repetidas de uma mesma unidade $i = 1, \cdot, N$ no período $t = 1, \cdot, T$. O termo dados de painel tem origem em surveys em ondas, em que o mesmo indivíduo era rastreado ao longo do tempo. Em ciência política também chamamos esse tipo de dado de **Time-Series Cross-Section**, TSCS abreviado. É basicamente a mesma coisa. A distinção foi introduzida na literatura de ciência política portque tipicamente surveys em ondas possuem $T$ pequeno, enquanto dados de TSCE (país, estados municípios) típicos da política comparada e Relaçòes Internacionais possuem $T$ "grande", eventualmente maior do que $N$ (exemplo, países da OCDE ao longo de 50 anos, estados brasileiros ao longo de 30 anos etc.).
 
 Uma observação de uma Vd e uma VI é dada pelo par $(y_{it}, x_{it})$, em que $i$ indexa a unidade e $t$ o tempo.
 
 Tradicionalmente a literatura categorizava os dados de painel em balanceados (mesmo período de tempo para todas as unidades) e não-balanceado (períodos de tempo diferentes para as unidades). Essa terminologia confunde com nossa ideia de balanceamento em matching, de forma que mais recentemente tem sido substituída por dados completos (todas as unidades são observadas pelo mesmo período $T$) ou incompletos (algumas observações são ausentes para alguns períodos de algumas unidades).
 
-Em TSCS, podemos ter países que deixam de existir (URSS, Yugoslávia) ou serem criados (Sérvia, Montenegro). Isso vale também para estados e municípios. Não é muito claro que pensar como dados ausente faz sentido, pois não é que não foram observados (como em um survey), mas a entidade nem existe mais (ou passou a existir apenas após um tempo). Isso cria potencialmente alguns tipos de problemas que a literatura metodológica basicamente tem ignorado. Em meu doutorado, eu estudei o efeito de regimes políticos sobre a adesão a tratados de patentes. Porém, não é muito claro se a adesão da URSS em um período $t^{\star}$ deve ser atribuída à Rússia em ($t > t^{\star}$). E no caso da Yuguslávia? Ou Sérvia e Montenegro, que posteriormente se dividiram? As consequências dessas decisões é uma questão tanto substantiva quanto metodológica. Mas, até onde sei, pouco ou nada investigada.
+Em TSCS, podemos ter países que deixam de existir (URSS, Iugoslávia) ou serem criados (Sérvia, Montenegro). Isso vale também para estados e municípios. Não é muito claro que pensar como dados ausente faz sentido, pois não é que não foram observados (como em um survey), mas a entidade nem existe mais (ou passou a existir apenas após um tempo). Isso cria potencialmente alguns tipos de problemas que a literatura metodológica basicamente tem ignorado. Em meu doutorado, eu estudei o efeito de regimes políticos sobre a adesão a tratados de patentes. Porém, não é muito claro se a adesão da URSS em um período $t^{\star}$ deve ser atribuída à Rússia em ($t > t^{\star}$). E no caso da Iugoslávia? Ou Sérvia e Montenegro, que posteriormente se dividiram? As consequências dessas decisões é uma questão tanto substantiva quanto metodológica. Mas, até onde sei, pouco ou nada investigada.
 
 Os dados podem ser organizados no banco de dados em dois formatos: **long** e **wide**. O formato long, que é o padrão, organizada os dados com a coluna de unidade repetindo nas linhas tantas vezes quanto observações no tempo existirem. Já o formato wide apresenta cada unidade aparecendo em uma única linha.
 
@@ -16,7 +16,7 @@ Os dados podem ser organizados no banco de dados em dois formatos: **long** e **
 
 ### Within versus Between
 
-Uma distinção importante quando se trata de dados de painel é entre variação *within subject* e *between subject*. Para entender essa discintção, contrastemos dois estudos hipotéticos. Em um estudo "within subject", cada indivíduo é exposto às múltiplas versões do tratamento (ex. trataamento e controle) e analisamos como os indivíduos mudaram entre exposições às variações do tratamento. Em um desenho "between-subject", aleatorizamos o tratamento e controle em dois grupos de indivíduos, os tratados e não-tratados e comparamos a diferença na variável resposta dos dois grupos.
+Uma distinção importante quando se trata de dados de painel é entre variação *within subject* e *between subject*. Para entender essa distinção, contrastemos dois estudos hipotéticos. Em um estudo "within subject", cada indivíduo é exposto às múltiplas versões do tratamento (ex. tratamento e controle) e analisamos como os indivíduos mudaram entre exposições às variações do tratamento. Em um desenho "between-subject", aleatorizamos o tratamento e controle em dois grupos de indivíduos, os tratados e não-tratados e comparamos a diferença na variável resposta dos dois grupos.
 
 Em dados de painel, a questão retorna, pois observamos as mesmas unidades repetidamente no tempo. Isso quer dizer que podemos, potencialmente, fazer comparações entre unidades ("between) e intra-unidades (within). Imagine que tenho uma variável $y_{it}$ medida para $N$ indivíduos em $T$ períodos, por exemplo, intenção de voto no candidato democrata. Posso então fazer os seguintes cálculos:
 
@@ -30,9 +30,11 @@ Podemos então definir a variação *between*: $B = \sum_{i=1}^N n_i(\bar{x}_i -
 
 Para definir a variação within, temos:
 
-Para um dado indivíduo $i$, a variabilidade das suas observações ao longo do tempo, em relação à sua média $\bar{x}_i$, é dado por $\sum_t (x_{it} - \bar{x}i)^2$. Se quisermos medir a soma total da variação within, podemos então definir: $W =  \sum_{i=1}^N \sum_{t=1}^{n_i}(x_{it} - \bar{x}_i)^2$.
+Para um dado indivíduo $i$, a variabilidade das suas observações ao longo do tempo, em relação à sua média $\bar{x}_i$, é dado por $\sum_t (x_{it} - \bar{x}_i)^2$. Se quisermos medir a soma total da variação within, podemos então definir: $W =  \sum_{i=1}^N \sum_{t=1}^{n_i}(x_{it} - \bar{x}_i)^2$.
 
-A variação total, ou seja, a soma da variação em torno da média geral, é dada por: $\sum_{i=1}^N\sum_{i=1}^{n_i} (x_{it} - \bar{x})^2 = W + B$
+A variação total, ou seja, a soma da variação em torno da média geral, é dada por: $\sum_{i=1}^N\sum_{t=1}^{n_i} (x_{it} - \bar{x})^2 = W + B$
+
+Com essa estrutura de dados em mente, podemos agora discutir o principal desafio em dados de painel: o viés de variável omitida causado por características não observadas das unidades.
 
 ## OVB
 
@@ -64,20 +66,22 @@ Agora, considerem os seguintes passos:
 Agora, definindo $\tilde{y}_{it} = y_{it} - \bar{y}_i$, temos:
 
 \begin{aligned}
-\tilde{y}_{it}i &= y_it - \bar{y}_i \\
+\tilde{y}_{it} &= y_{it} - \bar{y}_i \\
          &= \alpha + \beta_0 x_{it} + a_i + e_{it} - (\alpha + \beta_0 \bar{x}_i + a_i + \bar{e}_i) \\
          &= (\alpha - \alpha) + (\beta_0 x_{it} - \beta_0 \bar{x}_i) + (a_i - a_i) + (e_{it}  - \bar{e}_i)  \\
          &= \beta_0(x_{it} - \bar{x}_i) + (e_{it}  - \bar{e}_i) \\
          &= \beta_0 \tilde{x} + \tilde{e}_{it} \text{, em que } \tilde{x} = x_{it} - \bar{x}_i \text{ e } \tilde{e}_{it} = e_{it}  - \bar{e}_i
 \end{aligned}
 
-Temos então um modelo de regressão em que os $\a_i$ foram removidos da equação estrutural e, portanto, não podem mais causal viés de variável omitida.
+Temos então um modelo de regressão em que os $a_i$ foram removidos da equação estrutural e, portanto, não podem mais causal viés de variável omitida.
 
 A pergunta para vocês agora é: qual o estimando que tal estimador estima?
 
 Pensem antes de responder...
 
 Vamos formular a questão um pouco em termos de resultados potenciais.
+
+Tendo discutido o modelo clássico de efeitos fixos e aleatórios, vejamos agora como formalizar os estimandos de interesse em TSCS usando a linguagem de resultados potenciais.
 
 ## Estimandos
 
@@ -95,7 +99,7 @@ Obviamente, existem muitas combinações de histórias possíveis (de fato, $2^t
 
 Vamos considerar, inicialmente, um caso de depois períodos e em que indíviduos são tratados nos dois períodos ou não tratados nos dois períodos. Isso significa que de quatro resultados potenciais possívels $Y_i(0,0), Y_i(0,1), Y(1,0)_i, Y_i(1,1)$ só observamos $Y_i(0,0), Y_i(1,1)$.
 
-Digamos que estamos interessados em $\mathbb{E}[Y_i(1,1) - Y_i(0,0)]$. Se a sequência de tratamento for atribuída aleatoriamente, isto é, sorteamos que irá receber $x_i = (1,1)$ e $x_i = (0,0)$, então podemos utilizar os resultados observados para recuperar nosso estimando: $\mathbb{E}[Y_i|x_{i1} = 1, x_{i2}=1] - \mathbb{E}[Y_i|x_{i1} = 0, x_{i2}=0]$. Veja que nós aleatorizamos a sequência dos tratamentos. Tal tipo de aleatorização implica que exogeneidade estrita é statisfeita, que formalizamos a seguir com resultados potenciais:
+Digamos que estamos interessados em $\mathbb{E}[Y_i(1,1) - Y_i(0,0)]$. Se a sequência de tratamento for atribuída aleatoriamente, isto é, sorteamos que irá receber $x_i = (1,1)$ e $x_i = (0,0)$, então podemos utilizar os resultados observados para recuperar nosso estimando: $\mathbb{E}[Y_i|x_{i1} = 1, x_{i2}=1] - \mathbb{E}[Y_i|x_{i1} = 0, x_{i2}=0]$. Veja que nós aleatorizamos a sequência dos tratamentos. Tal tipo de aleatorização implica que exogeneidade estrita é satisfeita, que formalizamos a seguir com resultados potenciais:
 
 $$
 Y_{it}(1), Y_{it}(0) \perp x_{it}|\mathbf{W}^{1:T}_i, a_i, \mathbf{f}^{1:T}\text{, para todo } i, t, s, 
@@ -131,7 +135,7 @@ Vale destacar que exogeneidade estrita exclui a possibilidade de que o termo de 
 Considere o que a literatura chama de Distributed Lag Model (DLM), que basicamente consiste em introduzir valores defasados (além do presente) do tratamento. O modelo simples, fica:
 
 $$
-y_{it} = \alpha + \beta_1x_{it} + \beta_2 x_{it-1} + \cdots + \beta_2 x_{it-k} + e_{it}
+y_{it} = \alpha + \beta_1x_{it} + \beta_2 x_{it-1} + \cdots + \beta_k x_{it-k} + e_{it}
 $$
 Um modelo relacionado, chamado de ADL (autoregressive distributed lag) incluida VD defasada:
 Se for um AR(1), temos:
@@ -153,7 +157,7 @@ $$
 y_{t} = \beta_0 + \beta_1 y_{t-1} + e_t
 $$
 
-Suponha ademais que $\mathbb{E}[e_t|y_{t-1}, y_{t-2}, ...] = 0$. Esse pressuposto implica que $\mathbb{E}y_{t}|y_{t-1}, y_{t-2}, ...] = \mathbb{E}[\beta_0 + \beta_1 y_{t-1} + e_t|y_{t-1}, y_{t-2}, ...] = \beta_0 + \beta_1\mathbb{E}y_{t-1}|y_{t-1}, y_{t-2}, ...] + 0 = \beta_0 + \beta_1 y_{t-1}$.
+Suponha ademais que $\mathbb{E}[e_t|y_{t-1}, y_{t-2}, ...] = 0$. Esse pressuposto implica que $\mathbb{E}[y_{t}|y_{t-1}, y_{t-2}, ...] = \mathbb{E}[\beta_0 + \beta_1 y_{t-1} + e_t|y_{t-1}, y_{t-2}, ...] = \beta_0 + \beta_1\mathbb{E}[y_{t-1}|y_{t-1}, y_{t-2}, ...] + 0 = \beta_0 + \beta_1 y_{t-1}$.
 
 Portanto, $e_t$ e $y_{t}$ são correlacionados. O modelo AR(1), isto é, com VD defasa, viola exogeneidade estrita. 
 
@@ -190,9 +194,9 @@ $$
 y(x_{i1}, x_{i2}, \cdots, x_{it}, \cdots x_{iT}) = y(\sum_{t=1}^T x_{it})
 $$
 
-Para uma dada unidade $i$ no tempo $t$, e supondo um tratamento binário $x_{it}$, o resultado potencial é: $Y(1)_{it}$ para o tratamento, e $Y(1)_{it}$ para o controle. Uma suposição implícita na nossa derivação é que se eu denotar a sequência (ou caminho) de tratamento e controle no tempo por algo como $Y(1,0,..., 1)_{it^{\star}}$ para uma resposta em $t^{\star} > 1$, a história dos resultados potenciais é irrelevante, de modo que posso simpliesmente escrever  $Y(1)_{it^{\star}}$ e similarmente para o controle. Então, sabemos que $Y(1)_{it^{\star}} = \alpha + \beta_0 x_{it^{\star}} + a_i + e_{it^{\star}}$ e $Y(0)_{it^{\star}} = \alpha + a_i + e_{it^{\star}}$.
+Para uma dada unidade $i$ no tempo $t$, e supondo um tratamento binário $x_{it}$, o resultado potencial é: $Y(1)_{it}$ para o tratamento, e $Y(1)_{it}$ para o controle. Uma suposição implícita na nossa derivação é que se eu denotar a sequência (ou caminho) de tratamento e controle no tempo por algo como $Y(1,0,..., 1)_{it^{\star}}$ para uma resposta em $t^{\star} > 1$, a história dos resultados potenciais é irrelevante, de modo que posso simplesmente escrever  $Y(1)_{it^{\star}}$ e similarmente para o controle. Então, sabemos que $Y(1)_{it^{\star}} = \alpha + \beta_0 x_{it^{\star}} + a_i + e_{it^{\star}}$ e $Y(0)_{it^{\star}} = \alpha + a_i + e_{it^{\star}}$.
 
-O efeito do tratamento entre indivíduos no período t^{\star} é dado justamente por $Y(1)_{it^{\star}} - Y(0)_{it^{\star}} = \alpha + \beta_0 x_{it^{\star}} + a_i + e_{it^{\star}} - (\alpha + a_i + e_{it^{\star}}) = beta_0 x_{it^{\star}$. Como só posso observar um dos resultados potenciais para cada indivíduo no período t^{\star}, parece natual pensar que inha regressão de efeitos.
+O efeito do tratamento entre indivíduos no período t^{\star} é dado justamente por $Y(1)_{it^{\star}} - Y(0)_{it^{\star}} = \alpha + \beta_0 x_{it^{\star}} + a_i + e_{it^{\star}} - (\alpha + a_i + e_{it^{\star}}) = \beta_0 x_{it^{\star}}$. Como só posso observar um dos resultados potenciais para cada indivíduo no período t^{\star}, parece natual pensar que inha regressão de efeitos.
 
  
 ### Remark
@@ -223,7 +227,7 @@ $$
 y_{it} = \beta_0 + \beta_2 z_t + \beta_1 x_{it} + (e_{it} + \mu_t)
 $$
 
-A parte "fixa" é $beta_0 + \beta_2 z_t + \beta_1 x_{it}$ e a parte "aleatória" é $e_{it} + \mu_t$. Tipicamente, assumimos que $\mu_t \sim N(0, \sigma^2_{\mu})$ e $e_{it} \sim N(0, \sigma^2_e)$.
+A parte "fixa" é $\beta_0 + \beta_2 z_t + \beta_1 x_{it}$ e a parte "aleatória" é $e_{it} + \mu_t$. Tipicamente, assumimos que $\mu_t \sim N(0, \sigma^2_{\mu})$ e $e_{it} \sim N(0, \sigma^2_e)$.
 
 Isso é também chamado de partial pooling (shrinkage), pois os "varying-intercept" possuem uma distribuição comum, com variância estimada pelos dados. Vejam que, se $\sigma^2_{\mu} = 0$, então os interceptos são todos iguais, e temos uma "pooled regression". Se $\sigma^2_{\mu} \to \in \infty$, então cada intercepto poderia ser estimado separadamente para cada $t$: "unpooled regression".
 
@@ -239,7 +243,7 @@ $$
 \mathbb{E}[\mu_{t}|x_{it}, z_t] = 0
 $$
 
-As implicações dos dois pressupostos é que $Cov(e_{it},x_{it}) = 0$ e $Cov(\mu_{t},x_{it}) = 0$. Vamos comparar com o modelo de feitos fixos, mas usando outra formulação. O modelo padrão com varráveis binárias pode ser escrito como:
+As implicações dos dois pressupostos é que $Cov(e_{it},x_{it}) = 0$ e $Cov(\mu_{t},x_{it}) = 0$. Vamos comparar com o modelo de feitos fixos, mas usando outra formulação. O modelo padrão com variáveis binárias pode ser escrito como:
 
 $$
 y_{it} = \sum_{t=1}^T \beta_{0t} D_t +  \beta_1 x_{it} + e_{it}
@@ -277,7 +281,7 @@ O problema de OVB com efeitos aleatórios pode ser explicado da seguinte maneira
 
 No modelo de efeitos aleatórios $y_{it} = \beta_0 + \beta_2 z_t + \beta_1 x_{it} + (e_{it} + \mu_t)$, implicitamente assumimos que o efeito between e within sao iguais. Quando são diferentes, $\beta_1$ é uma média ponderada dos dois processos, e isso produz justamente o OVB, porque o efeito between é omitido. Bell e Jones chamam de "heterogeneity bias", para distinguir do clásico OVB.
 
-A solução proposta por Bell e Jones, ecoando Mundlak, é adicionar um termo que caputre o efeito between: a média temporal. A equaçao fica então:
+A solução proposta por Bell e Jones, ecoando Mundlak, é adicionar um termo que capture o efeito between: a média temporal. A equaçao fica então:
 
 $y_{it} = \beta_0 + \beta_2 z_t + \beta_1 x_{it} + \beta_3 \bar{x}_t +  (e_{it} + \mu_t)$. Essa equação pode ser reformulada para:
 
