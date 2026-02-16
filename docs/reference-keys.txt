@@ -3,11 +3,11 @@ eq:ss-decomp-final
 tab:pib-dados
 tab:pib-decomposicao
 eq:voto-esperado
+eq:ss-temporal1
+eq:ss-temporal-abc
 tab:eleicoes-dados
 tab:eleicoes-bartik
 fig:eleicoes-grafico
-eq:ss-temporal1
-eq:ss-temporal-abc
 tab:temporal-decomposicao
 fig:temporal-grafico
 eq:share-def
@@ -223,9 +223,8 @@ shift-share
 introdução-7
 aplicação-pib-por-estado-e-setor
 exemplos-da-política
-eleições-presidenciais-2014-e-2018
 variação-temporal
-decomposição-temporal-eleições-20142018
+aplicação-eleições-presidenciais-20142018
 o-instrumento-shift-share-como-variável-instrumental
 construção-formal
 o-modelo-estrutural-e-o-iv

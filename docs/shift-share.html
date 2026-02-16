@@ -411,13 +411,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="14.1.1" data-path="15-Shift-Share.html"><a href="#aplica%C3%A7%C3%A3o-pib-por-estado-e-setor"><i class="fa fa-check"></i><b>14.1.1</b> Aplicação: PIB por estado e setor</a></li>
 </ul></li>
-<li class="chapter" data-level="14.2" data-path="15-Shift-Share.html"><a href="#exemplos-da-pol%C3%ADtica"><i class="fa fa-check"></i><b>14.2</b> Exemplos da Política</a>
-<ul>
-<li class="chapter" data-level="14.2.1" data-path="15-Shift-Share.html"><a href="#elei%C3%A7%C3%B5es-presidenciais-2014-e-2018"><i class="fa fa-check"></i><b>14.2.1</b> Eleições presidenciais 2014 e 2018</a></li>
-</ul></li>
+<li class="chapter" data-level="14.2" data-path="15-Shift-Share.html"><a href="#exemplos-da-pol%C3%ADtica"><i class="fa fa-check"></i><b>14.2</b> Exemplos da Política</a></li>
 <li class="chapter" data-level="14.3" data-path="15-Shift-Share.html"><a href="#varia%C3%A7%C3%A3o-temporal"><i class="fa fa-check"></i><b>14.3</b> Variação temporal</a>
 <ul>
-<li class="chapter" data-level="14.3.1" data-path="15-Shift-Share.html"><a href="#decomposi%C3%A7%C3%A3o-temporal-elei%C3%A7%C3%B5es-20142018"><i class="fa fa-check"></i><b>14.3.1</b> Decomposição temporal: eleições 2014→2018</a></li>
+<li class="chapter" data-level="14.3.1" data-path="15-Shift-Share.html"><a href="#aplica%C3%A7%C3%A3o-elei%C3%A7%C3%B5es-presidenciais-20142018"><i class="fa fa-check"></i><b>14.3.1</b> Aplicação: Eleições presidenciais 2014→2018</a></li>
 </ul></li>
 <li class="chapter" data-level="14.4" data-path="15-Shift-Share.html"><a href="#o-instrumento-shift-share-como-vari%C3%A1vel-instrumental"><i class="fa fa-check"></i><b>14.4</b> O instrumento shift-share como variável instrumental</a>
 <ul>
@@ -701,9 +698,39 @@ X_i = \underbrace{\sum_j w_{ij}\bar{D}_{j}}_{\text{PIB esperado}} + \underbrace{
 <p>A gente poderia pensar que o poder de um país poderia ser um exemplo em RI. Tipicamente ele é decomposto em componentes militares, econômicos e culturais. Contudo, não é apropriado porque os componentes se misturam, isto é, aumentar a economia ajuda a aumentar os outros componentes, por exemplo, o aspecto cultural, e vice-versa. Para que a decomposição funcione, é preciso que sejam ortogonais. Um exemplo mais apropriado é volume de comércio internacional. Ele pode ser decomposto em volumes por indústria (como na economia), ou por parceiros comerciais.</p>
 <p>O aspecto crucial aqui a ser notado é que é necessário que exista uma variável que pode ser decomposta em subunidades formadas por categorias mutuamente excludentes. Neste exemplo, o voto do partido exclui voto em outro partido necessariamente. No exemplo original da economia, a renda per capita ou PIB per capita de uma indústria exclui a de todas as outras.</p>
 <p>É curioso que não tenha havido maior utilização desse tipo de variável instrumental na ciência política e RI, na medida em que temos várias medidas potencialmente decompostas em subunidades formadas por categorias excludentes.</p>
-<div id="eleições-presidenciais-2014-e-2018" class="section level3 hasAnchor" number="14.2.1">
-<h3><span class="header-section-number">14.2.1</span> Eleições presidenciais 2014 e 2018<a href="#elei%C3%A7%C3%B5es-presidenciais-2014-e-2018" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Para ilustrar a decomposição com dados reais da política brasileira, vamos usar os resultados do primeiro turno das eleições presidenciais de 2014 (Dilma Rousseff, PT) e 2018 (Fernando Haddad, PT). A queda do PT entre essas duas eleições — de cerca de 41% para 29% dos votos válidos nacionalmente — é um dos maiores realinhamentos eleitorais recentes no Brasil, impulsionado pela crise econômica e pela Operação Lava-Jato.</p>
+</div>
+<div id="variação-temporal" class="section level2 hasAnchor" number="14.3">
+<h2><span class="header-section-number">14.3</span> Variação temporal<a href="#varia%C3%A7%C3%A3o-temporal" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Para construir o instrumento de <em>shift-share</em>, é preciso adicionar uma dimensão temporal. Suponha que a parcela <span class="math inline">\(w_{ij}\)</span> de votos no partido <span class="math inline">\(j\)</span> no estado <span class="math inline">\(i\)</span> varia no tempo. Isso é razoável: o PT, por exemplo, vai ter variação na sua votação por estado ao longo do tempo. Vamos chamar <span class="math inline">\(w_{ijt}\)</span> a parcela <span class="math inline">\(w_{ij}\)</span> no tempo <span class="math inline">\(t=0, 1, ...\)</span>. Assim, podemos expressar <span class="math inline">\(w_{ijt}\)</span> como a soma da parcela inicial <span class="math inline">\(w_{ij0}\)</span> e a mudança ao longo do tempo <span class="math inline">\((w_{ijt} - w_{ij0})\)</span>:</p>
+<p><span class="math display">\[w_{ijt} = w_{ij0} + (w_{ijt} - w_{ij0})\]</span></p>
+<p>e decompor <span class="math inline">\(X_{it}\)</span> separando a parcela inicial da variação:</p>
+<p><span class="math display" id="eq:ss-temporal1">\[\begin{equation}
+\begin{aligned}
+X_{it} &amp;= \sum_j w_{ijt}D_{ijt} \\
+       &amp;= \sum_j \left[w_{ij0} + (w_{ijt} - w_{ij0})\right] D_{ijt} \\
+       &amp;= \sum_j w_{ij0} \, D_{ijt} + \sum_j (w_{ijt} - w_{ij0}) \, D_{ijt}
+\end{aligned}
+\tag{14.4}
+\end{equation}\]</span></p>
+<p>E agora aplicamos nosso truque usual de somar e subtrair o mesmo termo, no caso relativo à média <span class="math inline">\(\bar{D}_{jt}\)</span>, mais especificamente <span class="math inline">\(w_{ij0}\bar{D}_{jt}\)</span>:</p>
+<p><span class="math display" id="eq:ss-temporal-abc">\[\begin{equation}
+\begin{aligned}
+X_{it} &amp;= \sum_j w_{ij0} \, D_{ijt} + \sum_j (w_{ijt} - w_{ij0}) \, D_{ijt} \\
+       &amp;= \sum_j w_{ij0} \, D_{ijt} \color{blue}{+ \sum_j w_{ij0}\bar{D}_{jt}} \color{red}{- \sum_j w_{ij0}\bar{D}_{jt}} + \sum_j (w_{ijt} - w_{ij0}) \, D_{ijt} \\
+       &amp;= \color{orange}{\underbrace{\sum_j w_{ij0}\bar{D}_{jt}}_{\text{A: votação esperada}}} + \color{purple}{\underbrace{\sum_j w_{ij0}(D_{ijt} - \bar{D}_{jt})}_{\text{B: choque partidário}}} + \color{teal}{\underbrace{\sum_j (w_{ijt} - w_{ij0}) \, D_{ijt}}_{\text{C: choque temporal}}}
+\end{aligned}
+\tag{14.5}
+\end{equation}\]</span></p>
+<p>A interpretação de cada componente é:</p>
+<p><strong>Componente <span class="math inline">\(A\)</span> (votação esperada)</strong>: reflete a tendência ou média de votação dos partidos no estado <span class="math inline">\(i\)</span> no ano <span class="math inline">\(t\)</span>, levando em conta a composição inicial da distribuição de votos por partido <span class="math inline">\(w_{ij0}\)</span>. É o que esperaríamos se o estado mantivesse sua estrutura inicial e cada partido tivesse o desempenho médio nacional.</p>
+<p><strong>Componente <span class="math inline">\(B\)</span> (choque partidário)</strong>: reflete a mudança na distribuição de votos por partido por estado. Cada termo <span class="math inline">\(w_{ij0}(D_{ijt} - \bar{D}_{jt})\)</span> mede quanto a votação do partido <span class="math inline">\(j\)</span> no estado <span class="math inline">\(i\)</span> se desviou da referência média <span class="math inline">\(\bar{D}_{jt}\)</span> naquele ano. Se <span class="math inline">\(D_{ijt} - \bar{D}_{jt}\)</span> for positivo, significa que o partido <span class="math inline">\(j\)</span> teve um desempenho acima do esperado no estado <span class="math inline">\(i\)</span> (um choque positivo ali), contribuindo para aumentar <span class="math inline">\(X_{it}\)</span>. Se for negativo, o partido <span class="math inline">\(j\)</span> foi pior que a média no estado (choque negativo), reduzindo <span class="math inline">\(X_{it}\)</span> em relação ao esperado.</p>
+<p>Importante: esses desvios são ponderados por <span class="math inline">\(w_{ij0}\)</span> (quão importante era o partido <span class="math inline">\(j\)</span> no estado <span class="math inline">\(i\)</span> inicialmente), de modo que choques em partidos que tinham grande presença inicial no estado impactam mais o total <span class="math inline">\(X_{it}\)</span> do que choques em partidos com pouca presença inicial. Este componente é chamado de <em>shift</em> porque reflete as mudanças no desempenho dos partidos no nível nacional/setorial afetando o estado conforme sua composição inicial.</p>
+<p><strong>Componente <span class="math inline">\(C\)</span> (choque temporal)</strong>: representa o impacto das mudanças na participação dos partidos no próprio estado <span class="math inline">\(i\)</span> ao longo do tempo. Aqui consideramos a diferença <span class="math inline">\(w_{ijt} - w_{ij0}\)</span>, ou seja, o quanto a participação do partido <span class="math inline">\(j\)</span> mudou no estado <span class="math inline">\(i\)</span> desde o período inicial. Esse termo mede os choques locais ou regionais na composição dos votos.</p>
+<p>Por exemplo, se um partido <span class="math inline">\(j\)</span> ganhou espaço no estado <span class="math inline">\(i\)</span> (aumentou sua fatia <span class="math inline">\(w_{ijt}\)</span> em relação à inicial <span class="math inline">\(w_{ij0}\)</span>), isso adiciona votos ao total <span class="math inline">\(X_{it}\)</span> (já que <span class="math inline">\(D_{ijt}\)</span> é multiplicado por um <span class="math inline">\(\Delta w\)</span> positivo). Por outro lado, se um partido perdeu participação no estado, o termo será negativo, indicando que o estado <span class="math inline">\(i\)</span> teve um desempenho pior por mudança na composição dos votos entre partidos. Em suma, este componente reflete alterações estruturais próprias do estado — realinhamentos políticos regionais, vantagens competitivas locais, etc. — independentemente da tendência geral dos partidos.</p>
+<p>Em conjunto, esses três componentes (A, B e C) formam a decomposição shift-share completa. Eles nos permitem entender <span class="math inline">\(X_{it}\)</span> da seguinte forma: (A) o que seria esperado dada a tendência geral; (B) o quanto o estado ganhou ou perdeu devido a <em>shifts</em> no desempenho dos partidos; e (C) o quanto se deve a mudanças internas do próprio estado na distribuição de votos (<em>share</em> regional).</p>
+<div id="aplicação-eleições-presidenciais-20142018" class="section level3 hasAnchor" number="14.3.1">
+<h3><span class="header-section-number">14.3.1</span> Aplicação: Eleições presidenciais 2014→2018<a href="#aplica%C3%A7%C3%A3o-elei%C3%A7%C3%B5es-presidenciais-20142018" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Vamos aplicar a decomposição temporal a dados reais da política brasileira, usando os resultados do primeiro turno das eleições presidenciais de 2014 (Dilma Rousseff, PT) e 2018 (Fernando Haddad, PT). A queda do PT entre essas duas eleições — de cerca de 41% para 29% dos votos válidos nacionalmente — é um dos maiores realinhamentos eleitorais recentes no Brasil, impulsionado pela crise econômica e pela Operação Lava-Jato.</p>
 <p>Agrupamos os candidatos em três blocos: PT, PSDB e Outros.</p>
 <div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="shift-share.html#cb176-1" tabindex="-1"></a><span class="co"># Dados aproximados do TSE: votação 1º turno por UF (% votos válidos)</span></span>
 <span id="cb176-2"><a href="shift-share.html#cb176-2" tabindex="-1"></a><span class="co"># 2014: Dilma (PT), Aécio (PSDB), Marina+outros</span></span>
@@ -849,34 +876,34 @@ X_i = \underbrace{\sum_j w_{ij}\bar{D}_{j}}_{\text{PIB esperado}} + \underbrace{
 </tbody>
 </table>
 <p>A queda do PT e o colapso do PSDB são visíveis em todos os estados, mas com intensidade muito diferente. No Nordeste (BA, CE, PE), o PT manteve boa parte dos votos; no Sul e Sudeste (SP, RS, PR), a queda foi drástica. Essa variação regional é exatamente o que a decomposição shift-share nos ajuda a entender.</p>
-<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="shift-share.html#cb177-1" tabindex="-1"></a><span class="co"># Construir instrumento Bartik: mudança esperada na votação do PT por estado</span></span>
-<span id="cb177-2"><a href="shift-share.html#cb177-2" tabindex="-1"></a><span class="co"># Shares: composição partidária de 2014 (em fração)</span></span>
-<span id="cb177-3"><a href="shift-share.html#cb177-3" tabindex="-1"></a>shares_2014 <span class="ot">&lt;-</span> eleicoes[, <span class="fu">c</span>(<span class="st">&quot;PT_2014&quot;</span>,<span class="st">&quot;PSDB_2014&quot;</span>,<span class="st">&quot;Outros_2014&quot;</span>)] <span class="sc">/</span> <span class="dv">100</span></span>
-<span id="cb177-4"><a href="shift-share.html#cb177-4" tabindex="-1"></a></span>
-<span id="cb177-5"><a href="shift-share.html#cb177-5" tabindex="-1"></a><span class="co"># Shifts: mudança nacional na votação de cada bloco (média dos 27 estados)</span></span>
-<span id="cb177-6"><a href="shift-share.html#cb177-6" tabindex="-1"></a>media_2014 <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(eleicoes[, <span class="fu">c</span>(<span class="st">&quot;PT_2014&quot;</span>,<span class="st">&quot;PSDB_2014&quot;</span>,<span class="st">&quot;Outros_2014&quot;</span>)])</span>
-<span id="cb177-7"><a href="shift-share.html#cb177-7" tabindex="-1"></a>media_2018 <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(eleicoes[, <span class="fu">c</span>(<span class="st">&quot;PT_2018&quot;</span>,<span class="st">&quot;PSDB_2018&quot;</span>,<span class="st">&quot;Outros_2018&quot;</span>)])</span>
-<span id="cb177-8"><a href="shift-share.html#cb177-8" tabindex="-1"></a>shifts <span class="ot">&lt;-</span> (media_2018 <span class="sc">-</span> media_2014) <span class="sc">/</span> <span class="dv">100</span>  <span class="co"># em pontos percentuais / 100</span></span>
-<span id="cb177-9"><a href="shift-share.html#cb177-9" tabindex="-1"></a></span>
-<span id="cb177-10"><a href="shift-share.html#cb177-10" tabindex="-1"></a><span class="co"># Instrumento Bartik para cada estado</span></span>
-<span id="cb177-11"><a href="shift-share.html#cb177-11" tabindex="-1"></a>bartik <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.matrix</span>(shares_2014) <span class="sc">%*%</span> shifts)</span>
-<span id="cb177-12"><a href="shift-share.html#cb177-12" tabindex="-1"></a></span>
-<span id="cb177-13"><a href="shift-share.html#cb177-13" tabindex="-1"></a><span class="co"># Mudança real na votação total (simplificada como soma ponderada)</span></span>
-<span id="cb177-14"><a href="shift-share.html#cb177-14" tabindex="-1"></a>mudanca_real_pt <span class="ot">&lt;-</span> (eleicoes<span class="sc">$</span>PT_2018 <span class="sc">-</span> eleicoes<span class="sc">$</span>PT_2014) <span class="sc">/</span> <span class="dv">100</span></span>
-<span id="cb177-15"><a href="shift-share.html#cb177-15" tabindex="-1"></a></span>
-<span id="cb177-16"><a href="shift-share.html#cb177-16" tabindex="-1"></a>resultado_elec <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb177-17"><a href="shift-share.html#cb177-17" tabindex="-1"></a>  <span class="at">UF =</span> eleicoes<span class="sc">$</span>UF,</span>
-<span id="cb177-18"><a href="shift-share.html#cb177-18" tabindex="-1"></a>  <span class="at">Mudanca_PT =</span> <span class="fu">round</span>(mudanca_real_pt <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>),</span>
-<span id="cb177-19"><a href="shift-share.html#cb177-19" tabindex="-1"></a>  <span class="at">Bartik =</span> <span class="fu">round</span>(bartik <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>),</span>
-<span id="cb177-20"><a href="shift-share.html#cb177-20" tabindex="-1"></a>  <span class="at">Residuo =</span> <span class="fu">round</span>((mudanca_real_pt <span class="sc">-</span> bartik) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span>
-<span id="cb177-21"><a href="shift-share.html#cb177-21" tabindex="-1"></a>)</span>
-<span id="cb177-22"><a href="shift-share.html#cb177-22" tabindex="-1"></a></span>
-<span id="cb177-23"><a href="shift-share.html#cb177-23" tabindex="-1"></a>tab_elec <span class="ot">&lt;-</span> resultado_elec[resultado_elec<span class="sc">$</span>UF <span class="sc">%in%</span> estados_sel, ]</span>
-<span id="cb177-24"><a href="shift-share.html#cb177-24" tabindex="-1"></a>tab_elec <span class="ot">&lt;-</span> tab_elec[<span class="fu">match</span>(estados_sel, tab_elec<span class="sc">$</span>UF), ]</span>
-<span id="cb177-25"><a href="shift-share.html#cb177-25" tabindex="-1"></a></span>
-<span id="cb177-26"><a href="shift-share.html#cb177-26" tabindex="-1"></a><span class="fu">kable</span>(tab_elec, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb177-27"><a href="shift-share.html#cb177-27" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">&quot;Mudança na votação PT 2014→2018 vs. predição Bartik (pp)&quot;</span>,</span>
-<span id="cb177-28"><a href="shift-share.html#cb177-28" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;UF&quot;</span>, <span class="st">&quot;Mudança real PT&quot;</span>, <span class="st">&quot;Predição Bartik&quot;</span>, <span class="st">&quot;Resíduo&quot;</span>))</span></code></pre></div>
+<p>Primeiro, construímos o instrumento Bartik: a mudança <em>esperada</em> na votação de cada estado, com base na composição partidária inicial (2014) e nas tendências nacionais de cada bloco.</p>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="shift-share.html#cb177-1" tabindex="-1"></a><span class="co"># Shares: composição partidária de 2014 (em fração)</span></span>
+<span id="cb177-2"><a href="shift-share.html#cb177-2" tabindex="-1"></a>shares_2014 <span class="ot">&lt;-</span> eleicoes[, <span class="fu">c</span>(<span class="st">&quot;PT_2014&quot;</span>,<span class="st">&quot;PSDB_2014&quot;</span>,<span class="st">&quot;Outros_2014&quot;</span>)] <span class="sc">/</span> <span class="dv">100</span></span>
+<span id="cb177-3"><a href="shift-share.html#cb177-3" tabindex="-1"></a></span>
+<span id="cb177-4"><a href="shift-share.html#cb177-4" tabindex="-1"></a><span class="co"># Shifts: mudança nacional na votação de cada bloco (média dos 27 estados)</span></span>
+<span id="cb177-5"><a href="shift-share.html#cb177-5" tabindex="-1"></a>media_2014 <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(eleicoes[, <span class="fu">c</span>(<span class="st">&quot;PT_2014&quot;</span>,<span class="st">&quot;PSDB_2014&quot;</span>,<span class="st">&quot;Outros_2014&quot;</span>)])</span>
+<span id="cb177-6"><a href="shift-share.html#cb177-6" tabindex="-1"></a>media_2018 <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(eleicoes[, <span class="fu">c</span>(<span class="st">&quot;PT_2018&quot;</span>,<span class="st">&quot;PSDB_2018&quot;</span>,<span class="st">&quot;Outros_2018&quot;</span>)])</span>
+<span id="cb177-7"><a href="shift-share.html#cb177-7" tabindex="-1"></a>shifts <span class="ot">&lt;-</span> (media_2018 <span class="sc">-</span> media_2014) <span class="sc">/</span> <span class="dv">100</span>  <span class="co"># em pontos percentuais / 100</span></span>
+<span id="cb177-8"><a href="shift-share.html#cb177-8" tabindex="-1"></a></span>
+<span id="cb177-9"><a href="shift-share.html#cb177-9" tabindex="-1"></a><span class="co"># Instrumento Bartik para cada estado</span></span>
+<span id="cb177-10"><a href="shift-share.html#cb177-10" tabindex="-1"></a>bartik <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.matrix</span>(shares_2014) <span class="sc">%*%</span> shifts)</span>
+<span id="cb177-11"><a href="shift-share.html#cb177-11" tabindex="-1"></a></span>
+<span id="cb177-12"><a href="shift-share.html#cb177-12" tabindex="-1"></a><span class="co"># Mudança real na votação do PT</span></span>
+<span id="cb177-13"><a href="shift-share.html#cb177-13" tabindex="-1"></a>mudanca_real_pt <span class="ot">&lt;-</span> (eleicoes<span class="sc">$</span>PT_2018 <span class="sc">-</span> eleicoes<span class="sc">$</span>PT_2014) <span class="sc">/</span> <span class="dv">100</span></span>
+<span id="cb177-14"><a href="shift-share.html#cb177-14" tabindex="-1"></a></span>
+<span id="cb177-15"><a href="shift-share.html#cb177-15" tabindex="-1"></a>resultado_elec <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb177-16"><a href="shift-share.html#cb177-16" tabindex="-1"></a>  <span class="at">UF =</span> eleicoes<span class="sc">$</span>UF,</span>
+<span id="cb177-17"><a href="shift-share.html#cb177-17" tabindex="-1"></a>  <span class="at">Mudanca_PT =</span> <span class="fu">round</span>(mudanca_real_pt <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>),</span>
+<span id="cb177-18"><a href="shift-share.html#cb177-18" tabindex="-1"></a>  <span class="at">Bartik =</span> <span class="fu">round</span>(bartik <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>),</span>
+<span id="cb177-19"><a href="shift-share.html#cb177-19" tabindex="-1"></a>  <span class="at">Residuo =</span> <span class="fu">round</span>((mudanca_real_pt <span class="sc">-</span> bartik) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span>
+<span id="cb177-20"><a href="shift-share.html#cb177-20" tabindex="-1"></a>)</span>
+<span id="cb177-21"><a href="shift-share.html#cb177-21" tabindex="-1"></a></span>
+<span id="cb177-22"><a href="shift-share.html#cb177-22" tabindex="-1"></a>tab_elec <span class="ot">&lt;-</span> resultado_elec[resultado_elec<span class="sc">$</span>UF <span class="sc">%in%</span> estados_sel, ]</span>
+<span id="cb177-23"><a href="shift-share.html#cb177-23" tabindex="-1"></a>tab_elec <span class="ot">&lt;-</span> tab_elec[<span class="fu">match</span>(estados_sel, tab_elec<span class="sc">$</span>UF), ]</span>
+<span id="cb177-24"><a href="shift-share.html#cb177-24" tabindex="-1"></a></span>
+<span id="cb177-25"><a href="shift-share.html#cb177-25" tabindex="-1"></a><span class="fu">kable</span>(tab_elec, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb177-26"><a href="shift-share.html#cb177-26" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">&quot;Mudança na votação PT 2014→2018 vs. predição Bartik (pp)&quot;</span>,</span>
+<span id="cb177-27"><a href="shift-share.html#cb177-27" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;UF&quot;</span>, <span class="st">&quot;Mudança real PT&quot;</span>, <span class="st">&quot;Predição Bartik&quot;</span>, <span class="st">&quot;Resíduo&quot;</span>))</span></code></pre></div>
 <table>
 <caption><span id="tab:eleicoes-bartik">Table 14.4: </span>Mudança na votação PT 2014→2018 vs. predição Bartik (pp)</caption>
 <thead>
@@ -950,7 +977,7 @@ X_i = \underbrace{\sum_j w_{ij}\bar{D}_{j}}_{\text{PIB esperado}} + \underbrace{
 </tr>
 </tbody>
 </table>
-<p>O instrumento Bartik prediz a mudança esperada na votação do PT em cada estado com base na sua composição partidária inicial (2014) e nas tendências nacionais de cada bloco. O <strong>resíduo</strong> captura fatores regionais específicos — por exemplo, estados onde a Lava-Jato teve impacto particularmente forte ou onde lideranças locais do PT mantiveram sua base eleitoral.</p>
+<p>O <strong>resíduo</strong> captura fatores regionais específicos — por exemplo, estados onde a Lava-Jato teve impacto particularmente forte ou onde lideranças locais do PT mantiveram sua base eleitoral.</p>
 <div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="shift-share.html#cb178-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb178-2"><a href="shift-share.html#cb178-2" tabindex="-1"></a></span>
 <span id="cb178-3"><a href="shift-share.html#cb178-3" tabindex="-1"></a><span class="fu">ggplot</span>(resultado_elec, <span class="fu">aes</span>(<span class="at">x =</span> Bartik, <span class="at">y =</span> Mudanca_PT)) <span class="sc">+</span></span>
@@ -968,40 +995,7 @@ Figure 14.1: Mudança na votação do PT (2014→2018): observada vs. prediçã
 </p>
 </div>
 <p>O gráfico mostra que estados próximos à linha tracejada (45°) tiveram mudanças bem explicadas pela estrutura nacional; estados distantes da linha tiveram choques regionais importantes.</p>
-</div>
-</div>
-<div id="variação-temporal" class="section level2 hasAnchor" number="14.3">
-<h2><span class="header-section-number">14.3</span> Variação temporal<a href="#varia%C3%A7%C3%A3o-temporal" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Para construir o instrumento de <em>shift-share</em>, é preciso adicionar uma dimensão temporal. Suponha que a parcela <span class="math inline">\(w_{ij}\)</span> de votos no partido <span class="math inline">\(j\)</span> no estado <span class="math inline">\(i\)</span> varia no tempo. Isso é razoável: o PT, por exemplo, vai ter variação na sua votação por estado ao longo do tempo. Vamos chamar <span class="math inline">\(w_{ijt}\)</span> a parcela <span class="math inline">\(w_{ij}\)</span> no tempo <span class="math inline">\(t=0, 1, ...\)</span>. Assim, podemos expressar <span class="math inline">\(w_{ijt}\)</span> como a soma da parcela inicial <span class="math inline">\(w_{ij0}\)</span> e a mudança ao longo do tempo <span class="math inline">\((w_{ijt} - w_{ij0})\)</span>:</p>
-<p><span class="math display">\[w_{ijt} = w_{ij0} + (w_{ijt} - w_{ij0})\]</span></p>
-<p>e decompor <span class="math inline">\(X_{it}\)</span> separando a parcela inicial da variação:</p>
-<p><span class="math display" id="eq:ss-temporal1">\[\begin{equation}
-\begin{aligned}
-X_{it} &amp;= \sum_j w_{ijt}D_{ijt} \\
-       &amp;= \sum_j \left[w_{ij0} + (w_{ijt} - w_{ij0})\right] D_{ijt} \\
-       &amp;= \sum_j w_{ij0} \, D_{ijt} + \sum_j (w_{ijt} - w_{ij0}) \, D_{ijt}
-\end{aligned}
-\tag{14.4}
-\end{equation}\]</span></p>
-<p>E agora aplicamos nosso truque usual de somar e subtrair o mesmo termo, no caso relativo à média <span class="math inline">\(\bar{D}_{jt}\)</span>, mais especificamente <span class="math inline">\(w_{ij0}\bar{D}_{jt}\)</span>:</p>
-<p><span class="math display" id="eq:ss-temporal-abc">\[\begin{equation}
-\begin{aligned}
-X_{it} &amp;= \sum_j w_{ij0} \, D_{ijt} + \sum_j (w_{ijt} - w_{ij0}) \, D_{ijt} \\
-       &amp;= \sum_j w_{ij0} \, D_{ijt} \color{blue}{+ \sum_j w_{ij0}\bar{D}_{jt}} \color{red}{- \sum_j w_{ij0}\bar{D}_{jt}} + \sum_j (w_{ijt} - w_{ij0}) \, D_{ijt} \\
-       &amp;= \color{orange}{\underbrace{\sum_j w_{ij0}\bar{D}_{jt}}_{\text{A: votação esperada}}} + \color{purple}{\underbrace{\sum_j w_{ij0}(D_{ijt} - \bar{D}_{jt})}_{\text{B: choque partidário}}} + \color{teal}{\underbrace{\sum_j (w_{ijt} - w_{ij0}) \, D_{ijt}}_{\text{C: choque temporal}}}
-\end{aligned}
-\tag{14.5}
-\end{equation}\]</span></p>
-<p>A interpretação de cada componente é:</p>
-<p><strong>Componente <span class="math inline">\(A\)</span> (votação esperada)</strong>: reflete a tendência ou média de votação dos partidos no estado <span class="math inline">\(i\)</span> no ano <span class="math inline">\(t\)</span>, levando em conta a composição inicial da distribuição de votos por partido <span class="math inline">\(w_{ij0}\)</span>. É o que esperaríamos se o estado mantivesse sua estrutura inicial e cada partido tivesse o desempenho médio nacional.</p>
-<p><strong>Componente <span class="math inline">\(B\)</span> (choque partidário)</strong>: reflete a mudança na distribuição de votos por partido por estado. Cada termo <span class="math inline">\(w_{ij0}(D_{ijt} - \bar{D}_{jt})\)</span> mede quanto a votação do partido <span class="math inline">\(j\)</span> no estado <span class="math inline">\(i\)</span> se desviou da referência média <span class="math inline">\(\bar{D}_{jt}\)</span> naquele ano. Se <span class="math inline">\(D_{ijt} - \bar{D}_{jt}\)</span> for positivo, significa que o partido <span class="math inline">\(j\)</span> teve um desempenho acima do esperado no estado <span class="math inline">\(i\)</span> (um choque positivo ali), contribuindo para aumentar <span class="math inline">\(X_{it}\)</span>. Se for negativo, o partido <span class="math inline">\(j\)</span> foi pior que a média no estado (choque negativo), reduzindo <span class="math inline">\(X_{it}\)</span> em relação ao esperado.</p>
-<p>Importante: esses desvios são ponderados por <span class="math inline">\(w_{ij0}\)</span> (quão importante era o partido <span class="math inline">\(j\)</span> no estado <span class="math inline">\(i\)</span> inicialmente), de modo que choques em partidos que tinham grande presença inicial no estado impactam mais o total <span class="math inline">\(X_{it}\)</span> do que choques em partidos com pouca presença inicial. Este componente é chamado de <em>shift</em> porque reflete as mudanças no desempenho dos partidos no nível nacional/setorial afetando o estado conforme sua composição inicial.</p>
-<p><strong>Componente <span class="math inline">\(C\)</span> (choque temporal)</strong>: representa o impacto das mudanças na participação dos partidos no próprio estado <span class="math inline">\(i\)</span> ao longo do tempo. Aqui consideramos a diferença <span class="math inline">\(w_{ijt} - w_{ij0}\)</span>, ou seja, o quanto a participação do partido <span class="math inline">\(j\)</span> mudou no estado <span class="math inline">\(i\)</span> desde o período inicial. Esse termo mede os choques locais ou regionais na composição dos votos.</p>
-<p>Por exemplo, se um partido <span class="math inline">\(j\)</span> ganhou espaço no estado <span class="math inline">\(i\)</span> (aumentou sua fatia <span class="math inline">\(w_{ijt}\)</span> em relação à inicial <span class="math inline">\(w_{ij0}\)</span>), isso adiciona votos ao total <span class="math inline">\(X_{it}\)</span> (já que <span class="math inline">\(D_{ijt}\)</span> é multiplicado por um <span class="math inline">\(\Delta w\)</span> positivo). Por outro lado, se um partido perdeu participação no estado, o termo será negativo, indicando que o estado <span class="math inline">\(i\)</span> teve um desempenho pior por mudança na composição dos votos entre partidos. Em suma, este componente reflete alterações estruturais próprias do estado — realinhamentos políticos regionais, vantagens competitivas locais, etc. — independentemente da tendência geral dos partidos.</p>
-<p>Em conjunto, esses três componentes (A, B e C) formam a decomposição shift-share completa. Eles nos permitem entender <span class="math inline">\(X_{it}\)</span> da seguinte forma: (A) o que seria esperado dada a tendência geral; (B) o quanto o estado ganhou ou perdeu devido a <em>shifts</em> no desempenho dos partidos; e (C) o quanto se deve a mudanças internas do próprio estado na distribuição de votos (<em>share</em> regional).</p>
-<div id="decomposição-temporal-eleições-20142018" class="section level3 hasAnchor" number="14.3.1">
-<h3><span class="header-section-number">14.3.1</span> Decomposição temporal: eleições 2014→2018<a href="#decomposi%C3%A7%C3%A3o-temporal-elei%C3%A7%C3%B5es-20142018" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Vamos aplicar os três componentes A, B e C aos dados eleitorais de 2014 e 2018.</p>
+<p>Agora aplicamos a decomposição completa nos três componentes A, B e C:</p>
 <div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="shift-share.html#cb179-1" tabindex="-1"></a><span class="co"># Shares em 2014 (t=0) e 2018 (t=1) — em fração</span></span>
 <span id="cb179-2"><a href="shift-share.html#cb179-2" tabindex="-1"></a>w_0 <span class="ot">&lt;-</span> eleicoes[, <span class="fu">c</span>(<span class="st">&quot;PT_2014&quot;</span>,<span class="st">&quot;PSDB_2014&quot;</span>,<span class="st">&quot;Outros_2014&quot;</span>)] <span class="sc">/</span> <span class="dv">100</span></span>
 <span id="cb179-3"><a href="shift-share.html#cb179-3" tabindex="-1"></a>w_t <span class="ot">&lt;-</span> eleicoes[, <span class="fu">c</span>(<span class="st">&quot;PT_2018&quot;</span>,<span class="st">&quot;PSDB_2018&quot;</span>,<span class="st">&quot;Outros_2018&quot;</span>)] <span class="sc">/</span> <span class="dv">100</span></span>
@@ -1112,7 +1106,7 @@ X_{it} &amp;= \sum_j w_{ij0} \, D_{ijt} + \sum_j (w_{ijt} - w_{ij0}) \, D_{ijt} 
 </table>
 <div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="shift-share.html#cb180-1" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
 <span id="cb180-2"><a href="shift-share.html#cb180-2" tabindex="-1"></a></span>
-<span id="cb180-3"><a href="shift-share.html#cb180-3" tabindex="-1"></a><span class="co"># Preparar dados para gráfico de barras empilhadas (estados selecionados)</span></span>
+<span id="cb180-3"><a href="shift-share.html#cb180-3" tabindex="-1"></a><span class="co"># Preparar dados para gráfico de barras (estados selecionados)</span></span>
 <span id="cb180-4"><a href="shift-share.html#cb180-4" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> temporal[temporal<span class="sc">$</span>UF <span class="sc">%in%</span> estados_sel, ]</span>
 <span id="cb180-5"><a href="shift-share.html#cb180-5" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> plot_data[<span class="fu">match</span>(estados_sel, plot_data<span class="sc">$</span>UF), ]</span>
 <span id="cb180-6"><a href="shift-share.html#cb180-6" tabindex="-1"></a></span>

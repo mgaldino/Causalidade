@@ -108,9 +108,51 @@ O aspecto crucial aqui a ser notado é que é necessário que exista uma variáv
 
 É curioso que não tenha havido maior utilização desse tipo de variável instrumental na ciência política e RI, na medida em que temos várias medidas potencialmente decompostas em subunidades formadas por categorias excludentes.
 
-### Eleições presidenciais 2014 e 2018
+## Variação temporal
 
-Para ilustrar a decomposição com dados reais da política brasileira, vamos usar os resultados do primeiro turno das eleições presidenciais de 2014 (Dilma Rousseff, PT) e 2018 (Fernando Haddad, PT). A queda do PT entre essas duas eleições --- de cerca de 41% para 29% dos votos válidos nacionalmente --- é um dos maiores realinhamentos eleitorais recentes no Brasil, impulsionado pela crise econômica e pela Operação Lava-Jato.
+Para construir o instrumento de *shift-share*, é preciso adicionar uma dimensão temporal. Suponha que a parcela $w_{ij}$ de votos no partido $j$ no estado $i$ varia no tempo. Isso é razoável: o PT, por exemplo, vai ter variação na sua votação por estado ao longo do tempo. Vamos chamar $w_{ijt}$ a parcela $w_{ij}$ no tempo $t=0, 1, ...$. Assim, podemos expressar $w_{ijt}$ como a soma da parcela inicial $w_{ij0}$ e a mudança ao longo do tempo $(w_{ijt} - w_{ij0})$:
+
+$$w_{ijt} = w_{ij0} + (w_{ijt} - w_{ij0})$$
+
+e decompor $X_{it}$ separando a parcela inicial da variação:
+
+\begin{equation}
+\begin{aligned}
+X_{it} &= \sum_j w_{ijt}D_{ijt} \\
+       &= \sum_j \left[w_{ij0} + (w_{ijt} - w_{ij0})\right] D_{ijt} \\
+       &= \sum_j w_{ij0} \, D_{ijt} + \sum_j (w_{ijt} - w_{ij0}) \, D_{ijt}
+\end{aligned}
+(\#eq:ss-temporal1)
+\end{equation}
+
+E agora aplicamos nosso truque usual de somar e subtrair o mesmo termo, no caso relativo à média $\bar{D}_{jt}$, mais especificamente $w_{ij0}\bar{D}_{jt}$:
+
+\begin{equation}
+\begin{aligned}
+X_{it} &= \sum_j w_{ij0} \, D_{ijt} + \sum_j (w_{ijt} - w_{ij0}) \, D_{ijt} \\
+       &= \sum_j w_{ij0} \, D_{ijt} \color{blue}{+ \sum_j w_{ij0}\bar{D}_{jt}} \color{red}{- \sum_j w_{ij0}\bar{D}_{jt}} + \sum_j (w_{ijt} - w_{ij0}) \, D_{ijt} \\
+       &= \color{orange}{\underbrace{\sum_j w_{ij0}\bar{D}_{jt}}_{\text{A: votação esperada}}} + \color{purple}{\underbrace{\sum_j w_{ij0}(D_{ijt} - \bar{D}_{jt})}_{\text{B: choque partidário}}} + \color{teal}{\underbrace{\sum_j (w_{ijt} - w_{ij0}) \, D_{ijt}}_{\text{C: choque temporal}}}
+\end{aligned}
+(\#eq:ss-temporal-abc)
+\end{equation}
+
+A interpretação de cada componente é:
+
+**Componente $A$ (votação esperada)**: reflete a tendência ou média de votação dos partidos no estado $i$ no ano $t$, levando em conta a composição inicial da distribuição de votos por partido $w_{ij0}$. É o que esperaríamos se o estado mantivesse sua estrutura inicial e cada partido tivesse o desempenho médio nacional.
+
+**Componente $B$ (choque partidário)**: reflete a mudança na distribuição de votos por partido por estado. Cada termo $w_{ij0}(D_{ijt} - \bar{D}_{jt})$ mede quanto a votação do partido $j$ no estado $i$ se desviou da referência média $\bar{D}_{jt}$ naquele ano. Se $D_{ijt} - \bar{D}_{jt}$ for positivo, significa que o partido $j$ teve um desempenho acima do esperado no estado $i$ (um choque positivo ali), contribuindo para aumentar $X_{it}$. Se for negativo, o partido $j$ foi pior que a média no estado (choque negativo), reduzindo $X_{it}$ em relação ao esperado.
+
+Importante: esses desvios são ponderados por $w_{ij0}$ (quão importante era o partido $j$ no estado $i$ inicialmente), de modo que choques em partidos que tinham grande presença inicial no estado impactam mais o total $X_{it}$ do que choques em partidos com pouca presença inicial. Este componente é chamado de *shift* porque reflete as mudanças no desempenho dos partidos no nível nacional/setorial afetando o estado conforme sua composição inicial.
+
+**Componente $C$ (choque temporal)**: representa o impacto das mudanças na participação dos partidos no próprio estado $i$ ao longo do tempo. Aqui consideramos a diferença $w_{ijt} - w_{ij0}$, ou seja, o quanto a participação do partido $j$ mudou no estado $i$ desde o período inicial. Esse termo mede os choques locais ou regionais na composição dos votos.
+
+Por exemplo, se um partido $j$ ganhou espaço no estado $i$ (aumentou sua fatia $w_{ijt}$ em relação à inicial $w_{ij0}$), isso adiciona votos ao total $X_{it}$ (já que $D_{ijt}$ é multiplicado por um $\Delta w$ positivo). Por outro lado, se um partido perdeu participação no estado, o termo será negativo, indicando que o estado $i$ teve um desempenho pior por mudança na composição dos votos entre partidos. Em suma, este componente reflete alterações estruturais próprias do estado --- realinhamentos políticos regionais, vantagens competitivas locais, etc. --- independentemente da tendência geral dos partidos.
+
+Em conjunto, esses três componentes (A, B e C) formam a decomposição shift-share completa. Eles nos permitem entender $X_{it}$ da seguinte forma: (A) o que seria esperado dada a tendência geral; (B) o quanto o estado ganhou ou perdeu devido a *shifts* no desempenho dos partidos; e (C) o quanto se deve a mudanças internas do próprio estado na distribuição de votos (*share* regional).
+
+### Aplicação: Eleições presidenciais 2014→2018
+
+Vamos aplicar a decomposição temporal a dados reais da política brasileira, usando os resultados do primeiro turno das eleições presidenciais de 2014 (Dilma Rousseff, PT) e 2018 (Fernando Haddad, PT). A queda do PT entre essas duas eleições --- de cerca de 41% para 29% dos votos válidos nacionalmente --- é um dos maiores realinhamentos eleitorais recentes no Brasil, impulsionado pela crise econômica e pela Operação Lava-Jato.
 
 Agrupamos os candidatos em três blocos: PT, PSDB e Outros.
 
@@ -156,8 +198,9 @@ kable(tab_sel, row.names = FALSE,
 
 A queda do PT e o colapso do PSDB são visíveis em todos os estados, mas com intensidade muito diferente. No Nordeste (BA, CE, PE), o PT manteve boa parte dos votos; no Sul e Sudeste (SP, RS, PR), a queda foi drástica. Essa variação regional é exatamente o que a decomposição shift-share nos ajuda a entender.
 
+Primeiro, construímos o instrumento Bartik: a mudança *esperada* na votação de cada estado, com base na composição partidária inicial (2014) e nas tendências nacionais de cada bloco.
+
 ```{r eleicoes-bartik, message=FALSE, warning=FALSE}
-# Construir instrumento Bartik: mudança esperada na votação do PT por estado
 # Shares: composição partidária de 2014 (em fração)
 shares_2014 <- eleicoes[, c("PT_2014","PSDB_2014","Outros_2014")] / 100
 
@@ -169,7 +212,7 @@ shifts <- (media_2018 - media_2014) / 100  # em pontos percentuais / 100
 # Instrumento Bartik para cada estado
 bartik <- as.numeric(as.matrix(shares_2014) %*% shifts)
 
-# Mudança real na votação total (simplificada como soma ponderada)
+# Mudança real na votação do PT
 mudanca_real_pt <- (eleicoes$PT_2018 - eleicoes$PT_2014) / 100
 
 resultado_elec <- data.frame(
@@ -187,7 +230,7 @@ kable(tab_elec, row.names = FALSE,
       col.names = c("UF", "Mudança real PT", "Predição Bartik", "Resíduo"))
 ```
 
-O instrumento Bartik prediz a mudança esperada na votação do PT em cada estado com base na sua composição partidária inicial (2014) e nas tendências nacionais de cada bloco. O **resíduo** captura fatores regionais específicos --- por exemplo, estados onde a Lava-Jato teve impacto particularmente forte ou onde lideranças locais do PT mantiveram sua base eleitoral.
+O **resíduo** captura fatores regionais específicos --- por exemplo, estados onde a Lava-Jato teve impacto particularmente forte ou onde lideranças locais do PT mantiveram sua base eleitoral.
 
 ```{r eleicoes-grafico, message=FALSE, warning=FALSE, fig.cap="Mudança na votação do PT (2014→2018): observada vs. predição Bartik"}
 library(ggplot2)
@@ -204,53 +247,9 @@ ggplot(resultado_elec, aes(x = Bartik, y = Mudanca_PT)) +
 
 O gráfico mostra que estados próximos à linha tracejada (45°) tiveram mudanças bem explicadas pela estrutura nacional; estados distantes da linha tiveram choques regionais importantes.
 
-## Variação temporal
+Agora aplicamos a decomposição completa nos três componentes A, B e C:
 
-Para construir o instrumento de *shift-share*, é preciso adicionar uma dimensão temporal. Suponha que a parcela $w_{ij}$ de votos no partido $j$ no estado $i$ varia no tempo. Isso é razoável: o PT, por exemplo, vai ter variação na sua votação por estado ao longo do tempo. Vamos chamar $w_{ijt}$ a parcela $w_{ij}$ no tempo $t=0, 1, ...$. Assim, podemos expressar $w_{ijt}$ como a soma da parcela inicial $w_{ij0}$ e a mudança ao longo do tempo $(w_{ijt} - w_{ij0})$:
-
-$$w_{ijt} = w_{ij0} + (w_{ijt} - w_{ij0})$$
-
-e decompor $X_{it}$ separando a parcela inicial da variação:
-
-\begin{equation}
-\begin{aligned}
-X_{it} &= \sum_j w_{ijt}D_{ijt} \\
-       &= \sum_j \left[w_{ij0} + (w_{ijt} - w_{ij0})\right] D_{ijt} \\
-       &= \sum_j w_{ij0} \, D_{ijt} + \sum_j (w_{ijt} - w_{ij0}) \, D_{ijt}
-\end{aligned}
-(\#eq:ss-temporal1)
-\end{equation}
-
-E agora aplicamos nosso truque usual de somar e subtrair o mesmo termo, no caso relativo à média $\bar{D}_{jt}$, mais especificamente $w_{ij0}\bar{D}_{jt}$:
-
-\begin{equation}
-\begin{aligned}
-X_{it} &= \sum_j w_{ij0} \, D_{ijt} + \sum_j (w_{ijt} - w_{ij0}) \, D_{ijt} \\
-       &= \sum_j w_{ij0} \, D_{ijt} \color{blue}{+ \sum_j w_{ij0}\bar{D}_{jt}} \color{red}{- \sum_j w_{ij0}\bar{D}_{jt}} + \sum_j (w_{ijt} - w_{ij0}) \, D_{ijt} \\
-       &= \color{orange}{\underbrace{\sum_j w_{ij0}\bar{D}_{jt}}_{\text{A: votação esperada}}} + \color{purple}{\underbrace{\sum_j w_{ij0}(D_{ijt} - \bar{D}_{jt})}_{\text{B: choque partidário}}} + \color{teal}{\underbrace{\sum_j (w_{ijt} - w_{ij0}) \, D_{ijt}}_{\text{C: choque temporal}}}
-\end{aligned}
-(\#eq:ss-temporal-abc)
-\end{equation}
-
-A interpretação de cada componente é:
-
-**Componente $A$ (votação esperada)**: reflete a tendência ou média de votação dos partidos no estado $i$ no ano $t$, levando em conta a composição inicial da distribuição de votos por partido $w_{ij0}$. É o que esperaríamos se o estado mantivesse sua estrutura inicial e cada partido tivesse o desempenho médio nacional.
-
-**Componente $B$ (choque partidário)**: reflete a mudança na distribuição de votos por partido por estado. Cada termo $w_{ij0}(D_{ijt} - \bar{D}_{jt})$ mede quanto a votação do partido $j$ no estado $i$ se desviou da referência média $\bar{D}_{jt}$ naquele ano. Se $D_{ijt} - \bar{D}_{jt}$ for positivo, significa que o partido $j$ teve um desempenho acima do esperado no estado $i$ (um choque positivo ali), contribuindo para aumentar $X_{it}$. Se for negativo, o partido $j$ foi pior que a média no estado (choque negativo), reduzindo $X_{it}$ em relação ao esperado.
-
-Importante: esses desvios são ponderados por $w_{ij0}$ (quão importante era o partido $j$ no estado $i$ inicialmente), de modo que choques em partidos que tinham grande presença inicial no estado impactam mais o total $X_{it}$ do que choques em partidos com pouca presença inicial. Este componente é chamado de *shift* porque reflete as mudanças no desempenho dos partidos no nível nacional/setorial afetando o estado conforme sua composição inicial.
-
-**Componente $C$ (choque temporal)**: representa o impacto das mudanças na participação dos partidos no próprio estado $i$ ao longo do tempo. Aqui consideramos a diferença $w_{ijt} - w_{ij0}$, ou seja, o quanto a participação do partido $j$ mudou no estado $i$ desde o período inicial. Esse termo mede os choques locais ou regionais na composição dos votos.
-
-Por exemplo, se um partido $j$ ganhou espaço no estado $i$ (aumentou sua fatia $w_{ijt}$ em relação à inicial $w_{ij0}$), isso adiciona votos ao total $X_{it}$ (já que $D_{ijt}$ é multiplicado por um $\Delta w$ positivo). Por outro lado, se um partido perdeu participação no estado, o termo será negativo, indicando que o estado $i$ teve um desempenho pior por mudança na composição dos votos entre partidos. Em suma, este componente reflete alterações estruturais próprias do estado --- realinhamentos políticos regionais, vantagens competitivas locais, etc. --- independentemente da tendência geral dos partidos.
-
-Em conjunto, esses três componentes (A, B e C) formam a decomposição shift-share completa. Eles nos permitem entender $X_{it}$ da seguinte forma: (A) o que seria esperado dada a tendência geral; (B) o quanto o estado ganhou ou perdeu devido a *shifts* no desempenho dos partidos; e (C) o quanto se deve a mudanças internas do próprio estado na distribuição de votos (*share* regional).
-
-### Decomposição temporal: eleições 2014→2018
-
-Vamos aplicar os três componentes A, B e C aos dados eleitorais de 2014 e 2018.
-
-```{r temporal-decomposicao, message=FALSE, warning=FALSE, fig.cap="Componentes A, B e C da decomposição shift-share — estados selecionados"}
+```{r temporal-decomposicao, message=FALSE, warning=FALSE}
 # Shares em 2014 (t=0) e 2018 (t=1) — em fração
 w_0 <- eleicoes[, c("PT_2014","PSDB_2014","Outros_2014")] / 100
 w_t <- eleicoes[, c("PT_2018","PSDB_2018","Outros_2018")] / 100
@@ -291,7 +290,7 @@ kable(tab_temp, row.names = FALSE,
 ```{r temporal-grafico, message=FALSE, warning=FALSE, fig.cap="Componentes shift-share da votação 2018 por estado"}
 library(tidyr)
 
-# Preparar dados para gráfico de barras empilhadas (estados selecionados)
+# Preparar dados para gráfico de barras (estados selecionados)
 plot_data <- temporal[temporal$UF %in% estados_sel, ]
 plot_data <- plot_data[match(estados_sel, plot_data$UF), ]
 
