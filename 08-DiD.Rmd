@@ -1,397 +1,746 @@
 # Diferença em Diferenças
 
-## Modelo básico 2x2
+## Motivação: por que DiD?
 
-Vamos considerar primeiro um cenário de dois grupos $G \in \{1,2\}$ e dois períodos de tempo $T \in \{1,2\}$.
+Diferença em Diferenças (DiD) é o método quasi-experimental mais utilizado em ciência política e economia aplicada. A ideia central é simples: se dois grupos seguem trajetórias paralelas antes de uma intervenção, a diferença nas suas trajetórias *após* a intervenção pode ser atribuída ao tratamento.
 
-A notação de resultados potenciais é:
-$Y_{gt}(0,0)$ é o resultado potencial da unidade $g$ no período $t$ se não for tratada nos dois períodos.
-$Y_{gt}(0,1)$ é o resultado potencial da unidade $g$ no período $t$ se for tratada no segundo período.
+Considere um exemplo concreto. Suponha que duas cidades — Campinas e Ribeirão Preto — têm taxas de conclusão de obras públicas de 30% e 20%, respectivamente, em 2016. Em 2018, Campinas recebe um programa de monitoramento de obras, enquanto Ribeirão Preto não. Em 2018, Campinas tem taxa de 50% e Ribeirão Preto, 35%.
 
-Usualmente nós simplificamos a notação com dois períodos para $Y_{gt}(0)$ e $Y_{gt}(1)$. A vantagem da notação mais complexa é para manter a ideia de que o path (caminho) pode vir a ser relevante.
+A variação temporal em Campinas é $50\% - 30\% = 20$ p.p. Mas parte disso pode ser tendência geral — afinal, Ribeirão Preto também cresceu $35\% - 20\% = 15$ p.p. sem tratamento. O DiD subtrai essa tendência: $20 - 15 = 5$ p.p. Esse é o efeito estimado do programa.
 
-Supondo, como usual, que temos um tratamento binário $D$, e que ele é ativado (implementado) apenas no período $2$ para um dos grupos, temos a seguinte tabela para descrever como usualmente se pensa as relações causais.
+$$
+\underbrace{(50 - 30)}_{\Delta \text{Campinas}} - \underbrace{(35 - 20)}_{\Delta \text{Ribeirão}} = 20 - 15 = 5 \text{ p.p.}
+$$
 
-```{r tabela-did, echo=FALSE, warning=FALSE}
+Essa conta manual contém toda a lógica do DiD. O restante do capítulo formaliza essa intuição, discute quando ela é válida (tendências paralelas), mostra como estimar por regressão (TWFE), e apresenta os avanços metodológicos recentes para lidar com tratamento escalonado no tempo e efeitos heterogêneos.
+
+**Mapa do capítulo.** As seções 2–4 cobrem o modelo 2$\times$2, pressupostos e estimação por TWFE. A seção 5 aplica DiD a dados brasileiros de obras públicas. A seção 6 introduz o DiD dinâmico (event study). As seções 7–8 tratam do problema central da "revolução DiD": o viés do TWFE com tratamento escalonado e os estimadores modernos que o corrigem. A seção 9 discute testes de tendências paralelas e análise de sensibilidade. A seção 10 apresenta uma segunda aplicação empírica (enchente do Elbe). As seções 11–12 cobrem extensões e resumo.
+
+## Modelo básico 2$\times$2
+
+Considere dois grupos e dois períodos de tempo, $t \in \{1, 2\}$. O grupo tratado recebe a intervenção no período 2; o grupo controle nunca é tratado. Seja $D_i \in \{0, 1\}$ o indicador de pertencer ao grupo tratado.
+
+Definimos os resultados potenciais: $Y_{it}(0)$ é o resultado da unidade $i$ no período $t$ na ausência de tratamento, e $Y_{it}(1)$ é o resultado sob tratamento. O resultado observado é $Y_{it} = D_i \cdot \mathbb{1}[t=2] \cdot Y_{it}(1) + (1 - D_i \cdot \mathbb{1}[t=2]) \cdot Y_{it}(0)$.
+
+O **estimando** é o efeito médio do tratamento sobre os tratados (ATT) no período pós-tratamento:
+
+$$
+\tau^{ATT} = \mathbb{E}[Y_{i2}(1) - Y_{i2}(0) \mid D_i = 1]
+$$
+
+Suponha que os resultados potenciais seguem a estrutura:
+
+```{r tabela-did, echo=FALSE, warning=FALSE, message=FALSE}
 library(knitr)
 library(kableExtra)
 
-# Conteúdo da tabela (linhas: D = 0 e D = 1; colunas: t = 0 e t = 1)
 tbl <- matrix(
-  c("$\\gamma_0 + \\alpha_i$",            "$\\gamma_1 + \\alpha_i$",
-    "$\\gamma_0 + \\alpha_i + \\tau_i$",  "$\\gamma_1 + \\alpha_i + \\tau_i$"),
+  c("$\\alpha_i + \\lambda_1$",            "$\\alpha_i + \\lambda_2$",
+    "$\\alpha_i + \\lambda_1$",  "$\\alpha_i + \\lambda_2 + \\tau_i$"),
   nrow = 2, byrow = TRUE)
 
-# Rótulos de linhas e colunas
-rownames(tbl) <- c("$D = 0$", "$D = 1$")
-colnames(tbl) <- c("$t = 0$", "$t = 1$")
+rownames(tbl) <- c("Controle ($D_i = 0$)", "Tratado ($D_i = 1$)")
+colnames(tbl) <- c("Pré ($t = 1$)", "Pós ($t = 2$)")
 
-# Geração da tabela
 kable(tbl, escape = FALSE, booktabs = TRUE,
-      align = c("r", "c", "c")) %>%          # alinhamento das colunas
-  kable_styling(latex_options = "hold_position") %>%  # mantém a posição no PDF
-  column_spec(1, border_right = TRUE)        # barra vertical após a 1ª coluna
+      align = c("c", "c"),
+      caption = "Estrutura de resultados potenciais no DiD 2×2") %>%
+  kable_styling(latex_options = "hold_position") %>%
+  column_spec(1, border_right = TRUE)
 ```
 
-A diferença para cada grupo $g$ é:
-$$
-y_{g1} - y_{g0} = (\lambda_1 - \lambda_0) + \tau_i(D_{i,1} - D_{i,0})
-$$
-Como pode haver mudança nos resultados apenas pela passagem do tempo, o efeito causal é não-identificado.
-Contudo, veja que:
+Nessa tabela, $\alpha_i$ é o efeito fixo de unidade (nível base), $\lambda_t$ é o efeito fixo de tempo (tendência comum), e $\tau_i$ é o efeito causal individual. No grupo controle, $\tau_i = 0$ por definição.
+
+A diferença temporal para cada grupo é:
+
+Para o grupo tratado: $\mathbb{E}[Y_{i2} - Y_{i1} \mid D_i = 1] = (\lambda_2 - \lambda_1) + \mathbb{E}[\tau_i \mid D_i = 1]$
+
+Para o grupo controle: $\mathbb{E}[Y_{i2} - Y_{i1} \mid D_i = 0] = (\lambda_2 - \lambda_1)$
+
+A diferença entre essas duas diferenças elimina a tendência comum:
 
 $$
-\mathbb{E}[y_{g1} - y_{g0}|D_{i1} - D_{i0} = 1] - \mathbb{E}[y_{g1} - y_{g0}|D_{i1} - D_{i0} = 0] = \mathbb{E}[\tau_i(D_{i1} - D_{i0})|D_{i1} - D_{i0} = 1]
-$$
-Unpacking:
-
-1. $\mathbb{E}[y_{g1} - y_{g0}|D_{i,1} - D_{i0} = 1]  = (\lambda_1 - \lambda_0) + \mathbb{E}[\tau_i|(D_{i1} - D_{i0})=1]$ e 
-
-2. $\mathbb{E}[y_{g1} - y_{g0}|D_{i,1} - D_{i0} = 0] = (\lambda_1 - \lambda_0)$,
-
-então a diferença é $(\lambda_1 - \lambda_0) + \tau_i -  (\lambda_1 - \lambda_0) = \mathbb{E}[\tau_i|D_{i1}=1]$.
-
-O modelo básico 2x2 nos dá a intuição do DiD. Na prática, estimamos esse efeito por meio de regressão, como veremos a seguir.
-
-## TWFE
-
-É possível estimar um modelo de DiD com regressão.
-
-$$
-y_{gt} = \alpha + \beta_1 Post_t + \beta_2 Treat_g + \tau (Post_t \times Treat_g) + e_{gt}
-$$
-Outra parametrização é:
-$$
-y_{gt} = \alpha_g + \lambda_t + \tau D_{it} + e_{gt}
+\underbrace{\mathbb{E}[Y_{i2} - Y_{i1} \mid D_i = 1]}_{\Delta \text{Tratado}} - \underbrace{\mathbb{E}[Y_{i2} - Y_{i1} \mid D_i = 0]}_{\Delta \text{Controle}} = \mathbb{E}[\tau_i \mid D_i = 1] = \tau^{ATT}
 $$
 
-A segunda parametrização é chamada de "two-way fixed effects", pois usamos um efeito fixo de unidade e um de tempo.
+O modelo básico 2$\times$2 nos dá a intuição do DiD. Na prática, estimamos esse efeito por regressão, como veremos a seguir.
 
-## Pressupostos
 
-Os pressupostos de identificação de DiD são:
+## Pressupostos de identificação
 
-1. Tendências Paralelas."Na ausência de tratamento, a média dos resultados potenciais teria evoluído em paralelo".
+### Tendências paralelas
 
-$\mathbb{E}[Y_{g2}(0) - Y_{g1}(0)|D_g=1] = \mathbb{E}[Y_{g2}(0) - Y_{g1}(0)|D_g=0]$
+O pressuposto central do DiD é o de **tendências paralelas** (parallel trends, PT): na ausência de tratamento, a evolução média dos resultados teria sido a mesma nos dois grupos.
 
-Suposição paramétrica das PT: $Y_{gt}(0) = \alpha_g + \lambda_t + e_{gt}$
-Isso é na verdade um resultado: é possível mostrar que supor este modelo implica PT.
+$$
+\mathbb{E}[Y_{i2}(0) - Y_{i1}(0) \mid D_i = 1] = \mathbb{E}[Y_{i2}(0) - Y_{i1}(0) \mid D_i = 0]
+$$
 
-2. Não-antecipação: tratamento não possui efeito no período anterior.
-$\mathbb{E}[Y_{g1}(0)] = \mathbb{E}[Y_{g1}(1)]$
+Note que o lado esquerdo envolve um contrafactual — o que *teria acontecido* com os tratados sem tratamento — e portanto não é diretamente testável. Podemos verificar se as tendências foram paralelas no período *pré*-tratamento (o que é necessário mas não suficiente), mas não podemos verificar se continuariam paralelas no período pós.
 
-## Aplicação
+### Equivalência entre PT e TWFE
 
-Vamos ver um exemplo no R, a partir de um estudo meu. Os dados são de um projeto da Transparência Brasil, chamado de Obra Transparente. O projeto consistiu em uma intervenção em 20 cidades do Sudeste, em que treinamento e informações foram dados a ongs locais para monitoramento de obras de creches e escolas. O projeto começou em maio de 2017 e terminou em junho de 2019. Os dados trazem informações sobre as obras nas cidades do projeto e nas demais cidades onde havia obras similares nos mesmos estados.
+Uma forma paramétrica equivalente é supor que os resultados potenciais sem tratamento seguem um modelo de efeitos fixos duplos:
 
-```{r obra-transparente-import, warning=FALSE, message=FALSE}
-library(here, quietly=TRUE)
+$$
+Y_{it}(0) = \alpha_i + \lambda_t + \varepsilon_{it}, \quad \text{com } \mathbb{E}[\varepsilon_{it}] = 0
+$$
+
+**Proposição.** O modelo TWFE implica tendências paralelas, e vice-versa.
+
+*Prova (TWFE $\Rightarrow$ PT).* Se $Y_{it}(0) = \alpha_i + \lambda_t + \varepsilon_{it}$, então:
+
+$$
+\mathbb{E}[Y_{i2}(0) - Y_{i1}(0) \mid D_i = d] = (\alpha_i + \lambda_2) - (\alpha_i + \lambda_1) = \lambda_2 - \lambda_1
+$$
+
+para $d \in \{0, 1\}$. Como a diferença $\lambda_2 - \lambda_1$ não depende de $d$, PT é satisfeita. $\square$
+
+*Prova (PT $\Rightarrow$ TWFE).* Defina $\lambda_1 \equiv 0$ (normalização) e $\alpha_i \equiv \mathbb{E}[Y_{i1}(0)]$. Para qualquer $t$, defina:
+
+$$
+\lambda_t \equiv \mathbb{E}[Y_{i^*t}(0) - Y_{i^*1}(0)]
+$$
+
+onde $i^*$ é uma unidade de referência arbitrária (por exemplo, do grupo controle). Pela suposição de PT, $\mathbb{E}[Y_{it}(0) - Y_{i1}(0)]$ é igual para todas as unidades, então:
+
+$$
+\mathbb{E}[Y_{it}(0)] = \mathbb{E}[Y_{i1}(0)] + \lambda_t = \alpha_i + \lambda_t
+$$
+
+Definindo $\varepsilon_{it} = Y_{it}(0) - \alpha_i - \lambda_t$, temos $\mathbb{E}[\varepsilon_{it}] = 0$ por construção. $\square$
+
+### Não-antecipação
+
+O segundo pressuposto é de **não-antecipação**: o tratamento não tem efeito antes de ser implementado.
+
+$$
+\mathbb{E}[Y_{i1}(0)] = \mathbb{E}[Y_{i1}(1)] \quad \forall i
+$$
+
+Isso exclui, por exemplo, que a mera expectativa de um programa futuro altere o comportamento das unidades tratadas antes do programa começar. Em muitas aplicações em ciência política, esse pressuposto é plausível quando a intervenção é inesperada ou quando não há incentivo para reagir antecipadamente.
+
+### DAG para DiD
+
+Podemos representar a estrutura causal do DiD com um DAG. O tratamento $D$ é determinado pelo grupo, e o efeito causal é bloqueado se não controlarmos pela tendência temporal. O DiD "controla" pela tendência comum ao tomar a diferença dupla.
+
+```{r dag-did, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="DAG simplificado para DiD. O efeito causal de D sobre Y é confundido pela tendência temporal λ e pelas diferenças de nível α. O DiD elimina ambos ao tomar a diferença dupla."}
+library(ggdag)
+
+dag_did <- dagify(
+  Y ~ D + alpha_i + lambda_t,
+  D ~ alpha_i,
+  coords = list(
+    x = c(D = 0, Y = 2, alpha_i = 1, lambda_t = 2),
+    y = c(D = 0, Y = 0, alpha_i = 1.5, lambda_t = 1.5)
+  )
+)
+
+ggdag(dag_did, text = FALSE) +
+  geom_dag_text(size = 5) +
+  geom_dag_edges() +
+  theme_dag()
+```
+
+O confundidor $\alpha$ (diferença de nível entre grupos) é eliminado pela diferença temporal; o confundidor $\lambda$ (tendência temporal comum) é eliminado pela diferença entre grupos. A dupla diferença remove ambos.
+
+## Estimação por TWFE
+
+No caso 2$\times$2, o DiD pode ser estimado por regressão de duas formas equivalentes.
+
+**Parametrização por interação:**
+
+$$
+Y_{it} = \beta_0 + \beta_1 \text{Post}_t + \beta_2 \text{Treat}_i + \tau (\text{Post}_t \times \text{Treat}_i) + \varepsilon_{it}
+$$
+
+onde $\text{Post}_t = \mathbb{1}[t = 2]$ e $\text{Treat}_i = D_i$.
+
+**Parametrização por efeitos fixos (TWFE):**
+
+$$
+Y_{it} = \alpha_i + \lambda_t + \tau D_{it} + \varepsilon_{it}
+$$
+
+onde $D_{it} = D_i \cdot \mathbb{1}[t = 2]$ é o indicador de tratamento efetivo.
+
+No caso 2$\times$2, as duas parametrizações produzem estimativas idênticas de $\hat{\tau}$. A segunda é chamada *two-way fixed effects* (TWFE) porque inclui efeitos fixos de unidade ($\alpha_i$) e de tempo ($\lambda_t$).
+
+**Importante:** no caso 2$\times$2, o TWFE é inofensivo — ele recupera exatamente o ATT. Os problemas surgem quando o tratamento é adotado em momentos diferentes por diferentes unidades (*staggered treatment*), como veremos na seção 7.
+
+
+## Aplicação 1: Obra Transparente
+
+Vamos aplicar o DiD a dados reais brasileiros. Os dados são do projeto Obra Transparente, da Transparência Brasil. O projeto consistiu em uma intervenção em 20 cidades do Sudeste, na qual treinamento e informações foram fornecidos a ONGs locais para monitoramento de obras de creches e escolas financiadas pelo FNDE. O projeto começou em maio de 2017 e terminou em junho de 2019. O grupo controle inclui cidades com obras similares nos mesmos estados, mas sem a intervenção.
+
+```{r ot-import, warning=FALSE, message=FALSE}
+library(here, quietly = TRUE)
 library(knitr)
+library(kableExtra)
+library(tidyverse)
+library(fixest)
+library(estimatr)
+library(modelsummary)
+
 data_ot <- readRDS(here("Dados", "obra_transparente.RDS"))
 head(data_ot) %>%
-  kable()
+  kable(caption = "Primeiras linhas dos dados Obra Transparente")
 ```
 
-Como o gráfico abaixo mostra, o grupo controle possui percentual mais elevado de obras concluídas em comparação ao grupo de tratamento, mesmo antes do projeto ter se iniciado. Olhando para outras covariáveis (não mostradas aqui), de fato os dois grupos eram bastante desbalanceados. Porém, apesar da diferença de nível, as mudanças (evolução temporal) são similares. Isso sugere um dif in dif como uma metodologia adequada para estimar o efeito causal.
+O gráfico abaixo mostra a evolução da taxa de conclusão de obras por grupo. Apesar da diferença de nível (o controle tem taxa mais elevada), as tendências pré-tratamento são aproximadamente paralelas, o que sustenta a plausibilidade do pressuposto de PT.
 
-```{r obra-transparente, warning=FALSE, message=FALSE, echo=FALSE}
-library(ggplot2)
-library(tidyverse)
-
+```{r ot-tendencias, warning=FALSE, message=FALSE, echo=FALSE, fig.cap="Evolução da taxa de conclusão de obras por grupo. Linha vertical indica o início do tratamento (período 4)."}
 data_ot %>%
   mutate(group_treated = ifelse(group_treated == 0, "Controle", "Tratamento")) %>%
   group_by(periodo, group_treated) %>%
-  summarise(taxa_conclusao = mean(concluida)) %>%
-  ggplot(aes(y=taxa_conclusao, x= periodo)) + geom_point(aes(colour = factor(group_treated))) +
-  geom_vline(xintercept=4) +
-  geom_line(aes(colour = factor(group_treated))) + theme_bw() + ylab("Percentual de obras concluídas") + xlab("Período") +
-  scale_colour_manual(values = c("Controle" = "red", "Tratamento" = "blue"), name=NULL)
-
-
+  summarise(taxa_conclusao = mean(concluida), .groups = "drop") %>%
+  ggplot(aes(y = taxa_conclusao, x = periodo, colour = group_treated)) +
+  geom_point() +
+  geom_line() +
+  geom_vline(xintercept = 4, linetype = "dashed") +
+  theme_bw() +
+  ylab("Percentual de obras concluídas") +
+  xlab("Período") +
+  scale_colour_manual(values = c("Controle" = "red", "Tratamento" = "blue"), name = NULL)
 ```
 
-A partir do período 4 o tratamento já poderia fazer efeito, mas ele é muito pequeno (leve mudança na inclinação) e o efeito é relevante apenas após o período 5. Temos, portanto, efeitos dinâmicos. Vamos inicialmente ajustar um modelo estático, considerando apenas o período 1 e 5.
+A partir do período 4, o tratamento poderia começar a fazer efeito, mas a mudança é sutil. O efeito torna-se visível a partir do período 5, sugerindo efeitos dinâmicos. Estimemos inicialmente um modelo estático, comparando apenas os períodos 1 (pré) e 5 (pós).
 
-```{r obra-transparente-did, warning=FALSE, message=FALSE, echo=TRUE}
-library(estimatr)
-library(modelsummary)
-library(fixest)
+```{r ot-did-estatico, warning=FALSE, message=FALSE}
 data_ot_reg <- data_ot %>%
-  filter(periodo %in% c(1,5)) %>%
+  filter(periodo %in% c(1, 5)) %>%
   mutate(post = ifelse(periodo == 5, 1, 0))
 
-did <- lm_robust(concluida ~ post + group_treated + post*group_treated, data=data_ot_reg,
-                 clusters = municipio)
-msummary(did, stars = c('*' = .1, '**' = .05, '***' = .01))
+# Parametrização por interação
+did_interacao <- lm_robust(concluida ~ post + group_treated + post:group_treated,
+                           data = data_ot_reg, clusters = municipio)
 
-did_alt <- feols(concluida ~ post_treat| municipio + periodo,
-                              cluster = "municipio",
-                              data = data_ot_reg)
-summary(did_alt)
+# Parametrização TWFE
+did_twfe <- feols(concluida ~ post_treat | municipio + periodo,
+                  cluster = "municipio", data = data_ot_reg)
 
-# teste de hipóteses paralelas
-# Create dataset
-start_t <- 1
-end_t <- 5
-data_ot_reg_pt <- 
-  data_ot_reg %>%
-  dplyr::group_by(id) %>%
-  # Create group variable that take value end_t if state was ever treated in this period, and 0 otherwise
-  dplyr::mutate(group = max(group_treated > 0, na.rm=TRUE)*end_t)
-
-# test_2007_2015 <- didFF(
-#   data        = data_ot_reg_pt,
-#   idname      = "id",
-#   yname       = "concluida",
-#   tname       = "periodo",
-#   gname       = "group",
-#   est_method  = "reg",
-#   allow_unbalanced_panel = TRUE,
-#   seed        = 1
-# )
-# 
-# test_2007_2015$plot
+msummary(list("Interação" = did_interacao, "TWFE" = did_twfe),
+         stars = c('*' = .1, '**' = .05, '***' = .01),
+         title = "DiD estático — Obra Transparente (períodos 1 vs. 5)")
 ```
 
-## Múltiplos períodos
+O coeficiente de interação (ou `post_treat` no TWFE) estima o ATT. Ambas as especificações produzem a mesma estimativa pontual, como esperado no caso 2$\times$2.
 
-O que acontece se tivermos múltiplos períodos, isto é, $t>2$?
 
-1. Múltiplos períodos antes do tratamento ser implementado
+## DiD dinâmico e event study
 
-2. Múltiplos períodos após o tratamento ser implementado.
-Precisamos escolher um período de comparação, $t_0$.
-
-Nos últimos 10 anos, uma grande problematização e desenvolvimento de testes, estimadores e entendimento do que é DiD com múltiplos períodos. Impossível cobrir tudo em uma única aula. Recomendo as vídeo-aulas do [grupo de estudo em DiD](https://www.youtube.com/playlist?list=PLVObvb_htcuBt8mV9yNagt7hK9FL5KXeE).
-
-## Tendências Paralelas
-
-A suposição de tendências paralelas significa que $\mathbb{E}[Y_{i,t}(0) − Y_{g,t−1}(0)]$ não varia entre grupos $g$. Essa suposição implica que os nunca-tratados seguem um modelo de efeitos fixos duplo (Two-way fixed effects ou TWFE):
+Na prática, raramente temos apenas dois períodos. Com múltiplos períodos, podemos estimar um **event study** (estudo de evento) que mostra a dinâmica do efeito ao longo do tempo. A especificação é:
 
 $$
-\mathbb{E}[Y_{g,t}(0)] = \alpha_g + \lambda_t
+Y_{it} = \alpha_i + \lambda_t + \sum_{k \neq -1} \delta_k \cdot \mathbb{1}[t - G_i = k] + \varepsilon_{it}
 $$
-Uma outra forma de escrever essa suposição é:
+
+onde $G_i$ é o período em que a unidade $i$ é primeiro tratada (com $G_i = \infty$ para nunca-tratados), e $k$ mede a distância ao tratamento (tempo relativo). O período $k = -1$ (um antes do tratamento) é a categoria de referência.
+
+Os coeficientes $\delta_k$ têm interpretação direta:
+
+- Para $k < -1$ (pré-tratamento): se as tendências são paralelas, devemos ter $\delta_k \approx 0$. Esses coeficientes servem como **diagnóstico** (mas não teste definitivo) de PT.
+- Para $k \geq 0$ (pós-tratamento): $\delta_k$ estima o efeito do tratamento $k$ períodos após a adoção.
+
+Apliquemos aos dados Obra Transparente. O tratamento começa no período 4, então usamos o período 3 como referência:
+
+```{r ot-event-study, warning=FALSE, message=FALSE, fig.cap="Event study — Obra Transparente. Coeficientes pré-tratamento próximos de zero sustentam a hipótese de tendências paralelas."}
+did_es <- feols(concluida ~ i(periodo, group_treated, ref = 3) | id + periodo,
+                data = data_ot)
+
+summary(did_es)
+
+iplot(did_es,
+      xlab = "Período (ref = 3)",
+      ylab = "Efeito estimado",
+      main = "Event study — Obra Transparente")
+```
+
+Os coeficientes pré-tratamento (períodos 1 e 2) são próximos de zero e estatisticamente insignificantes, o que é consistente com tendências paralelas. Os coeficientes pós-tratamento mostram um efeito crescente, com o efeito se tornando significativo nos períodos finais.
+
+
+## O problema do TWFE com tratamento escalonado
+
+Até aqui, trabalhamos com cenários em que todas as unidades tratadas recebem o tratamento ao mesmo tempo. Contudo, em muitas aplicações, o tratamento é adotado em momentos diferentes (*staggered adoption*). Exemplos em ciência política incluem a adoção escalonada de biometria eleitoral, leis de transparência pública, ou reformas educacionais por diferentes estados.
+
+Nesta seção, mostramos que o estimador TWFE pode produzir resultados enviesados — e até com sinal trocado — quando o tratamento é escalonado e os efeitos são heterogêneos.
+
+### O que pode dar errado
+
+Considere três grupos de unidades: o grupo A (tratado no período 3), o grupo B (tratado no período 6), e o grupo C (nunca tratado). O TWFE com efeitos fixos de unidade e tempo estima um coeficiente único $\hat{\tau}$ como uma média ponderada de todas as comparações 2$\times$2 possíveis. Crucialmente, algumas dessas comparações usam unidades **já tratadas** como "controle" — por exemplo, ao estimar o efeito para o grupo B (tratado no período 6), o TWFE pode usar o grupo A (já tratado desde o período 3) como controle.
+
+Se o efeito do tratamento varia ao longo do tempo ou entre grupos, essas comparações "proibidas" introduzem viés. Em casos extremos, os pesos de algumas comparações podem ser **negativos**, fazendo com que $\hat{\tau}$ tenha sinal oposto ao verdadeiro efeito causal.
+
+### Decomposição de Goodman-Bacon — simulação
+
+Goodman-Bacon (2021) mostrou que o estimador TWFE com tratamento escalonado é uma média ponderada de todos os estimadores DiD 2$\times$2 possíveis, com pesos que dependem do tamanho dos grupos e da variância do tratamento. Vamos demonstrar isso com uma simulação.
+
+```{r bacon-simul, warning=FALSE, message=FALSE}
+set.seed(42)
+
+# Parâmetros
+n_units <- 300
+n_periods <- 10
+n_per_group <- 100
+
+# Criar dados
+sim_data <- expand.grid(i = 1:n_units, t = 1:n_periods)
+
+# Atribuir grupos: A (tratado em t=3), B (tratado em t=6), C (nunca tratado)
+sim_data$group <- ifelse(sim_data$i <= n_per_group, "A",
+                  ifelse(sim_data$i <= 2 * n_per_group, "B", "C"))
+sim_data$G_i <- ifelse(sim_data$group == "A", 3,
+                ifelse(sim_data$group == "B", 6, Inf))
+
+# Tratamento: D_it = 1 se t >= G_i
+sim_data$D_it <- as.integer(sim_data$t >= sim_data$G_i)
+
+# Efeito fixo de unidade
+alpha_i <- rnorm(n_units, mean = 0, sd = 2)
+sim_data$alpha <- alpha_i[sim_data$i]
+
+# Efeito fixo de tempo
+lambda_t <- seq(0, 4.5, length.out = n_periods)
+sim_data$lambda <- lambda_t[sim_data$t]
+
+# Efeito causal HETEROGÊNEO: cresce com a duração do tratamento
+# Grupo A: efeito de 2 por período de exposição
+# Grupo B: efeito de 5 por período de exposição
+sim_data$tau_true <- ifelse(sim_data$D_it == 0, 0,
+                     ifelse(sim_data$group == "A",
+                            2 * (sim_data$t - sim_data$G_i + 1),
+                            5 * (sim_data$t - sim_data$G_i + 1)))
+
+# Resultado observado
+sim_data$Y <- sim_data$alpha + sim_data$lambda + sim_data$tau_true + rnorm(nrow(sim_data))
+
+# ATT verdadeiro (média dos efeitos causais entre os tratados)
+att_verdadeiro <- mean(sim_data$tau_true[sim_data$D_it == 1])
+cat("ATT verdadeiro:", round(att_verdadeiro, 2), "\n")
+```
+
+Agora estimamos o TWFE e comparamos com o ATT verdadeiro:
+
+```{r bacon-twfe, warning=FALSE, message=FALSE}
+# TWFE padrão
+twfe_stag <- feols(Y ~ D_it | i + t, data = sim_data)
+
+cat("TWFE estimado:", round(coef(twfe_stag)["D_it"], 2), "\n")
+cat("ATT verdadeiro:", round(att_verdadeiro, 2), "\n")
+cat("Viés:", round(coef(twfe_stag)["D_it"] - att_verdadeiro, 2), "\n")
+```
+
+O TWFE subestima o ATT verdadeiro. Para entender por quê, vamos decompor manualmente as comparações 2$\times$2 que o TWFE combina.
+
+```{r bacon-decomp-manual, warning=FALSE, message=FALSE}
+# Função auxiliar para DiD 2x2
+did_2x2 <- function(data, treat_group, control_group, pre_periods, post_periods) {
+  d <- data %>%
+    filter(group %in% c(treat_group, control_group),
+           t %in% c(pre_periods, post_periods)) %>%
+    mutate(post = as.integer(t %in% post_periods),
+           treated = as.integer(group == treat_group))
+  fit <- lm(Y ~ post * treated, data = d)
+  coef(fit)["post:treated"]
+}
+
+# Comparações possíveis:
+# 1. Grupo A (tratado t=3) vs. Grupo C (nunca tratado)
+did_AC <- did_2x2(sim_data, "A", "C", pre_periods = 1:2, post_periods = 3:10)
+
+# 2. Grupo B (tratado t=6) vs. Grupo C (nunca tratado)
+did_BC <- did_2x2(sim_data, "B", "C", pre_periods = 1:5, post_periods = 6:10)
+
+# 3. Grupo A (early) vs. Grupo B (late) — B como controle, pré t<3
+did_AB_early <- did_2x2(sim_data, "A", "B", pre_periods = 1:2, post_periods = 3:5)
+
+# 4. Grupo B (late) vs. Grupo A (early, já tratado!) — A como "controle"
+did_BA_late <- did_2x2(sim_data, "B", "A", pre_periods = 3:5, post_periods = 6:10)
+
+comparacoes <- data.frame(
+  Comparacao = c("A vs. C (nunca tratado)",
+                 "B vs. C (nunca tratado)",
+                 "A vs. B (B ainda não tratado)",
+                 "B vs. A (A já tratado!)"),
+  DiD_2x2 = round(c(did_AC, did_BC, did_AB_early, did_BA_late), 2)
+)
+
+kable(comparacoes, caption = "Decomposição das comparações 2×2 no TWFE",
+      col.names = c("Comparação", "Estimativa DiD 2×2"))
+```
+
+A última comparação (B vs. A, com A já tratado) é problemática: o grupo A continua acumulando efeitos do tratamento, então sua trajetória como "controle" viola a lógica do DiD. Se o efeito de A está crescendo, essa comparação subestima o efeito de B.
+
+```{r bacon-grafico, warning=FALSE, message=FALSE, echo=FALSE, fig.cap="Médias por grupo ao longo do tempo. As linhas verticais indicam o início do tratamento para cada grupo. Note como o grupo A (já tratado) continua mudando após o período 3 — usá-lo como controle para B é problemático."}
+sim_data %>%
+  group_by(group, t) %>%
+  summarise(Y_mean = mean(Y), .groups = "drop") %>%
+  ggplot(aes(x = t, y = Y_mean, colour = group)) +
+  geom_line(linewidth = 1) +
+  geom_point() +
+  geom_vline(xintercept = c(3, 6), linetype = "dashed", alpha = 0.5) +
+  annotate("text", x = 3.2, y = max(sim_data$Y) * 0.3, label = "Grupo A\ntratado", size = 3) +
+  annotate("text", x = 6.2, y = max(sim_data$Y) * 0.3, label = "Grupo B\ntratado", size = 3) +
+  theme_bw() +
+  labs(x = "Período", y = "Resultado médio", colour = "Grupo") +
+  scale_colour_manual(values = c("A" = "blue", "B" = "red", "C" = "grey50"))
+```
+
+Para aplicações reais, o pacote `bacondecomp` automatiza essa decomposição e produz gráficos de diagnóstico (Goodman-Bacon, 2021). Aqui usamos a simulação para fins pedagógicos.
+
+
+### Conexão com FWL e Gardner
+
+Há outra forma de entender o problema do TWFE, via o teorema de Frisch-Waugh-Lovell (FWL). O TWFE estima $\hat{\tau}$ como uma regressão de $Y$ sobre $D_{it}$ após remover os efeitos fixos. Pelo FWL, isso equivale a:
+
+**Passo 1.** Residualizar $Y$ e $D$ nos efeitos fixos:
+
 $$
-Y_{g,t}(0) = \alpha_g + \lambda_t + e_{gt} \text{, com } \mathbb{E}[e_{gt}] = 0
+\tilde{Y}_{it} = Y_{it} - \hat{\alpha}_i - \hat{\lambda}_t, \qquad \tilde{D}_{it} = D_{it} - \hat{\alpha}^D_i - \hat{\lambda}^D_t
 $$
-Demonstrar equivalência é demonstrar que um implica o outro. Vamos começar mostrando que TWFE implica PT.
 
-Supondo que TWFE é verdade, então $\mathbb{E}[Y_{g,t}(0) − Y_{g,t−1}(0)] = \alpha_g + \lambda_t - (\alpha_g + \lambda_{t-1}) = \lambda_t - \lambda_{t-1}$, para todo $g$. Como a diferença no tempo $\lambda_t - \lambda_{t-1}$ não depende de $g$, então a PT é satisfeita.
+**Passo 2.** Regredir $\tilde{Y}_{it}$ em $\tilde{D}_{it}$:
 
-Vamos agora mostrar a outra implicação. Sem perda de generalidade, defina $\lambda_1 = 0$, isto é, o efeito do período 1 é 0. Poderia ser qualquer outro valor, mas zero vai facilitar. E vamos definir $\alpha_g = \mathbb{E}[Y_{g,1}(0)]$, ou seja, 
+$$
+\hat{\tau}^{TWFE} = \frac{\sum_{i,t} \tilde{D}_{it} \tilde{Y}_{it}}{\sum_{i,t} \tilde{D}_{it}^2} = \sum_{i,t} w_{it} \cdot \tau_{it}
+$$
 
-Se as tendências não forem exatamente paralelas, Rambachan e Roth (2023) desenvolveram uma forma de impor restrições sobre quão diferentes as tendências podem não ser paralelas pós-tratamento em comparação com o período pré-tratamento. O pacote no R honestDiD permite implementar isso. Assim conseguimos obter identificação parcial (intervalo para as estimativas), em vez de estimação pontual. O parâmetro M controla quanto o desvio é maior em relação ao observado no pré-teste. Se M é igual a 1, temos o mesmo desvio no máximo. Se M igual a 2, duas vezes maior e assim por diante.
+Os pesos $w_{it}$ dependem de $\tilde{D}_{it}$. Para unidades tratadas cedo e observadas muito depois do tratamento, $\tilde{D}_{it}$ pode ser **negativo** (porque a média de $D$ para essas unidades é alta, e o resíduo fica negativo). Pesos negativos significam que o TWFE pode dar sinal oposto ao efeito verdadeiro.
 
-```{r HonestDiD, warning=FALSE}
+A solução proposta por Gardner (2022) é o **DiD em dois estágios**:
+
+- **Estágio 1:** Estimar os efeitos fixos $\hat{\alpha}_i$ e $\hat{\lambda}_t$ usando **apenas** observações não tratadas (ou ainda não tratadas). Isso evita que o efeito do tratamento contamine as estimativas dos efeitos fixos.
+
+- **Estágio 2:** Regredir $Y_{it} - \hat{\alpha}_i - \hat{\lambda}_t$ em $D_{it}$ para estimar o ATT.
+
+O pacote `did2s` implementa esse procedimento com erros-padrão corrigidos para o primeiro estágio.
+
+
+## Estimadores modernos
+
+Nesta seção, aplicamos os estimadores modernos ao **mesmo dataset simulado** da seção anterior. Isso permite comparar diretamente cada estimador com o TWFE enviesado e com o ATT verdadeiro.
+
+### Callaway & Sant'Anna (2021)
+
+Callaway e Sant'Anna (2021) propõem estimar o efeito para cada **grupo-tempo** $ATT(g, t)$, onde $g$ é o período de primeiro tratamento. A ideia é fazer comparações "limpas": cada grupo tratado é comparado apenas com unidades nunca tratadas (ou ainda não tratadas).
+
+O parâmetro $ATT(g, t) = \mathbb{E}[Y_{it}(1) - Y_{it}(0) \mid G_i = g]$ é estimado para cada combinação $(g, t)$ com $t \geq g$. Esses efeitos grupo-tempo podem então ser **agregados** de diversas formas: por grupo, por tempo relativo (event study), ou em uma média simples.
+
+```{r cs-estimator, warning=FALSE, message=FALSE, fig.cap="Event study agregado — Callaway & Sant'Anna. Comparar com o TWFE da seção anterior."}
+library(did)
+
+# Preparar dados: G_i numérico (Inf -> 0 para nunca tratados no pacote did)
+sim_cs <- sim_data %>%
+  mutate(G_did = ifelse(is.infinite(G_i), 0, G_i))
+
+# Estimar ATT(g,t)
+cs_out <- att_gt(yname = "Y",
+                 tname = "t",
+                 idname = "i",
+                 gname = "G_did",
+                 data = sim_cs,
+                 control_group = "nevertreated")
+
+# Agregar por tempo relativo (event study)
+cs_es <- aggte(cs_out, type = "dynamic")
+summary(cs_es)
+
+ggdid(cs_es, title = "Event study — Callaway & Sant'Anna")
+```
+
+### Sun & Abraham (2021)
+
+Sun e Abraham (2021) propõem o *interaction-weighted estimator*. A ideia é estimar coeficientes separados para cada coorte de tratamento e depois agregar com pesos adequados. O pacote `fixest` implementa isso via `sunab()`.
+
+```{r sunab-estimator, warning=FALSE, message=FALSE, fig.cap="Event study — Sun & Abraham (sunab)."}
+# Preparar: nunca tratados precisam de G_i grande (não Inf)
+sim_sa <- sim_data %>%
+  mutate(G_sunab = ifelse(is.infinite(G_i), 10000, G_i))
+
+sa_out <- feols(Y ~ sunab(G_sunab, t) | i + t, data = sim_sa)
+summary(sa_out)
+
+iplot(sa_out,
+      xlab = "Períodos relativos ao tratamento",
+      ylab = "Efeito estimado",
+      main = "Event study — Sun & Abraham")
+```
+
+### Gardner (2022) / did2s
+
+O estimador de dois estágios de Gardner (2022), discutido na seção 7.3, é implementado pelo pacote `did2s`.
+
+```{r did2s-estimator, warning=FALSE, message=FALSE}
+library(did2s)
+
+sim_d2s <- sim_data %>%
+  mutate(first_treat = ifelse(is.infinite(G_i), Inf, G_i))
+
+d2s_out <- did2s(data = sim_d2s,
+                 yname = "Y",
+                 first_stage = ~ 0 | i + t,
+                 second_stage = ~ D_it,
+                 treatment = "D_it",
+                 cluster_var = "i")
+
+summary(d2s_out)
+```
+
+### Borusyak, Jaravel & Spiess (2024)
+
+Borusyak, Jaravel e Spiess (2024) propõem um estimador por **imputação**: estimam o modelo de efeitos fixos nos dados não tratados e usam as previsões para imputar os contrafactuais das unidades tratadas. O efeito é a diferença entre o observado e o imputado.
+
+```{r imputation-estimator, warning=FALSE, message=FALSE}
+library(didimputation)
+
+sim_imp <- sim_data %>%
+  mutate(Ei = ifelse(is.infinite(G_i), 0, G_i))
+
+imp_out <- did_imputation(data = sim_imp,
+                          yname = "Y",
+                          gname = "Ei",
+                          tname = "t",
+                          idname = "i",
+                          first_stage = ~ 0 | i + t)
+
+summary(imp_out)
+```
+
+### Tabela comparativa
+
+```{r tabela-comparativa, warning=FALSE, message=FALSE}
+# Extrair ATT de cada estimador
+att_twfe <- coef(twfe_stag)["D_it"]
+att_cs <- aggte(cs_out, type = "simple")$overall.att
+att_sa <- summary(sa_out)$coeftable[1, 1]
+att_d2s <- coef(d2s_out)["D_it"]
+att_imp <- imp_out$estimate[1]
+
+# Recuperar ATT de Sun & Abraham corretamente: média dos coeficientes pós
+sa_coefs <- coef(sa_out)
+sa_post <- sa_coefs[grep("^t::", names(sa_coefs))]
+# Filtrar apenas coeficientes pós-tratamento (relativos >= 0)
+sa_post_names <- names(sa_post)
+sa_post_vals <- as.numeric(gsub(".*::", "", sa_post_names))
+att_sa_agg <- mean(sa_post[sa_post_vals >= 0])
+
+tab_comp <- data.frame(
+  Estimador = c("ATT verdadeiro", "TWFE (enviesado)", "Callaway & Sant'Anna",
+                "Sun & Abraham", "Gardner (did2s)", "Imputação (BJS)"),
+  ATT = round(c(att_verdadeiro, att_twfe, att_cs, att_sa_agg, att_d2s, att_imp), 2)
+)
+
+kable(tab_comp, caption = "Comparação dos estimadores — dados simulados com tratamento escalonado e efeitos heterogêneos",
+      col.names = c("Estimador", "ATT estimado"))
+```
+
+A tabela mostra que o TWFE diverge do ATT verdadeiro, enquanto os estimadores modernos convergem para valores mais próximos do efeito real. As pequenas diferenças entre os estimadores modernos decorrem de diferenças nos esquemas de ponderação e na definição exata do estimando.
+
+
+## Testando tendências paralelas e análise de sensibilidade
+
+### Pre-trends e o aviso de Roth (2022)
+
+O event study é a ferramenta padrão para avaliar a plausibilidade de tendências paralelas: se os coeficientes pré-tratamento ($\delta_k$ para $k < 0$) são próximos de zero, isso é consistente com PT. Porém, Roth (2022) alerta para o **viés de pré-teste** (*pre-testing bias*): se selecionamos especificações ou amostras com base em pré-tendências insignificantes, podemos estar condicionando em ruído favorável, o que infla os coeficientes pós-tratamento.
+
+Em outras palavras, a ausência de pré-tendências significativas é necessária mas não suficiente. Roth (2022) mostra que testes de pré-tendências têm baixo poder em muitas aplicações típicas — não rejeitar PT não significa que PT é verdadeira.
+
+### HonestDiD: análise de sensibilidade
+
+Rambachan e Roth (2023) propõem uma abordagem de **identificação parcial**: em vez de supor PT exata, impõem restrições sobre *quanto* as tendências pós-tratamento podem divergir das tendências pré-tratamento. O parâmetro $\bar{M}$ controla essa divergência:
+
+- $\bar{M} = 0$: tendências paralelas exatas (identificação pontual).
+- $\bar{M} = 1$: o desvio pós-tratamento pode ser igual ao máximo desvio observado no pré-tratamento.
+- $\bar{M} = 2$: o desvio pode ser até duas vezes maior.
+
+Vamos aplicar o HonestDiD ao event study da Obra Transparente:
+
+```{r honestdid, warning=FALSE, message=FALSE}
 library(HonestDiD)
-library(tidyverse)
-library(knitr)
-library(fixest)
 
-# Install remotes package if not installed
-#install.packages("remotes")
+# Event study para HonestDiD (usando os dados Obra Transparente)
+es_honest <- feols(concluida ~ i(periodo, group_treated, ref = 3) | id + periodo,
+                   data = data_ot)
 
-# Turn off warning-error-conversion, because the tiniest warning stops installation
-#Sys.setenv("R_REMOTES_NO_ERRORS_FROM_WARNINGS" = "true")
+# Extrair coeficientes e matriz de covariância
+betahat <- coef(es_honest)
+sigma <- vcov(es_honest)
 
-# install from github
-#remotes::install_github("asheshrambachan/HonestDiD")
+# Número de períodos pré e pós tratamento (ref = 3, períodos 1-7)
+# Pré: períodos 1, 2 (2 coeficientes)
+# Pós: períodos 4, 5, 6, 7 (4 coeficientes)
+numPrePeriods <- 2
+numPostPeriods <- length(betahat) - numPrePeriods
 
+# Sensibilidade com magnitude relativa
+delta_rm_results <- createSensitivityResults_relativeMagnitudes(
+  betahat = betahat,
+  sigma = sigma,
+  numPrePeriods = numPrePeriods,
+  numPostPeriods = numPostPeriods,
+  Mbarvec = seq(0.5, 2, by = 0.5)
+)
 
-# Run model
-# twfe_results <- feols(rating ~ i(goodr, qa) | year_month + asin,
-#                 cluster = c("asin"),
-#                 data = GoodAma)
-# 
-# fixest::iplot(twfe_results)
-# 
-# # Save coefficients
-# betahat <- summary(model_4)$coefficients
-# 
-# # Save the covariance matrix
-# sigma <- summary(model_4)$cov.scaled
-# 
-# ## Identificação Parcial
-# 
-# delta_rm_results <- createSensitivityResults_relativeMagnitudes(
-#     betahat = betahat, #coefficients
-#     sigma = sigma, #covariance matrix
-#     numPrePeriods = 1, #num. of pre-treatment coefs
-#     numPostPeriods = 1, #num. of post-treatment coefs
-#     Mbarvec = seq(0.5,2,by=0.5) #values of Mbar
-#   )
-# 
-# delta_rm_results %>%
-#   kable()
+delta_rm_results %>%
+  kable(caption = "Análise de sensibilidade HonestDiD — Obra Transparente",
+        digits = 3)
 ```
 
-## Múltiplos períodos pós-tratamento
-
-Provavelmente, $\tau$ não é constante no tempo e entre unidades. Efeito do tratamento pode depender de quando começou. Pode depender da duração. Precisamos de um modelo mais sofisticado de regressão. O modelo que fizemos estima uma média dos efeitos. É preciso ter cuidado, pois se a amostra não for completa (não-balanceada), pode gerar problemas. 
-
-A primeira extensão do modelo é considerar um did dinâmico. Como fazemos isso?
-
-$$
-Y_{g,t} = \alpha_i + \lambda_t + \sum_{t=1, t \neq t_0}^T \delta_t D_{gt} + e_{gt}
-$$
-Essa equação toma como referência o período $t_0$, em que o tratamento foi implementado (para todas as unidades tratadas) ao mesmo tempo.
-
-Um dos coeficientes é não identificado por causa do $\alpha_i$, por isso precisamos excluir um período como categoria de referência.
-E todos os coeficientes medem o efeito relativo ao período $t_0$ de referência.
-
-Suposição de PT foi mais forte no modelo acima: $Y_{g,t}(d) - Y_{g,t-k}(d) = \lambda_t - \lambda_{t-k}$ para todos os $k$ e $d$. 
-
-Podemos testar pré-tratamento.
+A tabela mostra intervalos de confiança para diferentes valores de $\bar{M}$. Se o intervalo inclui zero para $\bar{M}$ pequeno, isso sugere que mesmo desvios modestos de PT podem eliminar a significância do resultado. Se o intervalo permanece longe de zero para $\bar{M}$ grande, o resultado é robusto.
 
 
-## Análise de sensibilidade em DiD
+## Aplicação 2: Enchente do Elbe
 
+### Contexto
 
-$$
-y_{gt} = \alpha_g + \lambda_t + \tau_{gt}D_{it} + e_{gt}
-$$
+Em agosto de 2002, uma enchente devastadora atingiu o rio Elbe, na Alemanha. O chanceler Gerhard Schröder (SPD) liderou pessoalmente a resposta à crise, visitando as áreas afetadas e coordenando a ajuda federal. A eleição federal ocorreu poucas semanas depois, em setembro de 2002. Bechtel e Hainmueller (2011, *AJPS*) usam um DiD para estimar o efeito da gestão da crise sobre o voto no SPD nos distritos atingidos pela enchente.
 
-Podemos pensar que o $\tau$ é a média dos $\tau_{gt}$. Veja que se nós pudéssemos reescrever a equação de regressão como 
-$y_{gt} -\alpha_g - \lambda_t =  \tau_{gt}D_{it} + e_{gt}$, bastaria rodar um modelo de OLS tradicional e estimar essa média. Nossa vd seria $y_{gt} -\alpha_g - \lambda_t$ e o tratamento uma variável binária indicando se o tratamento ocorreu. 
-Acontece que não sabemos os efeitos fixos. E se nós estimarmos eles? Utilizando o teorema FWL, temos:
+A pergunta de pesquisa é: a gratidão dos eleitores pela resposta à crise durou além da eleição imediata? Os dados cobrem quatro eleições: 1994, 1998, 2002 e 2005.
 
-Primeiro, extraio os resíduos de uma regressão apenas com os efeitos fixos:
-$$
-y_{gt} = \alpha_g + \lambda_t + \text{resíduos}_Y
-$$
-Se chamar os resíduos de $\tilde{y}_{gt}$, tenho tudo de $y_{gt}$ que não é explicado pelos efeitos fixos. E posso reescrever: $y_{gt} = \alpha_g + \lambda_t + \text{resíduos}_Y$ como $\tilde{y}_{gt} = y_{gt} -\alpha_g - \lambda_t$.
+### Dados e DiD básico
 
-
-Em seguida, residualizo o tratamento:
-$$
-D_{gt} = \alpha_g + \lambda_t + \text{resíduos}_D
-$$
-Novamente, vou chamar os resíduos de $\tilde{D}_{gt}$
-
-
-
-Então, posso rodar uma regressão $\tilde{y}_{gt} = \tilde{D}_{gt} + e_{gt}$. Ou ainda:
-
-$$
-y_{gt} - \tilde{\alpha}_g - \tilde{\lambda}_t = \tau_{gt}\tilde{D}_{it} + e_{gt}
-$$
-Essa regressão estima $\hat{\tau} = \sum w_{gt}\tau_{gt} \neq \tau$.
-
-Esses pesos podem até mesmo ser negativos e a estimativa $\hat{\tau}$ ter sinal oposto a $\tau$. A intuição é porque estamos comparando bananas com laranjas. Há grupos que são tratados em momentos distintos, e dependendo do tamanho dos efeitos em cada momento do tempo, a média ponderada dessas comparações dá algo estranho.
-
-A solução proposta do Gardner de regressão DiD em dois estágios é justamente evitar esse problema rodando $y_{gt} - \tilde{\alpha}_g - \tilde{\lambda}_t = \tau_{gt}D_{it} + e_{gt}$.
-
-Estágio 1: Estime os efeitos fixos usando observações não tratadas ou ainda não tratadas.
-
-Estágio 2. Rode a regressão $y_{gt} - \tilde{\alpha}_g - \tilde{\lambda}_t = \tau_{gt}D_{it} + e_{gt}$.
-
-Obviamente, o cálculo do erro padrão se torna mais complexo nesse caso, pois há ruído extra introduzido na nova VD. Felizmente, o pacote {did2s} faz tudo isso pra gente.
-
-Se você olhar os papers mais recentes publicados nos top journals, eles estão usando esse tipo de estimador.
-
-## DiD generalizado
-
-Nós permitimos que cada unidade, por exemplo, tenha sua própria tendência. Ou que o resultado potencial do controle (não-tratado) dependa de covariáveis que variam no tempo, ou seja, a tendência paralela é condicional às covariáveis.
-A única coisa não permitida é interação entre efeitos fixos de unidade e tempo.
-
-
-```{r obra-transparente-did-din, warning=FALSE, message=FALSE, echo=TRUE}
-
-did_din = feols(concluida ~ i(periodo, group_treated, ref=3) | id + periodo, data_ot)
-
-summary(did_din)
-```
-
-Até aqui, consideramos cenários em que o tratamento é implementado simultaneamente para todas as unidades tratadas. Contudo, em muitas aplicações, o tratamento é adotado em momentos diferentes por diferentes unidades.
-
-## DID com adoção escalonada (staggered timing)
-
-No meu exemplo, tratamento foi o mesmo para todas as unidades ao mesmo tempo. Mas é comum que não aconteça assim. 
-
-1. Qual é o estimando quando tenho adoção escalonada no tempo? Com quem estou comparando?
-
-Digamos que quero ver o efeito da biometria sobre comparecimento eleitoral. Como ela foi escalonada no tempo, podemos adotar um modelo de DiD. Nesse caso, uma vez implementado (turned on), não volta atrás (turn off). Porém, há casos em que a política pode ser ativada ou desativada. Exemplo: política de uso de câmeras corporais pela polícia. Tarcísio desativou por um tempo (STF impediu). Isso cria complicações para definir o grupo de controle adequado.
-
-## Paper Voter Gratitude Last Long?
-
-```{r elbe-import, warning=FALSE, message=FALSE, echo=TRUE}
+```{r elbe-import, warning=FALSE, message=FALSE}
 library(haven)
-elbe1994_98 <- read_dta(here("Dados", "Elbe", "1994_1998.dta")) 
 
+elbe1994_98 <- read_dta(here("Dados", "Elbe", "1994_1998.dta"))
 elbe0 <- elbe1994_98 %>%
   dplyr::select(wkr, wkrname, year, spd_z_vs, Flooded)
 
-elbe1998_02 <- read_dta(here("data",  "Elbe", "1998_2002.dta"))
-
+elbe1998_02 <- read_dta(here("Dados", "Elbe", "1998_2002.dta"))
 elbe1 <- elbe1998_02 %>%
   dplyr::select(wkr, wkrname, year, spd_z_vs, Flooded) %>%
-  dplyr::filter(year == 2002) 
+  dplyr::filter(year == 2002)
 
-
-elbe1998_05 <- read_dta(here("data",  "Elbe", "1998_2005.dta"))
-
+elbe1998_05 <- read_dta(here("Dados", "Elbe", "1998_2005.dta"))
 elbe2 <- elbe1998_05 %>%
   dplyr::filter(year == 2005) %>%
   dplyr::select(wkr, wkrname, year, spd_z_vs, Flooded)
 
 elbe <- bind_rows(elbe0, elbe1, elbe2)
-
 ```
 
-```{r elbe-did, warning=FALSE, message=FALSE, echo=TRUE}
-did_short <- feols(spd_z_vs ~ Flooded| wkr + year,
-                 cluster = "wkr",
-                 data = elbe1998_02)
-summary(did_short)
+Primeiro, verificamos visualmente as tendências pré-tratamento:
 
-did_din = feols(spd_z_vs ~ i(year, Flooded, ref=1998) | wkr + year, elbe)
-summary(did_din)
-
+```{r elbe-tendencias, warning=FALSE, message=FALSE, echo=FALSE, fig.cap="Evolução do voto SPD (%) nos distritos atingidos e não atingidos pela enchente. Linha vertical em 2002 (enchente + eleição)."}
+elbe %>%
+  mutate(Grupo = ifelse(Flooded == 1, "Atingido", "Não atingido")) %>%
+  group_by(year, Grupo) %>%
+  summarise(spd_mean = mean(spd_z_vs, na.rm = TRUE), .groups = "drop") %>%
+  ggplot(aes(x = year, y = spd_mean, colour = Grupo)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2) +
+  geom_vline(xintercept = 2002, linetype = "dashed") +
+  theme_bw() +
+  labs(x = "Ano", y = "Voto SPD (%)", colour = NULL) +
+  scale_colour_manual(values = c("Atingido" = "blue", "Não atingido" = "red"))
 ```
 
-```{r elbe-did-het, warning=FALSE, message=FALSE, echo=TRUE}
-Sys.setenv(RGL_USE_NULL = TRUE)
-library(DIDmultiplegtDYN)
+As tendências pré-tratamento (1994–1998) são aproximadamente paralelas. Estimemos o DiD básico para a eleição de 2002:
 
-elbe_het <- elbe %>%
-  rename(Y = spd_z_vs,
-         G = wkr,
-         D = Flooded,
-         T = year)
-
-did_het <- did_multiplegt_dyn(
-    df = elbe,
-    outcome = "spd_z_vs",
-    group = "wkr",
-    time = "year",
-    treatment = "Flooded",
-    effects = 2,
-    placebo = 2,
-    cluster = "wkr"
-)
-
-summary(did_het)
-did_short <- feols(spd_z_vs ~ Flooded| wkr + year,
-                 cluster = "wkr",
-                 data = elbe1998_02)
-summary(did_short)
-
-did_din = feols(spd_z_vs ~ i(year, Flooded, ref=1998) | wkr + year, elbe)
-summary(did_din)
-
+```{r elbe-did-basico, warning=FALSE, message=FALSE}
+did_elbe <- feols(spd_z_vs ~ Flooded | wkr + year,
+                  cluster = "wkr",
+                  data = elbe1998_02)
+summary(did_elbe)
 ```
 
-## Resumo e próximos passos
+O coeficiente de `Flooded` mede o ganho adicional do SPD nos distritos atingidos. Bechtel e Hainmueller encontram um efeito positivo e significativo: a gestão da crise rendeu votos ao SPD.
 
-Neste capítulo, introduzimos o estimador de Diferença em Diferenças e a suposição central de tendências paralelas. Vimos como o DiD pode ser estimado por TWFE e como extensões recentes lidam com efeitos heterogêneos, múltiplos períodos e adoção escalonada do tratamento. A análise de sensibilidade de Rambachan e Roth (2023) é uma ferramenta importante para avaliar a robustez dos resultados quando tendências paralelas não são exatamente satisfeitas.
+### Event study
 
-No próximo capítulo, discutiremos dados de painel (TSCS) de forma mais geral, incluindo as suposições de exogeneidade estrita e sequencial.
+Para avaliar a dinâmica temporal — incluindo se o efeito persiste em 2005 — estimamos um event study usando todos os anos disponíveis:
+
+```{r elbe-event-study, warning=FALSE, message=FALSE, fig.cap="Event study — Enchente do Elbe. O efeito sobre o voto SPD é forte em 2002 e persiste parcialmente em 2005."}
+did_elbe_es <- feols(spd_z_vs ~ i(year, Flooded, ref = 1998) | wkr + year,
+                     data = elbe)
+summary(did_elbe_es)
+
+iplot(did_elbe_es,
+      xlab = "Ano (ref = 1998)",
+      ylab = "Efeito sobre voto SPD (p.p.)",
+      main = "Event study — Enchente do Elbe")
+```
+
+O coeficiente de 1994 (pré-tratamento) é próximo de zero, sustentando a hipótese de PT. O efeito em 2002 é forte e positivo. Em 2005, o efeito diminui mas permanece — evidência de que a gratidão dos eleitores é parcialmente persistente, como argumentam Bechtel e Hainmueller (2011).
+
+### Robustez
+
+Como o tratamento (enchente) é simultâneo para todos os distritos atingidos, não há o problema de tratamento escalonado. Portanto, o TWFE padrão é adequado. Ainda assim, podemos verificar a robustez usando Sun & Abraham (que, neste caso, deve convergir para o TWFE):
+
+```{r elbe-robustez, warning=FALSE, message=FALSE}
+elbe_rob <- elbe %>%
+  mutate(G_elbe = ifelse(Flooded == 1, 2002, 10000))
+
+sa_elbe <- feols(spd_z_vs ~ sunab(G_elbe, year) | wkr + year, data = elbe_rob)
+
+msummary(list("TWFE" = did_elbe_es, "Sun-Abraham" = sa_elbe),
+         stars = c('*' = .1, '**' = .05, '***' = .01),
+         title = "Robustez — Elbe: TWFE vs. Sun & Abraham")
+```
+
+Como esperado, os resultados são praticamente idênticos, confirmando que, quando o tratamento é simultâneo, o TWFE não sofre do viés discutido na seção 7.
+
+
+## DiD condicional e extensões
+
+O pressuposto de tendências paralelas pode ser forte demais quando os grupos diferem em características observáveis que afetam a trajetória do resultado. Nesses casos, podemos relaxar PT para uma versão **condicional a covariáveis**:
+
+$$
+\mathbb{E}[Y_{it}(0) - Y_{it-1}(0) \mid D_i = 1, X_i] = \mathbb{E}[Y_{it}(0) - Y_{it-1}(0) \mid D_i = 0, X_i]
+$$
+
+Ou seja, as tendências são paralelas *dentro de estratos* definidos por $X_i$. Há três abordagens principais para estimar o DiD condicional:
+
+1. **Ponderação por propensity score inverso (IPW):** ponderar as unidades de controle para que a distribuição de $X$ replique a do grupo tratado.
+2. **Regressão de resultado (*outcome regression*):** modelar $\mathbb{E}[Y_{it}(0) \mid X_i]$ parametricamente.
+3. **Doubly-robust:** combinar IPW e regressão. Consistente se *qualquer uma* das duas especificações estiver correta. O pacote `did` implementa essa abordagem (Sant'Anna & Zhao, 2020).
+
+Wooldridge (2021) propõe uma extensão do TWFE (*extended TWFE*) que inclui interações entre os efeitos fixos de tempo e as covariáveis, obtendo resultados robustos a efeitos heterogêneos sob certas condições.
+
+
+## Resumo
+
+Neste capítulo, introduzimos o estimador de Diferença em Diferenças e o pressuposto central de tendências paralelas. Os pontos-chave são:
+
+1. **DiD 2$\times$2** é intuitivo e pode ser estimado por TWFE sem problemas.
+2. **Tendências paralelas** é o pressuposto de identificação central; é não-testável diretamente, mas pode ser avaliado com event studies (com cautela) e análise de sensibilidade (HonestDiD).
+3. **Com tratamento escalonado e efeitos heterogêneos**, o TWFE pode ser enviesado. A decomposição de Goodman-Bacon revela por quê.
+4. **Estimadores modernos** — Callaway & Sant'Anna, Sun & Abraham, Gardner/did2s, Borusyak et al. — corrigem o problema e convergem para estimativas consistentes.
+5. **Em aplicações com tratamento simultâneo** (como a enchente do Elbe), o TWFE permanece válido.
+
+No capítulo 9, discutiremos dados de painel (TSCS) de forma mais geral, incluindo as suposições de exogeneidade estrita e sequencial — das quais as tendências paralelas são um caso especial. No capítulo 11, veremos o controle sintético como alternativa quando PT é duvidosa ou quando há poucas unidades tratadas.
+
 
 ## Referências
 
-de Chaisemartin, C., & D’Haultfœuille, X. (2023). Credible answers to hard questions: Differences-in-differences for natural experiments. Available at SSRN.
+Angrist, J. D., & Pischke, J.-S. (2009). *Mostly Harmless Econometrics*. Princeton University Press.
 
-Rambachan, A., & Roth, J. (2023). A more credible approach to parallel trends. Review of Economic Studies, 90(5), 2555-2591.
+Bechtel, M. M., & Hainmueller, J. (2011). How Lasting Is Voter Gratitude? An Analysis of the Short- and Long-Term Electoral Returns to Beneficial Policy. *American Journal of Political Science*, 55(4), 852–868.
 
+Borusyak, K., Jaravel, X., & Spiess, J. (2024). Revisiting Event Study Designs: Robust and Efficient Estimation. *Review of Economic Studies*, 91(6), 3253–3285.
+
+Callaway, B., & Sant'Anna, P. H. C. (2021). Difference-in-Differences with Multiple Time Periods. *Journal of Econometrics*, 225(2), 200–230.
+
+Card, D., & Krueger, A. B. (1994). Minimum Wages and Employment: A Case Study of the Fast-Food Industry in New Jersey and Pennsylvania. *American Economic Review*, 84(4), 772–793.
+
+Cunningham, S. (2021). *Causal Inference: The Mixtape*. Yale University Press.
+
+de Chaisemartin, C., & D'Haultfœuille, X. (2020). Two-Way Fixed Effects Estimators with Heterogeneous Treatment Effects. *American Economic Review*, 110(9), 2964–2996.
+
+de Chaisemartin, C., & D'Haultfœuille, X. (2023). Two-Way Fixed Effects and Differences-in-Differences with Heterogeneous Treatment Effects: A Survey. *Econometrics Journal*, 26(3), C1–C30.
+
+Gardner, J. (2022). Two-Stage Differences in Differences. Working Paper.
+
+Goodman-Bacon, A. (2021). Difference-in-Differences with Variation in Treatment Timing. *Journal of Econometrics*, 225(2), 254–277.
+
+Huntington-Klein, N. (2022). *The Effect: An Introduction to Research Design and Causality*. Chapman & Hall/CRC.
+
+Rambachan, A., & Roth, J. (2023). A More Credible Approach to Parallel Trends. *Review of Economic Studies*, 90(5), 2555–2591.
+
+Roth, J. (2022). Pretest with Caution: Event-Study Estimates after Testing for Parallel Trends. *American Economic Review: Insights*, 4(3), 305–322.
+
+Roth, J., Sant'Anna, P. H. C., Bilinski, A., & Poe, J. (2023). What's Trending in Difference-in-Differences? A Synthesis of the Recent Econometrics Literature. *Journal of Econometrics*, 235(2), 2218–2244.
+
+Sun, L., & Abraham, S. (2021). Estimating Dynamic Treatment Effects in Event Studies with Heterogeneous Treatment Effects. *Journal of Econometrics*, 225(2), 175–199.
+
+Wooldridge, J. M. (2021). Two-Way Fixed Effects, the Two-Way Mundlak Regression, and Difference-in-Differences Estimators. Working Paper.
