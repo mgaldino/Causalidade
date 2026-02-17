@@ -478,6 +478,12 @@ A **restrição de exclusão** seria violada se houvesse uma seta direta de $B$ 
 
 - Os **choques nacionais** ($g_k$) refletissem fatores que também afetassem $Y_i$ diretamente. Por exemplo, se a Lava-Jato afetasse tanto os votos (via $X_i$) quanto os protestos (via um canal direto), a restrição seria violada.
 
+É importante reconhecer que o nosso exemplo hipotético de IV --- usar a mudança eleitoral como instrumento para algum outcome estadual como abstenção, gasto público ou protestos --- enfrenta desafios reais de identificação. Primeiro, com $N = 27$ estados, o número de observações é muito pequeno para estimação IV confiável (instrumentos fracos, inferência imprecisa). Segundo, as *shares* e os *shifts* operam no **mesmo nível geográfico** que o outcome: tendências nacionais por partido afetam os estados, e os outcomes também são estaduais, dificultando a separação entre o canal causal de interesse e outros canais. Terceiro, fatores como a mudança de governador entre 2014 e 2018 são parte do próprio mecanismo político que liga tendências nacionais a resultados locais, confundindo o canal causal.
+
+Uma solução para esses problemas é explorar **variação cross-level** --- usar choques de um nível geográfico (por exemplo, tendências estaduais) para prever outcomes em outro nível (por exemplo, municipal). Quando os *shifts* são computados em um nível mais agregado do que a unidade de observação, a separação entre instrumento e confundidores locais se torna mais plausível. Além disso, o **leave-out design** --- excluir a própria unidade ao computar o *shift* agregado --- elimina a correlação mecânica entre o instrumento e choques locais não observados.
+
+Xu (2025, *Journal of Politics*) oferece um exemplo concreto e bem-sucedido de como resolver esses problemas em uma aplicação de SSIV na ciência política brasileira, usando variação cross-level entre eleições estaduais e outcomes municipais combinada com um leave-out design. Discutimos esse estudo em detalhe na seção de aplicações em ciência política.
+
 A questão crucial que emerge é: **de onde, exatamente, vem a exogeneidade do instrumento?** Das *shares*? Dos *shifts*? De ambos? Essa pergunta tem duas respostas formais distintas, que correspondem a duas estratégias de identificação com implicações muito diferentes para diagnósticos e credibilidade. É exatamente isso que a próxima seção formaliza.
 
 ## Duas estratégias de identificação
@@ -671,6 +677,34 @@ Thewissen & Rueda (2019, *Comparative Political Studies*) mostram que trabalhado
 
 Campello & Urdinez (2021, *Comparative Political Studies*) é uma das poucas aplicações fora dos EUA/Europa. Mostram que municípios brasileiros afetados por importações chinesas veem a China como risco, mas municípios beneficiados por exportações *não* veem como oportunidade --- as perdas moldam percepções de política externa mais que os ganhos.
 
+### Competição política e desmatamento
+
+Xu (2025, *Journal of Politics*) --- "Bureaucratic Packing in the Brazilian Amazon" --- é uma aplicação de SSIV em ciência política brasileira que exemplifica como resolver os problemas de identificação discutidos na seção sobre exclusion restriction. A pergunta central é: **competição política local causa desmatamento na Amazônia?**
+
+O problema de endogeneidade é severo. Municípios com mais desmatamento podem ter economias baseadas em extração ilegal de madeira, o que afeta a competição política local (causalidade reversa). Além disso, fatores não observados --- como capacidade institucional, presença de ONGs ambientais ou interesses de grandes proprietários --- podem afetar simultaneamente competição e desmatamento.
+
+**A estratégia de identificação.** Xu adapta o método de Shaukat (2019) para construir um instrumento shift-share que prevê competição política municipal a partir de tendências eleitorais estaduais. A construção tem três componentes:
+
+- **Shares** ($z_{p,m,s}$): a votação do partido $p$ no município $m$ do estado $s$ na eleição estadual de 1998, o período-base. Essas *shares* capturam a composição partidária inicial do município.
+
+- **Shifts** ($g_{p,s,t}^{-m}$): a mudança na votação do partido $p$ no nível **estadual** entre 1998 e a eleição $t$, **excluindo** o próprio município $m$ do cálculo (leave-out). Esses *shifts* capturam tendências partidárias estaduais que são plausivamente exógenas ao município individual.
+
+- **Predicted vote share**: $\hat{s}_{p,m,s,t} = z_{p,m,s} + g_{p,s,t}^{-m}$. O instrumento combina a composição inicial do município com a tendência estadual para prever a votação de cada partido no município.
+
+A partir dos vote shares preditos, Xu constrói uma medida de **competição política predita**: $1 - |\hat{s}_{winner} - \hat{s}_{runner-up}|$, onde valores mais altos indicam margens menores entre os dois candidatos mais votados (mais competição).
+
+**Por que essa estratégia funciona?** Três elementos-chave garantem a identificação:
+
+1. **Variação cross-level**: Os *shifts* vêm de eleições **estaduais**, mas os outcomes (desmatamento) são **municipais**. Ao usar tendências de um nível geográfico mais agregado para prever outcomes em um nível mais desagregado, a separação entre o instrumento e confundidores locais não observados se torna mais plausível. Isso contrasta com o nosso exemplo hipotético anterior, onde shifts e outcomes operavam no mesmo nível estadual.
+
+2. **Leave-out design**: Ao excluir o próprio município $m$ do cálculo do shift estadual $g_{p,s,t}^{-m}$, elimina-se a correlação mecânica entre o instrumento e choques locais não observados. Se um choque local afeta tanto o desmatamento quanto a votação no município $m$, esse choque não contamina o shift estadual porque $m$ foi excluído.
+
+3. **Nonmonotonicity**: Um partido ganhando popularidade estadual *aumenta* a competição em municípios onde era fraco, mas *diminui* a competição onde já era forte. Essa propriedade gera variação rica no instrumento e torna improvável que tendências estaduais afetem o desmatamento municipal por um canal direto uniforme.
+
+**Resultado.** Xu encontra que maior competição política leva a **mais desmatamento**. O mecanismo identificado é o *bureaucratic packing*: prefeitos em eleições competitivas nomeiam mais funcionários comissionados para construir máquinas eleitorais, deslocando recursos da fiscalização ambiental. O enfraquecimento da capacidade de enforcement local facilita o desmatamento ilegal.
+
+**Conexão com as estratégias de identificação.** O design de Xu/Shaukat aposta fundamentalmente na exogeneidade dos *shifts* --- as tendências estaduais de votação partidária, excluindo o município. Isso o alinha à estratégia BHJ (2022): a identificação vem da quase-aleatoriedade dos choques, não da exogeneidade das shares iniciais. A combinação de variação cross-level com leave-out design oferece um modelo replicável para aplicações de SSIV em ciência política comparada, especialmente em contextos onde a unidade de tratamento (município) está aninhada em unidades políticas maiores (estado).
+
 ## Aplicações em Relações Internacionais
 
 O shift-share também tem sido publicado em periódicos de RI, especialmente *International Organization* e *International Studies Quarterly*.
@@ -738,4 +772,8 @@ Rommel, Tobias, and Stefanie Walter. 2022. "The Electoral Consequences of Offsho
 
 Scheve, Kenneth, and Theo Serlin. 2023. "The German Trade Shock and the Rise of the Neo-Welfare State." *American Political Science Review* 117(2): 557-574.
 
+Shaukat, Maryam. 2019. "Political Competition and Economic Policy: Estimating the Effect of Electoral Competitiveness on Policy Outcomes." Ph.D. Dissertation, London School of Economics.
+
 Thewissen, Stefan, and David Rueda. 2019. "Automation and the Welfare State." *Comparative Political Studies* 52(1): 141-174.
+
+Xu, Alice Z. 2025. "Bureaucratic Packing in the Brazilian Amazon: How Political Competition Drives Deforestation." *Journal of Politics* 87(4): 1350-1363.
