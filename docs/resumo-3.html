@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 13 Resumo | Curso de Inferência Causal</title>
+  <meta name="description" content="Capítulo 13 Resumo | Curso de Inferência Causal" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 13 Resumo | Curso de Inferência Causal" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 13 Resumo | Curso de Inferência Causal" />
+  
+  
+  
+
+<meta name="author" content="Manoel Galdino" />
+
+
+<meta name="date" content="2026-02-18" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="machine-learning.html"/>
+<link rel="next" href="shift-share.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Causalidade</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="14-Resumo.html"><a href="#introdu%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>1</b> Introdução</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="14-Resumo.html"><a href="#revis%C3%A3o-de-regress%C3%A3o"><i class="fa fa-check"></i><b>1.1</b> Revisão de Regressão</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="14-Resumo.html"><a href="#teorema-da-anatomia-da-regress%C3%A3o"><i class="fa fa-check"></i><b>1.1.1</b> Teorema da Anatomia da Regressão</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="14-Resumo.html"><a href="#infer%C3%AAncia"><i class="fa fa-check"></i><b>1.2</b> Inferência</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="14-Resumo.html"><a href="#generaliza%C3%A7%C3%A3o-amostral-vs.-generaliza%C3%A7%C3%A3o-causal"><i class="fa fa-check"></i><b>1.2.1</b> Generalização amostral vs. generalização causal</a></li>
+<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1.2.2</b> Incerteza com o universo dos casos</a></li>
+<li class="chapter" data-level="1.2.3" data-path="index.html"><a href="index.html#validade-externa"><i class="fa fa-check"></i><b>1.2.3</b> Validade externa</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="14-Resumo.html"><a href="#resumo-e-pr%C3%B3ximos-passos"><i class="fa fa-check"></i><b>1.3</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="1.4" data-path="14-Resumo.html"><a href="#refer%C3%AAncias"><i class="fa fa-check"></i><b>1.4</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html"><i class="fa fa-check"></i><b>2</b> Resultados Potenciais</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="14-Resumo.html"><a href="#da-intui%C3%A7%C3%A3o-comparativa-ao-modelo-formal"><i class="fa fa-check"></i><b>2.1</b> Da intuição comparativa ao modelo formal</a></li>
+<li class="chapter" data-level="2.2" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#resultados-potenciais-potential-outcomes"><i class="fa fa-check"></i><b>2.2</b> Resultados Potenciais (<em>Potential Outcomes</em>)</a></li>
+<li class="chapter" data-level="2.3" data-path="14-Resumo.html"><a href="#nota%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>2.3</b> Notação</a></li>
+<li class="chapter" data-level="2.4" data-path="14-Resumo.html"><a href="#problema-fundamental-da-infer%C3%AAncia-causal"><i class="fa fa-check"></i><b>2.4</b> Problema Fundamental da Inferência Causal</a></li>
+<li class="chapter" data-level="2.5" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#estimando"><i class="fa fa-check"></i><b>2.5</b> Estimando</a></li>
+<li class="chapter" data-level="2.6" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#estimandos-mais-comuns"><i class="fa fa-check"></i><b>2.6</b> Estimandos Mais Comuns</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#ate"><i class="fa fa-check"></i><b>2.6.1</b> ATE</a></li>
+<li class="chapter" data-level="2.6.2" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#att"><i class="fa fa-check"></i><b>2.6.2</b> ATT</a></li>
+<li class="chapter" data-level="2.6.3" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#cate"><i class="fa fa-check"></i><b>2.6.3</b> CATE</a></li>
+</ul></li>
+<li class="chapter" data-level="2.7" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#nota-sobre-estimandos"><i class="fa fa-check"></i><b>2.7</b> Nota sobre estimandos</a></li>
+<li class="chapter" data-level="2.8" data-path="14-Resumo.html"><a href="#exerc%C3%ADcio---qual-o-estimando-e-o-estimador-se-poss%C3%ADvel"><i class="fa fa-check"></i><b>2.8</b> Exercício - Qual o estimando e o estimador (se possível)?</a></li>
+<li class="chapter" data-level="2.9" data-path="14-Resumo.html"><a href="#identifica%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>2.9</b> Identificação</a></li>
+<li class="chapter" data-level="2.10" data-path="14-Resumo.html"><a href="#identifica%C3%A7%C3%A3o-do-ate"><i class="fa fa-check"></i><b>2.10</b> Identificação do ATE</a></li>
+<li class="chapter" data-level="2.11" data-path="14-Resumo.html"><a href="#equa%C3%A7%C3%B5es-estruturais"><i class="fa fa-check"></i><b>2.11</b> Equações estruturais</a></li>
+<li class="chapter" data-level="2.12" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html#modelo-versus-desenho"><i class="fa fa-check"></i><b>2.12</b> Modelo versus Desenho</a></li>
+<li class="chapter" data-level="2.13" data-path="14-Resumo.html"><a href="#exerc%C3%ADcio-em-sala"><i class="fa fa-check"></i><b>2.13</b> Exercício em sala</a></li>
+<li class="chapter" data-level="2.14" data-path="14-Resumo.html"><a href="#resumo-e-pr%C3%B3ximos-passos-1"><i class="fa fa-check"></i><b>2.14</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="2.15" data-path="14-Resumo.html"><a href="#refer%C3%AAncias-1"><i class="fa fa-check"></i><b>2.15</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="dags.html"><a href="dags.html"><i class="fa fa-check"></i><b>3</b> DAGs</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="dags.html"><a href="dags.html#causalidade"><i class="fa fa-check"></i><b>3.1</b> Causalidade</a></li>
+<li class="chapter" data-level="3.2" data-path="14-Resumo.html"><a href="#introdu%C3%A7%C3%A3o-1"><i class="fa fa-check"></i><b>3.2</b> Introdução</a></li>
+<li class="chapter" data-level="3.3" data-path="14-Resumo.html"><a href="#os-tipos-b%C3%A1sicos-de-dags"><i class="fa fa-check"></i><b>3.3</b> Os Tipos Básicos de DAGs</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="dags.html"><a href="dags.html#chains"><i class="fa fa-check"></i><b>3.3.1</b> 1. Chains</a></li>
+<li class="chapter" data-level="3.3.2" data-path="dags.html"><a href="dags.html#forks"><i class="fa fa-check"></i><b>3.3.2</b> 2. Forks</a></li>
+<li class="chapter" data-level="3.3.3" data-path="dags.html"><a href="dags.html#colliders"><i class="fa fa-check"></i><b>3.3.3</b> 3. Colliders</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="14-Resumo.html"><a href="#simula%C3%A7%C3%A3o-no-r-ilustrando-o-collider-bias"><i class="fa fa-check"></i><b>3.4</b> Simulação no R: Ilustrando o Collider Bias</a></li>
+<li class="chapter" data-level="3.5" data-path="14-Resumo.html"><a href="#defini%C3%A7%C3%B5es"><i class="fa fa-check"></i><b>3.5</b> Definições</a>
+<ul>
+<li class="chapter" data-level="3.5.1" data-path="14-Resumo.html"><a href="#rela%C3%A7%C3%B5es-entre-vari%C3%A1veis-n%C3%B3s"><i class="fa fa-check"></i><b>3.5.1</b> Relações entre Variáveis (nós):</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="dags.html"><a href="dags.html#controle-e-ajuste"><i class="fa fa-check"></i><b>3.6</b> Controle e Ajuste</a></li>
+<li class="chapter" data-level="3.7" data-path="14-Resumo.html"><a href="#fatoriza%C3%A7%C3%A3o-da-probabilidade-conjunta"><i class="fa fa-check"></i><b>3.7</b> Fatorização da Probabilidade Conjunta</a></li>
+<li class="chapter" data-level="3.8" data-path="14-Resumo.html"><a href="#fatoriza%C3%A7%C3%A3o-e-dags"><i class="fa fa-check"></i><b>3.8</b> Fatorização e DAGs</a></li>
+<li class="chapter" data-level="3.9" data-path="14-Resumo.html"><a href="#fatoriza%C3%A7%C3%A3o-dags-e-causalidade"><i class="fa fa-check"></i><b>3.9</b> Fatorização, DAGs e Causalidade</a></li>
+<li class="chapter" data-level="3.10" data-path="14-Resumo.html"><a href="#resumo-e-pr%C3%B3ximos-passos-2"><i class="fa fa-check"></i><b>3.10</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="3.11" data-path="14-Resumo.html"><a href="#refer%C3%AAncias-2"><i class="fa fa-check"></i><b>3.11</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="experimentos.html"><a href="experimentos.html"><i class="fa fa-check"></i><b>4</b> Experimentos</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="14-Resumo.html"><a href="#introdu%C3%A7%C3%A3o-2"><i class="fa fa-check"></i><b>4.1</b> Introdução</a></li>
+<li class="chapter" data-level="4.2" data-path="14-Resumo.html"><a href="#experimentos-aleat%C3%B3rios"><i class="fa fa-check"></i><b>4.2</b> Experimentos aleatórios</a></li>
+<li class="chapter" data-level="4.3" data-path="14-Resumo.html"><a href="#restri%C3%A7%C3%A3o-de-exclus%C3%A3o"><i class="fa fa-check"></i><b>4.3</b> Restrição de Exclusão</a></li>
+<li class="chapter" data-level="4.4" data-path="experimentos.html"><a href="experimentos.html#tipos-de-experimentos"><i class="fa fa-check"></i><b>4.4</b> Tipos de experimentos</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="14-Resumo.html"><a href="#aleatoriza%C3%A7%C3%A3o-de-bernoulli"><i class="fa fa-check"></i><b>4.4.1</b> Aleatorização de Bernoulli</a></li>
+<li class="chapter" data-level="4.4.2" data-path="14-Resumo.html"><a href="#aleatoriza%C3%A7%C3%A3o-completa"><i class="fa fa-check"></i><b>4.4.2</b> Aleatorização Completa</a></li>
+<li class="chapter" data-level="4.4.3" data-path="14-Resumo.html"><a href="#aleatoriza%C3%A7%C3%A3o-condicional-block-random-assignment"><i class="fa fa-check"></i><b>4.4.3</b> Aleatorização Condicional (Block Random Assignment)</a></li>
+<li class="chapter" data-level="4.4.4" data-path="14-Resumo.html"><a href="#pensando-aleatoriza%C3%A7%C3%A3o-em-bloco"><i class="fa fa-check"></i><b>4.4.4</b> Pensando aleatorização em bloco</a></li>
+<li class="chapter" data-level="4.4.5" data-path="14-Resumo.html"><a href="#ate-com-aleatoriza%C3%A7%C3%A3o-condicional-bloco"><i class="fa fa-check"></i><b>4.4.5</b> ATE com Aleatorização Condicional (Bloco)</a></li>
+<li class="chapter" data-level="4.4.6" data-path="14-Resumo.html"><a href="#aleatoriza%C3%A7%C3%A3o-em-bloco"><i class="fa fa-check"></i><b>4.4.6</b> Aleatorização em bloco</a></li>
+<li class="chapter" data-level="4.4.7" data-path="14-Resumo.html"><a href="#precis%C3%A3o-da-aleatoriza%C3%A7%C3%A3o-em-bloco"><i class="fa fa-check"></i><b>4.4.7</b> Precisão da aleatorização em bloco</a></li>
+<li class="chapter" data-level="4.4.8" data-path="14-Resumo.html"><a href="#compara%C3%A7%C3%A3o-de-ses"><i class="fa fa-check"></i><b>4.4.8</b> Comparação de SEs</a></li>
+<li class="chapter" data-level="4.4.9" data-path="experimentos.html"><a href="experimentos.html#cluster-randomization"><i class="fa fa-check"></i><b>4.4.9</b> Cluster randomization</a></li>
+<li class="chapter" data-level="4.4.10" data-path="experimentos.html"><a href="experimentos.html#tabelas-em-artigos"><i class="fa fa-check"></i><b>4.4.10</b> Tabelas em artigos</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="experimentos.html"><a href="experimentos.html#estimador-ate"><i class="fa fa-check"></i><b>4.5</b> Estimador ATE</a></li>
+<li class="chapter" data-level="4.6" data-path="14-Resumo.html"><a href="#resumo-do-cap%C3%ADtulo"><i class="fa fa-check"></i><b>4.6</b> Resumo do Capítulo</a></li>
+<li class="chapter" data-level="4.7" data-path="experimentos.html"><a href="experimentos.html#declare-design"><i class="fa fa-check"></i><b>4.7</b> Declare Design</a></li>
+<li class="chapter" data-level="4.8" data-path="14-Resumo.html"><a href="#exerc%C3%ADcio"><i class="fa fa-check"></i><b>4.8</b> Exercício</a>
+<ul>
+<li class="chapter" data-level="4.8.1" data-path="14-Resumo.html"><a href="#experimento-com-envio-de-cart%C3%B5es-postais-e-participa%C3%A7%C3%A3o-eleitoral"><i class="fa fa-check"></i><b>4.8.1</b> Experimento com envio de cartões-postais e participação eleitoral</a></li>
+<li class="chapter" data-level="4.8.2" data-path="14-Resumo.html"><a href="#experimento-com-an%C3%BAncios-de-tv-e-participa%C3%A7%C3%A3o-eleitoral"><i class="fa fa-check"></i><b>4.8.2</b> Experimento com anúncios de TV e participação eleitoral</a></li>
+<li class="chapter" data-level="4.8.3" data-path="14-Resumo.html"><a href="#exclus%C3%A3o-de-participantes-em-experimentos-de-survey"><i class="fa fa-check"></i><b>4.8.3</b> Exclusão de participantes em experimentos de survey</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html"><i class="fa fa-check"></i><b>5</b> Propensity Score e Matching</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="14-Resumo.html"><a href="#introdu%C3%A7%C3%A3o-3"><i class="fa fa-check"></i><b>5.1</b> Introdução</a></li>
+<li class="chapter" data-level="5.2" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#propensity-score"><i class="fa fa-check"></i><b>5.2</b> Propensity Score</a></li>
+<li class="chapter" data-level="5.3" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching"><i class="fa fa-check"></i><b>5.3</b> Matching</a></li>
+<li class="chapter" data-level="5.4" data-path="14-Resumo.html"><a href="#suposi%C3%A7%C3%B5es-de-identifica%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>5.4</b> Suposições de identificação</a></li>
+<li class="chapter" data-level="5.5" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching-1"><i class="fa fa-check"></i><b>5.5</b> Matching</a></li>
+<li class="chapter" data-level="5.6" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching-exato"><i class="fa fa-check"></i><b>5.6</b> Matching exato</a></li>
+<li class="chapter" data-level="5.7" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching-aproximado"><i class="fa fa-check"></i><b>5.7</b> Matching aproximado</a></li>
+<li class="chapter" data-level="5.8" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#estimando-1"><i class="fa fa-check"></i><b>5.8</b> Estimando</a></li>
+<li class="chapter" data-level="5.9" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#declare-design-e-matching"><i class="fa fa-check"></i><b>5.9</b> Declare Design e Matching</a>
+<ul>
+<li class="chapter" data-level="5.9.1" data-path="propensity-score-e-matching.html"><a href="propensity-score-e-matching.html#matching-e-propensity-scores"><i class="fa fa-check"></i><b>5.9.1</b> Matching e Propensity scores</a></li>
+</ul></li>
+<li class="chapter" data-level="5.10" data-path="14-Resumo.html"><a href="#recomenda%C3%A7%C3%B5es-pr%C3%A1ticas-sobre-matching"><i class="fa fa-check"></i><b>5.10</b> Recomendações Práticas sobre Matching</a></li>
+<li class="chapter" data-level="5.11" data-path="14-Resumo.html"><a href="#refer%C3%AAncias-3"><i class="fa fa-check"></i><b>5.11</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="14-Resumo.html"><a href="#vari%C3%A1veis-instrumentais"><i class="fa fa-check"></i><b>6</b> Variáveis Instrumentais</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="14-Resumo.html"><a href="#introdu%C3%A7%C3%A3o-4"><i class="fa fa-check"></i><b>6.1</b> Introdução</a></li>
+<li class="chapter" data-level="6.2" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html"><i class="fa fa-check"></i><b>6.2</b> IV com modelo estrutural</a></li>
+<li class="chapter" data-level="6.3" data-path="14-Resumo.html"><a href="#mqo-em-2-est%C3%A1gios"><i class="fa fa-check"></i><b>6.3</b> MQO em 2 Estágios</a></li>
+<li class="chapter" data-level="6.4" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#principais-usos-de-iv"><i class="fa fa-check"></i><b>6.4</b> Principais usos de IV</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#experimentos-1"><i class="fa fa-check"></i><b>6.4.1</b> Experimentos</a></li>
+<li class="chapter" data-level="6.4.2" data-path="14-Resumo.html"><a href="#regras-com-varia%C3%A7%C3%A3o-quasi-aleat%C3%B3ria"><i class="fa fa-check"></i><b>6.4.2</b> Regras com variação quasi-aleatória</a></li>
+<li class="chapter" data-level="6.4.3" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#teoria"><i class="fa fa-check"></i><b>6.4.3</b> Teoria</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="14-Resumo.html"><a href="#efeito-heterog%C3%AAneo"><i class="fa fa-check"></i><b>6.5</b> Efeito heterogêneo</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="14-Resumo.html"><a href="#suposi%C3%A7%C3%B5es-para-estimar-o-late"><i class="fa fa-check"></i><b>6.5.1</b> Suposições para estimar o LATE</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="14-Resumo.html"><a href="#restri%C3%A7%C3%A3o-de-exclus%C3%A3o-1"><i class="fa fa-check"></i><b>6.6</b> Restrição de Exclusão</a></li>
+<li class="chapter" data-level="6.7" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#monotonicidade"><i class="fa fa-check"></i><b>6.7</b> Monotonicidade</a></li>
+<li class="chapter" data-level="6.8" data-path="14-Resumo.html"><a href="#estima%C3%A7%C3%A3o-aka-estat%C3%ADstica-f"><i class="fa fa-check"></i><b>6.8</b> Estimação (aka estatística F)</a>
+<ul>
+<li class="chapter" data-level="6.8.1" data-path="variáveis-instrumentais.html"><a href="variáveis-instrumentais.html#f-stat"><i class="fa fa-check"></i><b>6.8.1</b> F stat</a></li>
+</ul></li>
+<li class="chapter" data-level="6.9" data-path="14-Resumo.html"><a href="#resumo-e-pr%C3%B3ximos-passos-3"><i class="fa fa-check"></i><b>6.9</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="6.10" data-path="14-Resumo.html"><a href="#refer%C3%AAncias-4"><i class="fa fa-check"></i><b>6.10</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="14-Resumo.html"><a href="#desenho-de-regress%C3%A3o-descont%C3%ADnua"><i class="fa fa-check"></i><b>7</b> Desenho de Regressão Descontínua</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="desenho-de-regressão-descontínua.html"><a href="desenho-de-regressão-descontínua.html"><i class="fa fa-check"></i><b>7.1</b> Outline da aula</a></li>
+<li class="chapter" data-level="7.2" data-path="14-Resumo.html"><a href="#caracter%C3%ADsticas-chave-da-rdd"><i class="fa fa-check"></i><b>7.2</b> Características-chave da RDD</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="14-Resumo.html"><a href="#determina%C3%A7%C3%A3o-do-tratamento"><i class="fa fa-check"></i><b>7.2.1</b> Determinação do Tratamento</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="desenho-de-regressão-descontínua.html"><a href="desenho-de-regressão-descontínua.html#fuzzy-rdd"><i class="fa fa-check"></i><b>7.3</b> Fuzzy RDD</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="14-Resumo.html"><a href="#observa%C3%A7%C3%A3o-e-corte"><i class="fa fa-check"></i><b>7.3.1</b> Observação e Corte</a></li>
+<li class="chapter" data-level="7.3.2" data-path="desenho-de-regressão-descontínua.html"><a href="desenho-de-regressão-descontínua.html#estimativa-dos-efeitos-do-tratamento"><i class="fa fa-check"></i><b>7.3.2</b> Estimativa dos Efeitos do Tratamento</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="14-Resumo.html"><a href="#suposi%C3%A7%C3%A3o-de-continuidade"><i class="fa fa-check"></i><b>7.4</b> Suposição de continuidade</a></li>
+<li class="chapter" data-level="7.5" data-path="14-Resumo.html"><a href="#suposi%C3%A7%C3%B5es-na-rdd"><i class="fa fa-check"></i><b>7.5</b> Suposições na RDD</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="14-Resumo.html"><a href="#suposi%C3%A7%C3%A3o-de-n%C3%A3o-manipula%C3%A7%C3%A3o-com-precis%C3%A3o"><i class="fa fa-check"></i><b>7.5.1</b> Suposição de Não-manipulação com Precisão</a></li>
+<li class="chapter" data-level="7.5.2" data-path="14-Resumo.html"><a href="#problemas-de-manipula%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.5.2</b> Problemas de Manipulação</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="14-Resumo.html"><a href="#testabilidade-da-suposi%C3%A7%C3%A3o-de-n%C3%A3o-manipula%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.6</b> Testabilidade da Suposição de não-Manipulação</a></li>
+<li class="chapter" data-level="7.7" data-path="14-Resumo.html"><a href="#estima%C3%A7%C3%A3o-em-rdd"><i class="fa fa-check"></i><b>7.7</b> Estimação em RDD</a>
+<ul>
+<li class="chapter" data-level="7.7.1" data-path="desenho-de-regressão-descontínua.html"><a href="desenho-de-regressão-descontínua.html#problema-de-complete-overlapping"><i class="fa fa-check"></i><b>7.7.1</b> Problema de Complete Overlapping</a></li>
+<li class="chapter" data-level="7.7.2" data-path="14-Resumo.html"><a href="#depend%C3%AAncia-de-extrapola%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.7.2</b> Dependência de Extrapolação</a></li>
+</ul></li>
+<li class="chapter" data-level="7.8" data-path="14-Resumo.html"><a href="#m%C3%A9todos-de-estima%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.8</b> Métodos de Estimação</a>
+<ul>
+<li class="chapter" data-level="7.8.1" data-path="14-Resumo.html"><a href="#identifica%C3%A7%C3%A3o-no-limite"><i class="fa fa-check"></i><b>7.8.1</b> Identificação no Limite</a></li>
+</ul></li>
+<li class="chapter" data-level="7.9" data-path="14-Resumo.html"><a href="#trade-off-de-vi%C3%A9s-vari%C3%A2ncia"><i class="fa fa-check"></i><b>7.9</b> Trade-off de Viés-Variância</a>
+<ul>
+<li class="chapter" data-level="7.9.1" data-path="14-Resumo.html"><a href="#m%C3%A9todos-de-largura-de-banda-%C3%B3tima"><i class="fa fa-check"></i><b>7.9.1</b> Métodos de Largura de Banda Ótima</a></li>
+</ul></li>
+<li class="chapter" data-level="7.10" data-path="14-Resumo.html"><a href="#regras-arbitr%C3%A1rias"><i class="fa fa-check"></i><b>7.10</b> Regras arbitrárias</a></li>
+<li class="chapter" data-level="7.11" data-path="14-Resumo.html"><a href="#simula%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>7.11</b> Simulação</a></li>
+<li class="chapter" data-level="7.12" data-path="14-Resumo.html"><a href="#simula%C3%A7%C3%A3o---potential-outcomes-y0"><i class="fa fa-check"></i><b>7.12</b> Simulação - Potential Outcomes Y0</a></li>
+<li class="chapter" data-level="7.13" data-path="14-Resumo.html"><a href="#simula%C3%A7%C3%A3o---potential-outcomes-y1"><i class="fa fa-check"></i><b>7.13</b> Simulação - Potential Outcomes Y1</a></li>
+<li class="chapter" data-level="7.14" data-path="14-Resumo.html"><a href="#simula%C3%A7%C3%A3o---potential-outcomes-y1-e-y0"><i class="fa fa-check"></i><b>7.14</b> Simulação - Potential Outcomes Y1 e Y0</a></li>
+<li class="chapter" data-level="7.15" data-path="14-Resumo.html"><a href="#simula%C3%A7%C3%A3o---y-observado"><i class="fa fa-check"></i><b>7.15</b> Simulação - Y observado</a></li>
+<li class="chapter" data-level="7.16" data-path="desenho-de-regressão-descontínua.html"><a href="desenho-de-regressão-descontínua.html#quando-o-rdd-funciona"><i class="fa fa-check"></i><b>7.16</b> Quando o RDD funciona?</a></li>
+<li class="chapter" data-level="7.17" data-path="desenho-de-regressão-descontínua.html"><a href="desenho-de-regressão-descontínua.html#raw-data-versus-bin"><i class="fa fa-check"></i><b>7.17</b> Raw Data versus Bin</a></li>
+<li class="chapter" data-level="7.18" data-path="desenho-de-regressão-descontínua.html"><a href="desenho-de-regressão-descontínua.html#permutation-tests-balancing"><i class="fa fa-check"></i><b>7.18</b> Permutation tests (balancing)</a></li>
+<li class="chapter" data-level="7.19" data-path="desenho-de-regressão-descontínua.html"><a href="desenho-de-regressão-descontínua.html#mccrary-test"><i class="fa fa-check"></i><b>7.19</b> McCrary test</a></li>
+<li class="chapter" data-level="7.20" data-path="desenho-de-regressão-descontínua.html"><a href="desenho-de-regressão-descontínua.html#robustez"><i class="fa fa-check"></i><b>7.20</b> Robustez</a></li>
+<li class="chapter" data-level="7.21" data-path="14-Resumo.html"><a href="#densidade-descont%C3%ADnua---results"><i class="fa fa-check"></i><b>7.21</b> Densidade descontínua - results</a></li>
+<li class="chapter" data-level="7.22" data-path="14-Resumo.html"><a href="#regress%C3%A3o-rdd"><i class="fa fa-check"></i><b>7.22</b> Regressão RDD</a></li>
+<li class="chapter" data-level="7.23" data-path="desenho-de-regressão-descontínua.html"><a href="desenho-de-regressão-descontínua.html#placebo-tests"><i class="fa fa-check"></i><b>7.23</b> Placebo Tests</a></li>
+<li class="chapter" data-level="7.24" data-path="desenho-de-regressão-descontínua.html"><a href="desenho-de-regressão-descontínua.html#pcrd"><i class="fa fa-check"></i><b>7.24</b> PCRD</a></li>
+<li class="chapter" data-level="7.25" data-path="desenho-de-regressão-descontínua.html"><a href="desenho-de-regressão-descontínua.html#checklist-para-um-paper-de-rdd"><i class="fa fa-check"></i><b>7.25</b> Checklist para um paper de RDD</a></li>
+<li class="chapter" data-level="7.26" data-path="14-Resumo.html"><a href="#refer%C3%AAncias-5"><i class="fa fa-check"></i><b>7.26</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="14-Resumo.html"><a href="#diferen%C3%A7a-em-diferen%C3%A7as"><i class="fa fa-check"></i><b>8</b> Diferença em Diferenças</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="14-Resumo.html"><a href="#motiva%C3%A7%C3%A3o-por-que-did"><i class="fa fa-check"></i><b>8.1</b> Motivação: por que DiD?</a></li>
+<li class="chapter" data-level="8.2" data-path="14-Resumo.html"><a href="#modelo-b%C3%A1sico-22"><i class="fa fa-check"></i><b>8.2</b> Modelo básico 2$$2</a></li>
+<li class="chapter" data-level="8.3" data-path="14-Resumo.html"><a href="#pressupostos-de-identifica%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>8.3</b> Pressupostos de identificação</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="14-Resumo.html"><a href="#tend%C3%AAncias-paralelas"><i class="fa fa-check"></i><b>8.3.1</b> Tendências paralelas</a></li>
+<li class="chapter" data-level="8.3.2" data-path="14-Resumo.html"><a href="#equival%C3%AAncia-entre-pt-e-twfe"><i class="fa fa-check"></i><b>8.3.2</b> Equivalência entre PT e TWFE</a></li>
+<li class="chapter" data-level="8.3.3" data-path="14-Resumo.html"><a href="#n%C3%A3o-antecipa%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>8.3.3</b> Não-antecipação</a></li>
+<li class="chapter" data-level="8.3.4" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html"><i class="fa fa-check"></i><b>8.3.4</b> DAG para DiD</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="14-Resumo.html"><a href="#estima%C3%A7%C3%A3o-por-twfe"><i class="fa fa-check"></i><b>8.4</b> Estimação por TWFE</a></li>
+<li class="chapter" data-level="8.5" data-path="14-Resumo.html"><a href="#aplica%C3%A7%C3%A3o-1-obra-transparente"><i class="fa fa-check"></i><b>8.5</b> Aplicação 1: Obra Transparente</a></li>
+<li class="chapter" data-level="8.6" data-path="14-Resumo.html"><a href="#did-din%C3%A2mico-e-event-study"><i class="fa fa-check"></i><b>8.6</b> DiD dinâmico e event study</a></li>
+<li class="chapter" data-level="8.7" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#o-problema-do-twfe-com-tratamento-escalonado"><i class="fa fa-check"></i><b>8.7</b> O problema do TWFE com tratamento escalonado</a>
+<ul>
+<li class="chapter" data-level="8.7.1" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#o-que-pode-dar-errado"><i class="fa fa-check"></i><b>8.7.1</b> O que pode dar errado</a></li>
+<li class="chapter" data-level="8.7.2" data-path="14-Resumo.html"><a href="#decomposi%C3%A7%C3%A3o-de-goodman-bacon-simula%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>8.7.2</b> Decomposição de Goodman-Bacon — simulação</a></li>
+<li class="chapter" data-level="8.7.3" data-path="14-Resumo.html"><a href="#conex%C3%A3o-com-fwl-e-gardner"><i class="fa fa-check"></i><b>8.7.3</b> Conexão com FWL e Gardner</a></li>
+</ul></li>
+<li class="chapter" data-level="8.8" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#estimadores-modernos"><i class="fa fa-check"></i><b>8.8</b> Estimadores modernos</a>
+<ul>
+<li class="chapter" data-level="8.8.1" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#callaway-santanna-2021"><i class="fa fa-check"></i><b>8.8.1</b> Callaway &amp; Sant’Anna (2021)</a></li>
+<li class="chapter" data-level="8.8.2" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#sun-abraham-2021"><i class="fa fa-check"></i><b>8.8.2</b> Sun &amp; Abraham (2021)</a></li>
+<li class="chapter" data-level="8.8.3" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#gardner-2022-did2s"><i class="fa fa-check"></i><b>8.8.3</b> Gardner (2022) / did2s</a></li>
+<li class="chapter" data-level="8.8.4" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#borusyak-jaravel-spiess-2024"><i class="fa fa-check"></i><b>8.8.4</b> Borusyak, Jaravel &amp; Spiess (2024)</a></li>
+<li class="chapter" data-level="8.8.5" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#tabela-comparativa"><i class="fa fa-check"></i><b>8.8.5</b> Tabela comparativa</a></li>
+</ul></li>
+<li class="chapter" data-level="8.9" data-path="14-Resumo.html"><a href="#testando-tend%C3%AAncias-paralelas-e-an%C3%A1lise-de-sensibilidade"><i class="fa fa-check"></i><b>8.9</b> Testando tendências paralelas e análise de sensibilidade</a>
+<ul>
+<li class="chapter" data-level="8.9.1" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#pre-trends-e-o-aviso-de-roth-2022"><i class="fa fa-check"></i><b>8.9.1</b> Pre-trends e o aviso de Roth (2022)</a></li>
+<li class="chapter" data-level="8.9.2" data-path="14-Resumo.html"><a href="#honestdid-an%C3%A1lise-de-sensibilidade"><i class="fa fa-check"></i><b>8.9.2</b> HonestDiD: análise de sensibilidade</a></li>
+</ul></li>
+<li class="chapter" data-level="8.10" data-path="14-Resumo.html"><a href="#aplica%C3%A7%C3%A3o-2-enchente-do-elbe"><i class="fa fa-check"></i><b>8.10</b> Aplicação 2: Enchente do Elbe</a>
+<ul>
+<li class="chapter" data-level="8.10.1" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#contexto"><i class="fa fa-check"></i><b>8.10.1</b> Contexto</a></li>
+<li class="chapter" data-level="8.10.2" data-path="14-Resumo.html"><a href="#dados-e-did-b%C3%A1sico"><i class="fa fa-check"></i><b>8.10.2</b> Dados e DiD básico</a></li>
+<li class="chapter" data-level="8.10.3" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#event-study"><i class="fa fa-check"></i><b>8.10.3</b> Event study</a></li>
+<li class="chapter" data-level="8.10.4" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#robustez-1"><i class="fa fa-check"></i><b>8.10.4</b> Robustez</a></li>
+</ul></li>
+<li class="chapter" data-level="8.11" data-path="14-Resumo.html"><a href="#did-condicional-e-extens%C3%B5es"><i class="fa fa-check"></i><b>8.11</b> DiD condicional e extensões</a></li>
+<li class="chapter" data-level="8.12" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#resumo"><i class="fa fa-check"></i><b>8.12</b> Resumo</a></li>
+<li class="chapter" data-level="8.13" data-path="14-Resumo.html"><a href="#refer%C3%AAncias-6"><i class="fa fa-check"></i><b>8.13</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html"><i class="fa fa-check"></i><b>9</b> Time-Series Cross-Section (TSCS)</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="14-Resumo.html"><a href="#introdu%C3%A7%C3%A3o-5"><i class="fa fa-check"></i><b>9.1</b> Introdução</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#within-versus-between"><i class="fa fa-check"></i><b>9.1.1</b> Within versus Between</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#ovb"><i class="fa fa-check"></i><b>9.2</b> OVB</a></li>
+<li class="chapter" data-level="9.3" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#estimandos"><i class="fa fa-check"></i><b>9.3</b> Estimandos</a></li>
+<li class="chapter" data-level="9.4" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#resultados-potenciais-1"><i class="fa fa-check"></i><b>9.4</b> Resultados Potenciais</a></li>
+<li class="chapter" data-level="9.5" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#modelo-ar1"><i class="fa fa-check"></i><b>9.5</b> Modelo AR(1)</a></li>
+<li class="chapter" data-level="9.6" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#sequential-ignorability"><i class="fa fa-check"></i><b>9.6</b> Sequential ignorability</a></li>
+<li class="chapter" data-level="9.7" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#resumo-1"><i class="fa fa-check"></i><b>9.7</b> Resumo</a>
+<ul>
+<li class="chapter" data-level="9.7.1" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#remark"><i class="fa fa-check"></i><b>9.7.1</b> Remark</a></li>
+</ul></li>
+<li class="chapter" data-level="9.8" data-path="14-Resumo.html"><a href="#suposi%C3%A7%C3%B5es-para-infer%C3%AAncia"><i class="fa fa-check"></i><b>9.8</b> Suposições para Inferência</a>
+<ul>
+<li class="chapter" data-level="9.8.1" data-path="time-series-cross-section-tscs.html"><a href="time-series-cross-section-tscs.html#remark-1"><i class="fa fa-check"></i><b>9.8.1</b> Remark</a></li>
+</ul></li>
+<li class="chapter" data-level="9.9" data-path="14-Resumo.html"><a href="#efeitos-aleat%C3%B3rios"><i class="fa fa-check"></i><b>9.9</b> Efeitos aleatórios</a></li>
+<li class="chapter" data-level="9.10" data-path="14-Resumo.html"><a href="#refer%C3%AAncias-7"><i class="fa fa-check"></i><b>9.10</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="14-Resumo.html"><a href="#controle-sint%C3%A9tico-e-estima%C3%A7%C3%A3o-contrafactual"><i class="fa fa-check"></i><b>10</b> Controle Sintético e Estimação Contrafactual</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="14-Resumo.html"><a href="#motiva%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>10.1</b> Motivação</a></li>
+<li class="chapter" data-level="10.2" data-path="14-Resumo.html"><a href="#controle-sint%C3%A9tico-cl%C3%A1ssico"><i class="fa fa-check"></i><b>10.2</b> Controle Sintético clássico</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="14-Resumo.html"><a href="#formaliza%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>10.2.1</b> Formalização</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="14-Resumo.html"><a href="#implementa%C3%A7%C3%A3o-do-scm-no-r"><i class="fa fa-check"></i><b>10.3</b> Implementação do SCM no R</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="14-Resumo.html"><a href="#infer%C3%AAncia-por-placebo"><i class="fa fa-check"></i><b>10.3.1</b> Inferência por placebo</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="14-Resumo.html"><a href="#framework-de-estima%C3%A7%C3%A3o-contrafactual"><i class="fa fa-check"></i><b>10.4</b> Framework de estimação contrafactual</a>
+<ul>
+<li class="chapter" data-level="10.4.1" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html"><i class="fa fa-check"></i><b>10.4.1</b> Setup</a></li>
+<li class="chapter" data-level="10.4.2" data-path="14-Resumo.html"><a href="#estrat%C3%A9gia-de-estima%C3%A7%C3%A3o-em-quatro-passos"><i class="fa fa-check"></i><b>10.4.2</b> Estratégia de estimação em quatro passos</a></li>
+<li class="chapter" data-level="10.4.3" data-path="14-Resumo.html"><a href="#suposi%C3%A7%C3%B5es-de-identifica%C3%A7%C3%A3o-1"><i class="fa fa-check"></i><b>10.4.3</b> Suposições de identificação</a></li>
+<li class="chapter" data-level="10.4.4" data-path="14-Resumo.html"><a href="#conex%C3%A3o-com-did"><i class="fa fa-check"></i><b>10.4.4</b> Conexão com DiD</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="14-Resumo.html"><a href="#tr%C3%AAs-estimadores-contrafactuais"><i class="fa fa-check"></i><b>10.5</b> Três estimadores contrafactuais</a>
+<ul>
+<li class="chapter" data-level="10.5.1" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#fect-efeitos-fixos"><i class="fa fa-check"></i><b>10.5.1</b> FEct: efeitos fixos</a></li>
+<li class="chapter" data-level="10.5.2" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#ifect-fatores-interativos"><i class="fa fa-check"></i><b>10.5.2</b> IFEct: fatores interativos</a></li>
+<li class="chapter" data-level="10.5.3" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#mc-matrix-completion"><i class="fa fa-check"></i><b>10.5.3</b> MC: Matrix Completion</a></li>
+<li class="chapter" data-level="10.5.4" data-path="14-Resumo.html"><a href="#demonstra%C3%A7%C3%A3o-com-dados-da-calif%C3%B3rnia"><i class="fa fa-check"></i><b>10.5.4</b> Demonstração com dados da Califórnia</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="14-Resumo.html"><a href="#diagn%C3%B3sticos"><i class="fa fa-check"></i><b>10.6</b> Diagnósticos</a>
+<ul>
+<li class="chapter" data-level="10.6.1" data-path="14-Resumo.html"><a href="#efeitos-din%C3%A2micos"><i class="fa fa-check"></i><b>10.6.1</b> Efeitos dinâmicos</a></li>
+<li class="chapter" data-level="10.6.2" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#placebo-test"><i class="fa fa-check"></i><b>10.6.2</b> Placebo test</a></li>
+<li class="chapter" data-level="10.6.3" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#teste-de-no-carryover"><i class="fa fa-check"></i><b>10.6.3</b> Teste de no-carryover</a></li>
+</ul></li>
+<li class="chapter" data-level="10.7" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#synthetic-did"><i class="fa fa-check"></i><b>10.7</b> Synthetic DiD</a>
+<ul>
+<li class="chapter" data-level="10.7.1" data-path="14-Resumo.html"><a href="#implementa%C3%A7%C3%A3o-no-r"><i class="fa fa-check"></i><b>10.7.1</b> Implementação no R</a></li>
+</ul></li>
+<li class="chapter" data-level="10.8" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#trop-estimador-triplamente-robusto"><i class="fa fa-check"></i><b>10.8</b> TROP: estimador triplamente robusto</a></li>
+<li class="chapter" data-level="10.9" data-path="14-Resumo.html"><a href="#quando-usar-cada-m%C3%A9todo-guia-pr%C3%A1tico"><i class="fa fa-check"></i><b>10.9</b> Quando usar cada método: guia prático</a></li>
+<li class="chapter" data-level="10.10" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#resumo-2"><i class="fa fa-check"></i><b>10.10</b> Resumo</a></li>
+<li class="chapter" data-level="10.11" data-path="14-Resumo.html"><a href="#refer%C3%AAncias-8"><i class="fa fa-check"></i><b>10.11</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="llms-e-outras.html"><a href="llms-e-outras.html"><i class="fa fa-check"></i><b>11</b> LLMs e outras</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="llms-e-outras.html"><a href="llms-e-outras.html#google-colab"><i class="fa fa-check"></i><b>11.1</b> Google Colab</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="machine-learning.html"><a href="machine-learning.html"><i class="fa fa-check"></i><b>12</b> Machine Learning</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="14-Resumo.html"><a href="#introdu%C3%A7%C3%A3o-6"><i class="fa fa-check"></i><b>12.1</b> Introdução</a></li>
+<li class="chapter" data-level="12.2" data-path="machine-learning.html"><a href="machine-learning.html#terminologia"><i class="fa fa-check"></i><b>12.2</b> Terminologia</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="machine-learning.html"><a href="machine-learning.html#lasso"><i class="fa fa-check"></i><b>12.2.1</b> LASSO</a></li>
+<li class="chapter" data-level="12.2.2" data-path="machine-learning.html"><a href="machine-learning.html#double-lasso"><i class="fa fa-check"></i><b>12.2.2</b> Double Lasso</a></li>
+<li class="chapter" data-level="12.2.3" data-path="14-Resumo.html"><a href="#outras-solu%C3%A7%C3%B5es-ineficazes"><i class="fa fa-check"></i><b>12.2.3</b> Outras soluções ineficazes</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="machine-learning.html"><a href="machine-learning.html#dl---algoritmo"><i class="fa fa-check"></i><b>12.3</b> DL - Algoritmo</a></li>
+<li class="chapter" data-level="12.4" data-path="14-Resumo.html"><a href="#termos-de-intera%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>12.4</b> Termos de Interação</a></li>
+<li class="chapter" data-level="12.5" data-path="14-Resumo.html"><a href="#aplica%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>12.5</b> Aplicação</a></li>
+<li class="chapter" data-level="12.6" data-path="machine-learning.html"><a href="machine-learning.html#dml"><i class="fa fa-check"></i><b>12.6</b> DML</a></li>
+<li class="chapter" data-level="12.7" data-path="machine-learning.html"><a href="machine-learning.html#double-debiasing"><i class="fa fa-check"></i><b>12.7</b> Double Debiasing</a></li>
+<li class="chapter" data-level="12.8" data-path="machine-learning.html"><a href="machine-learning.html#cross-fitting"><i class="fa fa-check"></i><b>12.8</b> Cross-fitting</a></li>
+<li class="chapter" data-level="12.9" data-path="14-Resumo.html"><a href="#quest%C3%B5es-pr%C3%A1ticas"><i class="fa fa-check"></i><b>12.9</b> Questões Práticas</a></li>
+<li class="chapter" data-level="12.10" data-path="14-Resumo.html"><a href="#resumo-e-pr%C3%B3ximos-passos-4"><i class="fa fa-check"></i><b>12.10</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="12.11" data-path="14-Resumo.html"><a href="#refer%C3%AAncias-9"><i class="fa fa-check"></i><b>12.11</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="resumo-3.html"><a href="resumo-3.html"><i class="fa fa-check"></i><b>13</b> Resumo</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="resumo-3.html"><a href="resumo-3.html#matching-2"><i class="fa fa-check"></i><b>13.1</b> Matching</a></li>
+<li class="chapter" data-level="13.2" data-path="resumo-3.html"><a href="resumo-3.html#iv"><i class="fa fa-check"></i><b>13.2</b> IV</a></li>
+<li class="chapter" data-level="13.3" data-path="resumo-3.html"><a href="resumo-3.html#rdd"><i class="fa fa-check"></i><b>13.3</b> RDD</a></li>
+<li class="chapter" data-level="13.4" data-path="resumo-3.html"><a href="resumo-3.html#did"><i class="fa fa-check"></i><b>13.4</b> DiD</a>
+<ul>
+<li class="chapter" data-level="13.4.1" data-path="resumo-3.html"><a href="resumo-3.html#tscs"><i class="fa fa-check"></i><b>13.4.1</b> TSCS</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="resumo-3.html"><a href="resumo-3.html#scm"><i class="fa fa-check"></i><b>13.5</b> SCM</a></li>
+<li class="chapter" data-level="13.6" data-path="14-Resumo.html"><a href="#did-sint%C3%A9tico"><i class="fa fa-check"></i><b>13.6</b> DiD Sintético</a></li>
+<li class="chapter" data-level="13.7" data-path="resumo-3.html"><a href="resumo-3.html#double-lasso-1"><i class="fa fa-check"></i><b>13.7</b> Double LASSO</a></li>
+<li class="chapter" data-level="13.8" data-path="resumo-3.html"><a href="resumo-3.html#dml-1"><i class="fa fa-check"></i><b>13.8</b> DML</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="shift-share.html"><a href="shift-share.html"><i class="fa fa-check"></i><b>14</b> Shift-share</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="14-Resumo.html"><a href="#introdu%C3%A7%C3%A3o-7"><i class="fa fa-check"></i><b>14.1</b> Introdução</a>
+<ul>
+<li class="chapter" data-level="14.1.1" data-path="14-Resumo.html"><a href="#aplica%C3%A7%C3%A3o-pib-por-estado-e-setor"><i class="fa fa-check"></i><b>14.1.1</b> Aplicação: PIB por estado e setor</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="14-Resumo.html"><a href="#exemplos-da-pol%C3%ADtica"><i class="fa fa-check"></i><b>14.2</b> Exemplos da Política</a></li>
+<li class="chapter" data-level="14.3" data-path="14-Resumo.html"><a href="#varia%C3%A7%C3%A3o-temporal"><i class="fa fa-check"></i><b>14.3</b> Variação temporal</a>
+<ul>
+<li class="chapter" data-level="14.3.1" data-path="14-Resumo.html"><a href="#aplica%C3%A7%C3%A3o-elei%C3%A7%C3%B5es-presidenciais-20142018"><i class="fa fa-check"></i><b>14.3.1</b> Aplicação: Eleições presidenciais 2014→2018</a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="14-Resumo.html"><a href="#o-instrumento-shift-share-como-vari%C3%A1vel-instrumental"><i class="fa fa-check"></i><b>14.4</b> O instrumento shift-share como variável instrumental</a>
+<ul>
+<li class="chapter" data-level="14.4.1" data-path="14-Resumo.html"><a href="#constru%C3%A7%C3%A3o-formal"><i class="fa fa-check"></i><b>14.4.1</b> Construção formal</a></li>
+<li class="chapter" data-level="14.4.2" data-path="shift-share.html"><a href="shift-share.html#voltando-ao-exemplo-construindo-w_ik-g_k-e-b_i-com-dados-eleitorais"><i class="fa fa-check"></i><b>14.4.2</b> Voltando ao exemplo: construindo <span class="math inline">\(w_{ik}\)</span>, <span class="math inline">\(g_k\)</span> e <span class="math inline">\(B_i\)</span> com dados eleitorais</a></li>
+<li class="chapter" data-level="14.4.3" data-path="shift-share.html"><a href="shift-share.html#o-modelo-estrutural-e-o-iv"><i class="fa fa-check"></i><b>14.4.3</b> O modelo estrutural e o IV</a></li>
+<li class="chapter" data-level="14.4.4" data-path="shift-share.html"><a href="shift-share.html#interpretando-o-modelo-com-o-exemplo-eleitoral"><i class="fa fa-check"></i><b>14.4.4</b> Interpretando o modelo com o exemplo eleitoral</a></li>
+<li class="chapter" data-level="14.4.5" data-path="14-Resumo.html"><a href="#por-que-o-instrumento-seria-v%C3%A1lido-uma-discuss%C3%A3o-intuitiva"><i class="fa fa-check"></i><b>14.4.5</b> Por que o instrumento seria válido? Uma discussão intuitiva</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="14-Resumo.html"><a href="#duas-estrat%C3%A9gias-de-identifica%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>14.5</b> Duas estratégias de identificação</a>
+<ul>
+<li class="chapter" data-level="14.5.1" data-path="14-Resumo.html"><a href="#estrat%C3%A9gia-1-exogeneidade-das-shares-gpss-2020"><i class="fa fa-check"></i><b>14.5.1</b> Estratégia 1: Exogeneidade das shares (GPSS 2020)</a></li>
+<li class="chapter" data-level="14.5.2" data-path="14-Resumo.html"><a href="#estrat%C3%A9gia-2-exogeneidade-dos-shifts-bhj-2022"><i class="fa fa-check"></i><b>14.5.2</b> Estratégia 2: Exogeneidade dos shifts (BHJ 2022)</a></li>
+<li class="chapter" data-level="14.5.3" data-path="14-Resumo.html"><a href="#resumo-das-duas-estrat%C3%A9gias"><i class="fa fa-check"></i><b>14.5.3</b> Resumo das duas estratégias</a></li>
+</ul></li>
+<li class="chapter" data-level="14.6" data-path="14-Resumo.html"><a href="#o-problema-de-infer%C3%AAncia"><i class="fa fa-check"></i><b>14.6</b> O problema de inferência</a></li>
+<li class="chapter" data-level="14.7" data-path="14-Resumo.html"><a href="#implementa%C3%A7%C3%A3o-em-r"><i class="fa fa-check"></i><b>14.7</b> Implementação em R</a>
+<ul>
+<li class="chapter" data-level="14.7.1" data-path="14-Resumo.html"><a href="#constru%C3%A7%C3%A3o-do-instrumento"><i class="fa fa-check"></i><b>14.7.1</b> Construção do instrumento</a></li>
+<li class="chapter" data-level="14.7.2" data-path="14-Resumo.html"><a href="#estima%C3%A7%C3%A3o-iv"><i class="fa fa-check"></i><b>14.7.2</b> Estimação IV</a></li>
+<li class="chapter" data-level="14.7.3" data-path="14-Resumo.html"><a href="#erros-padr%C3%A3o-corrigidos-pacote-shiftsharese"><i class="fa fa-check"></i><b>14.7.3</b> Erros-padrão corrigidos: pacote <code>ShiftShareSE</code></a></li>
+<li class="chapter" data-level="14.7.4" data-path="14-Resumo.html"><a href="#agrega%C3%A7%C3%A3o-ao-n%C3%ADvel-do-choque-pacote-ssaggregate"><i class="fa fa-check"></i><b>14.7.4</b> Agregação ao nível do choque: pacote <code>ssaggregate</code></a></li>
+<li class="chapter" data-level="14.7.5" data-path="shift-share.html"><a href="shift-share.html#ecossistema-r-vs.-stata"><i class="fa fa-check"></i><b>14.7.5</b> Ecossistema R vs. Stata</a></li>
+</ul></li>
+<li class="chapter" data-level="14.8" data-path="14-Resumo.html"><a href="#aplica%C3%A7%C3%B5es-em-ci%C3%AAncia-pol%C3%ADtica"><i class="fa fa-check"></i><b>14.8</b> Aplicações em Ciência Política</a>
+<ul>
+<li class="chapter" data-level="14.8.1" data-path="14-Resumo.html"><a href="#com%C3%A9rcio-e-voto-nos-eua"><i class="fa fa-check"></i><b>14.8.1</b> Comércio e voto nos EUA</a></li>
+<li class="chapter" data-level="14.8.2" data-path="14-Resumo.html"><a href="#com%C3%A9rcio-e-nacionalismo-na-europa"><i class="fa fa-check"></i><b>14.8.2</b> Comércio e nacionalismo na Europa</a></li>
+<li class="chapter" data-level="14.8.3" data-path="14-Resumo.html"><a href="#valores-autorit%C3%A1rios"><i class="fa fa-check"></i><b>14.8.3</b> Valores autoritários</a></li>
+<li class="chapter" data-level="14.8.4" data-path="14-Resumo.html"><a href="#welfare-state-hist%C3%B3rico"><i class="fa fa-check"></i><b>14.8.4</b> Welfare state histórico</a></li>
+<li class="chapter" data-level="14.8.5" data-path="14-Resumo.html"><a href="#automa%C3%A7%C3%A3o-e-redistribui%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>14.8.5</b> Automação e redistribuição</a></li>
+<li class="chapter" data-level="14.8.6" data-path="shift-share.html"><a href="shift-share.html#brasil"><i class="fa fa-check"></i><b>14.8.6</b> Brasil</a></li>
+<li class="chapter" data-level="14.8.7" data-path="14-Resumo.html"><a href="#competi%C3%A7%C3%A3o-pol%C3%ADtica-e-desmatamento"><i class="fa fa-check"></i><b>14.8.7</b> Competição política e desmatamento</a></li>
+</ul></li>
+<li class="chapter" data-level="14.9" data-path="14-Resumo.html"><a href="#aplica%C3%A7%C3%B5es-em-rela%C3%A7%C3%B5es-internacionais"><i class="fa fa-check"></i><b>14.9</b> Aplicações em Relações Internacionais</a>
+<ul>
+<li class="chapter" data-level="14.9.1" data-path="14-Resumo.html"><a href="#com%C3%A9rcio-e-pol%C3%ADtica-externa"><i class="fa fa-check"></i><b>14.9.1</b> Comércio e política externa</a></li>
+<li class="chapter" data-level="14.9.2" data-path="14-Resumo.html"><a href="#comportamento-legislativo-em-pol%C3%ADtica-comercial"><i class="fa fa-check"></i><b>14.9.2</b> Comportamento legislativo em política comercial</a></li>
+<li class="chapter" data-level="14.9.3" data-path="shift-share.html"><a href="shift-share.html#temas-com-potencial-inexplorado-em-ri"><i class="fa fa-check"></i><b>14.9.3</b> Temas com potencial inexplorado em RI</a></li>
+</ul></li>
+<li class="chapter" data-level="14.10" data-path="14-Resumo.html"><a href="#refer%C3%AAncias-10"><i class="fa fa-check"></i><b>14.10</b> Referências</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="14-Resumo.html"><a href="#interfer%C3%AAncia-spillover-e-din%C3%A2mica"><i class="fa fa-check"></i><b>15</b> Interferência, spillover e dinâmica</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="14-Resumo.html"><a href="#suposi%C3%A7%C3%B5es-simplificadoras"><i class="fa fa-check"></i><b>15.1</b> Suposições simplificadoras</a></li>
+<li class="chapter" data-level="15.2" data-path="14-Resumo.html"><a href="#po-com-tratamento-de-m%C3%BAltiplos-valores-multi-valued"><i class="fa fa-check"></i><b>15.2</b> PO com tratamento de múltiplos valores (multi-valued)</a>
+<ul>
+<li class="chapter" data-level="15.2.1" data-path="interferência-spillover-e-dinâmica.html"><a href="interferência-spillover-e-dinâmica.html"><i class="fa fa-check"></i><b>15.2.1</b> Multi-valued discreto</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="14-Resumo.html"><a href="#din%C3%A2mica"><i class="fa fa-check"></i><b>15.3</b> Dinâmica</a></li>
+<li class="chapter" data-level="15.4" data-path="14-Resumo.html"><a href="#interfer%C3%AAncia"><i class="fa fa-check"></i><b>15.4</b> Interferência</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Curso de Inferência Causal</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="resumo-3" class="section level1 hasAnchor" number="13">
+<h1><span class="header-section-number">Capítulo 13</span> Resumo<a href="resumo-3.html#resumo-3" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="matching-2" class="section level2 hasAnchor" number="13.1">
+<h2><span class="header-section-number">13.1</span> Matching<a href="resumo-3.html#matching-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Selling point: evitar viés da extrapolação de OLS baseado na forma funcional (overlapping). Estimação não paramétrica do ATT (mais robusto).</p>
+<p>Estimando: ATT (em geral)</p>
+<p>Suposição de identificação chave: selection on observables (conditional ignorability)</p>
+<p>Suposição de identificação testável: balancing de covariáveis</p>
+<p>Questões de estimação: ??</p>
+<p>Status: difícil convencer que conditional ignorability é satisfeita.</p>
+</div>
+<div id="iv" class="section level2 hasAnchor" number="13.2">
+<h2><span class="header-section-number">13.2</span> IV<a href="resumo-3.html#iv" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Selling point: Mais fácil obter ignorability do que selection on observables em regressão ou matching.</p>
+<p>Estimando: LATE (com heterogeneidade). Supõe monotonicidade.</p>
+<p>Suposição de identificação chave: exclusion restriction</p>
+<p>Suposição de identificação testável: Testes de sobreidentificação (Sargan–Hansen) para múltiplos instrumentos.</p>
+<p>Questões de estimação: IV fraca (estatística F &gt; 23)</p>
+<p>Status: difícil convencer que temos IV boa</p>
+</div>
+<div id="rdd" class="section level2 hasAnchor" number="13.3">
+<h2><span class="header-section-number">13.3</span> RDD<a href="resumo-3.html#rdd" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Selling point: Intuitivo e mais crível de obter ignorability que outros métodos</p>
+<p>Estimando: LATE</p>
+<p>Suposição de identificação chave: continuidade do resultado potencial dos não tratados ao redor do ponto de corte</p>
+<p>Suposição de identificação testável: não-manipulação ao redor do ponto de corte (teste de McCrary etc.)</p>
+<p>Questões de estimação: Correção de viés de banda larga e construção de intervalos de confiança robustos. Ordem do polinômio e sensibilidade à forma funcional (geralmente recomenda-se local linear).</p>
+<p>Status: N. 1. Mas cuidado com Politician characteristic regression discontinuity (PCRD). Não será mais crível.</p>
+</div>
+<div id="did" class="section level2 hasAnchor" number="13.4">
+<h2><span class="header-section-number">13.4</span> DiD<a href="resumo-3.html#did" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Selling point: Suposições transparentes? Não depende de ignorability, mas tendências paralelas (mais fácil de obter?).</p>
+<p>Estimando: ATT</p>
+<p>Suposição de identificação chave: tendências paralelas e, em casos dinâmicos, comparação correta com grupo controle adequado.</p>
+<p>Suposição de identificação testável: tendências paralelas pré-exposição ao tratamento. Event studies.</p>
+<p>Questões de estimação: Tendências paralelas dependem da mensuração da VD (log? etc.). Depende de forma funcional paramétrica.</p>
+<p>Status: N. 2?</p>
+<div id="tscs" class="section level3 hasAnchor" number="13.4.1">
+<h3><span class="header-section-number">13.4.1</span> TSCS<a href="resumo-3.html#tscs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Selling point: Todo mundo usa e “entende”</p>
+<p>Estimando: ATT</p>
+<p>Suposição de identificação chave: tendências paralelas, exogeneidade estrita ou exogeneidade contemporânea (random effects).</p>
+<p>Suposição de identificação testável: ?</p>
+<p>Questões de estimação: Em RE, usar correção de Mundlak.</p>
+<p>Status: Benchmark? Usar para generalização de efeito estimado por outro método local?</p>
+</div>
+</div>
+<div id="scm" class="section level2 hasAnchor" number="13.5">
+<h2><span class="header-section-number">13.5</span> SCM<a href="resumo-3.html#scm" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Selling point: Ótimo para efeito causal de um caso</p>
+<p>Estimando: ATT</p>
+<p>Suposição de identificação chave: Controle sintético aproxima bem resultado potencial?</p>
+<p>Suposição de identificação testável: Controle sintético aproxima bem controle pré-exposição</p>
+<p>Questões de estimação: Erro padrão e p-valor com randomization test. Seleção de conjunto de doadores e covariáveis preditoras (pouca teoria aqui).</p>
+<p>Status: ???</p>
+</div>
+<div id="did-sintético" class="section level2 hasAnchor" number="13.6">
+<h2><span class="header-section-number">13.6</span> DiD Sintético<a href="#did-sint%C3%A9tico" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Selling point: Mais robusto a violações de tendências paralelas que DiD</p>
+<p>Estimando: ATT</p>
+<p>Suposição de identificação chave: tendências paralelas</p>
+<p>Suposição de identificação testável: tendências paralelas pré-exposição</p>
+<p>Questões de estimação: ?</p>
+<p>Status: Ninguém entende direito.</p>
+</div>
+<div id="double-lasso-1" class="section level2 hasAnchor" number="13.7">
+<h2><span class="header-section-number">13.7</span> Double LASSO<a href="resumo-3.html#double-lasso-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Selling point: Seleção automática de variáveis de controle sem viés de regularização, mesmo com muitas covariáveis.</p>
+<p>Estimando: ATE (com ignorability condicional)</p>
+<p>Suposição de identificação chave: Ignorability condicional</p>
+<p>Suposição de identificação testável: ?</p>
+<p>Questões de estimação: Definição de penalização (λ) e folds para cross-validation.</p>
+<p>Status: Potencialmente útil em contextos em que ignorability condicional é satisfeita, como experimentos ou DiD?</p>
+</div>
+<div id="dml-1" class="section level2 hasAnchor" number="13.8">
+<h2><span class="header-section-number">13.8</span> DML<a href="resumo-3.html#dml-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Selling point: Resolve o problema de má especificação da forma funcional dos controles</p>
+<p>Estimando: Depende da aplicação. De ATE, a ATT e LATE.</p>
+<p>Suposição de identificação chave: Ignorability condicional</p>
+<p>Suposição de identificação testável: ?</p>
+<p>Questões de estimação: Muitas. Sensível a qual ML usar, sensível ao número de folds, estrutura dependente pode dificultar cross-validação (dados de rede?), como escolher fine-tuning de parâmetros, qual métrica usar.</p>
+<p>Status: Promissor para complementar outras técnicas (IV, DiD etc.), mas ainda em desenvolvimento. Seu uso sinaliza sofisticação metodológica.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="machine-learning.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="shift-share.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/mgaldino/Causalidade/edit/main/14-Resumo.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": "https://github.com/mgaldino/Causalidade/blob/main/14-Resumo.Rmd",
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

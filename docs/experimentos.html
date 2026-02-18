@@ -23,7 +23,7 @@
 <meta name="author" content="Manoel Galdino" />
 
 
-<meta name="date" content="2026-02-17" />
+<meta name="date" content="2026-02-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -388,13 +388,45 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.9" data-path="04-Experimentos.html"><a href="#efeitos-aleat%C3%B3rios"><i class="fa fa-check"></i><b>9.9</b> Efeitos aleatórios</a></li>
 <li class="chapter" data-level="9.10" data-path="04-Experimentos.html"><a href="#refer%C3%AAncias-7"><i class="fa fa-check"></i><b>9.10</b> Referências</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="synthetic-control.html"><a href="synthetic-control.html"><i class="fa fa-check"></i><b>10</b> Synthetic Control</a>
+<li class="chapter" data-level="10" data-path="04-Experimentos.html"><a href="#controle-sint%C3%A9tico-e-estima%C3%A7%C3%A3o-contrafactual"><i class="fa fa-check"></i><b>10</b> Controle Sintético e Estimação Contrafactual</a>
 <ul>
-<li class="chapter" data-level="10.0.1" data-path="synthetic-control.html"><a href="synthetic-control.html#tratamento"><i class="fa fa-check"></i><b>10.0.1</b> Tratamento</a></li>
-<li class="chapter" data-level="10.1" data-path="04-Experimentos.html"><a href="#implementa%C3%A7%C3%A3o-no-r"><i class="fa fa-check"></i><b>10.1</b> Implementação no R</a></li>
-<li class="chapter" data-level="10.2" data-path="synthetic-control.html"><a href="synthetic-control.html#synthetic-did"><i class="fa fa-check"></i><b>10.2</b> Synthetic DiD</a></li>
-<li class="chapter" data-level="10.3" data-path="04-Experimentos.html"><a href="#resumo-e-pr%C3%B3ximos-passos-4"><i class="fa fa-check"></i><b>10.3</b> Resumo e próximos passos</a></li>
-<li class="chapter" data-level="10.4" data-path="04-Experimentos.html"><a href="#refer%C3%AAncias-8"><i class="fa fa-check"></i><b>10.4</b> Referências</a></li>
+<li class="chapter" data-level="10.1" data-path="04-Experimentos.html"><a href="#motiva%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>10.1</b> Motivação</a></li>
+<li class="chapter" data-level="10.2" data-path="04-Experimentos.html"><a href="#controle-sint%C3%A9tico-cl%C3%A1ssico"><i class="fa fa-check"></i><b>10.2</b> Controle Sintético clássico</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="04-Experimentos.html"><a href="#formaliza%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>10.2.1</b> Formalização</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="04-Experimentos.html"><a href="#implementa%C3%A7%C3%A3o-do-scm-no-r"><i class="fa fa-check"></i><b>10.3</b> Implementação do SCM no R</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="04-Experimentos.html"><a href="#infer%C3%AAncia-por-placebo"><i class="fa fa-check"></i><b>10.3.1</b> Inferência por placebo</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="04-Experimentos.html"><a href="#framework-de-estima%C3%A7%C3%A3o-contrafactual"><i class="fa fa-check"></i><b>10.4</b> Framework de estimação contrafactual</a>
+<ul>
+<li class="chapter" data-level="10.4.1" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html"><i class="fa fa-check"></i><b>10.4.1</b> Setup</a></li>
+<li class="chapter" data-level="10.4.2" data-path="04-Experimentos.html"><a href="#estrat%C3%A9gia-de-estima%C3%A7%C3%A3o-em-quatro-passos"><i class="fa fa-check"></i><b>10.4.2</b> Estratégia de estimação em quatro passos</a></li>
+<li class="chapter" data-level="10.4.3" data-path="04-Experimentos.html"><a href="#suposi%C3%A7%C3%B5es-de-identifica%C3%A7%C3%A3o-1"><i class="fa fa-check"></i><b>10.4.3</b> Suposições de identificação</a></li>
+<li class="chapter" data-level="10.4.4" data-path="04-Experimentos.html"><a href="#conex%C3%A3o-com-did"><i class="fa fa-check"></i><b>10.4.4</b> Conexão com DiD</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="04-Experimentos.html"><a href="#tr%C3%AAs-estimadores-contrafactuais"><i class="fa fa-check"></i><b>10.5</b> Três estimadores contrafactuais</a>
+<ul>
+<li class="chapter" data-level="10.5.1" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#fect-efeitos-fixos"><i class="fa fa-check"></i><b>10.5.1</b> FEct: efeitos fixos</a></li>
+<li class="chapter" data-level="10.5.2" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#ifect-fatores-interativos"><i class="fa fa-check"></i><b>10.5.2</b> IFEct: fatores interativos</a></li>
+<li class="chapter" data-level="10.5.3" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#mc-matrix-completion"><i class="fa fa-check"></i><b>10.5.3</b> MC: Matrix Completion</a></li>
+<li class="chapter" data-level="10.5.4" data-path="04-Experimentos.html"><a href="#demonstra%C3%A7%C3%A3o-com-dados-da-calif%C3%B3rnia"><i class="fa fa-check"></i><b>10.5.4</b> Demonstração com dados da Califórnia</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="04-Experimentos.html"><a href="#diagn%C3%B3sticos"><i class="fa fa-check"></i><b>10.6</b> Diagnósticos</a>
+<ul>
+<li class="chapter" data-level="10.6.1" data-path="04-Experimentos.html"><a href="#efeitos-din%C3%A2micos"><i class="fa fa-check"></i><b>10.6.1</b> Efeitos dinâmicos</a></li>
+<li class="chapter" data-level="10.6.2" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#placebo-test"><i class="fa fa-check"></i><b>10.6.2</b> Placebo test</a></li>
+<li class="chapter" data-level="10.6.3" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#teste-de-no-carryover"><i class="fa fa-check"></i><b>10.6.3</b> Teste de no-carryover</a></li>
+</ul></li>
+<li class="chapter" data-level="10.7" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#synthetic-did"><i class="fa fa-check"></i><b>10.7</b> Synthetic DiD</a>
+<ul>
+<li class="chapter" data-level="10.7.1" data-path="04-Experimentos.html"><a href="#implementa%C3%A7%C3%A3o-no-r"><i class="fa fa-check"></i><b>10.7.1</b> Implementação no R</a></li>
+</ul></li>
+<li class="chapter" data-level="10.8" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#trop-estimador-triplamente-robusto"><i class="fa fa-check"></i><b>10.8</b> TROP: estimador triplamente robusto</a></li>
+<li class="chapter" data-level="10.9" data-path="04-Experimentos.html"><a href="#quando-usar-cada-m%C3%A9todo-guia-pr%C3%A1tico"><i class="fa fa-check"></i><b>10.9</b> Quando usar cada método: guia prático</a></li>
+<li class="chapter" data-level="10.10" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#resumo-2"><i class="fa fa-check"></i><b>10.10</b> Resumo</a></li>
+<li class="chapter" data-level="10.11" data-path="04-Experimentos.html"><a href="#refer%C3%AAncias-8"><i class="fa fa-check"></i><b>10.11</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="llms-e-outras.html"><a href="llms-e-outras.html"><i class="fa fa-check"></i><b>11</b> LLMs e outras</a>
 <ul>
@@ -416,22 +448,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="12.7" data-path="machine-learning.html"><a href="machine-learning.html#double-debiasing"><i class="fa fa-check"></i><b>12.7</b> Double Debiasing</a></li>
 <li class="chapter" data-level="12.8" data-path="machine-learning.html"><a href="machine-learning.html#cross-fitting"><i class="fa fa-check"></i><b>12.8</b> Cross-fitting</a></li>
 <li class="chapter" data-level="12.9" data-path="04-Experimentos.html"><a href="#quest%C3%B5es-pr%C3%A1ticas"><i class="fa fa-check"></i><b>12.9</b> Questões Práticas</a></li>
-<li class="chapter" data-level="12.10" data-path="04-Experimentos.html"><a href="#resumo-e-pr%C3%B3ximos-passos-5"><i class="fa fa-check"></i><b>12.10</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="12.10" data-path="04-Experimentos.html"><a href="#resumo-e-pr%C3%B3ximos-passos-4"><i class="fa fa-check"></i><b>12.10</b> Resumo e próximos passos</a></li>
 <li class="chapter" data-level="12.11" data-path="04-Experimentos.html"><a href="#refer%C3%AAncias-9"><i class="fa fa-check"></i><b>12.11</b> Referências</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="resumo-2.html"><a href="resumo-2.html"><i class="fa fa-check"></i><b>13</b> Resumo</a>
+<li class="chapter" data-level="13" data-path="resumo-3.html"><a href="resumo-3.html"><i class="fa fa-check"></i><b>13</b> Resumo</a>
 <ul>
-<li class="chapter" data-level="13.1" data-path="resumo-2.html"><a href="resumo-2.html#matching-2"><i class="fa fa-check"></i><b>13.1</b> Matching</a></li>
-<li class="chapter" data-level="13.2" data-path="resumo-2.html"><a href="resumo-2.html#iv"><i class="fa fa-check"></i><b>13.2</b> IV</a></li>
-<li class="chapter" data-level="13.3" data-path="resumo-2.html"><a href="resumo-2.html#rdd"><i class="fa fa-check"></i><b>13.3</b> RDD</a></li>
-<li class="chapter" data-level="13.4" data-path="resumo-2.html"><a href="resumo-2.html#did"><i class="fa fa-check"></i><b>13.4</b> DiD</a>
+<li class="chapter" data-level="13.1" data-path="resumo-3.html"><a href="resumo-3.html#matching-2"><i class="fa fa-check"></i><b>13.1</b> Matching</a></li>
+<li class="chapter" data-level="13.2" data-path="resumo-3.html"><a href="resumo-3.html#iv"><i class="fa fa-check"></i><b>13.2</b> IV</a></li>
+<li class="chapter" data-level="13.3" data-path="resumo-3.html"><a href="resumo-3.html#rdd"><i class="fa fa-check"></i><b>13.3</b> RDD</a></li>
+<li class="chapter" data-level="13.4" data-path="resumo-3.html"><a href="resumo-3.html#did"><i class="fa fa-check"></i><b>13.4</b> DiD</a>
 <ul>
-<li class="chapter" data-level="13.4.1" data-path="resumo-2.html"><a href="resumo-2.html#tscs"><i class="fa fa-check"></i><b>13.4.1</b> TSCS</a></li>
+<li class="chapter" data-level="13.4.1" data-path="resumo-3.html"><a href="resumo-3.html#tscs"><i class="fa fa-check"></i><b>13.4.1</b> TSCS</a></li>
 </ul></li>
-<li class="chapter" data-level="13.5" data-path="resumo-2.html"><a href="resumo-2.html#scm"><i class="fa fa-check"></i><b>13.5</b> SCM</a></li>
+<li class="chapter" data-level="13.5" data-path="resumo-3.html"><a href="resumo-3.html#scm"><i class="fa fa-check"></i><b>13.5</b> SCM</a></li>
 <li class="chapter" data-level="13.6" data-path="04-Experimentos.html"><a href="#did-sint%C3%A9tico"><i class="fa fa-check"></i><b>13.6</b> DiD Sintético</a></li>
-<li class="chapter" data-level="13.7" data-path="resumo-2.html"><a href="resumo-2.html#double-lasso-1"><i class="fa fa-check"></i><b>13.7</b> Double LASSO</a></li>
-<li class="chapter" data-level="13.8" data-path="resumo-2.html"><a href="resumo-2.html#dml-1"><i class="fa fa-check"></i><b>13.8</b> DML</a></li>
+<li class="chapter" data-level="13.7" data-path="resumo-3.html"><a href="resumo-3.html#double-lasso-1"><i class="fa fa-check"></i><b>13.7</b> Double LASSO</a></li>
+<li class="chapter" data-level="13.8" data-path="resumo-3.html"><a href="resumo-3.html#dml-1"><i class="fa fa-check"></i><b>13.8</b> DML</a></li>
 </ul></li>
 <li class="chapter" data-level="14" data-path="shift-share.html"><a href="shift-share.html"><i class="fa fa-check"></i><b>14</b> Shift-share</a>
 <ul>
@@ -602,12 +634,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>ps.: toda aleatorização realizada é matematicamente equivalente.</li>
 <li>Possui <span class="math inline">\(2^n\)</span> configurações possíveis de alocação entre tratamento e controle</li>
 </ul>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="experimentos.html#cb18-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">10</span>)</span>
-<span id="cb18-2"><a href="experimentos.html#cb18-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb18-3"><a href="experimentos.html#cb18-3" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">sum</span>(<span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.5</span>))), </span>
-<span id="cb18-4"><a href="experimentos.html#cb18-4" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;aleatorização de Bernoulli&quot;</span>,</span>
-<span id="cb18-5"><a href="experimentos.html#cb18-5" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Número de tratados&quot;</span>,</span>
-<span id="cb18-6"><a href="experimentos.html#cb18-6" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>) <span class="sc">+</span> <span class="fu">xlim</span>(<span class="dv">0</span>,<span class="dv">50</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="experimentos.html#cb19-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">10</span>)</span>
+<span id="cb19-2"><a href="experimentos.html#cb19-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb19-3"><a href="experimentos.html#cb19-3" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">sum</span>(<span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.5</span>))), </span>
+<span id="cb19-4"><a href="experimentos.html#cb19-4" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;aleatorização de Bernoulli&quot;</span>,</span>
+<span id="cb19-5"><a href="experimentos.html#cb19-5" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Número de tratados&quot;</span>,</span>
+<span id="cb19-6"><a href="experimentos.html#cb19-6" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>) <span class="sc">+</span> <span class="fu">xlim</span>(<span class="dv">0</span>,<span class="dv">50</span>)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/unnamed-chunk-4-1.png" alt="" width="672" /></p>
 </div>
 <div id="aleatorização-completa" class="section level3 hasAnchor" number="4.4.2">
@@ -678,66 +710,66 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Vamos checar uma simulação no R para ver um exemplo do ganho na precisão</li>
 <li>Lembrem-se que se <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> são independentes, então <span class="math inline">\(Var(aX + bY) = a^2Var(X) + b^2Var(Y)\)</span>.</li>
 </ul>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="experimentos.html#cb19-1" tabindex="-1"></a><span class="co"># Set up Potential outcomes and units and blocks</span></span>
-<span id="cb19-2"><a href="experimentos.html#cb19-2" tabindex="-1"></a>n1 <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb19-3"><a href="experimentos.html#cb19-3" tabindex="-1"></a>n2 <span class="ot">&lt;-</span> <span class="dv">16</span></span>
-<span id="cb19-4"><a href="experimentos.html#cb19-4" tabindex="-1"></a>N <span class="ot">&lt;-</span> n1<span class="sc">+</span>n2</span>
-<span id="cb19-5"><a href="experimentos.html#cb19-5" tabindex="-1"></a>J <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb19-6"><a href="experimentos.html#cb19-6" tabindex="-1"></a>index_block <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">2</span>, n2), <span class="fu">rep</span>(<span class="dv">1</span>, n1))</span>
-<span id="cb19-7"><a href="experimentos.html#cb19-7" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12</span>)</span>
-<span id="cb19-8"><a href="experimentos.html#cb19-8" tabindex="-1"></a><span class="co"># potential outcome control</span></span>
-<span id="cb19-9"><a href="experimentos.html#cb19-9" tabindex="-1"></a>y0 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rnorm</span>(n1, <span class="dv">2</span>, <span class="dv">1</span>),<span class="fu">rnorm</span>(n2, <span class="dv">6</span>, <span class="dv">1</span>)) </span>
-<span id="cb19-10"><a href="experimentos.html#cb19-10" tabindex="-1"></a>y1 <span class="ot">&lt;-</span> y0 <span class="sc">+</span> <span class="fl">1.5</span> <span class="co"># potential outcome treatment</span></span></code></pre></div>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="experimentos.html#cb20-1" tabindex="-1"></a><span class="co"># block assignment</span></span>
-<span id="cb20-2"><a href="experimentos.html#cb20-2" tabindex="-1"></a>t_bloco1 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>n1, n1<span class="sc">/</span><span class="dv">2</span>)</span>
-<span id="cb20-3"><a href="experimentos.html#cb20-3" tabindex="-1"></a>c_bloco1 <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">:</span>n1)[<span class="sc">!</span>(<span class="dv">1</span><span class="sc">:</span>n1 <span class="sc">%in%</span> t_bloco1)]</span>
-<span id="cb20-4"><a href="experimentos.html#cb20-4" tabindex="-1"></a></span>
-<span id="cb20-5"><a href="experimentos.html#cb20-5" tabindex="-1"></a>t_bloco2 <span class="ot">&lt;-</span> <span class="fu">sample</span>((n1<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n1<span class="sc">+</span>n2), n2<span class="sc">/</span><span class="dv">2</span>)</span>
-<span id="cb20-6"><a href="experimentos.html#cb20-6" tabindex="-1"></a>c_bloco2 <span class="ot">&lt;-</span> ((n1<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n1<span class="sc">+</span>n2))[<span class="sc">!</span>((n1<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n1<span class="sc">+</span>n2) <span class="sc">%in%</span> t_bloco2)]</span>
-<span id="cb20-7"><a href="experimentos.html#cb20-7" tabindex="-1"></a></span>
-<span id="cb20-8"><a href="experimentos.html#cb20-8" tabindex="-1"></a>y1_obs_bloco1 <span class="ot">&lt;-</span> y1[t_bloco1]</span>
-<span id="cb20-9"><a href="experimentos.html#cb20-9" tabindex="-1"></a>y1_obs_bloco2 <span class="ot">&lt;-</span> y1[t_bloco2]</span>
-<span id="cb20-10"><a href="experimentos.html#cb20-10" tabindex="-1"></a>y0_obs_bloco1 <span class="ot">&lt;-</span> y0[c_bloco1]</span>
-<span id="cb20-11"><a href="experimentos.html#cb20-11" tabindex="-1"></a>y0_obs_bloco2 <span class="ot">&lt;-</span> y0[c_bloco2]</span></code></pre></div>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="experimentos.html#cb21-1" tabindex="-1"></a><span class="co"># random assignment</span></span>
-<span id="cb21-2"><a href="experimentos.html#cb21-2" tabindex="-1"></a>units_simple_treatment <span class="ot">&lt;-</span> <span class="fu">c</span>(t_bloco1, t_bloco2)</span>
-<span id="cb21-3"><a href="experimentos.html#cb21-3" tabindex="-1"></a>units_simple_control <span class="ot">&lt;-</span> <span class="fu">c</span>(c_bloco1, c_bloco2)</span>
-<span id="cb21-4"><a href="experimentos.html#cb21-4" tabindex="-1"></a>y1_obs <span class="ot">&lt;-</span> y1[units_simple_treatment]</span>
-<span id="cb21-5"><a href="experimentos.html#cb21-5" tabindex="-1"></a>y0_obs <span class="ot">&lt;-</span> y0[units_simple_control]</span>
-<span id="cb21-6"><a href="experimentos.html#cb21-6" tabindex="-1"></a></span>
-<span id="cb21-7"><a href="experimentos.html#cb21-7" tabindex="-1"></a><span class="co"># erro padrão</span></span>
-<span id="cb21-8"><a href="experimentos.html#cb21-8" tabindex="-1"></a>erro_pad_simple <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs, y0_obs)<span class="sc">$</span>stderr </span>
-<span id="cb21-9"><a href="experimentos.html#cb21-9" tabindex="-1"></a>simple_p_value <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs, y0_obs)<span class="sc">$</span>p.value</span>
-<span id="cb21-10"><a href="experimentos.html#cb21-10" tabindex="-1"></a></span>
-<span id="cb21-11"><a href="experimentos.html#cb21-11" tabindex="-1"></a>my_t <span class="ot">&lt;-</span> <span class="fu">mean</span>(y1_obs <span class="sc">-</span> y0_obs)<span class="sc">/</span>erro_pad_simple</span></code></pre></div>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="experimentos.html#cb22-1" tabindex="-1"></a>erro_pad1 <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs_bloco1, y0_obs_bloco1)<span class="sc">$</span>stderr</span>
-<span id="cb22-2"><a href="experimentos.html#cb22-2" tabindex="-1"></a>erro_pad2 <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs_bloco2, y0_obs_bloco2)<span class="sc">$</span>stderr</span>
-<span id="cb22-3"><a href="experimentos.html#cb22-3" tabindex="-1"></a></span>
-<span id="cb22-4"><a href="experimentos.html#cb22-4" tabindex="-1"></a>erro_padrao_geral <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(erro_pad1<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span>(n1<span class="sc">/</span>N)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> erro_pad2<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span>(n2<span class="sc">/</span>N)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb22-5"><a href="experimentos.html#cb22-5" tabindex="-1"></a>ate1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y1_obs_bloco1 <span class="sc">-</span> y0_obs_bloco1)<span class="sc">*</span>(n1<span class="sc">/</span>N)</span>
-<span id="cb22-6"><a href="experimentos.html#cb22-6" tabindex="-1"></a>ate2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y1_obs_bloco2 <span class="sc">-</span> y0_obs_bloco2)<span class="sc">*</span>(n2<span class="sc">/</span>N)</span>
-<span id="cb22-7"><a href="experimentos.html#cb22-7" tabindex="-1"></a>ate <span class="ot">&lt;-</span> ate1 <span class="sc">+</span> ate2</span>
-<span id="cb22-8"><a href="experimentos.html#cb22-8" tabindex="-1"></a>my_t <span class="ot">&lt;-</span> ate<span class="sc">/</span>erro_padrao_geral</span>
-<span id="cb22-9"><a href="experimentos.html#cb22-9" tabindex="-1"></a>p_value <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(<span class="fu">abs</span>(my_t), <span class="at">df =</span> <span class="fl">23.76567</span>))</span>
-<span id="cb22-10"><a href="experimentos.html#cb22-10" tabindex="-1"></a><span class="fu">print</span>(erro_pad1)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="experimentos.html#cb20-1" tabindex="-1"></a><span class="co"># Set up Potential outcomes and units and blocks</span></span>
+<span id="cb20-2"><a href="experimentos.html#cb20-2" tabindex="-1"></a>n1 <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb20-3"><a href="experimentos.html#cb20-3" tabindex="-1"></a>n2 <span class="ot">&lt;-</span> <span class="dv">16</span></span>
+<span id="cb20-4"><a href="experimentos.html#cb20-4" tabindex="-1"></a>N <span class="ot">&lt;-</span> n1<span class="sc">+</span>n2</span>
+<span id="cb20-5"><a href="experimentos.html#cb20-5" tabindex="-1"></a>J <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb20-6"><a href="experimentos.html#cb20-6" tabindex="-1"></a>index_block <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">2</span>, n2), <span class="fu">rep</span>(<span class="dv">1</span>, n1))</span>
+<span id="cb20-7"><a href="experimentos.html#cb20-7" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12</span>)</span>
+<span id="cb20-8"><a href="experimentos.html#cb20-8" tabindex="-1"></a><span class="co"># potential outcome control</span></span>
+<span id="cb20-9"><a href="experimentos.html#cb20-9" tabindex="-1"></a>y0 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rnorm</span>(n1, <span class="dv">2</span>, <span class="dv">1</span>),<span class="fu">rnorm</span>(n2, <span class="dv">6</span>, <span class="dv">1</span>)) </span>
+<span id="cb20-10"><a href="experimentos.html#cb20-10" tabindex="-1"></a>y1 <span class="ot">&lt;-</span> y0 <span class="sc">+</span> <span class="fl">1.5</span> <span class="co"># potential outcome treatment</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="experimentos.html#cb21-1" tabindex="-1"></a><span class="co"># block assignment</span></span>
+<span id="cb21-2"><a href="experimentos.html#cb21-2" tabindex="-1"></a>t_bloco1 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>n1, n1<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb21-3"><a href="experimentos.html#cb21-3" tabindex="-1"></a>c_bloco1 <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">:</span>n1)[<span class="sc">!</span>(<span class="dv">1</span><span class="sc">:</span>n1 <span class="sc">%in%</span> t_bloco1)]</span>
+<span id="cb21-4"><a href="experimentos.html#cb21-4" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="experimentos.html#cb21-5" tabindex="-1"></a>t_bloco2 <span class="ot">&lt;-</span> <span class="fu">sample</span>((n1<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n1<span class="sc">+</span>n2), n2<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb21-6"><a href="experimentos.html#cb21-6" tabindex="-1"></a>c_bloco2 <span class="ot">&lt;-</span> ((n1<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n1<span class="sc">+</span>n2))[<span class="sc">!</span>((n1<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n1<span class="sc">+</span>n2) <span class="sc">%in%</span> t_bloco2)]</span>
+<span id="cb21-7"><a href="experimentos.html#cb21-7" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="experimentos.html#cb21-8" tabindex="-1"></a>y1_obs_bloco1 <span class="ot">&lt;-</span> y1[t_bloco1]</span>
+<span id="cb21-9"><a href="experimentos.html#cb21-9" tabindex="-1"></a>y1_obs_bloco2 <span class="ot">&lt;-</span> y1[t_bloco2]</span>
+<span id="cb21-10"><a href="experimentos.html#cb21-10" tabindex="-1"></a>y0_obs_bloco1 <span class="ot">&lt;-</span> y0[c_bloco1]</span>
+<span id="cb21-11"><a href="experimentos.html#cb21-11" tabindex="-1"></a>y0_obs_bloco2 <span class="ot">&lt;-</span> y0[c_bloco2]</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="experimentos.html#cb22-1" tabindex="-1"></a><span class="co"># random assignment</span></span>
+<span id="cb22-2"><a href="experimentos.html#cb22-2" tabindex="-1"></a>units_simple_treatment <span class="ot">&lt;-</span> <span class="fu">c</span>(t_bloco1, t_bloco2)</span>
+<span id="cb22-3"><a href="experimentos.html#cb22-3" tabindex="-1"></a>units_simple_control <span class="ot">&lt;-</span> <span class="fu">c</span>(c_bloco1, c_bloco2)</span>
+<span id="cb22-4"><a href="experimentos.html#cb22-4" tabindex="-1"></a>y1_obs <span class="ot">&lt;-</span> y1[units_simple_treatment]</span>
+<span id="cb22-5"><a href="experimentos.html#cb22-5" tabindex="-1"></a>y0_obs <span class="ot">&lt;-</span> y0[units_simple_control]</span>
+<span id="cb22-6"><a href="experimentos.html#cb22-6" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="experimentos.html#cb22-7" tabindex="-1"></a><span class="co"># erro padrão</span></span>
+<span id="cb22-8"><a href="experimentos.html#cb22-8" tabindex="-1"></a>erro_pad_simple <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs, y0_obs)<span class="sc">$</span>stderr </span>
+<span id="cb22-9"><a href="experimentos.html#cb22-9" tabindex="-1"></a>simple_p_value <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs, y0_obs)<span class="sc">$</span>p.value</span>
+<span id="cb22-10"><a href="experimentos.html#cb22-10" tabindex="-1"></a></span>
+<span id="cb22-11"><a href="experimentos.html#cb22-11" tabindex="-1"></a>my_t <span class="ot">&lt;-</span> <span class="fu">mean</span>(y1_obs <span class="sc">-</span> y0_obs)<span class="sc">/</span>erro_pad_simple</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="experimentos.html#cb23-1" tabindex="-1"></a>erro_pad1 <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs_bloco1, y0_obs_bloco1)<span class="sc">$</span>stderr</span>
+<span id="cb23-2"><a href="experimentos.html#cb23-2" tabindex="-1"></a>erro_pad2 <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs_bloco2, y0_obs_bloco2)<span class="sc">$</span>stderr</span>
+<span id="cb23-3"><a href="experimentos.html#cb23-3" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="experimentos.html#cb23-4" tabindex="-1"></a>erro_padrao_geral <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(erro_pad1<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span>(n1<span class="sc">/</span>N)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> erro_pad2<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span>(n2<span class="sc">/</span>N)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb23-5"><a href="experimentos.html#cb23-5" tabindex="-1"></a>ate1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y1_obs_bloco1 <span class="sc">-</span> y0_obs_bloco1)<span class="sc">*</span>(n1<span class="sc">/</span>N)</span>
+<span id="cb23-6"><a href="experimentos.html#cb23-6" tabindex="-1"></a>ate2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y1_obs_bloco2 <span class="sc">-</span> y0_obs_bloco2)<span class="sc">*</span>(n2<span class="sc">/</span>N)</span>
+<span id="cb23-7"><a href="experimentos.html#cb23-7" tabindex="-1"></a>ate <span class="ot">&lt;-</span> ate1 <span class="sc">+</span> ate2</span>
+<span id="cb23-8"><a href="experimentos.html#cb23-8" tabindex="-1"></a>my_t <span class="ot">&lt;-</span> ate<span class="sc">/</span>erro_padrao_geral</span>
+<span id="cb23-9"><a href="experimentos.html#cb23-9" tabindex="-1"></a>p_value <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(<span class="fu">abs</span>(my_t), <span class="at">df =</span> <span class="fl">23.76567</span>))</span>
+<span id="cb23-10"><a href="experimentos.html#cb23-10" tabindex="-1"></a><span class="fu">print</span>(erro_pad1)</span></code></pre></div>
 <pre><code>## [1] 0.646563</code></pre>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="experimentos.html#cb24-1" tabindex="-1"></a><span class="fu">print</span>(erro_pad2)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="experimentos.html#cb25-1" tabindex="-1"></a><span class="fu">print</span>(erro_pad2)</span></code></pre></div>
 <pre><code>## [1] 0.4502482</code></pre>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="experimentos.html#cb26-1" tabindex="-1"></a><span class="fu">print</span>(erro_padrao_geral)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="experimentos.html#cb27-1" tabindex="-1"></a><span class="fu">print</span>(erro_padrao_geral)</span></code></pre></div>
 <pre><code>## [1] 0.3723061</code></pre>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="experimentos.html#cb28-1" tabindex="-1"></a><span class="fu">print</span>(p_value)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="experimentos.html#cb29-1" tabindex="-1"></a><span class="fu">print</span>(p_value)</span></code></pre></div>
 <pre><code>## [1] 0.0006818314</code></pre>
 </div>
 <div id="comparação-de-ses" class="section level3 hasAnchor" number="4.4.8">
 <h3><span class="header-section-number">4.4.8</span> Comparação de SEs<a href="#compara%C3%A7%C3%A3o-de-ses" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="experimentos.html#cb30-1" tabindex="-1"></a><span class="fu">library</span>(knitr)</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="experimentos.html#cb31-1" tabindex="-1"></a><span class="fu">library</span>(knitr)</span></code></pre></div>
 <pre><code>## Warning: pacote &#39;knitr&#39; foi compilado no R versão 4.4.3</code></pre>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="experimentos.html#cb32-1" tabindex="-1"></a>comparison_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb32-2"><a href="experimentos.html#cb32-2" tabindex="-1"></a>  <span class="at">Method =</span> <span class="fu">c</span>(<span class="st">&quot;Simple Randomization&quot;</span>, <span class="st">&quot;Block 1&quot;</span>, <span class="st">&quot;Block 2&quot;</span>, <span class="st">&quot;General Block Randomization&quot;</span>),</span>
-<span id="cb32-3"><a href="experimentos.html#cb32-3" tabindex="-1"></a>  <span class="at">Standard_Error =</span> <span class="fu">c</span>(erro_pad_simple, erro_pad1, erro_pad2, erro_padrao_geral)</span>
-<span id="cb32-4"><a href="experimentos.html#cb32-4" tabindex="-1"></a>)</span>
-<span id="cb32-5"><a href="experimentos.html#cb32-5" tabindex="-1"></a></span>
-<span id="cb32-6"><a href="experimentos.html#cb32-6" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(comparison_table, <span class="at">caption =</span> <span class="st">&quot;Comparação de Erros padrão&quot;</span>, <span class="at">align =</span> <span class="st">&#39;c&#39;</span>, <span class="at">format =</span> <span class="st">&quot;latex&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="experimentos.html#cb33-1" tabindex="-1"></a>comparison_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb33-2"><a href="experimentos.html#cb33-2" tabindex="-1"></a>  <span class="at">Method =</span> <span class="fu">c</span>(<span class="st">&quot;Simple Randomization&quot;</span>, <span class="st">&quot;Block 1&quot;</span>, <span class="st">&quot;Block 2&quot;</span>, <span class="st">&quot;General Block Randomization&quot;</span>),</span>
+<span id="cb33-3"><a href="experimentos.html#cb33-3" tabindex="-1"></a>  <span class="at">Standard_Error =</span> <span class="fu">c</span>(erro_pad_simple, erro_pad1, erro_pad2, erro_padrao_geral)</span>
+<span id="cb33-4"><a href="experimentos.html#cb33-4" tabindex="-1"></a>)</span>
+<span id="cb33-5"><a href="experimentos.html#cb33-5" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="experimentos.html#cb33-6" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(comparison_table, <span class="at">caption =</span> <span class="st">&quot;Comparação de Erros padrão&quot;</span>, <span class="at">align =</span> <span class="st">&#39;c&#39;</span>, <span class="at">format =</span> <span class="st">&quot;latex&quot;</span>)</span></code></pre></div>
 </div>
 <div id="cluster-randomization" class="section level3 hasAnchor" number="4.4.9">
 <h3><span class="header-section-number">4.4.9</span> Cluster randomization<a href="experimentos.html#cluster-randomization" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -761,14 +793,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Pequena diferença com os coeficientes da tabela</li>
 <li>Typo? Alguma informação não reproduz exatamente? Fizemos algo errado?</li>
 </ul>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="experimentos.html#cb33-1" tabindex="-1"></a>treatment <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">74</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">1217</span> <span class="sc">-</span> <span class="dv">74</span>))</span>
-<span id="cb33-2"><a href="experimentos.html#cb33-2" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">43</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">1217</span> <span class="sc">-</span> <span class="dv">43</span>))</span>
-<span id="cb33-3"><a href="experimentos.html#cb33-3" tabindex="-1"></a>var_treat <span class="ot">&lt;-</span> <span class="fu">var</span>(treatment) </span>
-<span id="cb33-4"><a href="experimentos.html#cb33-4" tabindex="-1"></a>var_control <span class="ot">&lt;-</span> <span class="fu">var</span>(control)</span>
-<span id="cb33-5"><a href="experimentos.html#cb33-5" tabindex="-1"></a>erro_padrao <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(var_treat<span class="sc">/</span><span class="dv">1217</span> <span class="sc">+</span> var_control<span class="sc">/</span><span class="dv">1217</span>)</span>
-<span id="cb33-6"><a href="experimentos.html#cb33-6" tabindex="-1"></a><span class="fu">round</span>(erro_padrao, <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="experimentos.html#cb34-1" tabindex="-1"></a>treatment <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">74</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">1217</span> <span class="sc">-</span> <span class="dv">74</span>))</span>
+<span id="cb34-2"><a href="experimentos.html#cb34-2" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">43</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">1217</span> <span class="sc">-</span> <span class="dv">43</span>))</span>
+<span id="cb34-3"><a href="experimentos.html#cb34-3" tabindex="-1"></a>var_treat <span class="ot">&lt;-</span> <span class="fu">var</span>(treatment) </span>
+<span id="cb34-4"><a href="experimentos.html#cb34-4" tabindex="-1"></a>var_control <span class="ot">&lt;-</span> <span class="fu">var</span>(control)</span>
+<span id="cb34-5"><a href="experimentos.html#cb34-5" tabindex="-1"></a>erro_padrao <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(var_treat<span class="sc">/</span><span class="dv">1217</span> <span class="sc">+</span> var_control<span class="sc">/</span><span class="dv">1217</span>)</span>
+<span id="cb34-6"><a href="experimentos.html#cb34-6" tabindex="-1"></a><span class="fu">round</span>(erro_padrao, <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>## [1] 0.00866</code></pre>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="experimentos.html#cb35-1" tabindex="-1"></a><span class="fu">t.test</span>(treatment, control)      </span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="experimentos.html#cb36-1" tabindex="-1"></a><span class="fu">t.test</span>(treatment, control)      </span></code></pre></div>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
@@ -800,13 +832,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Ou seja, você deve especificar um modelo, qual pergunta de pesquisa (aka estimando), quais dados vai utilizar e como vai estimar o estimando.</p>
 <p>Um modelo descreve o que causa o que e como. Tipicamente especifica as unidades, o tamanho da amostra e a equação de resultados potenciais.
 Suponha que quero rodar um experimento aleatório com um tratamento e controle (two-arm randomized experiment). Assim, podemos declarar um modelo com:</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="experimentos.html#cb37-1" tabindex="-1"></a><span class="fu">library</span>(DeclareDesign)</span>
-<span id="cb37-2"><a href="experimentos.html#cb37-2" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">declare_model</span>(</span>
-<span id="cb37-3"><a href="experimentos.html#cb37-3" tabindex="-1"></a>    <span class="at">N =</span> <span class="dv">500</span>,</span>
-<span id="cb37-4"><a href="experimentos.html#cb37-4" tabindex="-1"></a>    <span class="at">X =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">each =</span> N <span class="sc">/</span> <span class="dv">2</span>), <span class="co"># tratamento e controle</span></span>
-<span id="cb37-5"><a href="experimentos.html#cb37-5" tabindex="-1"></a>    <span class="at">U =</span> <span class="fu">rnorm</span>(N, <span class="at">sd =</span> <span class="fl">0.25</span>), <span class="co"># heterogeneidade exógena</span></span>
-<span id="cb37-6"><a href="experimentos.html#cb37-6" tabindex="-1"></a>    <span class="fu">potential_outcomes</span>(Y <span class="sc">~</span> <span class="fl">0.2</span> <span class="sc">*</span> Z <span class="sc">+</span> X <span class="sc">+</span> U)</span>
-<span id="cb37-7"><a href="experimentos.html#cb37-7" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="experimentos.html#cb38-1" tabindex="-1"></a><span class="fu">library</span>(DeclareDesign)</span>
+<span id="cb38-2"><a href="experimentos.html#cb38-2" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">declare_model</span>(</span>
+<span id="cb38-3"><a href="experimentos.html#cb38-3" tabindex="-1"></a>    <span class="at">N =</span> <span class="dv">500</span>,</span>
+<span id="cb38-4"><a href="experimentos.html#cb38-4" tabindex="-1"></a>    <span class="at">X =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">each =</span> N <span class="sc">/</span> <span class="dv">2</span>), <span class="co"># tratamento e controle</span></span>
+<span id="cb38-5"><a href="experimentos.html#cb38-5" tabindex="-1"></a>    <span class="at">U =</span> <span class="fu">rnorm</span>(N, <span class="at">sd =</span> <span class="fl">0.25</span>), <span class="co"># heterogeneidade exógena</span></span>
+<span id="cb38-6"><a href="experimentos.html#cb38-6" tabindex="-1"></a>    <span class="fu">potential_outcomes</span>(Y <span class="sc">~</span> <span class="fl">0.2</span> <span class="sc">*</span> Z <span class="sc">+</span> X <span class="sc">+</span> U)</span>
+<span id="cb38-7"><a href="experimentos.html#cb38-7" tabindex="-1"></a>)</span></code></pre></div>
 <p>Vamos entender o que fizemos.</p>
 <ol style="list-style-type: decimal">
 <li><p>Declaramos que nossa população terá <span class="math inline">\(500\)</span> observações: . Nesse exemplo, a amostra será igual à população, mas poderíamos amostrar da população se quiséssemos.</p></li>
@@ -816,20 +848,20 @@ Suponha que quero rodar um experimento aleatório com um tratamento e controle (
 </ol>
 <p>4.1. Além disso, <span class="math inline">\(X\)</span> tem efeito de <span class="math inline">\(1\)</span> para todas as unidades.</p>
 <p>Vamos passar agora ao nosso estimando ou <em>inquiry</em>.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="experimentos.html#cb38-1" tabindex="-1"></a>inquiry <span class="ot">&lt;-</span> <span class="fu">declare_inquiry</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="experimentos.html#cb39-1" tabindex="-1"></a>inquiry <span class="ot">&lt;-</span> <span class="fu">declare_inquiry</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span></code></pre></div>
 <p>Se estamos interessados no ATE, é só declarar que é a média da diferença entre os resultados potenciais. Podemos também usar a função
 Outras possibilidades incluem o ATT e CATE: , por exemplo. Formulação equivalente para o ATT seria .</p>
 <p>Estratégia de dados</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="experimentos.html#cb39-1" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">declare_assignment</span>(<span class="at">Z =</span> <span class="fu">complete_ra</span>(<span class="at">N =</span> N, <span class="at">m =</span> <span class="dv">250</span>)) <span class="sc">+</span> <span class="co"># assigment mechanism</span></span>
-<span id="cb39-2"><a href="experimentos.html#cb39-2" tabindex="-1"></a>  <span class="fu">declare_measurement</span>(<span class="at">Y =</span> <span class="fu">reveal_outcomes</span>(Y <span class="sc">~</span> Z)) <span class="co"># reveal_outcomes é a switching equation</span></span></code></pre></div>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="experimentos.html#cb40-1" tabindex="-1"></a>estimator <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z, <span class="at">inquiry =</span> <span class="st">&quot;ATE&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="experimentos.html#cb41-1" tabindex="-1"></a>two_arm_trial <span class="ot">&lt;-</span> model <span class="sc">+</span></span>
-<span id="cb41-2"><a href="experimentos.html#cb41-2" tabindex="-1"></a>  inquiry <span class="sc">+</span></span>
-<span id="cb41-3"><a href="experimentos.html#cb41-3" tabindex="-1"></a>  data <span class="sc">+</span></span>
-<span id="cb41-4"><a href="experimentos.html#cb41-4" tabindex="-1"></a>  estimator</span>
-<span id="cb41-5"><a href="experimentos.html#cb41-5" tabindex="-1"></a></span>
-<span id="cb41-6"><a href="experimentos.html#cb41-6" tabindex="-1"></a><span class="co"># Draw a simulated dataset </span></span>
-<span id="cb41-7"><a href="experimentos.html#cb41-7" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">draw_data</span>(two_arm_trial), <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="experimentos.html#cb40-1" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">declare_assignment</span>(<span class="at">Z =</span> <span class="fu">complete_ra</span>(<span class="at">N =</span> N, <span class="at">m =</span> <span class="dv">250</span>)) <span class="sc">+</span> <span class="co"># assigment mechanism</span></span>
+<span id="cb40-2"><a href="experimentos.html#cb40-2" tabindex="-1"></a>  <span class="fu">declare_measurement</span>(<span class="at">Y =</span> <span class="fu">reveal_outcomes</span>(Y <span class="sc">~</span> Z)) <span class="co"># reveal_outcomes é a switching equation</span></span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="experimentos.html#cb41-1" tabindex="-1"></a>estimator <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z, <span class="at">inquiry =</span> <span class="st">&quot;ATE&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="experimentos.html#cb42-1" tabindex="-1"></a>two_arm_trial <span class="ot">&lt;-</span> model <span class="sc">+</span></span>
+<span id="cb42-2"><a href="experimentos.html#cb42-2" tabindex="-1"></a>  inquiry <span class="sc">+</span></span>
+<span id="cb42-3"><a href="experimentos.html#cb42-3" tabindex="-1"></a>  data <span class="sc">+</span></span>
+<span id="cb42-4"><a href="experimentos.html#cb42-4" tabindex="-1"></a>  estimator</span>
+<span id="cb42-5"><a href="experimentos.html#cb42-5" tabindex="-1"></a></span>
+<span id="cb42-6"><a href="experimentos.html#cb42-6" tabindex="-1"></a><span class="co"># Draw a simulated dataset </span></span>
+<span id="cb42-7"><a href="experimentos.html#cb42-7" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">draw_data</span>(two_arm_trial), <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##     ID X            U        Y_Z_0       Y_Z_1 Z            Y
 ## 1  001 0  0.013136040  0.013136040  0.21313604 1  0.213136040
 ## 2  002 0  0.306059991  0.306059991  0.50605999 0  0.306059991
@@ -843,7 +875,7 @@ Outras possibilidades incluem o ATT e CATE: , por exemplo. Formulação equivale
 ## 10 010 0  0.195182802  0.195182802  0.39518280 1  0.395182802</code></pre>
 <p>Após declarar um desenho de pesquisa, podemos diagnosticar se nosso desenho de pesquisa pode ser respondido adequadamente (isto é, se é identificável, se possui poder para estimar com precisão o efeito de interesse etc.). Podemos inclusive modificar o desenho para responder a outras perguntas (é generalizável para outras populações, diferentes estimadores desempenham melhor etc.)</p>
 <p>Eis um exemplo de diagnóstico:</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="experimentos.html#cb43-1" tabindex="-1"></a><span class="fu">diagnose_design</span>(two_arm_trial, <span class="at">sims =</span> <span class="dv">100</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="experimentos.html#cb44-1" tabindex="-1"></a><span class="fu">diagnose_design</span>(two_arm_trial, <span class="at">sims =</span> <span class="dv">100</span>)</span></code></pre></div>
 <pre><code>## 
 ## Research design diagnosis based on 100 simulations. Diagnosis completed in 1 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).
 ## 
@@ -854,10 +886,10 @@ Outras possibilidades incluem o ATT e CATE: , por exemplo. Formulação equivale
 ##           0.20   0.00        0.05   0.05   0.99     0.95
 ##         (0.00) (0.00)      (0.00) (0.00) (0.01)   (0.02)</code></pre>
 <p>Podemos ajustar o desenho de pesquisa</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="experimentos.html#cb45-1" tabindex="-1"></a>designs <span class="ot">&lt;-</span> <span class="fu">redesign</span>(two_arm_trial, <span class="at">N =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">300</span>, <span class="dv">400</span>, <span class="dv">500</span>))</span>
-<span id="cb45-2"><a href="experimentos.html#cb45-2" tabindex="-1"></a><span class="fu">diagnose_design</span>(designs)</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="experimentos.html#cb46-1" tabindex="-1"></a>designs <span class="ot">&lt;-</span> <span class="fu">redesign</span>(two_arm_trial, <span class="at">N =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">300</span>, <span class="dv">400</span>, <span class="dv">500</span>))</span>
+<span id="cb46-2"><a href="experimentos.html#cb46-2" tabindex="-1"></a><span class="fu">diagnose_design</span>(designs)</span></code></pre></div>
 <pre><code>## 
-## Research design diagnosis based on 500 simulations. Diagnosis completed in 7 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).
+## Research design diagnosis based on 500 simulations. Diagnosis completed in 8 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).
 ## 
 ##    Design   N Inquiry Estimator Outcome Term N Sims Mean Estimand Mean Estimate
 ##  design_1 100     ATE estimator       Y    Z    500          0.20          0.20

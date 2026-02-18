@@ -23,14 +23,14 @@
 <meta name="author" content="Manoel Galdino" />
 
 
-<meta name="date" content="2026-02-17" />
+<meta name="date" content="2026-02-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="resumo-2.html"/>
+<link rel="prev" href="resumo-3.html"/>
 <link rel="next" href="interferência-spillover-e-dinâmica.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -388,13 +388,45 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.9" data-path="15-Shift-Share.html"><a href="#efeitos-aleat%C3%B3rios"><i class="fa fa-check"></i><b>9.9</b> Efeitos aleatórios</a></li>
 <li class="chapter" data-level="9.10" data-path="15-Shift-Share.html"><a href="#refer%C3%AAncias-7"><i class="fa fa-check"></i><b>9.10</b> Referências</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="synthetic-control.html"><a href="synthetic-control.html"><i class="fa fa-check"></i><b>10</b> Synthetic Control</a>
+<li class="chapter" data-level="10" data-path="15-Shift-Share.html"><a href="#controle-sint%C3%A9tico-e-estima%C3%A7%C3%A3o-contrafactual"><i class="fa fa-check"></i><b>10</b> Controle Sintético e Estimação Contrafactual</a>
 <ul>
-<li class="chapter" data-level="10.0.1" data-path="synthetic-control.html"><a href="synthetic-control.html#tratamento"><i class="fa fa-check"></i><b>10.0.1</b> Tratamento</a></li>
-<li class="chapter" data-level="10.1" data-path="15-Shift-Share.html"><a href="#implementa%C3%A7%C3%A3o-no-r"><i class="fa fa-check"></i><b>10.1</b> Implementação no R</a></li>
-<li class="chapter" data-level="10.2" data-path="synthetic-control.html"><a href="synthetic-control.html#synthetic-did"><i class="fa fa-check"></i><b>10.2</b> Synthetic DiD</a></li>
-<li class="chapter" data-level="10.3" data-path="15-Shift-Share.html"><a href="#resumo-e-pr%C3%B3ximos-passos-4"><i class="fa fa-check"></i><b>10.3</b> Resumo e próximos passos</a></li>
-<li class="chapter" data-level="10.4" data-path="15-Shift-Share.html"><a href="#refer%C3%AAncias-8"><i class="fa fa-check"></i><b>10.4</b> Referências</a></li>
+<li class="chapter" data-level="10.1" data-path="15-Shift-Share.html"><a href="#motiva%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>10.1</b> Motivação</a></li>
+<li class="chapter" data-level="10.2" data-path="15-Shift-Share.html"><a href="#controle-sint%C3%A9tico-cl%C3%A1ssico"><i class="fa fa-check"></i><b>10.2</b> Controle Sintético clássico</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="15-Shift-Share.html"><a href="#formaliza%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>10.2.1</b> Formalização</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="15-Shift-Share.html"><a href="#implementa%C3%A7%C3%A3o-do-scm-no-r"><i class="fa fa-check"></i><b>10.3</b> Implementação do SCM no R</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="15-Shift-Share.html"><a href="#infer%C3%AAncia-por-placebo"><i class="fa fa-check"></i><b>10.3.1</b> Inferência por placebo</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="15-Shift-Share.html"><a href="#framework-de-estima%C3%A7%C3%A3o-contrafactual"><i class="fa fa-check"></i><b>10.4</b> Framework de estimação contrafactual</a>
+<ul>
+<li class="chapter" data-level="10.4.1" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html"><i class="fa fa-check"></i><b>10.4.1</b> Setup</a></li>
+<li class="chapter" data-level="10.4.2" data-path="15-Shift-Share.html"><a href="#estrat%C3%A9gia-de-estima%C3%A7%C3%A3o-em-quatro-passos"><i class="fa fa-check"></i><b>10.4.2</b> Estratégia de estimação em quatro passos</a></li>
+<li class="chapter" data-level="10.4.3" data-path="15-Shift-Share.html"><a href="#suposi%C3%A7%C3%B5es-de-identifica%C3%A7%C3%A3o-1"><i class="fa fa-check"></i><b>10.4.3</b> Suposições de identificação</a></li>
+<li class="chapter" data-level="10.4.4" data-path="15-Shift-Share.html"><a href="#conex%C3%A3o-com-did"><i class="fa fa-check"></i><b>10.4.4</b> Conexão com DiD</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="15-Shift-Share.html"><a href="#tr%C3%AAs-estimadores-contrafactuais"><i class="fa fa-check"></i><b>10.5</b> Três estimadores contrafactuais</a>
+<ul>
+<li class="chapter" data-level="10.5.1" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#fect-efeitos-fixos"><i class="fa fa-check"></i><b>10.5.1</b> FEct: efeitos fixos</a></li>
+<li class="chapter" data-level="10.5.2" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#ifect-fatores-interativos"><i class="fa fa-check"></i><b>10.5.2</b> IFEct: fatores interativos</a></li>
+<li class="chapter" data-level="10.5.3" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#mc-matrix-completion"><i class="fa fa-check"></i><b>10.5.3</b> MC: Matrix Completion</a></li>
+<li class="chapter" data-level="10.5.4" data-path="15-Shift-Share.html"><a href="#demonstra%C3%A7%C3%A3o-com-dados-da-calif%C3%B3rnia"><i class="fa fa-check"></i><b>10.5.4</b> Demonstração com dados da Califórnia</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="15-Shift-Share.html"><a href="#diagn%C3%B3sticos"><i class="fa fa-check"></i><b>10.6</b> Diagnósticos</a>
+<ul>
+<li class="chapter" data-level="10.6.1" data-path="15-Shift-Share.html"><a href="#efeitos-din%C3%A2micos"><i class="fa fa-check"></i><b>10.6.1</b> Efeitos dinâmicos</a></li>
+<li class="chapter" data-level="10.6.2" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#placebo-test"><i class="fa fa-check"></i><b>10.6.2</b> Placebo test</a></li>
+<li class="chapter" data-level="10.6.3" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#teste-de-no-carryover"><i class="fa fa-check"></i><b>10.6.3</b> Teste de no-carryover</a></li>
+</ul></li>
+<li class="chapter" data-level="10.7" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#synthetic-did"><i class="fa fa-check"></i><b>10.7</b> Synthetic DiD</a>
+<ul>
+<li class="chapter" data-level="10.7.1" data-path="15-Shift-Share.html"><a href="#implementa%C3%A7%C3%A3o-no-r"><i class="fa fa-check"></i><b>10.7.1</b> Implementação no R</a></li>
+</ul></li>
+<li class="chapter" data-level="10.8" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#trop-estimador-triplamente-robusto"><i class="fa fa-check"></i><b>10.8</b> TROP: estimador triplamente robusto</a></li>
+<li class="chapter" data-level="10.9" data-path="15-Shift-Share.html"><a href="#quando-usar-cada-m%C3%A9todo-guia-pr%C3%A1tico"><i class="fa fa-check"></i><b>10.9</b> Quando usar cada método: guia prático</a></li>
+<li class="chapter" data-level="10.10" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#resumo-2"><i class="fa fa-check"></i><b>10.10</b> Resumo</a></li>
+<li class="chapter" data-level="10.11" data-path="15-Shift-Share.html"><a href="#refer%C3%AAncias-8"><i class="fa fa-check"></i><b>10.11</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="llms-e-outras.html"><a href="llms-e-outras.html"><i class="fa fa-check"></i><b>11</b> LLMs e outras</a>
 <ul>
@@ -416,22 +448,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="12.7" data-path="machine-learning.html"><a href="machine-learning.html#double-debiasing"><i class="fa fa-check"></i><b>12.7</b> Double Debiasing</a></li>
 <li class="chapter" data-level="12.8" data-path="machine-learning.html"><a href="machine-learning.html#cross-fitting"><i class="fa fa-check"></i><b>12.8</b> Cross-fitting</a></li>
 <li class="chapter" data-level="12.9" data-path="15-Shift-Share.html"><a href="#quest%C3%B5es-pr%C3%A1ticas"><i class="fa fa-check"></i><b>12.9</b> Questões Práticas</a></li>
-<li class="chapter" data-level="12.10" data-path="15-Shift-Share.html"><a href="#resumo-e-pr%C3%B3ximos-passos-5"><i class="fa fa-check"></i><b>12.10</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="12.10" data-path="15-Shift-Share.html"><a href="#resumo-e-pr%C3%B3ximos-passos-4"><i class="fa fa-check"></i><b>12.10</b> Resumo e próximos passos</a></li>
 <li class="chapter" data-level="12.11" data-path="15-Shift-Share.html"><a href="#refer%C3%AAncias-9"><i class="fa fa-check"></i><b>12.11</b> Referências</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="resumo-2.html"><a href="resumo-2.html"><i class="fa fa-check"></i><b>13</b> Resumo</a>
+<li class="chapter" data-level="13" data-path="resumo-3.html"><a href="resumo-3.html"><i class="fa fa-check"></i><b>13</b> Resumo</a>
 <ul>
-<li class="chapter" data-level="13.1" data-path="resumo-2.html"><a href="resumo-2.html#matching-2"><i class="fa fa-check"></i><b>13.1</b> Matching</a></li>
-<li class="chapter" data-level="13.2" data-path="resumo-2.html"><a href="resumo-2.html#iv"><i class="fa fa-check"></i><b>13.2</b> IV</a></li>
-<li class="chapter" data-level="13.3" data-path="resumo-2.html"><a href="resumo-2.html#rdd"><i class="fa fa-check"></i><b>13.3</b> RDD</a></li>
-<li class="chapter" data-level="13.4" data-path="resumo-2.html"><a href="resumo-2.html#did"><i class="fa fa-check"></i><b>13.4</b> DiD</a>
+<li class="chapter" data-level="13.1" data-path="resumo-3.html"><a href="resumo-3.html#matching-2"><i class="fa fa-check"></i><b>13.1</b> Matching</a></li>
+<li class="chapter" data-level="13.2" data-path="resumo-3.html"><a href="resumo-3.html#iv"><i class="fa fa-check"></i><b>13.2</b> IV</a></li>
+<li class="chapter" data-level="13.3" data-path="resumo-3.html"><a href="resumo-3.html#rdd"><i class="fa fa-check"></i><b>13.3</b> RDD</a></li>
+<li class="chapter" data-level="13.4" data-path="resumo-3.html"><a href="resumo-3.html#did"><i class="fa fa-check"></i><b>13.4</b> DiD</a>
 <ul>
-<li class="chapter" data-level="13.4.1" data-path="resumo-2.html"><a href="resumo-2.html#tscs"><i class="fa fa-check"></i><b>13.4.1</b> TSCS</a></li>
+<li class="chapter" data-level="13.4.1" data-path="resumo-3.html"><a href="resumo-3.html#tscs"><i class="fa fa-check"></i><b>13.4.1</b> TSCS</a></li>
 </ul></li>
-<li class="chapter" data-level="13.5" data-path="resumo-2.html"><a href="resumo-2.html#scm"><i class="fa fa-check"></i><b>13.5</b> SCM</a></li>
+<li class="chapter" data-level="13.5" data-path="resumo-3.html"><a href="resumo-3.html#scm"><i class="fa fa-check"></i><b>13.5</b> SCM</a></li>
 <li class="chapter" data-level="13.6" data-path="15-Shift-Share.html"><a href="#did-sint%C3%A9tico"><i class="fa fa-check"></i><b>13.6</b> DiD Sintético</a></li>
-<li class="chapter" data-level="13.7" data-path="resumo-2.html"><a href="resumo-2.html#double-lasso-1"><i class="fa fa-check"></i><b>13.7</b> Double LASSO</a></li>
-<li class="chapter" data-level="13.8" data-path="resumo-2.html"><a href="resumo-2.html#dml-1"><i class="fa fa-check"></i><b>13.8</b> DML</a></li>
+<li class="chapter" data-level="13.7" data-path="resumo-3.html"><a href="resumo-3.html#double-lasso-1"><i class="fa fa-check"></i><b>13.7</b> Double LASSO</a></li>
+<li class="chapter" data-level="13.8" data-path="resumo-3.html"><a href="resumo-3.html#dml-1"><i class="fa fa-check"></i><b>13.8</b> DML</a></li>
 </ul></li>
 <li class="chapter" data-level="14" data-path="shift-share.html"><a href="shift-share.html"><i class="fa fa-check"></i><b>14</b> Shift-share</a>
 <ul>
@@ -541,26 +573,26 @@ X_i = \underbrace{\sum_j w_{ij}\bar{D}_{j}}_{\text{PIB esperado}} + \underbrace{
 <div id="aplicação-pib-por-estado-e-setor" class="section level3 hasAnchor" number="14.1.1">
 <h3><span class="header-section-number">14.1.1</span> Aplicação: PIB por estado e setor<a href="#aplica%C3%A7%C3%A3o-pib-por-estado-e-setor" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Vamos aplicar essa decomposição a dados reais simplificados do IBGE. Consideramos cinco estados brasileiros representativos e três grandes setores (Agropecuária, Indústria e Serviços). Os dados abaixo são valores aproximados do Valor Adicionado Bruto e da estrutura de emprego.</p>
-<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="shift-share.html#cb186-1" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb186-2"><a href="shift-share.html#cb186-2" tabindex="-1"></a></span>
-<span id="cb186-3"><a href="shift-share.html#cb186-3" tabindex="-1"></a><span class="co"># Parcelas de emprego por setor (shares) — dados aproximados IBGE</span></span>
-<span id="cb186-4"><a href="shift-share.html#cb186-4" tabindex="-1"></a>pib_shares <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb186-5"><a href="shift-share.html#cb186-5" tabindex="-1"></a>  <span class="at">Estado =</span> <span class="fu">c</span>(<span class="st">&quot;SP&quot;</span>, <span class="st">&quot;MT&quot;</span>, <span class="st">&quot;RJ&quot;</span>, <span class="st">&quot;BA&quot;</span>, <span class="st">&quot;AM&quot;</span>),</span>
-<span id="cb186-6"><a href="shift-share.html#cb186-6" tabindex="-1"></a>  <span class="at">Agropecuaria =</span> <span class="fu">c</span>(<span class="fl">0.04</span>, <span class="fl">0.30</span>, <span class="fl">0.02</span>, <span class="fl">0.15</span>, <span class="fl">0.10</span>),</span>
-<span id="cb186-7"><a href="shift-share.html#cb186-7" tabindex="-1"></a>  <span class="at">Industria    =</span> <span class="fu">c</span>(<span class="fl">0.22</span>, <span class="fl">0.12</span>, <span class="fl">0.15</span>, <span class="fl">0.11</span>, <span class="fl">0.25</span>),</span>
-<span id="cb186-8"><a href="shift-share.html#cb186-8" tabindex="-1"></a>  <span class="at">Servicos     =</span> <span class="fu">c</span>(<span class="fl">0.74</span>, <span class="fl">0.58</span>, <span class="fl">0.83</span>, <span class="fl">0.74</span>, <span class="fl">0.65</span>)</span>
-<span id="cb186-9"><a href="shift-share.html#cb186-9" tabindex="-1"></a>)</span>
-<span id="cb186-10"><a href="shift-share.html#cb186-10" tabindex="-1"></a></span>
-<span id="cb186-11"><a href="shift-share.html#cb186-11" tabindex="-1"></a><span class="co"># PIB per capita setorial (R$ mil por trabalhador) — dados aproximados</span></span>
-<span id="cb186-12"><a href="shift-share.html#cb186-12" tabindex="-1"></a>pib_prod <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb186-13"><a href="shift-share.html#cb186-13" tabindex="-1"></a>  <span class="at">Estado =</span> <span class="fu">c</span>(<span class="st">&quot;SP&quot;</span>, <span class="st">&quot;MT&quot;</span>, <span class="st">&quot;RJ&quot;</span>, <span class="st">&quot;BA&quot;</span>, <span class="st">&quot;AM&quot;</span>),</span>
-<span id="cb186-14"><a href="shift-share.html#cb186-14" tabindex="-1"></a>  <span class="at">Agropecuaria =</span> <span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">100</span>, <span class="dv">35</span>, <span class="dv">25</span>, <span class="dv">20</span>),</span>
-<span id="cb186-15"><a href="shift-share.html#cb186-15" tabindex="-1"></a>  <span class="at">Industria    =</span> <span class="fu">c</span>(<span class="dv">80</span>, <span class="dv">60</span>, <span class="dv">85</span>, <span class="dv">50</span>, <span class="dv">70</span>),</span>
-<span id="cb186-16"><a href="shift-share.html#cb186-16" tabindex="-1"></a>  <span class="at">Servicos     =</span> <span class="fu">c</span>(<span class="dv">65</span>, <span class="dv">50</span>, <span class="dv">60</span>, <span class="dv">40</span>, <span class="dv">35</span>)</span>
-<span id="cb186-17"><a href="shift-share.html#cb186-17" tabindex="-1"></a>)</span>
-<span id="cb186-18"><a href="shift-share.html#cb186-18" tabindex="-1"></a></span>
-<span id="cb186-19"><a href="shift-share.html#cb186-19" tabindex="-1"></a><span class="fu">kable</span>(pib_shares, <span class="at">caption =</span> <span class="st">&quot;Parcelas de emprego por setor (shares)&quot;</span>,</span>
-<span id="cb186-20"><a href="shift-share.html#cb186-20" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Estado&quot;</span>, <span class="st">&quot;Agropecuária&quot;</span>, <span class="st">&quot;Indústria&quot;</span>, <span class="st">&quot;Serviços&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="shift-share.html#cb194-1" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb194-2"><a href="shift-share.html#cb194-2" tabindex="-1"></a></span>
+<span id="cb194-3"><a href="shift-share.html#cb194-3" tabindex="-1"></a><span class="co"># Parcelas de emprego por setor (shares) — dados aproximados IBGE</span></span>
+<span id="cb194-4"><a href="shift-share.html#cb194-4" tabindex="-1"></a>pib_shares <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb194-5"><a href="shift-share.html#cb194-5" tabindex="-1"></a>  <span class="at">Estado =</span> <span class="fu">c</span>(<span class="st">&quot;SP&quot;</span>, <span class="st">&quot;MT&quot;</span>, <span class="st">&quot;RJ&quot;</span>, <span class="st">&quot;BA&quot;</span>, <span class="st">&quot;AM&quot;</span>),</span>
+<span id="cb194-6"><a href="shift-share.html#cb194-6" tabindex="-1"></a>  <span class="at">Agropecuaria =</span> <span class="fu">c</span>(<span class="fl">0.04</span>, <span class="fl">0.30</span>, <span class="fl">0.02</span>, <span class="fl">0.15</span>, <span class="fl">0.10</span>),</span>
+<span id="cb194-7"><a href="shift-share.html#cb194-7" tabindex="-1"></a>  <span class="at">Industria    =</span> <span class="fu">c</span>(<span class="fl">0.22</span>, <span class="fl">0.12</span>, <span class="fl">0.15</span>, <span class="fl">0.11</span>, <span class="fl">0.25</span>),</span>
+<span id="cb194-8"><a href="shift-share.html#cb194-8" tabindex="-1"></a>  <span class="at">Servicos     =</span> <span class="fu">c</span>(<span class="fl">0.74</span>, <span class="fl">0.58</span>, <span class="fl">0.83</span>, <span class="fl">0.74</span>, <span class="fl">0.65</span>)</span>
+<span id="cb194-9"><a href="shift-share.html#cb194-9" tabindex="-1"></a>)</span>
+<span id="cb194-10"><a href="shift-share.html#cb194-10" tabindex="-1"></a></span>
+<span id="cb194-11"><a href="shift-share.html#cb194-11" tabindex="-1"></a><span class="co"># PIB per capita setorial (R$ mil por trabalhador) — dados aproximados</span></span>
+<span id="cb194-12"><a href="shift-share.html#cb194-12" tabindex="-1"></a>pib_prod <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb194-13"><a href="shift-share.html#cb194-13" tabindex="-1"></a>  <span class="at">Estado =</span> <span class="fu">c</span>(<span class="st">&quot;SP&quot;</span>, <span class="st">&quot;MT&quot;</span>, <span class="st">&quot;RJ&quot;</span>, <span class="st">&quot;BA&quot;</span>, <span class="st">&quot;AM&quot;</span>),</span>
+<span id="cb194-14"><a href="shift-share.html#cb194-14" tabindex="-1"></a>  <span class="at">Agropecuaria =</span> <span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">100</span>, <span class="dv">35</span>, <span class="dv">25</span>, <span class="dv">20</span>),</span>
+<span id="cb194-15"><a href="shift-share.html#cb194-15" tabindex="-1"></a>  <span class="at">Industria    =</span> <span class="fu">c</span>(<span class="dv">80</span>, <span class="dv">60</span>, <span class="dv">85</span>, <span class="dv">50</span>, <span class="dv">70</span>),</span>
+<span id="cb194-16"><a href="shift-share.html#cb194-16" tabindex="-1"></a>  <span class="at">Servicos     =</span> <span class="fu">c</span>(<span class="dv">65</span>, <span class="dv">50</span>, <span class="dv">60</span>, <span class="dv">40</span>, <span class="dv">35</span>)</span>
+<span id="cb194-17"><a href="shift-share.html#cb194-17" tabindex="-1"></a>)</span>
+<span id="cb194-18"><a href="shift-share.html#cb194-18" tabindex="-1"></a></span>
+<span id="cb194-19"><a href="shift-share.html#cb194-19" tabindex="-1"></a><span class="fu">kable</span>(pib_shares, <span class="at">caption =</span> <span class="st">&quot;Parcelas de emprego por setor (shares)&quot;</span>,</span>
+<span id="cb194-20"><a href="shift-share.html#cb194-20" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Estado&quot;</span>, <span class="st">&quot;Agropecuária&quot;</span>, <span class="st">&quot;Indústria&quot;</span>, <span class="st">&quot;Serviços&quot;</span>))</span></code></pre></div>
 <table>
 <caption><span id="tab:pib-dados">Table 14.1: </span>Parcelas de emprego por setor (shares)</caption>
 <thead>
@@ -604,8 +636,8 @@ X_i = \underbrace{\sum_j w_{ij}\bar{D}_{j}}_{\text{PIB esperado}} + \underbrace{
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="shift-share.html#cb187-1" tabindex="-1"></a><span class="fu">kable</span>(pib_prod, <span class="at">caption =</span> <span class="st">&quot;PIB per capita setorial (R$ mil por trabalhador)&quot;</span>,</span>
-<span id="cb187-2"><a href="shift-share.html#cb187-2" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Estado&quot;</span>, <span class="st">&quot;Agropecuária&quot;</span>, <span class="st">&quot;Indústria&quot;</span>, <span class="st">&quot;Serviços&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="shift-share.html#cb195-1" tabindex="-1"></a><span class="fu">kable</span>(pib_prod, <span class="at">caption =</span> <span class="st">&quot;PIB per capita setorial (R$ mil por trabalhador)&quot;</span>,</span>
+<span id="cb195-2"><a href="shift-share.html#cb195-2" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Estado&quot;</span>, <span class="st">&quot;Agropecuária&quot;</span>, <span class="st">&quot;Indústria&quot;</span>, <span class="st">&quot;Serviços&quot;</span>))</span></code></pre></div>
 <table>
 <caption><span id="tab:pib-dados">Table 14.1: </span>PIB per capita setorial (R$ mil por trabalhador)</caption>
 <thead>
@@ -650,28 +682,28 @@ X_i = \underbrace{\sum_j w_{ij}\bar{D}_{j}}_{\text{PIB esperado}} + \underbrace{
 </tbody>
 </table>
 <p>Agora aplicamos a decomposição. O PIB per capita de cada estado é <span class="math inline">\(X_i = \sum_j w_{ij}D_{ij}\)</span>, e calculamos a média nacional <span class="math inline">\(\bar{D}_j\)</span> para cada setor:</p>
-<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="shift-share.html#cb188-1" tabindex="-1"></a><span class="co"># Médias nacionais por setor (média simples dos 5 estados)</span></span>
-<span id="cb188-2"><a href="shift-share.html#cb188-2" tabindex="-1"></a>D_bar <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(pib_prod[, <span class="sc">-</span><span class="dv">1</span>])</span>
-<span id="cb188-3"><a href="shift-share.html#cb188-3" tabindex="-1"></a></span>
-<span id="cb188-4"><a href="shift-share.html#cb188-4" tabindex="-1"></a><span class="co"># PIB per capita total de cada estado</span></span>
-<span id="cb188-5"><a href="shift-share.html#cb188-5" tabindex="-1"></a>pib_total <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(pib_shares[, <span class="sc">-</span><span class="dv">1</span>] <span class="sc">*</span> pib_prod[, <span class="sc">-</span><span class="dv">1</span>])</span>
-<span id="cb188-6"><a href="shift-share.html#cb188-6" tabindex="-1"></a></span>
-<span id="cb188-7"><a href="shift-share.html#cb188-7" tabindex="-1"></a><span class="co"># Componente 1: PIB esperado (shares × média nacional)</span></span>
-<span id="cb188-8"><a href="shift-share.html#cb188-8" tabindex="-1"></a>pib_esperado <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.matrix</span>(pib_shares[, <span class="sc">-</span><span class="dv">1</span>]) <span class="sc">%*%</span> D_bar)</span>
-<span id="cb188-9"><a href="shift-share.html#cb188-9" tabindex="-1"></a></span>
-<span id="cb188-10"><a href="shift-share.html#cb188-10" tabindex="-1"></a><span class="co"># Componente 2: Choque regional</span></span>
-<span id="cb188-11"><a href="shift-share.html#cb188-11" tabindex="-1"></a>choque_regional <span class="ot">&lt;-</span> pib_total <span class="sc">-</span> pib_esperado</span>
-<span id="cb188-12"><a href="shift-share.html#cb188-12" tabindex="-1"></a></span>
-<span id="cb188-13"><a href="shift-share.html#cb188-13" tabindex="-1"></a>resultado_pib <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb188-14"><a href="shift-share.html#cb188-14" tabindex="-1"></a>  <span class="at">Estado =</span> pib_shares<span class="sc">$</span>Estado,</span>
-<span id="cb188-15"><a href="shift-share.html#cb188-15" tabindex="-1"></a>  <span class="at">PIB_total =</span> <span class="fu">round</span>(pib_total, <span class="dv">1</span>),</span>
-<span id="cb188-16"><a href="shift-share.html#cb188-16" tabindex="-1"></a>  <span class="at">PIB_esperado =</span> <span class="fu">round</span>(pib_esperado, <span class="dv">1</span>),</span>
-<span id="cb188-17"><a href="shift-share.html#cb188-17" tabindex="-1"></a>  <span class="at">Choque_regional =</span> <span class="fu">round</span>(choque_regional, <span class="dv">1</span>)</span>
-<span id="cb188-18"><a href="shift-share.html#cb188-18" tabindex="-1"></a>)</span>
-<span id="cb188-19"><a href="shift-share.html#cb188-19" tabindex="-1"></a></span>
-<span id="cb188-20"><a href="shift-share.html#cb188-20" tabindex="-1"></a><span class="fu">kable</span>(resultado_pib,</span>
-<span id="cb188-21"><a href="shift-share.html#cb188-21" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">&quot;Decomposição shift-share do PIB per capita (R$ mil)&quot;</span>,</span>
-<span id="cb188-22"><a href="shift-share.html#cb188-22" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Estado&quot;</span>, <span class="st">&quot;PIB total&quot;</span>, <span class="st">&quot;PIB esperado&quot;</span>, <span class="st">&quot;Choque regional&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="shift-share.html#cb196-1" tabindex="-1"></a><span class="co"># Médias nacionais por setor (média simples dos 5 estados)</span></span>
+<span id="cb196-2"><a href="shift-share.html#cb196-2" tabindex="-1"></a>D_bar <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(pib_prod[, <span class="sc">-</span><span class="dv">1</span>])</span>
+<span id="cb196-3"><a href="shift-share.html#cb196-3" tabindex="-1"></a></span>
+<span id="cb196-4"><a href="shift-share.html#cb196-4" tabindex="-1"></a><span class="co"># PIB per capita total de cada estado</span></span>
+<span id="cb196-5"><a href="shift-share.html#cb196-5" tabindex="-1"></a>pib_total <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(pib_shares[, <span class="sc">-</span><span class="dv">1</span>] <span class="sc">*</span> pib_prod[, <span class="sc">-</span><span class="dv">1</span>])</span>
+<span id="cb196-6"><a href="shift-share.html#cb196-6" tabindex="-1"></a></span>
+<span id="cb196-7"><a href="shift-share.html#cb196-7" tabindex="-1"></a><span class="co"># Componente 1: PIB esperado (shares × média nacional)</span></span>
+<span id="cb196-8"><a href="shift-share.html#cb196-8" tabindex="-1"></a>pib_esperado <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.matrix</span>(pib_shares[, <span class="sc">-</span><span class="dv">1</span>]) <span class="sc">%*%</span> D_bar)</span>
+<span id="cb196-9"><a href="shift-share.html#cb196-9" tabindex="-1"></a></span>
+<span id="cb196-10"><a href="shift-share.html#cb196-10" tabindex="-1"></a><span class="co"># Componente 2: Choque regional</span></span>
+<span id="cb196-11"><a href="shift-share.html#cb196-11" tabindex="-1"></a>choque_regional <span class="ot">&lt;-</span> pib_total <span class="sc">-</span> pib_esperado</span>
+<span id="cb196-12"><a href="shift-share.html#cb196-12" tabindex="-1"></a></span>
+<span id="cb196-13"><a href="shift-share.html#cb196-13" tabindex="-1"></a>resultado_pib <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb196-14"><a href="shift-share.html#cb196-14" tabindex="-1"></a>  <span class="at">Estado =</span> pib_shares<span class="sc">$</span>Estado,</span>
+<span id="cb196-15"><a href="shift-share.html#cb196-15" tabindex="-1"></a>  <span class="at">PIB_total =</span> <span class="fu">round</span>(pib_total, <span class="dv">1</span>),</span>
+<span id="cb196-16"><a href="shift-share.html#cb196-16" tabindex="-1"></a>  <span class="at">PIB_esperado =</span> <span class="fu">round</span>(pib_esperado, <span class="dv">1</span>),</span>
+<span id="cb196-17"><a href="shift-share.html#cb196-17" tabindex="-1"></a>  <span class="at">Choque_regional =</span> <span class="fu">round</span>(choque_regional, <span class="dv">1</span>)</span>
+<span id="cb196-18"><a href="shift-share.html#cb196-18" tabindex="-1"></a>)</span>
+<span id="cb196-19"><a href="shift-share.html#cb196-19" tabindex="-1"></a></span>
+<span id="cb196-20"><a href="shift-share.html#cb196-20" tabindex="-1"></a><span class="fu">kable</span>(resultado_pib,</span>
+<span id="cb196-21"><a href="shift-share.html#cb196-21" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">&quot;Decomposição shift-share do PIB per capita (R$ mil)&quot;</span>,</span>
+<span id="cb196-22"><a href="shift-share.html#cb196-22" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Estado&quot;</span>, <span class="st">&quot;PIB total&quot;</span>, <span class="st">&quot;PIB esperado&quot;</span>, <span class="st">&quot;Choque regional&quot;</span>))</span></code></pre></div>
 <table>
 <caption><span id="tab:pib-decomposicao">Table 14.2: </span>Decomposição shift-share do PIB per capita (R$ mil)</caption>
 <thead>
@@ -764,43 +796,43 @@ X_{it} &amp;= \sum_j w_{ij0} \, D_{ijt} + \sum_j (w_{ijt} - w_{ij0}) \, D_{ijt} 
 <h3><span class="header-section-number">14.3.1</span> Aplicação: Eleições presidenciais 2014→2018<a href="#aplica%C3%A7%C3%A3o-elei%C3%A7%C3%B5es-presidenciais-20142018" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Vamos aplicar a decomposição temporal a dados reais da política brasileira, usando os resultados do primeiro turno das eleições presidenciais de 2014 (Dilma Rousseff, PT) e 2018 (Fernando Haddad, PT). A queda do PT entre essas duas eleições — de cerca de 41% para 29% dos votos válidos nacionalmente — é um dos maiores realinhamentos eleitorais recentes no Brasil, impulsionado pela crise econômica e pela Operação Lava-Jato.</p>
 <p>Agrupamos os candidatos em três blocos: PT, PSDB e Outros.</p>
-<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="shift-share.html#cb189-1" tabindex="-1"></a><span class="co"># Dados aproximados do TSE: votação 1º turno por UF (% votos válidos)</span></span>
-<span id="cb189-2"><a href="shift-share.html#cb189-2" tabindex="-1"></a><span class="co"># 2014: Dilma (PT), Aécio (PSDB), Marina+outros</span></span>
-<span id="cb189-3"><a href="shift-share.html#cb189-3" tabindex="-1"></a><span class="co"># 2018: Haddad (PT), Alckmin (PSDB), Bolsonaro+Ciro+outros</span></span>
-<span id="cb189-4"><a href="shift-share.html#cb189-4" tabindex="-1"></a></span>
-<span id="cb189-5"><a href="shift-share.html#cb189-5" tabindex="-1"></a>eleicoes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb189-6"><a href="shift-share.html#cb189-6" tabindex="-1"></a>  <span class="at">UF =</span> <span class="fu">c</span>(<span class="st">&quot;AC&quot;</span>,<span class="st">&quot;AL&quot;</span>,<span class="st">&quot;AM&quot;</span>,<span class="st">&quot;AP&quot;</span>,<span class="st">&quot;BA&quot;</span>,<span class="st">&quot;CE&quot;</span>,<span class="st">&quot;DF&quot;</span>,<span class="st">&quot;ES&quot;</span>,<span class="st">&quot;GO&quot;</span>,<span class="st">&quot;MA&quot;</span>,</span>
-<span id="cb189-7"><a href="shift-share.html#cb189-7" tabindex="-1"></a>         <span class="st">&quot;MG&quot;</span>,<span class="st">&quot;MS&quot;</span>,<span class="st">&quot;MT&quot;</span>,<span class="st">&quot;PA&quot;</span>,<span class="st">&quot;PB&quot;</span>,<span class="st">&quot;PE&quot;</span>,<span class="st">&quot;PI&quot;</span>,<span class="st">&quot;PR&quot;</span>,<span class="st">&quot;RJ&quot;</span>,<span class="st">&quot;RN&quot;</span>,</span>
-<span id="cb189-8"><a href="shift-share.html#cb189-8" tabindex="-1"></a>         <span class="st">&quot;RO&quot;</span>,<span class="st">&quot;RR&quot;</span>,<span class="st">&quot;RS&quot;</span>,<span class="st">&quot;SC&quot;</span>,<span class="st">&quot;SE&quot;</span>,<span class="st">&quot;SP&quot;</span>,<span class="st">&quot;TO&quot;</span>),</span>
-<span id="cb189-9"><a href="shift-share.html#cb189-9" tabindex="-1"></a>  <span class="at">PT_2014  =</span> <span class="fu">c</span>(<span class="dv">55</span>,<span class="dv">64</span>,<span class="dv">62</span>,<span class="dv">54</span>,<span class="dv">66</span>,<span class="dv">62</span>,<span class="dv">36</span>,<span class="dv">44</span>,<span class="dv">33</span>,<span class="dv">65</span>,</span>
-<span id="cb189-10"><a href="shift-share.html#cb189-10" tabindex="-1"></a>               <span class="dv">47</span>,<span class="dv">36</span>,<span class="dv">36</span>,<span class="dv">56</span>,<span class="dv">63</span>,<span class="dv">62</span>,<span class="dv">63</span>,<span class="dv">33</span>,<span class="dv">40</span>,<span class="dv">61</span>,</span>
-<span id="cb189-11"><a href="shift-share.html#cb189-11" tabindex="-1"></a>               <span class="dv">35</span>,<span class="dv">42</span>,<span class="dv">37</span>,<span class="dv">26</span>,<span class="dv">57</span>,<span class="dv">31</span>,<span class="dv">50</span>),</span>
-<span id="cb189-12"><a href="shift-share.html#cb189-12" tabindex="-1"></a>  <span class="at">PSDB_2014 =</span> <span class="fu">c</span>(<span class="dv">27</span>,<span class="dv">18</span>,<span class="dv">22</span>,<span class="dv">25</span>,<span class="dv">15</span>,<span class="dv">20</span>,<span class="dv">40</span>,<span class="dv">37</span>,<span class="dv">48</span>,<span class="dv">17</span>,</span>
-<span id="cb189-13"><a href="shift-share.html#cb189-13" tabindex="-1"></a>                <span class="dv">34</span>,<span class="dv">44</span>,<span class="dv">44</span>,<span class="dv">26</span>,<span class="dv">20</span>,<span class="dv">20</span>,<span class="dv">19</span>,<span class="dv">49</span>,<span class="dv">39</span>,<span class="dv">21</span>,</span>
-<span id="cb189-14"><a href="shift-share.html#cb189-14" tabindex="-1"></a>                <span class="dv">45</span>,<span class="dv">36</span>,<span class="dv">44</span>,<span class="dv">55</span>,<span class="dv">24</span>,<span class="dv">49</span>,<span class="dv">31</span>),</span>
-<span id="cb189-15"><a href="shift-share.html#cb189-15" tabindex="-1"></a>  <span class="at">Outros_2014 =</span> <span class="fu">c</span>(<span class="dv">18</span>,<span class="dv">18</span>,<span class="dv">16</span>,<span class="dv">21</span>,<span class="dv">19</span>,<span class="dv">18</span>,<span class="dv">24</span>,<span class="dv">19</span>,<span class="dv">19</span>,<span class="dv">18</span>,</span>
-<span id="cb189-16"><a href="shift-share.html#cb189-16" tabindex="-1"></a>                  <span class="dv">19</span>,<span class="dv">20</span>,<span class="dv">20</span>,<span class="dv">18</span>,<span class="dv">17</span>,<span class="dv">18</span>,<span class="dv">18</span>,<span class="dv">18</span>,<span class="dv">21</span>,<span class="dv">18</span>,</span>
-<span id="cb189-17"><a href="shift-share.html#cb189-17" tabindex="-1"></a>                  <span class="dv">20</span>,<span class="dv">22</span>,<span class="dv">19</span>,<span class="dv">19</span>,<span class="dv">19</span>,<span class="dv">20</span>,<span class="dv">19</span>),</span>
-<span id="cb189-18"><a href="shift-share.html#cb189-18" tabindex="-1"></a>  <span class="at">PT_2018  =</span> <span class="fu">c</span>(<span class="dv">35</span>,<span class="dv">53</span>,<span class="dv">43</span>,<span class="dv">40</span>,<span class="dv">60</span>,<span class="dv">55</span>,<span class="dv">15</span>,<span class="dv">25</span>,<span class="dv">14</span>,<span class="dv">55</span>,</span>
-<span id="cb189-19"><a href="shift-share.html#cb189-19" tabindex="-1"></a>               <span class="dv">33</span>,<span class="dv">17</span>,<span class="dv">16</span>,<span class="dv">44</span>,<span class="dv">52</span>,<span class="dv">47</span>,<span class="dv">54</span>,<span class="dv">14</span>,<span class="dv">21</span>,<span class="dv">50</span>,</span>
-<span id="cb189-20"><a href="shift-share.html#cb189-20" tabindex="-1"></a>               <span class="dv">14</span>,<span class="dv">22</span>,<span class="dv">19</span>,<span class="dv">10</span>,<span class="dv">48</span>,<span class="dv">16</span>,<span class="dv">33</span>),</span>
-<span id="cb189-21"><a href="shift-share.html#cb189-21" tabindex="-1"></a>  <span class="at">PSDB_2018 =</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">7</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">2</span>,</span>
-<span id="cb189-22"><a href="shift-share.html#cb189-22" tabindex="-1"></a>                <span class="dv">7</span>,<span class="dv">6</span>,<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">8</span>,<span class="dv">5</span>,<span class="dv">3</span>,</span>
-<span id="cb189-23"><a href="shift-share.html#cb189-23" tabindex="-1"></a>                <span class="dv">6</span>,<span class="dv">6</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">3</span>,<span class="dv">8</span>,<span class="dv">4</span>),</span>
-<span id="cb189-24"><a href="shift-share.html#cb189-24" tabindex="-1"></a>  <span class="at">Outros_2018 =</span> <span class="fu">c</span>(<span class="dv">60</span>,<span class="dv">44</span>,<span class="dv">52</span>,<span class="dv">56</span>,<span class="dv">38</span>,<span class="dv">42</span>,<span class="dv">78</span>,<span class="dv">69</span>,<span class="dv">79</span>,<span class="dv">43</span>,</span>
-<span id="cb189-25"><a href="shift-share.html#cb189-25" tabindex="-1"></a>                  <span class="dv">60</span>,<span class="dv">77</span>,<span class="dv">79</span>,<span class="dv">52</span>,<span class="dv">45</span>,<span class="dv">50</span>,<span class="dv">44</span>,<span class="dv">78</span>,<span class="dv">74</span>,<span class="dv">47</span>,</span>
-<span id="cb189-26"><a href="shift-share.html#cb189-26" tabindex="-1"></a>                  <span class="dv">80</span>,<span class="dv">72</span>,<span class="dv">75</span>,<span class="dv">83</span>,<span class="dv">49</span>,<span class="dv">76</span>,<span class="dv">63</span>)</span>
-<span id="cb189-27"><a href="shift-share.html#cb189-27" tabindex="-1"></a>)</span>
-<span id="cb189-28"><a href="shift-share.html#cb189-28" tabindex="-1"></a></span>
-<span id="cb189-29"><a href="shift-share.html#cb189-29" tabindex="-1"></a><span class="co"># Mostrar tabela resumo para estados selecionados</span></span>
-<span id="cb189-30"><a href="shift-share.html#cb189-30" tabindex="-1"></a>estados_sel <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;SP&quot;</span>,<span class="st">&quot;RJ&quot;</span>,<span class="st">&quot;MG&quot;</span>,<span class="st">&quot;BA&quot;</span>,<span class="st">&quot;CE&quot;</span>,<span class="st">&quot;RS&quot;</span>,<span class="st">&quot;PR&quot;</span>,<span class="st">&quot;PA&quot;</span>,<span class="st">&quot;PE&quot;</span>,<span class="st">&quot;MT&quot;</span>)</span>
-<span id="cb189-31"><a href="shift-share.html#cb189-31" tabindex="-1"></a>tab_sel <span class="ot">&lt;-</span> eleicoes[eleicoes<span class="sc">$</span>UF <span class="sc">%in%</span> estados_sel, ]</span>
-<span id="cb189-32"><a href="shift-share.html#cb189-32" tabindex="-1"></a>tab_sel <span class="ot">&lt;-</span> tab_sel[<span class="fu">match</span>(estados_sel, tab_sel<span class="sc">$</span>UF), ]</span>
-<span id="cb189-33"><a href="shift-share.html#cb189-33" tabindex="-1"></a></span>
-<span id="cb189-34"><a href="shift-share.html#cb189-34" tabindex="-1"></a><span class="fu">kable</span>(tab_sel, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb189-35"><a href="shift-share.html#cb189-35" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">&quot;Votação 1º turno (% votos válidos) — estados selecionados&quot;</span>,</span>
-<span id="cb189-36"><a href="shift-share.html#cb189-36" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;UF&quot;</span>, <span class="st">&quot;PT 2014&quot;</span>, <span class="st">&quot;PSDB 2014&quot;</span>, <span class="st">&quot;Outros 2014&quot;</span>,</span>
-<span id="cb189-37"><a href="shift-share.html#cb189-37" tabindex="-1"></a>                     <span class="st">&quot;PT 2018&quot;</span>, <span class="st">&quot;PSDB 2018&quot;</span>, <span class="st">&quot;Outros 2018&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="shift-share.html#cb197-1" tabindex="-1"></a><span class="co"># Dados aproximados do TSE: votação 1º turno por UF (% votos válidos)</span></span>
+<span id="cb197-2"><a href="shift-share.html#cb197-2" tabindex="-1"></a><span class="co"># 2014: Dilma (PT), Aécio (PSDB), Marina+outros</span></span>
+<span id="cb197-3"><a href="shift-share.html#cb197-3" tabindex="-1"></a><span class="co"># 2018: Haddad (PT), Alckmin (PSDB), Bolsonaro+Ciro+outros</span></span>
+<span id="cb197-4"><a href="shift-share.html#cb197-4" tabindex="-1"></a></span>
+<span id="cb197-5"><a href="shift-share.html#cb197-5" tabindex="-1"></a>eleicoes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb197-6"><a href="shift-share.html#cb197-6" tabindex="-1"></a>  <span class="at">UF =</span> <span class="fu">c</span>(<span class="st">&quot;AC&quot;</span>,<span class="st">&quot;AL&quot;</span>,<span class="st">&quot;AM&quot;</span>,<span class="st">&quot;AP&quot;</span>,<span class="st">&quot;BA&quot;</span>,<span class="st">&quot;CE&quot;</span>,<span class="st">&quot;DF&quot;</span>,<span class="st">&quot;ES&quot;</span>,<span class="st">&quot;GO&quot;</span>,<span class="st">&quot;MA&quot;</span>,</span>
+<span id="cb197-7"><a href="shift-share.html#cb197-7" tabindex="-1"></a>         <span class="st">&quot;MG&quot;</span>,<span class="st">&quot;MS&quot;</span>,<span class="st">&quot;MT&quot;</span>,<span class="st">&quot;PA&quot;</span>,<span class="st">&quot;PB&quot;</span>,<span class="st">&quot;PE&quot;</span>,<span class="st">&quot;PI&quot;</span>,<span class="st">&quot;PR&quot;</span>,<span class="st">&quot;RJ&quot;</span>,<span class="st">&quot;RN&quot;</span>,</span>
+<span id="cb197-8"><a href="shift-share.html#cb197-8" tabindex="-1"></a>         <span class="st">&quot;RO&quot;</span>,<span class="st">&quot;RR&quot;</span>,<span class="st">&quot;RS&quot;</span>,<span class="st">&quot;SC&quot;</span>,<span class="st">&quot;SE&quot;</span>,<span class="st">&quot;SP&quot;</span>,<span class="st">&quot;TO&quot;</span>),</span>
+<span id="cb197-9"><a href="shift-share.html#cb197-9" tabindex="-1"></a>  <span class="at">PT_2014  =</span> <span class="fu">c</span>(<span class="dv">55</span>,<span class="dv">64</span>,<span class="dv">62</span>,<span class="dv">54</span>,<span class="dv">66</span>,<span class="dv">62</span>,<span class="dv">36</span>,<span class="dv">44</span>,<span class="dv">33</span>,<span class="dv">65</span>,</span>
+<span id="cb197-10"><a href="shift-share.html#cb197-10" tabindex="-1"></a>               <span class="dv">47</span>,<span class="dv">36</span>,<span class="dv">36</span>,<span class="dv">56</span>,<span class="dv">63</span>,<span class="dv">62</span>,<span class="dv">63</span>,<span class="dv">33</span>,<span class="dv">40</span>,<span class="dv">61</span>,</span>
+<span id="cb197-11"><a href="shift-share.html#cb197-11" tabindex="-1"></a>               <span class="dv">35</span>,<span class="dv">42</span>,<span class="dv">37</span>,<span class="dv">26</span>,<span class="dv">57</span>,<span class="dv">31</span>,<span class="dv">50</span>),</span>
+<span id="cb197-12"><a href="shift-share.html#cb197-12" tabindex="-1"></a>  <span class="at">PSDB_2014 =</span> <span class="fu">c</span>(<span class="dv">27</span>,<span class="dv">18</span>,<span class="dv">22</span>,<span class="dv">25</span>,<span class="dv">15</span>,<span class="dv">20</span>,<span class="dv">40</span>,<span class="dv">37</span>,<span class="dv">48</span>,<span class="dv">17</span>,</span>
+<span id="cb197-13"><a href="shift-share.html#cb197-13" tabindex="-1"></a>                <span class="dv">34</span>,<span class="dv">44</span>,<span class="dv">44</span>,<span class="dv">26</span>,<span class="dv">20</span>,<span class="dv">20</span>,<span class="dv">19</span>,<span class="dv">49</span>,<span class="dv">39</span>,<span class="dv">21</span>,</span>
+<span id="cb197-14"><a href="shift-share.html#cb197-14" tabindex="-1"></a>                <span class="dv">45</span>,<span class="dv">36</span>,<span class="dv">44</span>,<span class="dv">55</span>,<span class="dv">24</span>,<span class="dv">49</span>,<span class="dv">31</span>),</span>
+<span id="cb197-15"><a href="shift-share.html#cb197-15" tabindex="-1"></a>  <span class="at">Outros_2014 =</span> <span class="fu">c</span>(<span class="dv">18</span>,<span class="dv">18</span>,<span class="dv">16</span>,<span class="dv">21</span>,<span class="dv">19</span>,<span class="dv">18</span>,<span class="dv">24</span>,<span class="dv">19</span>,<span class="dv">19</span>,<span class="dv">18</span>,</span>
+<span id="cb197-16"><a href="shift-share.html#cb197-16" tabindex="-1"></a>                  <span class="dv">19</span>,<span class="dv">20</span>,<span class="dv">20</span>,<span class="dv">18</span>,<span class="dv">17</span>,<span class="dv">18</span>,<span class="dv">18</span>,<span class="dv">18</span>,<span class="dv">21</span>,<span class="dv">18</span>,</span>
+<span id="cb197-17"><a href="shift-share.html#cb197-17" tabindex="-1"></a>                  <span class="dv">20</span>,<span class="dv">22</span>,<span class="dv">19</span>,<span class="dv">19</span>,<span class="dv">19</span>,<span class="dv">20</span>,<span class="dv">19</span>),</span>
+<span id="cb197-18"><a href="shift-share.html#cb197-18" tabindex="-1"></a>  <span class="at">PT_2018  =</span> <span class="fu">c</span>(<span class="dv">35</span>,<span class="dv">53</span>,<span class="dv">43</span>,<span class="dv">40</span>,<span class="dv">60</span>,<span class="dv">55</span>,<span class="dv">15</span>,<span class="dv">25</span>,<span class="dv">14</span>,<span class="dv">55</span>,</span>
+<span id="cb197-19"><a href="shift-share.html#cb197-19" tabindex="-1"></a>               <span class="dv">33</span>,<span class="dv">17</span>,<span class="dv">16</span>,<span class="dv">44</span>,<span class="dv">52</span>,<span class="dv">47</span>,<span class="dv">54</span>,<span class="dv">14</span>,<span class="dv">21</span>,<span class="dv">50</span>,</span>
+<span id="cb197-20"><a href="shift-share.html#cb197-20" tabindex="-1"></a>               <span class="dv">14</span>,<span class="dv">22</span>,<span class="dv">19</span>,<span class="dv">10</span>,<span class="dv">48</span>,<span class="dv">16</span>,<span class="dv">33</span>),</span>
+<span id="cb197-21"><a href="shift-share.html#cb197-21" tabindex="-1"></a>  <span class="at">PSDB_2018 =</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">7</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">2</span>,</span>
+<span id="cb197-22"><a href="shift-share.html#cb197-22" tabindex="-1"></a>                <span class="dv">7</span>,<span class="dv">6</span>,<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">8</span>,<span class="dv">5</span>,<span class="dv">3</span>,</span>
+<span id="cb197-23"><a href="shift-share.html#cb197-23" tabindex="-1"></a>                <span class="dv">6</span>,<span class="dv">6</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">3</span>,<span class="dv">8</span>,<span class="dv">4</span>),</span>
+<span id="cb197-24"><a href="shift-share.html#cb197-24" tabindex="-1"></a>  <span class="at">Outros_2018 =</span> <span class="fu">c</span>(<span class="dv">60</span>,<span class="dv">44</span>,<span class="dv">52</span>,<span class="dv">56</span>,<span class="dv">38</span>,<span class="dv">42</span>,<span class="dv">78</span>,<span class="dv">69</span>,<span class="dv">79</span>,<span class="dv">43</span>,</span>
+<span id="cb197-25"><a href="shift-share.html#cb197-25" tabindex="-1"></a>                  <span class="dv">60</span>,<span class="dv">77</span>,<span class="dv">79</span>,<span class="dv">52</span>,<span class="dv">45</span>,<span class="dv">50</span>,<span class="dv">44</span>,<span class="dv">78</span>,<span class="dv">74</span>,<span class="dv">47</span>,</span>
+<span id="cb197-26"><a href="shift-share.html#cb197-26" tabindex="-1"></a>                  <span class="dv">80</span>,<span class="dv">72</span>,<span class="dv">75</span>,<span class="dv">83</span>,<span class="dv">49</span>,<span class="dv">76</span>,<span class="dv">63</span>)</span>
+<span id="cb197-27"><a href="shift-share.html#cb197-27" tabindex="-1"></a>)</span>
+<span id="cb197-28"><a href="shift-share.html#cb197-28" tabindex="-1"></a></span>
+<span id="cb197-29"><a href="shift-share.html#cb197-29" tabindex="-1"></a><span class="co"># Mostrar tabela resumo para estados selecionados</span></span>
+<span id="cb197-30"><a href="shift-share.html#cb197-30" tabindex="-1"></a>estados_sel <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;SP&quot;</span>,<span class="st">&quot;RJ&quot;</span>,<span class="st">&quot;MG&quot;</span>,<span class="st">&quot;BA&quot;</span>,<span class="st">&quot;CE&quot;</span>,<span class="st">&quot;RS&quot;</span>,<span class="st">&quot;PR&quot;</span>,<span class="st">&quot;PA&quot;</span>,<span class="st">&quot;PE&quot;</span>,<span class="st">&quot;MT&quot;</span>)</span>
+<span id="cb197-31"><a href="shift-share.html#cb197-31" tabindex="-1"></a>tab_sel <span class="ot">&lt;-</span> eleicoes[eleicoes<span class="sc">$</span>UF <span class="sc">%in%</span> estados_sel, ]</span>
+<span id="cb197-32"><a href="shift-share.html#cb197-32" tabindex="-1"></a>tab_sel <span class="ot">&lt;-</span> tab_sel[<span class="fu">match</span>(estados_sel, tab_sel<span class="sc">$</span>UF), ]</span>
+<span id="cb197-33"><a href="shift-share.html#cb197-33" tabindex="-1"></a></span>
+<span id="cb197-34"><a href="shift-share.html#cb197-34" tabindex="-1"></a><span class="fu">kable</span>(tab_sel, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb197-35"><a href="shift-share.html#cb197-35" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">&quot;Votação 1º turno (% votos válidos) — estados selecionados&quot;</span>,</span>
+<span id="cb197-36"><a href="shift-share.html#cb197-36" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;UF&quot;</span>, <span class="st">&quot;PT 2014&quot;</span>, <span class="st">&quot;PSDB 2014&quot;</span>, <span class="st">&quot;Outros 2014&quot;</span>,</span>
+<span id="cb197-37"><a href="shift-share.html#cb197-37" tabindex="-1"></a>                     <span class="st">&quot;PT 2018&quot;</span>, <span class="st">&quot;PSDB 2018&quot;</span>, <span class="st">&quot;Outros 2018&quot;</span>))</span></code></pre></div>
 <table>
 <caption><span id="tab:eleicoes-dados">Table 14.3: </span>Votação 1º turno (% votos válidos) — estados selecionados</caption>
 <thead>
@@ -909,33 +941,33 @@ X_{it} &amp;= \sum_j w_{ij0} \, D_{ijt} + \sum_j (w_{ijt} - w_{ij0}) \, D_{ijt} 
 </table>
 <p>A queda do PT e o colapso do PSDB são visíveis em todos os estados, mas com intensidade muito diferente. No Nordeste (BA, CE, PE), o PT manteve boa parte dos votos; no Sul e Sudeste (SP, RS, PR), a queda foi drástica. Essa variação regional é exatamente o que a decomposição shift-share nos ajuda a entender.</p>
 <p>Primeiro, construímos o instrumento Bartik: a mudança <em>esperada</em> na votação de cada estado, com base na composição partidária inicial (2014) e nas tendências nacionais de cada bloco.</p>
-<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="shift-share.html#cb190-1" tabindex="-1"></a><span class="co"># Shares: composição partidária de 2014 (em fração)</span></span>
-<span id="cb190-2"><a href="shift-share.html#cb190-2" tabindex="-1"></a>shares_2014 <span class="ot">&lt;-</span> eleicoes[, <span class="fu">c</span>(<span class="st">&quot;PT_2014&quot;</span>,<span class="st">&quot;PSDB_2014&quot;</span>,<span class="st">&quot;Outros_2014&quot;</span>)] <span class="sc">/</span> <span class="dv">100</span></span>
-<span id="cb190-3"><a href="shift-share.html#cb190-3" tabindex="-1"></a></span>
-<span id="cb190-4"><a href="shift-share.html#cb190-4" tabindex="-1"></a><span class="co"># Shifts: mudança nacional na votação de cada bloco (média dos 27 estados)</span></span>
-<span id="cb190-5"><a href="shift-share.html#cb190-5" tabindex="-1"></a>media_2014 <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(eleicoes[, <span class="fu">c</span>(<span class="st">&quot;PT_2014&quot;</span>,<span class="st">&quot;PSDB_2014&quot;</span>,<span class="st">&quot;Outros_2014&quot;</span>)])</span>
-<span id="cb190-6"><a href="shift-share.html#cb190-6" tabindex="-1"></a>media_2018 <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(eleicoes[, <span class="fu">c</span>(<span class="st">&quot;PT_2018&quot;</span>,<span class="st">&quot;PSDB_2018&quot;</span>,<span class="st">&quot;Outros_2018&quot;</span>)])</span>
-<span id="cb190-7"><a href="shift-share.html#cb190-7" tabindex="-1"></a>shifts <span class="ot">&lt;-</span> (media_2018 <span class="sc">-</span> media_2014) <span class="sc">/</span> <span class="dv">100</span>  <span class="co"># em pontos percentuais / 100</span></span>
-<span id="cb190-8"><a href="shift-share.html#cb190-8" tabindex="-1"></a></span>
-<span id="cb190-9"><a href="shift-share.html#cb190-9" tabindex="-1"></a><span class="co"># Instrumento Bartik para cada estado</span></span>
-<span id="cb190-10"><a href="shift-share.html#cb190-10" tabindex="-1"></a>bartik <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.matrix</span>(shares_2014) <span class="sc">%*%</span> shifts)</span>
-<span id="cb190-11"><a href="shift-share.html#cb190-11" tabindex="-1"></a></span>
-<span id="cb190-12"><a href="shift-share.html#cb190-12" tabindex="-1"></a><span class="co"># Mudança real na votação do PT</span></span>
-<span id="cb190-13"><a href="shift-share.html#cb190-13" tabindex="-1"></a>mudanca_real_pt <span class="ot">&lt;-</span> (eleicoes<span class="sc">$</span>PT_2018 <span class="sc">-</span> eleicoes<span class="sc">$</span>PT_2014) <span class="sc">/</span> <span class="dv">100</span></span>
-<span id="cb190-14"><a href="shift-share.html#cb190-14" tabindex="-1"></a></span>
-<span id="cb190-15"><a href="shift-share.html#cb190-15" tabindex="-1"></a>resultado_elec <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb190-16"><a href="shift-share.html#cb190-16" tabindex="-1"></a>  <span class="at">UF =</span> eleicoes<span class="sc">$</span>UF,</span>
-<span id="cb190-17"><a href="shift-share.html#cb190-17" tabindex="-1"></a>  <span class="at">Mudanca_PT =</span> <span class="fu">round</span>(mudanca_real_pt <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>),</span>
-<span id="cb190-18"><a href="shift-share.html#cb190-18" tabindex="-1"></a>  <span class="at">Bartik =</span> <span class="fu">round</span>(bartik <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>),</span>
-<span id="cb190-19"><a href="shift-share.html#cb190-19" tabindex="-1"></a>  <span class="at">Residuo =</span> <span class="fu">round</span>((mudanca_real_pt <span class="sc">-</span> bartik) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span>
-<span id="cb190-20"><a href="shift-share.html#cb190-20" tabindex="-1"></a>)</span>
-<span id="cb190-21"><a href="shift-share.html#cb190-21" tabindex="-1"></a></span>
-<span id="cb190-22"><a href="shift-share.html#cb190-22" tabindex="-1"></a>tab_elec <span class="ot">&lt;-</span> resultado_elec[resultado_elec<span class="sc">$</span>UF <span class="sc">%in%</span> estados_sel, ]</span>
-<span id="cb190-23"><a href="shift-share.html#cb190-23" tabindex="-1"></a>tab_elec <span class="ot">&lt;-</span> tab_elec[<span class="fu">match</span>(estados_sel, tab_elec<span class="sc">$</span>UF), ]</span>
-<span id="cb190-24"><a href="shift-share.html#cb190-24" tabindex="-1"></a></span>
-<span id="cb190-25"><a href="shift-share.html#cb190-25" tabindex="-1"></a><span class="fu">kable</span>(tab_elec, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb190-26"><a href="shift-share.html#cb190-26" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">&quot;Mudança na votação PT 2014→2018 vs. predição Bartik (pp)&quot;</span>,</span>
-<span id="cb190-27"><a href="shift-share.html#cb190-27" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;UF&quot;</span>, <span class="st">&quot;Mudança real PT&quot;</span>, <span class="st">&quot;Predição Bartik&quot;</span>, <span class="st">&quot;Resíduo&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="shift-share.html#cb198-1" tabindex="-1"></a><span class="co"># Shares: composição partidária de 2014 (em fração)</span></span>
+<span id="cb198-2"><a href="shift-share.html#cb198-2" tabindex="-1"></a>shares_2014 <span class="ot">&lt;-</span> eleicoes[, <span class="fu">c</span>(<span class="st">&quot;PT_2014&quot;</span>,<span class="st">&quot;PSDB_2014&quot;</span>,<span class="st">&quot;Outros_2014&quot;</span>)] <span class="sc">/</span> <span class="dv">100</span></span>
+<span id="cb198-3"><a href="shift-share.html#cb198-3" tabindex="-1"></a></span>
+<span id="cb198-4"><a href="shift-share.html#cb198-4" tabindex="-1"></a><span class="co"># Shifts: mudança nacional na votação de cada bloco (média dos 27 estados)</span></span>
+<span id="cb198-5"><a href="shift-share.html#cb198-5" tabindex="-1"></a>media_2014 <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(eleicoes[, <span class="fu">c</span>(<span class="st">&quot;PT_2014&quot;</span>,<span class="st">&quot;PSDB_2014&quot;</span>,<span class="st">&quot;Outros_2014&quot;</span>)])</span>
+<span id="cb198-6"><a href="shift-share.html#cb198-6" tabindex="-1"></a>media_2018 <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(eleicoes[, <span class="fu">c</span>(<span class="st">&quot;PT_2018&quot;</span>,<span class="st">&quot;PSDB_2018&quot;</span>,<span class="st">&quot;Outros_2018&quot;</span>)])</span>
+<span id="cb198-7"><a href="shift-share.html#cb198-7" tabindex="-1"></a>shifts <span class="ot">&lt;-</span> (media_2018 <span class="sc">-</span> media_2014) <span class="sc">/</span> <span class="dv">100</span>  <span class="co"># em pontos percentuais / 100</span></span>
+<span id="cb198-8"><a href="shift-share.html#cb198-8" tabindex="-1"></a></span>
+<span id="cb198-9"><a href="shift-share.html#cb198-9" tabindex="-1"></a><span class="co"># Instrumento Bartik para cada estado</span></span>
+<span id="cb198-10"><a href="shift-share.html#cb198-10" tabindex="-1"></a>bartik <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.matrix</span>(shares_2014) <span class="sc">%*%</span> shifts)</span>
+<span id="cb198-11"><a href="shift-share.html#cb198-11" tabindex="-1"></a></span>
+<span id="cb198-12"><a href="shift-share.html#cb198-12" tabindex="-1"></a><span class="co"># Mudança real na votação do PT</span></span>
+<span id="cb198-13"><a href="shift-share.html#cb198-13" tabindex="-1"></a>mudanca_real_pt <span class="ot">&lt;-</span> (eleicoes<span class="sc">$</span>PT_2018 <span class="sc">-</span> eleicoes<span class="sc">$</span>PT_2014) <span class="sc">/</span> <span class="dv">100</span></span>
+<span id="cb198-14"><a href="shift-share.html#cb198-14" tabindex="-1"></a></span>
+<span id="cb198-15"><a href="shift-share.html#cb198-15" tabindex="-1"></a>resultado_elec <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb198-16"><a href="shift-share.html#cb198-16" tabindex="-1"></a>  <span class="at">UF =</span> eleicoes<span class="sc">$</span>UF,</span>
+<span id="cb198-17"><a href="shift-share.html#cb198-17" tabindex="-1"></a>  <span class="at">Mudanca_PT =</span> <span class="fu">round</span>(mudanca_real_pt <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>),</span>
+<span id="cb198-18"><a href="shift-share.html#cb198-18" tabindex="-1"></a>  <span class="at">Bartik =</span> <span class="fu">round</span>(bartik <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>),</span>
+<span id="cb198-19"><a href="shift-share.html#cb198-19" tabindex="-1"></a>  <span class="at">Residuo =</span> <span class="fu">round</span>((mudanca_real_pt <span class="sc">-</span> bartik) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span>
+<span id="cb198-20"><a href="shift-share.html#cb198-20" tabindex="-1"></a>)</span>
+<span id="cb198-21"><a href="shift-share.html#cb198-21" tabindex="-1"></a></span>
+<span id="cb198-22"><a href="shift-share.html#cb198-22" tabindex="-1"></a>tab_elec <span class="ot">&lt;-</span> resultado_elec[resultado_elec<span class="sc">$</span>UF <span class="sc">%in%</span> estados_sel, ]</span>
+<span id="cb198-23"><a href="shift-share.html#cb198-23" tabindex="-1"></a>tab_elec <span class="ot">&lt;-</span> tab_elec[<span class="fu">match</span>(estados_sel, tab_elec<span class="sc">$</span>UF), ]</span>
+<span id="cb198-24"><a href="shift-share.html#cb198-24" tabindex="-1"></a></span>
+<span id="cb198-25"><a href="shift-share.html#cb198-25" tabindex="-1"></a><span class="fu">kable</span>(tab_elec, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb198-26"><a href="shift-share.html#cb198-26" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">&quot;Mudança na votação PT 2014→2018 vs. predição Bartik (pp)&quot;</span>,</span>
+<span id="cb198-27"><a href="shift-share.html#cb198-27" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;UF&quot;</span>, <span class="st">&quot;Mudança real PT&quot;</span>, <span class="st">&quot;Predição Bartik&quot;</span>, <span class="st">&quot;Resíduo&quot;</span>))</span></code></pre></div>
 <table>
 <caption><span id="tab:eleicoes-bartik">Table 14.4: </span>Mudança na votação PT 2014→2018 vs. predição Bartik (pp)</caption>
 <thead>
@@ -1010,16 +1042,16 @@ X_{it} &amp;= \sum_j w_{ij0} \, D_{ijt} + \sum_j (w_{ijt} - w_{ij0}) \, D_{ijt} 
 </tbody>
 </table>
 <p>O <strong>resíduo</strong> captura fatores regionais específicos — por exemplo, estados onde a Lava-Jato teve impacto particularmente forte ou onde lideranças locais do PT mantiveram sua base eleitoral.</p>
-<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="shift-share.html#cb191-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb191-2"><a href="shift-share.html#cb191-2" tabindex="-1"></a></span>
-<span id="cb191-3"><a href="shift-share.html#cb191-3" tabindex="-1"></a><span class="fu">ggplot</span>(resultado_elec, <span class="fu">aes</span>(<span class="at">x =</span> Bartik, <span class="at">y =</span> Mudanca_PT)) <span class="sc">+</span></span>
-<span id="cb191-4"><a href="shift-share.html#cb191-4" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb191-5"><a href="shift-share.html#cb191-5" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">slope =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">color =</span> <span class="st">&quot;gray50&quot;</span>) <span class="sc">+</span></span>
-<span id="cb191-6"><a href="shift-share.html#cb191-6" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> UF), <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.7</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb191-7"><a href="shift-share.html#cb191-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Predição Bartik (pp)&quot;</span>,</span>
-<span id="cb191-8"><a href="shift-share.html#cb191-8" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Mudança real na votação PT (pp)&quot;</span>,</span>
-<span id="cb191-9"><a href="shift-share.html#cb191-9" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Decomposição shift-share das eleições 2014-2018&quot;</span>) <span class="sc">+</span></span>
-<span id="cb191-10"><a href="shift-share.html#cb191-10" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="shift-share.html#cb199-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb199-2"><a href="shift-share.html#cb199-2" tabindex="-1"></a></span>
+<span id="cb199-3"><a href="shift-share.html#cb199-3" tabindex="-1"></a><span class="fu">ggplot</span>(resultado_elec, <span class="fu">aes</span>(<span class="at">x =</span> Bartik, <span class="at">y =</span> Mudanca_PT)) <span class="sc">+</span></span>
+<span id="cb199-4"><a href="shift-share.html#cb199-4" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb199-5"><a href="shift-share.html#cb199-5" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">slope =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">color =</span> <span class="st">&quot;gray50&quot;</span>) <span class="sc">+</span></span>
+<span id="cb199-6"><a href="shift-share.html#cb199-6" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> UF), <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.7</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb199-7"><a href="shift-share.html#cb199-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Predição Bartik (pp)&quot;</span>,</span>
+<span id="cb199-8"><a href="shift-share.html#cb199-8" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Mudança real na votação PT (pp)&quot;</span>,</span>
+<span id="cb199-9"><a href="shift-share.html#cb199-9" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Decomposição shift-share das eleições 2014-2018&quot;</span>) <span class="sc">+</span></span>
+<span id="cb199-10"><a href="shift-share.html#cb199-10" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:eleicoes-grafico"></span>
 <img src="bookdownproj_files/figure-html/eleicoes-grafico-1.png" alt="Mudança na votação do PT (2014→2018): observada vs. predição Bartik" width="672" />
 <p class="caption">
@@ -1028,41 +1060,41 @@ Figure 14.1: Mudança na votação do PT (2014→2018): observada vs. prediçã
 </div>
 <p>O gráfico mostra que estados próximos à linha tracejada (45°) tiveram mudanças bem explicadas pela estrutura nacional; estados distantes da linha tiveram choques regionais importantes.</p>
 <p>Agora aplicamos a decomposição completa nos três componentes A, B e C:</p>
-<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="shift-share.html#cb192-1" tabindex="-1"></a><span class="co"># Shares em 2014 (t=0) e 2018 (t=1) — em fração</span></span>
-<span id="cb192-2"><a href="shift-share.html#cb192-2" tabindex="-1"></a>w_0 <span class="ot">&lt;-</span> eleicoes[, <span class="fu">c</span>(<span class="st">&quot;PT_2014&quot;</span>,<span class="st">&quot;PSDB_2014&quot;</span>,<span class="st">&quot;Outros_2014&quot;</span>)] <span class="sc">/</span> <span class="dv">100</span></span>
-<span id="cb192-3"><a href="shift-share.html#cb192-3" tabindex="-1"></a>w_t <span class="ot">&lt;-</span> eleicoes[, <span class="fu">c</span>(<span class="st">&quot;PT_2018&quot;</span>,<span class="st">&quot;PSDB_2018&quot;</span>,<span class="st">&quot;Outros_2018&quot;</span>)] <span class="sc">/</span> <span class="dv">100</span></span>
-<span id="cb192-4"><a href="shift-share.html#cb192-4" tabindex="-1"></a></span>
-<span id="cb192-5"><a href="shift-share.html#cb192-5" tabindex="-1"></a><span class="co"># D_{ijt}: votação em 2018 (usamos os mesmos dados como proxy de intensidade)</span></span>
-<span id="cb192-6"><a href="shift-share.html#cb192-6" tabindex="-1"></a>D_t <span class="ot">&lt;-</span> eleicoes[, <span class="fu">c</span>(<span class="st">&quot;PT_2018&quot;</span>,<span class="st">&quot;PSDB_2018&quot;</span>,<span class="st">&quot;Outros_2018&quot;</span>)]</span>
-<span id="cb192-7"><a href="shift-share.html#cb192-7" tabindex="-1"></a></span>
-<span id="cb192-8"><a href="shift-share.html#cb192-8" tabindex="-1"></a><span class="co"># Média nacional de D_{jt} em 2018</span></span>
-<span id="cb192-9"><a href="shift-share.html#cb192-9" tabindex="-1"></a>D_bar_t <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(D_t)</span>
-<span id="cb192-10"><a href="shift-share.html#cb192-10" tabindex="-1"></a></span>
-<span id="cb192-11"><a href="shift-share.html#cb192-11" tabindex="-1"></a><span class="co"># Componente A: votação esperada = sum_j w_{ij0} * D_bar_{jt}</span></span>
-<span id="cb192-12"><a href="shift-share.html#cb192-12" tabindex="-1"></a>comp_A <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.matrix</span>(w_0) <span class="sc">%*%</span> D_bar_t)</span>
-<span id="cb192-13"><a href="shift-share.html#cb192-13" tabindex="-1"></a></span>
-<span id="cb192-14"><a href="shift-share.html#cb192-14" tabindex="-1"></a><span class="co"># Componente B: choque partidário = sum_j w_{ij0} * (D_{ijt} - D_bar_{jt})</span></span>
-<span id="cb192-15"><a href="shift-share.html#cb192-15" tabindex="-1"></a>desvios <span class="ot">&lt;-</span> <span class="fu">sweep</span>(<span class="fu">as.matrix</span>(D_t), <span class="dv">2</span>, D_bar_t)</span>
-<span id="cb192-16"><a href="shift-share.html#cb192-16" tabindex="-1"></a>comp_B <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(<span class="fu">as.matrix</span>(w_0) <span class="sc">*</span> desvios)</span>
-<span id="cb192-17"><a href="shift-share.html#cb192-17" tabindex="-1"></a></span>
-<span id="cb192-18"><a href="shift-share.html#cb192-18" tabindex="-1"></a><span class="co"># Componente C: choque temporal = sum_j (w_{ijt} - w_{ij0}) * D_{ijt}</span></span>
-<span id="cb192-19"><a href="shift-share.html#cb192-19" tabindex="-1"></a>delta_w <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(w_t) <span class="sc">-</span> <span class="fu">as.matrix</span>(w_0)</span>
-<span id="cb192-20"><a href="shift-share.html#cb192-20" tabindex="-1"></a>comp_C <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(delta_w <span class="sc">*</span> <span class="fu">as.matrix</span>(D_t))</span>
-<span id="cb192-21"><a href="shift-share.html#cb192-21" tabindex="-1"></a></span>
-<span id="cb192-22"><a href="shift-share.html#cb192-22" tabindex="-1"></a>temporal <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb192-23"><a href="shift-share.html#cb192-23" tabindex="-1"></a>  <span class="at">UF =</span> eleicoes<span class="sc">$</span>UF,</span>
-<span id="cb192-24"><a href="shift-share.html#cb192-24" tabindex="-1"></a>  <span class="at">A_esperado =</span> <span class="fu">round</span>(comp_A, <span class="dv">1</span>),</span>
-<span id="cb192-25"><a href="shift-share.html#cb192-25" tabindex="-1"></a>  <span class="at">B_choque_part =</span> <span class="fu">round</span>(comp_B, <span class="dv">1</span>),</span>
-<span id="cb192-26"><a href="shift-share.html#cb192-26" tabindex="-1"></a>  <span class="at">C_choque_temp =</span> <span class="fu">round</span>(comp_C, <span class="dv">1</span>)</span>
-<span id="cb192-27"><a href="shift-share.html#cb192-27" tabindex="-1"></a>)</span>
-<span id="cb192-28"><a href="shift-share.html#cb192-28" tabindex="-1"></a></span>
-<span id="cb192-29"><a href="shift-share.html#cb192-29" tabindex="-1"></a><span class="co"># Tabela para estados selecionados</span></span>
-<span id="cb192-30"><a href="shift-share.html#cb192-30" tabindex="-1"></a>tab_temp <span class="ot">&lt;-</span> temporal[temporal<span class="sc">$</span>UF <span class="sc">%in%</span> estados_sel, ]</span>
-<span id="cb192-31"><a href="shift-share.html#cb192-31" tabindex="-1"></a>tab_temp <span class="ot">&lt;-</span> tab_temp[<span class="fu">match</span>(estados_sel, tab_temp<span class="sc">$</span>UF), ]</span>
-<span id="cb192-32"><a href="shift-share.html#cb192-32" tabindex="-1"></a></span>
-<span id="cb192-33"><a href="shift-share.html#cb192-33" tabindex="-1"></a><span class="fu">kable</span>(tab_temp, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb192-34"><a href="shift-share.html#cb192-34" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">&quot;Decomposição temporal A, B, C — estados selecionados&quot;</span>,</span>
-<span id="cb192-35"><a href="shift-share.html#cb192-35" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;UF&quot;</span>, <span class="st">&quot;A: esperado&quot;</span>, <span class="st">&quot;B: choque partidário&quot;</span>, <span class="st">&quot;C: choque temporal&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="shift-share.html#cb200-1" tabindex="-1"></a><span class="co"># Shares em 2014 (t=0) e 2018 (t=1) — em fração</span></span>
+<span id="cb200-2"><a href="shift-share.html#cb200-2" tabindex="-1"></a>w_0 <span class="ot">&lt;-</span> eleicoes[, <span class="fu">c</span>(<span class="st">&quot;PT_2014&quot;</span>,<span class="st">&quot;PSDB_2014&quot;</span>,<span class="st">&quot;Outros_2014&quot;</span>)] <span class="sc">/</span> <span class="dv">100</span></span>
+<span id="cb200-3"><a href="shift-share.html#cb200-3" tabindex="-1"></a>w_t <span class="ot">&lt;-</span> eleicoes[, <span class="fu">c</span>(<span class="st">&quot;PT_2018&quot;</span>,<span class="st">&quot;PSDB_2018&quot;</span>,<span class="st">&quot;Outros_2018&quot;</span>)] <span class="sc">/</span> <span class="dv">100</span></span>
+<span id="cb200-4"><a href="shift-share.html#cb200-4" tabindex="-1"></a></span>
+<span id="cb200-5"><a href="shift-share.html#cb200-5" tabindex="-1"></a><span class="co"># D_{ijt}: votação em 2018 (usamos os mesmos dados como proxy de intensidade)</span></span>
+<span id="cb200-6"><a href="shift-share.html#cb200-6" tabindex="-1"></a>D_t <span class="ot">&lt;-</span> eleicoes[, <span class="fu">c</span>(<span class="st">&quot;PT_2018&quot;</span>,<span class="st">&quot;PSDB_2018&quot;</span>,<span class="st">&quot;Outros_2018&quot;</span>)]</span>
+<span id="cb200-7"><a href="shift-share.html#cb200-7" tabindex="-1"></a></span>
+<span id="cb200-8"><a href="shift-share.html#cb200-8" tabindex="-1"></a><span class="co"># Média nacional de D_{jt} em 2018</span></span>
+<span id="cb200-9"><a href="shift-share.html#cb200-9" tabindex="-1"></a>D_bar_t <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(D_t)</span>
+<span id="cb200-10"><a href="shift-share.html#cb200-10" tabindex="-1"></a></span>
+<span id="cb200-11"><a href="shift-share.html#cb200-11" tabindex="-1"></a><span class="co"># Componente A: votação esperada = sum_j w_{ij0} * D_bar_{jt}</span></span>
+<span id="cb200-12"><a href="shift-share.html#cb200-12" tabindex="-1"></a>comp_A <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.matrix</span>(w_0) <span class="sc">%*%</span> D_bar_t)</span>
+<span id="cb200-13"><a href="shift-share.html#cb200-13" tabindex="-1"></a></span>
+<span id="cb200-14"><a href="shift-share.html#cb200-14" tabindex="-1"></a><span class="co"># Componente B: choque partidário = sum_j w_{ij0} * (D_{ijt} - D_bar_{jt})</span></span>
+<span id="cb200-15"><a href="shift-share.html#cb200-15" tabindex="-1"></a>desvios <span class="ot">&lt;-</span> <span class="fu">sweep</span>(<span class="fu">as.matrix</span>(D_t), <span class="dv">2</span>, D_bar_t)</span>
+<span id="cb200-16"><a href="shift-share.html#cb200-16" tabindex="-1"></a>comp_B <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(<span class="fu">as.matrix</span>(w_0) <span class="sc">*</span> desvios)</span>
+<span id="cb200-17"><a href="shift-share.html#cb200-17" tabindex="-1"></a></span>
+<span id="cb200-18"><a href="shift-share.html#cb200-18" tabindex="-1"></a><span class="co"># Componente C: choque temporal = sum_j (w_{ijt} - w_{ij0}) * D_{ijt}</span></span>
+<span id="cb200-19"><a href="shift-share.html#cb200-19" tabindex="-1"></a>delta_w <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(w_t) <span class="sc">-</span> <span class="fu">as.matrix</span>(w_0)</span>
+<span id="cb200-20"><a href="shift-share.html#cb200-20" tabindex="-1"></a>comp_C <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(delta_w <span class="sc">*</span> <span class="fu">as.matrix</span>(D_t))</span>
+<span id="cb200-21"><a href="shift-share.html#cb200-21" tabindex="-1"></a></span>
+<span id="cb200-22"><a href="shift-share.html#cb200-22" tabindex="-1"></a>temporal <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb200-23"><a href="shift-share.html#cb200-23" tabindex="-1"></a>  <span class="at">UF =</span> eleicoes<span class="sc">$</span>UF,</span>
+<span id="cb200-24"><a href="shift-share.html#cb200-24" tabindex="-1"></a>  <span class="at">A_esperado =</span> <span class="fu">round</span>(comp_A, <span class="dv">1</span>),</span>
+<span id="cb200-25"><a href="shift-share.html#cb200-25" tabindex="-1"></a>  <span class="at">B_choque_part =</span> <span class="fu">round</span>(comp_B, <span class="dv">1</span>),</span>
+<span id="cb200-26"><a href="shift-share.html#cb200-26" tabindex="-1"></a>  <span class="at">C_choque_temp =</span> <span class="fu">round</span>(comp_C, <span class="dv">1</span>)</span>
+<span id="cb200-27"><a href="shift-share.html#cb200-27" tabindex="-1"></a>)</span>
+<span id="cb200-28"><a href="shift-share.html#cb200-28" tabindex="-1"></a></span>
+<span id="cb200-29"><a href="shift-share.html#cb200-29" tabindex="-1"></a><span class="co"># Tabela para estados selecionados</span></span>
+<span id="cb200-30"><a href="shift-share.html#cb200-30" tabindex="-1"></a>tab_temp <span class="ot">&lt;-</span> temporal[temporal<span class="sc">$</span>UF <span class="sc">%in%</span> estados_sel, ]</span>
+<span id="cb200-31"><a href="shift-share.html#cb200-31" tabindex="-1"></a>tab_temp <span class="ot">&lt;-</span> tab_temp[<span class="fu">match</span>(estados_sel, tab_temp<span class="sc">$</span>UF), ]</span>
+<span id="cb200-32"><a href="shift-share.html#cb200-32" tabindex="-1"></a></span>
+<span id="cb200-33"><a href="shift-share.html#cb200-33" tabindex="-1"></a><span class="fu">kable</span>(tab_temp, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb200-34"><a href="shift-share.html#cb200-34" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">&quot;Decomposição temporal A, B, C — estados selecionados&quot;</span>,</span>
+<span id="cb200-35"><a href="shift-share.html#cb200-35" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;UF&quot;</span>, <span class="st">&quot;A: esperado&quot;</span>, <span class="st">&quot;B: choque partidário&quot;</span>, <span class="st">&quot;C: choque temporal&quot;</span>))</span></code></pre></div>
 <table>
 <caption><span id="tab:temporal-decomposicao">Table 14.5: </span>Decomposição temporal A, B, C — estados selecionados</caption>
 <thead>
@@ -1136,26 +1168,26 @@ Figure 14.1: Mudança na votação do PT (2014→2018): observada vs. prediçã
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="shift-share.html#cb193-1" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb193-2"><a href="shift-share.html#cb193-2" tabindex="-1"></a></span>
-<span id="cb193-3"><a href="shift-share.html#cb193-3" tabindex="-1"></a><span class="co"># Preparar dados para gráfico de barras (estados selecionados)</span></span>
-<span id="cb193-4"><a href="shift-share.html#cb193-4" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> temporal[temporal<span class="sc">$</span>UF <span class="sc">%in%</span> estados_sel, ]</span>
-<span id="cb193-5"><a href="shift-share.html#cb193-5" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> plot_data[<span class="fu">match</span>(estados_sel, plot_data<span class="sc">$</span>UF), ]</span>
-<span id="cb193-6"><a href="shift-share.html#cb193-6" tabindex="-1"></a></span>
-<span id="cb193-7"><a href="shift-share.html#cb193-7" tabindex="-1"></a>plot_long <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(plot_data, <span class="at">cols =</span> <span class="sc">-</span>UF,</span>
-<span id="cb193-8"><a href="shift-share.html#cb193-8" tabindex="-1"></a>                          <span class="at">names_to =</span> <span class="st">&quot;Componente&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;Valor&quot;</span>)</span>
-<span id="cb193-9"><a href="shift-share.html#cb193-9" tabindex="-1"></a>plot_long<span class="sc">$</span>Componente <span class="ot">&lt;-</span> <span class="fu">factor</span>(plot_long<span class="sc">$</span>Componente,</span>
-<span id="cb193-10"><a href="shift-share.html#cb193-10" tabindex="-1"></a>  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;A_esperado&quot;</span>,<span class="st">&quot;B_choque_part&quot;</span>,<span class="st">&quot;C_choque_temp&quot;</span>),</span>
-<span id="cb193-11"><a href="shift-share.html#cb193-11" tabindex="-1"></a>  <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;A: Votação esperada&quot;</span>,<span class="st">&quot;B: Choque partidário&quot;</span>,<span class="st">&quot;C: Choque temporal&quot;</span>))</span>
-<span id="cb193-12"><a href="shift-share.html#cb193-12" tabindex="-1"></a></span>
-<span id="cb193-13"><a href="shift-share.html#cb193-13" tabindex="-1"></a><span class="fu">ggplot</span>(plot_long, <span class="fu">aes</span>(<span class="at">x =</span> UF, <span class="at">y =</span> Valor, <span class="at">fill =</span> Componente)) <span class="sc">+</span></span>
-<span id="cb193-14"><a href="shift-share.html#cb193-14" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>) <span class="sc">+</span></span>
-<span id="cb193-15"><a href="shift-share.html#cb193-15" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Estado&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Valor do componente&quot;</span>,</span>
-<span id="cb193-16"><a href="shift-share.html#cb193-16" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Decomposição shift-share das eleições 2018&quot;</span>,</span>
-<span id="cb193-17"><a href="shift-share.html#cb193-17" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">&quot;Componente&quot;</span>) <span class="sc">+</span></span>
-<span id="cb193-18"><a href="shift-share.html#cb193-18" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;orange&quot;</span>,<span class="st">&quot;purple&quot;</span>,<span class="st">&quot;#008080&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb193-19"><a href="shift-share.html#cb193-19" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb193-20"><a href="shift-share.html#cb193-20" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">0</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="shift-share.html#cb201-1" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb201-2"><a href="shift-share.html#cb201-2" tabindex="-1"></a></span>
+<span id="cb201-3"><a href="shift-share.html#cb201-3" tabindex="-1"></a><span class="co"># Preparar dados para gráfico de barras (estados selecionados)</span></span>
+<span id="cb201-4"><a href="shift-share.html#cb201-4" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> temporal[temporal<span class="sc">$</span>UF <span class="sc">%in%</span> estados_sel, ]</span>
+<span id="cb201-5"><a href="shift-share.html#cb201-5" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> plot_data[<span class="fu">match</span>(estados_sel, plot_data<span class="sc">$</span>UF), ]</span>
+<span id="cb201-6"><a href="shift-share.html#cb201-6" tabindex="-1"></a></span>
+<span id="cb201-7"><a href="shift-share.html#cb201-7" tabindex="-1"></a>plot_long <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(plot_data, <span class="at">cols =</span> <span class="sc">-</span>UF,</span>
+<span id="cb201-8"><a href="shift-share.html#cb201-8" tabindex="-1"></a>                          <span class="at">names_to =</span> <span class="st">&quot;Componente&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;Valor&quot;</span>)</span>
+<span id="cb201-9"><a href="shift-share.html#cb201-9" tabindex="-1"></a>plot_long<span class="sc">$</span>Componente <span class="ot">&lt;-</span> <span class="fu">factor</span>(plot_long<span class="sc">$</span>Componente,</span>
+<span id="cb201-10"><a href="shift-share.html#cb201-10" tabindex="-1"></a>  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;A_esperado&quot;</span>,<span class="st">&quot;B_choque_part&quot;</span>,<span class="st">&quot;C_choque_temp&quot;</span>),</span>
+<span id="cb201-11"><a href="shift-share.html#cb201-11" tabindex="-1"></a>  <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;A: Votação esperada&quot;</span>,<span class="st">&quot;B: Choque partidário&quot;</span>,<span class="st">&quot;C: Choque temporal&quot;</span>))</span>
+<span id="cb201-12"><a href="shift-share.html#cb201-12" tabindex="-1"></a></span>
+<span id="cb201-13"><a href="shift-share.html#cb201-13" tabindex="-1"></a><span class="fu">ggplot</span>(plot_long, <span class="fu">aes</span>(<span class="at">x =</span> UF, <span class="at">y =</span> Valor, <span class="at">fill =</span> Componente)) <span class="sc">+</span></span>
+<span id="cb201-14"><a href="shift-share.html#cb201-14" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>) <span class="sc">+</span></span>
+<span id="cb201-15"><a href="shift-share.html#cb201-15" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Estado&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Valor do componente&quot;</span>,</span>
+<span id="cb201-16"><a href="shift-share.html#cb201-16" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Decomposição shift-share das eleições 2018&quot;</span>,</span>
+<span id="cb201-17"><a href="shift-share.html#cb201-17" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">&quot;Componente&quot;</span>) <span class="sc">+</span></span>
+<span id="cb201-18"><a href="shift-share.html#cb201-18" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;orange&quot;</span>,<span class="st">&quot;purple&quot;</span>,<span class="st">&quot;#008080&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb201-19"><a href="shift-share.html#cb201-19" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb201-20"><a href="shift-share.html#cb201-20" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">0</span>))</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:temporal-grafico"></span>
 <img src="bookdownproj_files/figure-html/temporal-grafico-1.png" alt="Componentes shift-share da votação 2018 por estado" width="672" />
 <p class="caption">
@@ -1193,19 +1225,19 @@ B_i = \sum_{k=1}^{K} w_{ik} \cdot g_k
 <h3><span class="header-section-number">14.4.2</span> Voltando ao exemplo: construindo <span class="math inline">\(w_{ik}\)</span>, <span class="math inline">\(g_k\)</span> e <span class="math inline">\(B_i\)</span> com dados eleitorais<a href="shift-share.html#voltando-ao-exemplo-construindo-w_ik-g_k-e-b_i-com-dados-eleitorais" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Podemos agora mapear cada elemento da construção formal nos dados das eleições 2014→2018 já analisados. Nossos “setores” (<span class="math inline">\(k\)</span>) são os três blocos partidários (PT, PSDB, Outros) e nossas “regiões” (<span class="math inline">\(i\)</span>) são os 27 estados.</p>
 <p>As <strong>shares</strong> <span class="math inline">\(w_{ik}\)</span> são a composição partidária de cada estado em 2014 (o período-base <span class="math inline">\(t_0\)</span>):</p>
-<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="shift-share.html#cb194-1" tabindex="-1"></a><span class="co"># w_{ik} = fração de votos do partido k no estado i em 2014</span></span>
-<span id="cb194-2"><a href="shift-share.html#cb194-2" tabindex="-1"></a>tab_shares <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb194-3"><a href="shift-share.html#cb194-3" tabindex="-1"></a>  <span class="at">UF =</span> eleicoes<span class="sc">$</span>UF,</span>
-<span id="cb194-4"><a href="shift-share.html#cb194-4" tabindex="-1"></a>  <span class="at">w_PT =</span> <span class="fu">round</span>(shares_2014<span class="sc">$</span>PT_2014, <span class="dv">2</span>),</span>
-<span id="cb194-5"><a href="shift-share.html#cb194-5" tabindex="-1"></a>  <span class="at">w_PSDB =</span> <span class="fu">round</span>(shares_2014<span class="sc">$</span>PSDB_2014, <span class="dv">2</span>),</span>
-<span id="cb194-6"><a href="shift-share.html#cb194-6" tabindex="-1"></a>  <span class="at">w_Outros =</span> <span class="fu">round</span>(shares_2014<span class="sc">$</span>Outros_2014, <span class="dv">2</span>)</span>
-<span id="cb194-7"><a href="shift-share.html#cb194-7" tabindex="-1"></a>)</span>
-<span id="cb194-8"><a href="shift-share.html#cb194-8" tabindex="-1"></a></span>
-<span id="cb194-9"><a href="shift-share.html#cb194-9" tabindex="-1"></a>tab_shares_sel <span class="ot">&lt;-</span> tab_shares[tab_shares<span class="sc">$</span>UF <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;BA&quot;</span>,<span class="st">&quot;CE&quot;</span>,<span class="st">&quot;MG&quot;</span>,<span class="st">&quot;SP&quot;</span>,<span class="st">&quot;RS&quot;</span>), ]</span>
-<span id="cb194-10"><a href="shift-share.html#cb194-10" tabindex="-1"></a>tab_shares_sel <span class="ot">&lt;-</span> tab_shares_sel[<span class="fu">match</span>(<span class="fu">c</span>(<span class="st">&quot;BA&quot;</span>,<span class="st">&quot;CE&quot;</span>,<span class="st">&quot;MG&quot;</span>,<span class="st">&quot;SP&quot;</span>,<span class="st">&quot;RS&quot;</span>), tab_shares_sel<span class="sc">$</span>UF), ]</span>
-<span id="cb194-11"><a href="shift-share.html#cb194-11" tabindex="-1"></a><span class="fu">kable</span>(tab_shares_sel, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb194-12"><a href="shift-share.html#cb194-12" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">&quot;Shares $w_{ik}$: composição partidária em 2014 (fração dos votos válidos)&quot;</span>,</span>
-<span id="cb194-13"><a href="shift-share.html#cb194-13" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Estado (i)&quot;</span>, <span class="st">&quot;$w_{i,PT}$&quot;</span>, <span class="st">&quot;$w_{i,PSDB}$&quot;</span>, <span class="st">&quot;$w_{i,Outros}$&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="shift-share.html#cb202-1" tabindex="-1"></a><span class="co"># w_{ik} = fração de votos do partido k no estado i em 2014</span></span>
+<span id="cb202-2"><a href="shift-share.html#cb202-2" tabindex="-1"></a>tab_shares <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb202-3"><a href="shift-share.html#cb202-3" tabindex="-1"></a>  <span class="at">UF =</span> eleicoes<span class="sc">$</span>UF,</span>
+<span id="cb202-4"><a href="shift-share.html#cb202-4" tabindex="-1"></a>  <span class="at">w_PT =</span> <span class="fu">round</span>(shares_2014<span class="sc">$</span>PT_2014, <span class="dv">2</span>),</span>
+<span id="cb202-5"><a href="shift-share.html#cb202-5" tabindex="-1"></a>  <span class="at">w_PSDB =</span> <span class="fu">round</span>(shares_2014<span class="sc">$</span>PSDB_2014, <span class="dv">2</span>),</span>
+<span id="cb202-6"><a href="shift-share.html#cb202-6" tabindex="-1"></a>  <span class="at">w_Outros =</span> <span class="fu">round</span>(shares_2014<span class="sc">$</span>Outros_2014, <span class="dv">2</span>)</span>
+<span id="cb202-7"><a href="shift-share.html#cb202-7" tabindex="-1"></a>)</span>
+<span id="cb202-8"><a href="shift-share.html#cb202-8" tabindex="-1"></a></span>
+<span id="cb202-9"><a href="shift-share.html#cb202-9" tabindex="-1"></a>tab_shares_sel <span class="ot">&lt;-</span> tab_shares[tab_shares<span class="sc">$</span>UF <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;BA&quot;</span>,<span class="st">&quot;CE&quot;</span>,<span class="st">&quot;MG&quot;</span>,<span class="st">&quot;SP&quot;</span>,<span class="st">&quot;RS&quot;</span>), ]</span>
+<span id="cb202-10"><a href="shift-share.html#cb202-10" tabindex="-1"></a>tab_shares_sel <span class="ot">&lt;-</span> tab_shares_sel[<span class="fu">match</span>(<span class="fu">c</span>(<span class="st">&quot;BA&quot;</span>,<span class="st">&quot;CE&quot;</span>,<span class="st">&quot;MG&quot;</span>,<span class="st">&quot;SP&quot;</span>,<span class="st">&quot;RS&quot;</span>), tab_shares_sel<span class="sc">$</span>UF), ]</span>
+<span id="cb202-11"><a href="shift-share.html#cb202-11" tabindex="-1"></a><span class="fu">kable</span>(tab_shares_sel, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb202-12"><a href="shift-share.html#cb202-12" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">&quot;Shares $w_{ik}$: composição partidária em 2014 (fração dos votos válidos)&quot;</span>,</span>
+<span id="cb202-13"><a href="shift-share.html#cb202-13" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Estado (i)&quot;</span>, <span class="st">&quot;$w_{i,PT}$&quot;</span>, <span class="st">&quot;$w_{i,PSDB}$&quot;</span>, <span class="st">&quot;$w_{i,Outros}$&quot;</span>))</span></code></pre></div>
 <table>
 <caption><span id="tab:ss-iv-shares">Table 14.6: </span>Shares <span class="math inline">\(w_{ik}\)</span>: composição partidária em 2014 (fração dos votos válidos)</caption>
 <thead>
@@ -1251,13 +1283,13 @@ B_i = \sum_{k=1}^{K} w_{ik} \cdot g_k
 </table>
 <p>A Bahia tem <span class="math inline">\(w_{BA,PT} = 0{,}66\)</span>: dois terços dos votos foram para o PT em 2014. Já São Paulo tem <span class="math inline">\(w_{SP,PT} = 0{,}31\)</span>. Essa diferença na composição inicial é o que gera variação no instrumento.</p>
 <p>Os <strong>shifts</strong> <span class="math inline">\(g_k\)</span> são as mudanças nacionais na votação de cada bloco entre 2014 e 2018:</p>
-<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="shift-share.html#cb195-1" tabindex="-1"></a>tab_shifts <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb195-2"><a href="shift-share.html#cb195-2" tabindex="-1"></a>  <span class="at">Partido =</span> <span class="fu">c</span>(<span class="st">&quot;PT&quot;</span>, <span class="st">&quot;PSDB&quot;</span>, <span class="st">&quot;Outros&quot;</span>),</span>
-<span id="cb195-3"><a href="shift-share.html#cb195-3" tabindex="-1"></a>  <span class="at">g_k =</span> <span class="fu">round</span>(shifts <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span>
-<span id="cb195-4"><a href="shift-share.html#cb195-4" tabindex="-1"></a>)</span>
-<span id="cb195-5"><a href="shift-share.html#cb195-5" tabindex="-1"></a><span class="fu">kable</span>(tab_shifts, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb195-6"><a href="shift-share.html#cb195-6" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">&quot;Shifts $g_k$: mudança nacional na votação de cada bloco (pp)&quot;</span>,</span>
-<span id="cb195-7"><a href="shift-share.html#cb195-7" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Partido ($k$)&quot;</span>, <span class="st">&quot;$g_k$ (pp)&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="shift-share.html#cb203-1" tabindex="-1"></a>tab_shifts <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb203-2"><a href="shift-share.html#cb203-2" tabindex="-1"></a>  <span class="at">Partido =</span> <span class="fu">c</span>(<span class="st">&quot;PT&quot;</span>, <span class="st">&quot;PSDB&quot;</span>, <span class="st">&quot;Outros&quot;</span>),</span>
+<span id="cb203-3"><a href="shift-share.html#cb203-3" tabindex="-1"></a>  <span class="at">g_k =</span> <span class="fu">round</span>(shifts <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span>
+<span id="cb203-4"><a href="shift-share.html#cb203-4" tabindex="-1"></a>)</span>
+<span id="cb203-5"><a href="shift-share.html#cb203-5" tabindex="-1"></a><span class="fu">kable</span>(tab_shifts, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb203-6"><a href="shift-share.html#cb203-6" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">&quot;Shifts $g_k$: mudança nacional na votação de cada bloco (pp)&quot;</span>,</span>
+<span id="cb203-7"><a href="shift-share.html#cb203-7" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Partido ($k$)&quot;</span>, <span class="st">&quot;$g_k$ (pp)&quot;</span>))</span></code></pre></div>
 <table>
 <caption><span id="tab:ss-iv-shifts">Table 14.7: </span>Shifts <span class="math inline">\(g_k\)</span>: mudança nacional na votação de cada bloco (pp)</caption>
 <thead>
@@ -1283,15 +1315,15 @@ B_i = \sum_{k=1}^{K} w_{ik} \cdot g_k
 </table>
 <p>O PT caiu cerca de 16pp nacionalmente, o PSDB desmoronou ~26pp, e o bloco Outros (liderado por Bolsonaro e Ciro) subiu ~43pp. Esses choques são os mesmos para todos os estados — são tendências <strong>nacionais</strong>.</p>
 <p>Finalmente, o <strong>instrumento Bartik</strong> <span class="math inline">\(B_i = \sum_k w_{ik} \cdot g_k\)</span> combina as shares iniciais com os shifts nacionais:</p>
-<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="shift-share.html#cb196-1" tabindex="-1"></a>tab_bartik <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb196-2"><a href="shift-share.html#cb196-2" tabindex="-1"></a>  <span class="at">UF =</span> eleicoes<span class="sc">$</span>UF,</span>
-<span id="cb196-3"><a href="shift-share.html#cb196-3" tabindex="-1"></a>  <span class="at">Bartik =</span> <span class="fu">round</span>(bartik <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span>
-<span id="cb196-4"><a href="shift-share.html#cb196-4" tabindex="-1"></a>)</span>
-<span id="cb196-5"><a href="shift-share.html#cb196-5" tabindex="-1"></a>tab_bartik_sel <span class="ot">&lt;-</span> tab_bartik[tab_bartik<span class="sc">$</span>UF <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;BA&quot;</span>,<span class="st">&quot;CE&quot;</span>,<span class="st">&quot;MG&quot;</span>,<span class="st">&quot;SP&quot;</span>,<span class="st">&quot;RS&quot;</span>), ]</span>
-<span id="cb196-6"><a href="shift-share.html#cb196-6" tabindex="-1"></a>tab_bartik_sel <span class="ot">&lt;-</span> tab_bartik_sel[<span class="fu">match</span>(<span class="fu">c</span>(<span class="st">&quot;BA&quot;</span>,<span class="st">&quot;CE&quot;</span>,<span class="st">&quot;MG&quot;</span>,<span class="st">&quot;SP&quot;</span>,<span class="st">&quot;RS&quot;</span>), tab_bartik_sel<span class="sc">$</span>UF), ]</span>
-<span id="cb196-7"><a href="shift-share.html#cb196-7" tabindex="-1"></a><span class="fu">kable</span>(tab_bartik_sel, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb196-8"><a href="shift-share.html#cb196-8" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">&quot;Instrumento Bartik $B_i$ para cada estado (pp)&quot;</span>,</span>
-<span id="cb196-9"><a href="shift-share.html#cb196-9" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Estado ($i$)&quot;</span>, <span class="st">&quot;$B_i$ (pp)&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="shift-share.html#cb204-1" tabindex="-1"></a>tab_bartik <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb204-2"><a href="shift-share.html#cb204-2" tabindex="-1"></a>  <span class="at">UF =</span> eleicoes<span class="sc">$</span>UF,</span>
+<span id="cb204-3"><a href="shift-share.html#cb204-3" tabindex="-1"></a>  <span class="at">Bartik =</span> <span class="fu">round</span>(bartik <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span>
+<span id="cb204-4"><a href="shift-share.html#cb204-4" tabindex="-1"></a>)</span>
+<span id="cb204-5"><a href="shift-share.html#cb204-5" tabindex="-1"></a>tab_bartik_sel <span class="ot">&lt;-</span> tab_bartik[tab_bartik<span class="sc">$</span>UF <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;BA&quot;</span>,<span class="st">&quot;CE&quot;</span>,<span class="st">&quot;MG&quot;</span>,<span class="st">&quot;SP&quot;</span>,<span class="st">&quot;RS&quot;</span>), ]</span>
+<span id="cb204-6"><a href="shift-share.html#cb204-6" tabindex="-1"></a>tab_bartik_sel <span class="ot">&lt;-</span> tab_bartik_sel[<span class="fu">match</span>(<span class="fu">c</span>(<span class="st">&quot;BA&quot;</span>,<span class="st">&quot;CE&quot;</span>,<span class="st">&quot;MG&quot;</span>,<span class="st">&quot;SP&quot;</span>,<span class="st">&quot;RS&quot;</span>), tab_bartik_sel<span class="sc">$</span>UF), ]</span>
+<span id="cb204-7"><a href="shift-share.html#cb204-7" tabindex="-1"></a><span class="fu">kable</span>(tab_bartik_sel, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb204-8"><a href="shift-share.html#cb204-8" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">&quot;Instrumento Bartik $B_i$ para cada estado (pp)&quot;</span>,</span>
+<span id="cb204-9"><a href="shift-share.html#cb204-9" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Estado ($i$)&quot;</span>, <span class="st">&quot;$B_i$ (pp)&quot;</span>))</span></code></pre></div>
 <table>
 <caption><span id="tab:ss-iv-bartik">Table 14.8: </span>Instrumento Bartik <span class="math inline">\(B_i\)</span> para cada estado (pp)</caption>
 <thead>
@@ -1483,53 +1515,53 @@ Figure 14.3: DAG do instrumento shift-share. O instrumento <span class="math inl
 <div id="construção-do-instrumento" class="section level3 hasAnchor" number="14.7.1">
 <h3><span class="header-section-number">14.7.1</span> Construção do instrumento<a href="#constru%C3%A7%C3%A3o-do-instrumento" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>O instrumento <span class="math inline">\(B_i = \sum_k w_{ik} g_k\)</span> é uma simples multiplicação matricial:</p>
-<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="shift-share.html#cb197-1" tabindex="-1"></a><span class="co"># shares: matriz N x K de exposure shares (cada linha soma 1)</span></span>
-<span id="cb197-2"><a href="shift-share.html#cb197-2" tabindex="-1"></a><span class="co"># shocks: vetor K x 1 de choques setoriais</span></span>
-<span id="cb197-3"><a href="shift-share.html#cb197-3" tabindex="-1"></a>bartik_instrument <span class="ot">&lt;-</span> shares <span class="sc">%*%</span> shocks</span></code></pre></div>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="shift-share.html#cb205-1" tabindex="-1"></a><span class="co"># shares: matriz N x K de exposure shares (cada linha soma 1)</span></span>
+<span id="cb205-2"><a href="shift-share.html#cb205-2" tabindex="-1"></a><span class="co"># shocks: vetor K x 1 de choques setoriais</span></span>
+<span id="cb205-3"><a href="shift-share.html#cb205-3" tabindex="-1"></a>bartik_instrument <span class="ot">&lt;-</span> shares <span class="sc">%*%</span> shocks</span></code></pre></div>
 </div>
 <div id="estimação-iv" class="section level3 hasAnchor" number="14.7.2">
 <h3><span class="header-section-number">14.7.2</span> Estimação IV<a href="#estima%C3%A7%C3%A3o-iv" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Diversos pacotes R permitem estimar 2SLS. O <code>fixest</code> é recomendado por sua velocidade e suporte a efeitos fixos:</p>
-<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="shift-share.html#cb198-1" tabindex="-1"></a><span class="fu">library</span>(fixest)</span>
-<span id="cb198-2"><a href="shift-share.html#cb198-2" tabindex="-1"></a></span>
-<span id="cb198-3"><a href="shift-share.html#cb198-3" tabindex="-1"></a><span class="co"># Construir instrumento</span></span>
-<span id="cb198-4"><a href="shift-share.html#cb198-4" tabindex="-1"></a>dados<span class="sc">$</span>bartik <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(shares <span class="sc">%*%</span> shocks)</span>
-<span id="cb198-5"><a href="shift-share.html#cb198-5" tabindex="-1"></a></span>
-<span id="cb198-6"><a href="shift-share.html#cb198-6" tabindex="-1"></a><span class="co"># IV com efeitos fixos de estado</span></span>
-<span id="cb198-7"><a href="shift-share.html#cb198-7" tabindex="-1"></a>modelo <span class="ot">&lt;-</span> <span class="fu">feols</span>(y <span class="sc">~</span> controles <span class="sc">|</span> estado <span class="sc">|</span> x_endogeno <span class="sc">~</span> bartik, <span class="at">data =</span> dados)</span>
-<span id="cb198-8"><a href="shift-share.html#cb198-8" tabindex="-1"></a><span class="fu">summary</span>(modelo)</span></code></pre></div>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="shift-share.html#cb206-1" tabindex="-1"></a><span class="fu">library</span>(fixest)</span>
+<span id="cb206-2"><a href="shift-share.html#cb206-2" tabindex="-1"></a></span>
+<span id="cb206-3"><a href="shift-share.html#cb206-3" tabindex="-1"></a><span class="co"># Construir instrumento</span></span>
+<span id="cb206-4"><a href="shift-share.html#cb206-4" tabindex="-1"></a>dados<span class="sc">$</span>bartik <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(shares <span class="sc">%*%</span> shocks)</span>
+<span id="cb206-5"><a href="shift-share.html#cb206-5" tabindex="-1"></a></span>
+<span id="cb206-6"><a href="shift-share.html#cb206-6" tabindex="-1"></a><span class="co"># IV com efeitos fixos de estado</span></span>
+<span id="cb206-7"><a href="shift-share.html#cb206-7" tabindex="-1"></a>modelo <span class="ot">&lt;-</span> <span class="fu">feols</span>(y <span class="sc">~</span> controles <span class="sc">|</span> estado <span class="sc">|</span> x_endogeno <span class="sc">~</span> bartik, <span class="at">data =</span> dados)</span>
+<span id="cb206-8"><a href="shift-share.html#cb206-8" tabindex="-1"></a><span class="fu">summary</span>(modelo)</span></code></pre></div>
 </div>
 <div id="erros-padrão-corrigidos-pacote-shiftsharese" class="section level3 hasAnchor" number="14.7.3">
 <h3><span class="header-section-number">14.7.3</span> Erros-padrão corrigidos: pacote <code>ShiftShareSE</code><a href="#erros-padr%C3%A3o-corrigidos-pacote-shiftsharese" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>O pacote <code>ShiftShareSE</code>, de Michal Kolesár, está disponível no CRAN e implementa os erros-padrão AKM (Adão, Kolesár &amp; Morales, 2019):</p>
-<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="shift-share.html#cb199-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;ShiftShareSE&quot;</span>)</span>
-<span id="cb199-2"><a href="shift-share.html#cb199-2" tabindex="-1"></a><span class="fu">library</span>(ShiftShareSE)</span>
-<span id="cb199-3"><a href="shift-share.html#cb199-3" tabindex="-1"></a></span>
-<span id="cb199-4"><a href="shift-share.html#cb199-4" tabindex="-1"></a><span class="co"># IV com SEs corrigidos para shift-share</span></span>
-<span id="cb199-5"><a href="shift-share.html#cb199-5" tabindex="-1"></a>resultado <span class="ot">&lt;-</span> <span class="fu">ivreg_ss</span>(y <span class="sc">~</span> x_endogeno <span class="sc">|</span> bartik,</span>
-<span id="cb199-6"><a href="shift-share.html#cb199-6" tabindex="-1"></a>                       <span class="at">X =</span> shares_matrix,    <span class="co"># matriz N x K de shares</span></span>
-<span id="cb199-7"><a href="shift-share.html#cb199-7" tabindex="-1"></a>                       <span class="at">data =</span> dados)</span>
-<span id="cb199-8"><a href="shift-share.html#cb199-8" tabindex="-1"></a><span class="fu">summary</span>(resultado)</span></code></pre></div>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="shift-share.html#cb207-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;ShiftShareSE&quot;</span>)</span>
+<span id="cb207-2"><a href="shift-share.html#cb207-2" tabindex="-1"></a><span class="fu">library</span>(ShiftShareSE)</span>
+<span id="cb207-3"><a href="shift-share.html#cb207-3" tabindex="-1"></a></span>
+<span id="cb207-4"><a href="shift-share.html#cb207-4" tabindex="-1"></a><span class="co"># IV com SEs corrigidos para shift-share</span></span>
+<span id="cb207-5"><a href="shift-share.html#cb207-5" tabindex="-1"></a>resultado <span class="ot">&lt;-</span> <span class="fu">ivreg_ss</span>(y <span class="sc">~</span> x_endogeno <span class="sc">|</span> bartik,</span>
+<span id="cb207-6"><a href="shift-share.html#cb207-6" tabindex="-1"></a>                       <span class="at">X =</span> shares_matrix,    <span class="co"># matriz N x K de shares</span></span>
+<span id="cb207-7"><a href="shift-share.html#cb207-7" tabindex="-1"></a>                       <span class="at">data =</span> dados)</span>
+<span id="cb207-8"><a href="shift-share.html#cb207-8" tabindex="-1"></a><span class="fu">summary</span>(resultado)</span></code></pre></div>
 <p>Este pacote é essencial porque, como demonstrado por AKM, erros-padrão convencionais (mesmo clusterizados por geografia) são severamente subestimados em designs shift-share.</p>
 </div>
 <div id="agregação-ao-nível-do-choque-pacote-ssaggregate" class="section level3 hasAnchor" number="14.7.4">
 <h3><span class="header-section-number">14.7.4</span> Agregação ao nível do choque: pacote <code>ssaggregate</code><a href="#agrega%C3%A7%C3%A3o-ao-n%C3%ADvel-do-choque-pacote-ssaggregate" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>O pacote <code>ssaggregate</code>, de Kyle Butts, implementa a agregação ao nível do choque de Borusyak, Hull &amp; Jaravel (2022). Está disponível apenas no GitHub:</p>
-<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="shift-share.html#cb200-1" tabindex="-1"></a><span class="co"># install: remotes::install_github(&quot;kylebutts/ssaggregate&quot;)</span></span>
-<span id="cb200-2"><a href="shift-share.html#cb200-2" tabindex="-1"></a><span class="fu">library</span>(ssaggregate)</span>
-<span id="cb200-3"><a href="shift-share.html#cb200-3" tabindex="-1"></a></span>
-<span id="cb200-4"><a href="shift-share.html#cb200-4" tabindex="-1"></a><span class="co"># Agregar dados regionais para o nível do choque</span></span>
-<span id="cb200-5"><a href="shift-share.html#cb200-5" tabindex="-1"></a>dados_choque <span class="ot">&lt;-</span> <span class="fu">ssaggregate</span>(</span>
-<span id="cb200-6"><a href="shift-share.html#cb200-6" tabindex="-1"></a>  <span class="at">data =</span> dados_long,     <span class="co"># formato longo: região x setor</span></span>
-<span id="cb200-7"><a href="shift-share.html#cb200-7" tabindex="-1"></a>  <span class="at">shares =</span> <span class="st">&quot;share&quot;</span>,</span>
-<span id="cb200-8"><a href="shift-share.html#cb200-8" tabindex="-1"></a>  <span class="at">n =</span> <span class="st">&quot;regiao&quot;</span>,</span>
-<span id="cb200-9"><a href="shift-share.html#cb200-9" tabindex="-1"></a>  <span class="at">s =</span> <span class="st">&quot;setor&quot;</span>,</span>
-<span id="cb200-10"><a href="shift-share.html#cb200-10" tabindex="-1"></a>  <span class="at">t =</span> <span class="st">&quot;ano&quot;</span>,</span>
-<span id="cb200-11"><a href="shift-share.html#cb200-11" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(<span class="st">&quot;y&quot;</span>, <span class="st">&quot;x_endogeno&quot;</span>)</span>
-<span id="cb200-12"><a href="shift-share.html#cb200-12" tabindex="-1"></a>)</span>
-<span id="cb200-13"><a href="shift-share.html#cb200-13" tabindex="-1"></a></span>
-<span id="cb200-14"><a href="shift-share.html#cb200-14" tabindex="-1"></a><span class="co"># Agora rodar IV convencional no nível do choque</span></span>
-<span id="cb200-15"><a href="shift-share.html#cb200-15" tabindex="-1"></a><span class="fu">feols</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> x_endogeno <span class="sc">~</span> g_k, <span class="at">data =</span> dados_choque)</span></code></pre></div>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="shift-share.html#cb208-1" tabindex="-1"></a><span class="co"># install: remotes::install_github(&quot;kylebutts/ssaggregate&quot;)</span></span>
+<span id="cb208-2"><a href="shift-share.html#cb208-2" tabindex="-1"></a><span class="fu">library</span>(ssaggregate)</span>
+<span id="cb208-3"><a href="shift-share.html#cb208-3" tabindex="-1"></a></span>
+<span id="cb208-4"><a href="shift-share.html#cb208-4" tabindex="-1"></a><span class="co"># Agregar dados regionais para o nível do choque</span></span>
+<span id="cb208-5"><a href="shift-share.html#cb208-5" tabindex="-1"></a>dados_choque <span class="ot">&lt;-</span> <span class="fu">ssaggregate</span>(</span>
+<span id="cb208-6"><a href="shift-share.html#cb208-6" tabindex="-1"></a>  <span class="at">data =</span> dados_long,     <span class="co"># formato longo: região x setor</span></span>
+<span id="cb208-7"><a href="shift-share.html#cb208-7" tabindex="-1"></a>  <span class="at">shares =</span> <span class="st">&quot;share&quot;</span>,</span>
+<span id="cb208-8"><a href="shift-share.html#cb208-8" tabindex="-1"></a>  <span class="at">n =</span> <span class="st">&quot;regiao&quot;</span>,</span>
+<span id="cb208-9"><a href="shift-share.html#cb208-9" tabindex="-1"></a>  <span class="at">s =</span> <span class="st">&quot;setor&quot;</span>,</span>
+<span id="cb208-10"><a href="shift-share.html#cb208-10" tabindex="-1"></a>  <span class="at">t =</span> <span class="st">&quot;ano&quot;</span>,</span>
+<span id="cb208-11"><a href="shift-share.html#cb208-11" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(<span class="st">&quot;y&quot;</span>, <span class="st">&quot;x_endogeno&quot;</span>)</span>
+<span id="cb208-12"><a href="shift-share.html#cb208-12" tabindex="-1"></a>)</span>
+<span id="cb208-13"><a href="shift-share.html#cb208-13" tabindex="-1"></a></span>
+<span id="cb208-14"><a href="shift-share.html#cb208-14" tabindex="-1"></a><span class="co"># Agora rodar IV convencional no nível do choque</span></span>
+<span id="cb208-15"><a href="shift-share.html#cb208-15" tabindex="-1"></a><span class="fu">feols</span>(y <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> x_endogeno <span class="sc">~</span> g_k, <span class="at">data =</span> dados_choque)</span></code></pre></div>
 </div>
 <div id="ecossistema-r-vs.-stata" class="section level3 hasAnchor" number="14.7.5">
 <h3><span class="header-section-number">14.7.5</span> Ecossistema R vs. Stata<a href="shift-share.html#ecossistema-r-vs.-stata" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -1685,7 +1717,7 @@ Figure 14.3: DAG do instrumento shift-share. O instrumento <span class="math inl
           </div>
         </div>
       </div>
-<a href="resumo-2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="resumo-3.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="interferência-spillover-e-dinâmica.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

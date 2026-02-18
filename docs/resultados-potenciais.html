@@ -23,7 +23,7 @@
 <meta name="author" content="Manoel Galdino" />
 
 
-<meta name="date" content="2026-02-17" />
+<meta name="date" content="2026-02-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -388,13 +388,45 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.9" data-path="02-PO.html"><a href="#efeitos-aleat%C3%B3rios"><i class="fa fa-check"></i><b>9.9</b> Efeitos aleatórios</a></li>
 <li class="chapter" data-level="9.10" data-path="02-PO.html"><a href="#refer%C3%AAncias-7"><i class="fa fa-check"></i><b>9.10</b> Referências</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="synthetic-control.html"><a href="synthetic-control.html"><i class="fa fa-check"></i><b>10</b> Synthetic Control</a>
+<li class="chapter" data-level="10" data-path="02-PO.html"><a href="#controle-sint%C3%A9tico-e-estima%C3%A7%C3%A3o-contrafactual"><i class="fa fa-check"></i><b>10</b> Controle Sintético e Estimação Contrafactual</a>
 <ul>
-<li class="chapter" data-level="10.0.1" data-path="synthetic-control.html"><a href="synthetic-control.html#tratamento"><i class="fa fa-check"></i><b>10.0.1</b> Tratamento</a></li>
-<li class="chapter" data-level="10.1" data-path="02-PO.html"><a href="#implementa%C3%A7%C3%A3o-no-r"><i class="fa fa-check"></i><b>10.1</b> Implementação no R</a></li>
-<li class="chapter" data-level="10.2" data-path="synthetic-control.html"><a href="synthetic-control.html#synthetic-did"><i class="fa fa-check"></i><b>10.2</b> Synthetic DiD</a></li>
-<li class="chapter" data-level="10.3" data-path="02-PO.html"><a href="#resumo-e-pr%C3%B3ximos-passos-4"><i class="fa fa-check"></i><b>10.3</b> Resumo e próximos passos</a></li>
-<li class="chapter" data-level="10.4" data-path="02-PO.html"><a href="#refer%C3%AAncias-8"><i class="fa fa-check"></i><b>10.4</b> Referências</a></li>
+<li class="chapter" data-level="10.1" data-path="02-PO.html"><a href="#motiva%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>10.1</b> Motivação</a></li>
+<li class="chapter" data-level="10.2" data-path="02-PO.html"><a href="#controle-sint%C3%A9tico-cl%C3%A1ssico"><i class="fa fa-check"></i><b>10.2</b> Controle Sintético clássico</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="02-PO.html"><a href="#formaliza%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>10.2.1</b> Formalização</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="02-PO.html"><a href="#implementa%C3%A7%C3%A3o-do-scm-no-r"><i class="fa fa-check"></i><b>10.3</b> Implementação do SCM no R</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="02-PO.html"><a href="#infer%C3%AAncia-por-placebo"><i class="fa fa-check"></i><b>10.3.1</b> Inferência por placebo</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="02-PO.html"><a href="#framework-de-estima%C3%A7%C3%A3o-contrafactual"><i class="fa fa-check"></i><b>10.4</b> Framework de estimação contrafactual</a>
+<ul>
+<li class="chapter" data-level="10.4.1" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html"><i class="fa fa-check"></i><b>10.4.1</b> Setup</a></li>
+<li class="chapter" data-level="10.4.2" data-path="02-PO.html"><a href="#estrat%C3%A9gia-de-estima%C3%A7%C3%A3o-em-quatro-passos"><i class="fa fa-check"></i><b>10.4.2</b> Estratégia de estimação em quatro passos</a></li>
+<li class="chapter" data-level="10.4.3" data-path="02-PO.html"><a href="#suposi%C3%A7%C3%B5es-de-identifica%C3%A7%C3%A3o-1"><i class="fa fa-check"></i><b>10.4.3</b> Suposições de identificação</a></li>
+<li class="chapter" data-level="10.4.4" data-path="02-PO.html"><a href="#conex%C3%A3o-com-did"><i class="fa fa-check"></i><b>10.4.4</b> Conexão com DiD</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="02-PO.html"><a href="#tr%C3%AAs-estimadores-contrafactuais"><i class="fa fa-check"></i><b>10.5</b> Três estimadores contrafactuais</a>
+<ul>
+<li class="chapter" data-level="10.5.1" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#fect-efeitos-fixos"><i class="fa fa-check"></i><b>10.5.1</b> FEct: efeitos fixos</a></li>
+<li class="chapter" data-level="10.5.2" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#ifect-fatores-interativos"><i class="fa fa-check"></i><b>10.5.2</b> IFEct: fatores interativos</a></li>
+<li class="chapter" data-level="10.5.3" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#mc-matrix-completion"><i class="fa fa-check"></i><b>10.5.3</b> MC: Matrix Completion</a></li>
+<li class="chapter" data-level="10.5.4" data-path="02-PO.html"><a href="#demonstra%C3%A7%C3%A3o-com-dados-da-calif%C3%B3rnia"><i class="fa fa-check"></i><b>10.5.4</b> Demonstração com dados da Califórnia</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="02-PO.html"><a href="#diagn%C3%B3sticos"><i class="fa fa-check"></i><b>10.6</b> Diagnósticos</a>
+<ul>
+<li class="chapter" data-level="10.6.1" data-path="02-PO.html"><a href="#efeitos-din%C3%A2micos"><i class="fa fa-check"></i><b>10.6.1</b> Efeitos dinâmicos</a></li>
+<li class="chapter" data-level="10.6.2" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#placebo-test"><i class="fa fa-check"></i><b>10.6.2</b> Placebo test</a></li>
+<li class="chapter" data-level="10.6.3" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#teste-de-no-carryover"><i class="fa fa-check"></i><b>10.6.3</b> Teste de no-carryover</a></li>
+</ul></li>
+<li class="chapter" data-level="10.7" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#synthetic-did"><i class="fa fa-check"></i><b>10.7</b> Synthetic DiD</a>
+<ul>
+<li class="chapter" data-level="10.7.1" data-path="02-PO.html"><a href="#implementa%C3%A7%C3%A3o-no-r"><i class="fa fa-check"></i><b>10.7.1</b> Implementação no R</a></li>
+</ul></li>
+<li class="chapter" data-level="10.8" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#trop-estimador-triplamente-robusto"><i class="fa fa-check"></i><b>10.8</b> TROP: estimador triplamente robusto</a></li>
+<li class="chapter" data-level="10.9" data-path="02-PO.html"><a href="#quando-usar-cada-m%C3%A9todo-guia-pr%C3%A1tico"><i class="fa fa-check"></i><b>10.9</b> Quando usar cada método: guia prático</a></li>
+<li class="chapter" data-level="10.10" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#resumo-2"><i class="fa fa-check"></i><b>10.10</b> Resumo</a></li>
+<li class="chapter" data-level="10.11" data-path="02-PO.html"><a href="#refer%C3%AAncias-8"><i class="fa fa-check"></i><b>10.11</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="llms-e-outras.html"><a href="llms-e-outras.html"><i class="fa fa-check"></i><b>11</b> LLMs e outras</a>
 <ul>
@@ -416,22 +448,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="12.7" data-path="machine-learning.html"><a href="machine-learning.html#double-debiasing"><i class="fa fa-check"></i><b>12.7</b> Double Debiasing</a></li>
 <li class="chapter" data-level="12.8" data-path="machine-learning.html"><a href="machine-learning.html#cross-fitting"><i class="fa fa-check"></i><b>12.8</b> Cross-fitting</a></li>
 <li class="chapter" data-level="12.9" data-path="02-PO.html"><a href="#quest%C3%B5es-pr%C3%A1ticas"><i class="fa fa-check"></i><b>12.9</b> Questões Práticas</a></li>
-<li class="chapter" data-level="12.10" data-path="02-PO.html"><a href="#resumo-e-pr%C3%B3ximos-passos-5"><i class="fa fa-check"></i><b>12.10</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="12.10" data-path="02-PO.html"><a href="#resumo-e-pr%C3%B3ximos-passos-4"><i class="fa fa-check"></i><b>12.10</b> Resumo e próximos passos</a></li>
 <li class="chapter" data-level="12.11" data-path="02-PO.html"><a href="#refer%C3%AAncias-9"><i class="fa fa-check"></i><b>12.11</b> Referências</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="resumo-2.html"><a href="resumo-2.html"><i class="fa fa-check"></i><b>13</b> Resumo</a>
+<li class="chapter" data-level="13" data-path="resumo-3.html"><a href="resumo-3.html"><i class="fa fa-check"></i><b>13</b> Resumo</a>
 <ul>
-<li class="chapter" data-level="13.1" data-path="resumo-2.html"><a href="resumo-2.html#matching-2"><i class="fa fa-check"></i><b>13.1</b> Matching</a></li>
-<li class="chapter" data-level="13.2" data-path="resumo-2.html"><a href="resumo-2.html#iv"><i class="fa fa-check"></i><b>13.2</b> IV</a></li>
-<li class="chapter" data-level="13.3" data-path="resumo-2.html"><a href="resumo-2.html#rdd"><i class="fa fa-check"></i><b>13.3</b> RDD</a></li>
-<li class="chapter" data-level="13.4" data-path="resumo-2.html"><a href="resumo-2.html#did"><i class="fa fa-check"></i><b>13.4</b> DiD</a>
+<li class="chapter" data-level="13.1" data-path="resumo-3.html"><a href="resumo-3.html#matching-2"><i class="fa fa-check"></i><b>13.1</b> Matching</a></li>
+<li class="chapter" data-level="13.2" data-path="resumo-3.html"><a href="resumo-3.html#iv"><i class="fa fa-check"></i><b>13.2</b> IV</a></li>
+<li class="chapter" data-level="13.3" data-path="resumo-3.html"><a href="resumo-3.html#rdd"><i class="fa fa-check"></i><b>13.3</b> RDD</a></li>
+<li class="chapter" data-level="13.4" data-path="resumo-3.html"><a href="resumo-3.html#did"><i class="fa fa-check"></i><b>13.4</b> DiD</a>
 <ul>
-<li class="chapter" data-level="13.4.1" data-path="resumo-2.html"><a href="resumo-2.html#tscs"><i class="fa fa-check"></i><b>13.4.1</b> TSCS</a></li>
+<li class="chapter" data-level="13.4.1" data-path="resumo-3.html"><a href="resumo-3.html#tscs"><i class="fa fa-check"></i><b>13.4.1</b> TSCS</a></li>
 </ul></li>
-<li class="chapter" data-level="13.5" data-path="resumo-2.html"><a href="resumo-2.html#scm"><i class="fa fa-check"></i><b>13.5</b> SCM</a></li>
+<li class="chapter" data-level="13.5" data-path="resumo-3.html"><a href="resumo-3.html#scm"><i class="fa fa-check"></i><b>13.5</b> SCM</a></li>
 <li class="chapter" data-level="13.6" data-path="02-PO.html"><a href="#did-sint%C3%A9tico"><i class="fa fa-check"></i><b>13.6</b> DiD Sintético</a></li>
-<li class="chapter" data-level="13.7" data-path="resumo-2.html"><a href="resumo-2.html#double-lasso-1"><i class="fa fa-check"></i><b>13.7</b> Double LASSO</a></li>
-<li class="chapter" data-level="13.8" data-path="resumo-2.html"><a href="resumo-2.html#dml-1"><i class="fa fa-check"></i><b>13.8</b> DML</a></li>
+<li class="chapter" data-level="13.7" data-path="resumo-3.html"><a href="resumo-3.html#double-lasso-1"><i class="fa fa-check"></i><b>13.7</b> Double LASSO</a></li>
+<li class="chapter" data-level="13.8" data-path="resumo-3.html"><a href="resumo-3.html#dml-1"><i class="fa fa-check"></i><b>13.8</b> DML</a></li>
 </ul></li>
 <li class="chapter" data-level="14" data-path="shift-share.html"><a href="shift-share.html"><i class="fa fa-check"></i><b>14</b> Shift-share</a>
 <ul>
