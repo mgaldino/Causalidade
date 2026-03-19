@@ -23,7 +23,7 @@
 <meta name="author" content="Manoel Galdino" />
 
 
-<meta name="date" content="2026-02-18" />
+<meta name="date" content="2026-03-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -145,18 +145,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="13-ML.html"><a href="#introdu%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>1</b> Introdução</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="13-ML.html"><a href="#revis%C3%A3o-de-regress%C3%A3o"><i class="fa fa-check"></i><b>1.1</b> Revisão de Regressão</a>
+<li class="chapter" data-level="1.1" data-path="13-ML.html"><a href="#a-revolu%C3%A7%C3%A3o-da-credibilidade-em-ci%C3%AAncia-pol%C3%ADtica"><i class="fa fa-check"></i><b>1.1</b> A revolução da credibilidade em ciência política</a></li>
+<li class="chapter" data-level="1.2" data-path="13-ML.html"><a href="#revis%C3%A3o-de-regress%C3%A3o"><i class="fa fa-check"></i><b>1.2</b> Revisão de Regressão</a>
 <ul>
-<li class="chapter" data-level="1.1.1" data-path="13-ML.html"><a href="#teorema-da-anatomia-da-regress%C3%A3o"><i class="fa fa-check"></i><b>1.1.1</b> Teorema da Anatomia da Regressão</a></li>
+<li class="chapter" data-level="1.2.1" data-path="13-ML.html"><a href="#teorema-da-anatomia-da-regress%C3%A3o"><i class="fa fa-check"></i><b>1.2.1</b> Teorema da Anatomia da Regressão</a></li>
 </ul></li>
-<li class="chapter" data-level="1.2" data-path="13-ML.html"><a href="#infer%C3%AAncia"><i class="fa fa-check"></i><b>1.2</b> Inferência</a>
+<li class="chapter" data-level="1.3" data-path="13-ML.html"><a href="#infer%C3%AAncia"><i class="fa fa-check"></i><b>1.3</b> Inferência</a>
 <ul>
-<li class="chapter" data-level="1.2.1" data-path="13-ML.html"><a href="#generaliza%C3%A7%C3%A3o-amostral-vs.-generaliza%C3%A7%C3%A3o-causal"><i class="fa fa-check"></i><b>1.2.1</b> Generalização amostral vs. generalização causal</a></li>
-<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1.2.2</b> Incerteza com o universo dos casos</a></li>
-<li class="chapter" data-level="1.2.3" data-path="index.html"><a href="index.html#validade-externa"><i class="fa fa-check"></i><b>1.2.3</b> Validade externa</a></li>
+<li class="chapter" data-level="1.3.1" data-path="13-ML.html"><a href="#generaliza%C3%A7%C3%A3o-amostral-vs.-generaliza%C3%A7%C3%A3o-causal"><i class="fa fa-check"></i><b>1.3.1</b> Generalização amostral vs. generalização causal</a></li>
+<li class="chapter" data-level="1.3.2" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1.3.2</b> Incerteza com o universo dos casos</a></li>
+<li class="chapter" data-level="1.3.3" data-path="index.html"><a href="index.html#validade-externa"><i class="fa fa-check"></i><b>1.3.3</b> Validade externa</a></li>
 </ul></li>
-<li class="chapter" data-level="1.3" data-path="13-ML.html"><a href="#resumo-e-pr%C3%B3ximos-passos"><i class="fa fa-check"></i><b>1.3</b> Resumo e próximos passos</a></li>
-<li class="chapter" data-level="1.4" data-path="13-ML.html"><a href="#refer%C3%AAncias"><i class="fa fa-check"></i><b>1.4</b> Referências</a></li>
+<li class="chapter" data-level="1.4" data-path="13-ML.html"><a href="#resumo-e-pr%C3%B3ximos-passos"><i class="fa fa-check"></i><b>1.4</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="1.5" data-path="13-ML.html"><a href="#refer%C3%AAncias"><i class="fa fa-check"></i><b>1.5</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html"><i class="fa fa-check"></i><b>2</b> Resultados Potenciais</a>
 <ul>
@@ -572,114 +573,114 @@ As técnicas de machine learning foram desenvolvidas em geral voltadas para o pr
 <p>O estimador robusto mais popular é o Double Lasso. A ideia é que se eu tentar usar LASSO diretamente na equação de regressão <span class="math inline">\(y_i = \alpha + \beta_1D_i + BX + e_i\)</span>, variáveis correlacionadas entre si terão coeficientes zero, e potencialmente o tratamento será uma delas, impedindo a estimação da quantidade causal de interesse. Estratégias como forçar <span class="math inline">\(D_i\)</span> a permanecer na equação implicam que ficará fora da equação de penalização. Contudo, isso pode causar viés na estimação de <span class="math inline">\(\beta_1\)</span> (Belloni et al., 2014). Essa regularização força variáveis correlacionadas com o tratamento a serem dropadas, o que significa dropar potenciais variáveis de confusão.</p>
 <p>Resumo: não use as técnicas de ML diretamente na equação de regressão.</p>
 <p>Exemplo.</p>
-<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="machine-learning.html#cb177-1" tabindex="-1"></a><span class="co"># vou rodar mil simulações com n=100</span></span>
-<span id="cb177-2"><a href="machine-learning.html#cb177-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">10</span>)</span>
-<span id="cb177-3"><a href="machine-learning.html#cb177-3" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">90</span> <span class="co"># número de controles</span></span>
-<span id="cb177-4"><a href="machine-learning.html#cb177-4" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="co"># número de obs</span></span>
-<span id="cb177-5"><a href="machine-learning.html#cb177-5" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> .<span class="dv">2</span> <span class="co"># intercepto</span></span>
-<span id="cb177-6"><a href="machine-learning.html#cb177-6" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="dv">0</span> <span class="co"># efeito do tratamento</span></span>
-<span id="cb177-7"><a href="machine-learning.html#cb177-7" tabindex="-1"></a>gamma <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">min=</span><span class="sc">-</span><span class="dv">1</span>, <span class="at">max=</span><span class="dv">1</span>, <span class="at">n=</span>k) <span class="co"># efeito do vetor de controles</span></span>
-<span id="cb177-8"><a href="machine-learning.html#cb177-8" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">min=</span><span class="sc">-</span><span class="dv">1</span>, <span class="at">max=</span><span class="dv">1</span>, <span class="at">n=</span>k) </span>
-<span id="cb177-9"><a href="machine-learning.html#cb177-9" tabindex="-1"></a>erro <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb177-10"><a href="machine-learning.html#cb177-10" tabindex="-1"></a>vec_x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n<span class="sc">*</span>k, <span class="at">mean =</span> <span class="fu">rep</span>(<span class="dv">0</span>,k)) <span class="co"># vetor de controles</span></span>
-<span id="cb177-11"><a href="machine-learning.html#cb177-11" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">matrix</span>(vec_x, <span class="at">ncol=</span>k)</span>
-<span id="cb177-12"><a href="machine-learning.html#cb177-12" tabindex="-1"></a>D <span class="ot">&lt;-</span> x<span class="sc">%*%</span>delta <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb177-13"><a href="machine-learning.html#cb177-13" tabindex="-1"></a>y <span class="ot">&lt;-</span> alpha <span class="sc">+</span> beta<span class="sc">*</span>D <span class="sc">+</span> x<span class="sc">%*%</span>gamma <span class="sc">+</span> erro</span>
-<span id="cb177-14"><a href="machine-learning.html#cb177-14" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span>D <span class="sc">+</span> x)</span>
-<span id="cb177-15"><a href="machine-learning.html#cb177-15" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">summary</span>(fit))[<span class="dv">2</span>]</span></code></pre></div>
-<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="machine-learning.html#cb178-1" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
-<span id="cb178-2"><a href="machine-learning.html#cb178-2" tabindex="-1"></a><span class="fu">library</span>(arm)</span>
-<span id="cb178-3"><a href="machine-learning.html#cb178-3" tabindex="-1"></a>sim_pvalue_dl <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">n_sim=</span><span class="dv">1000</span>, <span class="at">n_sample=</span><span class="dv">100</span>) {</span>
-<span id="cb178-4"><a href="machine-learning.html#cb178-4" tabindex="-1"></a>  vec_p_values <span class="ot">&lt;-</span> <span class="fu">numeric</span>()</span>
-<span id="cb178-5"><a href="machine-learning.html#cb178-5" tabindex="-1"></a>  beta_hat <span class="ot">&lt;-</span> <span class="fu">numeric</span>()</span>
-<span id="cb178-6"><a href="machine-learning.html#cb178-6" tabindex="-1"></a>  theta_hat <span class="ot">&lt;-</span> <span class="fu">numeric</span>()</span>
-<span id="cb178-7"><a href="machine-learning.html#cb178-7" tabindex="-1"></a>  lista_df <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb178-8"><a href="machine-learning.html#cb178-8" tabindex="-1"></a>  </span>
-<span id="cb178-9"><a href="machine-learning.html#cb178-9" tabindex="-1"></a>  <span class="cf">for</span> ( i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_sim) {</span>
-<span id="cb178-10"><a href="machine-learning.html#cb178-10" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">20</span> <span class="co"># número de controles</span></span>
-<span id="cb178-11"><a href="machine-learning.html#cb178-11" tabindex="-1"></a>n <span class="ot">&lt;-</span> n_sample <span class="co"># número de obs</span></span>
-<span id="cb178-12"><a href="machine-learning.html#cb178-12" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> .<span class="dv">2</span> <span class="co"># intercepto</span></span>
-<span id="cb178-13"><a href="machine-learning.html#cb178-13" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="dv">0</span> <span class="co"># efeito do tratamento</span></span>
-<span id="cb178-14"><a href="machine-learning.html#cb178-14" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># efeito D*V que nos interessa</span></span>
-<span id="cb178-15"><a href="machine-learning.html#cb178-15" tabindex="-1"></a>gamma <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">min=</span><span class="sc">-</span><span class="dv">1</span>, <span class="at">max=</span><span class="dv">1</span>, <span class="at">n=</span>k) <span class="co"># efeito do vetor de controles no y</span></span>
-<span id="cb178-16"><a href="machine-learning.html#cb178-16" tabindex="-1"></a>gamma[<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>k, (k<span class="sc">/</span><span class="dv">4</span>))] <span class="ot">&lt;-</span> <span class="dv">0</span> <span class="co"># k/4 zeros</span></span>
-<span id="cb178-17"><a href="machine-learning.html#cb178-17" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">min=</span><span class="sc">-</span><span class="dv">1</span>, <span class="at">max=</span><span class="dv">1</span>, <span class="at">n=</span>k) <span class="co"># efeito do vetor de controles no D</span></span>
-<span id="cb178-18"><a href="machine-learning.html#cb178-18" tabindex="-1"></a>erro <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">5</span>)</span>
-<span id="cb178-19"><a href="machine-learning.html#cb178-19" tabindex="-1"></a></span>
-<span id="cb178-20"><a href="machine-learning.html#cb178-20" tabindex="-1"></a><span class="co"># matriz de preditores correlacionados</span></span>
-<span id="cb178-21"><a href="machine-learning.html#cb178-21" tabindex="-1"></a>rho   <span class="ot">&lt;-</span> <span class="fl">0.7</span>                         <span class="co"># correlação entre vizinhos imediatos</span></span>
-<span id="cb178-22"><a href="machine-learning.html#cb178-22" tabindex="-1"></a>Sigma     <span class="ot">&lt;-</span> <span class="fu">toeplitz</span>(rho<span class="sc">^</span>(<span class="dv">0</span><span class="sc">:</span>(k<span class="dv">-1</span>)))     <span class="co"># R_{ij} = rho^{|i-j|}, variâncias = 1</span></span>
-<span id="cb178-23"><a href="machine-learning.html#cb178-23" tabindex="-1"></a>mean_vector <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, k)</span>
-<span id="cb178-24"><a href="machine-learning.html#cb178-24" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">mvrnorm</span>(n, mean_vector, Sigma)</span>
-<span id="cb178-25"><a href="machine-learning.html#cb178-25" tabindex="-1"></a>x_interaction <span class="ot">&lt;-</span> x[,<span class="dv">10</span>]</span>
-<span id="cb178-26"><a href="machine-learning.html#cb178-26" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">invlogit</span>(x<span class="sc">%*%</span>delta <span class="sc">+</span> <span class="fu">rnorm</span>(n)))</span>
-<span id="cb178-27"><a href="machine-learning.html#cb178-27" tabindex="-1"></a></span>
-<span id="cb178-28"><a href="machine-learning.html#cb178-28" tabindex="-1"></a>D_num <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(D)                <span class="co"># 0 ou 1</span></span>
-<span id="cb178-29"><a href="machine-learning.html#cb178-29" tabindex="-1"></a>X     <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(x_interaction)     <span class="co"># 6 × 5 no seu exemplo</span></span>
-<span id="cb178-30"><a href="machine-learning.html#cb178-30" tabindex="-1"></a></span>
-<span id="cb178-31"><a href="machine-learning.html#cb178-31" tabindex="-1"></a><span class="co"># interação: cada linha multiplicada por D[i]</span></span>
-<span id="cb178-32"><a href="machine-learning.html#cb178-32" tabindex="-1"></a>X_int <span class="ot">&lt;-</span> X <span class="sc">*</span> D_num </span>
-<span id="cb178-33"><a href="machine-learning.html#cb178-33" tabindex="-1"></a>X_int_omitida <span class="ot">&lt;-</span> x_interaction<span class="sc">*</span><span class="fu">as.matrix</span>(x[,<span class="dv">11</span><span class="sc">:</span><span class="dv">20</span>])</span>
-<span id="cb178-34"><a href="machine-learning.html#cb178-34" tabindex="-1"></a>y <span class="ot">&lt;-</span> alpha <span class="sc">+</span> beta<span class="sc">*</span>D <span class="sc">+</span> x<span class="sc">%*%</span>gamma <span class="sc">+</span> X_int<span class="sc">%*%</span>theta <span class="sc">+</span> <span class="fu">rowSums</span>(X_int_omitida) <span class="sc">+</span> erro</span>
-<span id="cb178-35"><a href="machine-learning.html#cb178-35" tabindex="-1"></a>df_sim <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(y, D, x, x_interaction)</span>
-<span id="cb178-36"><a href="machine-learning.html#cb178-36" tabindex="-1"></a>lista_df[[i]] <span class="ot">&lt;-</span> df_sim</span>
-<span id="cb178-37"><a href="machine-learning.html#cb178-37" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> D<span class="sc">*</span>x_interaction <span class="sc">+</span> x[,<span class="sc">-</span><span class="dv">10</span>], <span class="at">data =</span> df_sim)</span>
-<span id="cb178-38"><a href="machine-learning.html#cb178-38" tabindex="-1"></a>beta_hat[i] <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(fit))[<span class="dv">2</span>]</span>
-<span id="cb178-39"><a href="machine-learning.html#cb178-39" tabindex="-1"></a>vec_p_values[i] <span class="ot">&lt;-</span> <span class="fu">summary</span>(fit)<span class="sc">$</span>coefficients[,<span class="dv">4</span>][<span class="dv">2</span>]</span>
-<span id="cb178-40"><a href="machine-learning.html#cb178-40" tabindex="-1"></a>theta_hat[i] <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(fit))[<span class="dv">3</span>]</span>
-<span id="cb178-41"><a href="machine-learning.html#cb178-41" tabindex="-1"></a>  }</span>
-<span id="cb178-42"><a href="machine-learning.html#cb178-42" tabindex="-1"></a>  </span>
-<span id="cb178-43"><a href="machine-learning.html#cb178-43" tabindex="-1"></a>  df_final <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">beta =</span> beta_hat, <span class="at">p_values =</span> vec_p_values, <span class="at">theta_hat =</span> theta_hat)</span>
-<span id="cb178-44"><a href="machine-learning.html#cb178-44" tabindex="-1"></a></span>
-<span id="cb178-45"><a href="machine-learning.html#cb178-45" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">df_final =</span> df_final, <span class="at">lista_df =</span> lista_df))</span>
-<span id="cb178-46"><a href="machine-learning.html#cb178-46" tabindex="-1"></a>}</span>
-<span id="cb178-47"><a href="machine-learning.html#cb178-47" tabindex="-1"></a></span>
-<span id="cb178-48"><a href="machine-learning.html#cb178-48" tabindex="-1"></a>result_sim <span class="ot">&lt;-</span> <span class="fu">sim_pvalue_dl</span>()</span>
-<span id="cb178-49"><a href="machine-learning.html#cb178-49" tabindex="-1"></a>my_p_values_beta <span class="ot">&lt;-</span> result_sim<span class="sc">$</span>df_final</span>
-<span id="cb178-50"><a href="machine-learning.html#cb178-50" tabindex="-1"></a>lista_df <span class="ot">&lt;-</span> result_sim<span class="sc">$</span>lista_df</span>
-<span id="cb178-51"><a href="machine-learning.html#cb178-51" tabindex="-1"></a></span>
-<span id="cb178-52"><a href="machine-learning.html#cb178-52" tabindex="-1"></a><span class="fu">hist</span>(my_p_values_beta<span class="sc">$</span>p_values, <span class="at">breaks =</span> <span class="dv">30</span>, <span class="at">main =</span> <span class="st">&quot;Teste de signific. de D&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;p-valor&quot;</span>)</span>
-<span id="cb178-53"><a href="machine-learning.html#cb178-53" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fl">0.05</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">1</span>)</span>
-<span id="cb178-54"><a href="machine-learning.html#cb178-54" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.1</span>, <span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">4</span>] <span class="sc">*</span> <span class="fl">0.75</span>, <span class="st">&quot;0.05&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">pos =</span> <span class="dv">3</span>, <span class="at">cex=</span>.<span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="machine-learning.html#cb180-1" tabindex="-1"></a><span class="co"># vou rodar mil simulações com n=100</span></span>
+<span id="cb180-2"><a href="machine-learning.html#cb180-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">10</span>)</span>
+<span id="cb180-3"><a href="machine-learning.html#cb180-3" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">90</span> <span class="co"># número de controles</span></span>
+<span id="cb180-4"><a href="machine-learning.html#cb180-4" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="co"># número de obs</span></span>
+<span id="cb180-5"><a href="machine-learning.html#cb180-5" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> .<span class="dv">2</span> <span class="co"># intercepto</span></span>
+<span id="cb180-6"><a href="machine-learning.html#cb180-6" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="dv">0</span> <span class="co"># efeito do tratamento</span></span>
+<span id="cb180-7"><a href="machine-learning.html#cb180-7" tabindex="-1"></a>gamma <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">min=</span><span class="sc">-</span><span class="dv">1</span>, <span class="at">max=</span><span class="dv">1</span>, <span class="at">n=</span>k) <span class="co"># efeito do vetor de controles</span></span>
+<span id="cb180-8"><a href="machine-learning.html#cb180-8" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">min=</span><span class="sc">-</span><span class="dv">1</span>, <span class="at">max=</span><span class="dv">1</span>, <span class="at">n=</span>k) </span>
+<span id="cb180-9"><a href="machine-learning.html#cb180-9" tabindex="-1"></a>erro <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb180-10"><a href="machine-learning.html#cb180-10" tabindex="-1"></a>vec_x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n<span class="sc">*</span>k, <span class="at">mean =</span> <span class="fu">rep</span>(<span class="dv">0</span>,k)) <span class="co"># vetor de controles</span></span>
+<span id="cb180-11"><a href="machine-learning.html#cb180-11" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">matrix</span>(vec_x, <span class="at">ncol=</span>k)</span>
+<span id="cb180-12"><a href="machine-learning.html#cb180-12" tabindex="-1"></a>D <span class="ot">&lt;-</span> x<span class="sc">%*%</span>delta <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb180-13"><a href="machine-learning.html#cb180-13" tabindex="-1"></a>y <span class="ot">&lt;-</span> alpha <span class="sc">+</span> beta<span class="sc">*</span>D <span class="sc">+</span> x<span class="sc">%*%</span>gamma <span class="sc">+</span> erro</span>
+<span id="cb180-14"><a href="machine-learning.html#cb180-14" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span>D <span class="sc">+</span> x)</span>
+<span id="cb180-15"><a href="machine-learning.html#cb180-15" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">summary</span>(fit))[<span class="dv">2</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="machine-learning.html#cb181-1" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb181-2"><a href="machine-learning.html#cb181-2" tabindex="-1"></a><span class="fu">library</span>(arm)</span>
+<span id="cb181-3"><a href="machine-learning.html#cb181-3" tabindex="-1"></a>sim_pvalue_dl <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">n_sim=</span><span class="dv">1000</span>, <span class="at">n_sample=</span><span class="dv">100</span>) {</span>
+<span id="cb181-4"><a href="machine-learning.html#cb181-4" tabindex="-1"></a>  vec_p_values <span class="ot">&lt;-</span> <span class="fu">numeric</span>()</span>
+<span id="cb181-5"><a href="machine-learning.html#cb181-5" tabindex="-1"></a>  beta_hat <span class="ot">&lt;-</span> <span class="fu">numeric</span>()</span>
+<span id="cb181-6"><a href="machine-learning.html#cb181-6" tabindex="-1"></a>  theta_hat <span class="ot">&lt;-</span> <span class="fu">numeric</span>()</span>
+<span id="cb181-7"><a href="machine-learning.html#cb181-7" tabindex="-1"></a>  lista_df <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb181-8"><a href="machine-learning.html#cb181-8" tabindex="-1"></a>  </span>
+<span id="cb181-9"><a href="machine-learning.html#cb181-9" tabindex="-1"></a>  <span class="cf">for</span> ( i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_sim) {</span>
+<span id="cb181-10"><a href="machine-learning.html#cb181-10" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">20</span> <span class="co"># número de controles</span></span>
+<span id="cb181-11"><a href="machine-learning.html#cb181-11" tabindex="-1"></a>n <span class="ot">&lt;-</span> n_sample <span class="co"># número de obs</span></span>
+<span id="cb181-12"><a href="machine-learning.html#cb181-12" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> .<span class="dv">2</span> <span class="co"># intercepto</span></span>
+<span id="cb181-13"><a href="machine-learning.html#cb181-13" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="dv">0</span> <span class="co"># efeito do tratamento</span></span>
+<span id="cb181-14"><a href="machine-learning.html#cb181-14" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># efeito D*V que nos interessa</span></span>
+<span id="cb181-15"><a href="machine-learning.html#cb181-15" tabindex="-1"></a>gamma <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">min=</span><span class="sc">-</span><span class="dv">1</span>, <span class="at">max=</span><span class="dv">1</span>, <span class="at">n=</span>k) <span class="co"># efeito do vetor de controles no y</span></span>
+<span id="cb181-16"><a href="machine-learning.html#cb181-16" tabindex="-1"></a>gamma[<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>k, (k<span class="sc">/</span><span class="dv">4</span>))] <span class="ot">&lt;-</span> <span class="dv">0</span> <span class="co"># k/4 zeros</span></span>
+<span id="cb181-17"><a href="machine-learning.html#cb181-17" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">min=</span><span class="sc">-</span><span class="dv">1</span>, <span class="at">max=</span><span class="dv">1</span>, <span class="at">n=</span>k) <span class="co"># efeito do vetor de controles no D</span></span>
+<span id="cb181-18"><a href="machine-learning.html#cb181-18" tabindex="-1"></a>erro <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="dv">5</span>)</span>
+<span id="cb181-19"><a href="machine-learning.html#cb181-19" tabindex="-1"></a></span>
+<span id="cb181-20"><a href="machine-learning.html#cb181-20" tabindex="-1"></a><span class="co"># matriz de preditores correlacionados</span></span>
+<span id="cb181-21"><a href="machine-learning.html#cb181-21" tabindex="-1"></a>rho   <span class="ot">&lt;-</span> <span class="fl">0.7</span>                         <span class="co"># correlação entre vizinhos imediatos</span></span>
+<span id="cb181-22"><a href="machine-learning.html#cb181-22" tabindex="-1"></a>Sigma     <span class="ot">&lt;-</span> <span class="fu">toeplitz</span>(rho<span class="sc">^</span>(<span class="dv">0</span><span class="sc">:</span>(k<span class="dv">-1</span>)))     <span class="co"># R_{ij} = rho^{|i-j|}, variâncias = 1</span></span>
+<span id="cb181-23"><a href="machine-learning.html#cb181-23" tabindex="-1"></a>mean_vector <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, k)</span>
+<span id="cb181-24"><a href="machine-learning.html#cb181-24" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">mvrnorm</span>(n, mean_vector, Sigma)</span>
+<span id="cb181-25"><a href="machine-learning.html#cb181-25" tabindex="-1"></a>x_interaction <span class="ot">&lt;-</span> x[,<span class="dv">10</span>]</span>
+<span id="cb181-26"><a href="machine-learning.html#cb181-26" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fu">invlogit</span>(x<span class="sc">%*%</span>delta <span class="sc">+</span> <span class="fu">rnorm</span>(n)))</span>
+<span id="cb181-27"><a href="machine-learning.html#cb181-27" tabindex="-1"></a></span>
+<span id="cb181-28"><a href="machine-learning.html#cb181-28" tabindex="-1"></a>D_num <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(D)                <span class="co"># 0 ou 1</span></span>
+<span id="cb181-29"><a href="machine-learning.html#cb181-29" tabindex="-1"></a>X     <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(x_interaction)     <span class="co"># 6 × 5 no seu exemplo</span></span>
+<span id="cb181-30"><a href="machine-learning.html#cb181-30" tabindex="-1"></a></span>
+<span id="cb181-31"><a href="machine-learning.html#cb181-31" tabindex="-1"></a><span class="co"># interação: cada linha multiplicada por D[i]</span></span>
+<span id="cb181-32"><a href="machine-learning.html#cb181-32" tabindex="-1"></a>X_int <span class="ot">&lt;-</span> X <span class="sc">*</span> D_num </span>
+<span id="cb181-33"><a href="machine-learning.html#cb181-33" tabindex="-1"></a>X_int_omitida <span class="ot">&lt;-</span> x_interaction<span class="sc">*</span><span class="fu">as.matrix</span>(x[,<span class="dv">11</span><span class="sc">:</span><span class="dv">20</span>])</span>
+<span id="cb181-34"><a href="machine-learning.html#cb181-34" tabindex="-1"></a>y <span class="ot">&lt;-</span> alpha <span class="sc">+</span> beta<span class="sc">*</span>D <span class="sc">+</span> x<span class="sc">%*%</span>gamma <span class="sc">+</span> X_int<span class="sc">%*%</span>theta <span class="sc">+</span> <span class="fu">rowSums</span>(X_int_omitida) <span class="sc">+</span> erro</span>
+<span id="cb181-35"><a href="machine-learning.html#cb181-35" tabindex="-1"></a>df_sim <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(y, D, x, x_interaction)</span>
+<span id="cb181-36"><a href="machine-learning.html#cb181-36" tabindex="-1"></a>lista_df[[i]] <span class="ot">&lt;-</span> df_sim</span>
+<span id="cb181-37"><a href="machine-learning.html#cb181-37" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> D<span class="sc">*</span>x_interaction <span class="sc">+</span> x[,<span class="sc">-</span><span class="dv">10</span>], <span class="at">data =</span> df_sim)</span>
+<span id="cb181-38"><a href="machine-learning.html#cb181-38" tabindex="-1"></a>beta_hat[i] <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(fit))[<span class="dv">2</span>]</span>
+<span id="cb181-39"><a href="machine-learning.html#cb181-39" tabindex="-1"></a>vec_p_values[i] <span class="ot">&lt;-</span> <span class="fu">summary</span>(fit)<span class="sc">$</span>coefficients[,<span class="dv">4</span>][<span class="dv">2</span>]</span>
+<span id="cb181-40"><a href="machine-learning.html#cb181-40" tabindex="-1"></a>theta_hat[i] <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(fit))[<span class="dv">3</span>]</span>
+<span id="cb181-41"><a href="machine-learning.html#cb181-41" tabindex="-1"></a>  }</span>
+<span id="cb181-42"><a href="machine-learning.html#cb181-42" tabindex="-1"></a>  </span>
+<span id="cb181-43"><a href="machine-learning.html#cb181-43" tabindex="-1"></a>  df_final <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">beta =</span> beta_hat, <span class="at">p_values =</span> vec_p_values, <span class="at">theta_hat =</span> theta_hat)</span>
+<span id="cb181-44"><a href="machine-learning.html#cb181-44" tabindex="-1"></a></span>
+<span id="cb181-45"><a href="machine-learning.html#cb181-45" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">df_final =</span> df_final, <span class="at">lista_df =</span> lista_df))</span>
+<span id="cb181-46"><a href="machine-learning.html#cb181-46" tabindex="-1"></a>}</span>
+<span id="cb181-47"><a href="machine-learning.html#cb181-47" tabindex="-1"></a></span>
+<span id="cb181-48"><a href="machine-learning.html#cb181-48" tabindex="-1"></a>result_sim <span class="ot">&lt;-</span> <span class="fu">sim_pvalue_dl</span>()</span>
+<span id="cb181-49"><a href="machine-learning.html#cb181-49" tabindex="-1"></a>my_p_values_beta <span class="ot">&lt;-</span> result_sim<span class="sc">$</span>df_final</span>
+<span id="cb181-50"><a href="machine-learning.html#cb181-50" tabindex="-1"></a>lista_df <span class="ot">&lt;-</span> result_sim<span class="sc">$</span>lista_df</span>
+<span id="cb181-51"><a href="machine-learning.html#cb181-51" tabindex="-1"></a></span>
+<span id="cb181-52"><a href="machine-learning.html#cb181-52" tabindex="-1"></a><span class="fu">hist</span>(my_p_values_beta<span class="sc">$</span>p_values, <span class="at">breaks =</span> <span class="dv">30</span>, <span class="at">main =</span> <span class="st">&quot;Teste de signific. de D&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;p-valor&quot;</span>)</span>
+<span id="cb181-53"><a href="machine-learning.html#cb181-53" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fl">0.05</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">1</span>)</span>
+<span id="cb181-54"><a href="machine-learning.html#cb181-54" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.1</span>, <span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">4</span>] <span class="sc">*</span> <span class="fl">0.75</span>, <span class="st">&quot;0.05&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">pos =</span> <span class="dv">3</span>, <span class="at">cex=</span>.<span class="dv">5</span>)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/cap13-sim2-1.png" alt="" width="672" /></p>
-<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="machine-learning.html#cb179-1" tabindex="-1"></a><span class="fu">hist</span>(my_p_values_beta<span class="sc">$</span>beta, <span class="at">breaks =</span> <span class="dv">30</span>, <span class="at">main =</span> <span class="st">&quot;Teste de signific. de D&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;p-valor&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="machine-learning.html#cb182-1" tabindex="-1"></a><span class="fu">hist</span>(my_p_values_beta<span class="sc">$</span>beta, <span class="at">breaks =</span> <span class="dv">30</span>, <span class="at">main =</span> <span class="st">&quot;Teste de signific. de D&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;p-valor&quot;</span>)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/cap13-sim2-2.png" alt="" width="672" /></p>
-<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="machine-learning.html#cb180-1" tabindex="-1"></a><span class="co"># percentual p-valor menor que 5%</span></span>
-<span id="cb180-2"><a href="machine-learning.html#cb180-2" tabindex="-1"></a><span class="fu">sum</span>(my_p_values_beta<span class="sc">$</span>p_values <span class="sc">&lt;=</span> .<span class="dv">05</span>)<span class="sc">/</span><span class="dv">1000</span></span></code></pre></div>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="machine-learning.html#cb183-1" tabindex="-1"></a><span class="co"># percentual p-valor menor que 5%</span></span>
+<span id="cb183-2"><a href="machine-learning.html#cb183-2" tabindex="-1"></a><span class="fu">sum</span>(my_p_values_beta<span class="sc">$</span>p_values <span class="sc">&lt;=</span> .<span class="dv">05</span>)<span class="sc">/</span><span class="dv">1000</span></span></code></pre></div>
 <pre><code>## [1] 0.05</code></pre>
-<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="machine-learning.html#cb182-1" tabindex="-1"></a><span class="fu">mean</span>(my_p_values_beta<span class="sc">$</span>beta)</span></code></pre></div>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="machine-learning.html#cb185-1" tabindex="-1"></a><span class="fu">mean</span>(my_p_values_beta<span class="sc">$</span>beta)</span></code></pre></div>
 <pre><code>## [1] -0.0199413</code></pre>
-<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="machine-learning.html#cb184-1" tabindex="-1"></a><span class="fu">mean</span>(my_p_values_beta<span class="sc">$</span>theta_hat)</span></code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="machine-learning.html#cb187-1" tabindex="-1"></a><span class="fu">mean</span>(my_p_values_beta<span class="sc">$</span>theta_hat)</span></code></pre></div>
 <pre><code>## [1] -0.07478368</code></pre>
 <p>Nós rejeitamos a hipótese nula aproximadamente 50% do tempo.</p>
 <p>E se usarmos LASSO (single LASSO)?</p>
-<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="machine-learning.html#cb186-1" tabindex="-1"></a><span class="co"># Instalar e carregar o pacote glmnet, se necessário</span></span>
-<span id="cb186-2"><a href="machine-learning.html#cb186-2" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span></code></pre></div>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="machine-learning.html#cb189-1" tabindex="-1"></a><span class="co"># Instalar e carregar o pacote glmnet, se necessário</span></span>
+<span id="cb189-2"><a href="machine-learning.html#cb189-2" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span></code></pre></div>
 <pre><code>## Loaded glmnet 4.1-9</code></pre>
-<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="machine-learning.html#cb188-1" tabindex="-1"></a><span class="co"># Vetor para armazenar se x foi selecionado pelo LASSO</span></span>
-<span id="cb188-2"><a href="machine-learning.html#cb188-2" tabindex="-1"></a>lasso_selected_D <span class="ot">&lt;-</span> <span class="fu">numeric</span>()</span>
-<span id="cb188-3"><a href="machine-learning.html#cb188-3" tabindex="-1"></a></span>
-<span id="cb188-4"><a href="machine-learning.html#cb188-4" tabindex="-1"></a><span class="co"># Loop de simulação</span></span>
-<span id="cb188-5"><a href="machine-learning.html#cb188-5" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>) {</span>
-<span id="cb188-6"><a href="machine-learning.html#cb188-6" tabindex="-1"></a>  y <span class="ot">&lt;-</span> lista_df[[i]]<span class="sc">$</span>y</span>
-<span id="cb188-7"><a href="machine-learning.html#cb188-7" tabindex="-1"></a>  X <span class="ot">&lt;-</span> <span class="fu">cbind</span>(lista_df[[i]]<span class="sc">$</span>D, lista_df[[i]]<span class="sc">$</span>x) </span>
-<span id="cb188-8"><a href="machine-learning.html#cb188-8" tabindex="-1"></a>  <span class="co"># Preparando os dados para o LASSO</span></span>
-<span id="cb188-9"><a href="machine-learning.html#cb188-9" tabindex="-1"></a>  <span class="co"># Matriz de preditores (sem o intercepto)</span></span>
-<span id="cb188-10"><a href="machine-learning.html#cb188-10" tabindex="-1"></a></span>
-<span id="cb188-11"><a href="machine-learning.html#cb188-11" tabindex="-1"></a>  <span class="co"># Ajustando o modelo LASSO com validação cruzada</span></span>
-<span id="cb188-12"><a href="machine-learning.html#cb188-12" tabindex="-1"></a>  lasso_model <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(X, y, <span class="at">alpha =</span> <span class="dv">1</span>) <span class="co"># alpha = 1 para LASSO</span></span>
-<span id="cb188-13"><a href="machine-learning.html#cb188-13" tabindex="-1"></a></span>
-<span id="cb188-14"><a href="machine-learning.html#cb188-14" tabindex="-1"></a>  <span class="co"># Extraindo os coeficientes no valor de lambda que minimiza o erro</span></span>
-<span id="cb188-15"><a href="machine-learning.html#cb188-15" tabindex="-1"></a>  lasso_coefs <span class="ot">&lt;-</span> <span class="fu">coef</span>(lasso_model, <span class="at">s =</span> <span class="st">&quot;lambda.min&quot;</span>)</span>
-<span id="cb188-16"><a href="machine-learning.html#cb188-16" tabindex="-1"></a></span>
-<span id="cb188-17"><a href="machine-learning.html#cb188-17" tabindex="-1"></a>  <span class="co"># Verificando se a variável x foi selecionada pelo LASSO (coeficiente diferente de zero)</span></span>
-<span id="cb188-18"><a href="machine-learning.html#cb188-18" tabindex="-1"></a>  lasso_selected_D[i] <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(lasso_coefs[<span class="st">&quot;V1&quot;</span>, <span class="dv">1</span>] <span class="sc">!=</span> <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
-<span id="cb188-19"><a href="machine-learning.html#cb188-19" tabindex="-1"></a>}</span>
-<span id="cb188-20"><a href="machine-learning.html#cb188-20" tabindex="-1"></a></span>
-<span id="cb188-21"><a href="machine-learning.html#cb188-21" tabindex="-1"></a><span class="co"># Analisando os resultados</span></span>
-<span id="cb188-22"><a href="machine-learning.html#cb188-22" tabindex="-1"></a><span class="fu">hist</span>(lasso_selected_D, <span class="at">breaks =</span> <span class="dv">40</span>, <span class="at">main =</span> <span class="st">&quot;Seleção de x pelo LASSO&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;x selecionado (1 = sim, 0 = não)&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="machine-learning.html#cb191-1" tabindex="-1"></a><span class="co"># Vetor para armazenar se x foi selecionado pelo LASSO</span></span>
+<span id="cb191-2"><a href="machine-learning.html#cb191-2" tabindex="-1"></a>lasso_selected_D <span class="ot">&lt;-</span> <span class="fu">numeric</span>()</span>
+<span id="cb191-3"><a href="machine-learning.html#cb191-3" tabindex="-1"></a></span>
+<span id="cb191-4"><a href="machine-learning.html#cb191-4" tabindex="-1"></a><span class="co"># Loop de simulação</span></span>
+<span id="cb191-5"><a href="machine-learning.html#cb191-5" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>) {</span>
+<span id="cb191-6"><a href="machine-learning.html#cb191-6" tabindex="-1"></a>  y <span class="ot">&lt;-</span> lista_df[[i]]<span class="sc">$</span>y</span>
+<span id="cb191-7"><a href="machine-learning.html#cb191-7" tabindex="-1"></a>  X <span class="ot">&lt;-</span> <span class="fu">cbind</span>(lista_df[[i]]<span class="sc">$</span>D, lista_df[[i]]<span class="sc">$</span>x) </span>
+<span id="cb191-8"><a href="machine-learning.html#cb191-8" tabindex="-1"></a>  <span class="co"># Preparando os dados para o LASSO</span></span>
+<span id="cb191-9"><a href="machine-learning.html#cb191-9" tabindex="-1"></a>  <span class="co"># Matriz de preditores (sem o intercepto)</span></span>
+<span id="cb191-10"><a href="machine-learning.html#cb191-10" tabindex="-1"></a></span>
+<span id="cb191-11"><a href="machine-learning.html#cb191-11" tabindex="-1"></a>  <span class="co"># Ajustando o modelo LASSO com validação cruzada</span></span>
+<span id="cb191-12"><a href="machine-learning.html#cb191-12" tabindex="-1"></a>  lasso_model <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(X, y, <span class="at">alpha =</span> <span class="dv">1</span>) <span class="co"># alpha = 1 para LASSO</span></span>
+<span id="cb191-13"><a href="machine-learning.html#cb191-13" tabindex="-1"></a></span>
+<span id="cb191-14"><a href="machine-learning.html#cb191-14" tabindex="-1"></a>  <span class="co"># Extraindo os coeficientes no valor de lambda que minimiza o erro</span></span>
+<span id="cb191-15"><a href="machine-learning.html#cb191-15" tabindex="-1"></a>  lasso_coefs <span class="ot">&lt;-</span> <span class="fu">coef</span>(lasso_model, <span class="at">s =</span> <span class="st">&quot;lambda.min&quot;</span>)</span>
+<span id="cb191-16"><a href="machine-learning.html#cb191-16" tabindex="-1"></a></span>
+<span id="cb191-17"><a href="machine-learning.html#cb191-17" tabindex="-1"></a>  <span class="co"># Verificando se a variável x foi selecionada pelo LASSO (coeficiente diferente de zero)</span></span>
+<span id="cb191-18"><a href="machine-learning.html#cb191-18" tabindex="-1"></a>  lasso_selected_D[i] <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(lasso_coefs[<span class="st">&quot;V1&quot;</span>, <span class="dv">1</span>] <span class="sc">!=</span> <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb191-19"><a href="machine-learning.html#cb191-19" tabindex="-1"></a>}</span>
+<span id="cb191-20"><a href="machine-learning.html#cb191-20" tabindex="-1"></a></span>
+<span id="cb191-21"><a href="machine-learning.html#cb191-21" tabindex="-1"></a><span class="co"># Analisando os resultados</span></span>
+<span id="cb191-22"><a href="machine-learning.html#cb191-22" tabindex="-1"></a><span class="fu">hist</span>(lasso_selected_D, <span class="at">breaks =</span> <span class="dv">40</span>, <span class="at">main =</span> <span class="st">&quot;Seleção de x pelo LASSO&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;x selecionado (1 = sim, 0 = não)&quot;</span>)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/cap13-sim3-1.png" alt="" width="672" /></p>
-<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="machine-learning.html#cb189-1" tabindex="-1"></a><span class="fu">sum</span>(lasso_selected_D <span class="sc">&lt;=</span> .<span class="dv">05</span>)<span class="sc">/</span><span class="dv">1000</span></span></code></pre></div>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="machine-learning.html#cb192-1" tabindex="-1"></a><span class="fu">sum</span>(lasso_selected_D <span class="sc">&lt;=</span> .<span class="dv">05</span>)<span class="sc">/</span><span class="dv">1000</span></span></code></pre></div>
 <pre><code>## [1] 0.75</code></pre>
 <p>Também não funciona, mais ou menos mesma taxa de erro.</p>
 </div>
@@ -697,20 +698,20 @@ Conservador: sempre inclua quantos controles puder (pode gerar Collider Bias).</
 <p>Passo 2. Inclua controle se ele for preditor significativo do tratamento <span class="math inline">\(D_i\)</span> por um teste conservador (teste t, LASSO etc.).</p>
 <p>Passo 3. Ajuste o modelo com as variáveis selecionadas e o tratamento. Esse passo é chamado de Pós MQO (Post OLS).</p>
 <p>No R, podemos usar o pacote “hdm” para fazer a implementação em uma linha.</p>
-<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="machine-learning.html#cb191-1" tabindex="-1"></a><span class="fu">library</span>(hdm)</span>
-<span id="cb191-2"><a href="machine-learning.html#cb191-2" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb191-3"><a href="machine-learning.html#cb191-3" tabindex="-1"></a>d_s_vec <span class="ot">&lt;-</span> <span class="fu">numeric</span>()</span>
-<span id="cb191-4"><a href="machine-learning.html#cb191-4" tabindex="-1"></a><span class="cf">for</span> ( i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>) {</span>
-<span id="cb191-5"><a href="machine-learning.html#cb191-5" tabindex="-1"></a>  my_double_selection <span class="ot">&lt;-</span> <span class="fu">rlassoEffects</span>(y<span class="sc">~</span>. , <span class="at">I=</span><span class="sc">~</span>x <span class="sc">+</span> D, <span class="at">data=</span>lista_df[[i]])</span>
-<span id="cb191-6"><a href="machine-learning.html#cb191-6" tabindex="-1"></a>  d_s_vec[i] <span class="ot">&lt;-</span> <span class="fu">summary</span>(my_double_selection)<span class="sc">$</span>coefficients[<span class="st">&quot;D&quot;</span>, <span class="st">&quot;Pr(&gt;|t|)&quot;</span>]</span>
-<span id="cb191-7"><a href="machine-learning.html#cb191-7" tabindex="-1"></a>  </span>
-<span id="cb191-8"><a href="machine-learning.html#cb191-8" tabindex="-1"></a>}</span>
-<span id="cb191-9"><a href="machine-learning.html#cb191-9" tabindex="-1"></a></span>
-<span id="cb191-10"><a href="machine-learning.html#cb191-10" tabindex="-1"></a><span class="fu">hist</span>(d_s_vec, <span class="at">breaks =</span> <span class="dv">40</span>, <span class="at">main =</span> <span class="st">&quot;Seleção de D pelo Double LASSO&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;p-valor&quot;</span>)</span>
-<span id="cb191-11"><a href="machine-learning.html#cb191-11" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fl">0.05</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">1</span>)</span>
-<span id="cb191-12"><a href="machine-learning.html#cb191-12" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.1</span>, <span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">4</span>] <span class="sc">*</span> <span class="fl">0.75</span>, <span class="st">&quot;0.05&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">pos =</span> <span class="dv">3</span>, <span class="at">cex=</span>.<span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="machine-learning.html#cb194-1" tabindex="-1"></a><span class="fu">library</span>(hdm)</span>
+<span id="cb194-2"><a href="machine-learning.html#cb194-2" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb194-3"><a href="machine-learning.html#cb194-3" tabindex="-1"></a>d_s_vec <span class="ot">&lt;-</span> <span class="fu">numeric</span>()</span>
+<span id="cb194-4"><a href="machine-learning.html#cb194-4" tabindex="-1"></a><span class="cf">for</span> ( i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>) {</span>
+<span id="cb194-5"><a href="machine-learning.html#cb194-5" tabindex="-1"></a>  my_double_selection <span class="ot">&lt;-</span> <span class="fu">rlassoEffects</span>(y<span class="sc">~</span>. , <span class="at">I=</span><span class="sc">~</span>x <span class="sc">+</span> D, <span class="at">data=</span>lista_df[[i]])</span>
+<span id="cb194-6"><a href="machine-learning.html#cb194-6" tabindex="-1"></a>  d_s_vec[i] <span class="ot">&lt;-</span> <span class="fu">summary</span>(my_double_selection)<span class="sc">$</span>coefficients[<span class="st">&quot;D&quot;</span>, <span class="st">&quot;Pr(&gt;|t|)&quot;</span>]</span>
+<span id="cb194-7"><a href="machine-learning.html#cb194-7" tabindex="-1"></a>  </span>
+<span id="cb194-8"><a href="machine-learning.html#cb194-8" tabindex="-1"></a>}</span>
+<span id="cb194-9"><a href="machine-learning.html#cb194-9" tabindex="-1"></a></span>
+<span id="cb194-10"><a href="machine-learning.html#cb194-10" tabindex="-1"></a><span class="fu">hist</span>(d_s_vec, <span class="at">breaks =</span> <span class="dv">40</span>, <span class="at">main =</span> <span class="st">&quot;Seleção de D pelo Double LASSO&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;p-valor&quot;</span>)</span>
+<span id="cb194-11"><a href="machine-learning.html#cb194-11" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fl">0.05</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">1</span>)</span>
+<span id="cb194-12"><a href="machine-learning.html#cb194-12" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">0.1</span>, <span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)[<span class="dv">4</span>] <span class="sc">*</span> <span class="fl">0.75</span>, <span class="st">&quot;0.05&quot;</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">pos =</span> <span class="dv">3</span>, <span class="at">cex=</span>.<span class="dv">5</span>)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/cap-13-hdm-1.png" alt="" width="672" /></p>
-<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="machine-learning.html#cb192-1" tabindex="-1"></a><span class="fu">sum</span>(d_s_vec <span class="sc">&lt;=</span> .<span class="dv">05</span>)<span class="sc">/</span><span class="dv">1000</span></span></code></pre></div>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="machine-learning.html#cb195-1" tabindex="-1"></a><span class="fu">sum</span>(d_s_vec <span class="sc">&lt;=</span> .<span class="dv">05</span>)<span class="sc">/</span><span class="dv">1000</span></span></code></pre></div>
 <pre><code>## [1] 0.04</code></pre>
 <p>Como vemos, aproximadamente 5% das vezes nós rejeitamos a hipótese nula erradamente, que é o esperado do p-valor de 5%.</p>
 </div>

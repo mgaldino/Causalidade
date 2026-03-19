@@ -23,7 +23,7 @@
 <meta name="author" content="Manoel Galdino" />
 
 
-<meta name="date" content="2026-02-18" />
+<meta name="date" content="2026-03-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -145,18 +145,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="03-DAGs.html"><a href="#introdu%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>1</b> Introdução</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="03-DAGs.html"><a href="#revis%C3%A3o-de-regress%C3%A3o"><i class="fa fa-check"></i><b>1.1</b> Revisão de Regressão</a>
+<li class="chapter" data-level="1.1" data-path="03-DAGs.html"><a href="#a-revolu%C3%A7%C3%A3o-da-credibilidade-em-ci%C3%AAncia-pol%C3%ADtica"><i class="fa fa-check"></i><b>1.1</b> A revolução da credibilidade em ciência política</a></li>
+<li class="chapter" data-level="1.2" data-path="03-DAGs.html"><a href="#revis%C3%A3o-de-regress%C3%A3o"><i class="fa fa-check"></i><b>1.2</b> Revisão de Regressão</a>
 <ul>
-<li class="chapter" data-level="1.1.1" data-path="03-DAGs.html"><a href="#teorema-da-anatomia-da-regress%C3%A3o"><i class="fa fa-check"></i><b>1.1.1</b> Teorema da Anatomia da Regressão</a></li>
+<li class="chapter" data-level="1.2.1" data-path="03-DAGs.html"><a href="#teorema-da-anatomia-da-regress%C3%A3o"><i class="fa fa-check"></i><b>1.2.1</b> Teorema da Anatomia da Regressão</a></li>
 </ul></li>
-<li class="chapter" data-level="1.2" data-path="03-DAGs.html"><a href="#infer%C3%AAncia"><i class="fa fa-check"></i><b>1.2</b> Inferência</a>
+<li class="chapter" data-level="1.3" data-path="03-DAGs.html"><a href="#infer%C3%AAncia"><i class="fa fa-check"></i><b>1.3</b> Inferência</a>
 <ul>
-<li class="chapter" data-level="1.2.1" data-path="03-DAGs.html"><a href="#generaliza%C3%A7%C3%A3o-amostral-vs.-generaliza%C3%A7%C3%A3o-causal"><i class="fa fa-check"></i><b>1.2.1</b> Generalização amostral vs. generalização causal</a></li>
-<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1.2.2</b> Incerteza com o universo dos casos</a></li>
-<li class="chapter" data-level="1.2.3" data-path="index.html"><a href="index.html#validade-externa"><i class="fa fa-check"></i><b>1.2.3</b> Validade externa</a></li>
+<li class="chapter" data-level="1.3.1" data-path="03-DAGs.html"><a href="#generaliza%C3%A7%C3%A3o-amostral-vs.-generaliza%C3%A7%C3%A3o-causal"><i class="fa fa-check"></i><b>1.3.1</b> Generalização amostral vs. generalização causal</a></li>
+<li class="chapter" data-level="1.3.2" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1.3.2</b> Incerteza com o universo dos casos</a></li>
+<li class="chapter" data-level="1.3.3" data-path="index.html"><a href="index.html#validade-externa"><i class="fa fa-check"></i><b>1.3.3</b> Validade externa</a></li>
 </ul></li>
-<li class="chapter" data-level="1.3" data-path="03-DAGs.html"><a href="#resumo-e-pr%C3%B3ximos-passos"><i class="fa fa-check"></i><b>1.3</b> Resumo e próximos passos</a></li>
-<li class="chapter" data-level="1.4" data-path="03-DAGs.html"><a href="#refer%C3%AAncias"><i class="fa fa-check"></i><b>1.4</b> Referências</a></li>
+<li class="chapter" data-level="1.4" data-path="03-DAGs.html"><a href="#resumo-e-pr%C3%B3ximos-passos"><i class="fa fa-check"></i><b>1.4</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="1.5" data-path="03-DAGs.html"><a href="#refer%C3%AAncias"><i class="fa fa-check"></i><b>1.5</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html"><i class="fa fa-check"></i><b>2</b> Resultados Potenciais</a>
 <ul>
@@ -596,26 +597,26 @@ Representação:</p>
 <div id="simulação-no-r-ilustrando-o-collider-bias" class="section level2 hasAnchor" number="3.4">
 <h2><span class="header-section-number">3.4</span> Simulação no R: Ilustrando o Collider Bias<a href="#simula%C3%A7%C3%A3o-no-r-ilustrando-o-collider-bias" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Vamos rodar uma simulação para ilustrar o collider bias. Suponha que 10% das pessoas fazem ciência política e 5% são canhotas.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="dags.html#cb15-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb15-2"><a href="dags.html#cb15-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
-<span id="cb15-3"><a href="dags.html#cb15-3" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="dags.html#cb15-4" tabindex="-1"></a><span class="co"># Gerando as variáveis</span></span>
-<span id="cb15-5"><a href="dags.html#cb15-5" tabindex="-1"></a>cp <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1000</span>, <span class="dv">1</span>, <span class="at">p =</span> <span class="fl">0.1</span>)      <span class="co"># 10% fazem ciência política</span></span>
-<span id="cb15-6"><a href="dags.html#cb15-6" tabindex="-1"></a>canhoto <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1000</span>, <span class="dv">1</span>, <span class="at">p =</span> <span class="fl">0.05</span>)  <span class="co"># 5% são canhotos</span></span>
-<span id="cb15-7"><a href="dags.html#cb15-7" tabindex="-1"></a></span>
-<span id="cb15-8"><a href="dags.html#cb15-8" tabindex="-1"></a><span class="co"># Definindo a condição da festa: convida se faz ciência política ou é canhoto</span></span>
-<span id="cb15-9"><a href="dags.html#cb15-9" tabindex="-1"></a>festa <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(cp <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="fu">ifelse</span>(canhoto <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
-<span id="cb15-10"><a href="dags.html#cb15-10" tabindex="-1"></a>tabela <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(cp, canhoto, festa)</span>
-<span id="cb15-11"><a href="dags.html#cb15-11" tabindex="-1"></a></span>
-<span id="cb15-12"><a href="dags.html#cb15-12" tabindex="-1"></a><span class="co"># Correlação na população geral</span></span>
-<span id="cb15-13"><a href="dags.html#cb15-13" tabindex="-1"></a>cor_geral <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">cor</span>(cp, canhoto), <span class="dv">2</span>)</span>
-<span id="cb15-14"><a href="dags.html#cb15-14" tabindex="-1"></a><span class="fu">print</span>(cor_geral)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="dags.html#cb18-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb18-2"><a href="dags.html#cb18-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
+<span id="cb18-3"><a href="dags.html#cb18-3" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="dags.html#cb18-4" tabindex="-1"></a><span class="co"># Gerando as variáveis</span></span>
+<span id="cb18-5"><a href="dags.html#cb18-5" tabindex="-1"></a>cp <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1000</span>, <span class="dv">1</span>, <span class="at">p =</span> <span class="fl">0.1</span>)      <span class="co"># 10% fazem ciência política</span></span>
+<span id="cb18-6"><a href="dags.html#cb18-6" tabindex="-1"></a>canhoto <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1000</span>, <span class="dv">1</span>, <span class="at">p =</span> <span class="fl">0.05</span>)  <span class="co"># 5% são canhotos</span></span>
+<span id="cb18-7"><a href="dags.html#cb18-7" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="dags.html#cb18-8" tabindex="-1"></a><span class="co"># Definindo a condição da festa: convida se faz ciência política ou é canhoto</span></span>
+<span id="cb18-9"><a href="dags.html#cb18-9" tabindex="-1"></a>festa <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(cp <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="fu">ifelse</span>(canhoto <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb18-10"><a href="dags.html#cb18-10" tabindex="-1"></a>tabela <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(cp, canhoto, festa)</span>
+<span id="cb18-11"><a href="dags.html#cb18-11" tabindex="-1"></a></span>
+<span id="cb18-12"><a href="dags.html#cb18-12" tabindex="-1"></a><span class="co"># Correlação na população geral</span></span>
+<span id="cb18-13"><a href="dags.html#cb18-13" tabindex="-1"></a>cor_geral <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">cor</span>(cp, canhoto), <span class="dv">2</span>)</span>
+<span id="cb18-14"><a href="dags.html#cb18-14" tabindex="-1"></a><span class="fu">print</span>(cor_geral)</span></code></pre></div>
 <pre><code>## [1] -0.02</code></pre>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="dags.html#cb17-1" tabindex="-1"></a><span class="co"># Correlação entre os que foram à festa</span></span>
-<span id="cb17-2"><a href="dags.html#cb17-2" tabindex="-1"></a>cor_festa <span class="ot">&lt;-</span> tabela <span class="sc">%&gt;%</span></span>
-<span id="cb17-3"><a href="dags.html#cb17-3" tabindex="-1"></a>  <span class="fu">filter</span>(festa <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb17-4"><a href="dags.html#cb17-4" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">cor =</span> <span class="fu">round</span>(<span class="fu">cor</span>(cp, canhoto), <span class="dv">2</span>))</span>
-<span id="cb17-5"><a href="dags.html#cb17-5" tabindex="-1"></a><span class="fu">print</span>(cor_festa)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="dags.html#cb20-1" tabindex="-1"></a><span class="co"># Correlação entre os que foram à festa</span></span>
+<span id="cb20-2"><a href="dags.html#cb20-2" tabindex="-1"></a>cor_festa <span class="ot">&lt;-</span> tabela <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="dags.html#cb20-3" tabindex="-1"></a>  <span class="fu">filter</span>(festa <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-4"><a href="dags.html#cb20-4" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">cor =</span> <span class="fu">round</span>(<span class="fu">cor</span>(cp, canhoto), <span class="dv">2</span>))</span>
+<span id="cb20-5"><a href="dags.html#cb20-5" tabindex="-1"></a><span class="fu">print</span>(cor_festa)</span></code></pre></div>
 <pre><code>##     cor
 ## 1 -0.95</code></pre>
 <p>Na população em geral, a correlação é próxima de zero (aproximadamente -0,02). Porém, entre as pessoas que foram à festa, a correlação pode chegar a -0,95, evidenciando como condicionar em um collider (neste caso, a variável festa) pode induzir correlação espúria. Esse resultado reforça a importância de entender a estrutura causal antes de decidir por quais variáveis condicionar.</p>

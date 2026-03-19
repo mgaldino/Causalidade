@@ -23,7 +23,7 @@
 <meta name="author" content="Manoel Galdino" />
 
 
-<meta name="date" content="2026-02-18" />
+<meta name="date" content="2026-03-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -145,18 +145,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="#introdu%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>1</b> Introdução</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="#revis%C3%A3o-de-regress%C3%A3o"><i class="fa fa-check"></i><b>1.1</b> Revisão de Regressão</a>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="#a-revolu%C3%A7%C3%A3o-da-credibilidade-em-ci%C3%AAncia-pol%C3%ADtica"><i class="fa fa-check"></i><b>1.1</b> A revolução da credibilidade em ciência política</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="#revis%C3%A3o-de-regress%C3%A3o"><i class="fa fa-check"></i><b>1.2</b> Revisão de Regressão</a>
 <ul>
-<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="#teorema-da-anatomia-da-regress%C3%A3o"><i class="fa fa-check"></i><b>1.1.1</b> Teorema da Anatomia da Regressão</a></li>
+<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="#teorema-da-anatomia-da-regress%C3%A3o"><i class="fa fa-check"></i><b>1.2.1</b> Teorema da Anatomia da Regressão</a></li>
 </ul></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="#infer%C3%AAncia"><i class="fa fa-check"></i><b>1.2</b> Inferência</a>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="#infer%C3%AAncia"><i class="fa fa-check"></i><b>1.3</b> Inferência</a>
 <ul>
-<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="#generaliza%C3%A7%C3%A3o-amostral-vs.-generaliza%C3%A7%C3%A3o-causal"><i class="fa fa-check"></i><b>1.2.1</b> Generalização amostral vs. generalização causal</a></li>
-<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1.2.2</b> Incerteza com o universo dos casos</a></li>
-<li class="chapter" data-level="1.2.3" data-path="index.html"><a href="index.html#validade-externa"><i class="fa fa-check"></i><b>1.2.3</b> Validade externa</a></li>
+<li class="chapter" data-level="1.3.1" data-path="index.html"><a href="#generaliza%C3%A7%C3%A3o-amostral-vs.-generaliza%C3%A7%C3%A3o-causal"><i class="fa fa-check"></i><b>1.3.1</b> Generalização amostral vs. generalização causal</a></li>
+<li class="chapter" data-level="1.3.2" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1.3.2</b> Incerteza com o universo dos casos</a></li>
+<li class="chapter" data-level="1.3.3" data-path="index.html"><a href="index.html#validade-externa"><i class="fa fa-check"></i><b>1.3.3</b> Validade externa</a></li>
 </ul></li>
-<li class="chapter" data-level="1.3" data-path="index.html"><a href="#resumo-e-pr%C3%B3ximos-passos"><i class="fa fa-check"></i><b>1.3</b> Resumo e próximos passos</a></li>
-<li class="chapter" data-level="1.4" data-path="index.html"><a href="#refer%C3%AAncias"><i class="fa fa-check"></i><b>1.4</b> Referências</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="#resumo-e-pr%C3%B3ximos-passos"><i class="fa fa-check"></i><b>1.4</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="#refer%C3%AAncias"><i class="fa fa-check"></i><b>1.5</b> Referências</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="resultados-potenciais.html"><a href="resultados-potenciais.html"><i class="fa fa-check"></i><b>2</b> Resultados Potenciais</a>
 <ul>
@@ -550,15 +551,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="header">
 <h1 class="title">Curso de Inferência Causal</h1>
 <p class="author"><em>Manoel Galdino</em></p>
-<p class="date"><em>2026-02-18</em></p>
+<p class="date"><em>2026-03-19</em></p>
 </div>
 <div id="introdução" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">Capítulo 1</span> Introdução<a href="#introdu%C3%A7%C3%A3o" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Escolas que recebem mais recursos financeiros produzem melhores resultados educacionais? Municípios governados por prefeitos reeleitos são mais ou menos corruptos? Programas de transferência de renda reduzem a pobreza? Se olharmos os dados, frequentemente encontramos correlações que sugerem respostas — mas correlação não é causalidade. O desafio central da inferência causal é justamente ir além da associação estatística e identificar relações de causa e efeito a partir de dados observacionais ou experimentais.</p>
 <p>Este curso apresenta os principais métodos de inferência causal utilizados em Ciência Política e áreas afins. Começamos pelo modelo de resultados potenciais (<em>potential outcomes</em>) e por grafos acíclicos direcionados (DAGs), que fornecem os fundamentos teóricos. Em seguida, estudamos os principais desenhos de pesquisa: experimentos aleatorizados, <em>matching</em>, variáveis instrumentais, regressão descontínua e diferenças em diferenças. Ao longo do curso, também discutimos controle sintético, dados em painel, aprendizado de máquina para inferência causal e outros tópicos avançados.</p>
+<div id="a-revolução-da-credibilidade-em-ciência-política" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> A revolução da credibilidade em ciência política<a href="#a-revolu%C3%A7%C3%A3o-da-credibilidade-em-ci%C3%AAncia-pol%C3%ADtica" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Nas últimas duas décadas, a ciência política passou por uma transformação metodológica conhecida como <em>revolução da credibilidade</em> (Angrist e Pischke, 2010). Essa revolução consiste em uma mudança de abordagem na pesquisa empírica quantitativa: de estratégias <em>model-based</em> para estratégias <em>design-based</em>.</p>
+<p><strong>Abordagens <em>model-based</em></strong> identificam efeitos causais por meio de suposições de modelagem estatística — como linearidade, independência condicional e forma funcional — frequentemente interpretando coeficientes de regressão como causais sem articular explicitamente um desenho de pesquisa ou uma estratégia de identificação separada da especificação do modelo. Um exemplo típico é incluir muitas variáveis de controle em uma regressão na esperança de eliminar viés de variável omitida, sem justificar por que aquele conjunto de controles é suficiente.</p>
+<p><strong>Abordagens <em>design-based</em></strong> identificam efeitos causais explorando uma fonte de variação exógena na atribuição do tratamento — como aleatorização, regras institucionais, descontinuidades ou choques — e declaram explicitamente as suposições de identificação necessárias (ignorabilidade, tendências paralelas, continuidade, restrição de exclusão). A credibilidade da estimativa vem do <em>desenho de pesquisa</em>, não da especificação do modelo.</p>
+<p>Um estudo recente de Torreblanca et al. (2026) quantificou o alcance dessa revolução, classificando 91.632 artigos publicados entre 2003 e 2023 em 174 periódicos de ciência política. A Figura 1 mostra a classificação sequencial desses artigos: do total, 41% são empíricos quantitativos; destes, a grande maioria (81%) busca explicar relações causais; e dentro dos estudos explanatórios, os métodos <em>design-based</em> e <em>model-based</em> disputam espaço quase que em paridade.</p>
+<div class="figure"><span style="display:block;" id="fig:fig-classificacao"></span>
+<img src="figures/fig2_classificacao.png" alt="Classificação sequencial dos tipos de estudos em ciência política. Dos 91.632 artigos, o fluxo vai de todos os estudos para quantitativos, depois para descritivos, preditivos e explanatórios, e finalmente para design-based vs. model-based. Fonte: Torreblanca et al. (2026)." width="90%" />
+<p class="caption">
+Figure 1.1: Classificação sequencial dos tipos de estudos em ciência política. Dos 91.632 artigos, o fluxo vai de todos os estudos para quantitativos, depois para descritivos, preditivos e explanatórios, e finalmente para design-based vs. model-based. Fonte: Torreblanca et al. (2026).
+</p>
+</div>
+<p>A Figura 2 detalha a evolução temporal dos diferentes métodos <em>design-based</em> entre os estudos explanatórios. Experimentos survey são o principal motor do crescimento, seguidos por diferenças em diferenças e matching. Variáveis instrumentais, regressão descontínua, experimentos de campo e controle sintético mantêm participações menores, mas estáveis ou em crescimento modesto.</p>
+<div class="figure"><span style="display:block;" id="fig:fig-metodos"></span>
+<img src="figures/fig5_metodos.png" alt="Proporção de cada método design-based entre os estudos explanatórios quantitativos, por ano (2003–2023). Fonte: Torreblanca et al. (2026)." width="90%" />
+<p class="caption">
+Figure 1.2: Proporção de cada método design-based entre os estudos explanatórios quantitativos, por ano (2003–2023). Fonte: Torreblanca et al. (2026).
+</p>
+</div>
+<p>Esses dados mostram que os métodos que estudaremos neste curso — experimentos (Caps. 3–4), matching (Cap. 6), variáveis instrumentais (Cap. 7), diferenças em diferenças (Cap. 8), regressão descontínua (Cap. 9) e controle sintético (Cap. 11) — correspondem exatamente às ferramentas que transformaram a prática da inferência causal na disciplina. A revolução é real, embora parcial e desigual: ainda em 2023, cerca de 40% dos estudos explanatórios não empregam uma estratégia de identificação explícita.</p>
 <p>Mas por que começar com uma revisão de regressão? Porque a regressão é a ferramenta estatística mais utilizada nas ciências sociais — e muitos dos métodos causais que estudaremos são implementados por meio de alguma forma de regressão. Compreender bem o que a regressão faz (e o que ela <em>não</em> faz) é essencial para entender quando ela pode ser interpretada causalmente e quando não pode.</p>
-<div id="revisão-de-regressão" class="section level2 hasAnchor" number="1.1">
-<h2><span class="header-section-number">1.1</span> Revisão de Regressão<a href="#revis%C3%A3o-de-regress%C3%A3o" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+</div>
+<div id="revisão-de-regressão" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Revisão de Regressão<a href="#revis%C3%A3o-de-regress%C3%A3o" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Comecemos pelo modelo de regressão populacional dado por:
 <span class="math display">\[y = \beta_0 + \beta_1 x + u\]</span></p>
 <p>As suposições básicas do modelo são:</p>
@@ -572,104 +594,121 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><span class="math inline">\(\hat{\beta}_1 = \frac{\text{covariância amostral}}{\text{variância amostral}} = \frac{\sum_{i=1}^n(x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^n(x_i - \bar{x})^2}\)</span></p>
 <p>E <span class="math inline">\(\hat{\beta}_0 = \bar{y} - \hat{\beta}_1\bar{x}\)</span>.</p>
 <p>Podemos então demonstrar que o estimador é não-viesado. Para isso, é necessário supor que o modelo é linear nos parâmetros (não nas variáveis), temos uma amostra aleatória simples da população, existe variância no preditor (para não dividir por zero na fórmula do estimador de OLS) e a média condicional zero. Para a derivação completa dos estimadores e a demonstração de não-viés, ver Wooldridge (2013, cap. 2).</p>
-<div id="teorema-da-anatomia-da-regressão" class="section level3 hasAnchor" number="1.1.1">
-<h3><span class="header-section-number">1.1.1</span> Teorema da Anatomia da Regressão<a href="#teorema-da-anatomia-da-regress%C3%A3o" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="teorema-da-anatomia-da-regressão" class="section level3 hasAnchor" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> Teorema da Anatomia da Regressão<a href="#teorema-da-anatomia-da-regress%C3%A3o" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Na prática, raramente rodamos uma regressão com um único preditor. O que acontece quando adicionamos variáveis de controle a uma regressão? Como o coeficiente de uma variável muda quando “controlamos” por outras? O Teorema da Anatomia da Regressão nos dá uma resposta precisa a essas perguntas.</p>
-<p>Esse teorema, também conhecido como teorema de Frisch, Waugh e Lovell ou Frisch-Waugh-Lovell, é útil para ajudar a entender regressão múltipla.
-Suponha que nosso modelo possui <span class="math inline">\(2\)</span> preditores:</p>
-<p><span class="math inline">\(y_i=\beta_0+\beta_1 x_{1i}+ \beta_2 x_{2i}+ e_i\)</span>.</p>
-<p>Agora, suponha que, em vez de rodar a regressão acima, eu rodo uma regressão (chamada de auxiliar) em que <span class="math inline">\(x_1\)</span> é a variável dependente, e <span class="math inline">\(x_2\)</span> o único preditor.</p>
-<p><span class="math inline">\(x_{1i}=\gamma_0+\gamma_{1}x_{2i} + f_i\)</span>.</p>
-<p>E os resíduos são dados por: <span class="math inline">\(\tilde{x}_{1i}=x_{1i} - \widehat{x}_{1i}\)</span>. Então, é possível mostrar que: <span class="math inline">\(\beta_1 = \frac{\text{Cov}(y_i, \tilde{x}_{1i})}{\text{Var}(\tilde{x}_{1i})}\)</span>, onde <span class="math inline">\(\text{Cov}(\cdot,\cdot)\)</span> denota a covariância populacional e <span class="math inline">\(\text{Var}(\cdot)\)</span> a variância populacional. O que essa fórmula nos diz é que o efeito de <span class="math inline">\(\beta_1\)</span> é a covariância entre a variável dependente e o resíduo da regressão auxiliar, isto é, a parte de <span class="math inline">\(x_1\)</span> não explicada pelos demais preditores.</p>
+<p>Esse teorema, também conhecido como teorema de Frisch-Waugh-Lovell (FWL), é fundamental para entender regressão múltipla e, como veremos ao longo do curso, para entender o que vários métodos causais fazem “por debaixo dos panos”.</p>
+<p><strong>Enunciado.</strong> Suponha que nosso modelo possui <span class="math inline">\(2\)</span> preditores:</p>
+<p><span class="math display">\[y_i=\beta_0+\beta_1 x_{1i}+ \beta_2 x_{2i}+ e_i\]</span></p>
+<p>E rodamos uma regressão auxiliar de <span class="math inline">\(x_1\)</span> sobre <span class="math inline">\(x_2\)</span>:</p>
+<p><span class="math display">\[x_{1i}=\gamma_0+\gamma_{1}x_{2i} + f_i\]</span></p>
+<p>com resíduos <span class="math inline">\(\tilde{x}_{1i}=x_{1i} - \hat{\gamma}_0 - \hat{\gamma}_1 x_{2i}\)</span>. Esses resíduos representam a parte da variação de <span class="math inline">\(x_1\)</span> que <em>não</em> é explicada por <span class="math inline">\(x_2\)</span>.</p>
+<p>O Teorema FWL afirma que o coeficiente <span class="math inline">\(\hat{\beta}_1\)</span> da regressão múltipla é <em>idêntico</em> ao coeficiente obtido regredindo <span class="math inline">\(y\)</span> sobre <span class="math inline">\(\tilde{x}_1\)</span>:</p>
+<p><span class="math display">\[\hat{\beta}_1 = \frac{\sum_{i=1}^n \tilde{x}_{1i}\, y_i}{\sum_{i=1}^n \tilde{x}_{1i}^2}\]</span></p>
+<p><strong>Derivação.</strong> A prova usa duas propriedades básicas dos resíduos de MQO: (i) a soma dos resíduos é zero, <span class="math inline">\(\sum \tilde{x}_{1i} = 0\)</span>; e (ii) os resíduos são ortogonais aos regressores, <span class="math inline">\(\sum \tilde{x}_{1i}\, x_{2i} = 0\)</span>.</p>
+<p>Partimos do fato de que os resíduos <span class="math inline">\(\hat{e}_i = y_i - \hat{\beta}_0 - \hat{\beta}_1 x_{1i} - \hat{\beta}_2 x_{2i}\)</span> da regressão múltipla são ortogonais a qualquer combinação linear dos regressores. Como <span class="math inline">\(\tilde{x}_{1i} = x_{1i} - \hat{\gamma}_0 - \hat{\gamma}_1 x_{2i}\)</span> é uma combinação linear de <span class="math inline">\(1\)</span>, <span class="math inline">\(x_{1i}\)</span> e <span class="math inline">\(x_{2i}\)</span>, temos <span class="math inline">\(\sum \tilde{x}_{1i}\, \hat{e}_i = 0\)</span>. Expandindo:</p>
+<p><span class="math display">\[\sum_{i=1}^n \tilde{x}_{1i}\left(y_i - \hat{\beta}_0 - \hat{\beta}_1 x_{1i} - \hat{\beta}_2 x_{2i}\right) = 0\]</span></p>
+<p><span class="math display">\[\sum \tilde{x}_{1i}\, y_i = \hat{\beta}_0 \underbrace{\sum \tilde{x}_{1i}}_{=\,0} + \hat{\beta}_1 \sum \tilde{x}_{1i}\, x_{1i} + \hat{\beta}_2 \underbrace{\sum \tilde{x}_{1i}\, x_{2i}}_{=\,0}\]</span></p>
+<p>Resta simplificar <span class="math inline">\(\sum \tilde{x}_{1i}\, x_{1i}\)</span>. Substituindo <span class="math inline">\(x_{1i} = \tilde{x}_{1i} + \hat{\gamma}_0 + \hat{\gamma}_1 x_{2i}\)</span>:</p>
+<p><span class="math display">\[\sum \tilde{x}_{1i}\, x_{1i} = \sum \tilde{x}_{1i}^2 + \hat{\gamma}_0 \underbrace{\sum \tilde{x}_{1i}}_{=\,0} + \hat{\gamma}_1 \underbrace{\sum \tilde{x}_{1i}\, x_{2i}}_{=\,0} = \sum \tilde{x}_{1i}^2\]</span></p>
+<p>Portanto:</p>
+<p><span class="math display">\[\sum \tilde{x}_{1i}\, y_i = \hat{\beta}_1 \sum \tilde{x}_{1i}^2 \quad \Longrightarrow \quad \hat{\beta}_1 = \frac{\sum \tilde{x}_{1i}\, y_i}{\sum \tilde{x}_{1i}^2} \qquad \blacksquare\]</span></p>
+<p><strong>Intuição.</strong> O teorema nos diz que “controlar por <span class="math inline">\(x_2\)</span>” em uma regressão múltipla equivale a dois passos: primeiro, remover de <span class="math inline">\(x_1\)</span> tudo o que <span class="math inline">\(x_2\)</span> consegue explicar; depois, regredir <span class="math inline">\(y\)</span> sobre a variação residual de <span class="math inline">\(x_1\)</span>. Em outras palavras, <span class="math inline">\(\hat{\beta}_1\)</span> captura a relação entre <span class="math inline">\(y\)</span> e a parte de <span class="math inline">\(x_1\)</span> que é <em>ortogonal</em> (não correlacionada) a <span class="math inline">\(x_2\)</span>. Essa é a essência do que significa “controlar por” uma variável.</p>
+<p>Esse resultado generaliza para qualquer número de controles: se tivermos <span class="math inline">\(k\)</span> variáveis de controle, basta regredir <span class="math inline">\(x_1\)</span> sobre todas elas, obter os resíduos, e regredir <span class="math inline">\(y\)</span> sobre esses resíduos.</p>
 <p>Vamos visualizar essa relação com um exemplo do livro do Scott Cunningham:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 <pre><code>## Warning: pacote &#39;ggplot2&#39; foi compilado no R versão 4.4.3</code></pre>
+<pre><code>## Warning: pacote &#39;tibble&#39; foi compilado no R versão 4.4.3</code></pre>
+<pre><code>## Warning: pacote &#39;purrr&#39; foi compilado no R versão 4.4.3</code></pre>
+<pre><code>## Warning: pacote &#39;dplyr&#39; foi compilado no R versão 4.4.3</code></pre>
 <pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-## ✔ forcats   1.0.0     ✔ stringr   1.5.1
-## ✔ ggplot2   4.0.2     ✔ tibble    3.2.1
+## ✔ dplyr     1.2.0     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.6.0
+## ✔ ggplot2   4.0.2     ✔ tibble    3.3.1
 ## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-## ✔ purrr     1.1.0     
+## ✔ purrr     1.2.1     
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="index.html#cb4-1" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
-<span id="cb4-2"><a href="index.html#cb4-2" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="index.html#cb4-3" tabindex="-1"></a>read_data <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
-<span id="cb4-4"><a href="index.html#cb4-4" tabindex="-1"></a>  full_path <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;https://github.com/scunning1975/mixtape/raw/master/&quot;</span>,</span>
-<span id="cb4-5"><a href="index.html#cb4-5" tabindex="-1"></a>                      df)</span>
-<span id="cb4-6"><a href="index.html#cb4-6" tabindex="-1"></a>  haven<span class="sc">::</span><span class="fu">read_dta</span>(full_path)</span>
-<span id="cb4-7"><a href="index.html#cb4-7" tabindex="-1"></a>}</span>
-<span id="cb4-8"><a href="index.html#cb4-8" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="index.html#cb4-9" tabindex="-1"></a>auto <span class="ot">&lt;-</span></span>
-<span id="cb4-10"><a href="index.html#cb4-10" tabindex="-1"></a>  <span class="fu">read_data</span>(<span class="st">&quot;auto.dta&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb4-11"><a href="index.html#cb4-11" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">length =</span> length <span class="sc">-</span> <span class="fu">mean</span>(length))</span>
-<span id="cb4-12"><a href="index.html#cb4-12" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="index.html#cb4-13" tabindex="-1"></a>lm1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(price <span class="sc">~</span> length, auto)</span>
-<span id="cb4-14"><a href="index.html#cb4-14" tabindex="-1"></a>lm2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(price <span class="sc">~</span> length <span class="sc">+</span> weight <span class="sc">+</span> headroom <span class="sc">+</span> mpg, auto)</span>
-<span id="cb4-15"><a href="index.html#cb4-15" tabindex="-1"></a>lm_aux <span class="ot">&lt;-</span> <span class="fu">lm</span>(length <span class="sc">~</span> weight <span class="sc">+</span> headroom <span class="sc">+</span> mpg, auto)</span>
-<span id="cb4-16"><a href="index.html#cb4-16" tabindex="-1"></a>auto <span class="ot">&lt;-</span></span>
-<span id="cb4-17"><a href="index.html#cb4-17" tabindex="-1"></a>  auto <span class="sc">%&gt;%</span></span>
-<span id="cb4-18"><a href="index.html#cb4-18" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">length_resid =</span> <span class="fu">residuals</span>(lm_aux))</span>
-<span id="cb4-19"><a href="index.html#cb4-19" tabindex="-1"></a></span>
-<span id="cb4-20"><a href="index.html#cb4-20" tabindex="-1"></a>lm2_alt <span class="ot">&lt;-</span> <span class="fu">lm</span>(price <span class="sc">~</span> length_resid, auto)</span>
-<span id="cb4-21"><a href="index.html#cb4-21" tabindex="-1"></a></span>
-<span id="cb4-22"><a href="index.html#cb4-22" tabindex="-1"></a>coef_lm1 <span class="ot">&lt;-</span> lm1<span class="sc">$</span>coefficients</span>
-<span id="cb4-23"><a href="index.html#cb4-23" tabindex="-1"></a>coef_lm2_alt <span class="ot">&lt;-</span> lm2_alt<span class="sc">$</span>coefficients</span>
-<span id="cb4-24"><a href="index.html#cb4-24" tabindex="-1"></a>resid_lm2 <span class="ot">&lt;-</span> lm2<span class="sc">$</span>residuals</span>
-<span id="cb4-25"><a href="index.html#cb4-25" tabindex="-1"></a></span>
-<span id="cb4-26"><a href="index.html#cb4-26" tabindex="-1"></a>y_single <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">price =</span> coef_lm2_alt[<span class="dv">1</span>] <span class="sc">+</span> coef_lm1[<span class="dv">2</span>]<span class="sc">*</span>auto<span class="sc">$</span>length_resid,</span>
-<span id="cb4-27"><a href="index.html#cb4-27" tabindex="-1"></a>                   <span class="at">length_resid =</span> auto<span class="sc">$</span>length_resid)</span>
-<span id="cb4-28"><a href="index.html#cb4-28" tabindex="-1"></a></span>
-<span id="cb4-29"><a href="index.html#cb4-29" tabindex="-1"></a>y_multi <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">price =</span> coef_lm2_alt[<span class="dv">1</span>] <span class="sc">+</span> coef_lm2_alt[<span class="dv">2</span>]<span class="sc">*</span>auto<span class="sc">$</span>length_resid,</span>
-<span id="cb4-30"><a href="index.html#cb4-30" tabindex="-1"></a>                  <span class="at">length_resid =</span> auto<span class="sc">$</span>length_resid)</span>
-<span id="cb4-31"><a href="index.html#cb4-31" tabindex="-1"></a></span>
-<span id="cb4-32"><a href="index.html#cb4-32" tabindex="-1"></a>auto <span class="sc">%&gt;%</span></span>
-<span id="cb4-33"><a href="index.html#cb4-33" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>length_resid, <span class="at">y =</span> price)) <span class="sc">+</span></span>
-<span id="cb4-34"><a href="index.html#cb4-34" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb4-35"><a href="index.html#cb4-35" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> y_multi, <span class="at">color =</span> <span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
-<span id="cb4-36"><a href="index.html#cb4-36" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> y_single, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="index.html#cb7-1" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb7-2"><a href="index.html#cb7-2" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="index.html#cb7-3" tabindex="-1"></a>read_data <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
+<span id="cb7-4"><a href="index.html#cb7-4" tabindex="-1"></a>  full_path <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;https://github.com/scunning1975/mixtape/raw/master/&quot;</span>,</span>
+<span id="cb7-5"><a href="index.html#cb7-5" tabindex="-1"></a>                      df)</span>
+<span id="cb7-6"><a href="index.html#cb7-6" tabindex="-1"></a>  haven<span class="sc">::</span><span class="fu">read_dta</span>(full_path)</span>
+<span id="cb7-7"><a href="index.html#cb7-7" tabindex="-1"></a>}</span>
+<span id="cb7-8"><a href="index.html#cb7-8" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="index.html#cb7-9" tabindex="-1"></a>auto <span class="ot">&lt;-</span></span>
+<span id="cb7-10"><a href="index.html#cb7-10" tabindex="-1"></a>  <span class="fu">read_data</span>(<span class="st">&quot;auto.dta&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-11"><a href="index.html#cb7-11" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">length =</span> length <span class="sc">-</span> <span class="fu">mean</span>(length))</span>
+<span id="cb7-12"><a href="index.html#cb7-12" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="index.html#cb7-13" tabindex="-1"></a>lm1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(price <span class="sc">~</span> length, auto)</span>
+<span id="cb7-14"><a href="index.html#cb7-14" tabindex="-1"></a>lm2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(price <span class="sc">~</span> length <span class="sc">+</span> weight <span class="sc">+</span> headroom <span class="sc">+</span> mpg, auto)</span>
+<span id="cb7-15"><a href="index.html#cb7-15" tabindex="-1"></a>lm_aux <span class="ot">&lt;-</span> <span class="fu">lm</span>(length <span class="sc">~</span> weight <span class="sc">+</span> headroom <span class="sc">+</span> mpg, auto)</span>
+<span id="cb7-16"><a href="index.html#cb7-16" tabindex="-1"></a>auto <span class="ot">&lt;-</span></span>
+<span id="cb7-17"><a href="index.html#cb7-17" tabindex="-1"></a>  auto <span class="sc">%&gt;%</span></span>
+<span id="cb7-18"><a href="index.html#cb7-18" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">length_resid =</span> <span class="fu">residuals</span>(lm_aux))</span>
+<span id="cb7-19"><a href="index.html#cb7-19" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="index.html#cb7-20" tabindex="-1"></a>lm2_alt <span class="ot">&lt;-</span> <span class="fu">lm</span>(price <span class="sc">~</span> length_resid, auto)</span>
+<span id="cb7-21"><a href="index.html#cb7-21" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="index.html#cb7-22" tabindex="-1"></a>coef_lm1 <span class="ot">&lt;-</span> lm1<span class="sc">$</span>coefficients</span>
+<span id="cb7-23"><a href="index.html#cb7-23" tabindex="-1"></a>coef_lm2_alt <span class="ot">&lt;-</span> lm2_alt<span class="sc">$</span>coefficients</span>
+<span id="cb7-24"><a href="index.html#cb7-24" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="index.html#cb7-25" tabindex="-1"></a>y_single <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">price =</span> coef_lm2_alt[<span class="dv">1</span>] <span class="sc">+</span> coef_lm1[<span class="dv">2</span>]<span class="sc">*</span>auto<span class="sc">$</span>length_resid,</span>
+<span id="cb7-26"><a href="index.html#cb7-26" tabindex="-1"></a>                   <span class="at">length_resid =</span> auto<span class="sc">$</span>length_resid)</span>
+<span id="cb7-27"><a href="index.html#cb7-27" tabindex="-1"></a></span>
+<span id="cb7-28"><a href="index.html#cb7-28" tabindex="-1"></a>y_multi <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">price =</span> coef_lm2_alt[<span class="dv">1</span>] <span class="sc">+</span> coef_lm2_alt[<span class="dv">2</span>]<span class="sc">*</span>auto<span class="sc">$</span>length_resid,</span>
+<span id="cb7-29"><a href="index.html#cb7-29" tabindex="-1"></a>                  <span class="at">length_resid =</span> auto<span class="sc">$</span>length_resid)</span>
+<span id="cb7-30"><a href="index.html#cb7-30" tabindex="-1"></a></span>
+<span id="cb7-31"><a href="index.html#cb7-31" tabindex="-1"></a>auto <span class="sc">%&gt;%</span></span>
+<span id="cb7-32"><a href="index.html#cb7-32" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>length_resid, <span class="at">y =</span> price)) <span class="sc">+</span></span>
+<span id="cb7-33"><a href="index.html#cb7-33" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb7-34"><a href="index.html#cb7-34" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> y_multi, <span class="at">color =</span> <span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb7-35"><a href="index.html#cb7-35" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> y_single, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;
 ## `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;</code></pre>
 <p><img src="bookdownproj_files/figure-html/unnamed-chunk-1-1.png" alt="" width="672" /></p>
-<p>O gráfico acima mostra os pontos correspondentes ao preço do carro (<em>price</em>) contra o resíduo de <em>length</em> após controlar pelas demais variáveis (<em>length_resid</em>). A linha azul representa a relação estimada pela regressão múltipla (com controles), ou seja, o coeficiente de <em>length</em> após “limpar” o efeito das demais variáveis. A linha vermelha representa o coeficiente da regressão simples de <em>price</em> contra <em>length</em>, sem controles. A diferença entre as duas linhas ilustra a intuição central do Teorema FWL: controlar por outras variáveis muda o coeficiente estimado porque estamos isolando a parte da variação de <em>length</em> que não é explicada por <em>weight</em>, <em>headroom</em> e <em>mpg</em>. Quando variáveis omitidas estão correlacionadas tanto com o preditor quanto com a variável dependente, o coeficiente da regressão simples pode ser bastante diferente do coeficiente da regressão múltipla.</p>
+<p>O gráfico mostra o preço do carro contra o resíduo de <em>length</em> após controlar por <em>weight</em>, <em>headroom</em> e <em>mpg</em>. A linha azul é o coeficiente da regressão múltipla (que, pelo Teorema FWL, é idêntico ao da regressão de <em>price</em> sobre <em>length_resid</em>). A linha vermelha é o coeficiente da regressão simples de <em>price</em> sobre <em>length</em>, sem controles. A diferença entre as duas inclinações reflete exatamente o viés que surge quando <em>length</em> está correlacionado com as variáveis omitidas: ao controlar por elas, isolamos a variação “limpa” de <em>length</em> e obtemos uma estimativa diferente.</p>
 </div>
 </div>
-<div id="inferência" class="section level2 hasAnchor" number="1.2">
-<h2><span class="header-section-number">1.2</span> Inferência<a href="#infer%C3%AAncia" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="inferência" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Inferência<a href="#infer%C3%AAncia" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Como sabemos, inferência lida com a generalização da amostra para a população e, portanto, com a variabilidade inerente de amostra para amostra. Eu não vou revisar aqui os cálculos para derivar o erro padrão. Quero apenas enfatizar três pontos que não são usualmente abordados em cursos de regressão.</p>
-<div id="generalização-amostral-vs.-generalização-causal" class="section level3 hasAnchor" number="1.2.1">
-<h3><span class="header-section-number">1.2.1</span> Generalização amostral vs. generalização causal<a href="#generaliza%C3%A7%C3%A3o-amostral-vs.-generaliza%C3%A7%C3%A3o-causal" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="generalização-amostral-vs.-generalização-causal" class="section level3 hasAnchor" number="1.3.1">
+<h3><span class="header-section-number">1.3.1</span> Generalização amostral vs. generalização causal<a href="#generaliza%C3%A7%C3%A3o-amostral-vs.-generaliza%C3%A7%C3%A3o-causal" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Em primeiro lugar, generalização da amostra para a população é diferente de generalização causal, também conhecida como validade externa. Esse ponto foi confundido por muitos autores, em particular o livro conhecido como KKV (King, Keohane e Verba, 1994), e levou muitos pesquisadores a acreditarem que uma regressão possuía maior capacidade de generalização causal do que estudos de caso. Uma regressão (supondo que o erro padrão foi calculado corretamente) permite generalizar as estimativas para uma população. Porém, o que significa falar em generalização quando temos o universo de casos (por exemplo, todos os deputados, ou todos os candidatos, ou todos os municípios)? Quando temos o universo, não é diferente de estudos de caso que possuem todos os casos relevantes e, portanto, a noção de generalização da amostra para a população não se aplica.</p>
 <p>Essa distinção nos leva a uma pergunta natural: se temos todos os casos, ainda assim existe incerteza?</p>
 </div>
-<div id="incerteza-com-o-universo-dos-casos" class="section level3 hasAnchor" number="1.2.2">
-<h3><span class="header-section-number">1.2.2</span> Incerteza com o universo dos casos<a href="index.html#incerteza-com-o-universo-dos-casos" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="incerteza-com-o-universo-dos-casos" class="section level3 hasAnchor" number="1.3.2">
+<h3><span class="header-section-number">1.3.2</span> Incerteza com o universo dos casos<a href="index.html#incerteza-com-o-universo-dos-casos" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>A resposta é sim. Na inferência causal, em particular nesses casos em que temos o universo dos casos, ainda assim há incerteza. O trabalho de Abadie et al. (2020) discute a ideia de <em>design-based</em> inference. Nós vamos explicar no curso em mais detalhes o que é uma pesquisa <em>design-based</em> (em oposição a <em>model-based</em>), especialmente no Capítulo 2 (Resultados Potenciais). A ideia desse tipo de incerteza (e seu correspondente erro-padrão) é a seguinte. Imagine que estamos interessados em estimar o efeito causal da reeleição de prefeitos sobre a corrupção municipal. Suponha que tenho todos os municípios na amostra. Por fim, suponha que temos um experimento natural de forma que podemos supor que (talvez condicional a algumas variáveis) a reeleição é aleatória. Não há incerteza amostral para a população, mas há incerteza sobre o que aconteceria com a corrupção para os prefeitos reeleitos, caso não fossem reeleitos (e para os que perderam, como seria a corrupção caso fossem reeleitos). Em particular, se acreditamos que a reeleição foi aleatória, então uma nova rodada de amostragem (em um universo alternativo?) produziria outra configuração de prefeitos reeleitos e não reeleitos e alguma variação na estimativa do efeito causal. Isso antecipa nossa discussão sobre causalidade no Capítulo 2, mas o ponto central é que existe incerteza na estimativa do efeito causal que não deriva de variação amostral propriamente, mas da aleatoriedade da intervenção.</p>
 <p>Nas palavras dos autores:</p>
 <p>“it will be useful to distinguish between descriptive estimands, where uncertainty stems solely from not observing all units in the population of interest, and causal estimands, where the uncertainty stems, at least partially, from unobservability of some of the potential outcome” (p. 267). Meu ponto é que KKV e cia confundiram incerteza de estimandos descritivos com estimandos causais.</p>
 </div>
-<div id="validade-externa" class="section level3 hasAnchor" number="1.2.3">
-<h3><span class="header-section-number">1.2.3</span> Validade externa<a href="index.html#validade-externa" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="validade-externa" class="section level3 hasAnchor" number="1.3.3">
+<h3><span class="header-section-number">1.3.3</span> Validade externa<a href="index.html#validade-externa" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>O que me leva de volta ao ponto anterior sobre a comparação entre estudos de caso e métodos quantitativos, quando o objetivo é inferência causal. A incerteza inerente é sobre o efeito da intervenção, não sobre variações amostrais. Além disso, em ambos os casos não sabemos (a princípio) se os estudos possuem validade externa, isto é, se os resultados valem para outras populações, no tempo e espaço. É preciso avançar nessa agenda, tanto em métodos quali como quanti. É um problema em aberto e que tem atraído muitas pesquisas novas, que não iremos cobrir no curso (até por desconhecimento meu de boa parte dessa literatura).</p>
 </div>
 </div>
-<div id="resumo-e-próximos-passos" class="section level2 hasAnchor" number="1.3">
-<h2><span class="header-section-number">1.3</span> Resumo e próximos passos<a href="#resumo-e-pr%C3%B3ximos-passos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Neste capítulo introdutório, revisamos três pontos fundamentais:</p>
+<div id="resumo-e-próximos-passos" class="section level2 hasAnchor" number="1.4">
+<h2><span class="header-section-number">1.4</span> Resumo e próximos passos<a href="#resumo-e-pr%C3%B3ximos-passos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Neste capítulo introdutório, revisamos quatro pontos fundamentais:</p>
 <ol style="list-style-type: decimal">
+<li><p><strong>A revolução da credibilidade</strong>: a ciência política está em transição de estratégias <em>model-based</em> para <em>design-based</em>, embora essa transformação ainda seja parcial e desigual. Os métodos deste curso correspondem às ferramentas que lideram essa mudança.</p></li>
 <li><p><strong>A regressão como ponto de partida</strong>: o modelo de regressão por MQO estima a Função de Esperança Condicional (CEF), mas a interpretação causal do coeficiente depende de suposições fortes — em particular, a média condicional zero do termo de erro.</p></li>
 <li><p><strong>O Teorema FWL e o papel dos controles</strong>: adicionar variáveis de controle a uma regressão muda o coeficiente estimado porque estamos isolando a variação do preditor que não é explicada pelos controles. Isso é crucial para entender o que “controlar por <span class="math inline">\(X\)</span>” realmente significa.</p></li>
 <li><p><strong>Incerteza vai além da amostragem</strong>: mesmo quando temos o universo dos casos, há incerteza causal — ela vem da aleatoriedade da intervenção, não da variação amostral. Essa distinção entre incerteza descritiva e causal é central para o curso.</p></li>
 </ol>
 <p>No próximo capítulo, formalizamos a noção de causalidade por meio do <strong>modelo de resultados potenciais</strong> (<em>potential outcomes</em>), que fornece a linguagem e o arcabouço teórico para definir efeitos causais de forma precisa.</p>
 </div>
-<div id="referências" class="section level2 hasAnchor" number="1.4">
-<h2><span class="header-section-number">1.4</span> Referências<a href="#refer%C3%AAncias" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="referências" class="section level2 hasAnchor" number="1.5">
+<h2><span class="header-section-number">1.5</span> Referências<a href="#refer%C3%AAncias" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Abadie, Alberto, Susan Athey, Guido W. Imbens, and Jeffrey M. Wooldridge. 2020. “Sampling-Based Versus Design-Based Uncertainty in Regression Analysis.” Econometrica 88 (0): 265–96.</p>
 <p>Angrist, Joshua D., and Jörn-Steffen Pischke. 2009. <em>Mostly Harmless Econometrics: An Empiricist’s Companion</em>. Princeton University Press.</p>
+<p>Angrist, Joshua D., and Jörn-Steffen Pischke. 2010. “The Credibility Revolution in Empirical Economics: How Better Research Design Is Taking the Con out of Econometrics.” <em>Journal of Economic Perspectives</em> 24 (2): 3–30.</p>
 <p>King, Gary, Robert O. Keohane, and Sidney Verba. 1994. <em>Designing Social Inquiry: Scientific Inference in Qualitative Research</em>. Princeton University Press.</p>
+<p>Torreblanca, Carolina, William Dinneen, Guy Grossman, and Yiqing Xu. 2026. “The Credibility Revolution in Political Science.” Working Paper, University of Pennsylvania and Stanford University.</p>
 <p>Wooldridge, Jeffrey M. 2013. <em>Introductory Econometrics: A Modern Approach</em>. 5th ed. South-Western Cengage Learning.</p>
 
 </div>

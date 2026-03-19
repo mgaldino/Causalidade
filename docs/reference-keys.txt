@@ -1,3 +1,5 @@
+fig:fig-classificacao
+fig:fig-metodos
 tab:tabela-did
 fig:dag-did
 tab:ot-import
@@ -39,6 +41,7 @@ eq:bhj-agreg
 eq:bhj-reg
 eq:bhj-id
 introdução
+a-revolução-da-credibilidade-em-ciência-política
 revisão-de-regressão
 teorema-da-anatomia-da-regressão
 inferência
