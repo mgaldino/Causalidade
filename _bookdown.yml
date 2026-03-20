@@ -3,6 +3,23 @@ output_dir: docs
 delete_merged_file: true
 edit: https://github.com/mgaldino/Causalidade/edit/main/%s
 view: https://github.com/mgaldino/Causalidade/blob/main/%s
+rmd_files:
+  - index.Rmd
+  - 02-PO.Rmd
+  - 03-DAGs.Rmd
+  - 04-Experimentos.Rmd
+  - 05-SurveyExperiments.Rmd
+  - 05-Matching.Rmd
+  - 06-VI.Rmd
+  - 07-RDD.Rmd
+  - 08-DiD.Rmd
+  - 09-TSCS.Rmd
+  - inteferencia_dinamica.Rmd
+  - 11-Synth.Rmd
+  - 12-LLMs.Rmd
+  - 13-ML.Rmd
+  - 14-Resumo.Rmd
+  - 15-Shift-Share.Rmd
 language:
   ui:
     chapter_name: "Capítulo "

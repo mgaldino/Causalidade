@@ -99,7 +99,7 @@ Esse resultado generaliza para qualquer número de controles: se tivermos $k$ va
 
 Vamos visualizar essa relação com um exemplo do livro do Scott Cunningham:
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 library(tidyverse)
 library(haven)
 

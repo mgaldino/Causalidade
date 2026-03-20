@@ -1,0 +1,89 @@
+# Experimentos de Survey
+
+## Introdução
+
+**Objetivos de aprendizado:**
+
+1. Avaliar os usos e limitações dos principais paradigmas de experimentos de survey
+2. Identificar questões práticas que surgem na implementação de experimentos e avaliar como antecipá-las e respondê-las
+3. Avaliar as forças, fraquezas e questões éticas de experimentos como desenho de pesquisa e método de avaliação
+
+(conteúdo a ser desenvolvido)
+
+## Origem, história e evolução dos experimentos de survey
+
+(conteúdo a ser desenvolvido)
+
+## Usos de experimentos de survey
+
+(conteúdo a ser desenvolvido)
+
+## Metodologia de survey
+
+(conteúdo a ser desenvolvido)
+
+## Mensuração e temas sensíveis
+
+(conteúdo a ser desenvolvido)
+
+## Identificação causal
+
+(conteúdo a ser desenvolvido)
+
+## Tipos de experimentos de survey
+
+(conteúdo a ser desenvolvido)
+
+### Priming
+
+(conteúdo a ser desenvolvido)
+
+### Framing
+
+(conteúdo a ser desenvolvido)
+
+### Endorsement experiments
+
+(conteúdo a ser desenvolvido)
+
+### List experiments
+
+(conteúdo a ser desenvolvido)
+
+### Conjoint experiments
+
+(conteúdo a ser desenvolvido)
+
+### Experimentos naturais e quasi-experimentos em surveys
+
+(conteúdo a ser desenvolvido)
+
+## Referências
+
+Cantril, Hadley. 1940. "Problems and Techniques: Experiments in the Wording of Questions." *Public Opinion Quarterly* 4(2): 330–332.
+
+Bansak, Kirk, Jens Hainmueller, Daniel J. Hopkins and Teppei Yamamoto. 2018. "The Number of Choice Tasks and Survey Satisficing in Conjoint Experiments." *Political Analysis* 26(1): 112–119.
+
+Bansak, Kirk, Jens Hainmueller, Daniel J. Hopkins and Teppei Yamamoto. 2021. "Beyond the Breaking Point? Survey Satisficing in Conjoint Experiments." *Political Science Research and Methods* 9(1): 53–71.
+
+Bansak, Kirk, Jens Hainmueller, Daniel J. Hopkins, Teppei Yamamoto, James N. Druckman and Donald P. Green. 2021. "Conjoint Survey Experiments." *Advances in Experimental Political Science* p. 19.
+
+Blair, Graeme and Kosuke Imai. 2012. "Statistical Analysis of List Experiments." *Political Analysis* 20(1): 47–77.
+
+Gaines, Brian J., James H. Kuklinski and Paul J. Quirk. 2007. "The Logic of the Survey Experiment Reexamined." *Political Analysis* 15: 1–20.
+
+Hainmueller, Jens, Dominik Hangartner and Teppei Yamamoto. 2015. "Validating Vignette and Conjoint Survey Experiments against Real-World Behavior." *Proceedings of the National Academy of Sciences* 112(8): 2395–2400.
+
+Kuhn, Patrick M. and Nick Vivyan. 2021. "The Misreporting Trade-Off between List Experiments and Direct Questions in Practice: Partition Validation Evidence from Two Countries." *Political Analysis*.
+
+Leeper, Thomas J., Sara B. Hobolt and James Tilley. 2020. "Measuring Subgroup Preferences in Conjoint Experiments." *Political Analysis* 28(2): 207–221.
+
+Mullinix, Kevin J., Thomas J. Leeper, James N. Druckman and Jeremy Freese. 2015. "The Generalizability of Survey Experiments." *Journal of Experimental Political Science*.
+
+Muñoz, Jordi, Albert Falcó-Gimeno and Enrique Hernández. 2020. "Unexpected Event during Survey Design: Promise and Pitfalls for Causal Inference." *Political Analysis* 28(2): 186–206.
+
+Mutz, Diana C. 2011. *Population-Based Survey Experiments*. Princeton University Press.
+
+Riambau, Guillem and Kai Ostwald. 2021. "Placebo Statements in List Experiments: Evidence from a Face-to-Face Survey in Singapore." *Political Science Research and Methods* 9(1): 172–179.
+
+Sniderman, Paul M. and James N. Druckman. 2011. "The Logic and Design of the Survey Experiment." *Cambridge Handbook of Experimental Political Science* p. 102.
