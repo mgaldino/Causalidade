@@ -362,6 +362,8 @@ Esse é o modelo TWFE — os mesmos efeitos fixos aditivos do DiD. A diferença 
 
 Isso é equivalente ao estimador de imputação de Borusyak et al. (2024), que discutimos no capítulo 8.
 
+**Nota sobre covariáveis.** O termo $X'_{it}\beta$ permite incluir covariáveis no modelo. As mesmas precauções discutidas no capítulo 8 (seção sobre DiD com covariáveis) se aplicam: covariáveis variantes no tempo que podem ser afetadas pelo tratamento são *bad controls* e não devem ser incluídas diretamente. A vantagem da abordagem de imputação (FEct/IFEct) é que $\beta$ é estimado usando apenas observações não-tratadas, evitando a contaminação que ocorre no TWFE ingênuo.
+
 ### IFEct: fatores interativos
 
 O modelo de fatores interativos adiciona um componente multiplicativo:

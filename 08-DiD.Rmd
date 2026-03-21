@@ -681,21 +681,67 @@ msummary(list("TWFE" = did_elbe_es, "Sun-Abraham" = sa_elbe),
 Como esperado, os resultados são praticamente idênticos, confirmando que, quando o tratamento é simultâneo, o TWFE não sofre do viés discutido na seção 7.
 
 
-## DiD condicional e extensões
+## DiD com covariáveis
 
-O pressuposto de tendências paralelas pode ser forte demais quando os grupos diferem em características observáveis que afetam a trajetória do resultado. Nesses casos, podemos relaxar PT para uma versão **condicional a covariáveis**:
+Em muitas aplicações, o pressuposto de tendências paralelas incondicional é forte demais: os grupos tratado e controle diferem em características observáveis que afetam a trajetória do resultado. Incluir covariáveis pode tornar o pressuposto mais plausível — mas *como* incluí-las importa muito. Há duas abordagens conceitualmente distintas, e uma armadilha comum que deve ser evitada.
+
+### Abordagem 1: Enriquecer o modelo de $Y(0)$
+
+Borusyak, Jaravel e Spiess (2024) propõem enriquecer o modelo de resultados potenciais não-tratados:
+$$
+\mathbb{E}[Y_{it}(0)] = \alpha_i + \beta_t + \gamma' X_{it}
+$$
+
+Esse modelo é mais flexível que o TWFE aditivo puro e permite incluir:
+
+- **Covariáveis contínuas**: variáveis que afetam o nível de $Y$ (evitando maus controles — ver abaixo)
+- **Tendências lineares específicas por unidade**: $\gamma_i \cdot t$ — cada unidade tem sua própria tendência temporal
+- **Interações tempo $\times$ baseline**: $\gamma'_t X_i$ — por exemplo, efeitos fixos de estado $\times$ ano em um painel de condados
+
+A chave é que os parâmetros $\gamma$ são estimados **usando apenas as observações não-tratadas** ($D_{it} = 0$). Depois, o contrafactual $\hat{Y}_{it}(0)$ é imputado para as observações tratadas. Isso evita o problema de "contaminar" a estimativa de $\gamma$ com efeitos do tratamento.
+
+### Abordagem 2: Tendências paralelas condicionais
+
+Uma segunda abordagem, desenvolvida por Abadie (2005) e Sant'Anna e Zhao (2020) para o caso não-escalonado, condiciona as tendências paralelas em características baseline $X_i$:
 
 $$
 \mathbb{E}[Y_{it}(0) - Y_{it-1}(0) \mid D_i = 1, X_i] = \mathbb{E}[Y_{it}(0) - Y_{it-1}(0) \mid D_i = 0, X_i]
 $$
 
-Ou seja, as tendências são paralelas *dentro de estratos* definidos por $X_i$. Há três abordagens principais para estimar o DiD condicional:
+Ou seja, as tendências são paralelas *dentro de estratos* definidos por $X_i$. Isso transforma o problema em uma versão de seleção em observáveis para $\Delta Y_{it}$. Há três abordagens principais para estimar o DiD condicional:
 
-1. **Ponderação por propensity score inverso (IPW):** ponderar as unidades de controle para que a distribuição de $X$ replique a do grupo tratado.
-2. **Regressão de resultado (*outcome regression*):** modelar $\mathbb{E}[Y_{it}(0) \mid X_i]$ parametricamente.
+1. **Ponderação por propensity score inverso (IPW):** ponderar as unidades de controle para que a distribuição de $X$ replique a do grupo tratado (Abadie, 2005).
+2. **Regressão de resultado (*outcome regression*):** modelar $\mathbb{E}[\Delta Y_{it}(0) \mid X_i]$ parametricamente.
 3. **Doubly-robust:** combinar IPW e regressão. Consistente se *qualquer uma* das duas especificações estiver correta. O pacote `did` implementa essa abordagem (Sant'Anna & Zhao, 2020).
 
-Wooldridge (2021) propõe uma extensão do TWFE (*extended TWFE*) que inclui interações entre os efeitos fixos de tempo e as covariáveis, obtendo resultados robustos a efeitos heterogêneos sob certas condições.
+Callaway e Sant'Anna (2021) estendem essa lógica para tratamento escalonado, estimando um propensity score separado para cada coorte e período. Wooldridge (2021) propõe uma extensão do TWFE (*extended TWFE*) que inclui interações entre os efeitos fixos de tempo e as covariáveis, obtendo resultados robustos a efeitos heterogêneos sob certas condições.
+
+### O que NÃO fazer: covariáveis no TWFE ingenuamente
+
+A prática mais comum na pesquisa aplicada é simplesmente adicionar covariáveis à regressão TWFE:
+$$
+Y_{it} = \alpha_i + \beta_t + \tau D_{it} + \gamma' X_{it} + \varepsilon_{it}
+$$
+
+Essa abordagem é **problemática** por múltiplas razões, mesmo no caso mais simples de dois períodos:
+
+1. **Contaminação por efeitos do tratamento.** Com efeitos heterogêneos, $\hat{\gamma}$ é estimado usando *todas* as observações — inclusive as tratadas. Isso pode misatribuir parte do efeito do tratamento às covariáveis, enviesando tanto $\hat{\gamma}$ quanto $\hat{\tau}$ (Borusyak et al., 2024; Caetano et al., 2024).
+
+2. **Covariáveis variantes no tempo como bad controls.** Quando $X_{it}$ pode ser afetado pelo próprio tratamento (por exemplo, emprego quando o tratamento é um programa social), incluí-lo como controle introduz viés de variável intermediária — o clássico problema de *bad controls* (Angrist & Pischke, 2009). A sabedoria convencional de simplesmente "não incluir" essas variáveis também é insuficiente: quando o PTA condicional depende dessas covariáveis, omiti-las viola a suposição de identificação (Caetano et al., 2024).
+
+3. **Covariate effect bias.** Lin e Zhang (2022) mostram que, mesmo com efeitos do tratamento homogêneos e apenas dois períodos, a inclusão de covariáveis variantes no tempo no TWFE gera um viés adicional — o *covariate effect bias* — que surge porque o efeito das covariáveis sobre $Y$ pode variar no tempo. Esse viés persiste mesmo quando o tratamento não afeta as covariáveis.
+
+4. **Reversão de pesos.** Covariáveis com valores incomuns no grupo tratado (relativo ao controle) podem receber pesos desproporcionais na regressão, distorcendo a estimativa do ATT.
+
+### Baseline vs. time-varying: uma distinção crucial
+
+A distinção entre covariáveis **baseline** ($X_i$, fixas ou medidas antes do tratamento) e **variantes no tempo** ($X_{it}$, que mudam ao longo do tempo) é fundamental:
+
+- **Covariáveis baseline** ($X_i$) são seguras de incluir: não podem ser afetadas pelo tratamento e não geram o problema de bad controls. São absorvidas pelos efeitos fixos de unidade em um painel, mas podem entrar via interações com o tempo ($\gamma'_t X_i$) ou no propensity score da abordagem 2.
+
+- **Covariáveis variantes no tempo** ($X_{it}$) exigem cautela. Se o tratamento pode afetar $X_{it}$, incluí-la diretamente é um bad control. Caetano, Callaway, Payne e Sant'Anna (2024) propõem estratégias que lidam com covariáveis variantes no tempo que podem ser afetadas pelo tratamento — incluindo estimandos doubly-robust e abordagens de imputação que usam o valor que a covariável *teria tido na ausência de tratamento*.
+
+**Regra prática:** sempre que possível, use a abordagem 1 (enriquecer o modelo de $Y(0)$ com estimação apenas nos não-tratados) ou a abordagem 2 (PTA condicional com covariáveis baseline e doubly-robust). Evite adicionar covariáveis variantes no tempo diretamente ao TWFE.
 
 
 ## Resumo
@@ -707,17 +753,22 @@ Neste capítulo, introduzimos o estimador de Diferença em Diferenças e o press
 3. **Com tratamento escalonado e efeitos heterogêneos**, o TWFE pode ser enviesado. A decomposição de Goodman-Bacon revela por quê.
 4. **Estimadores modernos** — Callaway & Sant'Anna, Sun & Abraham, Gardner/did2s, Borusyak et al. — corrigem o problema e convergem para estimativas consistentes.
 5. **Em aplicações com tratamento simultâneo** (como a enchente do Elbe), o TWFE permanece válido.
+6. **Covariáveis devem ser incluídas com cuidado**: enriquecer o modelo de $Y(0)$ com estimação nos não-tratados ou usar PTA condicional com doubly-robust — nunca adicionando covariáveis variantes no tempo ao TWFE ingenuamente.
 
 No capítulo 9, discutiremos dados de painel (TSCS) de forma mais geral, incluindo as suposições de exogeneidade estrita e sequencial — das quais as tendências paralelas são um caso especial. No capítulo 11, veremos o controle sintético como alternativa quando PT é duvidosa ou quando há poucas unidades tratadas.
 
 
 ## Referências
 
+Abadie, A. (2005). Semiparametric Difference-in-Differences Estimators. *Review of Economic Studies*, 72(1), 1–19.
+
 Angrist, J. D., & Pischke, J.-S. (2009). *Mostly Harmless Econometrics*. Princeton University Press.
 
 Bechtel, M. M., & Hainmueller, J. (2011). How Lasting Is Voter Gratitude? An Analysis of the Short- and Long-Term Electoral Returns to Beneficial Policy. *American Journal of Political Science*, 55(4), 852–868.
 
 Borusyak, K., Jaravel, X., & Spiess, J. (2024). Revisiting Event Study Designs: Robust and Efficient Estimation. *Review of Economic Studies*, 91(6), 3253–3285.
+
+Caetano, C., Callaway, B., Payne, S., & Sant'Anna, H. (2024). Difference in Differences with Time-Varying Covariates. Working Paper (arXiv: 2202.02903).
 
 Callaway, B., & Sant'Anna, P. H. C. (2021). Difference-in-Differences with Multiple Time Periods. *Journal of Econometrics*, 225(2), 200–230.
 
@@ -735,11 +786,15 @@ Goodman-Bacon, A. (2021). Difference-in-Differences with Variation in Treatment 
 
 Huntington-Klein, N. (2022). *The Effect: An Introduction to Research Design and Causality*. Chapman & Hall/CRC.
 
+Lin, L., & Zhang, Z. (2022). Interpreting the coefficients in dynamic two-way fixed effects regressions with time-varying covariates. *Economics Letters*, 216, 110604.
+
 Rambachan, A., & Roth, J. (2023). A More Credible Approach to Parallel Trends. *Review of Economic Studies*, 90(5), 2555–2591.
 
 Roth, J. (2022). Pretest with Caution: Event-Study Estimates after Testing for Parallel Trends. *American Economic Review: Insights*, 4(3), 305–322.
 
 Roth, J., Sant'Anna, P. H. C., Bilinski, A., & Poe, J. (2023). What's Trending in Difference-in-Differences? A Synthesis of the Recent Econometrics Literature. *Journal of Econometrics*, 235(2), 2218–2244.
+
+Sant'Anna, P. H. C., & Zhao, J. (2020). Doubly Robust Difference-in-Differences Estimators. *Journal of Econometrics*, 219(1), 101–122.
 
 Sun, L., & Abraham, S. (2021). Estimating Dynamic Treatment Effects in Event Studies with Heterogeneous Treatment Effects. *Journal of Econometrics*, 225(2), 175–199.
 
