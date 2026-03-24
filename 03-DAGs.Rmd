@@ -22,7 +22,7 @@ ggdag(dag)
 
 Eles são chamados de DAGs porque são **direcionados** (as flechas apontam em uma direção), **acíclicos** (se $A$ causa $B$, então $B$ não pode causar $A$) e **grafos** (são representações gráficas de relações entre variáveis).
 
-No exemplo acima, o DAG é formado por três variáveis $\{Y, X, Z\}$, que são, em geral, variáveis aleatórias, e as flechas indicam a direção de causalidade: $X$ causa $Y$ e $Z$ causa $Y$. É importante saber que DAGs são não paramétricos. Eles podem ser interpretados como: $Y = f(X, Z)$, para qualquer função $f$. Eis alguns exemplos compatíveis com o DAG acima:
+No exemplo acima, o DAG é formado por três variáveis $\{Y, X, Z\}$, que são, em geral, variáveis aleatórias, e as flechas indicam a direção de causalidade: $X$ causa $Y$ e $Z$ causa $Y$. É importante saber que DAGs são não paramétricos e podem ser interpretados como $Y = f(X, Z)$, para qualquer função $f$. Alguns exemplos compatíveis com o DAG acima:
 
 - $Y = X + Z$
 - $Y = 10 + X + Z + X \cdot Z$
@@ -66,7 +66,7 @@ dag <- dagify(w ~ x, w ~ y)
 ggdag(dag)
 ```
 
-**Exemplo:** Imagine que você organiza uma festa e convida apenas pessoas que fazem ciência política ou são canhotas. Na população geral, pode não haver relação entre essas características, mas na festa pode surgir uma correlação: se uma pessoa é canhota, ela provavelmente *não* faz ciência política (caso contrário, teria sido convidada por ambas as razões).
+**Exemplo:** Imagine que você organiza uma festa e convida apenas pessoas que fazem ciência política ou são canhotas. Na população geral, pode não haver relação entre essas características, mas na festa pode surgir uma correlação: se sabemos que uma pessoa está na festa e ela é canhota, é mais provável que ela *não* faça ciência política — pois a condição de canhota já explica sua presença na festa.
 
 ```{r collider1, echo=FALSE, message=FALSE}
 dag <- dagify(festa ~ canhota, festa ~ CP)
@@ -104,7 +104,7 @@ Na população em geral, a correlação é próxima de zero. Porém, entre as pe
 
 ## Definições Formais
 
-Agora que temos a intuição dos três tipos básicos, vamos formalizar os conceitos que precisaremos para raciocinar sobre DAGs mais complexos.
+Agora que temos a intuição dos três tipos básicos, vamos formalizar os conceitos que precisaremos para raciocinar sobre DAGs mais complexos [para uma referência concisa, ver @greenland2014].
 
 ### Caminhos e relações entre nós
 
@@ -121,7 +121,7 @@ Agora que temos a intuição dos três tipos básicos, vamos formalizar os conce
 
 ### d-separação
 
-A **d-separação** (*d* de *directional*) é o conceito central que conecta a estrutura de um DAG às independências estatísticas entre variáveis. Dizemos que dois nós $X$ e $Y$ estão **d-separados** por um conjunto de nós $\mathbf{Z}$ se todo caminho entre $X$ e $Y$ está **bloqueado** condicional a $\mathbf{Z}$.
+A **d-separação** (*d* de *directed*) é o conceito central que conecta a estrutura de um DAG às independências estatísticas entre variáveis. Dizemos que dois nós $X$ e $Y$ estão **d-separados** por um conjunto de nós $\mathbf{Z}$ se todo caminho entre $X$ e $Y$ está **bloqueado** condicional a $\mathbf{Z}$.
 
 Quando um caminho está bloqueado? As regras derivam diretamente dos três tipos básicos:
 
@@ -211,7 +211,7 @@ Onde $Q$ = qualidade do candidato e $P$ = partido. Caminhos entre $X$ e $Y$:
 2. $X \leftarrow Q \to Y$ — backdoor (fork em $Q$)
 3. $X \leftarrow P \to Y$ — backdoor (fork em $P$)
 
-Conjuntos que satisfazem o critério backdoor: $\{Q, P\}$, $\{Q\}$ não basta (caminho 3 aberto), $\{P\}$ não basta (caminho 2 aberto). Logo, precisamos controlar por ambos.
+O único conjunto mínimo que satisfaz o critério backdoor é $\{Q, P\}$. Controlar apenas por $\{Q\}$ não basta (caminho 3 permanece aberto) e apenas por $\{P\}$ também não (caminho 2 permanece aberto). Logo, precisamos controlar por ambos.
 
 *Pare e pense:* e se houvesse uma variável $M$ (mídia) tal que $X \to M \to Y$? Poderíamos incluir $M$ no conjunto de ajuste? (Resposta: não — $M$ é descendente de $X$, violando a condição 1. Controlar por $M$ bloquearia parte do efeito causal que queremos estimar.)
 
@@ -255,7 +255,7 @@ Toda distribuição de probabilidade obedece à **regra da cadeia** (sem nenhuma
 
 $$P(X_1, X_2, \ldots, X_k) = P(X_1) \, P(X_2 \mid X_1) \, P(X_3 \mid X_2, X_1) \cdots P(X_k \mid X_1, \ldots, X_{k-1})$$
 
-Para $n$ variáveis, existem $n!$ fatorizações possíveis. Porém, um DAG impõe restrições: cada nó é condicionalmente independente de seus não-descendentes, dado seus pais. Isso permite uma fatorização mais parcimoniosa.
+Para $n$ variáveis, existem $n!$ fatorizações possíveis. Porém, um DAG impõe restrições: cada nó é condicionalmente independente de seus não-descendentes, dados seus pais. Isso permite uma fatorização mais parcimoniosa.
 
 ### Fatorização Markoviana
 
