@@ -1,266 +1,334 @@
 # DAGs
 
-## Causalidade
-
-![Fonte: xkcd](https://imgs.xkcd.com/comics/correlation.png) <!-- Substitua path/to/your/image.jpg pelo caminho da imagem XKCD sobre causalidade -->
-
 ## Introdução
 
-Uma das principais abordagens para fazer inferência causal utiliza diagramas causais chamados de Directed Acyclic Graphs (DAG). Ela foi desenvolvida na ciência da computação entre os anos 80 e 90 e é associada ao trabalho pioneiro de Judea Pearl. Veja o livro *The Book of Why* para uma história de como surgiu essa abordagem.
+```{r dag-setup, echo=FALSE, message=FALSE, warning=FALSE}
+library(ggdag)
+library(dplyr)
+```
+
+![Fonte: xkcd](https://imgs.xkcd.com/comics/correlation.png)
+
+No capítulo anterior, vimos que a ignorabilidade forte nos permite identificar efeitos causais — mas ela depende de condicionarmos nas covariáveis *certas*. Ficamos com uma pergunta em aberto: como saber quais variáveis incluir em $\mathbf{X}_i$ para que a ignorabilidade seja plausível? E quais variáveis *não* devemos condicionar?
+
+Neste capítulo, introduzimos uma ferramenta que nos ajuda a responder essas perguntas: os **grafos acíclicos direcionados** (*Directed Acyclic Graphs*, ou DAGs). Essa abordagem foi desenvolvida na ciência da computação entre os anos 80 e 90 e é associada ao trabalho pioneiro de @pearl2009. Para uma história acessível de como surgiu, ver @pearl2018.
 
 Abaixo temos um exemplo simples de um DAG:
 
 ```{r dag1, echo=FALSE, message=FALSE}
-library(ggdag)
 dag <- dagify(y ~ x, y ~ z)
-
 ggdag(dag)
 ```
-Eles são chamados de DAGs porque os gráficos são direcionados (apontam em uma direção), acyclic porque não permitem ciclos (isto é, se A causa B, B não pode causar A) e graphs porque, como você pode imaginar, são grafos.
 
-No exemplo acima, o DAG é formado por três variáveis \{y, x, z\} que são, em geral, variáveis aleatórias. E as flechas indicam direção de causalidade. Ou seja, $x$ causa $y$ e $z$ causa $y$. É importante saber que DAGs são não paramétricos. Eles podem ser interpretados como: $y = f(x, z)$. Ou seja, qualquer função de x e z é igualmente possível. Eis alguns exemplos compatíveis com o DAG acima:
+Eles são chamados de DAGs porque são **direcionados** (as flechas apontam em uma direção), **acíclicos** (se $A$ causa $B$, então $B$ não pode causar $A$) e **grafos** (são representações gráficas de relações entre variáveis).
 
-- $y = x + z$
-- $y = 10 + x + z + x*z$
-- $y = 3*x^z$
-- $y = \pi*z/x + x^2 + 1/(z^3)$
+No exemplo acima, o DAG é formado por três variáveis $\{Y, X, Z\}$, que são, em geral, variáveis aleatórias, e as flechas indicam a direção de causalidade: $X$ causa $Y$ e $Z$ causa $Y$. É importante saber que DAGs são não paramétricos. Eles podem ser interpretados como: $Y = f(X, Z)$, para qualquer função $f$. Eis alguns exemplos compatíveis com o DAG acima:
 
-A razão pela qual não escrevemos DAGs como equações é que $y = f(x, z)$ não expressa adequadamente a relação de causalidade, pois, em matemática, é indiferente escrever $f(x, z) = y$ ou $y = f(z, x)$. Porém, dizer que $x$ e $z$ causam $y$ é muito diferente de dizer que $y$ causa $x$ e $z$. E, com o DAG, as flechas indicam a direção da causalidade.
+- $Y = X + Z$
+- $Y = 10 + X + Z + X \cdot Z$
+- $Y = 3 \cdot X^Z$
+- $Y = \pi \cdot Z/X + X^2 + 1/Z^3$
+
+A razão pela qual não escrevemos DAGs como equações é que $Y = f(X, Z)$ não expressa adequadamente a relação de causalidade, pois, em matemática, é indiferente escrever $f(X, Z) = Y$ ou $Y = f(Z, X)$. Porém, dizer que $X$ e $Z$ causam $Y$ é muito diferente de dizer que $Y$ causa $X$ e $Z$. Com o DAG, as flechas indicam a direção da causalidade.
 
 ## Os Tipos Básicos de DAGs
 
-### 1. Chains
+Qualquer DAG, por mais complexo que seja, é composto por combinações de três estruturas elementares. Compreender como cada uma delas afeta a dependência entre variáveis é a chave para decidir quais variáveis controlar em uma análise causal.
 
-Em uma *chain*, $x$ causa $w$ que, por sua vez, causa $y$. Aqui, $w$ pode ser considerado o mediador do efeito de $x$ sobre $y$.  
-**Exemplo:** O desempenho econômico de um país pode aumentar a popularidade do presidente, o que leva a mais votos.  
-Representação:  
+### 1. Chain (cadeia)
+
+Em uma *chain*, $X$ causa $W$ que, por sua vez, causa $Y$. Aqui, $W$ é o **mediador** do efeito de $X$ sobre $Y$.
+
+**Exemplo:** O desempenho econômico de um país pode aumentar a popularidade do presidente, o que leva a mais votos.
+
 ```{r chain, echo=FALSE, message=FALSE}
-library(ggdag)
 dag <- dagify(w ~ x, y ~ w)
-
 ggdag(dag)
 ```
 
-### 2. Forks
+### 2. Fork (garfo)
 
-Em um *fork*, uma variável $w$ causa tanto $x$ quanto $y$. Dessa forma, $w$ é uma causa comum que pode gerar correlação espúria entre $x$ e $y$.  
-**Exemplo:** A qualidade de um candidato pode fazer com que ele arrecade mais dinheiro para a campanha e, ao mesmo tempo, obtenha mais votos.  
-Representação:  
+Em um *fork*, uma variável $W$ causa tanto $X$ quanto $Y$. Dessa forma, $W$ é uma **causa comum** que pode gerar correlação espúria entre $X$ e $Y$.
+
+**Exemplo:** A qualidade de um candidato pode fazer com que ele arrecade mais dinheiro para a campanha e, ao mesmo tempo, obtenha mais votos.
 
 ```{r fork, echo=FALSE, message=FALSE}
-library(ggdag)
 dag <- dagify(x ~ w, y ~ w)
-
 ggdag(dag)
 ```
 
+### 3. Collider (colisor)
 
-### 3. Colliders
+Em um *collider*, $X$ causa $W$ e $Y$ também causa $W$. Esse tipo de estrutura é também chamado de "fork invertido". Apesar de $X$ e $Y$ não terem relação causal direta, **controlar para $W$** (ou um de seus descendentes) pode introduzir uma correlação espúria entre $X$ e $Y$.
 
-Em um *collider*, $x$ causa $w$ e $y$ também causa $w$. Esse tipo de estrutura é também chamado de "fork invertido". Apesar de $x$ e $y$ não terem relação causal direta, controlar para $w$ (ou um de seus descendentes) pode introduzir uma correlação espúria entre $x$ e $y$.  
 ```{r collider, echo=FALSE, message=FALSE}
-library(ggdag)
 dag <- dagify(w ~ x, w ~ y)
-
 ggdag(dag)
 ```
 
-**Exemplo:** Imagine que você organiza uma festa e convida apenas pessoas que fazem ciência política ou são canhotas. Na população geral, pode não haver relação entre essas características, mas na festa pode surgir uma correlação: se uma pessoa é canhota, ela pode ter maior probabilidade de fazer ciência política.
+**Exemplo:** Imagine que você organiza uma festa e convida apenas pessoas que fazem ciência política ou são canhotas. Na população geral, pode não haver relação entre essas características, mas na festa pode surgir uma correlação: se uma pessoa é canhota, ela provavelmente *não* faz ciência política (caso contrário, teria sido convidada por ambas as razões).
 
 ```{r collider1, echo=FALSE, message=FALSE}
-library(ggdag)
 dag <- dagify(festa ~ canhota, festa ~ CP)
-
 ggdag(dag)
 ```
 
-Esses três tipos básicos — chains, forks e colliders — são os blocos fundamentais a partir dos quais qualquer DAG pode ser construído. Compreender como cada um deles afeta a dependência entre variáveis é essencial para decidir quais variáveis controlar em uma análise causal. Vejamos agora uma simulação que ilustra o viés que pode surgir quando condicionamos em um collider.
+Esses três tipos — chains, forks e colliders — são os blocos fundamentais a partir dos quais qualquer DAG pode ser construído. Vejamos agora uma simulação que ilustra o viés que pode surgir quando condicionamos em um collider.
 
 ## Simulação no R: Ilustrando o Collider Bias
 
-Vamos rodar uma simulação para ilustrar o collider bias. Suponha que 10% das pessoas fazem ciência política e 5% são canhotas.
+Vamos rodar uma simulação para ilustrar o collider bias. Suponha que 10% das pessoas fazem ciência política e 5% são canhotas, e que essas duas características são independentes na população.
 
-```{r}
-library(dplyr)
+```{r collider-sim}
 set.seed(4)
 
 # Gerando as variáveis
-cp <- rbinom(1000, 1, p = 0.1)      # 10% fazem ciência política
-canhoto <- rbinom(1000, 1, p = 0.05)  # 5% são canhotos
+cp <- rbinom(1000, 1, p = 0.1)       # 10% fazem ciência política
+canhoto <- rbinom(1000, 1, p = 0.05) # 5% são canhotos
 
-# Definindo a condição da festa: convida se faz ciência política ou é canhoto
-festa <- ifelse(cp == 1, 1, ifelse(canhoto == 1, 1, 0))
+# Condição da festa: convida se faz CP ou é canhoto
+festa <- ifelse(cp == 1 | canhoto == 1, 1, 0)
 tabela <- data.frame(cp, canhoto, festa)
 
 # Correlação na população geral
-cor_geral <- round(cor(cp, canhoto), 2)
-print(cor_geral)
+cat("Correlação na população:", round(cor(cp, canhoto), 3), "\n")
 
-# Correlação entre os que foram à festa
+# Correlação entre os que foram à festa (condicionando no collider)
 cor_festa <- tabela %>%
   filter(festa == 1) %>%
-  summarise(cor = round(cor(cp, canhoto), 2))
-print(cor_festa)
+  summarise(cor = round(cor(cp, canhoto), 3))
+cat("Correlação na festa (condicionando no collider):", cor_festa$cor, "\n")
 ```
 
-Na população em geral, a correlação é próxima de zero (aproximadamente -0,02). Porém, entre as pessoas que foram à festa, a correlação pode chegar a -0,95, evidenciando como condicionar em um collider (neste caso, a variável festa) pode induzir correlação espúria. Esse resultado reforça a importância de entender a estrutura causal antes de decidir por quais variáveis condicionar.
+Na população em geral, a correlação é próxima de zero. Porém, entre as pessoas que foram à festa, a correlação pode chegar a $-0{,}95$, evidenciando como condicionar em um collider pode induzir correlação espúria. Esse resultado reforça a importância de entender a estrutura causal antes de decidir por quais variáveis condicionar.
 
-## Definições
+## Definições Formais
 
-**Path (caminho)**: É uma sequência de flechas conectadas.
-Um **directed path** (caminho dirigido) é aquele em que todas as flechas seguem a mesma direção (por exemplo, $x \to z \to y$).
+Agora que temos a intuição dos três tipos básicos, vamos formalizar os conceitos que precisaremos para raciocinar sobre DAGs mais complexos.
 
-### Relações entre Variáveis (nós):
-As relações são descritas usando termos da genética, como pais, filhos, ancestrais, descendentes e vizinhos.
-Pais e filhos referem-se a relações diretas.
-Ancestrais e descendentes incluem todas as variáveis em qualquer posição no caminho.
+### Caminhos e relações entre nós
 
-Um path sem collider está aberto; um path com collider está fechado.
+**Caminho** (*path*): uma sequência de nós conectados por flechas, independentemente da direção. Por exemplo, no DAG $X \to W \leftarrow Y$, existe um caminho entre $X$ e $Y$ passando por $W$.
 
-Duas variáveis (ou conjuntos) estão **d-separated** se não houver caminho aberto entre elas. Caso contrário, podem ou não ser independentes, pois múltiplos caminhos abertos podem se cancelar.
+**Caminho direcionado** (*directed path*): um caminho em que todas as flechas seguem a mesma direção. Por exemplo, $X \to W \to Y$ é um caminho direcionado de $X$ a $Y$.
+
+**Relações entre nós** (terminologia da genética):
+
+- **Pais** de $Y$: nós com flechas diretas para $Y$
+- **Filhos** de $Y$: nós para os quais $Y$ tem flechas diretas
+- **Ancestrais** de $Y$: todos os nós dos quais existe um caminho direcionado até $Y$
+- **Descendentes** de $Y$: todos os nós para os quais existe um caminho direcionado a partir de $Y$
+
+### d-separação
+
+A **d-separação** (*d* de *directional*) é o conceito central que conecta a estrutura de um DAG às independências estatísticas entre variáveis. Dizemos que dois nós $X$ e $Y$ estão **d-separados** por um conjunto de nós $\mathbf{Z}$ se todo caminho entre $X$ e $Y$ está **bloqueado** condicional a $\mathbf{Z}$.
+
+Quando um caminho está bloqueado? As regras derivam diretamente dos três tipos básicos:
+
+1. **Chain** ($X \to W \to Y$): o caminho está **aberto** por padrão. Condicionar em $W$ **bloqueia** o caminho.
+
+2. **Fork** ($X \leftarrow W \to Y$): o caminho está **aberto** por padrão (a causa comum $W$ transmite dependência). Condicionar em $W$ **bloqueia** o caminho.
+
+3. **Collider** ($X \to W \leftarrow Y$): o caminho está **fechado** por padrão. Condicionar em $W$ (ou em qualquer descendente de $W$) **abre** o caminho.
+
+A regra geral: um caminho está bloqueado se contém pelo menos um nó que (a) é um não-collider (chain ou fork) e está no conjunto $\mathbf{Z}$, ou (b) é um collider e nem ele nem seus descendentes estão em $\mathbf{Z}$.
+
+**Exemplo trabalhado.** Considere o seguinte DAG:
+
+```{r dsep-example, echo=FALSE, message=FALSE}
+dag <- dagify(Y ~ X + U, X ~ Z, U ~ Z)
+ggdag(dag)
+```
+
+Quais caminhos existem entre $X$ e $Y$?
+
+1. $X \to Y$ — caminho direcionado (causal), sempre aberto
+2. $X \leftarrow Z \to U \to Y$ — caminho com fork em $Z$
+
+O caminho 2 é um **backdoor path**: ele conecta $X$ a $Y$ por trás, transmitindo dependência espúria via $Z$. Para bloquear esse caminho, podemos condicionar em $Z$ (que é o fork). Nesse caso, $X$ e $Y$ ficam d-separados de toda influência espúria, e a associação remanescente reflete apenas o efeito causal de $X$ sobre $Y$.
+
+*Pare e pense:* e se condicionássemos em $U$ em vez de $Z$? O caminho 2 seria bloqueado? (Resposta: sim, pois $U$ é um não-collider nesse caminho, e condicionar nele bloqueia a transmissão.)
 
 ## Controle e Ajuste
 
-Agora que conhecemos os elementos básicos dos DAGs e as definições de caminhos e d-separação, podemos abordar uma questão central: como decidir quais variáveis controlar em uma análise causal?
+Agora que entendemos d-separação, podemos abordar a questão central: como decidir quais variáveis controlar em uma análise causal?
 
-No contexto dos DAGs, controlar para variáveis pode ter diferentes significados:
+### Condicionar vs. intervir
 
-Experimentos: Controlar significa manipular o valor da variável pelo pesquisador.
-Exemplo: Um experimento em que o resultado do lançamento de uma moeda determina se um pedido de acesso à informação será feito por um homem ou mulher.
+No contexto dos DAGs, "controlar" pode significar duas coisas diferentes:
 
-```{r moeda, echo=FALSE, message=FALSE}
+1. **Intervir** (experimento): determinamos exogenamente o valor da variável. No DAG, isso equivale a **remover todas as flechas que entram** no nó manipulado — pois o valor da variável não é mais determinado por suas causas, mas pelo pesquisador.
 
-dag <- dagify(genero ~ moeda, LAI ~ genero)
+2. **Condicionar** (estudo observacional): estratificamos, incluímos como controle numa regressão, ou restringimos a amostra a um subgrupo. No DAG, isso **bloqueia caminhos** que passam pelo nó condicionado (se for fork/chain) ou **abre caminhos** (se for collider).
 
+### O que acontece ao condicionar
+
+Vamos ilustrar com um DAG concreto. Suponha que queremos estimar o efeito de $X$ sobre $Y$:
+
+```{r ajuste-exemplo, echo=FALSE, message=FALSE}
+dag <- dagify(Y ~ X + C, X ~ C + U, Y ~ U,
+              labels = c("Y" = "Y", "X" = "X", "C" = "C", "U" = "U"))
 ggdag(dag)
 ```
 
-Estudos Observacionais: Controlar significa condicionar (estratificar ou incluir em uma regressão). Para visualizar isso em um DAG, considere o seguinte DAG:
+Caminhos entre $X$ e $Y$:
 
-```{r controle-base, echo=FALSE, message=FALSE}
+1. $X \to Y$ — causal (aberto, queremos preservar)
+2. $X \leftarrow C \to Y$ — backdoor via fork em $C$ (aberto, causa viés)
+3. $X \leftarrow U \to Y$ — backdoor via fork em $U$ (aberto, causa viés)
 
-dag <- dagify(g ~ c + u, c ~a + b, e ~a + c, d ~b + c)
+Se condicionarmos em $C$, bloqueamos o caminho 2. Se $U$ for não observável, não conseguimos condicionar nele e o caminho 3 permanece aberto — nesse caso, nosso estimador ainda será viesado. Isso ilustra um ponto importante: **condicionar em algumas variáveis pode reduzir o viés sem eliminá-lo completamente**.
 
+E se condicionássemos em $U$ também? Nesse caso, todos os backdoor paths estariam bloqueados, e a associação entre $X$ e $Y$ refletiria apenas o efeito causal. O conjunto $\{C, U\}$ satisfaz o **critério backdoor**, que formalizamos a seguir.
+
+## O Critério Backdoor
+
+O critério backdoor, formulado por @pearl2009, é a ferramenta que nos permite determinar sistematicamente quais variáveis controlar para identificar um efeito causal. Ele responde diretamente à pergunta que deixamos em aberto no Cap. 2: quais covariáveis $\mathbf{X}_i$ tornam a ignorabilidade plausível?
+
+**Definição.** Um conjunto de variáveis $\mathbf{Z}$ satisfaz o **critério backdoor** em relação ao par ordenado $(X, Y)$ se:
+
+1. Nenhum nó em $\mathbf{Z}$ é descendente de $X$
+2. $\mathbf{Z}$ bloqueia todo caminho entre $X$ e $Y$ que contém uma flecha entrando em $X$ (todo *backdoor path*)
+
+Se $\mathbf{Z}$ satisfaz o critério backdoor, então o efeito causal de $X$ sobre $Y$ é identificado pela **fórmula de ajuste**:
+
+$$P(Y = y \mid do(X = x)) = \sum_{z} P(Y = y \mid X = x, \mathbf{Z} = z) \, P(\mathbf{Z} = z)$$
+
+**Conexão com resultados potenciais.** O critério backdoor é a contrapartida gráfica da ignorabilidade condicional do Cap. 2. Se $\mathbf{Z}$ satisfaz o critério backdoor, então $Y(1), Y(0) \perp D \mid \mathbf{Z}$ — exatamente a condição 1 da ignorabilidade forte. A condição 2 (common support) precisa ser verificada nos dados.
+
+**Exemplo.** Considere o seguinte DAG sobre o efeito do gasto de campanha ($X$) sobre os votos ($Y$):
+
+```{r backdoor-exemplo, echo=FALSE, message=FALSE}
+dag <- dagify(Y ~ X + Q, X ~ Q + P, Y ~ P,
+              labels = c("Y" = "Votos", "X" = "Gasto", "Q" = "Qualidade", "P" = "Partido"),
+              exposure = "X", outcome = "Y")
 ggdag(dag)
 ```
 
-Controlar para C, nesse DAG, significa efetuar os seguintes passos, na sequência: 
-1. Eliminar todas as flechas que saem de C. 
-```{r controle-C1, echo=FALSE, message=FALSE}
+Onde $Q$ = qualidade do candidato e $P$ = partido. Caminhos entre $X$ e $Y$:
 
-dag <- dagify(g ~u , c ~a + b, e ~a , d ~b )
+1. $X \to Y$ — causal
+2. $X \leftarrow Q \to Y$ — backdoor (fork em $Q$)
+3. $X \leftarrow P \to Y$ — backdoor (fork em $P$)
 
+Conjuntos que satisfazem o critério backdoor: $\{Q, P\}$, $\{Q\}$ não basta (caminho 3 aberto), $\{P\}$ não basta (caminho 2 aberto). Logo, precisamos controlar por ambos.
+
+*Pare e pense:* e se houvesse uma variável $M$ (mídia) tal que $X \to M \to Y$? Poderíamos incluir $M$ no conjunto de ajuste? (Resposta: não — $M$ é descendente de $X$, violando a condição 1. Controlar por $M$ bloquearia parte do efeito causal que queremos estimar.)
+
+## O Operador *do*
+
+Até aqui, falamos em "condicionar" e "intervir" informalmente. O operador $do()$, introduzido por @pearl2009, formaliza a diferença.
+
+### Observar vs. intervir
+
+- $P(Y \mid X = x)$ é a probabilidade de $Y$ dado que **observamos** $X = x$. Ela reflete tanto o efeito causal de $X$ sobre $Y$ quanto qualquer associação espúria via caminhos backdoor.
+
+- $P(Y \mid do(X = x))$ é a probabilidade de $Y$ quando **intervenimos** fixando $X = x$. No DAG, isso corresponde a uma "cirurgia": removemos todas as flechas que entram em $X$ (pois o valor de $X$ agora é determinado pela intervenção, não por suas causas) e calculamos a distribuição de $Y$ no DAG modificado.
+
+### Quando observar = intervir?
+
+Se não há confounding — ou seja, não há backdoor path aberto entre $X$ e $Y$ — então a distribuição observacional é igual à distribuição intervencional:
+
+```{r do-sem-confounding, echo=FALSE, message=FALSE}
+dag <- dagify(Y ~ X)
 ggdag(dag)
 ```
 
-2. Se C for um collider, elimine as flechas que vão para C e conecte os pais de C por meio de linhas tracejadas. 
+$$P(Y \mid do(X = x)) = P(Y \mid X = x)$$
 
-```{r controle-C2, echo=FALSE, message=FALSE}
+Porém, quando há confounding, as duas diferem:
 
-dag <- dagify(g ~u ,  a ~~ d, e ~a , d ~b )
-
+```{r do-com-confounding, echo=FALSE, message=FALSE}
+dag <- dagify(Y ~ X + C, X ~ C)
 ggdag(dag)
 ```
 
-3. Elimine C
-```{r controle-C3, echo=FALSE, message=FALSE}
+Aqui, $P(Y \mid X = x) \neq P(Y \mid do(X = x))$, porque observar $X = x$ traz informação sobre $C$ (via o caminho $X \leftarrow C$), que por sua vez afeta $Y$. Já ao intervir com $do(X = x)$, cortamos essa conexão.
 
-dag <- dagify(g ~u ,  a ~~ d, e ~a , d ~b )
-
-ggdag(dag)
-```
-
-Manipular: Determinar o valor da variável.
-
-
-Alterar o Gráfico:
-
-
-Para controlar a variável G (por exemplo, se relacionada a C):
-Eliminar as flechas que saem de G.
-Eliminar as flechas do collider (no caso, c e u, pais de G) e criar relação bidirecional espúria.
-Remover G do gráfico.
-
-
-
-
-
-Em resumo, se C depende de A e B de forma independente, condicionar em C pode criar uma relação espúria entre A e B. Por exemplo, se A e B são binárias e \( C = A + B \), para \( C = 1 \) saber o valor de A determina automaticamente o valor de B, e vice-versa.
-
-De modo geral, condicionar em um collider inverte o status dos caminhos: caminhos que estavam abertos podem se fechar e vice-versa. Além disso, condicionar em um descendente de um collider também pode alterar os efeitos, atenuando ou abrindo caminhos que originalmente estavam fechados.
+O critério backdoor nos diz exatamente como calcular $P(Y \mid do(X = x))$ a partir de dados observacionais, usando a fórmula de ajuste da seção anterior.
 
 ## Fatorização da Probabilidade Conjunta
 
-Até aqui, discutimos DAGs sob a perspectiva qualitativa: quais variáveis causam quais. Agora veremos como a estrutura de um DAG se conecta formalmente à distribuição de probabilidade conjunta das variáveis, por meio da fatorização.
+A estrutura de um DAG também se conecta formalmente à distribuição de probabilidade conjunta das variáveis. Essa conexão é útil para entender por que d-separação implica independência estatística.
 
-Toda distribuição de probabilidade obedece à regra da cadeia de probabilidades (nenhuma suposição adicional).
+Toda distribuição de probabilidade obedece à **regra da cadeia** (sem nenhuma suposição adicional):
 
-Lembremos: 
+$$P(X_1, X_2, \ldots, X_k) = P(X_1) \, P(X_2 \mid X_1) \, P(X_3 \mid X_2, X_1) \cdots P(X_k \mid X_1, \ldots, X_{k-1})$$
 
-$Pr(X,Y) =  Pr(Y|X) Pr(X) = Pr(X|Y) Pr(Y)$
+Para $n$ variáveis, existem $n!$ fatorizações possíveis. Porém, um DAG impõe restrições: cada nó é condicionalmente independente de seus não-descendentes, dado seus pais. Isso permite uma fatorização mais parcimoniosa.
 
-Similarmente,
+### Fatorização Markoviana
 
-$Pr(X,Y,Z) =  Pr(Y|X,Z) Pr(X|Z) Pr(Z) = Pr(X|Y,Z) Pr(Y|Z) Pr(Z) = Pr(Z|Y,X) Pr(X|Y) Pr(X) = \cdots$
+Dado um DAG, a distribuição conjunta pode ser escrita como:
 
-De maneira geral, se temos $n$ variáveis marginais, temos no total $n!$ maneiras distintas de fatorar a distribuição conjunta. A lógica é assim:
+$$P(X_1, X_2, \ldots, X_k) = \prod_{i=1}^{k} P(X_i \mid \text{Pais}(X_i))$$
 
-Seja uma função de massa de probabilidade (pmf) conjunta $Pr(x_1, x_2, ..., x_k)$. Então, podemos usar a regra do produto:
+onde $\text{Pais}(X_i)$ são os pais de $X_i$ no DAG. Cada nó depende apenas de seus pais diretos, não de todos os nós anteriores.
 
-$Pr(x_1, x_2, ..., x_k) = Pr(x_1) Pr(x_2, ..., x_k|x_1)$
-
-Aplicando a regra iterativamente, $Pr(x_2, ..., x_k|x_1) = Pr(x_2|x_1)Pr(x_3, ..., x_k|x_1, x_2)$, de forma que:
-$Pr(x_1, x_2, ..., x_k) = Pr(x_1) Pr(x_2|x_1)Pr(x_3, ..., x_k|x_1, x_2)$
-E assim por diante, até:
-$Pr(x_1, x_2, ..., x_k) = Pr(x_1) Pr(x_2|x_1) Pr(x_3| x_2, x_1) \cdots Pr(x_k|x_1, x_2, x_3, ... , x_{k-1})$
-
-A Regra do produto pode ser aplicada em qualquer ordem, gerando fatorizações distintas.
-
-## Fatorização e DAGs
-
-Existem teoremas que mostram que existe uma relação entre DAGs e fatorização de probabilidades conjuntas. Dado um DAG, em que um nó é condicionalmente independente de outro nó, isso implica a fatorização da probabilidade conjunta de acordo com essa relação, e vice-versa. Dois exemplos abaixo ilustram essa propriedade.
-
-Considere o DAG abaixo:
+**Exemplo.** Considere o DAG:
 
 ```{r fatorizacao, echo=FALSE, message=FALSE}
-
-dag <- dagify(Y ~ X ,  X ~ Z + W, Z ~ M, W ~ M )
-
+dag <- dagify(Y ~ X, X ~ Z + W, Z ~ M, W ~ M)
 ggdag(dag)
 ```
 
-Nós sabemos que, condicional a X, Y é independente de Z, W e M. Similarmente, X é independente de M, condicional a Z e W. Podemos então fatorar a distribuição conjunta da seguinte maneira:
+A fatorização Markoviana é:
 
-$$Pr(M, Z, W, X, Y) = Pr(M) Pr(Z|M) Pr(W|M) Pr(X|W,Z) Pr(Y|X)$$
+$$P(M, Z, W, X, Y) = P(M) \, P(Z \mid M) \, P(W \mid M) \, P(X \mid W, Z) \, P(Y \mid X)$$
 
-Ou seja, basta escrever a probabilidade condicional nas variáveis que tornam cada nó independente para descrever a distribuição de probabilidade conjunta.
+Cada fator condiciona apenas nos pais do nó no DAG, o que é muito mais parcimonioso do que a regra da cadeia genérica.
 
-## Fatorização, DAGs e Causalidade
+### Fatorização e causalidade
 
-De volta à causalidade, um DAG em que não há confounding, isto é, sem back-door aberto, como o DAG abaixo, implica que a fatorização observacional é igual à fatorização intervencional:
+Quando não há confounding (sem backdoor path aberto), a fatorização observacional coincide com a fatorização intervencional. Para o DAG simples $X \to Y$:
 
-```{r fatorizacao1, echo=FALSE, message=FALSE}
+$$P(Y, X) = P(X) \, P(Y \mid X) = P(X) \, P(Y \mid do(X))$$
 
-dag <- dagify(Y ~ X  )
+Essa igualdade é o que torna a inferência causal possível a partir de dados observacionais nos casos em que o critério backdoor é satisfeito sem condicionar em nada — ou seja, quando o tratamento já é "como se" aleatório.
 
+## Exercícios
+
+**Exercício 1.** Considere o seguinte DAG:
+
+```{r ex1, echo=FALSE, message=FALSE}
+dag <- dagify(Y ~ X + M + U, M ~ X, X ~ Z, U ~ Z)
 ggdag(dag)
 ```
 
-$$Pr(Y = y |do (X = x)) = Pr(Y|X)$$
-Logo, é verdade que 
-$$Pr(Y,X) = Pr(X)Pr(Y|X) = Pr(X)Pr(Y = y |do (X = x)).$$
+(a) Liste todos os caminhos entre $X$ e $Y$.
 
-O operador "do" aqui é uma inovação de Pearl, e diz que fizemos uma cirurgia no gráfico e determinamos, exogenamente, por assim dizer, que o valor de $X$ é $x$.
+(b) Classifique cada caminho como causal (direcionado) ou backdoor.
 
+(c) Quais caminhos estão abertos e quais estão fechados (sem condicionar em nada)?
 
+(d) Encontre um conjunto de variáveis que satisfaz o critério backdoor.
+
+**Exercício 2.** Uma pesquisadora quer estimar o efeito da democracia ($D$) sobre o crescimento econômico ($G$). Ela acredita que: (i) a riqueza inicial ($W$) afeta tanto a probabilidade de democratização quanto o crescimento futuro; (ii) a educação ($E$) é causada pela riqueza e afeta tanto a democracia quanto o crescimento; (iii) a democracia afeta o crescimento.
+
+(a) Desenhe o DAG correspondente.
+
+(b) Identifique os backdoor paths entre $D$ e $G$.
+
+(c) Qual é o conjunto mínimo de variáveis para satisfazer o critério backdoor? A pesquisadora deveria controlar por educação?
+
+**Exercício 3.** Um cientista político estuda o efeito de ser incumbente ($I$) sobre o voto ($V$). Ele inclui como controle a cobertura da mídia ($M$), argumentando que "quanto mais controles, melhor". Porém, ele acredita que ser incumbente causa mais cobertura da mídia, e que a cobertura da mídia causa mais votos ($I \to M \to V$).
+
+(a) Desenhe o DAG e identifique o que $M$ é nessa estrutura (mediador, confundidor ou collider).
+
+(b) Explique por que controlar por $M$ é problemático.
+
+(c) Em que situação *seria* correto controlar por $M$?
 
 ## Resumo e próximos passos
 
-Neste capítulo, introduzimos os DAGs como ferramenta para representar e raciocinar sobre relações causais. Vimos os três tipos básicos de estruturas — chains, forks e colliders — e como eles determinam quais caminhos estão abertos ou fechados. Aprendemos que condicionar (controlar) em uma variável pode fechar um caminho aberto (no caso de forks e chains) ou abrir um caminho fechado (no caso de colliders). Também vimos como a estrutura de um DAG implica uma fatorização específica da distribuição de probabilidade conjunta, e como a fatorização observacional pode coincidir com a intervencional quando não há confounding.
+Neste capítulo, introduzimos os DAGs como ferramenta para representar e raciocinar sobre relações causais:
 
-No próximo capítulo, utilizaremos esses conceitos para entender por que experimentos aleatórios são considerados o padrão-ouro para inferência causal: a aleatorização garante que não haja caminhos abertos entre o tratamento e os resultados potenciais.
+1. **Três tipos básicos.** Chains, forks e colliders determinam quais caminhos estão abertos ou fechados. Condicionar fecha caminhos via forks/chains, mas abre caminhos via colliders.
 
-## Referências
+2. **d-separação.** Dois nós estão d-separados se todo caminho entre eles está bloqueado. As regras de bloqueio derivam diretamente dos três tipos básicos.
 
-Hernán MA, Robins JM (2019). Causal Inference. Boca Raton: Chapman & Hall/CRC. Disponível temporariamente em: https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/
-Greenland, S., & Pearl, J. (2014). Causal diagrams. Wiley StatsRef: Statistics Reference Online, 1-10.
+3. **Critério backdoor.** Um conjunto $\mathbf{Z}$ identifica o efeito causal se bloqueia todos os backdoor paths sem incluir descendentes do tratamento. Esse critério é a contrapartida gráfica da ignorabilidade condicional do Cap. 2.
+
+4. **Operador $do()$.** Distingue a distribuição observacional $P(Y \mid X)$ da intervencional $P(Y \mid do(X))$. A fórmula de ajuste backdoor conecta as duas.
+
+No próximo capítulo, veremos por que **experimentos aleatórios** são considerados o padrão-ouro para inferência causal: a aleatorização garante, por construção, que não haja backdoor paths abertos entre o tratamento e o resultado.
