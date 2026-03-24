@@ -60,7 +60,6 @@ estimandos-mais-comuns
 ate
 att
 cate
-nota-sobre-estimandos
 exercício---qual-o-estimando-e-o-estimador-se-possível
 identificação
 identificação-do-ate
@@ -68,7 +67,6 @@ equações-estruturais
 modelo-versus-desenho
 exercício-em-sala
 resumo-e-próximos-passos-1
-referências-1
 dags
 causalidade
 introdução-1
@@ -84,7 +82,7 @@ fatorização-da-probabilidade-conjunta
 fatorização-e-dags
 fatorização-dags-e-causalidade
 resumo-e-próximos-passos-2
-referências-2
+referências-1
 experimentos
 introdução-2
 experimentos-aleatórios
@@ -127,7 +125,7 @@ endorsement-experiments
 list-experiments
 conjoint-experiments
 experimentos-naturais-e-quasi-experimentos-em-surveys
-referências-3
+referências-2
 propensity-score-e-matching
 introdução-4
 propensity-score
@@ -140,7 +138,7 @@ estimando-1
 declare-design-e-matching
 matching-e-propensity-scores
 recomendações-práticas-sobre-matching
-referências-4
+referências-3
 variáveis-instrumentais
 introdução-5
 iv-com-modelo-estrutural
@@ -156,7 +154,7 @@ monotonicidade
 estimação-aka-estatística-f
 f-stat
 resumo-e-próximos-passos-3
-referências-5
+referências-4
 desenho-de-regressão-descontínua
 outline-da-aula
 características-chave-da-rdd
@@ -192,7 +190,7 @@ regressão-rdd
 placebo-tests
 pcrd
 checklist-para-um-paper-de-rdd
-referências-6
+referências-5
 diferença-em-diferenças
 motivação-por-que-did
 modelo-básico-22
@@ -222,9 +220,13 @@ contexto
 dados-e-did-básico
 event-study
 robustez-1
-did-condicional-e-extensões
+did-com-covariáveis
+abordagem-1-enriquecer-o-modelo-de-y0
+abordagem-2-tendências-paralelas-condicionais
+o-que-não-fazer-covariáveis-no-twfe-ingenuamente
+baseline-vs.-time-varying-uma-distinção-crucial
 resumo
-referências-7
+referências-6
 time-series-cross-section-tscs
 introdução-6
 within-versus-between
@@ -238,7 +240,7 @@ remark
 suposições-para-inferência
 remark-1
 efeitos-aleatórios
-referências-8
+referências-7
 interferência-spillover-e-dinâmica
 suposições-simplificadoras
 po-com-tratamento-de-múltiplos-valores-multi-valued
@@ -251,6 +253,8 @@ controle-sintético-clássico
 formalização
 implementação-do-scm-no-r
 inferência-por-placebo
+diagnósticos-de-robustez-do-scm
+do-scm-aos-modelos-de-fatores
 framework-de-estimação-contrafactual
 setup
 estratégia-de-estimação-em-quatro-passos
@@ -270,7 +274,7 @@ implementação-no-r
 trop-estimador-triplamente-robusto
 quando-usar-cada-método-guia-prático
 resumo-2
-referências-9
+referências-8
 llms-e-outras
 google-colab
 machine-learning
@@ -287,7 +291,7 @@ double-debiasing
 cross-fitting
 questões-práticas
 resumo-e-próximos-passos-4
-referências-10
+referências-9
 resumo-3
 matching-2
 iv
@@ -333,4 +337,4 @@ aplicações-em-relações-internacionais
 comércio-e-política-externa
 comportamento-legislativo-em-política-comercial
 temas-com-potencial-inexplorado-em-ri
-referências-11
+referências-10
