@@ -212,11 +212,13 @@ O critério backdoor, formulado por @pearl2009, é a ferramenta que nos permite 
 1. Nenhum nó em $\mathbf{Z}$ é descendente de $X$
 2. $\mathbf{Z}$ bloqueia todo caminho entre $X$ e $Y$ que contém uma flecha entrando em $X$ (todo *backdoor path*)
 
-Se $\mathbf{Z}$ satisfaz o critério backdoor, então o efeito causal de $X$ sobre $Y$ é identificado pela **fórmula de ajuste**:
+Se $\mathbf{Z}$ satisfaz o critério backdoor, então o efeito causal de $X$ sobre $Y$ é identificado pela **fórmula de ajuste**: basta comparar tratados e controles *dentro de cada estrato* de $\mathbf{Z}$ e depois agregar:
 
-$$P(Y = y \mid do(X = x)) = \sum_{z} P(Y = y \mid X = x, \mathbf{Z} = z) \, P(\mathbf{Z} = z)$$
+$$\text{Efeito causal} = \sum_{z} \left[P(Y = y \mid X = x, \mathbf{Z} = z) - P(Y = y \mid X = x', \mathbf{Z} = z)\right] P(\mathbf{Z} = z)$$
 
-**Conexão com resultados potenciais.** O critério backdoor é a contrapartida gráfica da ignorabilidade condicional do Cap. 2. Se $\mathbf{Z}$ satisfaz o critério backdoor, então $Y(1), Y(0) \perp D \mid \mathbf{Z}$ — exatamente a condição 1 da ignorabilidade forte. A condição 2 (common support) precisa ser verificada nos dados.
+Em palavras: condicionamos em $\mathbf{Z}$ para bloquear todos os backdoor paths, calculamos a diferença entre tratados e controles em cada estrato, e ponderamos pela distribuição marginal de $\mathbf{Z}$. Na seção 3.8, veremos como essa fórmula se conecta ao operador $do()$ de Pearl.
+
+**Conexão com resultados potenciais.** O critério backdoor é a contrapartida gráfica da ignorabilidade condicional do Cap. 2. Se $\mathbf{Z}$ satisfaz o critério backdoor, então $Y(1), Y(0) \perp D \mid \mathbf{Z}$ — exatamente a condição 1 da ignorabilidade forte. Compare com o Teorema 1 do Cap. 2: a fórmula de ajuste acima tem a mesma estrutura. A condição 2 (common support) precisa ser verificada nos dados.
 
 **Exemplo.** Considere o seguinte DAG sobre o efeito do gasto de campanha ($X$) sobre os votos ($Y$):
 
@@ -267,7 +269,11 @@ ggdag(dag)
 
 Aqui, $P(Y \mid X = x) \neq P(Y \mid do(X = x))$, porque observar $X = x$ traz informação sobre $C$ (via o caminho $X \leftarrow C$), que por sua vez afeta $Y$. Já ao intervir com $do(X = x)$, cortamos essa conexão.
 
-O critério backdoor nos diz exatamente como calcular $P(Y \mid do(X = x))$ a partir de dados observacionais, usando a fórmula de ajuste da seção anterior.
+O critério backdoor nos diz exatamente como calcular $P(Y \mid do(X = x))$ a partir de dados observacionais. Com a notação $do()$, a fórmula de ajuste da seção anterior pode ser reescrita como:
+
+$$P(Y = y \mid do(X = x)) = \sum_{z} P(Y = y \mid X = x, \mathbf{Z} = z) \, P(\mathbf{Z} = z)$$
+
+O lado esquerdo é a quantidade causal que queremos; o lado direito contém apenas quantidades observacionais — condicionamentos e probabilidades marginais que podemos estimar com dados.
 
 > **Nota técnica: fatorização da probabilidade conjunta.** Esta seção é mais formal e pode ser pulada em uma primeira leitura. Ela conecta a estrutura de um DAG à distribuição de probabilidade conjunta das variáveis, explicando *por que* d-separação implica independência estatística.
 >
