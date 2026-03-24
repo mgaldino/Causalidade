@@ -5,7 +5,7 @@ Livro-texto "Curso de Inferência Causal" (bookdown, português).
 
 ## Convenções
 - Notação: $D_i$, $Y_{it}(0)$, $Y_{it}(1)$, $\tau^{ATT}$, $\alpha_i + \lambda_t$ para TWFE
-- Referências: inline autor-ano no texto, lista manual ao final de cada capítulo (sem .bib)
+- Referências: `references.bib` + citações `@key` no texto (pandoc-citeproc). Caps antigos ainda têm listas manuais — migrar ao editar.
 - Cap 08 (DiD) é referência de estilo
 - Render: `rmarkdown::render("filename.Rmd", output_format="html_document")`
 - R: usar `/usr/local/bin/Rscript` com script files (não `-e` inline)

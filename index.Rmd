@@ -1,8 +1,10 @@
---- 
+---
 title: "Curso de Inferência Causal"
 author: "Manoel Galdino"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
+bibliography: references.bib
+link-citations: true
 ---
 
 # Introdução
