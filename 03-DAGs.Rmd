@@ -296,6 +296,30 @@ Os pais de cada nó são: $M$ não tem pais; $Z$ e $W$ têm pai $M$; $X$ tem pai
 
 $$P(M, Z, W, X, Y) = P(M) \, P(Z \mid M) \, P(W \mid M) \, P(X \mid W, Z) \, P(Y \mid X)$$
 
+## Limitações dos DAGs
+
+DAGs são uma ferramenta poderosa, mas não são uma solução universal. É importante ter em mente suas limitações:
+
+1. **O DAG precisa estar correto.** Toda a análise depende de o pesquisador especificar corretamente a estrutura causal. Se uma flecha estiver faltando (variável confundidora omitida) ou apontando na direção errada, as conclusões sobre o que controlar podem ser equivocadas. O DAG não é testável — ele codifica suposições.
+
+2. **Não capturam ciclos de feedback.** DAGs são, por definição, acíclicos. Relações de feedback simultâneo (ex: democracia afeta crescimento, que afeta democracia) não podem ser representadas diretamente. Para esses casos, existem extensões como grafos direcionados cíclicos e modelos de equações estruturais simultâneas, mas estão fora do escopo deste curso.
+
+3. **Não dizem *quanto*.** DAGs são qualitativos: indicam *se* um efeito causal é identificável e *quais* variáveis controlar, mas não dizem nada sobre a magnitude do efeito ou a forma funcional da relação. Para isso, precisamos combinar o DAG com um método de estimação (regressão, matching, etc.).
+
+## Resumo e próximos passos
+
+Neste capítulo, introduzimos os DAGs como ferramenta para representar e raciocinar sobre relações causais:
+
+1. **Três tipos básicos.** Chains, forks e colliders determinam quais caminhos estão abertos ou fechados. Condicionar fecha caminhos via forks/chains, mas abre caminhos via colliders.
+
+2. **d-separação.** Dois nós estão d-separados se todo caminho entre eles está bloqueado. As regras de bloqueio derivam diretamente dos três tipos básicos.
+
+3. **Critério backdoor.** Um conjunto $\mathbf{Z}$ identifica o efeito causal se bloqueia todos os backdoor paths sem incluir descendentes do tratamento. Esse critério é a contrapartida gráfica da ignorabilidade condicional do Cap. 2.
+
+4. **Operador $do()$.** Distingue a distribuição observacional $P(Y \mid X)$ da intervencional $P(Y \mid do(X))$. A fórmula de ajuste backdoor conecta as duas.
+
+No próximo capítulo, veremos por que **experimentos aleatórios** são considerados o padrão-ouro para inferência causal: a aleatorização garante, por construção, que não haja backdoor paths abertos entre o tratamento e o resultado.
+
 ## Exercícios
 
 **Exercício 1.** Considere o seguinte DAG:
@@ -328,27 +352,3 @@ ggdag(dag)
 (b) Explique por que controlar por $M$ é problemático.
 
 (c) Em que situação *seria* correto controlar por $M$?
-
-## Limitações dos DAGs
-
-DAGs são uma ferramenta poderosa, mas não são uma solução universal. É importante ter em mente suas limitações:
-
-1. **O DAG precisa estar correto.** Toda a análise depende de o pesquisador especificar corretamente a estrutura causal. Se uma flecha estiver faltando (variável confundidora omitida) ou apontando na direção errada, as conclusões sobre o que controlar podem ser equivocadas. O DAG não é testável — ele codifica suposições.
-
-2. **Não capturam ciclos de feedback.** DAGs são, por definição, acíclicos. Relações de feedback simultâneo (ex: democracia afeta crescimento, que afeta democracia) não podem ser representadas diretamente. Para esses casos, existem extensões como grafos direcionados cíclicos e modelos de equações estruturais simultâneas, mas estão fora do escopo deste curso.
-
-3. **Não dizem *quanto*.** DAGs são qualitativos: indicam *se* um efeito causal é identificável e *quais* variáveis controlar, mas não dizem nada sobre a magnitude do efeito ou a forma funcional da relação. Para isso, precisamos combinar o DAG com um método de estimação (regressão, matching, etc.).
-
-## Resumo e próximos passos
-
-Neste capítulo, introduzimos os DAGs como ferramenta para representar e raciocinar sobre relações causais:
-
-1. **Três tipos básicos.** Chains, forks e colliders determinam quais caminhos estão abertos ou fechados. Condicionar fecha caminhos via forks/chains, mas abre caminhos via colliders.
-
-2. **d-separação.** Dois nós estão d-separados se todo caminho entre eles está bloqueado. As regras de bloqueio derivam diretamente dos três tipos básicos.
-
-3. **Critério backdoor.** Um conjunto $\mathbf{Z}$ identifica o efeito causal se bloqueia todos os backdoor paths sem incluir descendentes do tratamento. Esse critério é a contrapartida gráfica da ignorabilidade condicional do Cap. 2.
-
-4. **Operador $do()$.** Distingue a distribuição observacional $P(Y \mid X)$ da intervencional $P(Y \mid do(X))$. A fórmula de ajuste backdoor conecta as duas.
-
-No próximo capítulo, veremos por que **experimentos aleatórios** são considerados o padrão-ouro para inferência causal: a aleatorização garante, por construção, que não haja backdoor paths abertos entre o tratamento e o resultado.
