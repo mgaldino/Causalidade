@@ -181,6 +181,24 @@ Se condicionarmos em $C$, bloqueamos o caminho 2. Se $U$ for não observável, n
 
 E se condicionássemos em $U$ também? Nesse caso, todos os backdoor paths estariam bloqueados, e a associação entre $X$ e $Y$ refletiria apenas o efeito causal. O conjunto $\{C, U\}$ satisfaz o **critério backdoor**, que formalizamos a seguir.
 
+### O que dá errado ao condicionar em um collider
+
+Nem sempre mais controles são melhores. Considere uma pesquisadora que estuda o efeito da educação ($E$) sobre a renda ($R$). Ela observa que habilidade inata ($H$) também afeta a renda, e que tanto educação quanto habilidade determinam se a pessoa é aprovada em um concurso público ($A$):
+
+```{r collider-erro, echo=FALSE, message=FALSE}
+dag <- dagify(R ~ E + H, A ~ E + H)
+ggdag(dag)
+```
+
+Caminhos entre $E$ e $R$:
+
+1. $E \to R$ — causal (aberto)
+2. $E \to A \leftarrow H \to R$ — collider em $A$ (**fechado** por padrão)
+
+Sem condicionar em nada, a associação entre $E$ e $R$ reflete apenas o efeito causal — o caminho 2 já está bloqueado pelo collider. Porém, se a pesquisadora incluir $A$ (aprovação no concurso) como controle na regressão — "para aumentar a precisão" — ela **abre** o caminho 2 e cria uma associação espúria entre $E$ e $H$ dentro de cada nível de $A$. O resultado é um estimador *mais* viesado do que a regressão simples sem controles.
+
+A lição: **controlar por variáveis pós-tratamento ou por colliders pode introduzir viés onde não havia**. O critério backdoor formaliza quando é seguro condicionar.
+
 ## O Critério Backdoor
 
 O critério backdoor, formulado por @pearl2009, é a ferramenta que nos permite determinar sistematicamente quais variáveis controlar para identificar um efeito causal. Ele responde diretamente à pergunta que deixamos em aberto no Cap. 2: quais covariáveis $\mathbf{X}_i$ tornam a ignorabilidade plausível?
@@ -247,44 +265,15 @@ Aqui, $P(Y \mid X = x) \neq P(Y \mid do(X = x))$, porque observar $X = x$ traz i
 
 O critério backdoor nos diz exatamente como calcular $P(Y \mid do(X = x))$ a partir de dados observacionais, usando a fórmula de ajuste da seção anterior.
 
-## Fatorização da Probabilidade Conjunta
-
-A estrutura de um DAG também se conecta formalmente à distribuição de probabilidade conjunta das variáveis. Essa conexão é útil para entender por que d-separação implica independência estatística.
-
-Toda distribuição de probabilidade obedece à **regra da cadeia** (sem nenhuma suposição adicional):
-
-$$P(X_1, X_2, \ldots, X_k) = P(X_1) \, P(X_2 \mid X_1) \, P(X_3 \mid X_2, X_1) \cdots P(X_k \mid X_1, \ldots, X_{k-1})$$
-
-Para $n$ variáveis, existem $n!$ fatorizações possíveis. Porém, um DAG impõe restrições: cada nó é condicionalmente independente de seus não-descendentes, dados seus pais. Isso permite uma fatorização mais parcimoniosa.
-
-### Fatorização Markoviana
-
-Dado um DAG, a distribuição conjunta pode ser escrita como:
-
-$$P(X_1, X_2, \ldots, X_k) = \prod_{i=1}^{k} P(X_i \mid \text{Pais}(X_i))$$
-
-onde $\text{Pais}(X_i)$ são os pais de $X_i$ no DAG. Cada nó depende apenas de seus pais diretos, não de todos os nós anteriores.
-
-**Exemplo.** Considere o DAG:
-
-```{r fatorizacao, echo=FALSE, message=FALSE}
-dag <- dagify(Y ~ X, X ~ Z + W, Z ~ M, W ~ M)
-ggdag(dag)
-```
-
-A fatorização Markoviana é:
-
-$$P(M, Z, W, X, Y) = P(M) \, P(Z \mid M) \, P(W \mid M) \, P(X \mid W, Z) \, P(Y \mid X)$$
-
-Cada fator condiciona apenas nos pais do nó no DAG, o que é muito mais parcimonioso do que a regra da cadeia genérica.
-
-### Fatorização e causalidade
-
-Quando não há confounding (sem backdoor path aberto), a fatorização observacional coincide com a fatorização intervencional. Para o DAG simples $X \to Y$:
-
-$$P(Y, X) = P(X) \, P(Y \mid X) = P(X) \, P(Y \mid do(X))$$
-
-Essa igualdade é o que torna a inferência causal possível a partir de dados observacionais nos casos em que o critério backdoor é satisfeito sem condicionar em nada — ou seja, quando o tratamento já é "como se" aleatório.
+> **Nota técnica: fatorização da probabilidade conjunta.** Esta seção é mais formal e pode ser pulada em uma primeira leitura. Ela conecta a estrutura de um DAG à distribuição de probabilidade conjunta das variáveis, explicando *por que* d-separação implica independência estatística.
+>
+> Toda distribuição de probabilidade obedece à **regra da cadeia**: $P(X_1, \ldots, X_k) = P(X_1) \, P(X_2 \mid X_1) \cdots P(X_k \mid X_1, \ldots, X_{k-1})$. Para $n$ variáveis, existem $n!$ fatorizações possíveis. Porém, um DAG impõe restrições: cada nó é condicionalmente independente de seus não-descendentes, dados seus pais. Isso gera a **fatorização Markoviana**:
+>
+> $$P(X_1, \ldots, X_k) = \prod_{i=1}^{k} P(X_i \mid \text{Pais}(X_i))$$
+>
+> Por exemplo, no DAG $M \to Z \to X \to Y$ com $M \to W \to X$, a fatorização é: $P(M, Z, W, X, Y) = P(M) \, P(Z \mid M) \, P(W \mid M) \, P(X \mid W, Z) \, P(Y \mid X)$. Cada fator condiciona apenas nos pais diretos — muito mais parcimonioso que a regra da cadeia genérica.
+>
+> **Conexão com causalidade.** Quando não há confounding (sem backdoor path aberto), a fatorização observacional coincide com a intervencional: $P(Y, X) = P(X) \, P(Y \mid X) = P(X) \, P(Y \mid do(X))$. Essa igualdade é o que torna a inferência causal possível a partir de dados observacionais quando o critério backdoor é satisfeito.
 
 ## Exercícios
 
@@ -318,6 +307,16 @@ ggdag(dag)
 (b) Explique por que controlar por $M$ é problemático.
 
 (c) Em que situação *seria* correto controlar por $M$?
+
+## Limitações dos DAGs
+
+DAGs são uma ferramenta poderosa, mas não são uma solução universal. É importante ter em mente suas limitações:
+
+1. **O DAG precisa estar correto.** Toda a análise depende de o pesquisador especificar corretamente a estrutura causal. Se uma flecha estiver faltando (variável confundidora omitida) ou apontando na direção errada, as conclusões sobre o que controlar podem ser equivocadas. O DAG não é testável — ele codifica suposições.
+
+2. **Não capturam ciclos de feedback.** DAGs são, por definição, acíclicos. Relações de feedback simultâneo (ex: democracia afeta crescimento, que afeta democracia) não podem ser representadas diretamente. Para esses casos, existem extensões como grafos direcionados cíclicos e modelos de equações estruturais simultâneas, mas estão fora do escopo deste curso.
+
+3. **Não dizem *quanto*.** DAGs são qualitativos: indicam *se* um efeito causal é identificável e *quais* variáveis controlar, mas não dizem nada sobre a magnitude do efeito ou a forma funcional da relação. Para isso, precisamos combinar o DAG com um método de estimação (regressão, matching, etc.).
 
 ## Resumo e próximos passos
 
