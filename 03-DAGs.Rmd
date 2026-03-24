@@ -147,9 +147,9 @@ ggdag(dag)
 Quais caminhos existem entre $X$ e $Y$?
 
 1. $X \to Y$ — caminho direcionado (causal), sempre aberto
-2. $X \leftarrow Z \to U \to Y$ — caminho com fork em $Z$
+2. $X \leftarrow Z \to U \to Y$ — caminho com estrutura de fork centrada em $Z$
 
-O caminho 2 é um **backdoor path**: ele conecta $X$ a $Y$ por trás, transmitindo dependência espúria via $Z$. Para bloquear esse caminho, podemos condicionar em $Z$ (que é o fork). Nesse caso, $X$ e $Y$ ficam d-separados de toda influência espúria, e a associação remanescente reflete apenas o efeito causal de $X$ sobre $Y$.
+O caminho 2 é um **backdoor path**: ele conecta $X$ a $Y$ por trás, transmitindo dependência espúria via $Z$. Para bloquear esse caminho, podemos condicionar em $Z$ (que é a causa comum no centro do fork $X \leftarrow Z \to U$). Nesse caso, $X$ e $Y$ ficam d-separados de toda influência espúria, e a associação remanescente reflete apenas o efeito causal de $X$ sobre $Y$.
 
 *Pare e pense:* e se condicionássemos em $U$ em vez de $Z$? O caminho 2 seria bloqueado? (Resposta: sim, pois $U$ é um não-collider nesse caminho, e condicionar nele bloqueia a transmissão.)
 
@@ -178,8 +178,8 @@ ggdag(dag)
 Caminhos entre $X$ e $Y$:
 
 1. $X \to Y$ — causal (aberto, queremos preservar)
-2. $X \leftarrow C \to Y$ — backdoor via fork em $C$ (aberto, causa viés)
-3. $X \leftarrow U \to Y$ — backdoor via fork em $U$ (aberto, causa viés)
+2. $X \leftarrow C \to Y$ — backdoor via fork com causa comum $C$ (aberto, causa viés)
+3. $X \leftarrow U \to Y$ — backdoor via fork com causa comum $U$ (aberto, causa viés)
 
 Se condicionarmos em $C$, bloqueamos o caminho 2. Se $U$ for não observável, não conseguimos condicionar nele e o caminho 3 permanece aberto — nesse caso, nosso estimador ainda será viesado. Isso ilustra um ponto importante: **condicionar em algumas variáveis pode reduzir o viés sem eliminá-lo completamente**.
 
@@ -230,8 +230,8 @@ ggdag(dag)
 Onde $Q$ = qualidade do candidato e $P$ = partido. Caminhos entre $X$ e $Y$:
 
 1. $X \to Y$ — causal
-2. $X \leftarrow Q \to Y$ — backdoor (fork em $Q$)
-3. $X \leftarrow P \to Y$ — backdoor (fork em $P$)
+2. $X \leftarrow Q \to Y$ — backdoor (fork com causa comum $Q$)
+3. $X \leftarrow P \to Y$ — backdoor (fork com causa comum $P$)
 
 O único conjunto mínimo que satisfaz o critério backdoor é $\{Q, P\}$. Controlar apenas por $\{Q\}$ não basta (caminho 3 permanece aberto) e apenas por $\{P\}$ também não (caminho 2 permanece aberto). Logo, precisamos controlar por ambos.
 
