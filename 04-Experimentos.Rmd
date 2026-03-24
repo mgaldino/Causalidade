@@ -1,466 +1,267 @@
 # Experimentos
 
+```{r exp-setup, echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(knitr)
+```
 
 ## Introdução
 
-- Um experimento é o desenho de pesquisa no qual a pesquisadora controla o mecanismo de atribuição do tratamento e controle
-- Seja $p_i = P(T_i=1)$. Então $p_i$ é conhecido e controlado pela pesquisadora.
-- Em contraposição, um estudo observacional é quando a pesquisadora não controla o mecanismo (natureza ou realidade social)
-- Quando uma quantidade potencial (estimando) pode ser descrita em função da distribuição de dados observáveis, dizemos que o estimando é identificável. De outro modo, não identificado.
-- Veremos por que experimentos produzem desenhos críveis de identificação causal
-- Vamos supor experimentos ideais (sem attrition ou non-compliance)
+No Cap. 2, mostramos que a ignorabilidade forte — independência entre resultados potenciais e tratamento, condicional a $\mathbf{X}_i$ — identifica o ATE. No Cap. 3, vimos que o critério backdoor nos diz *quais* covariáveis incluir para garantir essa independência. Agora veremos o caso ideal: quando a pesquisadora *controla* o mecanismo de atribuição do tratamento — o **experimento aleatório** — e a ignorabilidade é garantida por construção.
 
-Nós já vimos que uma suposição crítica é a SUTVA.
+Um experimento é o desenho de pesquisa no qual a pesquisadora controla o mecanismo de atribuição do tratamento. Seja $p_i = P(D_i = 1)$ a probabilidade de a unidade $i$ receber o tratamento. Em um experimento, $p_i$ é conhecido e controlado pela pesquisadora. Em contraposição, um estudo observacional é quando a pesquisadora não controla esse mecanismo — ele é determinado pela natureza ou pela realidade social.
 
-- Stable Unit Treatment Values Assumption
-- Não interferência e sem variação escondida no tratamento
-  - PO não varia com o tratamento atribuído a outras unidades
-  - PO de uma unidade não é impactado pelo nível de tratamento de outras unidades
-- Para cada unidade, não há formas distintas ou versões de cada nível de tratamento
-- Definição não-ambígua do tratamento
+Neste capítulo, veremos por que experimentos produzem identificação causal crível. Vamos supor condições ideais: sem *attrition* (perda de participantes) e com *compliance* perfeito (todos recebem o tratamento atribuído). Continuamos supondo SUTVA (Cap. 2): não há interferência entre unidades e o tratamento é definido de forma não ambígua.
 
-- Supondo SUTVA, Diferença Simples de Média pode ser decomposta em ATE + viés de seleção
-- $\underbrace{\mathbb{E}[Y_i|T_i=1] - \mathbb{E}[Y_i|T_i=0]}_{\text{Simple Difference in Outcomes (SDO)}} = \mathbb{E}[Y_i^1|T_i=1] - \mathbb{E}[Y_i^0|T_i=0]$
-- Podemos adicionar e subtrair os resultados contrafactuais para os tratados
-- $= \mathbb{E}[Y_i^1|T_i=1] - \color{blue}{\mathbb{E}[Y_i^0|T_i=1]} + \color{red}{\mathbb{E}[Y_i^0|T_i=1]} - \mathbb{E}[Y_i^0|T_i=0]$
-- $= \underbrace{\mathbb{E}[Y_i^1 - Y_i^0|T_i=1]}_{\text{ATT}} + \underbrace{\mathbb{E}[Y_i^0|T_i=1] - \mathbb{E}[Y_i^0|T_i=0]}_{\text{Viés de Seleção}}$
+## Recapitulação: SDO e viés de seleção
 
-## Experimentos aleatórios
+No Cap. 2, derivamos que a simples diferença de médias (SDO, *Simple Difference in Outcomes*) pode ser decomposta em efeito causal mais viés:
 
-- Mecanismo de atribuição de tratamento é probabilístico (Positividade): $0 < p_i < 1$.
-- Unconfoundedness ou Permutabilidade (ou *assignment mechanism–ignorability*): $P(T_i=1|y^1, y^0) = P(T_i)$.
+$$\underbrace{\mathbb{E}[Y_i \mid D_i=1] - \mathbb{E}[Y_i \mid D_i=0]}_{\text{SDO}} = \underbrace{\mathbb{E}[Y_i(1) - Y_i(0) \mid D_i=1]}_{\text{ATT}} + \underbrace{\mathbb{E}[Y_i(0) \mid D_i=1] - \mathbb{E}[Y_i(0) \mid D_i=0]}_{\text{Viés de Seleção}}$$
 
-O que é Permutabilidade (unconfoundedness)?
+O viés de seleção surge quando tratados e controles diferem sistematicamente nos resultados potenciais de base. A questão central deste capítulo é: **como a aleatorização elimina esse viés?**
 
-- A distribuição dos resultados potenciais é independente do tratamento.
-- $\mathbb{E}[Y^1|T=1] = \mathbb{E}[Y^1|T=0]$
-- $\mathbb{E}[Y^0|T=1] = \mathbb{E}[Y^0|T=0]$
-- Resultados potenciais são independentes do tratamento, dadas as covariáveis.
-- Se a condição de tratamento fosse hipoteticamente trocada, os resultados esperados permaneceriam os mesmos.
-- Isso significa que em um experimento com permutabilidade, não temos viés de seleção (Por quê?).
+## Experimentos aleatórios e identificação
 
-- Independência entre tratamento e resultados potenciais implica que $\mathbb{E}[Y^0_i|T_i=1] = \mathbb{E}[Y^0_i|T_i=0] = \mathbb{E}[Y^0_i]$
-- Portanto, o viés de seleção, dado por $\mathbb{E}[Y_i^0|T_i=1] - \mathbb{E}[Y_i^0|T_i=0]$, fica:
-- $\mathbb{E}[Y_i^0|T_i=1] - \mathbb{E}[Y_i^0|T_i=0] = \mathbb{E}[Y_i^0] - \mathbb{E}[Y_i^0] = 0$
-- Ou seja, SDO estima o ATE (via ATT).
-- $\underbrace{\mathbb{E}[Y_i|T_i=1] - \mathbb{E}[Y_i|T_i=0]}_{\text{Simple Difference in Outcomes (SDO)}} =  \underbrace{\mathbb{E}[Y_i^1 - Y_i^0|T_i=1]}_{\text{ATT}} = ATE$
+Um experimento aleatório satisfaz duas condições:
 
+1. **Positividade**: toda unidade tem probabilidade positiva de receber tratamento ou controle: $0 < p_i < 1$.
+
+2. **Permutabilidade** (*unconfoundedness*): os resultados potenciais são independentes do tratamento: $Y_i(1), Y_i(0) \perp D_i$.
+
+Em termos do Cap. 3, a aleatorização garante que não haja backdoor paths abertos entre o tratamento e o resultado — pois o tratamento não tem causas que também afetem $Y$.
+
+O que a permutabilidade implica? Se os resultados potenciais são independentes do tratamento, então:
+
+$$\mathbb{E}[Y_i(0) \mid D_i=1] = \mathbb{E}[Y_i(0) \mid D_i=0] = \mathbb{E}[Y_i(0)]$$
+
+Ou seja, o viés de seleção desaparece:
+
+$$\mathbb{E}[Y_i(0) \mid D_i=1] - \mathbb{E}[Y_i(0) \mid D_i=0] = 0$$
+
+Portanto, sob aleatorização, a SDO estima o ATT. E como a permutabilidade também implica $\mathbb{E}[Y_i(1) \mid D_i=1] = \mathbb{E}[Y_i(1)]$, o ATT é igual ao ATE:
+
+$$\text{SDO} = \text{ATT} = \tau_{\text{ATE}}$$
+
+*Pare e pense:* se a condição de tratamento fosse hipoteticamente trocada — todos os tratados passassem para o controle e vice-versa — os resultados esperados permaneceriam os mesmos? Essa é a intuição da permutabilidade.
 
 ## Restrição de Exclusão
 
-- Formalmente, podemos separar a alocação do tratamento e o tratamento efetivamente recebido. Seja $Z_i$ a alocação do tratamento e $T_i$ o tratamento recebido.
-- Então, a restrição de exclusão quer dizer que o que importa é o tratamento efetivamente recebido $T_i$, e não a variável que aloca o tratamento $Z_i$.
-- Formalmente, isso quer dizer que: $Y^{1,z=1, T}_i = Y^{1,z=0, T}_i = Y^{1,T}_i$ e similarmente, $Y^{0,z=1,T}_i = Y^{0,z=0,T}_i = Y^{0,T}_i$
-- Quando não ocorre isso? Se o mecanismo de atribuição do tratamento dispara outras causas
-- Suponha que um experimento é sobre efeito de transferência de dinheiro em bem-estar
-- Se ongs, sabendo do experimento, forem ajudar quem não tiver sido alocado para receber dinheiro
+A aleatorização por si só não basta. Precisamos também que o que afeta $Y$ seja o tratamento **efetivamente recebido**, e não o mero fato de ter sido *alocado* para o tratamento. Formalmente, podemos separar a alocação do tratamento $Z_i$ do tratamento efetivamente recebido $D_i$.
 
-- Se houver erro de mensuração assimétrico?
-- Pesquisadores distintos entrevistam recipientes e não-recipientes da transferência de dinheiro, com habilidades distintas
-- Ou questionários diferentes. Erro de mensuração assimétrico
+A **restrição de exclusão** diz que os resultados potenciais dependem apenas de $D_i$, não de $Z_i$:
 
-- Nova *switching equation*.
-- Seja $e_{i1}$ o erro de mensuração cometido se uma observação é atribuída para o tratamento, e, analogamente, $e_{i0}$ o erro para o controle.
-- De $Y_i = T_iY^1_i + (1- T_i)Y^0_i$ para $Y_i = T_i(Y^1_i + e_{i1}) + (1- T_i)(Y^0_i + e_{i0})$. 
-- Novo SDO: $\mathbb{E}[Y_i|T_i=1] - \mathbb{E}[Y_i|T_i=0] = \mathbb{E}[Y^1_i + e_{i1}|T_i=1] - \mathbb{E}[Y^0_i + e_{i0}|T_i=0] = \mathbb{E}[Y^1_i|T_i=1] + \mathbb{E}[e_{i1}|T_i=1] - \mathbb{E}[Y^0_i|T_i=0] - \mathbb{E}[e_{i0}|T_i=0]$
-- Novo SDO pode se rearranjado: $\underbrace{\mathbb{E}[Y^1_i|T_i=1] - \mathbb{E}[Y^0_i|T_i=0]}_{\text{antigo SDO}} + \underbrace{\mathbb{E}[e_{i1}|T_i=1]  - \mathbb{E}[e_{i0}|T_i=0]}_{\text{Dif média no erro de mensuração}}$
-- Se $\mathbb{E}[e_{i1}|T_i=1] \neq \mathbb{E}[e_{i0}|T_i=0]$, então SDO será viesado.
+$$Y_i(D_i, Z_i = 1) = Y_i(D_i, Z_i = 0) = Y_i(D_i)$$
 
-Como Garantir a restrição de Exclusão?
+Quando essa condição pode ser violada? Quando o mecanismo de alocação dispara outras causas que afetam $Y$. Dois exemplos:
 
-- Double blindness (duplo cego)
-- Paralelismo na administração do experimento (mesmo questionário e mesmos entrevistadores)
-- Na pior das hipóteses, aleatorização dos entrevistadores.
+1. **Contaminação.** Suponha que um experimento testa o efeito de transferência de renda sobre bem-estar. Se ONGs, sabendo do experimento, ajudarem quem não recebeu o tratamento, a alocação $Z_i$ afeta $Y_i$ por um canal diferente do tratamento.
 
-## Tipos de experimentos
+2. **Erro de mensuração assimétrico.** Se pesquisadores distintos entrevistam tratados e controles, ou se questionários diferentes são usados para cada grupo, o erro de mensuração pode diferir sistematicamente. Seja $e_{i,1}$ o erro de mensuração para tratados e $e_{i,0}$ para controles. A switching equation se torna:
 
-### Aleatorização de Bernoulli 
+$$Y_i^{obs} = D_i \cdot (Y_i(1) + e_{i,1}) + (1 - D_i) \cdot (Y_i(0) + e_{i,0})$$
 
-- É o experimento com aleatorização simples (basicamente, lançamento de moeda)
-- Matematicamente, $p_i(T_i=1) = p$.
-- Problema: Possível "má aleatorização" (todo mundo no controle ou tratamento)
-- ps.: toda aleatorização realizada é matematicamente equivalente.
-- Possui $2^n$ configurações possíveis de alocação entre tratamento e controle
+Nesse caso, a SDO inclui um termo adicional $\mathbb{E}[e_{i,1} \mid D_i=1] - \mathbb{E}[e_{i,0} \mid D_i=0]$, que introduz viés mesmo com aleatorização perfeita.
 
+**Como garantir a restrição de exclusão?**
 
-```{r echo=TRUE, eval=FALSE}
+- **Duplo cego** (*double blindness*): nem o participante nem o pesquisador sabem quem recebeu o tratamento.
+- **Paralelismo na administração**: mesmo questionário, mesmos entrevistadores, mesmo protocolo para ambos os grupos.
+- Na pior das hipóteses, **aleatorização dos entrevistadores** entre os grupos.
+
+## Tipos de aleatorização
+
+### Aleatorização de Bernoulli
+
+É a aleatorização mais simples: para cada unidade, jogamos uma moeda com probabilidade $p$ de tratamento. Matematicamente, $P(D_i = 1) = p$ independentemente para cada $i$.
+
+O problema é que o número de tratados é aleatório — em princípio, podemos ter todas as unidades no controle ou todas no tratamento (embora isso seja extremamente improvável com $n$ grande).
+
+```{r bernoulli, echo=TRUE, eval=TRUE}
 set.seed(10)
 n <- 50
-hist(replicate(1000, sum(rbinom(n, 1, 0.5))), 
-     main = "aleatorização de Bernoulli",
-     xlab = "Número de tratados",
-     col = "lightblue") + xlim(0,50)
-```
-
-
-```{r echo=FALSE, eval=TRUE}
-set.seed(10)
-n <- 50
-hist(replicate(1000, sum(rbinom(n, 1, 0.5))), 
-     main = "aleatorização de Bernoulli",
+hist(replicate(1000, sum(rbinom(n, 1, 0.5))),
+     main = "Aleatorização de Bernoulli (1000 simulações, n=50)",
      xlab = "Número de tratados",
      col = "lightblue",
-     xlim = c(10,40))
+     xlim = c(10, 40))
 ```
 
-### Aleatorização Completa
+A aleatorização de Bernoulli possui $2^n$ configurações possíveis de alocação entre tratamento e controle.
 
-- Seleciono aleatoriamente um número fixo de pessoas para tratamento e controle
-- Ex.: 25 para tratamento e 25 para controle
-- Basta numerar cada unidade (de 1 a 50) e amostrar 25 aleatoriamente para tratamento (e restante para controle)
-- Vantagem: garanto número de obs em cada condição
-- Possui ${N \choose \frac{n}{2}}$ configurações possíveis de alocação entre tratamento e controle.
-- Intuição: estamos jogando fora as aleatorizações "indesejáveis".
-- Cálculo da variância é mais complexo
+### Aleatorização completa
 
-### Aleatorização Condicional (Block Random Assignment)
+Para evitar o problema do número variável de tratados, podemos fixar *a priori* quantas unidades receberão o tratamento. Numeramos cada unidade de $1$ a $N$ e sorteamos $m$ aleatoriamente para o tratamento; o restante vai para o controle.
 
-- **Definição**: Experimento é condicionalmente aleatório se a aleatorização depende de variáveis pré-tratamento $X$.
-- **Exemplo Binário**: Duas moedas, uma para $X=1$ e outra para $X=0$.
-- **Aleatorização Marginal vs. Condicional**:
-    - Marginal: Aleatorização uniforme para todos os indivíduos.
-    - Condicional: Aleatorização depende de $X$, gerando permutabilidade condicional a $X$.
-- **Permutabilidade Condicional**: $(Y^1, Y^0 | X=x) \perp T$.
+Vantagem: garante o número de observações em cada grupo. Possui $\binom{N}{m}$ configurações possíveis — estamos descartando as aleatorizações "indesejáveis" (como todos no controle). O cálculo da variância é mais complexo que na aleatorização de Bernoulli.
 
-- Não gera permutabilidade (não-condicional).
-- Permutabilidade condicional a $X$ é crucial para inferência em contextos com variáveis pré-tratamento.
+### Aleatorização condicional (em bloco)
 
-### Pensando aleatorização em bloco
+Em muitos contextos, as unidades diferem em características pré-tratamento $X$ que podem afetar o resultado. A **aleatorização em bloco** (*block random assignment*) estratifica as unidades por $X$ e aleatoriza separadamente dentro de cada estrato.
 
-- Ex.: digamos que em uma amostra de 100 pessoas, queremos 25 homens e 25 mulheres no tratamento e controle
-- Sorteio 25 homens para tratamento e depois 25 mulheres.
-- Cada bloco possui tamanho 25, neste exemplo.
-- Blocos de tamanho $2$ são chamados de *pair-matched design*.
-- Em geral, estudos com *matching* em muitas variáveis
-- Útil para amostras pequenas
+**Exemplo:** Em uma amostra de 100 pessoas, queremos 25 homens e 25 mulheres no tratamento. Sorteamos 25 homens para o tratamento (o restante vai para o controle) e, separadamente, 25 mulheres.
 
-### ATE com Aleatorização Condicional (Bloco)
+Formalmente, a aleatorização em bloco gera **permutabilidade condicional**: $Y_i(1), Y_i(0) \perp D_i \mid X_i$. Isso é mais fraco que permutabilidade incondicional — o tratamento não é independente dos resultados potenciais marginalmente, mas é independente *dentro de cada estrato*.
 
-- Estratificação
-- Efeito heterogêneo por estrato?
-- Podemos calcular o ATE por estrato, já que é aleatório no interior de cada estrato.
-- Efeito geral na população.
-- Podemos calcular ponderando os ATEs.
-- Seja $J$ o número de estratos, indexados por $j$. Seja $N$ o número de unidades e $N_j$ o número de unidades no bloco $j$. Então:
-- $ATE = \sum_{j=1}^J \frac{N_j}{N}ATE_j$
+Para estimar o ATE na população, calculamos o efeito dentro de cada bloco e ponderamos:
 
-### Aleatorização em bloco
-- Pela Lei dos Grandes números, tende a gerar balanceamento entre blocos
-- Balanceamento quer dizer que blocos são similares
-- Em variáveis observadas e não-observadas
-- Probabilidade de tratamento pode variar por bloco.
-- Chamada de propensity score.
+$$\hat{\tau}_{\text{ATE}} = \sum_{j=1}^{J} \frac{N_j}{N} \hat{\tau}_j$$
+
+onde $J$ é o número de blocos, $N_j$ o tamanho do bloco $j$, e $\hat{\tau}_j$ o efeito estimado no bloco.
+
+**Vantagens da aleatorização em bloco:**
+
+- Pela Lei dos Grandes Números, tende a gerar **balanceamento** entre os grupos — em variáveis observadas *e* não-observadas dentro de cada bloco.
+- Em geral, **aumenta a precisão** (reduz o erro padrão), porque removemos parte da variância ao condicionar nos estratos.
+- A probabilidade de tratamento pode variar por bloco — essa probabilidade é chamada de *propensity score*.
 
 ### Precisão da aleatorização em bloco
-- Em geral a precisão aumenta (erro padrão diminui) com aleatorização em bloco.
-- Intuição é que removemos parte da variância (amostras possíveis), condicionando nos estratos
-- Vamos checar uma simulação no R para ver um exemplo do ganho na precisão
-- Lembrem-se que se $X$ e $Y$ são independentes, então $Var(aX + bY) = a^2Var(X) + b^2Var(Y)$.
 
+Vamos verificar o ganho de precisão com uma simulação. Criamos dois blocos com médias diferentes e comparamos o erro padrão da aleatorização simples com o da aleatorização em bloco.
 
-```{r echo=TRUE, eval=TRUE}
-# Set up Potential outcomes and units and blocks
-n1 <- 10
-n2 <- 16
-N <- n1+n2
-J <- 2
-index_block <- c(rep(2, n2), rep(1, n1))
+```{r bloco-setup, echo=TRUE, eval=TRUE}
+# Configuração: dois blocos com médias diferentes
+n1 <- 10  # bloco 1
+n2 <- 16  # bloco 2
+N <- n1 + n2
+
 set.seed(12)
-# potential outcome control
-y0 <- c(rnorm(n1, 2, 1),rnorm(n2, 6, 1)) 
-y1 <- y0 + 1.5 # potential outcome treatment
+y0 <- c(rnorm(n1, 2, 1), rnorm(n2, 6, 1))  # PO controle
+y1 <- y0 + 1.5                               # PO tratamento (efeito = 1.5)
 ```
 
-
-```{r echo=TRUE, eval=TRUE}
-# block assignment
+```{r bloco-aleatoriza, echo=TRUE, eval=TRUE}
+# Aleatorização em bloco: metade de cada bloco para tratamento
 t_bloco1 <- sample(1:n1, n1/2)
 c_bloco1 <- (1:n1)[!(1:n1 %in% t_bloco1)]
-
 t_bloco2 <- sample((n1+1):(n1+n2), n2/2)
 c_bloco2 <- ((n1+1):(n1+n2))[!((n1+1):(n1+n2) %in% t_bloco2)]
 
-y1_obs_bloco1 <- y1[t_bloco1]
-y1_obs_bloco2 <- y1[t_bloco2]
-y0_obs_bloco1 <- y0[c_bloco1]
-y0_obs_bloco2 <- y0[c_bloco2]
+# Resultados observados por bloco
+y1_obs_bloco1 <- y1[t_bloco1]; y0_obs_bloco1 <- y0[c_bloco1]
+y1_obs_bloco2 <- y1[t_bloco2]; y0_obs_bloco2 <- y0[c_bloco2]
+
+# Aleatorização simples (ignora blocos)
+y1_obs <- y1[c(t_bloco1, t_bloco2)]
+y0_obs <- y0[c(c_bloco1, c_bloco2)]
 ```
 
+```{r bloco-compara, echo=TRUE, eval=TRUE}
+# Erro padrão: aleatorização simples
+ep_simples <- t.test(y1_obs, y0_obs)$stderr
 
+# Erro padrão: aleatorização em bloco (ponderado)
+ep1 <- t.test(y1_obs_bloco1, y0_obs_bloco1)$stderr
+ep2 <- t.test(y1_obs_bloco2, y0_obs_bloco2)$stderr
+ep_bloco <- sqrt(ep1^2 * (n1/N)^2 + ep2^2 * (n2/N)^2)
 
-```{r echo=TRUE, eval=TRUE}
-# random assignment
-units_simple_treatment <- c(t_bloco1, t_bloco2)
-units_simple_control <- c(c_bloco1, c_bloco2)
-y1_obs <- y1[units_simple_treatment]
-y0_obs <- y0[units_simple_control]
-
-# erro padrão
-erro_pad_simple <- t.test(y1_obs, y0_obs)$stderr 
-simple_p_value <- t.test(y1_obs, y0_obs)$p.value
-
-my_t <- mean(y1_obs - y0_obs)/erro_pad_simple
+# Comparação
+data.frame(
+  Método = c("Aleatorização simples", "Aleatorização em bloco"),
+  Erro_Padrão = round(c(ep_simples, ep_bloco), 4)
+) |> knitr::kable(caption = "Comparação de erros padrão")
 ```
 
+O erro padrão da aleatorização em bloco é substancialmente menor. A intuição: ao estratificar, eliminamos a variação *entre* blocos (que é grande, pois os blocos têm médias diferentes) e ficamos apenas com a variação *dentro* de cada bloco.
 
+### Aleatorização por cluster
 
-```{r echo=TRUE, eval=TRUE}
-erro_pad1 <- t.test(y1_obs_bloco1, y0_obs_bloco1)$stderr
-erro_pad2 <- t.test(y1_obs_bloco2, y0_obs_bloco2)$stderr
+Em alguns contextos, não é possível aleatorizar unidades individuais. Por exemplo, se o tratamento é um programa escolar, pode ser necessário aleatorizar *escolas* inteiras — todos os alunos de uma escola recebem o mesmo tratamento.
 
-erro_padrao_geral <- sqrt(erro_pad1^2*(n1/N)^2 + erro_pad2^2*(n2/N)^2)
-ate1 <- mean(y1_obs_bloco1 - y0_obs_bloco1)*(n1/N)
-ate2 <- mean(y1_obs_bloco2 - y0_obs_bloco2)*(n2/N)
-ate <- ate1 + ate2
-my_t <- ate/erro_padrao_geral
-p_value <- 2*(1 - pt(abs(my_t), df = 23.76567))
-print(erro_pad1)
-print(erro_pad2)
-print(erro_padrao_geral)
-print(p_value)
-```
+Nesse caso, a unidade de aleatorização é o **cluster** (escola), não a unidade de análise (aluno). No interior de cada cluster, todo mundo é tratado ou não-tratado: não há variação *within*, apenas *between*. Isso causa grande perda de variabilidade nos dados, reduzindo a precisão (aumento no erro padrão). Ainda assim, às vezes é a única aleatorização viável.
 
-### Comparação de SEs
+## Planejando experimentos com DeclareDesign
 
-```{r tabela-se, echo=TRUE, eval=TRUE}
-library(knitr)
+Uma ferramenta útil para planejar e diagnosticar experimentos é o pacote `DeclareDesign` [@blair2023]. O framework é baseado no acrônimo **MIDA**: *Models* (modelo dos resultados potenciais), *Inquiries* (estimando), *Data strategies* (estratégia de dados/aleatorização) e *Answer strategies* (estimador).
 
-comparison_table <- data.frame(
-  Method = c("Simple Randomization", "Block 1", "Block 2", "General Block Randomization"),
-  Standard_Error = c(erro_pad_simple, erro_pad1, erro_pad2, erro_padrao_geral)
-)
-
-knitr::kable(comparison_table, caption = "Comparação de Erros padrão", align = 'c', format = "latex")
-```
-
-### Cluster randomization
-
-- Quando aleatorizo o cluster, em vez das unidades.
-- Ex.: Se não for possível aleatorizar um tratamento entre estudantes, aleatorizo escolas
-- No interior de cada escola, todo mundo é tratado ou não-tratado. Não há variação *within* escolas, apenas entre (between) escolas.
-- Grande perda de variabilidade nos dados, reduzindo precisão (aumento no erro padrão)
-- Às vezes é a única aleatorização possível.
-
-
-```{r echo=FALSE, eval=TRUE}
-library(knitr)
-
-comparison_table1 <- data.frame(
-  Method = c("Simple Randomization", "Block Randomization"),
-  p_value = c(simple_p_value, p_value)
-)
-
-knitr::kable(comparison_table1, caption = "Comparação de valores p", align = 'c', format = "latex")
-
-```
-
-
-### Tabelas em artigos
-
-```{r resultado-tabela, echo=FALSE, fig.cap="Tabela de resultados.", out.width = '50%'}
-## knitr::include_graphics("experiments_report.png")
-```
-
-## Estimador ATE
-
-
-- estimativa: $\frac{\sum_{i=1}^{n}Y_iT_i}{n_1} - \frac{\sum_{i=1}^{n}Y_i(1-T_i)}{n_0} = .0608 - .0353 = 0.0255$
-- Erro padrão: $\sqrt{\frac{\hat{\sigma_1^2}}{n_1} + \frac{\hat{\sigma_0^2}}{n_0}} = \sqrt{\frac{.0608\cdot(1-.0608)}{1217} + \frac{.0353\cdot (1-.0353)}{1217}} = 0.00865$
-- Pequena diferença com os coeficientes da tabela
-- Typo? Alguma informação não reproduz exatamente? Fizemos algo errado?
-
-
-
-```{r echo=TRUE, eval=TRUE}
-treatment <- c(rep(1, 74), rep(0, 1217 - 74))
-control <- c(rep(1, 43), rep(0, 1217 - 43))
-var_treat <- var(treatment) 
-var_control <- var(control)
-erro_padrao <- sqrt(var_treat/1217 + var_control/1217)
-round(erro_padrao, 5)
-
-t.test(treatment, control)      
-```
-
-
-
-## Resumo do Capítulo
-
-Neste capítulo, vimos como experimentos aleatórios eliminam o viés de seleção sob a suposição de SUTVA. Os principais pontos são:
-
-- A aleatorização garante que tratamento e controle sejam comparáveis em expectativa, eliminando o viés de seleção.
-- A validade do experimento depende também da restrição de exclusão (o que importa é o tratamento efetivamente recebido) e da simetria na administração.
-- Existem vários tipos de aleatorização — Bernoulli, completa, em bloco e por cluster — cada qual com vantagens e limitações. A aleatorização em bloco tende a aumentar a precisão das estimativas.
-- Com amostras grandes, as diferenças entre os tipos de aleatorização diminuem.
-- Ao longo do capítulo, sempre supusemos condições ideais (sem attrition, compliance perfeito etc.). No próximo capítulo, veremos o que acontece quando não temos aleatorização e precisamos recorrer a estratégias observacionais como matching.
-
-## Declare Design
-
-Uma ferramenta muito útil para experimentos (mas também para estudos observacionais) é o pacote do R Declare Design.
-
-Blair, Coppock e Humphreys criaram um framework para definir e avaliar um desenho de pesquisa. Com o resultado, escreveram um livro "Research Design in the Social Sciences", e um pacote no R para implementar os conceitos desenvolvidos no livro, chamado "DeclareDesign". Para instalar (junto com os datasets usados no livro), basta rodar `r ## install.packages(c("DeclareDesign", "rdss"))`.
-
-O framework é baseado no acrônimo MIDA, que contempla os quatro elementos básicos de um desenho de pesquisa:  models, inquiries, data strategies, and answer strategies.
-
-Ou seja, você deve especificar um modelo, qual pergunta de pesquisa (aka estimando), quais dados vai utilizar e como vai estimar o estimando.
-
-Um modelo descreve o que causa o que e como. Tipicamente especifica as unidades, o tamanho da amostra e a equação de resultados potenciais.
-Suponha que quero rodar um experimento aleatório com um tratamento e controle (two-arm randomized experiment). Assim, podemos declarar um modelo com:
-
+Vamos declarar um experimento simples com dois braços (*two-arm trial*):
 
 ```{r declare-model, eval=TRUE, message=FALSE}
 library(DeclareDesign)
+
+# 1. Modelo: 500 unidades, covariável X, efeito de 0.2
 model <- declare_model(
-    N = 500,
-    X = rep(c(0, 1), each = N / 2), # tratamento e controle
-    U = rnorm(N, sd = 0.25), # heterogeneidade exógena
-    potential_outcomes(Y ~ 0.2 * Z + X + U)
+  N = 500,
+  X = rep(c(0, 1), each = N / 2),
+  U = rnorm(N, sd = 0.25),
+  potential_outcomes(Y ~ 0.2 * Z + X + U)
 )
-```
 
-Vamos entender o que fizemos. 
-
-1. Declaramos que nossa população terá $500$ observações: `r N = 500`. Nesse exemplo, a amostra será igual à população, mas poderíamos amostrar da população se quiséssemos.
-
-2. Declaramos que $X$, uma covariável, pode assumir dois valores (0,1), e atribuímos a primeira metade para $0$ e a outra metade para $1$: `r X = rep(c(0, 1), each = N / 2)`.
-
-3. Declaramos que existe uma variável $U$ que tem distribuição normal, com $N$ observações e média $0$ e desvio-padrão $.25$:`r U = rnorm(N, sd = 0.25)`.
- 
-4. Declaramos que os resultados potenciais diferem em $20\%$ entre tratamento e controle ($Z$) para cada unidade. Uma forma alternativa e talvez mais clara de declarar a relação entre tratamento/controle e resultados potenciais seria escrever `r # potential_outcomes(Y_Z_0 = X + U, Y_Z_1 = Y_Z_0 + 0.2)`.
-
-4.1. Além disso, $X$ tem efeito de $1$ para todas as unidades.
-
-Vamos passar agora ao nosso estimando ou *inquiry*.
-
-```{r declare-inquiry, eval=TRUE, message=FALSE}
+# 2. Estimando: ATE
 inquiry <- declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
 
-```
+# 3. Estratégia de dados: aleatorização completa (250 tratados)
+data_strategy <- declare_assignment(Z = complete_ra(N = N, m = 250)) +
+  declare_measurement(Y = reveal_outcomes(Y ~ Z))
 
-Se estamos interessados no ATE, é só declarar que é a média da diferença entre os resultados potenciais. Podemos também usar a função `r # declare_estimand()`
-Outras possibilidades incluem o ATT `r # declare_inquiry(ATT = mean(Y_Z_1 - Y_Z_0), subset = (Z == 1))` e CATE: `r # declare_inquiry(CATE = mean(Y_Z_1 - Y_Z_0), subset = X == 1)`, por exemplo. Formulação equivalente para o ATT seria `r # declare_inquiry(ATT = mean(Y_Z_1|Z = 1) - mean(Y_Z_0|Z=1))`.
-
-Estratégia de dados
-
-```{r declare-data, eval=TRUE, message=FALSE}
-
-data <- declare_assignment(Z = complete_ra(N = N, m = 250)) + # assigment mechanism
-  declare_measurement(Y = reveal_outcomes(Y ~ Z)) # reveal_outcomes é a switching equation
-
-```
-
-
-```{r declare-estimator, eval=TRUE, message=FALSE}
-
+# 4. Estimador: diferença de médias via regressão
 estimator <- declare_estimator(Y ~ Z, inquiry = "ATE")
 
+# Combinando tudo
+two_arm_trial <- model + inquiry + data_strategy + estimator
 ```
 
+Cada componente corresponde a uma letra do MIDA. A função `declare_model` especifica a população e os resultados potenciais; `declare_inquiry` define o estimando (ATE); `declare_assignment` e `declare_measurement` descrevem a aleatorização e a switching equation; e `declare_estimator` especifica como estimamos o efeito.
 
-```{r two-arm-trial, eval=TRUE, message=FALSE}
+Podemos simular dados do desenho:
 
-two_arm_trial <- model +
-  inquiry +
-  data +
-  estimator
-
-# Draw a simulated dataset 
+```{r declare-data-draw, eval=TRUE, message=FALSE}
 head(draw_data(two_arm_trial), 10)
-
 ```
 
-
-Após declarar um desenho de pesquisa, podemos diagnosticar se nosso desenho de pesquisa pode ser respondido adequadamente (isto é, se é identificável, se possui poder para estimar com precisão o efeito de interesse etc.). Podemos inclusive modificar o desenho para responder a outras perguntas (é generalizável para outras populações, diferentes estimadores desempenham melhor etc.)
-
-Eis um exemplo de diagnóstico:
+E diagnosticar o desenho — verificando viés, erro padrão, poder e cobertura:
 
 ```{r diagnostico, eval=TRUE, message=FALSE}
-
 diagnose_design(two_arm_trial, sims = 100)
-
 ```
 
-Podemos ajustar o desenho de pesquisa
+Também podemos comparar o desempenho com diferentes tamanhos de amostra:
 
 ```{r redesenho, eval=TRUE, message=FALSE}
-
 designs <- redesign(two_arm_trial, N = c(100, 200, 300, 400, 500))
 diagnose_design(designs)
 ```
 
-## Exercício
+## Resumo e próximos passos
 
-O exercício abaixo é uma tradução de questões que estavam presentes no exame de qualificação (prelims) da área de métodos do programa de doutorado em ciência política de Yale.
+Neste capítulo, vimos como experimentos aleatórios eliminam o viés de seleção:
 
-### Experimento com envio de cartões-postais e participação eleitoral
+1. **Permutabilidade.** A aleatorização garante que tratamento e controle sejam comparáveis em expectativa, tornando a SDO um estimador não-viesado do ATE.
 
-Você conduz um experimento aleatório para testar o efeito de um cartão-postal sobre a participação eleitoral, sorteando independentemente uma moeda para cada sujeito com probabilidade $0 < p < 1$ de receber o tratamento. Assuma o pressuposto de SUTVA (Stable Unit Treatment Value Assumption). Você estima o seguinte modelo por Mínimos Quadrados Ordinários (OLS):
+2. **Restrição de exclusão.** Além da aleatorização, precisamos que o resultado dependa do tratamento *recebido*, não da alocação. Duplo cego e paralelismo na administração ajudam a garantir essa condição.
 
-$$
-Y_i = \beta_0 + \beta_1 T_i + \beta_2 S_i + \beta_3 T_i S_i + u_i
-$$
+3. **Tipos de aleatorização.** Bernoulli, completa, em bloco e por cluster — cada qual com vantagens e limitações. A aleatorização em bloco tende a aumentar a precisão; a por cluster, a reduzi-la.
 
-em que:
-- $Y_i$ indica se o indivíduo votou (variável dependente);
-- $T_i$ é o indicador binário de tratamento (receber ou não o cartão-postal);
-- $S_i$ é um indicador binário que vale 1 se o indivíduo vive em um estado eleitoralmente competitivo (battleground state) e 0 caso contrário;
-- $T_i S_i$ é a interação entre o tratamento e o contexto competitivo.
+4. **DeclareDesign.** Permite planejar, simular e diagnosticar um desenho experimental antes de conduzi-lo, avaliando poder, viés e cobertura.
 
-#### (a) Interprete os quatro coeficientes $\beta$
+Ao longo do capítulo, supusemos condições ideais: sem *attrition* e com *compliance* perfeito. Nos próximos capítulos, veremos o que acontece quando não temos aleatorização e precisamos recorrer a estratégias observacionais.
 
-- $\beta_0$: média de $Y_i$ (taxa de votação) para o grupo controle ($T_i = 0$) em estados não competitivos ($S_i = 0$).
-- $\beta_1$: efeito médio do tratamento (cartão-postal) em estados **não competitivos**. Como o tratamento foi atribuído aleatoriamente, $\beta_1$ tem interpretação causal.
-- $\beta_2$: diferença na taxa média de votação entre estados competitivos e não competitivos **no grupo controle**. Não tem interpretação causal.
-- $\beta_3$: diferença no efeito do tratamento entre estados competitivos e não competitivos. Se $\beta_3 \neq 0$, o efeito do cartão-postal depende do tipo de estado. Como o tratamento é aleatório, $\beta_3$ também tem interpretação causal.
+## Exercícios
 
-#### (b) Como testar a hipótese de que o efeito do tratamento é igual entre os dois tipos de estado?
+### Exercício 1: Cartões-postais e participação eleitoral
 
-Testa-se a hipótese nula $H_0: \beta_3 = 0$. Isso pode ser feito diretamente a partir do resultado da regressão usando um teste t para o coeficiente da interação $T_i S_i$.
+Você conduz um experimento aleatório para testar o efeito de um cartão-postal sobre a participação eleitoral, sorteando independentemente uma moeda para cada sujeito com probabilidade $0 < p < 1$ de receber o tratamento. Assuma SUTVA. Você estima o seguinte modelo por MQO:
 
+$$Y_i = \beta_0 + \beta_1 D_i + \beta_2 S_i + \beta_3 D_i S_i + u_i$$
 
+em que $Y_i$ indica se o indivíduo votou, $D_i$ é o indicador de tratamento, $S_i$ indica se o indivíduo vive em um estado competitivo (*battleground state*), e $D_i S_i$ é a interação.
 
-### Experimento com anúncios de TV e participação eleitoral
+(a) Interprete os quatro coeficientes $\beta$.
 
-Você quer testar se anúncios de TV aumentam a participação eleitoral. O experimento pode ser conduzido em até 16 mercados de mídia, dos quais até 8 podem ser sorteados para o grupo de tratamento. Os anúncios só podem ser exibidos para o mercado de mídia como um todo.
+(b) Como testar a hipótese de que o efeito do tratamento é igual entre os dois tipos de estado?
 
-Você tem informações individuais para todos os eleitores elegíveis nesses mercados: mercado de mídia, idade, sexo, raça/etnia e participação nas duas eleições anteriores. Após a eleição, você receberá os dados atualizados sobre participação no pleito atual.
+### Exercício 2: Anúncios de TV e participação eleitoral
 
-#### (a) Como alocar aleatoriamente os mercados ao tratamento?
+Você quer testar se anúncios de TV aumentam a participação eleitoral. O experimento pode ser conduzido em até 16 mercados de mídia, dos quais até 8 podem ser sorteados para o tratamento. Os anúncios só podem ser exibidos para o mercado de mídia como um todo. Você tem informações individuais para todos os eleitores: mercado, idade, sexo, raça/etnia e participação nas duas eleições anteriores.
 
-Sorteie aleatoriamente 8 dos 16 mercados de mídia para o grupo de tratamento. Como o tratamento é atribuído no nível do mercado, essa é a unidade de aleatorização. Recomenda-se balancear o sorteio usando pareamento ou estratificação com base em características agregadas dos mercados (por exemplo, participação passada, composição demográfica), se houver variação relevante entre eles.
+(a) Como alocar aleatoriamente os mercados ao tratamento?
 
-#### (b) Como analisar esse experimento?
+(b) Como analisar esse experimento? Em que nível deve ser feita a análise?
 
-A análise deve ser feita no nível do mercado de mídia, que é a unidade de tratamento. Uma abordagem válida é calcular a média da taxa de votação em cada mercado e rodar uma regressão simples:
+### Exercício 3: Exclusão de participantes em experimentos de survey
 
-$$
-\bar{Y}_j = \alpha + \tau D_j + \varepsilon_j
-$$
+Pesquisadores às vezes excluem participantes de um experimento de survey por: (1) não passarem em uma checagem de atenção pré-tratamento; (2) não passarem em uma checagem de atenção pós-tratamento; (3) completarem o survey muito rapidamente.
 
-em que:
-- $\bar{Y}_j$ é a média da taxa de votação no mercado $j$;
-- $D_j$ é um indicador de tratamento para o mercado;
-- $\tau$ estima o efeito médio do tratamento.
+(a) Se o interesse é no efeito médio do tratamento **entre os sujeitos que não foram excluídos**, qual dessas estratégias é não-viesada?
 
-É possível incluir covariáveis no nível do mercado para aumentar a precisão, mas não é necessário para validade causal.
-
----
-
-### Exclusão de participantes em experimentos de survey
-
-Pesquisadores às vezes excluem participantes de um experimento de survey por:
-1. Não passarem em uma checagem de atenção pré-tratamento;
-2. Não passarem em uma checagem de atenção pós-tratamento;
-3. Completarem o survey muito rapidamente (por exemplo, 3 desvios-padrão abaixo da média de tempo).
-
-#### (a) Se o interesse é no efeito médio do tratamento **entre os sujeitos que não foram excluídos**, qual dessas estratégias é não-viesada?
-
-Todas essas estratégias podem fornecer estimativas **não viesadas** para o efeito médio do tratamento entre os sujeitos que **permanecem** na amostra, desde que os critérios de exclusão sejam **pré-tratamento** ou **não afetem diferencialmente** os grupos de tratamento e controle. A exclusão baseada em variáveis observadas **antes do tratamento** (como checagem pré-tratamento ou tempo de resposta) é menos problemática.
-
-Já a exclusão com base em comportamentos **após** o tratamento (como falha em atenção pós-tratamento) pode introduzir viés, pois pode estar correlacionada com a resposta ao tratamento.
-
-#### (b) Se o interesse é no efeito médio do tratamento **entre todos os participantes que iniciaram o experimento**, qual dessas estratégias é não-viesada?
-
-Nenhuma das exclusões garante uma estimativa não viesada nesse caso. Excluir participantes com base em qualquer critério — mesmo que relacionado à atenção ou tempo de resposta — altera a composição da amostra em relação ao universo original. Para estimar o efeito médio para todos os participantes que começaram o experimento, é necessário **manter todos os sujeitos**, independentemente do desempenho em checagens ou tempo de resposta.
-
-
+(b) Se o interesse é no efeito médio do tratamento **entre todos os participantes que iniciaram o experimento**, qual dessas estratégias é não-viesada?
