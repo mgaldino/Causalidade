@@ -281,9 +281,20 @@ O lado esquerdo é a quantidade causal que queremos; o lado direito contém apen
 >
 > $$P(X_1, \ldots, X_k) = \prod_{i=1}^{k} P(X_i \mid \text{Pais}(X_i))$$
 >
-> Por exemplo, no DAG $M \to Z \to X \to Y$ com $M \to W \to X$, a fatorização é: $P(M, Z, W, X, Y) = P(M) \, P(Z \mid M) \, P(W \mid M) \, P(X \mid W, Z) \, P(Y \mid X)$. Cada fator condiciona apenas nos pais diretos — muito mais parcimonioso que a regra da cadeia genérica.
+> Cada fator condiciona apenas nos pais diretos — muito mais parcimonioso que a regra da cadeia genérica. O exemplo abaixo ilustra.
 >
 > **Conexão com causalidade.** Quando não há confounding (sem backdoor path aberto), a fatorização observacional coincide com a intervencional: $P(Y, X) = P(X) \, P(Y \mid X) = P(X) \, P(Y \mid do(X))$. Essa igualdade é o que torna a inferência causal possível a partir de dados observacionais quando o critério backdoor é satisfeito.
+
+**Exemplo de fatorização Markoviana.** Considere o DAG:
+
+```{r fatorizacao, echo=FALSE, message=FALSE}
+dag <- dagify(Y ~ X, X ~ Z + W, Z ~ M, W ~ M)
+ggdag(dag)
+```
+
+Os pais de cada nó são: $M$ não tem pais; $Z$ e $W$ têm pai $M$; $X$ tem pais $Z$ e $W$; $Y$ tem pai $X$. Logo, a fatorização Markoviana é:
+
+$$P(M, Z, W, X, Y) = P(M) \, P(Z \mid M) \, P(W \mid M) \, P(X \mid W, Z) \, P(Y \mid X)$$
 
 ## Exercícios
 
