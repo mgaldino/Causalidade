@@ -31,6 +31,8 @@ No exemplo acima, o DAG é formado por três variáveis $\{Y, X, Z\}$, que são,
 
 A razão pela qual não escrevemos DAGs como equações é que $Y = f(X, Z)$ não expressa adequadamente a relação de causalidade, pois, em matemática, é indiferente escrever $f(X, Z) = Y$ ou $Y = f(Z, X)$. Porém, dizer que $X$ e $Z$ causam $Y$ é muito diferente de dizer que $Y$ causa $X$ e $Z$. Com o DAG, as flechas indicam a direção da causalidade.
 
+Na regressão, tentamos capturar essa assimetria com a terminologia: chamamos $Y$ de "variável dependente" ou "resposta" e $X$ de "variável explicativa" ou "independente". Mas isso é apenas uma convenção de linguagem — formalmente, nada impede de reescrever a equação isolando $X$. Por exemplo, se $Y = \alpha + \beta X + \epsilon$, podemos perfeitamente escrever $X = (Y - \alpha - \epsilon)/\beta$, e a matemática é igualmente válida. A equação não sabe qual variável é a causa e qual é o efeito. O DAG, por contraste, incorpora a direção causal na própria estrutura: a flecha $X \to Y$ não pode ser invertida.
+
 ## Os Tipos Básicos de DAGs
 
 Qualquer DAG, por mais complexo que seja, é composto por combinações de três estruturas elementares. Compreender como cada uma delas afeta a dependência entre variáveis é a chave para decidir quais variáveis controlar em uma análise causal.
