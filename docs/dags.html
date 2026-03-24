@@ -230,9 +230,9 @@ div.csl-indent {
 <li class="chapter" data-level="3.7.1" data-path="dags.html"><a href="dags.html#observar-vs.-intervir"><i class="fa fa-check"></i><b>3.7.1</b> Observar vs. intervir</a></li>
 <li class="chapter" data-level="3.7.2" data-path="dags.html"><a href="dags.html#quando-observar-intervir"><i class="fa fa-check"></i><b>3.7.2</b> Quando observar = intervir?</a></li>
 </ul></li>
-<li class="chapter" data-level="3.8" data-path="03-DAGs.html"><a href="#exerc%C3%ADcios"><i class="fa fa-check"></i><b>3.8</b> Exercícios</a></li>
-<li class="chapter" data-level="3.9" data-path="03-DAGs.html"><a href="#limita%C3%A7%C3%B5es-dos-dags"><i class="fa fa-check"></i><b>3.9</b> Limitações dos DAGs</a></li>
-<li class="chapter" data-level="3.10" data-path="03-DAGs.html"><a href="#resumo-e-pr%C3%B3ximos-passos-2"><i class="fa fa-check"></i><b>3.10</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="3.8" data-path="03-DAGs.html"><a href="#limita%C3%A7%C3%B5es-dos-dags"><i class="fa fa-check"></i><b>3.8</b> Limitações dos DAGs</a></li>
+<li class="chapter" data-level="3.9" data-path="03-DAGs.html"><a href="#resumo-e-pr%C3%B3ximos-passos-2"><i class="fa fa-check"></i><b>3.9</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="3.10" data-path="03-DAGs.html"><a href="#exerc%C3%ADcios"><i class="fa fa-check"></i><b>3.10</b> Exercícios</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="experimentos.html"><a href="experimentos.html"><i class="fa fa-check"></i><b>4</b> Experimentos</a>
 <ul>
@@ -807,8 +807,28 @@ div.csl-indent {
 <p><span class="math display">\[P(M, Z, W, X, Y) = P(M) \, P(Z \mid M) \, P(W \mid M) \, P(X \mid W, Z) \, P(Y \mid X)\]</span></p>
 </div>
 </div>
-<div id="exercícios" class="section level2 hasAnchor" number="3.8">
-<h2><span class="header-section-number">3.8</span> Exercícios<a href="#exerc%C3%ADcios" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="limitações-dos-dags" class="section level2 hasAnchor" number="3.8">
+<h2><span class="header-section-number">3.8</span> Limitações dos DAGs<a href="#limita%C3%A7%C3%B5es-dos-dags" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>DAGs são uma ferramenta poderosa, mas não são uma solução universal. É importante ter em mente suas limitações:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>O DAG precisa estar correto.</strong> Toda a análise depende de o pesquisador especificar corretamente a estrutura causal. Se uma flecha estiver faltando (variável confundidora omitida) ou apontando na direção errada, as conclusões sobre o que controlar podem ser equivocadas. O DAG não é testável — ele codifica suposições.</p></li>
+<li><p><strong>Não capturam ciclos de feedback.</strong> DAGs são, por definição, acíclicos. Relações de feedback simultâneo (ex: democracia afeta crescimento, que afeta democracia) não podem ser representadas diretamente. Para esses casos, existem extensões como grafos direcionados cíclicos e modelos de equações estruturais simultâneas, mas estão fora do escopo deste curso.</p></li>
+<li><p><strong>Não dizem <em>quanto</em>.</strong> DAGs são qualitativos: indicam <em>se</em> um efeito causal é identificável e <em>quais</em> variáveis controlar, mas não dizem nada sobre a magnitude do efeito ou a forma funcional da relação. Para isso, precisamos combinar o DAG com um método de estimação (regressão, matching, etc.).</p></li>
+</ol>
+</div>
+<div id="resumo-e-próximos-passos-2" class="section level2 hasAnchor" number="3.9">
+<h2><span class="header-section-number">3.9</span> Resumo e próximos passos<a href="#resumo-e-pr%C3%B3ximos-passos-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Neste capítulo, introduzimos os DAGs como ferramenta para representar e raciocinar sobre relações causais:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Três tipos básicos.</strong> Chains, forks e colliders determinam quais caminhos estão abertos ou fechados. Condicionar fecha caminhos via forks/chains, mas abre caminhos via colliders.</p></li>
+<li><p><strong>d-separação.</strong> Dois nós estão d-separados se todo caminho entre eles está bloqueado. As regras de bloqueio derivam diretamente dos três tipos básicos.</p></li>
+<li><p><strong>Critério backdoor.</strong> Um conjunto <span class="math inline">\(\mathbf{Z}\)</span> identifica o efeito causal se bloqueia todos os backdoor paths sem incluir descendentes do tratamento. Esse critério é a contrapartida gráfica da ignorabilidade condicional do Cap. 2.</p></li>
+<li><p><strong>Operador <span class="math inline">\(do()\)</span>.</strong> Distingue a distribuição observacional <span class="math inline">\(P(Y \mid X)\)</span> da intervencional <span class="math inline">\(P(Y \mid do(X))\)</span>. A fórmula de ajuste backdoor conecta as duas.</p></li>
+</ol>
+<p>No próximo capítulo, veremos por que <strong>experimentos aleatórios</strong> são considerados o padrão-ouro para inferência causal: a aleatorização garante, por construção, que não haja backdoor paths abertos entre o tratamento e o resultado.</p>
+</div>
+<div id="exercícios" class="section level2 hasAnchor" number="3.10">
+<h2><span class="header-section-number">3.10</span> Exercícios<a href="#exerc%C3%ADcios" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><strong>Exercício 1.</strong> Considere o seguinte DAG:</p>
 <p><img src="bookdownproj_files/figure-html/ex1-1.png" alt="" width="672" /></p>
 <ol style="list-style-type: lower-alpha">
@@ -829,26 +849,6 @@ div.csl-indent {
 <li><p>Explique por que controlar por <span class="math inline">\(M\)</span> é problemático.</p></li>
 <li><p>Em que situação <em>seria</em> correto controlar por <span class="math inline">\(M\)</span>?</p></li>
 </ol>
-</div>
-<div id="limitações-dos-dags" class="section level2 hasAnchor" number="3.9">
-<h2><span class="header-section-number">3.9</span> Limitações dos DAGs<a href="#limita%C3%A7%C3%B5es-dos-dags" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>DAGs são uma ferramenta poderosa, mas não são uma solução universal. É importante ter em mente suas limitações:</p>
-<ol style="list-style-type: decimal">
-<li><p><strong>O DAG precisa estar correto.</strong> Toda a análise depende de o pesquisador especificar corretamente a estrutura causal. Se uma flecha estiver faltando (variável confundidora omitida) ou apontando na direção errada, as conclusões sobre o que controlar podem ser equivocadas. O DAG não é testável — ele codifica suposições.</p></li>
-<li><p><strong>Não capturam ciclos de feedback.</strong> DAGs são, por definição, acíclicos. Relações de feedback simultâneo (ex: democracia afeta crescimento, que afeta democracia) não podem ser representadas diretamente. Para esses casos, existem extensões como grafos direcionados cíclicos e modelos de equações estruturais simultâneas, mas estão fora do escopo deste curso.</p></li>
-<li><p><strong>Não dizem <em>quanto</em>.</strong> DAGs são qualitativos: indicam <em>se</em> um efeito causal é identificável e <em>quais</em> variáveis controlar, mas não dizem nada sobre a magnitude do efeito ou a forma funcional da relação. Para isso, precisamos combinar o DAG com um método de estimação (regressão, matching, etc.).</p></li>
-</ol>
-</div>
-<div id="resumo-e-próximos-passos-2" class="section level2 hasAnchor" number="3.10">
-<h2><span class="header-section-number">3.10</span> Resumo e próximos passos<a href="#resumo-e-pr%C3%B3ximos-passos-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Neste capítulo, introduzimos os DAGs como ferramenta para representar e raciocinar sobre relações causais:</p>
-<ol style="list-style-type: decimal">
-<li><p><strong>Três tipos básicos.</strong> Chains, forks e colliders determinam quais caminhos estão abertos ou fechados. Condicionar fecha caminhos via forks/chains, mas abre caminhos via colliders.</p></li>
-<li><p><strong>d-separação.</strong> Dois nós estão d-separados se todo caminho entre eles está bloqueado. As regras de bloqueio derivam diretamente dos três tipos básicos.</p></li>
-<li><p><strong>Critério backdoor.</strong> Um conjunto <span class="math inline">\(\mathbf{Z}\)</span> identifica o efeito causal se bloqueia todos os backdoor paths sem incluir descendentes do tratamento. Esse critério é a contrapartida gráfica da ignorabilidade condicional do Cap. 2.</p></li>
-<li><p><strong>Operador <span class="math inline">\(do()\)</span>.</strong> Distingue a distribuição observacional <span class="math inline">\(P(Y \mid X)\)</span> da intervencional <span class="math inline">\(P(Y \mid do(X))\)</span>. A fórmula de ajuste backdoor conecta as duas.</p></li>
-</ol>
-<p>No próximo capítulo, veremos por que <strong>experimentos aleatórios</strong> são considerados o padrão-ouro para inferência causal: a aleatorização garante, por construção, que não haja backdoor paths abertos entre o tratamento e o resultado.</p>
 
 </div>
 </div>

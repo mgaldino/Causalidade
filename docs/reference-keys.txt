@@ -85,9 +85,9 @@ o-critério-backdoor
 o-operador-do
 observar-vs.-intervir
 quando-observar-intervir
-exercícios
 limitações-dos-dags
 resumo-e-próximos-passos-2
+exercícios
 experimentos
 introdução-2
 experimentos-aleatórios
