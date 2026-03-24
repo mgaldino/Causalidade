@@ -125,7 +125,9 @@ Agora que temos a intuição dos três tipos básicos, vamos formalizar os conce
 
 A **d-separação** (*d* de *directed*) é o conceito central que conecta a estrutura de um DAG às independências estatísticas entre variáveis. Dizemos que dois nós $X$ e $Y$ estão **d-separados** por um conjunto de nós $\mathbf{Z}$ se todo caminho entre $X$ e $Y$ está **bloqueado** condicional a $\mathbf{Z}$.
 
-Quando um caminho está bloqueado? As regras derivam diretamente dos três tipos básicos:
+Quando um caminho está bloqueado? Antes de ver as regras, um alerta importante: para determinar se há dependência entre $X$ e $Y$, o que importa são **caminhos** (*paths*), não caminhos direcionados. A direção das flechas determina o *tipo* de cada nó no caminho (fork, chain ou collider), mas a dependência estatística pode fluir em qualquer direção. Uma analogia útil: pense em cada caminho como um cano com água. Se o cano está aberto, a água pode fluir em qualquer direção — não apenas na direção das flechas. Estudantes frequentemente cometem o erro de achar que a dependência só "viaja" na direção das flechas; na verdade, um fork $X \leftarrow W \to Y$ transmite dependência de $X$ a $Y$ mesmo que nenhuma flecha aponte de $X$ para $Y$.
+
+As regras de bloqueio derivam diretamente dos três tipos básicos:
 
 1. **Chain** ($X \to W \to Y$): o caminho está **aberto** por padrão. Condicionar em $W$ **bloqueia** o caminho.
 
