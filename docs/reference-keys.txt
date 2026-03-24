@@ -60,7 +60,7 @@ estimandos-mais-comuns
 ate
 att
 cate
-exercício---qual-o-estimando-e-o-estimador-se-possível
+exercício-qual-o-estimando-e-o-estimador-se-possível
 identificação
 identificação-do-ate
 equações-estruturais
