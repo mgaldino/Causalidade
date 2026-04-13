@@ -23,7 +23,7 @@
 <meta name="author" content="Manoel Galdino" />
 
 
-<meta name="date" content="2026-03-24" />
+<meta name="date" content="2026-04-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -248,13 +248,20 @@ div.csl-indent {
 <li class="chapter" data-level="4.5.4" data-path="04-Experimentos.html"><a href="#precis%C3%A3o-da-aleatoriza%C3%A7%C3%A3o-em-bloco"><i class="fa fa-check"></i><b>4.5.4</b> Precisão da aleatorização em bloco</a></li>
 <li class="chapter" data-level="4.5.5" data-path="04-Experimentos.html"><a href="#aleatoriza%C3%A7%C3%A3o-por-cluster"><i class="fa fa-check"></i><b>4.5.5</b> Aleatorização por cluster</a></li>
 </ul></li>
-<li class="chapter" data-level="4.6" data-path="experimentos.html"><a href="experimentos.html#planejando-experimentos-com-declaredesign"><i class="fa fa-check"></i><b>4.6</b> Planejando experimentos com DeclareDesign</a></li>
-<li class="chapter" data-level="4.7" data-path="04-Experimentos.html"><a href="#resumo-e-pr%C3%B3ximos-passos-3"><i class="fa fa-check"></i><b>4.7</b> Resumo e próximos passos</a></li>
-<li class="chapter" data-level="4.8" data-path="04-Experimentos.html"><a href="#exerc%C3%ADcios-1"><i class="fa fa-check"></i><b>4.8</b> Exercícios</a>
+<li class="chapter" data-level="4.6" data-path="experimentos.html"><a href="experimentos.html#experimentos-fatoriais"><i class="fa fa-check"></i><b>4.6</b> Experimentos fatoriais</a>
 <ul>
-<li class="chapter" data-level="4.8.1" data-path="04-Experimentos.html"><a href="#exerc%C3%ADcio-1-cart%C3%B5es-postais-e-participa%C3%A7%C3%A3o-eleitoral"><i class="fa fa-check"></i><b>4.8.1</b> Exercício 1: Cartões-postais e participação eleitoral</a></li>
-<li class="chapter" data-level="4.8.2" data-path="04-Experimentos.html"><a href="#exerc%C3%ADcio-2-an%C3%BAncios-de-tv-e-participa%C3%A7%C3%A3o-eleitoral"><i class="fa fa-check"></i><b>4.8.2</b> Exercício 2: Anúncios de TV e participação eleitoral</a></li>
-<li class="chapter" data-level="4.8.3" data-path="04-Experimentos.html"><a href="#exerc%C3%ADcio-3-exclus%C3%A3o-de-participantes-em-experimentos-de-survey"><i class="fa fa-check"></i><b>4.8.3</b> Exercício 3: Exclusão de participantes em experimentos de survey</a></li>
+<li class="chapter" data-level="4.6.1" data-path="experimentos.html"><a href="experimentos.html#desenho-2-times-2"><i class="fa fa-check"></i><b>4.6.1</b> Desenho <span class="math inline">\(2 \times 2\)</span></a></li>
+<li class="chapter" data-level="4.6.2" data-path="04-Experimentos.html"><a href="#efeitos-principais-e-intera%C3%A7%C3%B5es"><i class="fa fa-check"></i><b>4.6.2</b> Efeitos principais e interações</a></li>
+<li class="chapter" data-level="4.6.3" data-path="04-Experimentos.html"><a href="#efici%C3%AAncia-e-generaliza%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>4.6.3</b> Eficiência e generalização</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="experimentos.html"><a href="experimentos.html#experimentos-multi-arm"><i class="fa fa-check"></i><b>4.7</b> Experimentos multi-arm</a></li>
+<li class="chapter" data-level="4.8" data-path="experimentos.html"><a href="experimentos.html#planejando-experimentos-com-declaredesign"><i class="fa fa-check"></i><b>4.8</b> Planejando experimentos com DeclareDesign</a></li>
+<li class="chapter" data-level="4.9" data-path="04-Experimentos.html"><a href="#resumo-e-pr%C3%B3ximos-passos-3"><i class="fa fa-check"></i><b>4.9</b> Resumo e próximos passos</a></li>
+<li class="chapter" data-level="4.10" data-path="04-Experimentos.html"><a href="#exerc%C3%ADcios-1"><i class="fa fa-check"></i><b>4.10</b> Exercícios</a>
+<ul>
+<li class="chapter" data-level="4.10.1" data-path="04-Experimentos.html"><a href="#exerc%C3%ADcio-1-cart%C3%B5es-postais-e-participa%C3%A7%C3%A3o-eleitoral"><i class="fa fa-check"></i><b>4.10.1</b> Exercício 1: Cartões-postais e participação eleitoral</a></li>
+<li class="chapter" data-level="4.10.2" data-path="04-Experimentos.html"><a href="#exerc%C3%ADcio-2-an%C3%BAncios-de-tv-e-participa%C3%A7%C3%A3o-eleitoral"><i class="fa fa-check"></i><b>4.10.2</b> Exercício 2: Anúncios de TV e participação eleitoral</a></li>
+<li class="chapter" data-level="4.10.3" data-path="04-Experimentos.html"><a href="#exerc%C3%ADcio-3-exclus%C3%A3o-de-participantes-em-experimentos-de-survey"><i class="fa fa-check"></i><b>4.10.3</b> Exercício 3: Exclusão de participantes em experimentos de survey</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="experimentos-de-survey.html"><a href="experimentos-de-survey.html"><i class="fa fa-check"></i><b>5</b> Experimentos de Survey</a>
@@ -749,8 +756,84 @@ div.csl-indent {
 <p>Nesse caso, a unidade de aleatorização é o <strong>cluster</strong> (escola), não a unidade de análise (aluno). No interior de cada cluster, todo mundo é tratado ou não-tratado: não há variação <em>within</em>, apenas <em>between</em>. Isso causa grande perda de variabilidade nos dados, reduzindo a precisão (aumento no erro padrão). Ainda assim, às vezes é a única aleatorização viável.</p>
 </div>
 </div>
-<div id="planejando-experimentos-com-declaredesign" class="section level2 hasAnchor" number="4.6">
-<h2><span class="header-section-number">4.6</span> Planejando experimentos com DeclareDesign<a href="experimentos.html#planejando-experimentos-com-declaredesign" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="experimentos-fatoriais" class="section level2 hasAnchor" number="4.6">
+<h2><span class="header-section-number">4.6</span> Experimentos fatoriais<a href="experimentos.html#experimentos-fatoriais" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Até aqui, consideramos experimentos com um único tratamento binário: cada unidade recebe <span class="math inline">\(D_i = 1\)</span> ou <span class="math inline">\(D_i = 0\)</span>. Mas muitas perguntas de pesquisa envolvem <strong>mais de um fator</strong> simultaneamente. Um <strong>experimento fatorial</strong> é um desenho no qual duas ou mais variáveis de tratamento são manipuladas ao mesmo tempo, e todas as combinações de níveis são testadas.</p>
+<div id="desenho-2-times-2" class="section level3 hasAnchor" number="4.6.1">
+<h3><span class="header-section-number">4.6.1</span> Desenho <span class="math inline">\(2 \times 2\)</span><a href="experimentos.html#desenho-2-times-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>O caso mais simples é o fatorial <span class="math inline">\(2 \times 2\)</span>: dois fatores, cada um com dois níveis. Suponha que queremos estudar o efeito de (1) um programa de tutoria (<span class="math inline">\(D_{1i} \in \{0,1\}\)</span>) e (2) um incentivo financeiro (<span class="math inline">\(D_{2i} \in \{0,1\}\)</span>) sobre o desempenho escolar. O desenho fatorial cruza os dois fatores, gerando quatro condições experimentais:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Grupo</th>
+<th align="center"><span class="math inline">\(D_{1i}\)</span> (tutoria)</th>
+<th align="center"><span class="math inline">\(D_{2i}\)</span> (incentivo)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">0</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">4</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+</tbody>
+</table>
+<p>A unidade <span class="math inline">\(i\)</span> tem agora quatro resultados potenciais: <span class="math inline">\(Y_i(0,0)\)</span>, <span class="math inline">\(Y_i(1,0)\)</span>, <span class="math inline">\(Y_i(0,1)\)</span> e <span class="math inline">\(Y_i(1,1)\)</span>. O resultado observado é <span class="math inline">\(Y_i = Y_i(D_{1i}, D_{2i})\)</span>.</p>
+</div>
+<div id="efeitos-principais-e-interações" class="section level3 hasAnchor" number="4.6.2">
+<h3><span class="header-section-number">4.6.2</span> Efeitos principais e interações<a href="#efeitos-principais-e-intera%C3%A7%C3%B5es" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>O desenho fatorial permite estimar três tipos de efeito causal:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Efeito principal do fator 1</strong> (tutoria): a diferença média entre receber e não receber tutoria, <em>averaged</em> sobre os níveis do incentivo:</li>
+</ol>
+<p><span class="math display">\[\tau_1 = \frac{1}{2}\Big[\mathbb{E}[Y_i(1,0) - Y_i(0,0)] + \mathbb{E}[Y_i(1,1) - Y_i(0,1)]\Big]\]</span></p>
+<ol start="2" style="list-style-type: decimal">
+<li><p><strong>Efeito principal do fator 2</strong> (incentivo): definido analogamente, <em>averaged</em> sobre os níveis da tutoria.</p></li>
+<li><p><strong>Efeito de interação</strong>: mede se o efeito de um fator <em>depende</em> do nível do outro:</p></li>
+</ol>
+<p><span class="math display">\[\tau_{12} = \mathbb{E}[Y_i(1,1) - Y_i(0,1)] - \mathbb{E}[Y_i(1,0) - Y_i(0,0)]\]</span></p>
+<p>Se <span class="math inline">\(\tau_{12} = 0\)</span>, os efeitos dos dois fatores são aditivos — cada fator opera independentemente do outro. Se <span class="math inline">\(\tau_{12} \neq 0\)</span>, há complementaridade (ou substituição) entre os tratamentos.</p>
+</div>
+<div id="eficiência-e-generalização" class="section level3 hasAnchor" number="4.6.3">
+<h3><span class="header-section-number">4.6.3</span> Eficiência e generalização<a href="#efici%C3%AAncia-e-generaliza%C3%A7%C3%A3o" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Uma vantagem central do desenho fatorial é a <strong>eficiência</strong>: com a mesma amostra, estimamos os efeitos de múltiplos fatores. Em um desenho <span class="math inline">\(2 \times 2\)</span> com <span class="math inline">\(N\)</span> unidades, cada efeito principal usa <em>todas</em> as <span class="math inline">\(N\)</span> observações (comparando as <span class="math inline">\(N/2\)</span> que receberam o fator com as <span class="math inline">\(N/2\)</span> que não receberam), em vez de precisar de um experimento separado para cada fator.</p>
+<p>O desenho generaliza para <span class="math inline">\(K\)</span> fatores: um fatorial <span class="math inline">\(2^K\)</span> tem <span class="math inline">\(2^K\)</span> condições experimentais. À medida que <span class="math inline">\(K\)</span> cresce, o número de condições cresce exponencialmente — o que pode tornar o desenho inviável. No Cap. 5, veremos como os <strong>experimentos conjoint</strong> lidam com esse problema ao aleatorizar combinações de muitos fatores simultaneamente para cada respondente.</p>
+</div>
+</div>
+<div id="experimentos-multi-arm" class="section level2 hasAnchor" number="4.7">
+<h2><span class="header-section-number">4.7</span> Experimentos multi-arm<a href="experimentos.html#experimentos-multi-arm" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Uma variação comum é o experimento <strong>multi-arm</strong> (<em>multi-arm trial</em>): em vez de cruzar fatores independentes, a pesquisadora define <span class="math inline">\(K+1\)</span> condições mutuamente exclusivas — um controle e <span class="math inline">\(K\)</span> tratamentos — e cada unidade é alocada a exatamente uma delas. No Project STAR, por exemplo, alunos foram aleatorizados para turma regular (<span class="math inline">\(D_i = 0\)</span>), turma pequena (<span class="math inline">\(D_i = 1\)</span>) ou turma com assistente (<span class="math inline">\(D_i = 2\)</span>) dentro de cada escola.</p>
+<p>A diferença crucial em relação ao fatorial é que, no multi-arm, os tratamentos são <strong>mutuamente exclusivos</strong>: se <span class="math inline">\(D_i = 1\)</span>, então necessariamente <span class="math inline">\(D_i \neq 2\)</span>. No fatorial, os fatores são cruzados de forma independente — uma unidade pode receber qualquer combinação.</p>
+<p>A análise de um experimento multi-arm tipicamente envolve regredir o resultado em indicadores de cada braço:</p>
+<p><span class="math display">\[Y_i = \alpha + \beta_1 X_{i1} + \beta_2 X_{i2} + \gamma W_i + U_i\]</span></p>
+<p>onde <span class="math inline">\(X_{ik} = \mathbb{1}\{D_i = k\}\)</span> e <span class="math inline">\(W_i\)</span> são controles (por exemplo, indicadores de estrato). Com um único tratamento binário e aleatorização condicional, <span class="citation">Angrist (<a href="#ref-angrist1998">1998</a>)</span> mostrou que o coeficiente de regressão estima uma média convexa (com pesos positivos) de efeitos causais heterogêneos. No entanto, <span class="citation">Goldsmith-Pinkham, Hull, and Kolesar (<a href="#ref-goldsmith-pinkham2024">2024</a>)</span> demonstram que esse resultado <strong>não se generaliza</strong> para múltiplos tratamentos.</p>
+<p>O problema é o <strong>contamination bias</strong>: quando os tratamentos são mutuamente exclusivos, o resíduo da projeção de <span class="math inline">\(X_{i1}\)</span> sobre os controles e os demais tratamentos não é <em>mean-independent</em> de <span class="math inline">\(X_{i2}\)</span>, mesmo que ambos sejam aleatorizados condicionalmente em <span class="math inline">\(W_i\)</span>. O coeficiente <span class="math inline">\(\beta_1\)</span> passa a incorporar não só o efeito de <span class="math inline">\(D_i = 1\)</span>, mas também uma média — com pesos que somam zero e podem ser negativos — dos efeitos dos outros tratamentos. Formalmente:</p>
+<p><span class="math display">\[\beta_1 = \underbrace{\mathbb{E}[\lambda_{11}(W_i)\tau_1(W_i)]}_{\text{efeito próprio}} + \underbrace{\mathbb{E}[\lambda_{12}(W_i)\tau_2(W_i)]}_{\text{contaminação}}\]</span></p>
+<p>onde <span class="math inline">\(\tau_k(w) = \mathbb{E}[Y_i(k) - Y_i(0) \mid W_i = w]\)</span> são os efeitos causais condicionais, <span class="math inline">\(\lambda_{11}\)</span> são pesos próprios (convexos), e <span class="math inline">\(\lambda_{12}\)</span> são pesos de contaminação que somam zero.</p>
+<p>Duas condições são <strong>necessárias</strong> para que o contamination bias seja relevante:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Heterogeneidade nos efeitos</strong> dos outros tratamentos: se <span class="math inline">\(\tau_2(w)\)</span> é constante em <span class="math inline">\(w\)</span>, a covariância com os pesos <span class="math inline">\(\lambda_{12}\)</span> é zero e o viés desaparece.</p></li>
+<li><p><strong>Variação nos propensity scores</strong> entre estratos: se a probabilidade de cada tratamento é a mesma em todos os estratos, os pesos de contaminação são zero.</p></li>
+</ol>
+<p>Em experimentos fatoriais com aleatorização independente dos fatores, o contamination bias não surge — precisamente porque a independência entre fatores elimina a dependência não-linear que gera o problema. Mas em desenhos multi-arm estratificados, onde as probabilidades de alocação variam por estrato, o viés pode ser substantivo, mesmo com aleatorização perfeita dentro de cada estrato.</p>
+</div>
+<div id="planejando-experimentos-com-declaredesign" class="section level2 hasAnchor" number="4.8">
+<h2><span class="header-section-number">4.8</span> Planejando experimentos com DeclareDesign<a href="experimentos.html#planejando-experimentos-com-declaredesign" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Uma ferramenta útil para planejar e diagnosticar experimentos é o pacote <code>DeclareDesign</code> <span class="citation">(<a href="#ref-blair2023">Blair, Coppock, and Humphreys 2023</a>)</span>. O framework é baseado no acrônimo <strong>MIDA</strong>: <em>Models</em> (modelo dos resultados potenciais), <em>Inquiries</em> (estimando), <em>Data strategies</em> (estratégia de dados/aleatorização) e <em>Answer strategies</em> (estimador).</p>
 <p>Vamos declarar um experimento simples com dois braços (<em>two-arm trial</em>):</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="experimentos.html#cb22-1" tabindex="-1"></a><span class="fu">library</span>(DeclareDesign)</span>
@@ -804,7 +887,7 @@ div.csl-indent {
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="experimentos.html#cb27-1" tabindex="-1"></a>designs <span class="ot">&lt;-</span> <span class="fu">redesign</span>(two_arm_trial, <span class="at">N =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">300</span>, <span class="dv">400</span>, <span class="dv">500</span>))</span>
 <span id="cb27-2"><a href="experimentos.html#cb27-2" tabindex="-1"></a><span class="fu">diagnose_design</span>(designs)</span></code></pre></div>
 <pre><code>## 
-## Research design diagnosis based on 500 simulations. Diagnosis completed in 8 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).
+## Research design diagnosis based on 500 simulations. Diagnosis completed in 9 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).
 ## 
 ##    Design   N Inquiry Estimator Outcome Term N Sims Mean Estimand Mean Estimate
 ##  design_1 100     ATE estimator       Y    Z    500          0.20          0.20
@@ -829,21 +912,21 @@ div.csl-indent {
 ##   -0.00        0.05   0.05   0.97     0.94
 ##  (0.00)      (0.00) (0.00) (0.01)   (0.01)</code></pre>
 </div>
-<div id="resumo-e-próximos-passos-3" class="section level2 hasAnchor" number="4.7">
-<h2><span class="header-section-number">4.7</span> Resumo e próximos passos<a href="#resumo-e-pr%C3%B3ximos-passos-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="resumo-e-próximos-passos-3" class="section level2 hasAnchor" number="4.9">
+<h2><span class="header-section-number">4.9</span> Resumo e próximos passos<a href="#resumo-e-pr%C3%B3ximos-passos-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Neste capítulo, vimos como experimentos aleatórios eliminam o viés de seleção:</p>
 <ol style="list-style-type: decimal">
-<li><p><strong>Permutabilidade.</strong> A aleatorização garante que tratamento e controle sejam comparáveis em expectativa, tornando a SDO um estimador não-viesado do ATE.</p></li>
+<li><p><strong>Permutabilidade.</strong> A aleatorização garante que tratamento e controle sejam comparáveis em esperança, tornando a SDO um estimador não-viesado do ATE.</p></li>
 <li><p><strong>Restrição de exclusão.</strong> Além da aleatorização, precisamos que o resultado dependa do tratamento <em>recebido</em>, não da alocação. Duplo cego e paralelismo na administração ajudam a garantir essa condição.</p></li>
 <li><p><strong>Tipos de aleatorização.</strong> Bernoulli, completa, em bloco e por cluster — cada qual com vantagens e limitações. A aleatorização em bloco tende a aumentar a precisão; a por cluster, a reduzi-la.</p></li>
 <li><p><strong>DeclareDesign.</strong> Permite planejar, simular e diagnosticar um desenho experimental antes de conduzi-lo, avaliando poder, viés e cobertura.</p></li>
 </ol>
 <p>Ao longo do capítulo, supusemos condições ideais: sem <em>attrition</em> e com <em>compliance</em> perfeito. Nos próximos capítulos, veremos o que acontece quando não temos aleatorização e precisamos recorrer a estratégias observacionais.</p>
 </div>
-<div id="exercícios-1" class="section level2 hasAnchor" number="4.8">
-<h2><span class="header-section-number">4.8</span> Exercícios<a href="#exerc%C3%ADcios-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div id="exercício-1-cartões-postais-e-participação-eleitoral" class="section level3 hasAnchor" number="4.8.1">
-<h3><span class="header-section-number">4.8.1</span> Exercício 1: Cartões-postais e participação eleitoral<a href="#exerc%C3%ADcio-1-cart%C3%B5es-postais-e-participa%C3%A7%C3%A3o-eleitoral" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="exercícios-1" class="section level2 hasAnchor" number="4.10">
+<h2><span class="header-section-number">4.10</span> Exercícios<a href="#exerc%C3%ADcios-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="exercício-1-cartões-postais-e-participação-eleitoral" class="section level3 hasAnchor" number="4.10.1">
+<h3><span class="header-section-number">4.10.1</span> Exercício 1: Cartões-postais e participação eleitoral<a href="#exerc%C3%ADcio-1-cart%C3%B5es-postais-e-participa%C3%A7%C3%A3o-eleitoral" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Você conduz um experimento aleatório para testar o efeito de um cartão-postal sobre a participação eleitoral, sorteando independentemente uma moeda para cada sujeito com probabilidade <span class="math inline">\(0 &lt; p &lt; 1\)</span> de receber o tratamento. Assuma SUTVA. Você estima o seguinte modelo por MQO:</p>
 <p><span class="math display">\[Y_i = \beta_0 + \beta_1 D_i + \beta_2 S_i + \beta_3 D_i S_i + u_i\]</span></p>
 <p>em que <span class="math inline">\(Y_i\)</span> indica se o indivíduo votou, <span class="math inline">\(D_i\)</span> é o indicador de tratamento, <span class="math inline">\(S_i\)</span> indica se o indivíduo vive em um estado competitivo (<em>battleground state</em>), e <span class="math inline">\(D_i S_i\)</span> é a interação.</p>
@@ -852,16 +935,16 @@ div.csl-indent {
 <li><p>Como testar a hipótese de que o efeito do tratamento é igual entre os dois tipos de estado?</p></li>
 </ol>
 </div>
-<div id="exercício-2-anúncios-de-tv-e-participação-eleitoral" class="section level3 hasAnchor" number="4.8.2">
-<h3><span class="header-section-number">4.8.2</span> Exercício 2: Anúncios de TV e participação eleitoral<a href="#exerc%C3%ADcio-2-an%C3%BAncios-de-tv-e-participa%C3%A7%C3%A3o-eleitoral" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="exercício-2-anúncios-de-tv-e-participação-eleitoral" class="section level3 hasAnchor" number="4.10.2">
+<h3><span class="header-section-number">4.10.2</span> Exercício 2: Anúncios de TV e participação eleitoral<a href="#exerc%C3%ADcio-2-an%C3%BAncios-de-tv-e-participa%C3%A7%C3%A3o-eleitoral" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Você quer testar se anúncios de TV aumentam a participação eleitoral. O experimento pode ser conduzido em até 16 mercados de mídia, dos quais até 8 podem ser sorteados para o tratamento. Os anúncios só podem ser exibidos para o mercado de mídia como um todo. Você tem informações individuais para todos os eleitores: mercado, idade, sexo, raça/etnia e participação nas duas eleições anteriores.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Como alocar aleatoriamente os mercados ao tratamento?</p></li>
 <li><p>Como analisar esse experimento? Em que nível deve ser feita a análise?</p></li>
 </ol>
 </div>
-<div id="exercício-3-exclusão-de-participantes-em-experimentos-de-survey" class="section level3 hasAnchor" number="4.8.3">
-<h3><span class="header-section-number">4.8.3</span> Exercício 3: Exclusão de participantes em experimentos de survey<a href="#exerc%C3%ADcio-3-exclus%C3%A3o-de-participantes-em-experimentos-de-survey" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="exercício-3-exclusão-de-participantes-em-experimentos-de-survey" class="section level3 hasAnchor" number="4.10.3">
+<h3><span class="header-section-number">4.10.3</span> Exercício 3: Exclusão de participantes em experimentos de survey<a href="#exerc%C3%ADcio-3-exclus%C3%A3o-de-participantes-em-experimentos-de-survey" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Pesquisadores às vezes excluem participantes de um experimento de survey por: (1) não passarem em uma checagem de atenção pré-tratamento; (2) não passarem em uma checagem de atenção pós-tratamento; (3) completarem o survey muito rapidamente.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Se o interesse é no efeito médio do tratamento <strong>entre os sujeitos que não foram excluídos</strong>, qual dessas estratégias é não-viesada?</p></li>
@@ -873,8 +956,14 @@ div.csl-indent {
 </div>
 <h3>References</h3>
 <div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-angrist1998" class="csl-entry">
+Angrist, Joshua D. 1998. <span>“Estimating the Labor Market Impact of Voluntary Military Service Using Social Security Data on Military Applicants.”</span> <em>Econometrica</em> 66 (2): 249–88.
+</div>
 <div id="ref-blair2023" class="csl-entry">
 Blair, Graeme, Alexander Coppock, and Macartan Humphreys. 2023. <em>Research Design in the Social Sciences: Declaration, Diagnosis, and Redesign</em>. Princeton University Press.
+</div>
+<div id="ref-goldsmith-pinkham2024" class="csl-entry">
+Goldsmith-Pinkham, Paul, Peter Hull, and Michal Kolesar. 2024. <span>“Contamination Bias in Linear Regressions.”</span> <em>American Economic Review</em> 114 (12): 4015–51.
 </div>
 </div>
             </section>
