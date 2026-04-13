@@ -170,6 +170,71 @@ Em alguns contextos, não é possível aleatorizar unidades individuais. Por exe
 
 Nesse caso, a unidade de aleatorização é o **cluster** (escola), não a unidade de análise (aluno). No interior de cada cluster, todo mundo é tratado ou não-tratado: não há variação *within*, apenas *between*. Isso causa grande perda de variabilidade nos dados, reduzindo a precisão (aumento no erro padrão). Ainda assim, às vezes é a única aleatorização viável.
 
+## Experimentos fatoriais
+
+Até aqui, consideramos experimentos com um único tratamento binário: cada unidade recebe $D_i = 1$ ou $D_i = 0$. Mas muitas perguntas de pesquisa envolvem **mais de um fator** simultaneamente. Um **experimento fatorial** é um desenho no qual duas ou mais variáveis de tratamento são manipuladas ao mesmo tempo, e todas as combinações de níveis são testadas.
+
+### Desenho $2 \times 2$
+
+O caso mais simples é o fatorial $2 \times 2$: dois fatores, cada um com dois níveis. Suponha que queremos estudar o efeito de (1) um programa de tutoria ($D_{1i} \in \{0,1\}$) e (2) um incentivo financeiro ($D_{2i} \in \{0,1\}$) sobre o desempenho escolar. O desenho fatorial cruza os dois fatores, gerando quatro condições experimentais:
+
+| Grupo | $D_{1i}$ (tutoria) | $D_{2i}$ (incentivo) |
+|:-----:|:------------------:|:--------------------:|
+| 1     | 0                  | 0                    |
+| 2     | 1                  | 0                    |
+| 3     | 0                  | 1                    |
+| 4     | 1                  | 1                    |
+
+A unidade $i$ tem agora quatro resultados potenciais: $Y_i(0,0)$, $Y_i(1,0)$, $Y_i(0,1)$ e $Y_i(1,1)$. O resultado observado é $Y_i = Y_i(D_{1i}, D_{2i})$.
+
+### Efeitos principais e interações
+
+O desenho fatorial permite estimar três tipos de efeito causal:
+
+1. **Efeito principal do fator 1** (tutoria): a diferença média entre receber e não receber tutoria, *averaged* sobre os níveis do incentivo:
+
+$$\tau_1 = \frac{1}{2}\Big[\mathbb{E}[Y_i(1,0) - Y_i(0,0)] + \mathbb{E}[Y_i(1,1) - Y_i(0,1)]\Big]$$
+
+2. **Efeito principal do fator 2** (incentivo): definido analogamente, *averaged* sobre os níveis da tutoria.
+
+3. **Efeito de interação**: mede se o efeito de um fator *depende* do nível do outro:
+
+$$\tau_{12} = \mathbb{E}[Y_i(1,1) - Y_i(0,1)] - \mathbb{E}[Y_i(1,0) - Y_i(0,0)]$$
+
+Se $\tau_{12} = 0$, os efeitos dos dois fatores são aditivos — cada fator opera independentemente do outro. Se $\tau_{12} \neq 0$, há complementaridade (ou substituição) entre os tratamentos.
+
+### Eficiência e generalização
+
+Uma vantagem central do desenho fatorial é a **eficiência**: com a mesma amostra, estimamos os efeitos de múltiplos fatores. Em um desenho $2 \times 2$ com $N$ unidades, cada efeito principal usa *todas* as $N$ observações (comparando as $N/2$ que receberam o fator com as $N/2$ que não receberam), em vez de precisar de um experimento separado para cada fator.
+
+O desenho generaliza para $K$ fatores: um fatorial $2^K$ tem $2^K$ condições experimentais. À medida que $K$ cresce, o número de condições cresce exponencialmente — o que pode tornar o desenho inviável. No Cap. 5, veremos como os **experimentos conjoint** lidam com esse problema ao aleatorizar combinações de muitos fatores simultaneamente para cada respondente.
+
+## Experimentos multi-arm
+
+Uma variação comum é o experimento **multi-arm** (*multi-arm trial*): em vez de cruzar fatores independentes, a pesquisadora define $K+1$ condições mutuamente exclusivas — um controle e $K$ tratamentos — e cada unidade é alocada a exatamente uma delas. No Project STAR, por exemplo, alunos foram aleatorizados para turma regular ($D_i = 0$), turma pequena ($D_i = 1$) ou turma com assistente ($D_i = 2$) dentro de cada escola.
+
+A diferença crucial em relação ao fatorial é que, no multi-arm, os tratamentos são **mutuamente exclusivos**: se $D_i = 1$, então necessariamente $D_i \neq 2$. No fatorial, os fatores são cruzados de forma independente — uma unidade pode receber qualquer combinação.
+
+A análise de um experimento multi-arm tipicamente envolve regredir o resultado em indicadores de cada braço:
+
+$$Y_i = \alpha + \beta_1 X_{i1} + \beta_2 X_{i2} + \gamma W_i + U_i$$
+
+onde $X_{ik} = \mathbb{1}\{D_i = k\}$ e $W_i$ são controles (por exemplo, indicadores de estrato). Com um único tratamento binário e aleatorização condicional, @angrist1998 mostrou que o coeficiente de regressão estima uma média convexa (com pesos positivos) de efeitos causais heterogêneos. No entanto, @goldsmith-pinkham2024 demonstram que esse resultado **não se generaliza** para múltiplos tratamentos.
+
+O problema é o **contamination bias**: quando os tratamentos são mutuamente exclusivos, o resíduo da projeção de $X_{i1}$ sobre os controles e os demais tratamentos não é *mean-independent* de $X_{i2}$, mesmo que ambos sejam aleatorizados condicionalmente em $W_i$. O coeficiente $\beta_1$ passa a incorporar não só o efeito de $D_i = 1$, mas também uma média — com pesos que somam zero e podem ser negativos — dos efeitos dos outros tratamentos. Formalmente:
+
+$$\beta_1 = \underbrace{\mathbb{E}[\lambda_{11}(W_i)\tau_1(W_i)]}_{\text{efeito próprio}} + \underbrace{\mathbb{E}[\lambda_{12}(W_i)\tau_2(W_i)]}_{\text{contaminação}}$$
+
+onde $\tau_k(w) = \mathbb{E}[Y_i(k) - Y_i(0) \mid W_i = w]$ são os efeitos causais condicionais, $\lambda_{11}$ são pesos próprios (convexos), e $\lambda_{12}$ são pesos de contaminação que somam zero.
+
+Duas condições são **necessárias** para que o contamination bias seja relevante:
+
+1. **Heterogeneidade nos efeitos** dos outros tratamentos: se $\tau_2(w)$ é constante em $w$, a covariância com os pesos $\lambda_{12}$ é zero e o viés desaparece.
+
+2. **Variação nos propensity scores** entre estratos: se a probabilidade de cada tratamento é a mesma em todos os estratos, os pesos de contaminação são zero.
+
+Em experimentos fatoriais com aleatorização independente dos fatores, o contamination bias não surge — precisamente porque a independência entre fatores elimina a dependência não-linear que gera o problema. Mas em desenhos multi-arm estratificados, onde as probabilidades de alocação variam por estrato, o viés pode ser substantivo, mesmo com aleatorização perfeita dentro de cada estrato.
+
 ## Planejando experimentos com DeclareDesign
 
 Uma ferramenta útil para planejar e diagnosticar experimentos é o pacote `DeclareDesign` [@blair2023]. O framework é baseado no acrônimo **MIDA**: *Models* (modelo dos resultados potenciais), *Inquiries* (estimando), *Data strategies* (estratégia de dados/aleatorização) e *Answer strategies* (estimador).
@@ -226,7 +291,7 @@ diagnose_design(designs)
 
 Neste capítulo, vimos como experimentos aleatórios eliminam o viés de seleção:
 
-1. **Permutabilidade.** A aleatorização garante que tratamento e controle sejam comparáveis em expectativa, tornando a SDO um estimador não-viesado do ATE.
+1. **Permutabilidade.** A aleatorização garante que tratamento e controle sejam comparáveis em esperança, tornando a SDO um estimador não-viesado do ATE.
 
 2. **Restrição de exclusão.** Além da aleatorização, precisamos que o resultado dependa do tratamento *recebido*, não da alocação. Duplo cego e paralelismo na administração ajudam a garantir essa condição.
 

@@ -52,7 +52,184 @@
 
 ### Conjoint experiments
 
-(conteúdo a ser desenvolvido)
+No Cap. 4, vimos que um experimento fatorial cruza $K$ fatores e testa todas as combinações de níveis. A grande vantagem é a eficiência: com uma única amostra, estimamos efeitos principais e interações. O problema é que o número de condições experimentais cresce exponencialmente com $K$: um fatorial $2^K$ com $K=9$ fatores já exige 512 condições — e se os fatores tiverem mais de dois níveis, o número total de combinações pode chegar às centenas de milhares.
+
+O **experimento conjoint** resolve esse problema de forma elegante. Em vez de observar todas as combinações, cada respondente avalia apenas algumas configurações aleatórias dos fatores. O nome vem do marketing, onde a técnica surgiu nos anos 1970 para estudar como consumidores avaliam produtos com múltiplos atributos. Em ciência política, o método foi formalizado por @hainmueller2014conjoint e rapidamente se tornou uma das ferramentas mais usadas em experimentos de survey.
+
+#### Um exemplo simples
+
+Para fixar ideias, considere um caso com três atributos binários — sem perda de generalidade, a lógica se estende a $K$ atributos com qualquer número de níveis. Suponha que queremos estudar quais características de candidatos a uma vaga de emprego influenciam a decisão de um recrutador. Definimos três atributos:
+
+- $A_i \in \{0,1\}$: tem experiência prévia (1) ou não (0)
+- $B_i \in \{0,1\}$: tem pós-graduação (1) ou não (0)
+- $C_i \in \{0,1\}$: tem carta de recomendação (1) ou não (0)
+
+Com três atributos binários, há $2^3 = 8$ perfis possíveis. No formato *paired conjoint*, o respondente vê dois perfis lado a lado e indica qual prefere:
+
+| Atributo | Candidato 1 | Candidato 2 |
+|:---------|:-----------:|:-----------:|
+| Experiência | Sim | Não |
+| Pós-graduação | Não | Sim |
+| Carta de recomendação | Sim | Sim |
+
+*Qual dos dois candidatos você contrataria?*
+
+Para cada perfil, os valores de $A$, $B$ e $C$ são sorteados **independentemente**, cada um com probabilidade $1/2$. O respondente avalia vários pares; digamos, cinco. A variável de resultado é $Y_{ij} = 1$ se o perfil $j$ foi escolhido pelo respondente $i$, e $Y_{ij} = 0$ caso contrário.
+
+**Por que a aleatorização independente importa?** Considere o efeito do atributo $A$ (experiência). Como $A$ é sorteado independentemente de $B$ e $C$, os perfis com $A=1$ têm, em esperança, a mesma distribuição de $B$ e $C$ que os perfis com $A=0$. Isso é exatamente a lógica da permutabilidade do Cap. 4: a simples diferença de médias
+
+$$\mathbb{E}[Y_{ij} \mid A = 1] - \mathbb{E}[Y_{ij} \mid A = 0]$$
+
+identifica o efeito causal médio de ter experiência sobre a probabilidade de ser escolhido — *averaged* sobre todas as combinações possíveis de $B$ e $C$. Essa quantidade é o **AMCE** (*Average Marginal Component Effect*) do atributo $A$.
+
+A estimação é direta. Regredimos $Y_{ij}$ nos três atributos:
+
+$$Y_{ij} = \alpha + \beta_A A_{ij} + \beta_B B_{ij} + \beta_C C_{ij} + \varepsilon_{ij}$$
+
+Pela independência dos atributos, cada coeficiente estima o AMCE correspondente sem viés: $\beta_A$ captura o efeito de experiência, $\beta_B$ o de pós-graduação, e $\beta_C$ o de carta de recomendação. Não há confundimento entre os atributos porque a aleatorização garante ortogonalidade.
+
+**Interações.** É possível que o efeito de experiência dependa de ter pós-graduação — por exemplo, experiência pode importar mais para candidatos sem pós. Para captar isso, incluímos interações:
+
+$$Y_{ij} = \alpha + \beta_A A_{ij} + \beta_B B_{ij} + \beta_C C_{ij} + \gamma_{AB} A_{ij} B_{ij} + \varepsilon_{ij}$$
+
+Se $\gamma_{AB} \neq 0$, o efeito de $A$ depende do nível de $B$ — e o AMCE de $A$ é a média dos efeitos condicionais ponderada pela distribuição de $B$: $\beta_A + \gamma_{AB} \cdot P(B=1)$.
+
+#### O desenho geral
+
+O exemplo acima generaliza naturalmente. Na prática, um conjoint pode ter muitos atributos com muitos níveis. A estrutura geral é:
+
+1. **Definição dos atributos e níveis.** A pesquisadora define $K$ atributos, cada um com $L_k$ níveis possíveis. Os atributos representam dimensões do objeto de avaliação — características de um candidato político, de um imigrante, de uma política pública, etc.
+
+2. **Geração aleatória de perfis.** Para cada tarefa, o computador sorteia independentemente o nível de cada atributo, gerando um perfil completo. No formato *paired conjoint*, dois perfis são gerados e exibidos lado a lado.
+
+3. **Escolha forçada.** O respondente indica qual dos dois perfis prefere (ou avalia cada um em uma escala). Cada respondente tipicamente avalia entre 5 e 10 pares.
+
+#### Exemplos de aplicação
+
+**Atitudes em relação a imigrantes.** @hainmueller2015 apresentam aos respondentes pares de perfis de imigrantes candidatos à admissão nos EUA, variando nove atributos simultaneamente: educação, profissão, país de origem, habilidade linguística, experiência profissional, planos de emprego, motivo da aplicação, gênero e visitas prévias ao país. Cada atributo tem entre 2 e 11 níveis, gerando quase 900.000 perfis possíveis — dos quais cada respondente avalia apenas 10 (cinco pares). A aleatorização independente dos atributos permite isolar o efeito causal de cada característica sobre a probabilidade de o imigrante ser preferido, algo impossível com dados observacionais, nos quais atributos como país de origem, educação e profissão estão fortemente correlacionados.
+
+**Escolha de candidatos políticos.** Experimentos conjoint são amplamente usados para estudar preferências eleitorais. Os atributos dos candidatos podem incluir partido, gênero, raça, idade, posições em políticas específicas e experiência política. Isso permite responder, por exemplo, se eleitores discriminam candidatas mulheres *quando controlamos por todas as outras características*, ou se a posição em uma política específica importa mais do que a filiação partidária.
+
+**Preferências por políticas públicas.** Um terceiro uso é avaliar pacotes de políticas. Por exemplo, qual combinação de alíquota de imposto, foco de gasto público e público-alvo os cidadãos preferem? O conjoint permite estimar a importância relativa de cada dimensão na avaliação geral do pacote.
+
+#### O AMCE: definição geral
+
+No exemplo simples, o AMCE de $A$ era a diferença de médias $\mathbb{E}[Y \mid A=1] - \mathbb{E}[Y \mid A=0]$. O caso geral é análogo. Sejam $T_1, T_2, \ldots, T_K$ os $K$ atributos, cada um aleatorizado independentemente. O AMCE do atributo $k$ ao mudar do nível $t$ para o nível $t'$ é:
+
+$$\text{AMCE}_k(t' \text{ vs. } t) = \mathbb{E}_{T_{-k}}\Big[\mathbb{E}[Y_i \mid T_k = t', T_{-k}] - \mathbb{E}[Y_i \mid T_k = t, T_{-k}]\Big]$$
+
+onde $T_{-k}$ denota todos os atributos exceto $k$, e a esperança externa é tomada sobre a distribuição marginal de $T_{-k}$. Em palavras: fixamos o atributo $k$ em $t'$ vs. $t$, calculamos a diferença no resultado para cada configuração dos demais atributos, e fazemos o *averaging* sobre todas as configurações.
+
+**Interpretação.** O AMCE responde à pergunta: "Em média, quanto muda a probabilidade de um perfil ser preferido quando mudamos o atributo $k$ de $t$ para $t'$?". A média é ponderada pela distribuição dos outros atributos no experimento — tipicamente uniforme quando a aleatorização é independente. Note que o AMCE é um efeito *marginal* e pode mascarar heterogeneidade: o efeito de educação sobre preferência por imigrantes pode depender do país de origem. @leeper2020 discutem como estimar AMCEs condicionais para subgrupos específicos.
+
+#### Identificação e estimação
+
+No exemplo simples, vimos que a regressão de $Y$ nos indicadores dos atributos estima os AMCEs diretamente. A mesma lógica se aplica ao caso geral. Regredimos o indicador de escolha em variáveis indicadoras para cada nível de cada atributo, omitindo a categoria de referência:
+
+$$Y_{ij} = \alpha + \sum_{k=1}^{K} \sum_{\ell=2}^{L_k} \beta_{k\ell} \cdot \mathbb{1}\{T_{ijk} = \ell\} + \varepsilon_{ij}$$
+
+Os coeficientes $\beta_{k\ell}$ estimam os AMCEs: a mudança na probabilidade de escolha ao passar do nível de referência para o nível $\ell$ do atributo $k$. Como cada respondente avalia múltiplos perfis, os erros padrão devem ser **clusterizados por respondente** para levar em conta a correlação intra-indivíduo.
+
+A suposição de identificação é a **aleatorização independente dos atributos**. Assim como no exemplo com $A$, $B$ e $C$, se os atributos são sorteados independentemente, os perfis diferindo em um atributo são comparáveis em todos os demais — garantindo a permutabilidade. @hainmueller2014conjoint demonstram que esse estimador é não-paramétrico: não requer suposições sobre a forma funcional da relação entre atributos e resultado.
+
+#### Restrições na aleatorização
+
+Na prática, pesquisadores frequentemente impõem **restrições** à aleatorização para evitar perfis implausíveis. Por exemplo, @hainmueller2015 restringem profissões de alta qualificação (médico, analista financeiro, pesquisador) a perfis com pelo menos dois anos de faculdade, e restringem o motivo "fuga de perseguição" a países como Iraque, Sudão e Somália. Essas restrições são substantivamente razoáveis, mas criam **dependência entre atributos**: saber que um imigrante é médico informa sobre seu nível educacional.
+
+Quando há restrições, a identificação do AMCE ainda é possível, mas sua interpretação muda. O efeito marginal passa a ser *averaged* sobre a distribuição *restrita* dos demais atributos — ou seja, apenas sobre as combinações permitidas pelo desenho. Na prática, a estimação requer interagir os atributos vinculados pela restrição, fazendo o *averaging* do efeito sobre os estratos válidos [@hainmueller2014conjoint].
+
+Do ponto de vista da estimação por regressão, as restrições criam uma situação análoga ao **contamination bias** discutido no Cap. 4 para experimentos multi-arm [@goldsmith-pinkham2024]. Quando os atributos não são independentes, o resíduo da projeção de um atributo sobre os controles pode ficar correlacionado com outros atributos. Uma regressão que ignore as restrições — tratando todos os atributos como independentes — pode produzir estimativas dos AMCEs contaminadas pelos efeitos de atributos correlacionados. A solução é explicitar as restrições no modelo, tipicamente via interações entre os atributos vinculados.
+
+#### Decisões de desenho
+
+Um experimento conjoint exige quatro decisões de desenho que afetam diretamente a qualidade dos dados e a interpretação dos resultados. Discutimos cada uma a seguir.
+
+**1. Quais e quantos atributos por perfil?**
+
+A escolha dos atributos deve ser motivada pela teoria: quais dimensões do objeto de avaliação são relevantes para a pergunta de pesquisa? No estudo de @hainmueller2015, os nove atributos foram escolhidos para testar hipóteses concorrentes sobre atitudes em relação a imigrantes (competição econômica, etnocentrismo, normas).
+
+O trade-off central é entre **abrangência** e **carga cognitiva**. Mais atributos permitem testar mais hipóteses simultaneamente e reduzem o risco de viés por atributo omitido — se o respondente infere um atributo não exibido a partir dos atributos exibidos, o AMCE pode ser viesado. Por outro lado, perfis com muitos atributos são mais difíceis de processar, aumentando o risco de que respondentes ignorem parte da informação (*attribute non-attendance*) ou respondam de forma superficial (*satisficing*). A prática comum é usar entre 5 e 10 atributos.
+
+Quanto ao número de **níveis** por atributo, há uma assimetria importante: atributos com mais níveis tendem a ter AMCEs maiores em magnitude, simplesmente porque a distância entre os níveis extremos é maior. Ao comparar AMCEs entre atributos, é preciso levar em conta que diferenças podem refletir o número de níveis, não a importância substantiva do atributo.
+
+**2. Quantos perfis por tarefa?**
+
+O formato mais comum é o *paired conjoint*: dois perfis por tarefa. Mas é possível exibir três ou mais perfis simultaneamente.
+
+| | Prós | Contras |
+|:--|:-----|:--------|
+| **2 perfis** | Mais simples cognitivamente; escolha forçada natural; formato mais estudado e validado | Menos informação por tarefa |
+| **3+ perfis** | Mais informação por tarefa; pode mimetizar decisões reais com múltiplas opções | Maior carga cognitiva; análise mais complexa; menos validação empírica |
+
+Na grande maioria das aplicações em ciência política, dois perfis por tarefa são suficientes e preferíveis pela simplicidade.
+
+**3. Quantas tarefas por respondente?**
+
+Cada tarefa (par de perfis) gera duas observações — uma para cada perfil. Mais tarefas significam mais observações e maior poder estatístico. Mas a partir de certo ponto, o respondente se cansa e passa a responder sem atenção — o fenômeno de *survey satisficing*.
+
+@bansak2018 e @bansak2021 investigam esse trade-off empiricamente. O resultado principal é que os AMCEs permanecem notavelmente estáveis com até 30 tarefas por respondente — o *satisficing* aumenta, mas de forma gradual e sem viés sistemático nos efeitos estimados. Na prática, a maioria dos estudos usa entre 5 e 10 tarefas, equilibrando poder estatístico com tempo total do survey. Estudos com amostras menores podem se beneficiar de mais tarefas por respondente; estudos com amostras grandes podem usar menos.
+
+**4. Escolha forçada ou rating?**
+
+O resultado (*outcome*) pode ser mensurado de duas formas:
+
+*Escolha forçada* (*forced choice*): o respondente indica qual dos dois perfis prefere. O resultado é binário: $Y_{ij} = 1$ se o perfil $j$ foi escolhido. Esta é a abordagem mais comum.
+
+- **Prós:** obriga o respondente a fazer trade-offs entre atributos, o que mimetiza decisões reais (contratar um candidato, votar em um político, admitir um imigrante); neutraliza diferenças em atitudes gerais (ex: pró ou anti-imigração), focando em quais *tipos* são preferidos; variável com propriedades estatísticas simples.
+- **Contras:** perde informação sobre intensidade de preferência (o respondente pode ser quase indiferente ou ter forte preferência); impõe que um perfil seja "melhor" mesmo quando ambos são ruins ou bons.
+
+*Rating*: o respondente avalia cada perfil em uma escala (ex: 1–7). O resultado é contínuo ou ordinal.
+
+- **Prós:** captura intensidade de preferência; permite que ambos os perfis sejam avaliados positiva ou negativamente; mais informação por observação.
+- **Contras:** suscetível a heterogeneidade no uso da escala (respondentes diferentes usam a escala de formas diferentes); pode ser influenciado por desejabilidade social; a interpretação do AMCE como "mudança em pontos na escala" é menos intuitiva que "mudança na probabilidade de ser escolhido".
+
+@hainmueller2015 usam ambas as abordagens: escolha forçada como medida principal e rating como checagem de robustez. Os resultados são muito semelhantes. Essa estratégia de usar as duas mensurações é uma boa prática quando viável.
+
+#### O trade-off satisficing–masking
+
+As decisões de desenho acima convergem para uma tensão central no desenho de experimentos conjoint: o **trade-off entre satisficing e masking**.
+
+**Masking** (ou viés por atributo omitido) ocorre quando o perfil exibido não contém todos os atributos relevantes para a decisão do respondente. Nesse caso, o respondente *infere* os atributos omitidos a partir dos atributos exibidos — e essa inferência confunde a estimação dos AMCEs. Por exemplo, se um estudo sobre preferências por imigrantes exibe apenas o país de origem, sem informar educação, idioma ou profissão, o respondente pode assumir que um imigrante mexicano tem baixa escolaridade e pouco inglês, enquanto um imigrante alemão tem alta escolaridade e fala inglês fluente. O AMCE estimado para "país de origem" estaria capturando não apenas o efeito do país em si, mas também o efeito das características inferidas — um problema análogo ao viés de variável omitida em estudos observacionais. A solução para o masking é **incluir mais atributos** no perfil, tornando explícitas as dimensões que o respondente inferiria.
+
+**Satisficing** opera na direção oposta. À medida que o número de atributos, tarefas ou a complexidade do perfil aumenta, o respondente tem mais dificuldade em processar toda a informação. A resposta cognitiva natural é simplificar: focar em um ou dois atributos salientes e ignorar os demais (*attribute non-attendance*), escolher o primeiro perfil aceitável em vez de avaliar cuidadosamente (*primacy effects*), ou responder de forma aleatória. Quando o respondente não processa todos os atributos, os AMCEs dos atributos ignorados são atenuados em direção a zero — um viés que reduz a capacidade de detectar efeitos reais.
+
+O trade-off é inescapável:
+
+- **Perfis com poucos atributos** → menos satisficing, mas mais masking. Os AMCEs estimados podem ser viesados pela inferência dos atributos omitidos.
+- **Perfis com muitos atributos** → menos masking, mas mais satisficing. Os AMCEs estimados podem ser atenuados porque respondentes ignoram parte dos atributos.
+
+**Um exemplo de masking no contexto brasileiro.** Suponha um conjoint sobre preferências eleitorais para vereador com quatro atributos: partido (PT, PL, MDB), gênero, profissão e posição sobre segurança ("armar a população civil" vs. "investir em policiamento comunitário"). Mas o desenho *não inclui* posições sobre pautas de costumes — aborto, educação de gênero nas escolas, drogas. O que acontece?
+
+Ao ver um candidato do PL que defende armar a população, o respondente provavelmente infere que esse candidato também é contra educação de gênero, contra legalização de drogas, e pró-Bolsonaro — porque no mundo real esses atributos estão fortemente correlacionados. Da mesma forma, ao ver uma candidata do PT que defende policiamento comunitário, o respondente infere posições progressistas em pautas de costumes. O AMCE estimado para "partido: PL vs. PT" captura não apenas o efeito do rótulo partidário, mas também o efeito de todas as posições políticas inferidas. O conjoint falha em isolar o efeito do partido porque os atributos omitidos são preenchidos mentalmente pelo respondente.
+
+A solução seria incluir "posição sobre educação de gênero" como atributo adicional e aleatorizá-lo independentemente. Isso quebraria a correlação entre partido e pauta de costumes — um candidato do PL poderia aparecer apoiando educação de gênero, e um do PT poderia aparecer contra. Mas isso nos leva ao outro lado do trade-off: perfis mais complexos e potencialmente implausíveis.
+
+#### Memória de trabalho e heterogeneidade por escolaridade
+
+A gravidade do trade-off satisficing–masking não é uniforme na população. Ela depende da **capacidade cognitiva** do respondente — em particular, dos limites de memória de trabalho (*working memory*).
+
+A pesquisa em psicologia cognitiva estabelece que a memória de trabalho consegue manter entre 3 e 4 itens complexos simultaneamente (Cowan, 2001), embora o número clássico de Miller (1956) seja "sete, mais ou menos dois" para itens simples. Um perfil de conjoint com 7 ou mais atributos provavelmente excede a capacidade de processamento de muitos respondentes. Quando isso ocorre, o respondente adota **heurísticas não-compensatórias**: em vez de ponderar todos os atributos, foca em um ou dois atributos salientes e decide com base neles — ignorando os demais (*attribute non-attendance*).
+
+A teoria do satisficing de Krosnick (1991) formaliza essa intuição: a probabilidade de satisficing é função de (a) capacidade cognitiva do respondente, (b) motivação, e (c) dificuldade da tarefa. Respondentes com menor escolaridade — que, em média, têm menos experiência com tarefas cognitivas complexas e menor familiaridade com surveys — estão mais sujeitos a satisficing. Isso tem implicações diretas para pesquisas no Brasil:
+
+1. **Amostras representativas brasileiras** incluem respondentes com ampla variação em escolaridade — de analfabetos funcionais a pós-graduados. Um desenho que funciona bem para respondentes com ensino superior pode gerar satisficing severo para respondentes com ensino fundamental incompleto.
+
+2. **Pesquisas com elites vs. população em geral** enfrentam versões diferentes do trade-off. Para elites (políticos, burocratas, empresários), o risco de satisficing é menor, permitindo perfis mais complexos com mais atributos. Para amostras populacionais, perfis mais simples são preferíveis — mas isso aumenta o risco de masking.
+
+3. **Correlações entre atributos** podem variar por grupo social. No exemplo eleitoral acima, a associação entre partido e posições sobre costumes pode ser mais forte entre eleitores mais informados (que conhecem as posições programáticas dos partidos) e mais fraca entre eleitores menos informados (que podem não associar automaticamente PL a pautas conservadoras). Isso significa que o masking pode operar de forma diferente para subgrupos distintos da amostra.
+
+Não há solução universal para esse trade-off. Algumas estratégias ajudam a mitigá-lo:
+
+1. **Incluir apenas atributos com forte justificativa teórica** — cada atributo adicional deve resolver um problema de masking específico, não estar lá "por precaução".
+2. **Testar satisficing empiricamente** — comparar AMCEs entre as primeiras e últimas tarefas, ou entre respondentes rápidos e lentos. Se os AMCEs mudam sistematicamente, pode haver satisficing. Comparar AMCEs entre subgrupos por escolaridade pode revelar heterogeneidade na atenção aos atributos.
+3. **Usar checagens de atenção** — embora com cuidado, pois excluir respondentes desatentos pode comprometer a representatividade da amostra (ver Exercício 3 do Cap. 4).
+4. **Adaptar o formato para populações de baixa escolaridade** — usar perfis com apoio visual (imagens, ícones), reduzir o número de atributos e tarefas, e considerar aplicação presencial com entrevistador em vez de survey online auto-administrado.
+
+#### Validade externa e visualização
+
+**Validade externa.** Uma crítica frequente a experimentos de survey é que escolhas hipotéticas podem não refletir comportamento real. @hainmueller2015validation oferecem evidência tranquilizadora: em um estudo sobre naturalização na Suíça, as preferências reveladas no conjoint foram consistentes com as decisões reais de referendos municipais.
+
+**Visualização dos resultados.** O formato padrão de apresentação dos resultados de um conjoint é o *dot plot* com intervalos de confiança: cada ponto representa o AMCE de um nível em relação à categoria de referência (que aparece sem intervalo), organizados por atributo. Esse formato permite comparar rapidamente a magnitude dos efeitos entre atributos e níveis.
 
 ### Experimentos naturais e quasi-experimentos em surveys
 
