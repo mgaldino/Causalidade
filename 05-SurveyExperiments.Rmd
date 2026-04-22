@@ -8,47 +8,159 @@
 2. Identificar questões práticas que surgem na implementação de experimentos e avaliar como antecipá-las e respondê-las
 3. Avaliar as forças, fraquezas e questões éticas de experimentos como desenho de pesquisa e método de avaliação
 
-(conteúdo a ser desenvolvido)
+Experimentos de survey combinam dois elementos centrais da pesquisa em ciências sociais: o controle experimental da aleatorização com o alcance dos surveys amostrais. Em um experimento de survey, os respondentes são aleatoriamente designados a diferentes condições experimentais — formulações distintas de perguntas, vinhetas com informações variadas, ou perfis com atributos sorteados — e as diferenças nas respostas entre os grupos são atribuídas ao efeito causal do tratamento.
+
+A lógica é idêntica à do Cap. 4: a aleatorização garante permutabilidade e elimina o viés de seleção. A diferença é o contexto de aplicação. Em um experimento de campo, o tratamento é uma intervenção no mundo real — um programa social, um cartão enviado a eleitores, um incentivo financeiro. Em um experimento de survey, o tratamento é *informacional*: uma diferença no texto lido pelo respondente, nos atributos de um perfil avaliado, ou na ordem das perguntas. Isso torna os experimentos de survey mais rápidos, baratos e fáceis de implementar — mas também levanta questões sobre se as respostas em um survey refletem atitudes e comportamentos reais.
+
+Este capítulo apresenta a origem, os usos e os principais tipos de experimentos de survey, com ênfase nas questões de identificação causal e nas decisões de desenho que determinam a validade dos resultados. Começamos com a história do campo, passamos pela lógica de identificação, e em seguida detalhamos os principais paradigmas: priming, framing, endorsement experiments, list experiments e conjoint experiments.
 
 ## Origem, história e evolução dos experimentos de survey
 
-(conteúdo a ser desenvolvido)
+A história dos experimentos de survey começa na década de 1940, quando pesquisadores de opinião pública descobriram que pequenas mudanças na formulação de perguntas podiam produzir grandes diferenças nas respostas. O caso mais famoso é o de @rugg1941: perguntando se os EUA deveriam "proibir" (*forbid*) discursos contra a democracia, 54% disseram sim; perguntando se deveriam "não permitir" (*not allow*) os mesmos discursos, 75% disseram sim — apesar de as duas formulações serem logicamente equivalentes. @cantril1940 documentou resultados similares em uma série de experimentos de formulação (*wording experiments*), estabelecendo que a forma da pergunta era tão importante quanto seu conteúdo.
+
+Esses achados iniciais eram essencialmente descritivos: documentavam a sensibilidade das respostas à formulação, mas sem uma teoria sistemática sobre por que e quando os efeitos ocorriam. O método usado era o **split-ballot** (ou *split-half*): a mesma amostra era dividida aleatoriamente em dois grupos, cada um recebendo uma versão diferente da pergunta. É o desenho experimental mais simples possível, e continua sendo a base de muitos experimentos de survey contemporâneos.
+
+O avanço teórico veio nas décadas seguintes. @schuman1981 catalogaram sistematicamente os efeitos de formulação, ordem de perguntas, formato de resposta e outras características do instrumento de survey. A contribuição central foi demonstrar que esses efeitos não eram idiossincrasias, mas padrões replicáveis que obedeciam a princípios cognitivos. Por exemplo, o efeito *forbid/allow* reflete uma assimetria linguística: "proibir" evoca uma ação mais forte e autoritária do que "não permitir", mesmo que o resultado prático seja idêntico.
+
+Paralelamente, a psicologia cognitiva ofereceu os mecanismos explicativos. @tourangeau2000 formalizaram um modelo do processo de resposta a surveys em quatro etapas: (1) **compreensão** da pergunta, (2) **recuperação** de informações relevantes da memória, (3) **julgamento** e integração dessas informações, e (4) **formatação** da resposta para se adequar às opções oferecidas. Experimentos de survey podem intervir em qualquer uma dessas etapas: um *framing experiment* altera a compreensão; um *priming experiment* afeta a recuperação; a escala de resposta afeta a formatação. Esse modelo tornou possível *prever* efeitos de desenho, não apenas documentá-los post hoc.
+
+A partir dos anos 1990, duas transformações expandiram o alcance dos experimentos de survey. Primeiro, a revolução tecnológica: surveys assistidos por computador (CATI, CAPI, CAWI) tornaram possível aleatorizar tratamentos automaticamente, sem depender de versões impressas diferentes do questionário. Segundo, o trabalho de Paul Sniderman e colegas demonstrou que experimentos de survey podiam fazer mais do que testar efeitos de formulação — podiam testar *teorias* sobre como cidadãos formam opiniões políticas [@sniderman2011handbook]. Em vez de apenas mostrar que a forma da pergunta importa, experimentos de survey passaram a testar hipóteses causais sobre os determinantes das atitudes. Um exemplo influente é o *multi-investigator study* de Sniderman: em vez de um único fator (formulação A vs. B), o desenho cruza múltiplos fatores — raça do alvo, tipo de política, enquadramento — para testar predições teóricas específicas.
+
+A partir dos anos 2010, o crescimento de plataformas online (Amazon Mechanical Turk, Prolific, Lucid) e painéis amostrais (YouGov, LISS) reduziu dramaticamente o custo e o tempo de implementação. @mullinix2015 mostraram que os efeitos experimentais estimados em amostras de conveniência (MTurk) são notavelmente similares aos obtidos em amostras probabilísticas nacionais — embora os níveis absolutos das variáveis possam diferir, os *efeitos do tratamento* tendem a ser replicáveis. Essa evidência abriu caminho para a proliferação de experimentos de survey em ciência política, relações internacionais e políticas públicas.
+
+Hoje, experimentos de survey são um dos métodos mais utilizados em ciência política empírica. @mutz2011 oferece o tratamento de referência sobre *population-based survey experiments* — experimentos conduzidos em amostras representativas da população, combinando validade interna (aleatorização) com validade externa (representatividade amostral).
 
 ## Usos de experimentos de survey
 
-(conteúdo a ser desenvolvido)
+Experimentos de survey servem a quatro grandes propósitos na pesquisa em ciências sociais.
+
+**1. Testar teorias causais sobre formação de atitudes.** O uso mais ambicioso é testar hipóteses sobre *como* e *por que* cidadãos formam opiniões. O modelo canônico é o de @zaller1992: a opinião expressa em um survey é função de (a) quais considerações estão acessíveis na memória no momento da pergunta, e (b) como essas considerações são integradas em uma resposta. Experimentos de survey manipulam diretamente a acessibilidade (via priming) ou o enquadramento (via framing) para testar predições derivadas desse e de outros modelos teóricos.
+
+**2. Mensurar atitudes sensíveis.** Quando perguntas diretas produzem respostas socialmente desejáveis — sobre preconceito racial, corrupção, comportamento ilegal, apoio a grupos extremistas —, técnicas como list experiments e endorsement experiments permitem estimar a prevalência da atitude sem que nenhum respondente individual revele sua posição. Esse uso é particularmente relevante em contextos autoritários ou semiautoritários, onde a desejabilidade social e o medo de represálias podem distorcer severamente as respostas.
+
+**3. Estudar o impacto de elementos comunicativos.** Como a forma de apresentar uma questão política afeta o apoio público? Framing experiments e priming experiments manipulam sistematicamente a apresentação da informação para isolar o efeito causal de enquadramentos específicos. Esse tipo de estudo é diretamente relevante para entender a comunicação política, o efeito da mídia e a formação da agenda pública.
+
+**4. Avaliar preferências multidimensionais.** Quando decisões envolvem múltiplos atributos — votar em um candidato, aceitar um imigrante, apoiar uma política pública —, conjoint experiments permitem estimar a importância causal de cada dimensão. Esse uso cresceu enormemente na última década e é detalhado na seção dedicada a conjoint neste capítulo.
+
+Uma distinção fundamental, enfatizada por @gaines2007, é entre experimentos de survey usados para **identificação causal** e experimentos usados como **ferramentas de mensuração**. No primeiro caso, o objetivo é estimar o efeito de um tratamento sobre uma atitude ou comportamento — e a validade depende da aleatorização. No segundo caso, o objetivo é medir com mais precisão uma atitude que perguntas diretas não captam bem — e a validade depende de suposições sobre o mecanismo de resposta (como a suposição de "no design effect" em list experiments). Essa distinção importa porque os dois usos enfrentam ameaças diferentes à validade e requerem desenhos distintos.
 
 ## Metodologia de survey
 
-(conteúdo a ser desenvolvido)
+Experimentos de survey herdam todos os problemas metodológicos de surveys convencionais — e acrescentam alguns próprios. Antes de discutir os tipos específicos de experimentos, vale revisar brevemente as questões metodológicas que afetam qualquer survey e como elas interagem com o componente experimental.
+
+**Efeitos de formulação.** Como vimos na seção histórica, a escolha de palavras afeta as respostas. A distinção *forbid/not allow* é o caso clássico, mas efeitos de formulação são ubíquos: perguntar sobre "mudança climática" vs. "aquecimento global" produz respostas diferentes; perguntar sobre "assistência social" vs. "ajuda aos pobres" também. Para o experimentalista, a implicação é que o texto exato do tratamento importa — e deve ser reportado integralmente, não apenas resumido.
+
+**Efeitos de ordem.** A sequência em que perguntas são apresentadas pode afetar as respostas. Perguntas anteriores ativam certas considerações na memória (*carryover effects*), que influenciam as respostas subsequentes. Em um experimento de survey, efeitos de ordem podem contaminar o tratamento se as perguntas contextuais não forem controladas. A solução padrão é aleatorizar a ordem das perguntas não experimentais.
+
+**Efeitos de escala.** O formato das opções de resposta — escala de 5 ou 7 pontos, rótulos verbais ou numéricos, inclusão de ponto médio — afeta a distribuição das respostas. Em comparações entre condições experimentais, esses efeitos são constantes (ambos os grupos usam a mesma escala) e portanto não viesam as estimativas. Mas se o pesquisador quer comparar resultados entre surveys com escalas diferentes, a interpretação se complica.
+
+**Satisficing.** @krosnick1991 introduziu o conceito de *survey satisficing*: em vez de processar cuidadosamente cada pergunta (*optimizing*), respondentes com baixa motivação ou capacidade cognitiva adotam atalhos — escolhem a primeira opção aceitável, respondem no ponto médio, ou seguem padrões repetitivos. Para experimentos de survey, o satisficing atenua os efeitos do tratamento em direção a zero, pois respondentes que não processam o estímulo experimental respondem como se estivessem no grupo de controle. Esse problema é particularmente relevante em surveys longos e em amostras com grande variação em escolaridade — como é o caso de surveys com amostras representativas da população brasileira.
+
+**Desejabilidade social.** Respondentes tendem a dar respostas que os façam parecer "bons" — menos preconceituosos, mais informados, mais participativos. Em um experimento de survey, a desejabilidade social pode interagir com o tratamento: se o tratamento torna mais saliente uma norma social (ex: "especialistas dizem que X é racismo"), a resposta pode refletir a conformidade à norma e não uma mudança genuína de atitude. Técnicas indiretas de mensuração (list experiments, endorsement experiments) foram desenvolvidas precisamente para contornar esse problema.
 
 ## Mensuração e temas sensíveis
 
-(conteúdo a ser desenvolvido)
+Uma das contribuições mais importantes dos experimentos de survey é oferecer ferramentas para medir atitudes e comportamentos que respondentes não revelam quando perguntados diretamente. A lógica geral é substituir a pergunta direta por um desenho experimental que permite estimar a prevalência da atitude sensível *na amostra* sem identificar qual respondente individual a possui.
+
+**O problema.** Considere a pergunta: "Você já pagou propina a um funcionário público?". A resposta honesta pode ter consequências sociais ou legais. O resultado previsível é subreporte: a proporção que responde "sim" subestima a prevalência real. Esse viés de desejabilidade social (*social desirability bias*) é sistemático — não aleatório — e portanto não se cancela com amostras maiores.
+
+**Resposta aleatorizada (randomized response).** A técnica mais antiga para temas sensíveis foi proposta por @warner1965. A ideia é elegante: o respondente usa um mecanismo aleatório (um dado, uma moeda) para decidir se responde a pergunta sensível ou a uma pergunta inocente — sem que o entrevistador saiba qual pergunta foi respondida. Por exemplo: "Lance um dado em segredo. Se cair 1, responda 'sim' independentemente da sua opinião. Se cair 2 a 6, responda honestamente: você já pagou propina?" Como o entrevistador não sabe o resultado do dado, a resposta individual é protegida. Mas, conhecendo a probabilidade do mecanismo ($1/6$), o pesquisador pode estimar a proporção verdadeira na amostra por álgebra simples.
+
+Seja $p$ a proporção verdadeira que pagou propina e $\pi = P(\text{sim observado})$ a proporção observada de respostas "sim". Pelo mecanismo descrito: $\pi = \frac{1}{6} \cdot 1 + \frac{5}{6} \cdot p$, logo $p = \frac{6\pi - 1}{5}$. O custo é eficiência: os erros padrão são substancialmente maiores do que com perguntas diretas, pois parte da variação nas respostas vem do mecanismo aleatório, não da atitude.
+
+**List experiments (técnica de contagem de itens).** Uma alternativa mais moderna, que será detalhada na seção sobre tipos de experimentos, é o list experiment. O respondente recebe uma lista de itens e reporta apenas *quantos* se aplicam a ele — não *quais*. O grupo de tratamento recebe um item sensível adicional. A diferença entre as médias dos grupos estima a proporção que endossa o item sensível. A vantagem sobre a resposta aleatorizada é que o procedimento é mais intuitivo para o respondente e não requer mecanismos externos.
+
+**Endorsement experiments.** Quando o tema sensível envolve apoio a um grupo ou ator — partidos extremistas, grupos armados, movimentos ilegais —, endorsement experiments atribuem o endosso de uma política a diferentes atores e medem a diferença na aprovação da política. Se a aprovação muda quando o ator muda, a diferença captura o efeito do ator (positivo ou negativo). Esse desenho será detalhado adiante.
+
+A escolha entre essas técnicas depende do contexto. Resposta aleatorizada é mais adequada para comportamentos binários bem definidos (pagou/não pagou propina). List experiments são flexíveis e intuitivos, mas requerem amostras grandes. Endorsement experiments são específicos para atitudes em relação a atores ou grupos.
 
 ## Identificação causal
 
-(conteúdo a ser desenvolvido)
+A identificação causal em experimentos de survey segue a mesma lógica do Cap. 4. Usando a notação de resultados potenciais, cada respondente $i$ tem dois resultados potenciais: $Y_i(1)$ (resposta sob tratamento) e $Y_i(0)$ (resposta sob controle). O efeito causal individual é $\tau_i = Y_i(1) - Y_i(0)$, e o estimando de interesse é tipicamente o ATE: $\tau = \mathbb{E}[Y_i(1) - Y_i(0)]$.
+
+**Aleatorização.** Em um experimento de survey, o tratamento $D_i$ é aleatorizado pelo software do survey: cada respondente é designado a uma condição com probabilidade conhecida. Isso garante $Y_i(1), Y_i(0) \perp D_i$ — permutabilidade — e a simples diferença de médias identifica o ATE sem viés.
+
+**SUTVA.** A suposição de não interferência (SUTVA) é tipicamente plausível em surveys: respondentes são entrevistados isoladamente e não observam as respostas uns dos outros. A exceção são surveys em domicílios, onde um respondente pode discutir as perguntas com familiares antes de o próximo ser entrevistado. Em surveys online, a não interferência é quase automática.
+
+**O que é o "tratamento"?** Uma especificidade dos experimentos de survey é que o tratamento é informacional, não comportamental. O respondente *lê* algo diferente; ele não *experimenta* algo diferente em sua vida. Isso tem implicações para a interpretação dos efeitos. O efeito estimado captura como a informação fornecida pelo experimento afeta a resposta — que pode envolver mudança de atitude genuína, ativação de uma atitude preexistente, ou simplesmente uma resposta mecânica à informação recebida. @gaines2007 alertam que é fácil confundir esses mecanismos, e que a interpretação causal do efeito deve ser cuidadosa: o experimento identifica o efeito da *informação fornecida*, não necessariamente o efeito da *realidade* que a informação descreve.
+
+**Validade interna vs. validade externa.** A validade interna — a capacidade de atribuir a diferença observada ao tratamento — é garantida pela aleatorização, como em qualquer experimento. A validade externa — a capacidade de generalizar os resultados para além da amostra e do contexto — é a questão mais debatida. @mutz2011 argumenta que *population-based survey experiments* (conduzidos em amostras representativas) resolvem parcialmente o problema: os efeitos são internamente válidos *e* estimados para uma população definida. @mullinix2015 complementam mostrando que, na prática, a magnitude dos efeitos é surpreendentemente portável entre amostras de conveniência e probabilísticas.
+
+No entanto, a validade externa envolve mais do que representatividade amostral. O contexto do survey é artificial: o respondente está respondendo perguntas, não tomando decisões reais. A informação é apresentada de forma controlada, sem as complicações do mundo real (fontes múltiplas, informação contraditória, pressão social). Esses fatores podem atenuar ou amplificar os efeitos em relação ao que ocorreria em contextos naturais. A validação cruzada com dados comportamentais — como fizeram @hainmueller2015validation para conjoint — é o padrão-ouro, mas raramente é viável.
 
 ## Tipos de experimentos de survey
 
-(conteúdo a ser desenvolvido)
+Os experimentos de survey variam na forma como o tratamento é administrado e na pergunta causal que respondem. Nesta seção, apresentamos os cinco paradigmas mais utilizados em ciência política: *priming*, *framing*, *endorsement experiments*, *list experiments* e *conjoint experiments*. Cada paradigma tem vantagens e limitações específicas, e a escolha entre eles depende da pergunta de pesquisa.
 
 ### Priming
 
-(conteúdo a ser desenvolvido)
+Um **experimento de priming** expõe o respondente a um estímulo que torna certas considerações mais *acessíveis* na memória, e em seguida mede o efeito dessa acessibilidade sobre uma atitude ou julgamento subsequente. O tratamento não fornece informação nova nem enquadra uma questão de forma diferente — apenas ativa considerações que o respondente já possui.
+
+**Mecanismo.** O modelo teórico subjacente é o de @zaller1992: opiniões não são fixas, mas construídas no momento da pergunta a partir das considerações acessíveis. Diferentes indivíduos possuem diferentes "misturas" de considerações sobre um tema, e a mesma pessoa pode expressar opiniões diferentes dependendo de quais considerações estão no topo da memória. O priming manipula a acessibilidade: ao tornar salientes certas considerações (econômicas, morais, identitárias), altera o peso que elas recebem no julgamento.
+
+**Exemplo clássico.** Perguntar sobre a situação econômica *antes* de perguntar sobre a aprovação presidencial aumenta a correlação entre avaliação econômica e aprovação — porque a pergunta econômica torna as considerações econômicas mais acessíveis. O efeito não é criar uma opinião nova, mas mudar o *critério* usado para avaliar o presidente. Se a economia vai mal, o priming econômico reduz a aprovação; se vai bem, aumenta.
+
+**Desenho típico.** O grupo de tratamento responde a uma bateria de perguntas sobre o tema-prime (ex: imigração, economia, segurança) antes da pergunta-alvo; o grupo de controle responde à pergunta-alvo diretamente, ou após perguntas sobre um tema neutro. A diferença nas respostas à pergunta-alvo entre os grupos captura o efeito do priming.
+
+**Limitações.** A principal dificuldade é distinguir priming de *framing* e de *aprendizado*. Se o estímulo fornece informação nova (não apenas ativa informação preexistente), o mecanismo é framing ou persuasão, não priming. Na prática, a fronteira é difusa: perguntar sobre imigração pode ativar considerações preexistentes *e* fornecer pistas informacionais. Além disso, efeitos de priming tendem a ser de curta duração — decaem com o tempo — o que levanta questões sobre sua relevância prática.
 
 ### Framing
 
-(conteúdo a ser desenvolvido)
+Um **experimento de framing** apresenta a mesma questão ou informação de formas diferentes e mede o efeito da forma de apresentação sobre a resposta. A distinção em relação ao priming é que o framing altera *como* a informação é apresentada, não apenas *quais* considerações são ativadas.
+
+A literatura distingue dois tipos fundamentais de framing [@chong2007].
+
+**Framing de equivalência** (*equivalence framing*). A mesma informação objetiva é apresentada de formas logicamente equivalentes, mas psicologicamente distintas. O exemplo canônico é o "problema da doença asiática" de @tversky1981: um programa que salva 200 de 600 pessoas é preferido quando descrito como "salva 200 vidas" (frame positivo), mas rejeitado quando descrito como "400 morrerão" (frame negativo) — apesar de as duas descrições serem idênticas em conteúdo. Em ciência política, exemplos incluem descrever uma política como custando "$X bilhões" vs. "Y% do orçamento", ou descrever a taxa de desemprego como "95% estão empregados" vs. "5% estão desempregados".
+
+O framing de equivalência é particularmente útil para estudar vieses cognitivos e heurísticas, pois não há justificativa racional para que descrições logicamente idênticas produzam respostas diferentes. Quando produzem, o efeito revela algo sobre o *processo* de formação de julgamentos.
+
+**Framing de ênfase** (*emphasis framing*). Diferentes aspectos de uma questão complexa são enfatizados. Aqui, as versões *não* são logicamente equivalentes — cada frame destaca uma dimensão real do problema. Por exemplo, regulamentação ambiental pode ser enquadrada como questão de "proteção da saúde" ou de "custo para empresas"; aborto pode ser enquadrado como "direito da mulher" ou "proteção da vida". @chong2007 argumentam que o framing de ênfase é o tipo mais relevante para a ciência política, pois reflete a competição real entre narrativas no debate público.
+
+**Desenho típico.** O respondente é aleatorizado para ler uma das versões do frame (tipicamente em um texto de 1-3 parágrafos) antes de responder à pergunta-alvo. A diferença nas respostas entre os grupos captura o efeito causal do frame.
+
+**Moderadores.** @druckman2001 mostra que efeitos de framing são moderados pela credibilidade da fonte: frames apresentados por fontes percebidas como confiáveis produzem efeitos maiores. Além disso, indivíduos com atitudes fortes e cristalizadas são menos suscetíveis a framing — consistente com o modelo de Zaller, segundo o qual pessoas com mais "considerações" prévias são mais resistentes à ativação seletiva.
 
 ### Endorsement experiments
 
-(conteúdo a ser desenvolvido)
+Um **endorsement experiment** é desenhado para medir atitudes em relação a um ator ou grupo cuja avaliação é difícil de captar por pergunta direta — tipicamente porque envolve apoio a grupos controversos, ilegais ou estigmatizados.
+
+**Desenho.** O respondente avalia uma *política pública*, não o ator diretamente. O grupo de tratamento é informado de que a política é endossada pelo ator de interesse; o grupo de controle avalia a mesma política sem menção ao ator (ou com menção a um ator neutro). Se a aprovação da política muda quando o endosso é adicionado, a diferença captura a atitude em relação ao ator.
+
+**Exemplo.** @bullock2011 estudam apoio ao Talibã e a outros grupos militantes no Paquistão. Perguntar diretamente "Você apoia o Talibã?" produziria respostas enviesadas por medo e desejabilidade social. Em vez disso, apresentam políticas concretas (construção de escolas, negociações de paz) e aleatorizam se a política é atribuída ao Talibã, ao governo paquistanês, ou sem atribuição. A diferença na aprovação entre as condições com e sem endosso do Talibã estima a atitude em relação ao grupo. @lyall2013 aplicam o mesmo desenho para medir apoio a grupos combatentes no Afeganistão.
+
+**Estimação.** A versão mais simples é a diferença de médias entre condições. @bullock2011 propõem um modelo hierárquico bayesiano que permite estimar simultaneamente os efeitos de múltiplos atores sobre múltiplas políticas, aumentando a eficiência e permitindo estudar heterogeneidade.
+
+**Vantagens e limitações.** A grande vantagem é que nenhum respondente precisa expressar apoio direto ao grupo — a inferência é feita a partir de diferenças entre condições experimentais. A limitação principal é que o efeito captura uma mistura de (a) atitude em relação ao ator e (b) atitude em relação à política quando associada ao ator. Se a política é intrinsecamente popular ou impopular, o "espaço" para o endosso ter efeito é reduzido. Além disso, o estimando é a *mudança na aprovação da política* causada pelo endosso, não uma medida direta de "apoio" ao grupo — a interpretação requer cuidado.
 
 ### List experiments
 
-(conteúdo a ser desenvolvido)
+O **list experiment** (também chamado de *item count technique* ou *técnica de contagem de itens*) é uma das ferramentas mais utilizadas para medir atitudes e comportamentos sensíveis. O desenho é engenhoso na sua simplicidade.
+
+**Desenho.** O grupo de controle recebe uma lista de $J$ itens não sensíveis e reporta *quantos* (não quais) se aplicam a ele. O grupo de tratamento recebe a mesma lista acrescida de um item sensível ($J+1$ itens) e também reporta o total. A diferença entre as médias dos dois grupos estima a proporção da amostra que endossa o item sensível.
+
+**Exemplo.** Suponha que queremos estimar a proporção de eleitores que venderam seu voto nas últimas eleições. O grupo de controle recebe:
+
+*Quantas das seguintes coisas você fez nas últimas eleições?*
+
+1. Discutiu política com amigos
+2. Assistiu a debates na TV
+3. Consultou pesquisas eleitorais
+
+O grupo de tratamento recebe a mesma lista com um item adicional:
+
+4. Recebeu dinheiro ou benefício em troca do voto
+
+Se a média do grupo de controle é 1,3 e a média do grupo de tratamento é 1,5, a estimativa da proporção que vendeu o voto é $1{,}5 - 1{,}3 = 0{,}2$, ou 20%.
+
+**Identificação.** A suposição central é a de **no design effect**: a presença do item sensível na lista não altera as respostas aos itens não sensíveis. Em outras palavras, o respondente do grupo de tratamento responde aos três itens de controle *da mesma forma* que responderia se não houvesse o quarto item. Se essa suposição falha — por exemplo, se a presença do item sobre compra de votos faz o respondente subreportar outros itens por nervosismo —, a estimativa é viesada.
+
+**Efeitos de teto e piso.** Um problema prático é o *ceiling effect*: se um respondente do grupo de tratamento endossa o item sensível *e* todos os itens de controle, sua contagem máxima ($J+1$) revela diretamente que ele endossa o item sensível — violando a privacidade que o método deveria garantir. O respondente pode antecipar isso e subreportar. O efeito simétrico é o *floor effect*: um respondente que não endossa nenhum item de controle e reporta 1 revela implicitamente o item sensível. A solução padrão é escolher itens de controle com prevalência intermediária — evitando itens que quase todos ou quase ninguém endossa. @blair2012 recomendam incluir pelo menos 3-4 itens de controle e verificar se as distribuições de contagem não se acumulam nos extremos.
+
+**Estimação.** A diferença de médias é o estimador mais simples, mas @blair2012 desenvolvem um framework de máxima verossimilhança que permite incluir covariáveis, testar a suposição de no design effect, e estimar modelos multivariados. O pacote `list` em R implementa esses estimadores.
+
+**Questões práticas.** @kuhn2021 investigam empiricamente o trade-off entre list experiments e perguntas diretas usando *partition validation* — aplicando ambos os métodos na mesma amostra e comparando com validação externa. Os resultados são mistos: list experiments reduzem o viés de desejabilidade social em alguns contextos, mas introduzem ruído substancial (erros padrão muito maiores). Em contextos onde a desejabilidade social é fraca, a pergunta direta pode ser mais eficiente. @riambau2021 mostram que a escolha dos itens placebo afeta os resultados: itens de controle que são eles mesmos sensíveis ou incomuns podem violar a suposição de no design effect.
+
+**Quando usar.** List experiments são mais úteis quando (a) há forte suspeita de viés de desejabilidade social na pergunta direta, (b) a amostra é grande o suficiente para absorver a perda de eficiência, e (c) o pesquisador pode construir itens de controle com prevalência intermediária e sem sensibilidade.
 
 ### Conjoint experiments
 
@@ -225,6 +337,25 @@ Não há solução universal para esse trade-off. Algumas estratégias ajudam a 
 3. **Usar checagens de atenção** — embora com cuidado, pois excluir respondentes desatentos pode comprometer a representatividade da amostra (ver Exercício 3 do Cap. 4).
 4. **Adaptar o formato para populações de baixa escolaridade** — usar perfis com apoio visual (imagens, ícones), reduzir o número de atributos e tarefas, e considerar aplicação presencial com entrevistador em vez de survey online auto-administrado.
 
+#### Abstração e detalhe no desenho experimental
+
+O trade-off satisficing–masking é um caso particular de uma questão mais ampla que afeta todo experimento de survey baseado em vinhetas: **quão abstrato ou detalhado deve ser o estímulo experimental?** @brutger2022 oferecem um framework teórico e evidência empírica sobre essa questão, identificando três dimensões de abstração no desenho experimental.
+
+**1. Hipoteticidade situacional.** O cenário é descrito como hipotético ou real? Pesquisadores frequentemente se preocupam com a necessidade de usar engano (*deception*) para que respondentes "levem a sério" o cenário. Brutger et al. testam essa preocupação em três experimentos e não encontram nenhum efeito: descrever o cenário como explicitamente hipotético, implicitamente hipotético ou real não altera os resultados. Essa é uma boa notícia para pesquisadores que enfrentam restrições éticas contra o uso de engano.
+
+**2. Identidade dos atores.** Os atores na vinheta são reais ou fictícios? Na maioria dos casos, isso não importa — atores fictícios, de baixa saliência e reais produzem resultados semelhantes. A exceção são **atores reais de alta saliência** (ex: Trump, Biden), que amplificam os efeitos do tratamento. A explicação é bayesiana: respondentes têm *priors* mais fortes sobre atores salientes, gerando maior atualização quando recebem informação consistente com esses priors. Para conjoint, isso sugere que usar nomes reais de políticos como nível de um atributo pode inflar o AMCE desse atributo em comparação com atores fictícios.
+
+**3. Detalhe contextual.** Esta é a dimensão com mais consequências para o desenho. Brutger et al. mostram que adicionar detalhe contextual às vinhetas **atenua os efeitos do tratamento**. O mecanismo é cognitivo: mais informação dificulta a capacidade do respondente de *recordar* o tratamento ao qual foi exposto (*treatment recall*). Em outras palavras, o tratamento se dilui no meio de informação adicional.
+
+Crucialmente, os autores distinguem dois tipos de contexto adicional:
+
+- **Contexto *filler***: informação periférica que não interage com o tratamento (ex: adicionar detalhes sobre o cenário político geral em um experimento sobre comércio internacional). Efeito: modesto ou nulo sobre os AMCEs.
+- **Contexto *charged***: informação que interage com o tratamento ou ativa mecanismos adicionais (ex: adicionar informação sobre consequências distributivas em um experimento sobre comércio). Efeito: atenua significativamente o efeito do tratamento.
+
+**Conexão com conjoint.** Em um experimento conjoint, cada atributo adicional funciona como detalhe contextual para os demais atributos. Quando acrescentamos atributos para reduzir o masking, estamos simultaneamente diluindo o "tratamento" — cada atributo individual compete pela atenção do respondente com todos os outros. A distinção filler/charged é especialmente relevante: atributos que interagem substantivamente com o atributo de interesse (charged) têm mais potencial de atenuar seu AMCE do que atributos ortogonais (filler).
+
+Esse resultado reforça que não há solução universal para o dilema satisficing–masking: mais atributos resolvem o masking mas podem atenuar os efeitos via sobrecarga cognitiva. A recomendação prática é **incluir apenas atributos substantivamente necessários** e estar ciente de que vinhetas mais ricas tendem a produzir estimativas mais conservadoras — o que não é necessariamente um problema, se reflete mais fielmente o processo decisório em ambientes informacionalmente ricos.
+
 #### Validade externa e visualização
 
 **Validade externa.** Uma crítica frequente a experimentos de survey é que escolhas hipotéticas podem não refletir comportamento real. @hainmueller2015validation oferecem evidência tranquilizadora: em um estudo sobre naturalização na Suíça, as preferências reveladas no conjoint foram consistentes com as decisões reais de referendos municipais.
@@ -233,34 +364,18 @@ Não há solução universal para esse trade-off. Algumas estratégias ajudam a 
 
 ### Experimentos naturais e quasi-experimentos em surveys
 
-(conteúdo a ser desenvolvido)
+Além de experimentos *planejados*, nos quais o pesquisador controla a aleatorização, é possível explorar **eventos inesperados** que ocorrem *durante a coleta de dados* de um survey para obter variação quasi-experimental.
 
-## Referências
+**A lógica.** Suponha que um survey de campo está sendo aplicado ao longo de duas semanas. No meio da coleta, ocorre um evento exógeno — um ataque terrorista, uma crise econômica, um escândalo político. Os respondentes entrevistados antes do evento servem como grupo de controle; os entrevistados depois, como grupo de tratamento. Se a ordem de entrevista é *como se fosse aleatória* em relação ao evento — ou seja, se os respondentes entrevistados antes e depois são comparáveis em características observáveis —, a comparação pode identificar o efeito causal do evento sobre atitudes.
 
-Cantril, Hadley. 1940. "Problems and Techniques: Experiments in the Wording of Questions." *Public Opinion Quarterly* 4(2): 330–332.
+@munoz2020 formalizam esse desenho e discutem suas condições de validade. Os autores identificam três suposições necessárias:
 
-Bansak, Kirk, Jens Hainmueller, Daniel J. Hopkins and Teppei Yamamoto. 2018. "The Number of Choice Tasks and Survey Satisficing in Conjoint Experiments." *Political Analysis* 26(1): 112–119.
+1. **Exogeneidade temporal.** A ordem em que os respondentes são entrevistados não pode estar correlacionada com o evento. Se a equipe de campo parou a coleta durante o evento e retomou depois com respondentes diferentes (ex: mudou de bairro), a comparação antes/depois confunde o efeito do evento com diferenças entre subgrupos.
 
-Bansak, Kirk, Jens Hainmueller, Daniel J. Hopkins and Teppei Yamamoto. 2021. "Beyond the Breaking Point? Survey Satisficing in Conjoint Experiments." *Political Science Research and Methods* 9(1): 53–71.
+2. **Exclusão de mecanismos espúrios.** A comparação antes/depois pode captar efeitos de confundidores temporais: o clima mudou, é dia da semana vs. fim de semana, houve outra notícia relevante. Quanto mais abrupto e localizado no tempo for o evento, mais crível é a suposição de que nenhum confundidor co-ocorreu.
 
-Bansak, Kirk, Jens Hainmueller, Daniel J. Hopkins, Teppei Yamamoto, James N. Druckman and Donald P. Green. 2021. "Conjoint Survey Experiments." *Advances in Experimental Political Science* p. 19.
+3. **Relevância.** O evento deve plausivelmente afetar a variável de interesse. Um terremoto pode afetar avaliação do governo (pela resposta de emergência), mas dificilmente afeta opiniões sobre comércio internacional.
 
-Blair, Graeme and Kosuke Imai. 2012. "Statistical Analysis of List Experiments." *Political Analysis* 20(1): 47–77.
+**Exemplo.** Uma pesquisadora está conduzindo um survey sobre percepção de segurança em São Paulo. No terceiro dia de coleta, ocorre um tiroteio amplamente noticiado em uma estação de metrô. Se a atribuição dos respondentes ao dia de entrevista é efetivamente aleatória, a comparação de percepção de segurança antes e depois do tiroteio estima o efeito causal do evento.
 
-Gaines, Brian J., James H. Kuklinski and Paul J. Quirk. 2007. "The Logic of the Survey Experiment Reexamined." *Political Analysis* 15: 1–20.
-
-Hainmueller, Jens, Dominik Hangartner and Teppei Yamamoto. 2015. "Validating Vignette and Conjoint Survey Experiments against Real-World Behavior." *Proceedings of the National Academy of Sciences* 112(8): 2395–2400.
-
-Kuhn, Patrick M. and Nick Vivyan. 2021. "The Misreporting Trade-Off between List Experiments and Direct Questions in Practice: Partition Validation Evidence from Two Countries." *Political Analysis*.
-
-Leeper, Thomas J., Sara B. Hobolt and James Tilley. 2020. "Measuring Subgroup Preferences in Conjoint Experiments." *Political Analysis* 28(2): 207–221.
-
-Mullinix, Kevin J., Thomas J. Leeper, James N. Druckman and Jeremy Freese. 2015. "The Generalizability of Survey Experiments." *Journal of Experimental Political Science*.
-
-Muñoz, Jordi, Albert Falcó-Gimeno and Enrique Hernández. 2020. "Unexpected Event during Survey Design: Promise and Pitfalls for Causal Inference." *Political Analysis* 28(2): 186–206.
-
-Mutz, Diana C. 2011. *Population-Based Survey Experiments*. Princeton University Press.
-
-Riambau, Guillem and Kai Ostwald. 2021. "Placebo Statements in List Experiments: Evidence from a Face-to-Face Survey in Singapore." *Political Science Research and Methods* 9(1): 172–179.
-
-Sniderman, Paul M. and James N. Druckman. 2011. "The Logic and Design of the Survey Experiment." *Cambridge Handbook of Experimental Political Science* p. 102.
+**Limitações.** Esse desenho é quasi-experimental, não experimental: a "aleatorização" é pressuposta, não controlada. O pesquisador deve verificar empiricamente que as características observáveis dos respondentes são balanceadas antes e depois do evento — um teste de placebo análogo ao de experimentos aleatórios. Além disso, o efeito estimado é necessariamente de curto prazo: captura a reação imediata ao evento, não seus efeitos duradouros.
