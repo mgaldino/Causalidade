@@ -14,7 +14,18 @@ A lógica é idêntica à do Cap. 4: a aleatorização garante permutabilidade e
 
 ## Origem, história e evolução dos experimentos de survey
 
-A história dos experimentos de survey começa na década de 1940, quando pesquisadores de opinião pública descobriram que pequenas mudanças na formulação de perguntas podiam produzir grandes diferenças nas respostas. O caso mais famoso é o de @rugg1941: perguntando se os EUA deveriam "proibir" (*forbid*) discursos contra a democracia, 54% disseram sim; perguntando se deveriam "não permitir" (*not allow*) os mesmos discursos, 75% disseram sim, apesar de as duas formulações serem logicamente equivalentes. @cantril1940 documentou resultados similares em uma série de experimentos de formulação (*wording experiments*), estabelecendo que a forma da pergunta era tão importante quanto seu conteúdo.
+A história dos experimentos de survey começa na década de 1940, quando pesquisadores de opinião pública descobriram que pequenas mudanças na formulação de perguntas podiam produzir grandes diferenças nas respostas. @cantril1940 conduziu um dos primeiros experimentos sistemáticos de formulação (*wording experiments*), usando o método *split-ballot*: duas amostras representativas de cerca de 1.550 pessoas cada receberam versões ligeiramente diferentes da mesma pergunta, em março de 1940. Uma das perguntas testava se mencionar Hitler alterava o apoio dos americanos a ajudar a Inglaterra e a França:
+
+| Formulação | Fazer mais | Não fazer mais | Sem opinião |
+|:-----------|:----------:|:--------------:|:-----------:|
+| "Os EUA deveriam fazer mais para ajudar a Inglaterra e a França?" | 13% | 75% | 12% |
+| "Os EUA deveriam fazer mais para ajudar a Inglaterra e a França *na luta contra Hitler*?" | 22% | 66% | 12% |
+
+Adicionar "na luta contra Hitler" aumentou o apoio a fazer mais de 13% para 22% (nove pontos percentuais), sem alterar a proporção sem opinião. A menção a um inimigo concreto transformou uma questão abstrata sobre política externa em uma questão sobre combater uma ameaça identificável. Cantril interpretou o resultado como evidência de que a consciência de um inimigo a ser derrotado, além de aliados a serem ajudados, intensificou o desejo de uma vitória Aliada.
+
+No mesmo estudo, Cantril testou o efeito de mencionar o presidente Roosevelt na aprovação da visita de Sumner Welles a capitais europeias: a aprovação se manteve em 43% nas duas versões, mas a desaprovação subiu de 25% para 31% quando Roosevelt era mencionado como responsável, e a proporção sem opinião caiu de 32% para 26%. O nome do presidente trouxe pessoas da categoria "sem opinião" para a desaprovação.
+
+Outro resultado clássico da mesma época é o de @rugg1941: perguntando se os EUA deveriam "proibir" (*forbid*) discursos contra a democracia, 54% disseram sim; perguntando se deveriam "não permitir" (*not allow*) os mesmos discursos, 75% disseram sim, apesar de as duas formulações serem logicamente equivalentes. Esses achados estabeleceram que a forma da pergunta era tão importante quanto seu conteúdo.
 
 Esses achados iniciais eram essencialmente descritivos: documentavam a sensibilidade das respostas à formulação, mas sem uma teoria sistemática sobre por que e quando os efeitos ocorriam. O método usado era o **split-ballot** (ou *split-half*): a mesma amostra era dividida aleatoriamente em dois grupos, cada um recebendo uma versão diferente da pergunta. É o desenho experimental mais simples possível, e continua sendo a base de muitos experimentos de survey contemporâneos.
 
