@@ -167,7 +167,7 @@ Se a média do grupo de controle é 1,3 e a média do grupo de tratamento é 1,5
 
 **Estimação.** A diferença de médias é o estimador mais simples, mas @blair2012 desenvolvem um framework de máxima verossimilhança que permite incluir covariáveis, testar a suposição de no design effect, e estimar modelos multivariados. O pacote `list` em R implementa esses estimadores.
 
-**Questões práticas.** @kuhn2021 investigam empiricamente o trade-off entre list experiments e perguntas diretas usando *partition validation*, aplicando ambos os métodos na mesma amostra e comparando com validação externa. Os resultados são mistos: list experiments reduzem o viés de desejabilidade social em alguns contextos, mas introduzem ruído substancial (erros padrão muito maiores). Em contextos onde a desejabilidade social é fraca, a pergunta direta pode ser mais eficiente. @riambau2021 mostram que a escolha dos itens placebo afeta os resultados: itens de controle que são eles mesmos sensíveis ou incomuns podem violar a suposição de no design effect.
+**Questões práticas.** @kuhn2022 investigam empiricamente o trade-off entre list experiments e perguntas diretas usando *partition validation*, aplicando ambos os métodos na mesma amostra e comparando com validação externa. Os resultados são mistos: list experiments reduzem o viés de desejabilidade social em alguns contextos, mas introduzem ruído substancial (erros padrão muito maiores). Em contextos onde a desejabilidade social é fraca, a pergunta direta pode ser mais eficiente. @riambau2021 mostram que a escolha dos itens placebo afeta os resultados: itens de controle que são eles mesmos sensíveis ou incomuns podem violar a suposição de no design effect.
 
 **Quando usar.** List experiments são mais úteis quando (a) há forte suspeita de viés de desejabilidade social na pergunta direta, (b) a amostra é grande o suficiente para absorver a perda de eficiência, e (c) o pesquisador pode construir itens de controle com prevalência intermediária e sem sensibilidade.
 
@@ -348,7 +348,7 @@ Não há solução universal para esse trade-off. Algumas estratégias ajudam a 
 
 #### Abstração e detalhe no desenho experimental
 
-O trade-off satisficing–masking é um caso particular de uma questão mais ampla que afeta todo experimento de survey baseado em vinhetas: **quão abstrato ou detalhado deve ser o estímulo experimental?** @brutger2022 oferecem um framework teórico e evidência empírica sobre essa questão, identificando três dimensões de abstração no desenho experimental.
+O trade-off satisficing–masking é um caso particular de uma questão mais ampla que afeta todo experimento de survey baseado em vinhetas: **quão abstrato ou detalhado deve ser o estímulo experimental?** @brutger2023 oferecem um framework teórico e evidência empírica sobre essa questão, identificando três dimensões de abstração no desenho experimental.
 
 **1. Hipoteticidade situacional.** O cenário é descrito como hipotético ou real? Pesquisadores frequentemente se preocupam com a necessidade de usar engano (*deception*) para que respondentes "levem a sério" o cenário. Brutger et al. testam essa preocupação em três experimentos e não encontram nenhum efeito: descrever o cenário como explicitamente hipotético, implicitamente hipotético ou real não altera os resultados. Essa é uma boa notícia para pesquisadores que enfrentam restrições éticas contra o uso de engano.
 
