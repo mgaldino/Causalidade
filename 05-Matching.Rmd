@@ -2,7 +2,7 @@
 
 ## Introdução
 
-Na aula de hoje, iremos aprender sobre a principal estratégia de "seleção em observáveis", que é matching. Mas antes, vamos falar de subclassificação, que é uma técnica mais simples e é útil para introduzir a ideia de matching.
+Na aula de hoje, iremos aprender sobre as principais estratégias de "seleção em observáveis": propensity score, matching e ponderação por probabilidade inversa (IPW).
 
 ## Propensity Score
 
@@ -181,7 +181,21 @@ summary(reg2)
 ```
 
 
-Conseguimos recuperar o ATE sem problemas. E não precisei especificar corretamente a forma funcional da variável de controle $w_1$ no modelo principal, pois usei o propensity score. Note que precisei modelar corretamente a regressão que calcula o propensity score. 
+Conseguimos recuperar o ATE sem problemas. E não precisei especificar corretamente a forma funcional da variável de controle $w_1$ no modelo principal, pois usei o propensity score. Note que precisei modelar corretamente a regressão que calcula o propensity score.
+
+## Ponderação por Probabilidade Inversa (IPW)
+
+O código acima já usa uma das aplicações mais importantes do propensity score: a **ponderação por probabilidade inversa** (IPW, ou IPTW — *Inverse Probability of Treatment Weighting*). A ideia é reponderar as observações de modo que, na amostra repesada, o tratamento seja independente das covariáveis — simulando o que um experimento aleatorizado produziria.
+
+O estimador IPW do ATE é:
+
+$$\hat{\tau}_{IPW} = \frac{1}{N}\sum_{i=1}^{N} \left[\frac{D_i Y_i}{\hat{\pi}(X_i)} - \frac{(1-D_i) Y_i}{1-\hat{\pi}(X_i)}\right]$$
+
+A intuição é simples: unidades tratadas com baixa probabilidade de tratamento (baixo $\hat{\pi}$) são "surpreendentes" — representam tipos que normalmente não seriam tratados — e por isso recebem peso maior ($1/\hat{\pi}$ é grande). O oposto vale para os controles. Essa repesagem reconstrói a distribuição de covariáveis que teríamos sob aleatorização.
+
+Para estimar o ATT em vez do ATE, usamos pesos diferentes: $w_i = 1$ para os tratados e $w_i = \hat{\pi}(X_i)/(1-\hat{\pi}(X_i))$ para os controles.
+
+Uma limitação prática do IPW é que, quando o propensity score se aproxima de 0 ou 1 (falta de overlap), os pesos explodem e as estimativas ficam instáveis. Por isso é importante examinar a distribuição do propensity score antes de aplicar IPW, e considerar *trimming* (descartar observações com scores extremos) ou *stabilized weights*.
 
 É útil ver como o pscore está distribuído entre os grupos de tratamento e controle:
 
@@ -514,7 +528,7 @@ Rotina ou algoritmo:
 
 4. Jamais use a variável resposta para fazer o matching.
 
-5. Matching com reposição gera dificuldades para calcular o erro padrão, já que as observações não são independentes.
+5. Matching com reposição gera dificuldades para calcular o erro padrão, já que a mesma unidade de controle pode servir de match para múltiplos tratados, criando dependência entre as observações. Abadie e Imbens (2006) mostram que o bootstrap ingênuo é **inconsistente** para o erro padrão do estimador de nearest-neighbor matching — ou seja, não converge para o valor correto mesmo com $n \to \infty$. O pacote `MatchIt` em R lida com isso ao recomendar o uso de erros-padrão clusterizados por subclasse (`vcov = ~subclass`) na análise pós-matching.
 
 ## Métodos modernos de matching
 

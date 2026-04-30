@@ -139,6 +139,7 @@ experimentos-naturais-e-quasi-experimentos-em-surveys
 propensity-score-e-matching
 introdução-4
 propensity-score
+ponderação-por-probabilidade-inversa-ipw
 suposições-de-identificação
 matching
 intuição
