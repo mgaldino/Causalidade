@@ -162,7 +162,7 @@ Até aqui vimos as condições para que uma variável seja candidata a instrumen
 ## IV com modelo estrutural
 
 $y_i = \beta D_i + \delta_2 U + e_i$
-$D_i = \delta_1 U + \gamma z_i + u_i$
+$D_i = \delta_1 U + \pi z_i + u_i$
 
 As duas equações são estruturais: representam relações causais, não apenas associações estatísticas. Para que $\beta$ seja interpretado como o efeito causal de $D$ sobre $Y$, precisaríamos da exogeneidade do tratamento, $\mathbb{E}[e_i \mid D_i] = 0$. Essa condição falha: $D_i$ é endógeno porque $U$ aparece nas duas equações, gerando viés de variável omitida.
 
@@ -170,7 +170,7 @@ O instrumento $z_i$, por construção do modelo, entra na equação de $D_i$ mas
 
 Vamos supor, para simplificar, que tanto $D_i$ quanto $Z_i$ são binários.
 
-Nós sabemos que diferença simples de média identifica o ATE da segunda equação: $\hat{\gamma} = \bar{D}_{\{Z=1\}} - \bar{D}_{\{Z=0\}} = \frac{\sum_{i} z_i D_i}{\sum_{i} z_i} - \frac{\sum_{i} (1-z_i) D_i}{\sum_{i} (1-z_i)}$.
+Nós sabemos que diferença simples de média identifica o ATE da segunda equação: $\hat{\pi} = \bar{D}_{\{Z=1\}} - \bar{D}_{\{Z=0\}} = \frac{\sum_{i} z_i D_i}{\sum_{i} z_i} - \frac{\sum_{i} (1-z_i) D_i}{\sum_{i} (1-z_i)}$.
 
 
 
@@ -424,12 +424,9 @@ Se o poder é zero, $F = 0$ e IV é apenas a estimativa de MQO.
 
 Ponto chave: quando existem muitos instrumentos, o viés aumenta.
 
-This is the approach initially developed by Staiger and Stock (1997) and Stock and Yogo (2005).
-- Typical rule of thumb: first-stage F-statistic above 10 means that bias won’t be larger than 10% with size of 5%. Very popular!
-- Suposição chave: homocedasticidade!
+Essa abordagem foi desenvolvida originalmente por Staiger e Stock (1997) e refinada por Stock e Yogo (2005). A regra de bolso resultante: estatística F do primeiro estágio acima de 10 implica viés inferior a 10% com nível de significância de 5%. A suposição por trás dessa regra é homocedasticidade.
 
-Montiel Olea and Pfluger( 2013) desenvolveram um teste robusto a heterocedasticidade, com uma estatística F mais apropriada  a (allows for clustering, autocorrelation, etc.)
-- O novo ponto de corte é mais como 23.1
+Montiel-Olea e Pflueger (2013) desenvolveram um teste robusto a heterocedasticidade que admite clustering e autocorrelação. Sob essa estatística F efetiva, o ponto de corte recomendado sobe para cerca de 23,1.
 
 O pacote ivDiag computa essa estatística F. Função eff_F. 
 
