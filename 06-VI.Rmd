@@ -2,9 +2,9 @@
 
 ## Introdução
 
-Como lutar em uma guerra modifica a opinião política de alguém? A pergunta atravessa décadas de debate sobre formação política e juventude. A resposta tentadora é comparar quem combateu com quem não combateu. Mas as duas populações diferem em classe, escolaridade, região e atitudes prévias: quem se alistou voluntariamente, quem ficou de fora por dispensa estudantil ou médica, quem pôde pagar pela faculdade para evitar a convocação. Uma simples diferença de média confunde o efeito da experiência de combate com tudo que distinguiu os indivíduos antes do serviço.
+O risco de ser convocado para uma guerra muda as atitudes políticas de quem o enfrenta? A pergunta atravessa décadas de debate sobre formação política e juventude. A resposta tentadora seria comparar quem foi convocado com quem não foi, ou quem combateu com quem não combateu. Mas essas populações diferem em classe, escolaridade, região e disposições prévias: quem se alistou voluntariamente, quem ficou de fora por dispensa estudantil ou médica, quem pôde pagar pela faculdade para evitar a convocação. Uma simples diferença de média confunde o efeito do risco com tudo que distinguia os indivíduos antes dele.
 
-Entre 1969 e 1972, o governo americano sorteou aleatoriamente, por data de nascimento, a ordem de convocação para o Vietnã. Cada data recebeu um número de 1 a 366, e o Pentágono publicava a cada ano o ponto de corte: quem caiu abaixo era convocado, quem caiu acima escapava. @erikson2011 usam essa loteria como instrumento para o serviço militar efetivo. O número sorteado afeta a probabilidade de servir, mas não tem motivo plausível para afetar atitudes políticas décadas depois por nenhum outro canal. Sob essa restrição, IV identifica o efeito causal de servir entre os indivíduos cuja convocação efetivamente respondeu ao sorteio. O resultado: servir no Vietnã empurra veteranos a posições mais críticas em política externa e à identificação com o Partido Democrata, e o efeito ainda aparece em surveys décadas depois.
+Em 1º de dezembro de 1969, no auge da Guerra do Vietnã, o governo americano sorteou em televisão nacional a ordem de convocação dos jovens em idade de servir. Cada data de nascimento recebeu um número de 1 a 366; números baixos eram chamados primeiro, números altos escapariam. @erikson2011 usam o número sorteado como instrumento para a *vulnerabilidade* à convocação, em vez de para o serviço militar efetivo: o que importa é a expectativa de poder ser chamado a servir, antes mesmo de o chamado se concretizar. O número é aleatório por design, afeta a probabilidade percebida de ser convocado, e não tem motivo plausível para afetar atitudes décadas depois por outro canal. O resultado: jovens com números baixos se tornaram mais antiguerra, mais liberais e mais propensos a se identificar com o Partido Democrata. O efeito persiste em entrevistas décadas depois e não é mediado pelo serviço militar efetivo: a transformação política veio do risco percebido, não do combate.
 
 Essa é a lógica das variáveis instrumentais. O restante do capítulo desenvolve as condições sob as quais ela funciona: começa pela formulação em DAGs, passa pelo modelo estrutural e pelos mínimos quadrados em dois estágios, e termina sob heterogeneidade de efeitos, em que VI identifica o LATE, o efeito médio sobre quem responde ao instrumento.
 
@@ -47,7 +47,7 @@ Do ponto de vista não paramétrico (DAGs), dizemos que a variável $Z$ é uma *
 
 Em alguns casos, é necessário controlar para um conjunto de covariáveis $X$ para que a segunda condição seja satisfeita; chamamos isso de IV condicional. Note também que dizemos que $Z$ é apenas uma **candidata** a instrumento porque as três condições acima, embora necessárias, não são suficientes — discutiremos adiante o que mais é preciso (em particular, monotonicidade, sob heterogeneidade de efeitos).
 
-Vale uma observação sobre a condição 3, que a literatura econométrica nem sempre formula com cuidado: às vezes se diz que $Z$ deve *causar* $D$, o que implicaria ausência de causa comum num DAG. Isso, porém, não é correto. O DAG abaixo ilustra: condicionando em $V_3$ — que é um collider — induz-se correlação entre $Z$ e $D$ suficiente para satisfazer a relevância, e $Z$ permanece uma VI candidata mesmo sem que $Z$ cause $D$ diretamente.
+A literatura econométrica às vezes formula a condição 3 dizendo que $Z$ deve *causar* $D$. A direção da implicação é correta: se $Z$ causa $D$ e é tratado como exógeno, segue-se que $Z$ e $Y$ não compartilham causa comum, validando a condição 3. A volta é falsa: VI não exige que $Z$ cause $D$. Manter as condições 2 (exclusão) e 3 (causa comum) separadas torna esse ponto visível, porque a condição 2 fecha caminhos diretos de $Z$ para $Y$ e a condição 3 fecha caminhos por confundimento, sem que nenhuma das duas exija causalidade $Z \to D$. O DAG abaixo mostra um caso em que $Z$ não causa $D$ e ainda assim é VI candidata: condicionando em $V_3$, um collider entre $Z$ e $D$, induz-se a correlação que satisfaz a relevância sem violar a condição 3.
 
 
 
@@ -158,16 +158,25 @@ Até aqui vimos as condições para que uma variável seja candidata a instrumen
 
 ## IV com modelo estrutural
 
-$y_i = \beta D_i + \delta_2 U + e_i$
-$D_i = \delta_1 U + \pi z_i + u_i$
+A perspectiva em DAGs nos diz quando uma variável é candidata a IV. Para *estimar* o efeito causal, precisamos de uma representação paramétrica. O modelo estrutural canônico de IV escreve duas equações simultâneas, uma para o resultado e outra para o tratamento, com uma variável não observada $U$ entrando em ambas:
 
-As duas equações são estruturais: representam relações causais, não apenas associações estatísticas. Para que $\beta$ seja interpretado como o efeito causal de $D$ sobre $Y$, precisaríamos da exogeneidade do tratamento, $\mathbb{E}[e_i \mid D_i] = 0$. Essa condição falha: $D_i$ é endógeno porque $U$ aparece nas duas equações, gerando viés de variável omitida.
+\begin{equation}
+\begin{aligned}
+y_i &= \beta D_i + \delta_2 U + e_i \\
+D_i &= \delta_1 U + \pi z_i + u_i
+\end{aligned}
+(\#eq:estrutural)
+\end{equation}
 
-O instrumento $z_i$, por construção do modelo, entra na equação de $D_i$ mas não na equação de $y_i$. Essa ausência é a restrição de exclusão: $z$ está excluído do RHS da equação de $Y$. Sob este modelo, a hipótese se traduz operacionalmente em $\mathbb{E}[z_i \, e_i] = 0$, ou seja, o instrumento é não-correlacionado com o erro estrutural de $Y$. Voltamos a essa hipótese mais adiante, onde apresentamos três formulações diferentes.
+As duas equações são *estruturais*: representam relações causais, não apenas associações estatísticas. O parâmetro de interesse é $\beta$, o efeito causal de $D$ sobre $Y$. Para identificá-lo via MQO da equação de $y$, precisaríamos da exogeneidade do tratamento, $\mathbb{E}[e_i \mid D_i] = 0$. Essa condição falha: $D_i$ é endógeno porque $U$ aparece nas duas equações. Esse é o viés de variável omitida que o DAG canônico mostra graficamente, com o backdoor $D \leftarrow U \to Y$ contaminando a estimativa de $\beta$.
 
-Vamos supor, para simplificar, que tanto $D_i$ quanto $Z_i$ são binários.
+O instrumento $z_i$, por construção, entra na equação de $D_i$ mas não na equação de $y_i$. Essa ausência é a restrição de exclusão: $z$ está excluído do RHS da equação de $Y$. Sob este modelo, a hipótese se traduz operacionalmente em $\mathbb{E}[z_i \, e_i] = 0$, ou seja, o instrumento é não-correlacionado com o erro estrutural de $Y$. O coeficiente $\pi$ na equação de $D_i$ é o efeito causal do instrumento sobre o tratamento — o *primeiro estágio* — e sua positividade é a condição de relevância.
 
-Nós sabemos que diferença simples de média identifica o ATE da segunda equação: $\hat{\pi} = \bar{D}_{\{Z=1\}} - \bar{D}_{\{Z=0\}} = \frac{\sum_{i} z_i D_i}{\sum_{i} z_i} - \frac{\sum_{i} (1-z_i) D_i}{\sum_{i} (1-z_i)}$.
+Suponha, para simplificar, que $D_i$ e $z_i$ são binários. Nesse caso, uma diferença simples de média identifica $\pi$:
+
+$$\hat{\pi} = \bar{D}_{\{Z=1\}} - \bar{D}_{\{Z=0\}} = \frac{\sum_{i} z_i D_i}{\sum_{i} z_i} - \frac{\sum_{i} (1-z_i) D_i}{\sum_{i} (1-z_i)}.$$
+
+Mas $\hat\pi$ é o efeito do *instrumento* sobre o *tratamento*, não o efeito do tratamento sobre o resultado. O que queremos é $\beta$. Para chegar lá, precisamos de uma estratégia que use $z$ para isolar a parte exógena de $D$ e use essa parte para identificar $\beta$. Essa estratégia é a regressão em dois estágios.
 
 
 
@@ -177,13 +186,13 @@ Considere novamente o DAG canônico para IV. Como poderíamos estimar o efeito c
 
 Uma possibilidade é a chamada forma reduzida, que pode ser derivada a partir da suposição de independência. Antes, vamos introduzir uma notação:
 
-A notação $Y^{D=d,Z=z}$ indica o resultado potencial para um nível do tratamento $d$ efetivamente recebido, que pode ser $0$ ou $1$, e para um nível do *treatment assignment*, que pode ser $0$ ou $1$, para um instrumento binário.
+A notação $Y_i(d, z)$ indica o resultado potencial da unidade $i$ se ela recebesse tratamento $d$ e valor $z$ do instrumento. Sob a restrição de exclusão (Seção \@ref(restricao-de-exclusao)), $Y_i(d, z) = Y_i(d, z')$ para todo $z, z'$, e a notação simplifica para $Y_i(d)$. Adotamos $Y_i(d)$ no que segue, com os valores específicos $Y_i(0)$ e $Y_i(1)$.
 
 E também temos um status potencial do tratamento (em oposição ao tratamento observado): $D^1_i$ é o status do tratamento quando $Z=1$. Similarmente, $D^0_i$ é o status do tratamento quando $Z=0$.
 
 E aqui temos uma nova *switching equation*:
 
-$D_i = D^0_i + (D^1_i - D^0_i)Z_i$
+$$D_i = D^0_i + (D^1_i - D^0_i)Z_i$$
 
 \begin{align}
    E\big[Y_i\mid Z_i=1\big]-E\big[Y_i\mid Z_i=0\big] & = E\big[Y_i(D_i^1,1)\mid Z_i=1\big]-
@@ -208,10 +217,9 @@ treatment <- rbinom(n, 1, plogis(z - u + rnorm(n, 0, 2)))
 y <- 2*treatment + u
 
 reg_vies <- lm(y ~ treatment)
-summary(reg_vies)
+reg_1s   <- lm(treatment ~ z)
+reg_2s   <- lm(y ~ fitted(reg_1s))
 
-reg_1s <- lm(treatment ~ z)
-reg_2s <- lm(y ~ fitted(reg_1s))
 stargazer(reg_vies, reg_1s, reg_2s,
           type = ifelse(knitr::is_html_output(), "html", "latex"),
           title = "OLS e 2SLS")
@@ -280,37 +288,15 @@ results %>%
   )
 ```
 
-## Principais usos de IV
-
-### Experimentos
-
-Em experimentos com não-conformidade (*non-compliance*), parte do grupo tratado não recebe a intervenção e parte do controle a recebe. Usar a atribuição aleatória como instrumento para o tratamento efetivamente recebido recupera o LATE entre os compliers. Isso é distinto da estimativa *intent-to-treat* (ITT), que mede o efeito da atribuição independentemente do recebimento: ITT preserva a aleatorização sem suposições adicionais, mas inclui non-compliers no denominador, enquanto o LATE estima o efeito do tratamento entre quem de fato responde à atribuição. Os dois parâmetros têm interpretações distintas e respondem a perguntas diferentes; qual reportar depende da pergunta de pesquisa.
-
-### Regras com variação quasi-aleatória
-
-@hinnerich2014 usam uma regra na Suécia em que municípios acima de 1.500 habitantes eram obrigados pelo Local Government Act a adotar democracia representativa, enquanto municípios abaixo do limiar podiam optar entre democracia direta e representativa. O limiar populacional serve então como instrumento para o tipo de regime local. @dinas2014 utiliza idade para votar no momento da eleição como instrumento para comparecimento eleitoral do eleitor.
-
-### Teoria
-
-Quando a restrição de exclusão é baseada em teoria ou conhecimento substantivo. Aqui estão os instrumentos baseados em geografia ou clima (por exemplo, proximidade a faculdade como instrumento para ensino superior) ou @zhu2017, que usou proximidade geográfica de cinco centros comerciais fora da China (ponderados pelo PIB dos centros comerciais) como instrumento para presença de multinacional (que causaria corrupção). Há o clássico instrumento de chuva como instrumento para, por exemplo, comparecimento eleitoral de eleitores democratas.
-
-@mellon2023 revisou 289 estudos e concluiu que 195 variáveis distintas foram conectadas com chuva, o que significa que podem ser potenciais violações da restrição de exclusão.
-
-@friedman2000 usaram origem legal (francesa, inglesa, sueca etc.) como instrumento para qualidade das instituições. @djankov2003 usaram origem legal como instrumento para grau de formalismo de instituições.
-
-@glaeser2004 usaram origem legal como instrumento para restrições ao executivo ("executive constraints").
-
-@henderson2016 usam chuva ao redor do dia da eleição como instrumento para votação de candidatos democratas, e concluem que aumento da chuva reduz comparecimento que causa democratas terem comportamento legislativo mais direitoso.
-
-Os resultados acima supõem que o efeito do tratamento é homogêneo. Mas o que acontece quando diferentes indivíduos respondem de maneira diferente ao tratamento?
+A leitura do gráfico mostra duas trajetórias bem distintas. A curva azul (MQO ingênuo) estabiliza em torno de um valor menor que $\beta = 2$ — esse é o viés de variável omitida, que não desaparece com $n$ porque o problema é de identificação, não de variância amostral. A curva vermelha (2SLS) oscila mais para amostras pequenas (a divisão por $\hat\pi$ ruidoso amplifica o erro), mas converge para $2$ conforme $n$ cresce. O ponto pedagógico: $n$ grande não corrige viés se a estratégia de identificação está errada; corrige apenas variância dado uma estratégia válida.
 
 ## Efeito heterogêneo
 
-Os resultados anteriores supuseram que o efeito do tratamento é homogêneo: $Y^1_i - Y^0_i = \beta$ para toda unidade $i$. Quando o efeito varia entre indivíduos, o que IV identifica deixa de ser o ATE — passa a ser um efeito médio sobre um subgrupo específico, definido pelo próprio instrumento.
+Os resultados anteriores supuseram que o efeito do tratamento é homogêneo: $Y_i(1) - Y_i(0) = \beta$ para toda unidade $i$. Quando o efeito varia entre indivíduos, o que IV identifica deixa de ser o ATE — passa a ser um efeito médio sobre um subgrupo específico, definido pelo próprio instrumento.
 
 Para discutir efeito causal heterogêneo, vamos utilizar um estudo em ciência política [@white2019]. Qual é o efeito de uma condenação por *misdemeanor* (algo como contravenção penal) sobre comparecimento eleitoral? O autor argumenta que o efeito deve variar por raça (maior para negros que brancos), de modo que o efeito causal é heterogêneo. Segundo o autor, casos são atribuídos aleatoriamente a diferentes cortes judiciais, e elas variam em sua leniência. Aqui, o tratamento é a condenação ($D_i = 1$ se condenado, $0$ caso contrário), e o instrumento é o sorteio de um juiz mais ou menos leniente.
 
-Formalmente, o efeito causal heterogêneo é $\delta_i = Y^1_i - Y^0_i$. Nesse caso, não podemos mais estimar o efeito causal médio populacional (ATE), porque o instrumento só explica variação no tratamento para um subgrupo da população: os *compliers*. Antes de derivar o estimador, vale fixar o vocabulário.
+Formalmente, o efeito causal heterogêneo é $\delta_i = Y_i(1) - Y_i(0)$. Nesse caso, não podemos mais estimar o efeito causal médio populacional (ATE), porque o instrumento só explica variação no tratamento para um subgrupo da população: os *compliers*. Antes de derivar o estimador, vale fixar o vocabulário.
 
 ## Tipologia de unidades
 
@@ -338,9 +324,17 @@ Resultados potenciais para a unidade $i$ não dependem do tratamento recebido po
 
 ### Independência
 
-Também chamada de *as good as random assignment* ou *no confounding for the effect of $Z$ on $Y$*: o instrumento é independente dos resultados potenciais $Y_i(d)$ e dos status potenciais de tratamento $D^z_i$. Em termos do DAG, $Z$ não compartilha causa comum com $Y$ nem com $D$. No estudo de White, a aleatorização da corte sustenta essa hipótese: é difícil imaginar variável que cause a leniência judicial e simultaneamente o comparecimento eleitoral.
+Também chamada de *as good as random assignment* ou *no confounding for the effect of $Z$ on $Y$*: o instrumento é independente dos resultados potenciais $Y_i(d)$ e dos status potenciais de tratamento $D^z_i$. No estudo de White, a aleatorização da corte sustenta essa hipótese: é difícil imaginar variável que cause a leniência judicial e simultaneamente o comparecimento eleitoral.
 
-Vale notar que independência é distinta da restrição de exclusão (a seguir). Sob homogeneidade linear, as duas se confundem; sob heterogeneidade, separam-se.
+Vale tornar o mapeamento entre as duas formulações de IV explícito. Cada uma das três suposições não-paramétricas vistas no início do capítulo tem uma contrapartida em resultados potenciais:
+
+| Hipótese          | DAG                                              | Resultados potenciais                                        |
+|-------------------|--------------------------------------------------|--------------------------------------------------------------|
+| Relevância        | $Z$ conectado a $D$ no grafo original            | $\mathbb{E}[D_i \mid Z_i = 1] \neq \mathbb{E}[D_i \mid Z_i = 0]$ |
+| Exclusão          | $Z$ d-separado de $Y$ no grafo sem $D \to Y$     | $Y_i(d, z) = Y_i(d, z')$ para todo $i, d, z, z'$             |
+| Sem confundimento | $Z$ não compartilha causa comum com $Y$          | $Z_i \perp\!\!\!\perp \{Y_i(d), D^z_i\}$                     |
+
+A linha "sem confundimento" é onde os dois frameworks divergem. A versão em resultados potenciais é estritamente mais forte: exige independência também em relação aos status potenciais $D^z_i$, o que excluiria casos como o DAG com causa comum $V_3$ visto na introdução. Em aplicações típicas $Z$ é tratado como raiz do DAG (sem parents), e as duas formulações coincidem operacionalmente; adotamos a versão em resultados potenciais para a derivação do LATE adiante.
 
 ### Restrição de Exclusão {#restricao-de-exclusao}
 
@@ -362,7 +356,7 @@ Tome o DAG canônico e remova a flecha $D \to Y$. A restrição de exclusão diz
 
 Define-se $Y_i(d, z)$ como o resultado potencial da unidade $i$ se ela recebesse tratamento $d$ e valor $z$ do instrumento. A restrição de exclusão é
 $$Y_i(d, z) = Y_i(d, z') \quad \text{para todo } i, d, z, z'.$$
-Dado o tratamento, o valor do instrumento não altera o resultado potencial. A notação simplifica para $Y_i(d)$, como se o instrumento caísse fora da função de resultado potencial. Sob esta formulação, a exclusão fica separada da hipótese de independência ($Z$ é independente dos resultados potenciais $Y_i(d)$ e do status de tratamento $D_i(z)$).
+Dado o tratamento, o valor do instrumento não altera o resultado potencial. A notação simplifica para $Y_i(d)$, como se o instrumento caísse fora da função de resultado potencial.
 
 #### Exemplo de violação
 
@@ -372,94 +366,132 @@ O caso clássico é o uso de chuva como instrumento para comparecimento eleitora
 
 A monotonicidade requer que o instrumento opere (fracamente) na mesma direção para todas as unidades: ele só move pessoas do controle para o tratamento (ou não move ninguém), nunca o contrário. Em outras palavras, não há defiers na população.
 
-Formalmente, $D^{Z=1}_i \geq D^{Z=0}_i$ para todo $i$. No estudo de White, isso significa que ninguém é condenado pelo juiz leniente *e* absolvido pelo severo — uma hipótese substantivamente plausível.
+Formalmente, $D^1_i \geq D^0_i$ para todo $i$. No estudo de White, isso significa que ninguém é condenado pelo juiz leniente *e* absolvido pelo severo — uma hipótese substantivamente plausível.
 
 ## Identificação do LATE
 
-Sob SUTVA, independência, exclusão e monotonicidade, decompomos o efeito causal do instrumento sobre o resultado em quatro termos, um por tipo de unidade:
+Sob SUTVA, independência, exclusão e monotonicidade, vamos identificar o LATE em três passos: (i) decompor o efeito do instrumento sobre o resultado por tipo de unidade e mostrar que três dos quatro termos zeram; (ii) reescrever a proporção de compliers em termos observáveis; (iii) isolar o LATE.
+
+### Passo 1: decomposição por tipo
+
+Partindo de $\mathbb{E}[Y_i \mid Z_i = 1] - \mathbb{E}[Y_i \mid Z_i = 0]$, sob exclusão e independência o lado direito é igual a $\mathbb{E}[Y_i(D^1_i) - Y_i(D^0_i)]$. Pela lei da esperança total, condicionando no tipo:
 
 \begin{align}
   \mathbb{E}[Y_i \mid Z_i = 1] - \mathbb{E}[Y_i \mid Z_i = 0]
-   =\;& \mathbb{E}[Y^1_i - Y^0_i \mid D^1_i = 1, D^0_i = 1] \, P(D^1_i = 1, D^0_i = 1) && \text{always-takers} \\
-    +& \mathbb{E}[Y^1_i - Y^0_i \mid D^1_i = 0, D^0_i = 0] \, P(D^1_i = 0, D^0_i = 0) && \text{never-takers} \\
-    +& \mathbb{E}[Y^1_i - Y^0_i \mid D^1_i = 1, D^0_i = 0] \, P(D^1_i = 1, D^0_i = 0) && \text{compliers} \\
-    +& \mathbb{E}[Y^1_i - Y^0_i \mid D^1_i = 0, D^0_i = 1] \, P(D^1_i = 0, D^0_i = 1) && \text{defiers}
+   =\;& \mathbb{E}[Y_i(D^1_i) - Y_i(D^0_i) \mid D^1_i = 1, D^0_i = 1] \, P(D^1_i = 1, D^0_i = 1) && \text{always-takers} \\
+    +& \mathbb{E}[Y_i(D^1_i) - Y_i(D^0_i) \mid D^1_i = 0, D^0_i = 0] \, P(D^1_i = 0, D^0_i = 0) && \text{never-takers} \\
+    +& \mathbb{E}[Y_i(D^1_i) - Y_i(D^0_i) \mid D^1_i = 1, D^0_i = 0] \, P(D^1_i = 1, D^0_i = 0) && \text{compliers} \\
+    +& \mathbb{E}[Y_i(D^1_i) - Y_i(D^0_i) \mid D^1_i = 0, D^0_i = 1] \, P(D^1_i = 0, D^0_i = 1) && \text{defiers}
 \end{align}
 
-Os dois primeiros termos zeram porque, para always- e never-takers, $Z$ não move o tratamento e, pela restrição de exclusão, $Z$ não afeta $Y$ por nenhum outro canal. O quarto termo zera pela monotonicidade: $P(D^1_i = 0, D^0_i = 1) = 0$. Sobra apenas a contribuição dos compliers.
+Para always- e never-takers, $D^1_i = D^0_i$, então o integrando é $Y_i(d) - Y_i(d) = 0$ por construção. Não são as probabilidades que zeram (always- e never-takers existem com probabilidade positiva); o que zera é o que está dentro da esperança. Para defiers, o integrando não é zero, mas a *probabilidade* zera pela monotonicidade: $P(D^1_i = 0, D^0_i = 1) = 0$. Sobra apenas o termo dos compliers, para os quais $Y_i(D^1_i) - Y_i(D^0_i) = Y_i(1) - Y_i(0)$:
 
-Esse achado leva ao **estimador de Wald** — a razão da forma reduzida (efeito de $Z$ sobre $Y$) pelo primeiro estágio (efeito de $Z$ sobre $D$):
+$$\mathbb{E}[Y_i \mid Z_i = 1] - \mathbb{E}[Y_i \mid Z_i = 0] = \mathbb{E}[Y_i(1) - Y_i(0) \mid \text{complier}] \cdot P(\text{complier}).$$
+
+### Passo 2: identificar $P(\text{complier})$
+
+O lado esquerdo da equação acima é a forma reduzida — observável diretamente. O primeiro fator do lado direito é o LATE — o que queremos. Falta o segundo fator. Sob monotonicidade, a partição em tipos satisfaz
+
+\begin{align}
+P(D_i = 1 \mid Z_i = 1) &= P(\text{complier}) + P(\text{always-taker}) \\
+P(D_i = 1 \mid Z_i = 0) &= P(\text{always-taker})
+\end{align}
+
+(a primeira soma always-takers e compliers, os únicos tipos que recebem $D=1$ quando $Z=1$; a segunda fica só com always-takers, já que defiers foram eliminados). Subtraindo:
+
+$$P(\text{complier}) = \mathbb{E}[D_i \mid Z_i = 1] - \mathbb{E}[D_i \mid Z_i = 0].$$
+
+Essa diferença é justamente o **primeiro estágio** — o efeito do instrumento sobre o tratamento.
+
+### Passo 3: isolar o LATE
+
+Substituindo o resultado do Passo 2 na equação do Passo 1 e dividindo:
 
 $$
-\delta_{IV} \;=\; \frac{\mathbb{E}[Y_i \mid Z_i = 1] - \mathbb{E}[Y_i \mid Z_i = 0]}
-                       {\mathbb{E}[D_i \mid Z_i = 1] - \mathbb{E}[D_i \mid Z_i = 0]}
-       \;=\; \frac{\mathbb{E}[Y_i \mid Z_i = 1] - \mathbb{E}[Y_i \mid Z_i = 0]}
-                       {P(D^1_i = 1) - P(D^0_i = 1)}.
+\delta_{IV,LATE} \;=\; \mathbb{E}[Y_i(1) - Y_i(0) \mid \text{complier}]
+            \;=\; \frac{\mathbb{E}[Y_i \mid Z_i = 1] - \mathbb{E}[Y_i \mid Z_i = 0]}
+                       {\mathbb{E}[D_i \mid Z_i = 1] - \mathbb{E}[D_i \mid Z_i = 0]}.
 $$
 
-O denominador é a **proporção de compliers** na população: a fração das unidades cujo tratamento responde ao instrumento. Sob as quatro suposições, a razão identifica o efeito médio do tratamento entre os compliers — o **Local Average Treatment Effect** (LATE):
+Este é o **estimador de Wald**: a razão entre forma reduzida (numerador) e primeiro estágio (denominador). O denominador é a proporção de compliers na população; sua positividade requer relevância — sem variação induzida em $D$, o Wald não é definido.
 
-$$\delta_{IV,LATE} \;=\; \mathbb{E}[Y^1_i - Y^0_i \mid D^1_i - D^0_i = 1].$$
+### Localidade do LATE
 
 O LATE é um parâmetro **local**: refere-se apenas ao subgrupo de compliers, não à população inteira. Essa localidade é simultaneamente uma força e uma limitação. Força: o efeito está bem definido sob suposições críveis e é o que o instrumento de fato identifica. Limitação: quem é complier depende do instrumento — outro instrumento, outro grupo de compliers, outro LATE — e o efeito sobre always- e never-takers permanece desconhecido. No estudo de White, o LATE é interpretado substantivamente como o efeito da condenação sobre comparecimento eleitoral *entre acusados marginais*, cuja sentença depende do juiz que pegaram. Vejamos agora questões práticas de estimação.
 
-## Estimação (aka estatística F)
+## Estimação e força do instrumento
 
-Considere nosso modelo em que as variáveis estão centradas (sem constante) e não há controle.
+### Derivação do estimador 2SLS
 
-$y_i = \beta D_i + e_i$
-$D_i = \pi z_i + u_i$
+Considere o modelo simplificado em que as variáveis estão centradas (sem constante) e não há controles:
 
-Posso reescrever a equação de resultado como:
+\begin{equation}
+\begin{aligned}
+y_i &= \beta D_i + e_i \\
+D_i &= \pi z_i + u_i
+\end{aligned}
+(\#eq:modelo-simples)
+\end{equation}
 
-$y_i = \beta (\pi z_i + u_i) + e_i =  \underbrace{\beta \pi}_{\delta} z_i + \beta u_i + e_i$
-Essa equação é chamada de forma reduzida.
+Substituindo a equação do primeiro estágio na equação de resultado, $y_i$ pode ser expresso em termos de $z_i$ apenas:
 
-Lembrando que nosso estimador $\hat{\beta}_{2sls} = \frac{\hat{\delta}}{\hat{\pi}}$
+\begin{equation}
+\begin{aligned}
+y_i &= \beta (\pi z_i + u_i) + e_i \\
+    &= \underbrace{\beta \pi}_{\delta}\, z_i + \underbrace{\beta u_i + e_i}_{v_i}.
+\end{aligned}
+(\#eq:forma-reduzida)
+\end{equation}
 
-Ou seja, o estimador de 2sls é a razão da forma reduzida e o primeiro estágio
+A equação \@ref(eq:forma-reduzida) é a *forma reduzida*: $y_i$ projetado diretamente sobre o instrumento $z_i$, com coeficiente $\delta = \beta \pi$. A regressão de $y$ sobre $z$ identifica $\hat\delta$; a regressão de $D$ sobre $z$ identifica $\hat\pi$. Como $\delta = \beta \pi$ na estrutura, segue-se que $\beta = \delta / \pi$. Substituindo as quantidades populacionais por estimativas:
 
-O que acontece se $Cov(D_i, z_i)$ for muito pequeno? Pequenas variações podem impactar bastante as estimativas.
+\begin{equation}
+\hat\beta_{2SLS} = \frac{\hat\delta}{\hat\pi}.
+(\#eq:beta-2sls)
+\end{equation}
 
-É possível mostrar (supondo homocedasticidade) como o viés do nosso estimador em dois estágios se relaciona com a estatística F:
+Esta é a versão regressiva do estimador de Wald visto na seção anterior: numerador é a forma reduzida, denominador é o primeiro estágio. Equivalentemente, no algoritmo em dois estágios: regrida $D$ sobre $z$ para obter $\hat D = \hat\pi z$; em seguida regrida $y$ sobre $\hat D$. O coeficiente da segunda regressão é exatamente $\hat\delta / \hat\pi$.
 
-$$
-\mathbb{E}[\hat{\beta_{2sls}} - \beta] \approx \underbrace{\frac{Cov(u,e)}{Var(u)}}_{\text{OVB}} \frac{k}{F + 1}
-$$
+### Por que dividir por $\hat\pi$ é problemático sob instrumento fraco
 
-Se a estatística F é zero, ou seja, o poder do teste é zero, então o viés é igual ao de MQO normal, ou seja, a estimativa com IV é a mesma de OLS/MQO.
+A divisão por $\hat\pi$ na equação \@ref(eq:beta-2sls) é o que torna a estimação delicada: quando o primeiro estágio é fraco, $\hat\pi$ é próximo de zero, e pequenas perturbações em $\hat\delta$ ou $\hat\pi$ se amplificam dramaticamente na razão. Sob homocedasticidade, é possível mostrar que o viés de $\hat\beta_{2SLS}$ em amostras finitas se relaciona com a estatística $F$ do primeiro estágio segundo
 
-Quanto maior a estatística F, menor o viés. E por fim, quanto maior o número de instrumentos (isso não está explícito, mas entra na fórmula), maior o viés em amostras finitas.
+\begin{equation}
+\mathbb{E}[\hat\beta_{2SLS} - \beta] \;\approx\; \underbrace{\frac{\text{Cov}(u, e)}{\text{Var}(u)}}_{\text{OVB}} \cdot \frac{k}{F + 1},
+(\#eq:vies-2sls)
+\end{equation}
 
-É por essa razão que a literatura se concentrou em uma heurística para a estatística F, que vimos é ser maior que 10. Que basicamente é dizer que será no máximo 10% do viés com 95% de certeza.
+onde $k$ é o número de instrumentos. Se $F = 0$, o viés é igual ao do MQO ingênuo: VI não corrige nada. Quanto maior $F$, menor o viés. E quanto mais instrumentos para um mesmo $F$, maior o viés em amostras finitas.
 
+A regra de bolso clássica é $F > 10$, devida a @staigerstock1997 e refinada por @stockyogo2005: com isso, o viés de 2SLS é inferior a 10% do viés de MQO com 95% de confiança. A suposição por trás dessa regra é homocedasticidade. @montielolea2013 desenvolveram um teste robusto a heterocedasticidade que admite clustering e autocorrelação; sob essa estatística $F$ efetiva, o ponto de corte recomendado sobe para cerca de 23,1.
 
+### Receita prática
 
-
-### F stat
-
-A estatística F do primeiro estágio é a parcela explicada no primeiro estágio, relativo ao ruído no primeiro estágio. Quanto maior a estatística F, menor o viés.
-
-Se o poder é zero, $F = 0$ e IV é apenas a estimativa de MQO.
-
-Ponto chave: quando existem muitos instrumentos, o viés aumenta.
-
-Essa abordagem foi desenvolvida originalmente por @staigerstock1997 e refinada por @stockyogo2005. A regra de bolso resultante: estatística F do primeiro estágio acima de 10 implica viés inferior a 10% com nível de significância de 5%. A suposição por trás dessa regra é homocedasticidade.
-
-@montielolea2013 desenvolveram um teste robusto a heterocedasticidade que admite clustering e autocorrelação. Sob essa estatística F efetiva, o ponto de corte recomendado sobe para cerca de 23,1.
-
-Na prática, a estimação 2SLS pode ser feita com `feols(y ~ 1 | d ~ z, data = df)` do pacote `fixest`, que reporta a estatística F do primeiro estágio diretamente no output. Para a F efetiva e para o intervalo de confiança de Anderson-Rubin, válido mesmo sob instrumento fraco, o pacote `ivDiag` oferece uma chamada única:
+Na prática, a estimação 2SLS pode ser feita com `feols(y ~ 1 | d ~ z, data = df)` do pacote `fixest`, que reporta a estatística $F$ do primeiro estágio diretamente no output. Para a $F$ efetiva e para o intervalo de confiança de Anderson-Rubin, válido mesmo sob instrumento fraco, o pacote `ivDiag` oferece uma chamada única:
 
 ```r
 library(ivDiag)
 ivDiag::ivDiag(data = df, Y = "y", D = "d", Z = "z")
 ```
 
-A função retorna a F efetiva de Montiel Olea-Pflueger, o IC de Anderson-Rubin e diagnósticos adicionais sobre força do instrumento. Quando a F efetiva fica abaixo de 23,1, o IC de Anderson-Rubin é a base mais confiável para inferência sobre $\beta$.
+A função retorna a $F$ efetiva de Montiel Olea-Pflueger, o IC de Anderson-Rubin e diagnósticos adicionais sobre força do instrumento. Quando a $F$ efetiva fica abaixo de 23,1, o IC de Anderson-Rubin é a base mais confiável para inferência sobre $\beta$.
 
+## Principais usos de IV
+
+Tendo desenvolvido a lógica de identificação e os diagnósticos do primeiro estágio, vejamos como VI tem sido aplicado em ciência política. Os exemplos abaixo cobrem dois contextos: experimentos com não-conformidade, em que o instrumento é a atribuição aleatória, e regras institucionais que produzem variação quasi-aleatória.
+
+### Experimentos
+
+Em experimentos com não-conformidade (*non-compliance*), parte do grupo tratado não recebe a intervenção e parte do controle a recebe. Usar a atribuição aleatória como instrumento para o tratamento efetivamente recebido recupera o LATE entre os compliers. Esse parâmetro é distinto do *intent-to-treat* (ITT), que mede o efeito da atribuição independentemente do recebimento. ITT preserva a aleatorização sem suposições adicionais; LATE estima o efeito do tratamento sobre quem responde à atribuição. Os dois respondem a perguntas diferentes, e qual reportar depende da pergunta de pesquisa.
+
+### Regras com variação quasi-aleatória
+
+@hinnerich2014 usam uma regra na Suécia em que municípios acima de 1.500 habitantes eram obrigados pelo Local Government Act a adotar democracia representativa, enquanto municípios abaixo do limiar podiam optar entre democracia direta e representativa. O limiar populacional serve então como instrumento para o tipo de regime local. @dinas2014 utiliza idade para votar no momento da eleição como instrumento para comparecimento eleitoral do eleitor.
 
 ## Resumo e próximos passos
 
-Neste capítulo, vimos que variáveis instrumentais permitem estimar efeitos causais mesmo na presença de confundidores não observados. As condições para que uma variável seja um instrumento válido — relevância, restrição de exclusão e ausência de causa comum — são necessárias mas não suficientes; a monotonicidade é adicionalmente requerida para estimar o LATE. Na prática, a estatística F do primeiro estágio é uma ferramenta essencial para avaliar a força do instrumento, com limiares recomendados de 10 (regra clássica) ou 23,1 (teste robusto a heterocedasticidade).
+Neste capítulo, vimos que variáveis instrumentais permitem estimar efeitos causais mesmo na presença de confundidores não observados. As condições para que uma variável seja um instrumento válido — relevância, restrição de exclusão e ausência de causa comum — são necessárias mas não suficientes; a monotonicidade é adicionalmente requerida para estimar o LATE. Na prática, a estatística $F$ do primeiro estágio é uma ferramenta essencial para avaliar a força do instrumento, com limiares recomendados de 10 (regra clássica) ou 23,1 (teste robusto a heterocedasticidade).
+
+Voltando à pergunta de abertura: o efeito causal que a loteria do Vietnã identifica não é o de servir efetivamente no exército, mas o da vulnerabilidade à convocação — a expectativa de poder ser chamado — sobre as atitudes dos jovens cujo estado responde ao número sorteado. Essa é a marca registrada de VI: identifica um efeito local, sobre quem responde ao instrumento, não a média populacional. Quando essa estreiteza é assumida e interpretada com cuidado, o instrumento entrega um efeito causal bem definido mesmo sob confundimento severo.
 
 No próximo capítulo, veremos Regressão Descontínua (RDD), um desenho quasi-experimental que explora pontos de corte em variáveis contínuas para identificar efeitos causais.
