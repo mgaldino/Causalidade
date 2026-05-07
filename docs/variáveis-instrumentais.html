@@ -1208,14 +1208,19 @@ P(\text{complier}) = \mathbb{E}[D_i \mid Z_i = 1] - \mathbb{E}[D_i \mid Z_i = 0]
 <h3><span class="header-section-number">7.7.3</span> Passo 3: isolar o LATE<a href="variáveis-instrumentais.html#passo-3-isolar-o-late" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Substituindo <a href="variáveis-instrumentais.html#eq:p-complier">(7.6)</a> em <a href="variáveis-instrumentais.html#eq:itt-complier">(7.2)</a>, o segundo fator do lado direito vira a diferença observada <span class="math inline">\(\mathbb{E}[D_i \mid Z_i = 1] - \mathbb{E}[D_i \mid Z_i = 0]\)</span> no lugar de <span class="math inline">\(P(\text{complier})\)</span>:</p>
 <p><span class="math display" id="eq:itt-first-stage">\[\begin{equation}
-\mathbb{E}[Y_i \mid Z_i = 1] - \mathbb{E}[Y_i \mid Z_i = 0] = \mathbb{E}[Y_i(1) - Y_i(0) \mid \text{complier}] \cdot \left( \mathbb{E}[D_i \mid Z_i = 1] - \mathbb{E}[D_i \mid Z_i = 0] \right).
+\begin{aligned}
+&amp;\mathbb{E}[Y_i \mid Z_i = 1] - \mathbb{E}[Y_i \mid Z_i = 0] \\
+&amp;\quad = \mathbb{E}[Y_i(1) - Y_i(0) \mid \text{complier}] \cdot \left( \mathbb{E}[D_i \mid Z_i = 1] - \mathbb{E}[D_i \mid Z_i = 0] \right).
+\end{aligned}
 \tag{7.7}
 \end{equation}\]</span></p>
 <p>Para isolar o LATE, dividimos os dois lados de <a href="variáveis-instrumentais.html#eq:itt-first-stage">(7.7)</a> pela diferença <span class="math inline">\(\mathbb{E}[D_i \mid Z_i = 1] - \mathbb{E}[D_i \mid Z_i = 0]\)</span> — o primeiro estágio. Sob relevância, esse denominador é diferente de zero, e a divisão é bem definida:</p>
 <p><span class="math display" id="eq:wald">\[\begin{equation}
-\delta_{IV,LATE} \;=\; \mathbb{E}[Y_i(1) - Y_i(0) \mid \text{complier}]
-            \;=\; \frac{\mathbb{E}[Y_i \mid Z_i = 1] - \mathbb{E}[Y_i \mid Z_i = 0]}
-                       {\mathbb{E}[D_i \mid Z_i = 1] - \mathbb{E}[D_i \mid Z_i = 0]}.
+\begin{aligned}
+\delta_{IV,LATE} &amp;= \mathbb{E}[Y_i(1) - Y_i(0) \mid \text{complier}] \\
+                 &amp;= \frac{\mathbb{E}[Y_i \mid Z_i = 1] - \mathbb{E}[Y_i \mid Z_i = 0]}
+                         {\mathbb{E}[D_i \mid Z_i = 1] - \mathbb{E}[D_i \mid Z_i = 0]}.
+\end{aligned}
 \tag{7.8}
 \end{equation}\]</span></p>
 <p>Este é o <strong>estimador de Wald</strong>: a razão entre forma reduzida (numerador) e primeiro estágio (denominador). O denominador é a proporção de compliers na população; sua positividade requer relevância — sem variação induzida em <span class="math inline">\(D\)</span>, o Wald não é definido.</p>

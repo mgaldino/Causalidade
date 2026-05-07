@@ -426,16 +426,21 @@ Essa diferença é justamente o **primeiro estágio** — o efeito do instrument
 Substituindo \@ref(eq:p-complier) em \@ref(eq:itt-complier), o segundo fator do lado direito vira a diferença observada $\mathbb{E}[D_i \mid Z_i = 1] - \mathbb{E}[D_i \mid Z_i = 0]$ no lugar de $P(\text{complier})$:
 
 \begin{equation}
-\mathbb{E}[Y_i \mid Z_i = 1] - \mathbb{E}[Y_i \mid Z_i = 0] = \mathbb{E}[Y_i(1) - Y_i(0) \mid \text{complier}] \cdot \left( \mathbb{E}[D_i \mid Z_i = 1] - \mathbb{E}[D_i \mid Z_i = 0] \right).
+\begin{aligned}
+&\mathbb{E}[Y_i \mid Z_i = 1] - \mathbb{E}[Y_i \mid Z_i = 0] \\
+&\quad = \mathbb{E}[Y_i(1) - Y_i(0) \mid \text{complier}] \cdot \left( \mathbb{E}[D_i \mid Z_i = 1] - \mathbb{E}[D_i \mid Z_i = 0] \right).
+\end{aligned}
 (\#eq:itt-first-stage)
 \end{equation}
 
 Para isolar o LATE, dividimos os dois lados de \@ref(eq:itt-first-stage) pela diferença $\mathbb{E}[D_i \mid Z_i = 1] - \mathbb{E}[D_i \mid Z_i = 0]$ — o primeiro estágio. Sob relevância, esse denominador é diferente de zero, e a divisão é bem definida:
 
 \begin{equation}
-\delta_{IV,LATE} \;=\; \mathbb{E}[Y_i(1) - Y_i(0) \mid \text{complier}]
-            \;=\; \frac{\mathbb{E}[Y_i \mid Z_i = 1] - \mathbb{E}[Y_i \mid Z_i = 0]}
-                       {\mathbb{E}[D_i \mid Z_i = 1] - \mathbb{E}[D_i \mid Z_i = 0]}.
+\begin{aligned}
+\delta_{IV,LATE} &= \mathbb{E}[Y_i(1) - Y_i(0) \mid \text{complier}] \\
+                 &= \frac{\mathbb{E}[Y_i \mid Z_i = 1] - \mathbb{E}[Y_i \mid Z_i = 0]}
+                         {\mathbb{E}[D_i \mid Z_i = 1] - \mathbb{E}[D_i \mid Z_i = 0]}.
+\end{aligned}
 (\#eq:wald)
 \end{equation}
 
