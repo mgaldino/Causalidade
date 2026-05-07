@@ -103,7 +103,7 @@ Será que $Z$ pode ser uma IV no DAG abaixo?
 # 1. Definir o DAG com coordenadas manuais
 dag_complex <- dagify(
   T ~ U + W + L,        # T ← U, W, L
-  Y ~ U,                # Y ← U
+  Y ~ T + U + L,        # Y ← T, U, L
   L ~ W,                # L ← W
   Z ~ W + L,            # Z ← W, L
   latent   = "U",       # U é latente
@@ -126,6 +126,27 @@ Vamos verificar as condições. É fácil ver que $Z$ está conectado a $T$, já
 
 Com relação à segunda condição, remover a flecha de $T$ para $Y$ é, efetivamente, ter um novo DAG:
 
+```{r dag-diagram4-mod, echo=FALSE, message=FALSE}
+dag_complex_mod <- dagify(
+  T ~ U + W + L,        # T ← U, W, L
+  Y ~ U + L,            # Y ← U, L (sem T)
+  L ~ W,                # L ← W
+  Z ~ W + L,            # Z ← W, L
+  latent   = "U",
+  exposure = "T",
+  outcome  = "Y",
+  coords = list(
+    x = c(U = 1.5, T = 1,   Y = 2,   Z = -2, W = 0, L = 0),
+    y = c(U = 3,   T = 2,   Y = 2,   Z = 2,  W = 3, L = 1)
+  )
+)
+
+ggdag(dag_complex_mod, text = FALSE) +
+  geom_dag_text(size = 5) +
+  geom_dag_edges() +
+  theme_dag()
+```
+
 Por fim, $Z$ não compartilha causa comum com $Y$.
 
 Nesse DAG, $Z$ não está d-separado de $Y$, pois existe um caminho aberto para $Y$ via $L$. Portanto, controlando para $L$ (mas não $W$), tenho um instrumento que passa nas duas condições.
@@ -145,7 +166,7 @@ Vamos supor, para simplificar, que tanto $D_i$ quanto $Z_i$ são binários.
 
 Considere o seguinte exemplo:
 
-Nós sabemos que diferença simples de média identifica o ATE da segunda equação: $\gamma = \frac{\sum_{i=1}^n z_i}{n} - \frac{\sum_{i=1}^n (1-z_i)}{n}$.
+Nós sabemos que diferença simples de média identifica o ATE da segunda equação: $\hat{\gamma} = \bar{D}_{\{Z=1\}} - \bar{D}_{\{Z=0\}} = \frac{\sum_{i} z_i D_i}{\sum_{i} z_i} - \frac{\sum_{i} (1-z_i) D_i}{\sum_{i} (1-z_i)}$.
 
 
 
@@ -190,7 +211,9 @@ summary(reg_vies)
 
 reg_1s <- lm(treatment ~ z)
 reg_2s <- lm(y ~ fitted(reg_1s))
-stargazer(reg_vies, reg_1s, reg_2s, type = "html",  title="OLS e 2SLS")
+stargazer(reg_vies, reg_1s, reg_2s,
+          type = ifelse(knitr::is_html_output(), "html", "latex"),
+          title = "OLS e 2SLS")
 ```
 
 Uma regra de bolso, baseada em um artigo de Stock & Yogo (2002), diz que a estatística F da regressão do primeiro estágio deve ser maior que 10.
