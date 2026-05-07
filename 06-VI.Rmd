@@ -2,6 +2,12 @@
 
 ## Introdução
 
+Como lutar em uma guerra modifica a opinião política de alguém? A pergunta atravessa décadas de debate sobre formação política e juventude. A resposta tentadora é comparar quem combateu com quem não combateu. Mas as duas populações diferem em classe, escolaridade, região e atitudes prévias: quem se alistou voluntariamente, quem ficou de fora por dispensa estudantil ou médica, quem pôde pagar pela faculdade para evitar a convocação. Uma simples diferença de média confunde o efeito da experiência de combate com tudo que distinguiu os indivíduos antes do serviço.
+
+Entre 1969 e 1972, o governo americano sorteou aleatoriamente, por data de nascimento, a ordem de convocação para o Vietnã. Cada data recebeu um número de 1 a 366, e o Pentágono publicava a cada ano o ponto de corte: quem caiu abaixo era convocado, quem caiu acima escapava. Erikson e Stoker (2011) usam essa loteria como instrumento para o serviço militar efetivo. O número sorteado afeta a probabilidade de servir, mas não tem motivo plausível para afetar atitudes políticas décadas depois por nenhum outro canal. Sob essa restrição, IV identifica o efeito causal de servir entre os indivíduos cuja convocação efetivamente respondeu ao sorteio. O resultado: servir no Vietnã empurra veteranos a posições mais críticas em política externa e à identificação com o Partido Democrata, e o efeito ainda aparece em surveys décadas depois.
+
+Essa é a lógica das variáveis instrumentais. O restante do capítulo desenvolve as condições sob as quais ela funciona: começa pela formulação em DAGs, passa pelo modelo estrutural e pelos mínimos quadrados em dois estágios, e termina sob heterogeneidade de efeitos, em que VI identifica o LATE, o efeito médio sobre quem responde ao instrumento.
+
 Considere o seguinte DAG canônico de Variáveis Instrumentais:
 
 
