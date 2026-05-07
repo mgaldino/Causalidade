@@ -137,8 +137,9 @@ Até aqui vimos as condições para que uma variável seja candidata a instrumen
 $y_i = \beta D_i + \delta_2 U + e_i$
 $D_i = \delta_1 U + \gamma z_i + u_i$
 
-As duas equações são estruturais, no sentido de que representam relações causais.
-A restrição de exclusão do tratamento $D_i$ é que $\mathbb{E}[D_i|e_i] = 0$. Sabemos que não é verdade porque $D_i$ é endógeno, ou seja, há um viés de variável omitida, $U$. Já a restrição de exclusão da variável instrumental é que $\mathbb{E}[z_i|u_i] = 0$
+As duas equações são estruturais: representam relações causais, não apenas associações estatísticas. Para que $\beta$ seja interpretado como o efeito causal de $D$ sobre $Y$, precisaríamos da exogeneidade do tratamento, $\mathbb{E}[e_i \mid D_i] = 0$. Essa condição falha: $D_i$ é endógeno porque $U$ aparece nas duas equações, gerando viés de variável omitida.
+
+O instrumento $z_i$, por construção do modelo, entra na equação de $D_i$ mas não na equação de $y_i$. Essa ausência é a restrição de exclusão: $z$ está excluído do RHS da equação de $Y$. Sob este modelo, a hipótese se traduz operacionalmente em $\mathbb{E}[z_i \, e_i] = 0$, ou seja, o instrumento é não-correlacionado com o erro estrutural de $Y$. Voltamos a essa hipótese mais adiante, onde apresentamos três formulações diferentes.
 
 Vamos supor, para simplificar, que tanto $D_i$ quanto $Z_i$ são binários. 
 
@@ -306,9 +307,31 @@ Também chamada de *as good as random assignment* e *no confounding for the effe
 
 Essa suposição parece tranquilamente satisfeita no estudo em questão, já que a atribuição da corte é aleatória e parece difícil imaginar que algo que causa a leniência da corte ser causado por alguma variável que também causa o comparecimento. Aqui o DAG:
 
-## Restrição de Exclusão
+## Restrição de Exclusão {#restricao-de-exclusao}
 
-A restrição de exclusão requer que o instrumento $Z$ afete o resultado $Y$ apenas por meio do tratamento $T$. Em outras palavras, não há efeito direto de $Z$ sobre $Y$ que não passe por $T$. Essa suposição é não testável diretamente e deve ser justificada com argumentos substantivos.
+A restrição de exclusão requer que o instrumento $Z$ afete o resultado $Y$ apenas por meio do tratamento $T$. Não há efeito direto de $Z$ sobre $Y$ que não passe por $T$. A suposição não é testável diretamente: precisa ser justificada com argumentos substantivos sobre o mecanismo.
+
+A literatura formula essa hipótese em três linguagens: estrutural clássica, DAG e resultados potenciais. Sob homogeneidade linear (efeito do tratamento constante), as três são equivalentes. Sob heterogeneidade, a formulação em resultados potenciais distingue exclusão de independência, e essa separação vale conhecer.
+
+### Formulação estrutural clássica
+
+No modelo
+$$y_i = \beta D_i + \delta_2 U + e_i,$$
+a restrição de exclusão é o fato de que $z_i$ não aparece no RHS desta equação. Sob exogeneidade do erro estrutural, isso se traduz operacionalmente em $\mathbb{E}[z_i \, e_i] = 0$: o instrumento é não-correlacionado com o erro estrutural de $Y$. Aqui exclusão e exogeneidade do instrumento ficam empacotadas em uma única condição.
+
+### Formulação em DAGs
+
+Tome o DAG canônico e remova a flecha $T \to Y$. A restrição de exclusão diz que, neste DAG modificado, $Z$ é d-separado de $Y$. Não há nenhum caminho aberto entre $Z$ e $Y$ uma vez que se deleta o canal via $T$. A hipótese fica geometricamente legível: se cortar a ponte $T \to Y$ deixa $Z$ desconectado de $Y$ no grafo, a exclusão vale; se sobra algum caminho (por exemplo, $Z \to W \to Y$), a exclusão é violada por esse $W$. Esta talvez seja a formulação mais limpa para o leitor que já está confortável com DAGs.
+
+### Formulação em resultados potenciais
+
+Define-se $Y_i(d, z)$ como o resultado potencial da unidade $i$ se ela recebesse tratamento $d$ e valor $z$ do instrumento. A restrição de exclusão é
+$$Y_i(d, z) = Y_i(d, z') \quad \text{para todo } i, d, z, z'.$$
+Dado o tratamento, o valor do instrumento não altera o resultado potencial. A notação simplifica para $Y_i(d)$, como se o instrumento caísse fora da função de resultado potencial. Sob esta formulação, a exclusão fica separada da hipótese de independência ($Z$ é independente dos resultados potenciais $Y_i(d)$ e do status de tratamento $D_i(z)$). Essa separação importa sob heterogeneidade, e voltamos a ela na seção sobre LATE.
+
+### Exemplo de violação
+
+O caso clássico é o uso de chuva como instrumento para comparecimento eleitoral. Mellon (2023) revisou 289 estudos e identificou 195 variáveis distintas que foram conectadas com chuva na literatura. Qualquer uma delas é candidata a canal direto entre chuva e o resultado de interesse, violando a exclusão. Em DAGs: se chuva afeta humor, e humor afeta voto, há um caminho aberto $Z \to \text{humor} \to Y$ que não passa por comparecimento.
 
 ## Monotonicidade
 
