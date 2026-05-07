@@ -8,14 +8,14 @@ Considere o seguinte DAG canônico de Variáveis Instrumentais:
 ```{r dag-diagram1, echo=FALSE, message=FALSE}
 library(ggdag)
 dag_iv <- dagify(
-  T ~ Z + U,             # T ← Z, T ← U
-  Y ~ T + U,             # Y ← T, Y ← U
+  D ~ Z + U,             # D ← Z, D ← U
+  Y ~ D + U,             # Y ← D, Y ← U
   latent   = "U",        # U não observado
-  exposure = "T",
+  exposure = "D",
   outcome  = "Y",
   coords = list(
-    x = c(Z = 0, T = 1, U = 1, Y = 2),
-    y = c(Z = 2, T = 2, U = 4, Y = 2)
+    x = c(Z = 0, D = 1, U = 1, Y = 2),
+    y = c(Z = 2, D = 2, U = 4, Y = 2)
   )
 )
 
@@ -29,37 +29,37 @@ ggdag(dag_iv, text = FALSE) +
 
 
 
-Nós vemos que o efeito causal do tratamento $T$ é confundido pela variável não observada $U$, já que temos um *backdoor* aberto. Porém, a variável $Z$ não tem nenhum caminho aberto para $Y$ exceto via $T$, isto é, $T$ é um mediador do efeito causal de $Z$.
+Nós vemos que o efeito causal do tratamento $D$ é confundido pela variável não observada $U$, já que temos um *backdoor* aberto. Porém, a variável $Z$ não tem nenhum caminho aberto para $Y$ exceto via $D$, isto é, $D$ é um mediador do efeito causal de $Z$.
 
 Do ponto de vista não paramétrico (DAGs), dizemos que a variável $Z$ é uma **candidata** a variável instrumental (IV) se:
 
-1. $Z$ está conectado a $T$ no grafo original. Condição de **relevância**.
+1. $Z$ está conectado a $D$ no grafo original. Condição de **relevância**.
 
-2. No grafo em que a seta de $T$ para $y$ é removida, $Z$ é d-separado de $Y$. **Exclusion Restriction**.
+2. No grafo em que a seta de $D$ para $y$ é removida, $Z$ é d-separado de $Y$. **Exclusion Restriction**.
 
-3. A variável instrumental $Z$ não compartilha causa comum com $Y$, incluindo, portanto, não ser descendente de $T$. **Causa comum**.
+3. A variável instrumental $Z$ não compartilha causa comum com $Y$, incluindo, portanto, não ser descendente de $D$. **Causa comum**.
 
 Remark: Pode acontecer de ser necessário controlar para um conjunto de covariáveis $X$ para que a segunda condição seja satisfeita. Chamamos isso de IV condicional.
 
 Remark 2: Dizemos que uma variável $Z$ é **candidata** a ser VI porque as três condições acima, ainda que necessárias, não são suficientes para uma variável ser considerada VI. Veremos mais à frente por que isso acontece e o que mais é necessário para uma variável ser considerada VI.
 Considere o DAG abaixo.
 
-Remark 3: A literatura econométrica não costuma deixar muito clara a condição 3. Às vezes falam que $Z$ deve causar $T$ (o que implica que não há causa comum em um DAG). Porém, isso não é correto, como o DAG abaixo mostra, em que, controlando para $V_3$, que é um collider, induzimos correlação entre $Z$ e $T$ para a condição de relevância ser satisfeita, e $Z$ é uma VI candidata.
+Remark 3: A literatura econométrica não costuma deixar muito clara a condição 3. Às vezes falam que $Z$ deve causar $D$ (o que implica que não há causa comum em um DAG). Porém, isso não é correto, como o DAG abaixo mostra, em que, controlando para $V_3$, que é um collider, induzimos correlação entre $Z$ e $D$ para a condição de relevância ser satisfeita, e $Z$ é uma VI candidata.
 
 
 
 ```{r dag-diagram2, echo=FALSE, message=FALSE}
 dag_iv <- dagify(
-  T ~ U1,
-  V3 ~ T + Z,
-  Y ~ T + U1,
+  D ~ U1,
+  V3 ~ D + Z,
+  Y ~ D + U1,
   
   latent   = "U1",        # U não observado
-  exposure = "T",
+  exposure = "D",
   outcome  = "Y",
   coords = list(
-    x = c(Z = 0, T = 1, U1 = 1, V3 = 1, Y = 2),
-    y = c(Z = 2, T = 2, U1 = 4, V3 = -1,Y = 2)
+    x = c(Z = 0, D = 1, U1 = 1, V3 = 1, Y = 2),
+    y = c(Z = 2, D = 2, U1 = 4, V3 = -1,Y = 2)
   )
 )
 
@@ -71,20 +71,20 @@ ggdag(dag_iv, text = FALSE) +
 
 ```
 
-Do mesmo jeito, se $V_3$ for causa comum de $Z$ e $T$, não controlar para ela torna $Z$ admissível como VI.
+Do mesmo jeito, se $V_3$ for causa comum de $Z$ e $D$, não controlar para ela torna $Z$ admissível como VI.
 
 ```{r dag-diagram3, echo=FALSE, message=FALSE}
 dag_iv <- dagify(
-  T ~ U1 + V3,
+  D ~ U1 + V3,
   Z ~ V3,
-  Y ~ T + U1,
+  Y ~ D + U1,
   
   latent   = "U1",        # U não observado
-  exposure = "T",
+  exposure = "D",
   outcome  = "Y",
   coords = list(
-    x = c(Z = 0, T = 1, U1 = 1, V3 = 1, Y = 2),
-    y = c(Z = 2, T = 2, U1 = 4, V3 = -1,Y = 2)
+    x = c(Z = 0, D = 1, U1 = 1, V3 = 1, Y = 2),
+    y = c(Z = 2, D = 2, U1 = 4, V3 = -1,Y = 2)
   )
 )
 
@@ -102,16 +102,16 @@ Será que $Z$ pode ser uma IV no DAG abaixo?
 ```{r dag-diagram4, echo=FALSE, message=FALSE}
 # 1. Definir o DAG com coordenadas manuais
 dag_complex <- dagify(
-  T ~ U + W + L,        # T ← U, W, L
-  Y ~ T + U + L,        # Y ← T, U, L
+  D ~ U + W + L,        # D ← U, W, L
+  Y ~ D + U + L,        # Y ← D, U, L
   L ~ W,                # L ← W
   Z ~ W + L,            # Z ← W, L
   latent   = "U",       # U é latente
-  exposure = "T",
+  exposure = "D",
   outcome  = "Y",
   coords = list(
-    x = c(U = 1.5, T = 1,   Y = 2,   Z = -2, W = 0, L = 0),
-    y = c(U = 3,   T = 2,   Y = 2,   Z = 2,  W = 3, L = 1)
+    x = c(U = 1.5, D = 1,   Y = 2,   Z = -2, W = 0, L = 0),
+    y = c(U = 3,   D = 2,   Y = 2,   Z = 2,  W = 3, L = 1)
   )
 )
 
@@ -122,22 +122,22 @@ ggdag(dag_complex, text = FALSE) +
   theme_dag() 
 ```
 
-Vamos verificar as condições. É fácil ver que $Z$ está conectado a $T$, já que temos dois caminhos abertos, um via $W$ e outro via $L$ (e ainda um via $W$ via $L$). Portanto, a primeira condição está satisfeita. Note que se eu controlar simultaneamente para $W$ e $L$, então eu fecho todos os caminhos abertos.
+Vamos verificar as condições. É fácil ver que $Z$ está conectado a $D$, já que temos dois caminhos abertos, um via $W$ e outro via $L$ (e ainda um via $W$ via $L$). Portanto, a primeira condição está satisfeita. Note que se eu controlar simultaneamente para $W$ e $L$, então eu fecho todos os caminhos abertos.
 
-Com relação à segunda condição, remover a flecha de $T$ para $Y$ é, efetivamente, ter um novo DAG:
+Com relação à segunda condição, remover a flecha de $D$ para $Y$ é, efetivamente, ter um novo DAG:
 
 ```{r dag-diagram4-mod, echo=FALSE, message=FALSE}
 dag_complex_mod <- dagify(
-  T ~ U + W + L,        # T ← U, W, L
-  Y ~ U + L,            # Y ← U, L (sem T)
+  D ~ U + W + L,        # D ← U, W, L
+  Y ~ U + L,            # Y ← U, L (sem D)
   L ~ W,                # L ← W
   Z ~ W + L,            # Z ← W, L
   latent   = "U",
-  exposure = "T",
+  exposure = "D",
   outcome  = "Y",
   coords = list(
-    x = c(U = 1.5, T = 1,   Y = 2,   Z = -2, W = 0, L = 0),
-    y = c(U = 3,   T = 2,   Y = 2,   Z = 2,  W = 3, L = 1)
+    x = c(U = 1.5, D = 1,   Y = 2,   Z = -2, W = 0, L = 0),
+    y = c(U = 3,   D = 2,   Y = 2,   Z = 2,  W = 3, L = 1)
   )
 )
 
@@ -162,9 +162,7 @@ As duas equações são estruturais: representam relações causais, não apenas
 
 O instrumento $z_i$, por construção do modelo, entra na equação de $D_i$ mas não na equação de $y_i$. Essa ausência é a restrição de exclusão: $z$ está excluído do RHS da equação de $Y$. Sob este modelo, a hipótese se traduz operacionalmente em $\mathbb{E}[z_i \, e_i] = 0$, ou seja, o instrumento é não-correlacionado com o erro estrutural de $Y$. Voltamos a essa hipótese mais adiante, onde apresentamos três formulações diferentes.
 
-Vamos supor, para simplificar, que tanto $D_i$ quanto $Z_i$ são binários. 
-
-Considere o seguinte exemplo:
+Vamos supor, para simplificar, que tanto $D_i$ quanto $Z_i$ são binários.
 
 Nós sabemos que diferença simples de média identifica o ATE da segunda equação: $\hat{\gamma} = \bar{D}_{\{Z=1\}} - \bar{D}_{\{Z=0\}} = \frac{\sum_{i} z_i D_i}{\sum_{i} z_i} - \frac{\sum_{i} (1-z_i) D_i}{\sum_{i} (1-z_i)}$.
 
@@ -172,17 +170,17 @@ Nós sabemos que diferença simples de média identifica o ATE da segunda equaç
 
 ## MQO em 2 Estágios
 
-Considere novamente o DAG canônico para IV. Como poderíamos estimar o efeito causal de $T$ sobre $Y$?
+Considere novamente o DAG canônico para IV. Como poderíamos estimar o efeito causal de $D$ sobre $Y$?
 
 Uma possibilidade é a chamada forma reduzida, que pode ser derivada a partir da suposição de independência. Antes, vamos introduzir uma notação:
 
-A notação $Y^{T=t,Z=z}$ indica o resultado potencial para um nível do tratamento $t$ efetivamente recebido, que pode ser $0$ ou $1$, e para um nível do *treatment assignment*, que pode ser $0$ ou $1$, para um instrumento binário.
+A notação $Y^{D=d,Z=z}$ indica o resultado potencial para um nível do tratamento $d$ efetivamente recebido, que pode ser $0$ ou $1$, e para um nível do *treatment assignment*, que pode ser $0$ ou $1$, para um instrumento binário.
 
-E também temos um status potencial do tratamento (em oposição ao tratamento observado): $T^1_i$ é o status do tratamento quando $Z=1$. Similarmente, $T^0_i$ é o status do tratamento quando $Z=0$.
+E também temos um status potencial do tratamento (em oposição ao tratamento observado): $D^1_i$ é o status do tratamento quando $Z=1$. Similarmente, $D^0_i$ é o status do tratamento quando $Z=0$.
 
 E aqui temos uma nova *switching equation*:
 
-$T_i = T^0_i + (T^1_i - T^0_i)Z_i$
+$D_i = D^0_i + (D^1_i - D^0_i)Z_i$
 
 \begin{align}
    E\big[Y_i\mid Z_i=1\big]-E\big[Y_i\mid Z_i=0\big] & = E\big[Y_i(D_i^1,1)\mid Z_i=1\big]-
@@ -258,7 +256,7 @@ results %>%
   pivot_longer(cols = c(naive_coef, tsls_coef), names_to = "method", values_to = "coefficient") %>%
   ggplot(aes(x = sample_size, y = coefficient, color = method)) +
   geom_line() +
-  geom_smooth(data = . %>% filter(method == "2sls_coef"), method = "lm", se = FALSE, color = "red") +
+  geom_smooth(data = . %>% filter(method == "tsls_coef"), method = "lm", se = FALSE, color = "red") +
 
   labs(
     title = "Convergence of Regression Coefficients with Increasing Sample Size",
@@ -282,15 +280,13 @@ Quando pesquisadores utilizam o processo de assignment como instrumento para lid
 
 ### Regras com variação quasi-aleatória
 
-Kin (2019) utiliza uma regra na Suécia que obriga cidades com população acima de certo nível a adotar democracia direta. Dinas (2014) utiliza idade para votar no momento da eleição como instrumento para comparecimento eleitoral do eleitor.
+Hinnerich e Pettersson-Lidbom (2014) usam uma regra na Suécia em que municípios acima de 1500 habitantes eram obrigados a substituir assembleias diretas por democracia representativa, usando o limiar populacional como instrumento para o tipo de regime local. Dinas (2014) utiliza idade para votar no momento da eleição como instrumento para comparecimento eleitoral do eleitor.
 
 ### Teoria
 
 Quando a restrição de exclusão é baseada em teoria ou conhecimento substantivo. Aqui estão os instrumentos baseados em geografia ou clima (por exemplo, proximidade a faculdade como instrumento para ensino superior) ou (Zhu, 2017) que usou proximidade geográfica de cinco centros comerciais fora da China (ponderados pelo PIB dos centros comerciais) como instrumento para presença de multinacional (que causaria corrupção). Há o clássico instrumento de chuva como instrumento para, por exemplo, comparecimento eleitoral de eleitores democratas.
 
 Mellon (2023) revisou 289 estudos e concluiu que 195 variáveis distintas foram conectadas com chuva, o que significa que podem ser potenciais violações da restrição de exclusão.
-
-Cinelli and Hazlett
 
 Friedman et al. (2000) usaram origem legal (francesa, inglesa, sueca etc.) como instrumento para qualidade das instituições. Djankov et al. (2003) usaram origem legal como instrumento para grau de formalismo de instituições.
 
@@ -332,7 +328,7 @@ Essa suposição parece tranquilamente satisfeita no estudo em questão, já que
 
 ## Restrição de Exclusão {#restricao-de-exclusao}
 
-A restrição de exclusão requer que o instrumento $Z$ afete o resultado $Y$ apenas por meio do tratamento $T$. Não há efeito direto de $Z$ sobre $Y$ que não passe por $T$. A suposição não é testável diretamente: precisa ser justificada com argumentos substantivos sobre o mecanismo.
+A restrição de exclusão requer que o instrumento $Z$ afete o resultado $Y$ apenas por meio do tratamento $D$. Não há efeito direto de $Z$ sobre $Y$ que não passe por $D$. A suposição não é testável diretamente: precisa ser justificada com argumentos substantivos sobre o mecanismo.
 
 A literatura formula essa hipótese em três linguagens: estrutural clássica, DAG e resultados potenciais. Sob homogeneidade linear (efeito do tratamento constante), as três são equivalentes. Sob heterogeneidade, a formulação em resultados potenciais distingue exclusão de independência, e essa separação vale conhecer.
 
@@ -344,7 +340,7 @@ a restrição de exclusão é o fato de que $z_i$ não aparece no RHS desta equa
 
 ### Formulação em DAGs
 
-Tome o DAG canônico e remova a flecha $T \to Y$. A restrição de exclusão diz que, neste DAG modificado, $Z$ é d-separado de $Y$. Não há nenhum caminho aberto entre $Z$ e $Y$ uma vez que se deleta o canal via $T$. A hipótese fica geometricamente legível: se cortar a ponte $T \to Y$ deixa $Z$ desconectado de $Y$ no grafo, a exclusão vale; se sobra algum caminho (por exemplo, $Z \to W \to Y$), a exclusão é violada por esse $W$. Esta talvez seja a formulação mais limpa para o leitor que já está confortável com DAGs.
+Tome o DAG canônico e remova a flecha $D \to Y$. A restrição de exclusão diz que, neste DAG modificado, $Z$ é d-separado de $Y$. Não há nenhum caminho aberto entre $Z$ e $Y$ uma vez que se deleta o canal via $D$. A hipótese fica geometricamente legível: se cortar a ponte $D \to Y$ deixa $Z$ desconectado de $Y$ no grafo, a exclusão vale; se sobra algum caminho (por exemplo, $Z \to W \to Y$), a exclusão é violada por esse $W$. Esta talvez seja a formulação mais limpa para o leitor que já está confortável com DAGs.
 
 ### Formulação em resultados potenciais
 
@@ -360,22 +356,22 @@ O caso clássico é o uso de chuva como instrumento para comparecimento eleitora
 
 Por fim, precisamos assumir monotonicidade. Ela requer que a variável instrumental opera (fracamente) em todas as direções para todos os indivíduos. Ou seja, todo mundo que é afetado pelo instrumento é afetado da mesma maneira. Em outras palavras, o instrumento apenas move as pessoas do controle para o tratamento (ou não move a pessoa), mas nunca o contrário. Ou seja, estamos assumindo que não há defiers na nossa população.
 
-Matematicamente e de maneira geral, dizemos que a monotonicidade é válida quando $T^{Z=1} \geq T^{Z=0}$ para todas as unidades.
+Matematicamente e de maneira geral, dizemos que a monotonicidade é válida quando $D^{Z=1} \geq D^{Z=0}$ para todas as unidades.
 
-Com essas suposições, nós estimamos o LATE: Local Average Treatment Effect of T on Y. Isso porque nosso estimador é:
+Com essas suposições, nós estimamos o LATE: Local Average Treatment Effect of $D$ on $Y$. Isso porque nosso estimador é:
 
 \begin{align}
   \mathbb{E}[Y(Z=1) - Y(Z=0)] = \\
-  =& \mathbb{E}[Y(Z=1) - Y_i(Z=0)|T^1 = 1, T^0 = 1]P(T^1 = 1, T^0 = 1) \text{ always-takers} \\
-  +& \mathbb{E}[Y(Z=1) - Y_i(Z=0)|T^1 = 0, T^0 = 0]P(T^1 = 0, T^0 = 0) \text{ never-takers} \\
-  +& \mathbb{E}[Y(Z=1) - Y_i(Z=0)|T^1 = 1, T^0 = 0]P(T^1 = 1, T^0 = 0) \text{ compliers} \\
-  +& \mathbb{E}[Y(Z=1) - Y_i(Z=0)|T^1 = 0, T^0 = 1]P(T^1 = 0, T^0 = 1) \text{ defiers}
+  =& \mathbb{E}[Y(Z=1) - Y_i(Z=0)|D^1 = 1, D^0 = 1]P(D^1 = 1, D^0 = 1) \text{ always-takers} \\
+  +& \mathbb{E}[Y(Z=1) - Y_i(Z=0)|D^1 = 0, D^0 = 0]P(D^1 = 0, D^0 = 0) \text{ never-takers} \\
+  +& \mathbb{E}[Y(Z=1) - Y_i(Z=0)|D^1 = 1, D^0 = 0]P(D^1 = 1, D^0 = 0) \text{ compliers} \\
+  +& \mathbb{E}[Y(Z=1) - Y_i(Z=0)|D^1 = 0, D^0 = 1]P(D^1 = 0, D^0 = 1) \text{ defiers}
 \end{align}
 
-Porém, sabemos que o instrumento não tem efeito causal sobre always-takers nem never-takers, então o efeito causal é zero para esses grupos. E a proporção de defiers é zero, de modo que ficamos apenas com a parte dos compliers. E nesse grupo, $Z = T$, de modo que o efeito do instrumento é o efeito do tratamento. Então podemos reescrever como:
+Porém, sabemos que o instrumento não tem efeito causal sobre always-takers nem never-takers, então o efeito causal é zero para esses grupos. E a proporção de defiers é zero, de modo que ficamos apenas com a parte dos compliers. E nesse grupo, $Z = D$, de modo que o efeito do instrumento é o efeito do tratamento. Então podemos reescrever como:
 
 
-$$\delta_{IV,LATE} = \mathbb{E}[Y(1) - Y(0)|T^1 - T^0 = 1]$$
+$$\delta_{IV,LATE} = \mathbb{E}[Y(1) - Y(0)|D^1 - D^0 = 1]$$
 
 Vejam que o denominador nos dá a proporção da população que mudou seu status por causa do instrumento.
 
