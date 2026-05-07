@@ -2,6 +2,14 @@ fig:fig-classificacao
 fig:fig-metodos
 tab:bloco-compara
 eq:estrutural
+tab:dag-vs-po
+eq:itt-complier
+eq:p-d-z1
+eq:p-d-z0
+eq:p-complier-prob
+eq:p-complier
+eq:itt-first-stage
+eq:wald
 eq:modelo-simples
 eq:forma-reduzida
 eq:beta-2sls

@@ -988,7 +988,6 @@ F Statistic (df = 1; 99998)
 </tr>
 </table>
 <p>A primeira coluna traz a regressão ingênua de <span class="math inline">\(Y\)</span> sobre <span class="math inline">\(D\)</span>: o coeficiente está viesado porque <span class="math inline">\(U\)</span> afeta <span class="math inline">\(D\)</span> e <span class="math inline">\(Y\)</span> ao mesmo tempo, e a covariância induzida puxa a estimativa para longe do efeito verdadeiro <span class="math inline">\(\beta = 2\)</span> usado na simulação. A segunda coluna é o primeiro estágio: <span class="math inline">\(Z\)</span> desloca <span class="math inline">\(D\)</span> na direção esperada. A terceira coluna regrede <span class="math inline">\(Y\)</span> sobre <span class="math inline">\(\hat{D}\)</span>, a parte de <span class="math inline">\(D\)</span> projetada sobre <span class="math inline">\(Z\)</span>, e recupera um coeficiente próximo de <span class="math inline">\(2\)</span>. A diferença entre a primeira e a terceira coluna é o viés que VI corrige.</p>
-<p>Uma regra de bolso, baseada em <span class="citation">Stock and Yogo (<a href="#ref-stockyogo2005">2005</a>)</span>, diz que a estatística F da regressão do primeiro estágio deve ser maior que 10.</p>
 <div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="variáveis-instrumentais.html#cb81-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb81-2"><a href="variáveis-instrumentais.html#cb81-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb81-3"><a href="variáveis-instrumentais.html#cb81-3" tabindex="-1"></a></span>
@@ -1097,8 +1096,9 @@ F Statistic (df = 1; 99998)
 <div id="independência" class="section level3 hasAnchor" number="7.6.2">
 <h3><span class="header-section-number">7.6.2</span> Independência<a href="#independ%C3%AAncia" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Também chamada de <em>as good as random assignment</em> ou <em>no confounding for the effect of <span class="math inline">\(Z\)</span> on <span class="math inline">\(Y\)</span></em>: o instrumento é independente dos resultados potenciais <span class="math inline">\(Y_i(d)\)</span> e dos status potenciais de tratamento <span class="math inline">\(D^z_i\)</span>. No estudo de White, a aleatorização da corte sustenta essa hipótese: é difícil imaginar variável que cause a leniência judicial e simultaneamente o comparecimento eleitoral.</p>
-<p>Vale tornar o mapeamento entre as duas formulações de IV explícito. Cada uma das três suposições não-paramétricas vistas no início do capítulo tem uma contrapartida em resultados potenciais:</p>
+<p>Vale tornar o mapeamento entre as duas formulações de IV explícito. Cada uma das três suposições não-paramétricas vistas no início do capítulo tem uma contrapartida em resultados potenciais (Tabela <a href="variáveis-instrumentais.html#tab:dag-vs-po">7.1</a>).</p>
 <table>
+<caption><span id="tab:dag-vs-po">Table 7.1: </span> Mapeamento entre as condições de IV em DAG e em resultados potenciais.</caption>
 <colgroup>
 <col width="14%" />
 <col width="38%" />
@@ -1115,7 +1115,7 @@ F Statistic (df = 1; 99998)
 <tr class="odd">
 <td>Relevância</td>
 <td><span class="math inline">\(Z\)</span> conectado a <span class="math inline">\(D\)</span> no grafo original</td>
-<td><span class="math inline">\(\mathbb{E}[D_i \mid Z_i = 1] \neq \mathbb{E}[D_i \mid Z_i = 0]\)</span></td>
+<td><span class="math inline">\(\mathbb{E}[D^1_i] \neq \mathbb{E}[D^0_i]\)</span></td>
 </tr>
 <tr class="even">
 <td>Exclusão</td>
@@ -1167,36 +1167,57 @@ Dado o tratamento, o valor do instrumento não altera o resultado potencial. A n
 <p>Sob SUTVA, independência, exclusão e monotonicidade, vamos identificar o LATE em três passos: (i) decompor o efeito do instrumento sobre o resultado por tipo de unidade e mostrar que três dos quatro termos zeram; (ii) reescrever a proporção de compliers em termos observáveis; (iii) isolar o LATE.</p>
 <div id="passo-1-decomposição-por-tipo" class="section level3 hasAnchor" number="7.7.1">
 <h3><span class="header-section-number">7.7.1</span> Passo 1: decomposição por tipo<a href="#passo-1-decomposi%C3%A7%C3%A3o-por-tipo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Partindo de <span class="math inline">\(\mathbb{E}[Y_i \mid Z_i = 1] - \mathbb{E}[Y_i \mid Z_i = 0]\)</span>, sob exclusão e independência o lado direito é igual a <span class="math inline">\(\mathbb{E}[Y_i(D^1_i) - Y_i(D^0_i)]\)</span>. Pela lei da esperança total, condicionando no tipo:</p>
+<p>Partindo de <span class="math inline">\(\mathbb{E}[Y_i \mid Z_i = 1] - \mathbb{E}[Y_i \mid Z_i = 0]\)</span>, sob exclusão e independência o lado direito é igual a <span class="math inline">\(\mathbb{E}[Y_i(D^1_i) - Y_i(D^0_i)]\)</span>. Pela lei da esperança total, condicionando no tipo da unidade:</p>
 <p><span class="math display">\[\begin{align}
   \mathbb{E}[Y_i \mid Z_i = 1] - \mathbb{E}[Y_i \mid Z_i = 0]
-   =\;&amp; \mathbb{E}[Y_i(D^1_i) - Y_i(D^0_i) \mid D^1_i = 1, D^0_i = 1] \, P(D^1_i = 1, D^0_i = 1) &amp;&amp; \text{always-takers} \\
-    +&amp; \mathbb{E}[Y_i(D^1_i) - Y_i(D^0_i) \mid D^1_i = 0, D^0_i = 0] \, P(D^1_i = 0, D^0_i = 0) &amp;&amp; \text{never-takers} \\
-    +&amp; \mathbb{E}[Y_i(D^1_i) - Y_i(D^0_i) \mid D^1_i = 1, D^0_i = 0] \, P(D^1_i = 1, D^0_i = 0) &amp;&amp; \text{compliers} \\
-    +&amp; \mathbb{E}[Y_i(D^1_i) - Y_i(D^0_i) \mid D^1_i = 0, D^0_i = 1] \, P(D^1_i = 0, D^0_i = 1) &amp;&amp; \text{defiers}
+   =\;&amp; \mathbb{E}[Y_i(D^1_i) - Y_i(D^0_i) \mid \text{always-takers}] \cdot P(\text{always-takers}) \\
+    +&amp; \mathbb{E}[Y_i(D^1_i) - Y_i(D^0_i) \mid \text{never-takers}] \cdot P(\text{never-takers}) \\
+    +&amp; \mathbb{E}[Y_i(D^1_i) - Y_i(D^0_i) \mid \text{compliers}] \cdot P(\text{compliers}) \\
+    +&amp; \mathbb{E}[Y_i(D^1_i) - Y_i(D^0_i) \mid \text{defiers}] \cdot P(\text{defiers})
 \end{align}\]</span></p>
-<p>Para always- e never-takers, <span class="math inline">\(D^1_i = D^0_i\)</span>, então o integrando é <span class="math inline">\(Y_i(d) - Y_i(d) = 0\)</span> por construção. Não são as probabilidades que zeram (always- e never-takers existem com probabilidade positiva); o que zera é o que está dentro da esperança. Para defiers, o integrando não é zero, mas a <em>probabilidade</em> zera pela monotonicidade: <span class="math inline">\(P(D^1_i = 0, D^0_i = 1) = 0\)</span>. Sobra apenas o termo dos compliers, para os quais <span class="math inline">\(Y_i(D^1_i) - Y_i(D^0_i) = Y_i(1) - Y_i(0)\)</span>:</p>
-<p><span class="math display">\[\mathbb{E}[Y_i \mid Z_i = 1] - \mathbb{E}[Y_i \mid Z_i = 0] = \mathbb{E}[Y_i(1) - Y_i(0) \mid \text{complier}] \cdot P(\text{complier}).\]</span></p>
+<p>onde os tipos são definidos pelos pares <span class="math inline">\((D^1_i, D^0_i)\)</span> apresentados em §<a href="variáveis-instrumentais.html#tipologia-de-unidades">7.5</a>. Para always-takers (<span class="math inline">\(D^1_i = D^0_i = 1\)</span>) e never-takers (<span class="math inline">\(D^1_i = D^0_i = 0\)</span>), o integrando é <span class="math inline">\(Y_i(d) - Y_i(d) = 0\)</span> por construção. Não são as probabilidades que zeram — always- e never-takers existem com probabilidade positiva; o que zera é o que está dentro da esperança. Para defiers, o integrando não é zero, mas a <em>probabilidade</em> zera pela monotonicidade: <span class="math inline">\(P(\text{defiers}) = P(D^1_i = 0, D^0_i = 1) = 0\)</span>. Sobra apenas o termo dos compliers, para os quais <span class="math inline">\(Y_i(D^1_i) - Y_i(D^0_i) = Y_i(1) - Y_i(0)\)</span>:</p>
+<p><span class="math display" id="eq:itt-complier">\[\begin{equation}
+\mathbb{E}[Y_i \mid Z_i = 1] - \mathbb{E}[Y_i \mid Z_i = 0] = \mathbb{E}[Y_i(1) - Y_i(0) \mid \text{complier}] \cdot P(\text{complier}).
+\tag{7.2}
+\end{equation}\]</span></p>
 </div>
 <div id="passo-2-identificar-ptextcomplier" class="section level3 hasAnchor" number="7.7.2">
 <h3><span class="header-section-number">7.7.2</span> Passo 2: identificar <span class="math inline">\(P(\text{complier})\)</span><a href="variáveis-instrumentais.html#passo-2-identificar-ptextcomplier" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>O lado esquerdo da equação acima é a forma reduzida — observável diretamente. O primeiro fator do lado direito é o LATE — o que queremos. Falta o segundo fator. Sob monotonicidade, a partição em tipos satisfaz</p>
-<p><span class="math display">\[\begin{align}
-P(D_i = 1 \mid Z_i = 1) &amp;= P(\text{complier}) + P(\text{always-taker}) \\
-P(D_i = 1 \mid Z_i = 0) &amp;= P(\text{always-taker})
-\end{align}\]</span></p>
-<p>(a primeira soma always-takers e compliers, os únicos tipos que recebem <span class="math inline">\(D=1\)</span> quando <span class="math inline">\(Z=1\)</span>; a segunda fica só com always-takers, já que defiers foram eliminados). Subtraindo:</p>
-<p><span class="math display">\[P(\text{complier}) = \mathbb{E}[D_i \mid Z_i = 1] - \mathbb{E}[D_i \mid Z_i = 0].\]</span></p>
+<p>O lado esquerdo de <a href="variáveis-instrumentais.html#eq:itt-complier">(7.2)</a> é a forma reduzida — observável diretamente. O primeiro fator do lado direito é o LATE — o que queremos. Falta o segundo fator, <span class="math inline">\(P(\text{complier})\)</span>. Sob monotonicidade, a partição em tipos satisfaz</p>
+<p><span class="math display" id="eq:p-d-z1">\[\begin{equation}
+P(D_i = 1 \mid Z_i = 1) = P(\text{complier}) + P(\text{always-taker})
+\tag{7.3}
+\end{equation}\]</span></p>
+<p><span class="math display" id="eq:p-d-z0">\[\begin{equation}
+P(D_i = 1 \mid Z_i = 0) = P(\text{always-taker}).
+\tag{7.4}
+\end{equation}\]</span></p>
+<p>A equação <a href="variáveis-instrumentais.html#eq:p-d-z1">(7.3)</a> soma always-takers e compliers — os únicos tipos que recebem <span class="math inline">\(D = 1\)</span> quando <span class="math inline">\(Z = 1\)</span>. A equação <a href="variáveis-instrumentais.html#eq:p-d-z0">(7.4)</a> fica só com always-takers, já que defiers foram eliminados pela monotonicidade. Subtraindo <a href="variáveis-instrumentais.html#eq:p-d-z0">(7.4)</a> de <a href="variáveis-instrumentais.html#eq:p-d-z1">(7.3)</a>:</p>
+<p><span class="math display" id="eq:p-complier-prob">\[\begin{equation}
+P(\text{complier}) = P(D_i = 1 \mid Z_i = 1) - P(D_i = 1 \mid Z_i = 0).
+\tag{7.5}
+\end{equation}\]</span></p>
+<p>Como <span class="math inline">\(D_i\)</span> é binário, <span class="math inline">\(P(D_i = 1 \mid Z_i = z) = \mathbb{E}[D_i \mid Z_i = z]\)</span> (a esperança de uma Bernoulli é a probabilidade do evento). A equação <a href="variáveis-instrumentais.html#eq:p-complier-prob">(7.5)</a> se reescreve em termos de esperanças observáveis:</p>
+<p><span class="math display" id="eq:p-complier">\[\begin{equation}
+P(\text{complier}) = \mathbb{E}[D_i \mid Z_i = 1] - \mathbb{E}[D_i \mid Z_i = 0].
+\tag{7.6}
+\end{equation}\]</span></p>
 <p>Essa diferença é justamente o <strong>primeiro estágio</strong> — o efeito do instrumento sobre o tratamento.</p>
 </div>
 <div id="passo-3-isolar-o-late" class="section level3 hasAnchor" number="7.7.3">
 <h3><span class="header-section-number">7.7.3</span> Passo 3: isolar o LATE<a href="variáveis-instrumentais.html#passo-3-isolar-o-late" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Substituindo o resultado do Passo 2 na equação do Passo 1 e dividindo:</p>
-<p><span class="math display">\[
+<p>Substituindo <a href="variáveis-instrumentais.html#eq:p-complier">(7.6)</a> em <a href="variáveis-instrumentais.html#eq:itt-complier">(7.2)</a>, o segundo fator do lado direito vira a diferença observada <span class="math inline">\(\mathbb{E}[D_i \mid Z_i = 1] - \mathbb{E}[D_i \mid Z_i = 0]\)</span> no lugar de <span class="math inline">\(P(\text{complier})\)</span>:</p>
+<p><span class="math display" id="eq:itt-first-stage">\[\begin{equation}
+\mathbb{E}[Y_i \mid Z_i = 1] - \mathbb{E}[Y_i \mid Z_i = 0] = \mathbb{E}[Y_i(1) - Y_i(0) \mid \text{complier}] \cdot \left( \mathbb{E}[D_i \mid Z_i = 1] - \mathbb{E}[D_i \mid Z_i = 0] \right).
+\tag{7.7}
+\end{equation}\]</span></p>
+<p>Para isolar o LATE, dividimos os dois lados de <a href="variáveis-instrumentais.html#eq:itt-first-stage">(7.7)</a> pela diferença <span class="math inline">\(\mathbb{E}[D_i \mid Z_i = 1] - \mathbb{E}[D_i \mid Z_i = 0]\)</span> — o primeiro estágio. Sob relevância, esse denominador é diferente de zero, e a divisão é bem definida:</p>
+<p><span class="math display" id="eq:wald">\[\begin{equation}
 \delta_{IV,LATE} \;=\; \mathbb{E}[Y_i(1) - Y_i(0) \mid \text{complier}]
             \;=\; \frac{\mathbb{E}[Y_i \mid Z_i = 1] - \mathbb{E}[Y_i \mid Z_i = 0]}
                        {\mathbb{E}[D_i \mid Z_i = 1] - \mathbb{E}[D_i \mid Z_i = 0]}.
-\]</span></p>
+\tag{7.8}
+\end{equation}\]</span></p>
 <p>Este é o <strong>estimador de Wald</strong>: a razão entre forma reduzida (numerador) e primeiro estágio (denominador). O denominador é a proporção de compliers na população; sua positividade requer relevância — sem variação induzida em <span class="math inline">\(D\)</span>, o Wald não é definido.</p>
 </div>
 <div id="localidade-do-late" class="section level3 hasAnchor" number="7.7.4">
@@ -1214,7 +1235,7 @@ P(D_i = 1 \mid Z_i = 0) &amp;= P(\text{always-taker})
 y_i &amp;= \beta D_i + e_i \\
 D_i &amp;= \pi z_i + u_i
 \end{aligned}
-\tag{7.2}
+\tag{7.9}
 \end{equation}\]</span></p>
 <p>Substituindo a equação do primeiro estágio na equação de resultado, <span class="math inline">\(y_i\)</span> pode ser expresso em termos de <span class="math inline">\(z_i\)</span> apenas:</p>
 <p><span class="math display" id="eq:forma-reduzida">\[\begin{equation}
@@ -1222,21 +1243,21 @@ D_i &amp;= \pi z_i + u_i
 y_i &amp;= \beta (\pi z_i + u_i) + e_i \\
     &amp;= \underbrace{\beta \pi}_{\delta}\, z_i + \underbrace{\beta u_i + e_i}_{v_i}.
 \end{aligned}
-\tag{7.3}
+\tag{7.10}
 \end{equation}\]</span></p>
-<p>A equação <a href="variáveis-instrumentais.html#eq:forma-reduzida">(7.3)</a> é a <em>forma reduzida</em>: <span class="math inline">\(y_i\)</span> projetado diretamente sobre o instrumento <span class="math inline">\(z_i\)</span>, com coeficiente <span class="math inline">\(\delta = \beta \pi\)</span>. A regressão de <span class="math inline">\(y\)</span> sobre <span class="math inline">\(z\)</span> identifica <span class="math inline">\(\hat\delta\)</span>; a regressão de <span class="math inline">\(D\)</span> sobre <span class="math inline">\(z\)</span> identifica <span class="math inline">\(\hat\pi\)</span>. Como <span class="math inline">\(\delta = \beta \pi\)</span> na estrutura, segue-se que <span class="math inline">\(\beta = \delta / \pi\)</span>. Substituindo as quantidades populacionais por estimativas:</p>
+<p>A equação <a href="variáveis-instrumentais.html#eq:forma-reduzida">(7.10)</a> é a <em>forma reduzida</em>: <span class="math inline">\(y_i\)</span> projetado diretamente sobre o instrumento <span class="math inline">\(z_i\)</span>, com coeficiente <span class="math inline">\(\delta = \beta \pi\)</span>. A regressão de <span class="math inline">\(y\)</span> sobre <span class="math inline">\(z\)</span> identifica <span class="math inline">\(\hat\delta\)</span>; a regressão de <span class="math inline">\(D\)</span> sobre <span class="math inline">\(z\)</span> identifica <span class="math inline">\(\hat\pi\)</span>. Como <span class="math inline">\(\delta = \beta \pi\)</span> na estrutura, segue-se que <span class="math inline">\(\beta = \delta / \pi\)</span>. Substituindo as quantidades populacionais por estimativas:</p>
 <p><span class="math display" id="eq:beta-2sls">\[\begin{equation}
 \hat\beta_{2SLS} = \frac{\hat\delta}{\hat\pi}.
-\tag{7.4}
+\tag{7.11}
 \end{equation}\]</span></p>
 <p>Esta é a versão regressiva do estimador de Wald visto na seção anterior: numerador é a forma reduzida, denominador é o primeiro estágio. Equivalentemente, no algoritmo em dois estágios: regrida <span class="math inline">\(D\)</span> sobre <span class="math inline">\(z\)</span> para obter <span class="math inline">\(\hat D = \hat\pi z\)</span>; em seguida regrida <span class="math inline">\(y\)</span> sobre <span class="math inline">\(\hat D\)</span>. O coeficiente da segunda regressão é exatamente <span class="math inline">\(\hat\delta / \hat\pi\)</span>.</p>
 </div>
 <div id="por-que-dividir-por-hatpi-é-problemático-sob-instrumento-fraco" class="section level3 hasAnchor" number="7.8.2">
 <h3><span class="header-section-number">7.8.2</span> Por que dividir por <span class="math inline">\(\hat\pi\)</span> é problemático sob instrumento fraco<a href="#por-que-dividir-por-hatpi-%C3%A9-problem%C3%A1tico-sob-instrumento-fraco" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>A divisão por <span class="math inline">\(\hat\pi\)</span> na equação <a href="variáveis-instrumentais.html#eq:beta-2sls">(7.4)</a> é o que torna a estimação delicada: quando o primeiro estágio é fraco, <span class="math inline">\(\hat\pi\)</span> é próximo de zero, e pequenas perturbações em <span class="math inline">\(\hat\delta\)</span> ou <span class="math inline">\(\hat\pi\)</span> se amplificam dramaticamente na razão. Sob homocedasticidade, é possível mostrar que o viés de <span class="math inline">\(\hat\beta_{2SLS}\)</span> em amostras finitas se relaciona com a estatística <span class="math inline">\(F\)</span> do primeiro estágio segundo</p>
+<p>A divisão por <span class="math inline">\(\hat\pi\)</span> na equação <a href="variáveis-instrumentais.html#eq:beta-2sls">(7.11)</a> é o que torna a estimação delicada: quando o primeiro estágio é fraco, <span class="math inline">\(\hat\pi\)</span> é próximo de zero, e pequenas perturbações em <span class="math inline">\(\hat\delta\)</span> ou <span class="math inline">\(\hat\pi\)</span> se amplificam dramaticamente na razão. Sob homocedasticidade, é possível mostrar que o viés de <span class="math inline">\(\hat\beta_{2SLS}\)</span> em amostras finitas se relaciona com a estatística <span class="math inline">\(F\)</span> do primeiro estágio segundo</p>
 <p><span class="math display" id="eq:vies-2sls">\[\begin{equation}
 \mathbb{E}[\hat\beta_{2SLS} - \beta] \;\approx\; \underbrace{\frac{\text{Cov}(u, e)}{\text{Var}(u)}}_{\text{OVB}} \cdot \frac{k}{F + 1},
-\tag{7.5}
+\tag{7.12}
 \end{equation}\]</span></p>
 <p>onde <span class="math inline">\(k\)</span> é o número de instrumentos. Se <span class="math inline">\(F = 0\)</span>, o viés é igual ao do MQO ingênuo: VI não corrige nada. Quanto maior <span class="math inline">\(F\)</span>, menor o viés. E quanto mais instrumentos para um mesmo <span class="math inline">\(F\)</span>, maior o viés em amostras finitas.</p>
 <p>A regra de bolso clássica é <span class="math inline">\(F &gt; 10\)</span>, devida a <span class="citation">Staiger and Stock (<a href="#ref-staigerstock1997">1997</a>)</span> e refinada por <span class="citation">Stock and Yogo (<a href="#ref-stockyogo2005">2005</a>)</span>: com isso, o viés de 2SLS é inferior a 10% do viés de MQO com 95% de confiança. A suposição por trás dessa regra é homocedasticidade. <span class="citation">Montiel Olea and Pflueger (<a href="#ref-montielolea2013">2013</a>)</span> desenvolveram um teste robusto a heterocedasticidade que admite clustering e autocorrelação; sob essa estatística <span class="math inline">\(F\)</span> efetiva, o ponto de corte recomendado sobe para cerca de 23,1.</p>
