@@ -170,13 +170,20 @@ experimentos-1
 regras-com-variação-quasi-aleatória
 teoria
 efeito-heterogêneo
-suposições-para-estimar-o-late
-restrição-de-exclusão-1
+tipologia-de-unidades
+suposições-para-o-late
+sutva
+independência
+restricao-de-exclusao
+formulação-estrutural-clássica
+formulação-em-dags
+formulação-em-resultados-potenciais
+exemplo-de-violação
 monotonicidade
+identificação-do-late
 estimação-aka-estatística-f
 f-stat
 resumo-e-próximos-passos-4
-referências-1
 desenho-de-regressão-descontínua
 outline-da-aula
 características-chave-da-rdd
@@ -212,7 +219,7 @@ regressão-rdd
 placebo-tests
 pcrd
 checklist-para-um-paper-de-rdd
-referências-2
+referências-1
 diferença-em-diferenças
 motivação-por-que-did
 modelo-básico-22
@@ -248,7 +255,7 @@ abordagem-2-tendências-paralelas-condicionais
 o-que-não-fazer-covariáveis-no-twfe-ingenuamente
 baseline-vs.-time-varying-uma-distinção-crucial
 resumo
-referências-3
+referências-2
 time-series-cross-section-tscs
 introdução-6
 within-versus-between
@@ -262,7 +269,7 @@ remark
 suposições-para-inferência
 remark-1
 efeitos-aleatórios
-referências-4
+referências-3
 interferência-spillover-e-dinâmica
 suposições-simplificadoras
 po-com-tratamento-de-múltiplos-valores-multi-valued
@@ -296,7 +303,7 @@ implementação-no-r
 trop-estimador-triplamente-robusto
 quando-usar-cada-método-guia-prático
 resumo-2
-referências-5
+referências-4
 llms-e-outras
 google-colab
 machine-learning
@@ -313,7 +320,7 @@ double-debiasing
 cross-fitting
 questões-práticas
 resumo-e-próximos-passos-5
-referências-6
+referências-5
 resumo-3
 matching-1
 iv
@@ -359,4 +366,4 @@ aplicações-em-relações-internacionais
 comércio-e-política-externa
 comportamento-legislativo-em-política-comercial
 temas-com-potencial-inexplorado-em-ri
-referências-7
+referências-6
