@@ -32,6 +32,8 @@ $$
 
 Esse estimando é local porque se refere às unidades no ponto de corte, não à população inteira. Sob continuidade dos resultados potenciais, podemos identificá-lo pelo salto no resultado observado em $c$. Escreverei os limites laterais como $x \to c^-$ para aproximação pela esquerda e $x \to c^+$ para aproximação pela direita:
 
+Parte da literatura chama esse objeto de LATE porque ele é local em $X_i=c$. Neste capítulo, usarei "ATE local no cutoff" para o sharp RD. A escolha evita confundir esse estimando com o LATE de variáveis instrumentais, que reaparece no fuzzy RD como efeito para compliers.
+
 $$
 \tau_{SRD} = \lim_{x \to c^+} E[Y_i|X_i=x] - \lim_{x \to c^-} E[Y_i|X_i=x].
 $$
@@ -529,6 +531,8 @@ knitr::kable(
 )
 ```
 
+Na Tabela \@ref(tab:Cattaneo-test), a hipótese nula é continuidade da densidade de $X_i$ no cutoff. A diferença estimada na densidade é `r tabela_densidade$Valor[1]`, isto é, praticamente zero neste exemplo. A estatística $t$ é `r tabela_densidade$Valor[2]` e o p-valor é `r tabela_densidade$Valor[3]`. Como o p-valor é alto, não rejeitamos a hipótese nula de continuidade da densidade. A interpretação substantiva é que, nesses dados simulados, não há evidência de acúmulo ou buraco de observações exatamente no cutoff. Isso não prova ausência de manipulação; apenas indica que o diagnóstico não encontrou uma descontinuidade detectável na densidade.
+
 Essa é uma área ativa de pesquisa. Para a aula, o ponto é simples: `rddensity` é um diagnóstico útil, mas não substitui conhecimento institucional sobre quem poderia manipular $X$, com que precisão e em que direção.
 
 
@@ -701,6 +705,8 @@ knitr::kable(
 )
 ```
 
+A Tabela \@ref(tab:tabela-fuzzy-rd-r) deve ser lida em três passos. A primeira linha é a forma reduzida: a elegibilidade gerada pelo cutoff aumenta $Y$ em `r tabela_fuzzy$Estimativa[1]` unidades. A segunda linha é a primeira etapa: a elegibilidade aumenta a probabilidade de receber tratamento em `r tabela_fuzzy$Estimativa[2]` pontos de probabilidade. A terceira linha divide esses dois saltos. Portanto, o LATE não são as três estimativas. O LATE é apenas a razão de Wald local, `r tabela_fuzzy$Estimativa[3]`, interpretada como o efeito médio local para os compliers no cutoff.
+
 ## Testes placebo
 
 Testando descontinuidade em covariáveis predeterminadas: covariáveis que não devem ser afetadas pelo tratamento não devem apresentar salto no ponto de corte. Esse é um diagnóstico de plausibilidade, não uma prova da suposição de continuidade.
@@ -715,7 +721,7 @@ Ao mesmo tempo, muitos testes diagnósticos criam outro problema: se testarmos m
 
 ## Extensões e casos difíceis
 
-Algumas *running variables* são discretas: idade em anos, notas arredondadas, população municipal em números inteiros ou margens eleitorais reportadas com poucas casas decimais. A discrição não invalida automaticamente um RD. O problema aparece quando há poucos valores de $X_i$ perto do cutoff. Nesse caso, a estimativa depende mais de extrapolação local, e testes de densidade ou balanceamento podem ter poder limitado.
+Algumas *running variables* são discretas: idade em anos, notas arredondadas, população municipal em números inteiros ou margens eleitorais reportadas com poucas casas decimais. O fato de $X_i$ ser discreta não invalida automaticamente um RD. O problema aparece quando há poucos valores de $X_i$ perto do cutoff. Nesse caso, a estimativa depende mais de extrapolação local, e testes de densidade ou balanceamento podem ter poder limitado.
 
 Muitos RDDs em ciência política e políticas públicas usam dados agrupados: municípios, escolas, distritos, eleições repetidas ou unidades administrativas. Clusterizar erros padrão pode ser necessário, mas não resolve o problema por si só. A inferência depende de quantos clusters existem perto do cutoff e de como $X_i$ varia dentro e entre clusters.
 
@@ -732,6 +738,12 @@ Marshall (2024) na AJPS introduz a nomenclatura do desenho de pesquisa Politicia
 "In contrast, the treatment in PCRD designs — which instead seek to estimate the LATE of an elected politician characteristic — is defined by possessing (or not) predetermined characteristic X, conditional on narrowly winning an election. (...) restricting attention to close elections entails conditioning on candidate vote shares that may be affected by X. (...) [It] generally introduce bias — even when X is independent of other predetermined variables and the weak continuity assumption underpinning standard RD designs holds." (p. 495)
 
 Basicamente, Marshall está dizendo que nesses casos, close election é um collider, e isso abre as portas para vieses de variáveis que causem $y$ e se a eleição é apertada.
+
+A recomendação não é resolver o problema adicionando controles. O pesquisador precisa escolher entre três caminhos. O primeiro é defender uma hipótese forte: ou a característica $X_i$ não afeta a votação, ou os diferenciais compensatórios que tornam a eleição apertada não afetam o resultado de interesse. Por exemplo, ao estudar o efeito de eleger mulheres, seria preciso argumentar que gênero não afeta votos naquela eleição, ou que diferenças de experiência, competência, partido e recursos entre candidatas e candidatos em disputas apertadas não afetam o outcome. Em muitas aplicações, essa defesa é difícil.
+
+O segundo caminho é tratar os testes de covariáveis de candidatos como diagnóstico de viés, não como validação automática. Se mulheres eleitas em disputas apertadas são mais experientes que homens eleitos em disputas apertadas, essa diferença ajuda a entender o que o estimador está comparando. Se não encontramos diferença observável, ainda não provamos que não há diferenciais compensatórios não observados.
+
+O terceiro caminho é mudar o estimando. Em vez de afirmar que o PCRD identifica o efeito "all else equal" de gênero, raça, profissão ou partido, o pesquisador pode interpretar a estimativa como um efeito composto: eleger uma pessoa com a característica $X_i$ junto com o conjunto de características que permite que esse tipo de candidato vença uma eleição apertada. Essa interpretação pode ser útil, mas é menos limpa teoricamente e tem validade externa limitada.
 
 ```{r DAG, echo=FALSE, fig.cap="PCRD: condicionar em eleições apertadas pode abrir um caminho de collider.", fig.alt="DAG em que gênero e competência afetam a probabilidade de eleição apertada e também o resultado, tornando eleição apertada um collider."}
 
@@ -793,6 +805,8 @@ ggplot() +
 11. Discutir casos difíceis: running variable discreta, clusters, múltiplos cutoffs, RD espacial, eleições apertadas ou tratamento dinâmico.
 
 12. Estabelecer a validade da estratégia antes de discutir apenas resultados.
+
+13. Em PCRD, não interpretar automaticamente a estimativa como efeito isolado de uma característica do político. Explicitar se a hipótese forte de Marshall é plausível; caso contrário, apresentar a estimativa como efeito composto ou como exercício de bounds/sensibilidade.
 
 ## Referências
 
