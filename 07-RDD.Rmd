@@ -24,7 +24,13 @@ A suposição de identificação é que os resultados potenciais $Y_i(0)$ e $Y_i
 
 ### Estimativa dos Efeitos do Tratamento
 
-A comparação de $\lim_{x \to c^-} E[Y_i | X_i = x]$ com $\lim_{x \to c^+} E[Y_i | X_i = x]$ fornece uma estimativa do salto no resultado observado no cutoff. Escreverei os limites laterais como $x \to c^-$ para aproximação pela esquerda e $x \to c^+$ para aproximação pela direita:
+No sharp RD, o estimando causal é um ATE local no cutoff:
+
+$$
+\tau_{SRD} = E[Y_i(1)-Y_i(0)\mid X_i=c].
+$$
+
+Esse estimando é local porque se refere às unidades no ponto de corte, não à população inteira. Sob continuidade dos resultados potenciais, podemos identificá-lo pelo salto no resultado observado em $c$. Escreverei os limites laterais como $x \to c^-$ para aproximação pela esquerda e $x \to c^+$ para aproximação pela direita:
 
 $$
 \tau_{SRD} = \lim_{x \to c^+} E[Y_i|X_i=x] - \lim_{x \to c^-} E[Y_i|X_i=x].

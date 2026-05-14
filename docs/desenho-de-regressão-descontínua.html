@@ -639,7 +639,11 @@ div.csl-indent {
 </div>
 <div id="estimativa-dos-efeitos-do-tratamento" class="section level3 hasAnchor" number="8.2.3">
 <h3><span class="header-section-number">8.2.3</span> Estimativa dos Efeitos do Tratamento<a href="desenho-de-regressão-descontínua.html#estimativa-dos-efeitos-do-tratamento" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>A comparação de <span class="math inline">\(\lim_{x \to c^-} E[Y_i | X_i = x]\)</span> com <span class="math inline">\(\lim_{x \to c^+} E[Y_i | X_i = x]\)</span> fornece uma estimativa do salto no resultado observado no cutoff. Escreverei os limites laterais como <span class="math inline">\(x \to c^-\)</span> para aproximação pela esquerda e <span class="math inline">\(x \to c^+\)</span> para aproximação pela direita:</p>
+<p>No sharp RD, o estimando causal é um ATE local no cutoff:</p>
+<p><span class="math display">\[
+\tau_{SRD} = E[Y_i(1)-Y_i(0)\mid X_i=c].
+\]</span></p>
+<p>Esse estimando é local porque se refere às unidades no ponto de corte, não à população inteira. Sob continuidade dos resultados potenciais, podemos identificá-lo pelo salto no resultado observado em <span class="math inline">\(c\)</span>. Escreverei os limites laterais como <span class="math inline">\(x \to c^-\)</span> para aproximação pela esquerda e <span class="math inline">\(x \to c^+\)</span> para aproximação pela direita:</p>
 <p><span class="math display">\[
 \tau_{SRD} = \lim_{x \to c^+} E[Y_i|X_i=x] - \lim_{x \to c^-} E[Y_i|X_i=x].
 \]</span></p>
