@@ -1,6 +1,6 @@
 # Desenho de Regressão Descontínua
 
-## Outline da aula
+## Roteiro da aula
 
 Na aula de hoje, iremos aprender como desenhos de regressão descontínua usam regras com pontos de corte para identificar efeitos causais locais.
 
@@ -8,50 +8,32 @@ A aula terá uma ênfase aplicada. Primeiro, vamos construir a intuição do des
 
 ## Características-chave da RDD
 
-A Regressão Descontínua (RDD) é caracterizada por uma variável de ordenação $X_i$ que determina, ou altera fortemente, a chance de receber tratamento em um ponto de corte conhecido $c$. Por convenção, $X_i$ é chamada de *running variable*, *assignment variable* ou *forcing variable*. O tratamento é denotado por $T_i$, com $T_i=1$ para tratados e $T_i=0$ para controles.
+A Regressão Descontínua (RDD) é caracterizada por uma variável de ordenação $X_i$ que determina, ou altera fortemente, a chance de receber tratamento em um ponto de corte conhecido $c$. Por convenção, $X_i$ é chamada de *running variable*, *assignment variable* ou *forcing variable*. Como no restante do livro, o tratamento é denotado por $D_i$, com $D_i=1$ para tratados e $D_i=0$ para controles.
 
 ### Determinação do Tratamento
 
-Em um desenho RDD *sharp*, uma unidade é tratada se $X_i \geq c$ e não tratada se $X_i < c$. Assim, $T_i$ é uma função determinística de $X_i$: $T_i = 1(X_i \geq c)$. A *running variable* determina completamente quem recebe tratamento.
-
-## Fuzzy RDD
-
-Pode acontecer de o ponto de corte não determinar perfeitamente quem recebe tratamento, mas apenas aumentar a probabilidade de tratamento. Esse é o desenho *fuzzy RD*.
-
-Nesse caso, a regra de elegibilidade funciona como um instrumento local. Defina $Z_i = 1(X_i \geq c)$. Em um fuzzy RD, $Z_i$ afeta $T_i$, mas nem todos cumprem a regra. A estimativa é um estimador de Wald local:
-
-$$
-\tau_{FRD} =
-\frac{\lim_{x \downarrow c} E[Y_i|X_i=x] - \lim_{x \uparrow c} E[Y_i|X_i=x]}
-{\lim_{x \downarrow c} E[T_i|X_i=x] - \lim_{x \uparrow c} E[T_i|X_i=x]}.
-$$
-
-Essa razão é a forma reduzida dividida pela primeira etapa, exatamente como em variáveis instrumentais. A interpretação é um LATE no cutoff: o efeito médio local para as unidades cujo tratamento muda por causa da regra de elegibilidade. Como em IV, a interpretação exige relevância da primeira etapa, monotonicidade, exclusão e continuidade dos resultados potenciais e do tratamento potencial ao redor do ponto de corte.
-
-O fuzzy RD merece atenção especial porque a inferência usual pode se comportar mal quando a primeira etapa é fraca, quando a *running variable* é discreta ou quando usamos *donut designs*. Noack e Rothe (2024) propõem inferência *bias-aware* para fuzzy RD, em espírito próximo aos testes de Anderson-Rubin em IV: em vez de depender apenas de aproximações delta-method para a razão, o procedimento leva em conta explicitamente o viés potencial e a força da primeira etapa.
-
-Exemplo em ciência política: uma regra eleitoral pode definir o número mínimo de votos para obter cadeiras, mas migração partidária, coligações ou decisões administrativas podem fazer com que a regra altere fortemente, mas não determine perfeitamente, o tratamento substantivo de interesse.
+Em um desenho RDD *sharp*, uma unidade é tratada se $X_i \geq c$ e não tratada se $X_i < c$. Assim, $D_i$ é uma função determinística de $X_i$: $D_i = 1(X_i \geq c)$. A *running variable* determina completamente quem recebe tratamento.
 
 ### Observação e Corte
 
-É essencial observar $X$ e conhecer o **ponto de corte** ou **limiar** $c$.
+É essencial observar $X$ e conhecer o ponto de corte, ou limiar, $c$.
 
-O requisito central não é que a *running variable* seja perfeitamente contínua em sentido literal. O requisito central é que exista suporte suficiente dos dois lados do cutoff para estimar limites laterais e que os resultados potenciais condicionais sejam contínuos ao redor de $c$. *Running variables* discretas não invalidam automaticamente um RD, mas mudam o tipo de evidência disponível: com poucos valores distintos perto do cutoff, a extrapolação local fica mais forte, os testes de densidade perdem interpretação simples e a inferência precisa ser mais cautelosa.
+O desenho não exige que a *running variable* seja perfeitamente contínua em sentido literal. A análise precisa de suporte suficiente dos dois lados do cutoff para estimar limites laterais, além de continuidade dos resultados potenciais condicionais ao redor de $c$. *Running variables* discretas não invalidam automaticamente um RD, mas mudam o tipo de evidência disponível: com poucos valores distintos perto do cutoff, a extrapolação local fica mais forte, os testes de densidade perdem interpretação simples e a inferência precisa ser mais cautelosa.
 
-A suposição chave é que os resultados potenciais $Y_i(0)$ e $Y_i(1)$ variem suavemente ao redor do ponto de corte. Como sempre, essa suposição não é diretamente testável, devido ao problema fundamental da inferência causal. Lee (2008), em um artigo clássico, enfatiza uma condição suficiente importante: as unidades não podem manipular a *running variable* com precisão suficiente para escolher em qual lado do cutoff ficar. Isso implica que covariáveis de pré-tratamento deveriam se comportar suavemente ao redor do cutoff. Essa implicação é diagnosticável nas variáveis observadas, mas não prova a suposição para variáveis não observadas.
+A suposição de identificação é que os resultados potenciais $Y_i(0)$ e $Y_i(1)$ variem suavemente ao redor do ponto de corte. Essa suposição não é diretamente testável, pois nunca observamos os dois resultados potenciais da mesma unidade. Lee (2008) enfatiza uma condição suficiente: as unidades não podem manipular a *running variable* com precisão suficiente para escolher em qual lado do cutoff ficar. Isso implica que covariáveis de pré-tratamento deveriam se comportar suavemente ao redor do cutoff. Essa implicação é diagnosticável nas variáveis observadas, mas não prova a suposição para variáveis não observadas.
 
 ### Estimativa dos Efeitos do Tratamento
 
-A comparação de $\lim_{x \uparrow c} E[Y_i | X_i = x]$ com $\lim_{x \downarrow c} E[Y_i | X_i = x]$ fornece uma estimativa do salto no resultado observado no cutoff. Usarei $c^-$ para o limite pela esquerda e $c^+$ para o limite pela direita:
+A comparação de $\lim_{x \to c^-} E[Y_i | X_i = x]$ com $\lim_{x \to c^+} E[Y_i | X_i = x]$ fornece uma estimativa do salto no resultado observado no cutoff. Escreverei os limites laterais como $x \to c^-$ para aproximação pela esquerda e $x \to c^+$ para aproximação pela direita:
 
 $$
-\tau_{SRD} = \lim_{x \downarrow c} E[Y_i|X_i=x] - \lim_{x \uparrow c} E[Y_i|X_i=x].
+\tau_{SRD} = \lim_{x \to c^+} E[Y_i|X_i=x] - \lim_{x \to c^-} E[Y_i|X_i=x].
 $$
 
-No desenho *sharp*, essa comparação é equivalente a comparar $\lim_{x \uparrow c} E[Y_i | X_i = x, T_i=0]$ com $\lim_{x \downarrow c} E[Y_i | X_i = x, T_i=1]$, porque à direita de $c$ todos recebem tratamento e à esquerda ninguém recebe. Sob continuidade dos resultados potenciais:
+No desenho *sharp*, essa comparação é equivalente a comparar $\lim_{x \to c^-} E[Y_i | X_i = x, D_i=0]$ com $\lim_{x \to c^+} E[Y_i | X_i = x, D_i=1]$, porque à direita de $c$ todos recebem tratamento e à esquerda ninguém recebe. Sob continuidade dos resultados potenciais:
 
-- $\lim_{x \uparrow c} E[Y_i | X_i = x] \approx E[Y_{0i} | X_i = c]$
-- $\lim_{x \downarrow c} E[Y_i | X_i = x] \approx E[Y_{1i} | X_i = c]$
+- $\lim_{x \to c^-} E[Y_i | X_i = x] \approx E[Y_i(0) | X_i = c]$
+- $\lim_{x \to c^+} E[Y_i | X_i = x] \approx E[Y_i(1) | X_i = c]$
 
 Se fôssemos usar regressão linear, o modelo seria:
 
@@ -59,152 +41,173 @@ $$
 Y_i = \alpha + \tau D_i + \beta_1(X_i-c) + \beta_2D_i(X_i-c) + \epsilon_i,
 $$
 
-em que $D_i = 1(X_i \geq c)$. Centralizar a *running variable* em $c$ é importante: assim, $\tau$ é diretamente o salto estimado no cutoff.
+em que $D_i = 1(X_i \geq c)$. Ao centralizar a *running variable* em $c$, $\tau$ passa a ser diretamente o salto estimado no cutoff.
 
-## Suposição de continuidade
+## Fuzzy RD como IV local
 
-- A suposição de continuidade é tão crítica que vale discutirmos um pouco mais sobre ela.
-- Se há continuidade, isso significa que, na ausência do ponto de corte $c$, x (e outras covariáveis) não devem apresentar descontinuidade.
-- Ex.: Suponha que estamos interessados em estudar o efeito da incumbência sobre a chance de reeleição futura ou riqueza futura desses políticos.
-- Habilidades e carisma são variáveis que devem influenciar tanto a chance de serem incumbentes como os resultados de interesse. Em um RDD, podemos usar *close elections* para estimar o efeito. E a suposição de continuidade requer que carisma e habilidades não tenham descontinuidade no *cut off* de 50%. Na verdade, apenas o resultado eleitoral é descontínuo no *cut off*, que vai de não-eleito para eleito.
+Depois de entender o sharp RD, a extensão para fuzzy RD é direta. Pode acontecer de o ponto de corte não determinar perfeitamente quem recebe tratamento, mas apenas aumentar a probabilidade de tratamento. Nesse caso, a regra de elegibilidade funciona como um instrumento local.
 
-## Suposições na RDD
+Defina $Z_i = 1(X_i \geq c)$. Em um fuzzy RD, $Z_i$ afeta o tratamento efetivamente recebido $D_i$, mas nem todos cumprem a regra. A estimativa é um Wald local:
 
-### Suposição de Não-manipulação com Precisão
+$$
+\tau_{FRD} =
+\frac{\lim_{x \to c^+} E[Y_i|X_i=x] - \lim_{x \to c^-} E[Y_i|X_i=x]}
+{\lim_{x \to c^+} E[D_i|X_i=x] - \lim_{x \to c^-} E[D_i|X_i=x]}.
+$$
 
-A identificação dos efeitos do tratamento na RDD baseia-se na premissa de que unidades muito próximas ao cutoff dos dois lados são comparáveis, exceto pelo tratamento. Mas é preciso cuidado com a metáfora de "aleatorização". No framework de continuidade, não assumimos que $X$ é independente de $Y$; pelo contrário, $X$ e $Y$ frequentemente são fortemente correlacionados. O que assumimos é que, na ausência do corte, a relação entre $X$ e os resultados potenciais seria suave no ponto de corte.
+```{r tabela-ponte-fuzzy-iv, echo=FALSE}
+tabela_fuzzy_iv <- data.frame(
+  Objeto = c("$Z_i$", "$D_i$", "Numerador", "Denominador", "Estimando"),
+  `Na aula de IV` = c(
+    "Instrumento",
+    "Tratamento recebido",
+    "Forma reduzida: efeito de Z sobre Y",
+    "Primeira etapa: efeito de Z sobre D",
+    "LATE para compliers"
+  ),
+  `No fuzzy RD` = c(
+    "Elegibilidade gerada pelo cutoff",
+    "Tratamento efetivamente recebido",
+    "Salto local no resultado em c",
+    "Salto local na probabilidade de tratamento em c",
+    "LATE dos compliers no cutoff"
+  ),
+  check.names = FALSE
+)
 
-### Problemas de Manipulação
+knitr::kable(
+  tabela_fuzzy_iv,
+  caption = "Ponte entre variáveis instrumentais e fuzzy RD.",
+  escape = FALSE
+)
+```
 
-No entanto, se $c$ não for arbitrário ou tiver uma relação determinística com $Y$, ou se as unidades puderem — com precisão — determinar seus escores $X$ e, assim, escolher receber tratamento ou não, então $X$ ao redor de $c$ não se comporta mais como um aleatorizador — há alguma forma de auto-seleção que poderia depender de variáveis não observáveis.
+A interpretação é um LATE no cutoff: o efeito médio local para as unidades cujo tratamento muda por causa da regra de elegibilidade. Como em IV, a interpretação exige relevância da primeira etapa, monotonicidade, exclusão e continuidade dos resultados potenciais e do tratamento potencial ao redor do ponto de corte.
 
-## Testabilidade da Suposição de não-Manipulação
+O fuzzy RD merece atenção especial porque a inferência usual pode se comportar mal em três situações: primeira etapa fraca, *running variable* discreta e *donut designs*. Um *donut design* exclui uma pequena faixa muito próxima ao cutoff, por exemplo $X_i \in (c-\varepsilon, c+\varepsilon)$, para evitar observações potencialmente manipuladas, arredondadas ou contaminadas exatamente no limiar.
 
-Em parte, isso é testável. As unidades não pareceriam semelhantes perto de $c$ e haveria um "acúmulo" próximo a $c$. No entanto, não podemos descartar a manipulação com precisão apenas com dados — devemos argumentar isso com conhecimento do assunto (é uma restrição de exclusão).
+Noack e Rothe (2024) propõem inferência *bias-aware* para fuzzy RD. A intuição é simples: no fuzzy RD, estimamos uma razão entre dois saltos. Se o salto no tratamento é pequeno ou estimado com muita incerteza, a razão pode ficar instável. A inferência precisa reconhecer essa instabilidade, em vez de tratar a primeira etapa como se fosse forte e precisamente estimada.
+
+Exemplo em ciência política: uma regra eleitoral pode definir o número mínimo de votos para obter cadeiras, mas migração partidária, coligações ou decisões administrativas podem fazer com que a regra altere fortemente, mas não determine perfeitamente, o tratamento substantivo de interesse.
+
+## Identificação: continuidade e manipulação
+
+A suposição de continuidade faz o desenho funcionar. Em uma aplicação de *close elections*, por exemplo, candidatos que vencem por margem mínima recebem o tratamento de incumbência. Habilidades, carisma e recursos de campanha podem afetar tanto a vitória quanto resultados futuros. O RD exige que essas características não mudem de forma descontínua exatamente no cutoff de 50%. O que salta no cutoff é o status eleitoral, não a qualidade latente dos candidatos.
+
+A condição de Lee (2008) fornece uma forma prática de pensar esse problema. As unidades não podem manipular $X_i$ com precisão suficiente para escolher de que lado do cutoff ficar. Se conseguem, a comparação local deixa de parecer plausível: unidades logo acima e logo abaixo de $c$ podem diferir em características observadas e não observadas.
+
+Parte dessa suposição deixa rastros nos dados. Podemos procurar acúmulo de observações perto do cutoff e testar se covariáveis pré-tratamento saltam em $c$. Esses diagnósticos são úteis, mas não encerram o argumento. A validade do desenho também depende de conhecimento institucional sobre quem poderia manipular $X_i$, com que precisão e em que direção.
 
 Tendo estabelecido as suposições de identificação, passamos agora à questão prática: como estimar o efeito do tratamento em um RDD?
 
 ## Dois frameworks para RD
 
-A literatura recente organiza a análise de RD em dois frameworks principais: o **framework de continuidade** e o **framework de aleatorização local** [Cattaneo e Titiunik 2022; Cattaneo, Idrobo e Titiunik 2024].
+A literatura recente organiza a análise de RD em dois frameworks principais: o framework de continuidade e o framework de aleatorização local [Cattaneo e Titiunik 2022; Cattaneo, Idrobo e Titiunik 2024].
 
-No **framework de continuidade**, o estimando é a diferença entre limites laterais no cutoff. A validade depende da suavidade dos resultados potenciais ao redor de $c$. Esse é o framework padrão por trás de métodos como regressão local linear, bandwidths MSE/CER-optimal e inferência robusta à correção de viés.
+No framework de continuidade, o estimando é a diferença entre limites laterais no cutoff. A validade depende da suavidade dos resultados potenciais ao redor de $c$. Esse é o framework padrão por trás de métodos como regressão local linear, bandwidths MSE/CER-optimal e inferência robusta à correção de viés.
 
-No **framework de aleatorização local**, escolhemos uma janela pequena ao redor do cutoff e tratamos a atribuição ao tratamento dentro dessa janela como se fosse aproximadamente aleatória. Essa abordagem pode ser útil quando há poucos valores discretos da *running variable* perto do cutoff ou quando temos forte conhecimento institucional de que pequenas diferenças no score são essencialmente acidentais. Mas essa interpretação exige uma janela substantivamente defensável e diagnósticos de balanceamento. Ela não decorre automaticamente do bandwidth escolhido por `rdrobust`.
+No framework de aleatorização local, escolhemos uma janela pequena ao redor do cutoff e tratamos a atribuição ao tratamento dentro dessa janela como se fosse aproximadamente aleatória. Essa abordagem pode ser útil quando há poucos valores discretos da *running variable* perto do cutoff ou quando temos forte conhecimento institucional de que pequenas diferenças no score são essencialmente acidentais. Essa interpretação exige uma janela substantivamente defensável e diagnósticos de balanceamento. Ela não decorre automaticamente do bandwidth escolhido por `rdrobust`.
 
 ## Estimação em RDD
-
-### Estimação como problema de fronteira
 
 RDD não tem sobreposição no sentido usado em matching: em um *sharp RD*, unidades abaixo do cutoff não recebem tratamento e unidades acima recebem. Isso não é um defeito do desenho; é exatamente a regra que gera identificação. A dificuldade de estimação é outra: precisamos estimar duas funções condicionais nos limites laterais do cutoff.
 
 Por isso, RD é um problema de estimação de fronteira. Quanto mais usamos observações distantes do cutoff, mais dependemos de suavidade e forma funcional. Quanto mais restringimos a amostra a observações muito próximas, menos viés introduzimos, mas maior fica a incerteza estatística.
 
-## Métodos de Estimação
-
 O método padrão moderno é regressão polinomial local, em geral local linear, estimada separadamente dos dois lados do cutoff e ponderando mais as observações próximas de $c$. Na prática, usamos `rdrobust`, que implementa seleção de bandwidth, estimação local polinomial e inferência robusta com correção de viés.
-
-### Identificação no Limite
 
 A identificação dos efeitos do tratamento ocorre no limite, à medida que $X_i \rightarrow c$. Quanto mais usarmos observações distantes de $c$ em $X$, mais dependeremos de extrapolação e das suposições sobre a forma funcional.
 
-## Trade-off de Viés-Variância
+### Bandwidth e inferência
 
-- **Mais perto de c:** menos dependência de forma funcional e menos viés, mas menor tamanho amostral efetivo e maior variância.
-- **Mais distante de c:** maior precisão estatística, mas mais dependência de suavidade/forma funcional e maior viés potencial.
+Janelas menores usam observações mais próximas de $c$. Elas reduzem a dependência de forma funcional e o viés potencial, mas também reduzem o tamanho amostral efetivo e aumentam a variância.
 
-### Métodos de Largura de Banda Ótima
+Janelas maiores usam mais observações. Elas aumentam a precisão estatística, mas dependem mais de suavidade e de escolhas de forma funcional.
 
 A ideia é restringir a estimativa a uma janela ao redor de $X_i = c$, que pode ter tamanhos diferentes à esquerda ou à direita. Estes métodos buscam equilibrar a precisão das estimativas minimizando viés e variância conforme a proximidade do ponto de corte $c$.
 
-No pacote `rdrobust`, a largura de banda pode ser escolhida automaticamente. Duas escolhas modernas são especialmente importantes:
+No pacote `rdrobust`, a largura de banda pode ser escolhida automaticamente. Duas escolhas aparecem com frequência:
 
-1. **MSE-optimal bandwidth**: escolhe a largura de banda para minimizar o erro quadrático médio do estimador. Em termos práticos, busca um bom equilíbrio entre viés e variância para a estimativa pontual.
+1. MSE-optimal bandwidth, em que MSE significa *Mean Squared Error* ou erro quadrático médio: escolhe a largura de banda para minimizar o erro quadrático médio do estimador. Em termos práticos, busca um bom equilíbrio entre viés e variância para a estimativa pontual.
 
-2. **CER-optimal bandwidth**: escolhe a largura de banda para melhorar a cobertura dos intervalos de confiança, especialmente quando usamos inferência com correção robusta de viés (*robust bias-corrected inference*).
+2. CER-optimal bandwidth, em que CER significa *Coverage Error Rate* ou taxa de erro de cobertura: escolhe a largura de banda para melhorar a cobertura dos intervalos de confiança, especialmente quando usamos inferência com correção robusta de viés (*robust bias-corrected inference*).
 
-Um ponto conceitual é fundamental: essas larguras de banda automáticas pertencem ao **framework de continuidade**, não ao framework de **aleatorização local**. Se `rdrobust` escolhe, por exemplo, uma janela de 10 pontos percentuais para cada lado do cutoff em uma aplicação com eleições apertadas, isso não significa que todas as eleições vencidas ou perdidas por até 10 pontos percentuais possam ser interpretadas como se fossem aleatórias. Uma janela desse tamanho pode ser útil para estimar os limites laterais de $E[Y|X=x]$ sob continuidade/suavidade dos resultados potenciais, mas ela dificilmente sustenta a interpretação literal de um experimento local.
+Essas larguras de banda automáticas pertencem ao framework de continuidade, não ao framework de aleatorização local. Se `rdrobust` escolhe, por exemplo, uma janela de 10 pontos percentuais para cada lado do cutoff em uma aplicação com eleições apertadas, isso não significa que todas as eleições vencidas ou perdidas por até 10 pontos percentuais possam ser interpretadas como se fossem aleatórias. Uma janela desse tamanho pode ser útil para estimar os limites laterais de $E[Y|X=x]$ sob continuidade/suavidade dos resultados potenciais, mas ela dificilmente sustenta a interpretação literal de um experimento local.
 
 Portanto, a interpretação correta depende do framework. No framework de continuidade, usamos observações próximas ao cutoff, ponderadas pela distância, para estimar limites laterais. No framework de aleatorização local, precisamos justificar substantivamente uma janela em que a atribuição ao tratamento seja plausivelmente "como se aleatória"; essa janela deve ser defendida com conhecimento institucional e diagnósticos de balanceamento, não simplesmente herdada do bandwidth automático de `rdrobust`.
 
 ## Regras arbitrárias
 
-Atribuição de "coisas" a partir de regras com pontos de cortes
-
-Bolsa família: a partir de certa renda
-
-Educação: aprovação no ensino superior a partir de certa nota de corte
-
-Espacial: política pública para donos de áreas abaixo ou acima de certas áreas.
-
-Data: regras para aposentadoria, idade para entrar na escola, data para perdão de dívida: Desenrola: "...cujas dívidas tenham sido incluídas no cadastro de inadimplentes no período entre 1º de janeiro de 2019 e 31 de dezembro de 2022".
-
-Política: regras de número de vereadores, regras de população para ter segundo turno, regras para ter biometria etc.
+RDDs aparecem quando uma regra institucional usa um limiar para mudar acesso, elegibilidade ou intensidade de tratamento. Programas de transferência de renda podem depender de renda familiar; aprovação no ensino superior pode depender de uma nota mínima; políticas ambientais podem mudar quando a propriedade ultrapassa certo tamanho; regras eleitorais podem depender de população municipal, margem de vitória ou número de votos. O ponto comum é que a regra cria uma mudança discreta em $D_i$ quando $X_i$ cruza $c$.
 
 ## Simulação
 
-```{r}
-## Basic RD Model
+```{r sim-dados-basicos}
 set.seed(123)
-N <- 1000 # number of observations
-X <- runif (N , -5,5)
-Y0 <- rnorm ( n =N , mean =X , sd=1) # control potential outcome
-Y1 <- rnorm ( n =N , mean = X+2, sd=1) # treatment potential outcome
-#You only get treatment if X>0
-Treatment <- ( X >= 0)
-# What we observe
-Y = Y1* Treatment + Y0*(1- Treatment )
+N <- 1000
+X <- runif(N, -5, 5)
+Y0 <- rnorm(n = N, mean = X, sd = 1)       # resultado potencial sob D = 0
+Y1 <- rnorm(n = N, mean = X + 2, sd = 1)   # resultado potencial sob D = 1
+D <- as.integer(X >= 0)
+Y <- Y1 * D + Y0 * (1 - D)
 ```
 
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-## Basic RD Model
 library(ggplot2)
 library(tidyverse)
 
 # df
-df <- data.frame(y=Y, x=X, treatment = Treatment, y0 = Y0, y1=Y1)
+df <- data.frame(y = Y, x = X, d = D, y0 = Y0, y1 = Y1)
 df_aux <- df
+
+cores_grupo <- c("0" = "#0072B2", "1" = "#D55E00")
+cores_po <- c("y0" = "#0072B2", "y1" = "#D55E00")
 ```
 
-```{r plot-treatment-assignment, echo=FALSE}
+```{r plot-d-assignment, echo=FALSE, fig.cap="Regra sharp RD: o tratamento D muda mecanicamente no cutoff X = 0.", fig.alt="Gráfico em degrau mostrando D igual a zero à esquerda do cutoff e igual a um à direita."}
 df %>%
-  ggplot(aes(x=x, y=treatment)) + geom_line() +
-  labs(x = "running variable", y = "Treatment") +
+  arrange(x) %>%
+  ggplot(aes(x = x, y = d)) +
+  geom_step(linewidth = 0.8) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  labs(x = "Variável de ordenação (X)", y = "Tratamento (D)") +
   theme_minimal()  
 ```
 
-## Simulação - Potential Outcomes Y0
+Começamos olhando $Y_i(0)$, o resultado que cada unidade teria sem tratamento.
 
 
-```{r plot-po-y0, echo=FALSE}
+```{r plot-po-y0, echo=FALSE, fig.cap="Resultado potencial sob controle: Y(0) varia suavemente ao redor do cutoff.", fig.alt="Dispersão de Y(0) contra X sem salto visível no cutoff."}
 df %>%
-  ggplot(aes(x=x, y=y0, colour=treatment)) + geom_point() +
-  labs(x = "running variable", y = "Potential Outcome Y0") +
-  scale_colour_manual(values = c("black", "red")) +
+  ggplot(aes(x = x, y = y0, colour = factor(d))) + geom_point() +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  labs(x = "Variável de ordenação (X)", y = "Resultado potencial Y(0)") +
+  scale_colour_manual(values = cores_grupo, labels = c("Controle", "Tratado"), name = "Grupo") +
   theme_minimal() +
-  theme(legend.position = "none")
+  theme(legend.position = "bottom")
 
 ```
 
-## Simulação - Potential Outcomes Y1
+Agora olhamos $Y_i(1)$, o resultado que cada unidade teria sob tratamento.
 
 
-```{r plot-po-y1, echo=FALSE}
+```{r plot-po-y1, echo=FALSE, fig.cap="Resultado potencial sob tratamento: Y(1) também é suave no cutoff.", fig.alt="Dispersão de Y(1) contra X sem salto abrupto no cutoff."}
 
 df %>%
-  ggplot(aes(x=x, y=y1, colour=treatment)) + geom_point() +
-  labs(x = "running variable", y = "Potential Outcome Y1") +
-  scale_colour_manual(values = c("green", "blue")) +
+  ggplot(aes(x = x, y = y1, colour = factor(d))) + geom_point() +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  labs(x = "Variável de ordenação (X)", y = "Resultado potencial Y(1)") +
+  scale_colour_manual(values = cores_grupo, labels = c("Controle", "Tratado"), name = "Grupo") +
   theme_minimal() +
-  theme(legend.position = "none")
+  theme(legend.position = "bottom")
 
 ```
 
-## Simulação - Potential Outcomes Y1 e Y0
+Colocar $Y_i(0)$ e $Y_i(1)$ no mesmo gráfico mostra a lógica do desenho: os resultados potenciais são suaves, mas só observamos um deles para cada unidade.
 
 
-```{r plot-po-y1-Y0, echo=FALSE, message=FALSE, warning=FALSE}
+```{r plot-po-y1-Y0, echo=FALSE, message=FALSE, warning=FALSE, fig.cap=c("Resultados potenciais simulados por status de tratamento observado.", "Funções suavizadas de Y(0) e Y(1): o efeito de RD vem do salto no tratamento, não de uma quebra nos resultados potenciais."), fig.alt=c("Dispersão dos resultados potenciais Y(0) e Y(1) por lado do cutoff.", "Curvas suavizadas de Y(0) e Y(1) contra X, ambas contínuas no cutoff.")}
 df_long <- df %>%
   pivot_longer(
     cols = c("y0", "y1"),
@@ -213,32 +216,32 @@ df_long <- df %>%
   )
 df_long_aux <- df_long
 
-ggplot(df_long, aes(x = x, y = outcome, colour = interaction(treatment, outcome_type))) +
+ggplot(df_long, aes(x = x, y = outcome, colour = interaction(d, outcome_type))) +
   geom_point() +
-  scale_colour_manual(values = c("FALSE.y0" = "black", "TRUE.y0" = "red",
-                                 "FALSE.y1" = "green", "TRUE.y1" ="blue")) +
-  labs(x = "Running Variable", y = "Potential Outcome") +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  scale_colour_manual(values = c("0.y0" = "#0072B2", "1.y0" = "#56B4E9",
+                                 "0.y1" = "#D55E00", "1.y1" ="#E69F00")) +
+  labs(x = "Variável de ordenação (X)", y = "Resultado potencial") +
   theme_minimal() +
   theme(legend.position = "none")
 
 df_long %>%
-  ggplot(aes(x=x, y=outcome, group = outcome_type, colour = outcome_type)) + geom_smooth(se=FALSE) +
+  ggplot(aes(x = x, y = outcome, group = outcome_type, colour = outcome_type)) + geom_smooth(se=FALSE) +
   geom_vline(xintercept = 0)  +
-  scale_color_manual(values = c(
-    "y0" = "blue",
-    "y1" = "red"
-  ))
+  scale_color_manual(values = cores_po, labels = c("Y(0)", "Y(1)"), name = "Resultado potencial") +
+  labs(x = "Variável de ordenação (X)", y = "Valor esperado suavizado")
 ```
 
-## Simulação - Y observado
-```{r plot-observed, echo=FALSE}
+O resultado observado combina esses dois resultados potenciais de acordo com a regra de tratamento.
+```{r plot-observed, echo=FALSE, fig.cap="Resultado observado: o salto em Y aparece porque o tratamento muda no cutoff.", fig.alt="Dispersão do resultado observado contra X com mudança de nível no cutoff."}
 
-ggplot(df, aes(x = x, y = y, colour = treatment)) +
+ggplot(df, aes(x = x, y = y, colour = factor(d))) +
   geom_point() +
-  scale_colour_manual(values = c("black", "blue")) +
-  labs(x = "Running Variable", y = "Resultados observados - Y") +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  scale_colour_manual(values = cores_grupo, labels = c("Controle", "Tratado"), name = "Grupo") +
+  labs(x = "Variável de ordenação (X)", y = "Resultado observado Y") +
   theme_minimal() +
-  theme(legend.position = "none")
+  theme(legend.position = "bottom")
 ```
 
 A simulação acima ilustra os elementos fundamentais de um RDD. Vejamos agora em que condições as estimativas de RDD são válidas.
@@ -247,167 +250,96 @@ A simulação acima ilustra os elementos fundamentais de um RDD. Vejamos agora e
 
 A suposição chave para o RDD não é que o resultado salte no cutoff. O resultado pode não saltar se o efeito causal for zero. O que precisa saltar é o tratamento, ou a probabilidade de tratamento no caso fuzzy. Para que o salto no resultado possa ser interpretado causalmente, os resultados potenciais e covariáveis de pré-tratamento devem variar suavemente ao redor do cutoff. Vamos ver o que isso significa comparando cinco gráficos: alguns em que a estimativa de RD é válida, ainda que com diferentes graus de validade externa, e um em que a descontinuidade em outra variável torna o desenho inválido.
 
-```{r multiplos_rdds, echo=FALSE, message=FALSE, warning=FALSE}
+```{r prepara-casos-rdd, echo=FALSE, message=FALSE, warning=FALSE}
 library(rdrobust)
+
+plot_potenciais <- function(dados, titulo) {
+  dados %>%
+    pivot_longer(
+      cols = c("y0", "y1"),
+      names_to = "outcome_type",
+      values_to = "outcome"
+    ) %>%
+    ggplot(aes(x = x, y = outcome, colour = outcome_type, linetype = outcome_type)) +
+    geom_smooth(se = FALSE, linewidth = 0.9) +
+    geom_vline(xintercept = 0, linetype = "dashed") +
+    scale_colour_manual(values = cores_po, labels = c("Y(0)", "Y(1)"), name = "Resultado") +
+    scale_linetype_manual(values = c("solid", "longdash"), labels = c("Y(0)", "Y(1)"), name = "Resultado") +
+    labs(x = "Variável de ordenação (X)", y = "Resultado potencial", title = titulo) +
+    theme_minimal() +
+    theme(legend.position = "bottom")
+}
+
 set.seed(123)
-N <- 1000 # number of observations
+N <- 1000
 U <- rnorm(N)
-X <- runif (N , -5,5) - U
+X <- runif(N, -5, 5) - U
 X <- X - mean(X)
-Y0 <- rnorm ( n =N , mean =X , sd=2) + 2*U^2  # control potential outcome
-Y1 <- Y0 + 2 + 2*U^2  # treatment potential outcome
-#You only get treatment if X>0
-Treatment <- ( X >= 0)
-# What we observe
-Y = Y1* Treatment + Y0*(1- Treatment )
-mean(Y1 - Y0)
-df <- data.frame(y=Y, x=X, treatment = Treatment, y0 = Y0, y1=Y1)
+D <- as.integer(X >= 0)
 
+Y0 <- rnorm(n = N, mean = X, sd = 2) + 2 * U^2
+Y1 <- Y0 + 2 + 2 * U^2
+df_caso1 <- data.frame(y = Y1 * D + Y0 * (1 - D), x = X, d = D, y0 = Y0, y1 = Y1)
 
-df_long <- df %>%
-  pivot_longer(
-    cols = c("y0", "y1"),
-    names_to = "outcome_type",
-    values_to = "outcome"
-  )
+Y0 <- rnorm(n = N, mean = X, sd = 1) + 0.5 * U^2 - X * U
+Y1 <- Y0 + 2 + 2 * X * U
+df_caso2 <- data.frame(
+  y = Y1 * D + Y0 * (1 - D),
+  x = X,
+  d = D,
+  y0 = Y0,
+  y1 = Y1,
+  w_pre = U + rnorm(N, sd = 0.5)
+)
+df_u <- df_caso2
 
-df_long %>%
-  ggplot(aes(x=x, y=outcome, group = outcome_type, colour = outcome_type)) + geom_smooth(se=FALSE) +
-  geom_vline(xintercept = 0) +
-  scale_color_manual(values = c(
-    "y0" = "blue",
-    "y1" = "red"
-  ))
-# 2
+Y0 <- rnorm(n = N, mean = X, sd = 1) + U^2
+Y1 <- Y0 + 2 - 1.5 * U^3
+df_caso3 <- data.frame(y = Y1 * D + Y0 * (1 - D), x = X, d = D, y0 = Y0, y1 = Y1)
 
-Y0 <- rnorm ( n =N , mean =X , sd=1) + .5*U^2 - X*U # control potential outcome
-Y1 <- Y0 + 2 + 2*X*U # treatment potential outcome
-#You only get treatment if X>0
-Treatment <- ( X >= 0)
-# What we observe
-Y = Y1* Treatment + Y0*(1- Treatment )
-mean(Y1 - Y0)
-df <- data.frame(y=Y, x=X, treatment = Treatment, y0 = Y0, y1=Y1, u = U)
-df_u <- df
-
-df_long <- df %>%
-  pivot_longer(
-    cols = c("y0", "y1"),
-    names_to = "outcome_type",
-    values_to = "outcome"
-  )
-
-df_long %>%
-  ggplot(aes(x=x, y=outcome, group = outcome_type, colour = outcome_type)) + geom_smooth(se=FALSE) +
-  geom_vline(xintercept = 0) +
-  scale_color_manual(values = c(
-    "y0" = "blue",
-    "y1" = "red"
-  ))
-
-
-# 3
-Y0 <- rnorm ( n =N , mean =X , sd=1) + U^2   # control potential outcome
-
-Y1 <- Y0 + 2 - 1.5*U^3 # treatment potential outcome
-#You only get treatment if X>0
-Treatment <- ( X >= 0)
-# What we observe
-Y = Y1* Treatment + Y0*(1- Treatment )
-
-df <- data.frame(y=Y, x=X, treatment = Treatment, y0 = Y0, y1=Y1)
-
-
-df_long <- df %>%
-  pivot_longer(
-    cols = c("y0", "y1"),
-    names_to = "outcome_type",
-    values_to = "outcome"
-  )
-
-df_long %>%
-  ggplot(aes(x=x, y=outcome, group = outcome_type, colour = outcome_type)) + geom_smooth(se=FALSE) +
-  geom_vline(xintercept = 0) +
-  scale_color_manual(values = c(
-    "y0" = "blue",
-    "y1" = "red"
-  ))
-
-
-# 4
-f0 <- function(x) {  sin(x) * 1.5  - 0.1 * x    }       # E[Y(0)|X]
-f1 <- function(x) {  f0(x)   +  0.5 * x      }          # E[Y(1)|X], so f1(0)=f0(0)
-
-# 2. Build a long data.frame, tagging where each is observed
+f0 <- function(x) sin(x) * 1.5 - 0.1 * x
+f1 <- function(x) f0(x) + 0.5 * x
 x_seq <- seq(-5, 5, length.out = 400)
-df0 <- data.frame(x = x_seq, y = f0(x_seq), type = "E[Y(0)|X]")
-df1 <- data.frame(x = x_seq, y = f1(x_seq), type = "E[Y(1)|X]")
+df_caso4 <- data.frame(x = x_seq, y0 = f0(x_seq), y1 = f1(x_seq))
 
-df <- rbind(df0, df1)
-
-# 3. Plot
-ggplot(df, aes(x = x, y = y, color = type)) +
-  geom_line(linewidth = 1.2) +
-  scale_color_manual(values = c(
-    "E[Y(0)|X]" = "blue",
-    "E[Y(1)|X]" = "red"
-  ))
-
-# 5
-Y0 <- rnorm ( n =N , mean =X , sd=1)    # control potential outcome
-m <- length(X[X < .4 & X > -.4])
-Y1 <- Y0 + 2 # treatment potential outcome
-Y0[X < .4 & X > -.4] <- rnorm(m , 2, sd = .3)
-Treatment <- ( X >= 0)
-# What we observe
-Y = Y1* Treatment + Y0*(1- Treatment )
-
-df <- data.frame(y=Y, x=X, treatment = Treatment, y0 = Y0, y1=Y1)
-
-df <- data.frame(y=Y, x=X, treatment = Treatment, y0 = Y0, y1=Y1, u = U)
-
-
-df_long <- df %>%
-  pivot_longer(
-    cols = c("y0", "y1"),
-    names_to = "outcome_type",
-    values_to = "outcome"
-  )
-
-df_long %>%
-  ggplot(aes(x=x, y=outcome, group = outcome_type, colour = outcome_type)) + geom_smooth(se=FALSE) +
-  geom_vline(xintercept = 0) +
-  scale_color_manual(values = c(
-    "y0" = "blue",
-    "y1" = "red"
-  ))
-
-ggplot(df, aes(x = x, y = y, colour = treatment)) +
-  geom_point() +
-  scale_colour_manual(values = c("black", "blue")) +
-  labs(x = "Running Variable", y = "Resultados observados - Y") +
-  theme_minimal() +
-  theme(legend.position = "none")
-
-# mean(df$y1 - df$y0)
-# mean(Y1 - Y0)
-# basic_model <- rdrobust(y = df$y, x = df$x, c = 0)
-# summary(basic_model)
-# summary(lm(y ~ x, data=df))
-# library(rdrobust)
-rdplot(y=df$y, x=df$x, binselect = "qs")
-
+Y0 <- rnorm(n = N, mean = X, sd = 1)
+m <- length(X[X < 0.4 & X > -0.4])
+Y1 <- Y0 + 2
+Y0[X < 0.4 & X > -0.4] <- rnorm(m, 2, sd = 0.3)
+df_caso5 <- data.frame(y = Y1 * D + Y0 * (1 - D), x = X, d = D, y0 = Y0, y1 = Y1)
 ```
 
+```{r caso-rdd-suave, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Caso 1: resultados potenciais suaves e salto claro no tratamento.", fig.alt="Curvas suavizadas de Y(0) e Y(1) sem quebra no cutoff."}
+plot_potenciais(df_caso1, "Resultados potenciais suaves")
+```
+
+```{r caso-rdd-heterogeneo, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Caso 2: efeitos heterogêneos, mas resultados potenciais ainda suaves no cutoff.", fig.alt="Curvas de resultados potenciais com heterogeneidade e continuidade em zero."}
+plot_potenciais(df_caso2, "Continuidade com efeitos heterogêneos")
+```
+
+```{r caso-rdd-heterogeneo-forte, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Caso 3: heterogeneidade mais forte, com continuidade preservada no cutoff.", fig.alt="Curvas de resultados potenciais com heterogeneidade forte e continuidade no cutoff."}
+plot_potenciais(df_caso3, "Heterogeneidade forte, mas sem quebra em c")
+```
+
+```{r caso-rdd-efeito-nulo, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Caso 4: nenhum efeito exatamente no cutoff, apesar de as funções diferirem longe dele.", fig.alt="Curvas de Y(0) e Y(1) que se encontram no cutoff."}
+plot_potenciais(df_caso4, "Efeito nulo no cutoff")
+```
+
+```{r caso-rdd-invalido, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Caso 5: desenho inválido, pois Y(0) apresenta uma descontinuidade no cutoff.", fig.alt="Curva de Y(0) com salto artificial ao redor do cutoff, invalidando o desenho."}
+plot_potenciais(df_caso5, "Quebra em Y(0): RD inválido")
+```
+
+Os quatro primeiros casos preservam a continuidade dos resultados potenciais no cutoff. Eles diferem em heterogeneidade e validade externa, mas a comparação local continua interpretável. O quinto caso quebra a lógica do desenho: mesmo sem tratamento, $Y_i(0)$ mudaria abruptamente em $c$.
 
 
 
-## Raw Data versus Bin
 
-```{r plot-binscatter, echo=FALSE}
+## Dados brutos versus bins
+
+```{r plot-binscatter, echo=FALSE, fig.cap="Binscatter com bins igualmente espaçados: os pontos mostram médias locais de Y.", fig.alt="Gráfico de médias de Y por bins igualmente espaçados da running variable."}
 df <- df_aux
 df_long <- df_long_aux
-ggplot(df, aes(x = x, y = y, color = treatment)) +
+ggplot(df, aes(x = x, y = y, color = factor(d))) +
   stat_summary_bin(
     fun = mean,        # calcula a média de Y_cont em cada bin
     bins = 40,         # número de bins
@@ -421,25 +353,28 @@ ggplot(df, aes(x = x, y = y, color = treatment)) +
     color = "Grupo",
     title = "Binscatter: médias nos bins em vez de dados brutos"
   ) +
+  scale_color_manual(values = cores_grupo, labels = c("Controle", "Tratado")) +
   theme_minimal()
 ```
 
 Como escolher os bins?
+
 1. Espaçamentos iguais ou quantis?
 2. Quantos bins?
 
 No exemplo, escolhi espaçamento igual e 20 bins. Podemos usar quantis.
-```{r plot-binscatter-quantis, echo=FALSE}
+
+```{r plot-binscatter-quantis, echo=FALSE, fig.cap="Binscatter com bins por quantis: cada bin contém número semelhante de observações.", fig.alt="Gráfico de médias de Y por bins definidos por quantis da running variable."}
 df2 <- df %>%
   mutate(bin = ntile(x, 40)) %>%           # 20 quantis
-  group_by(bin, treatment) %>%
+  group_by(bin, d) %>%
   summarize(
     x = mean(x),                           # posição média de x no bin
     y = mean(y),                           # média de y no bin
     .groups = "drop"
   )
 
-ggplot(df2, aes(x = x, y = y, color = treatment)) +
+ggplot(df2, aes(x = x, y = y, color = factor(d))) +
   geom_point(size = 2) +
   geom_vline(xintercept = 0, linetype = "dashed") +
   labs(
@@ -448,45 +383,69 @@ ggplot(df2, aes(x = x, y = y, color = treatment)) +
     color = "Grupo",
     title = "Binscatter com bins por quantis"
   ) +
+  scale_color_manual(values = cores_grupo, labels = c("Controle", "Tratado")) +
   theme_minimal()
 ```
 
 Esses gráficos servem para visualização, não para estimação. A escolha dos bins afeta como a evidência aparece no gráfico, mas a estimativa principal deve vir da regressão local com bandwidth explícito. Bins por quantis ajudam a evitar bins vazios e tornam os pontos visualmente mais estáveis, mas também podem esconder variações na densidade da *running variable*. Por isso, o gráfico de RD deve ser acompanhado por diagnósticos de densidade.
 
-Sobre o número de bins, Cattaneo et al. (2020) discutem o tema e sugerem duas abordagens: 
-1. IMSE-minimizing (proporcional a $n^{1/3}$)
-2. Mimicking-variance (proporcional a $n/log(n)^2$)
+Sobre o número de bins, Cattaneo et al. (2020) discutem duas abordagens. A primeira minimiza o IMSE, *Integrated Mean Squared Error*, isto é, o erro quadrático médio integrado ao longo da função estimada. A segunda busca imitar a variância da nuvem de pontos original, o que costuma produzir mais bins.
 
-E usamos o pacote rdplot para implementar isso automaticamente
+O pacote `rdplot` implementa essas escolhas automaticamente.
 
-```{r plot-binscatter-quantis-rdplot-qs, echo=FALSE}
+```{r plot-binscatter-quantis-rdplot-qs, echo=FALSE, fig.cap="RD plot com seleção automática de bins por quantis.", fig.alt="RD plot com pontos por bins e ajuste local nos dois lados do cutoff."}
 library(rddensity)
 library(rdrobust)
-rdplot(y=df$y, x=df$x, binselect = "qs")
+rdplot(
+  y = df$y,
+  x = df$x,
+  binselect = "qs",
+  x.label = "Variável de ordenação (X)",
+  y.label = "Média local de Y",
+  title = "RD plot: bins por quantis"
+)
 ```
 
-```{r plot-binscatter-quantis-rdplot-qsmv, echo=FALSE}
+```{r plot-binscatter-quantis-rdplot-qsmv, echo=FALSE, fig.cap="RD plot com seleção de bins mimicking-variance.", fig.alt="RD plot com bins definidos para aproximar a variância visual dos dados brutos."}
 
-rdplot(y=df$y, x=df$x, binselect = "qsmv")
+rdplot(
+  y = df$y,
+  x = df$x,
+  binselect = "qsmv",
+  x.label = "Variável de ordenação (X)",
+  y.label = "Média local de Y",
+  title = "RD plot: mimicking-variance"
+)
 ```
 
-## Permutation tests (balancing)
+## Testes de permutação para balanceamento
 
-Para checar balancing, podemos usar testes de permutação.
+Para checar balanceamento, podemos usar testes de permutação em covariáveis pré-tratamento. No exemplo abaixo, `w_pre` representa uma covariável observável medida antes do tratamento. O teste pergunta se sua distribuição muda de forma anormal no cutoff.
 
-```{r permutation-test, echo=TRUE, message=FALSE, warning=FALSE}
+```{r permutation-test, echo=TRUE, message=FALSE, warning=FALSE, fig.cap="Teste de permutação para uma covariável pré-tratamento observável.", fig.alt="Funções de distribuição acumulada empíricas de uma covariável pré-tratamento à esquerda e à direita do cutoff."}
 library(RATest)
-df <- df_u
-head(df)
+df_perm <- df_u
 resultado <- RDperm(
-  W = "u",
+  W = "w_pre",
   z = "x",
-  data = df,
+  data = df_perm,
   cutoff = 0
 )
-summary(resultado)
 
-plot(resultado, w="u", "cdf")
+df_perm %>%
+  mutate(lado = ifelse(x < 0, "À esquerda do cutoff", "À direita do cutoff")) %>%
+  ggplot(aes(x = w_pre, colour = lado, linetype = lado)) +
+  stat_ecdf(linewidth = 0.9) +
+  scale_colour_manual(values = c("À esquerda do cutoff" = "#0072B2", "À direita do cutoff" = "#D55E00")) +
+  scale_linetype_manual(values = c("À esquerda do cutoff" = "solid", "À direita do cutoff" = "longdash")) +
+  labs(
+    x = "Covariável pré-tratamento",
+    y = "Distribuição acumulada empírica",
+    colour = "Lado",
+    linetype = "Lado"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
 ```
 
 Canay & Kamat (2018) utilizaram esse teste para revisitar o trabalho de Lee (2008) e descobriram que havia problema de balanceamento.
@@ -497,9 +456,9 @@ Testes de permutação são mais naturais no framework de aleatorização local.
 
 
 
-Do paper da PA:
+Do artigo na *Political Analysis*:
 
-```{r quote, echo=FALSE}
+```{r quote, echo=FALSE, fig.cap=c("Caughey e Sekhon (2011): alerta sobre balanceamento em eleições apertadas.", "Caughey e Sekhon (2011): implicação para a interpretação de close elections."), fig.alt=c("Trecho do artigo de Caughey e Sekhon sobre problemas de balanceamento.", "Segundo trecho do artigo de Caughey e Sekhon sobre close elections."), out.width="90%"}
 
 knitr::include_graphics("imagens/quote.png")
 
@@ -512,13 +471,13 @@ De todo modo, as evidências de De Magalhães et al. (2025) sugerem que a recome
 
 
 
-## McCrary test
+## Teste de McCrary e densidade
 
 Um dos principais desafios à identificação causal em RDDs é a possibilidade de manipulação por parte dos agentes sobre ficar acima ou abaixo do ponto de corte. A lógica esperada é que se o tratamento é desejável, indivíduos tentarão receber o tratamento, levando a um gap justamente abaixo do ponto de corte. Se o tratamento é indesejável (efeitos negativos), indivíduos vão evitar o tratamento, levando a um gap justamente acima do ponto de corte.
 
 O exemplo mais evidente para nós cientistas políticos é a aprovação de um projeto de lei no legislativo. Nós sabemos que os legisladores agem estrategicamente retirando propostas que não vão ser aprovadas ou postergando a votação, até terem a maioria, ainda que por margem mínima. Nesse caso, a aplicação de RDD produzirá estimativas viesadas. McCrary, em um artigo de 2008, argumentou que tais casos apareceriam como descontinuidade na densidade da *running variable* ao redor do ponto de corte. Eis o gráfico feito por McCrary em seu estudo original:
 
-```{r McCay-test, echo=FALSE}
+```{r McCay-test, echo=FALSE, fig.cap="Figura clássica do teste de manipulação em McCrary (2008).", fig.alt="Histograma e densidades laterais indicando possível descontinuidade na densidade da running variable."}
 
 knitr::include_graphics("imagens/manipulation test.png")
 ```
@@ -527,48 +486,91 @@ Para formalizar essa ideia, McCrary estima os limites da densidade pela esquerda
 
 Na prática, de um ponto de vista retórico, o que pesquisadores querem é falhar em rejeitar a nula. Como o teste pode ter baixo poder, ausência de evidência não quer dizer evidência de ausência. Hartman (2021) e Fitzgerald (2025) defendem uma leitura mais exigente: em vez de apenas perguntar se rejeitamos manipulação, deveríamos perguntar se os dados permitem descartar manipulação substantivamente relevante. Isso leva a testes de equivalência, em que o pesquisador define uma margem de manipulação considerada pequena o bastante para não comprometer o desenho.
 
-```{r McCay-test1, message=FALSE}
-library(rdd)
-# Simulated data without discontinuity
-
-DCdensity(df$x, 0)  # No discontinuity
-
+```{r McCay-test1, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Diagnóstico visual de densidade: não há acúmulo evidente de observações no cutoff.", fig.alt="Densidades estimadas da variável de ordenação à esquerda e à direita do cutoff."}
+df %>%
+  mutate(lado = ifelse(x < 0, "À esquerda do cutoff", "À direita do cutoff")) %>%
+  ggplot(aes(x = x, colour = lado, fill = lado, linetype = lado)) +
+  geom_density(alpha = 0.18, linewidth = 0.9) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  scale_colour_manual(values = c("À esquerda do cutoff" = "#0072B2", "À direita do cutoff" = "#D55E00")) +
+  scale_fill_manual(values = c("À esquerda do cutoff" = "#0072B2", "À direita do cutoff" = "#D55E00")) +
+  scale_linetype_manual(values = c("À esquerda do cutoff" = "solid", "À direita do cutoff" = "longdash")) +
+  labs(
+    x = "Variável de ordenação (X)",
+    y = "Densidade estimada",
+    colour = "Lado",
+    fill = "Lado",
+    linetype = "Lado"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
 ```
 
-Cattaneo Density Test (Improved Version)
+Uma implementação mais moderna é o teste de densidade de Cattaneo, Jansson e Ma. A tabela resume o diagnóstico em vez de despejar todo o output do pacote.
 
-```{r Cattaneo-test, message=FALSE}
+```{r Cattaneo-test, echo=FALSE, message=FALSE}
 library(rddensity)
 
-# Simulated continuous density
 rdd <- rddensity(X = df$x, vce = "jackknife")
-summary(rdd)
+tabela_densidade <- data.frame(
+  Medida = c("Diferença estimada na densidade", "Estatística t", "p-valor"),
+  Valor = round(c(rdd$hat$diff, rdd$test$t_jk, rdd$test$p_jk), 3)
+)
+
+knitr::kable(
+  tabela_densidade,
+  caption = "Teste de densidade de Cattaneo, Jansson e Ma para os dados simulados."
+)
 ```
 
-Essa é uma área ativa de pesquisa. O ponto prático para a aula é: `rddensity` é um diagnóstico importante, mas não substitui conhecimento institucional sobre quem poderia manipular $X$, com que precisão e em que direção.
+Essa é uma área ativa de pesquisa. Para a aula, o ponto é simples: `rddensity` é um diagnóstico útil, mas não substitui conhecimento institucional sobre quem poderia manipular $X$, com que precisão e em que direção.
 
 
 ## Robustez e inferência em R
 
 A análise aplicada deve separar três objetos: o gráfico, a estimativa e a inferência. O gráfico ajuda a avaliar a plausibilidade da descontinuidade. A estimativa vem da regressão local. A inferência moderna deve usar os intervalos robustos com correção de viés de `rdrobust`, não apenas o erro padrão convencional.
 
-```{r reg-rdd, echo=TRUE, eval=TRUE, message=FALSE, warning=FALSE}
+```{r reg-rdd, echo=TRUE, eval=TRUE, results='hide', message=FALSE, warning=FALSE}
 library(rdrobust)
 
 df <- df_aux
 
 # Estimativa sharp RD com bandwidth MSE-optimal.
 modelo_mse <- rdrobust(y = df$y, x = df$x, c = 0, p = 1, bwselect = "mserd")
-summary(modelo_mse)
 
 # Mesmo desenho, mas com bandwidth CER-optimal.
 modelo_cer <- rdrobust(y = df$y, x = df$x, c = 0, p = 1, bwselect = "cerrd")
-summary(modelo_cer)
 ```
 
-No output de `rdrobust`, a linha **Conventional** usa a estimativa e o erro padrão convencionais. A linha **Bias-Corrected** corrige a estimativa pontual para viés. A linha **Robust** combina a estimativa corrigida com erro padrão apropriado para inferência robusta. Para reportar resultados principais, o padrão moderno é dar destaque ao intervalo robusto.
+No output de `rdrobust`, a linha Conventional usa a estimativa e o erro padrão convencionais. A linha Bias-Corrected corrige a estimativa pontual para viés. A linha Robust combina a estimativa corrigida com erro padrão apropriado para inferência robusta. Para reportar resultados principais, o padrão moderno é dar destaque ao intervalo robusto. A tabela abaixo mostra apenas os elementos que interessam para a aula.
 
-```{r plot-efeitos, echo=TRUE, message=FALSE, warning=FALSE}
+```{r tabela-rdrobust, echo=FALSE}
+extrair_rd_tabela <- function(modelo, nome) {
+  data.frame(
+    Especificação = nome,
+    Estimativa = modelo[["coef"]]["Robust", "Coeff"],
+    `IC 95% inferior` = modelo[["ci"]]["Robust", "CI Lower"],
+    `IC 95% superior` = modelo[["ci"]]["Robust", "CI Upper"],
+    `h esquerda` = modelo[["bws"]]["h", "left"],
+    `h direita` = modelo[["bws"]]["h", "right"],
+    check.names = FALSE
+  )
+}
+
+tabela_rd <- rbind(
+  extrair_rd_tabela(modelo_mse, "MSE-optimal"),
+  extrair_rd_tabela(modelo_cer, "CER-optimal")
+)
+
+tabela_rd[, -1] <- round(tabela_rd[, -1], 3)
+
+knitr::kable(
+  tabela_rd,
+  caption = "Estimativas sharp RD com inferência robust bias-corrected."
+)
+```
+
+```{r plot-efeitos, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Sensibilidade da estimativa RD à escolha de bandwidth.", fig.alt="Gráfico de pontos com intervalos de confiança para especificações MSE, CER e bandwidths fixos."}
 extrair_rd <- function(modelo, nome) {
   data.frame(
     especificacao = nome,
@@ -612,7 +614,7 @@ Esse gráfico é mais informativo do que uma sequência de gráficos separados p
 
 Covariáveis de pré-tratamento podem melhorar precisão e ajudar nos diagnósticos, mas não salvam a identificação se a continuidade dos resultados potenciais for implausível. A literatura recente sobre covariáveis e aprendizado de máquina em RD reforça esse ponto: covariáveis devem ser vistas como ajuste de precisão e ferramenta de diagnóstico, não como substituto do desenho [Kreiß e Rothe 2023; Noack, Olma e Rothe 2025].
 
-```{r rd-covs, echo=TRUE, message=FALSE, warning=FALSE}
+```{r rd-covs, echo=TRUE, results='hide', message=FALSE, warning=FALSE}
 set.seed(1234)
 df$w_pre <- 0.3 * df$x + rnorm(nrow(df))
 
@@ -624,16 +626,26 @@ modelo_com_cov <- rdrobust(
   p = 1,
   covs = as.matrix(df$w_pre)
 )
+```
 
-summary(modelo_sem_cov)
-summary(modelo_com_cov)
+```{r tabela-rd-covs, echo=FALSE}
+tabela_covs <- rbind(
+  extrair_rd_tabela(modelo_sem_cov, "Sem covariável"),
+  extrair_rd_tabela(modelo_com_cov, "Com covariável pré-tratamento")
+)
+tabela_covs[, -1] <- round(tabela_covs[, -1], 3)
+
+knitr::kable(
+  tabela_covs,
+  caption = "Covariáveis pré-tratamento podem mudar precisão, mas não substituem a identificação."
+)
 ```
 
 ### Fuzzy RD em R
 
 No fuzzy RD, o argumento `fuzzy` recebe a variável de tratamento efetivamente recebido. O pacote estima a razão entre o salto no resultado e o salto na probabilidade de tratamento.
 
-```{r fuzzy-rd-r, echo=TRUE, message=FALSE, warning=FALSE}
+```{r fuzzy-rd-r, echo=TRUE, results='hide', message=FALSE, warning=FALSE}
 set.seed(4321)
 prob_tratamento <- ifelse(df$x >= 0, 0.8, 0.2)
 d_fuzzy <- rbinom(nrow(df), size = 1, prob = prob_tratamento)
@@ -646,10 +658,44 @@ modelo_fuzzy <- rdrobust(
   fuzzy = d_fuzzy
 )
 
-summary(modelo_fuzzy)
+modelo_rf_fuzzy <- rdrobust(y = y_fuzzy, x = df$x, c = 0)
+modelo_primeira_fuzzy <- rdrobust(y = d_fuzzy, x = df$x, c = 0)
 ```
 
-## Placebo Tests
+```{r tabela-fuzzy-rd-r, echo=FALSE}
+tabela_fuzzy <- data.frame(
+  Componente = c(
+    "Forma reduzida: salto em Y",
+    "Primeira etapa: salto em D",
+    "Wald local: salto em Y / salto em D"
+  ),
+  Estimativa = c(
+    modelo_rf_fuzzy[["coef"]]["Robust", "Coeff"],
+    modelo_primeira_fuzzy[["coef"]]["Robust", "Coeff"],
+    modelo_fuzzy[["coef"]]["Robust", "Coeff"]
+  ),
+  `IC 95% inferior` = c(
+    modelo_rf_fuzzy[["ci"]]["Robust", "CI Lower"],
+    modelo_primeira_fuzzy[["ci"]]["Robust", "CI Lower"],
+    modelo_fuzzy[["ci"]]["Robust", "CI Lower"]
+  ),
+  `IC 95% superior` = c(
+    modelo_rf_fuzzy[["ci"]]["Robust", "CI Upper"],
+    modelo_primeira_fuzzy[["ci"]]["Robust", "CI Upper"],
+    modelo_fuzzy[["ci"]]["Robust", "CI Upper"]
+  ),
+  check.names = FALSE
+)
+
+tabela_fuzzy[, -1] <- round(tabela_fuzzy[, -1], 3)
+
+knitr::kable(
+  tabela_fuzzy,
+  caption = "Fuzzy RD em R: forma reduzida, primeira etapa e razão de Wald local."
+)
+```
+
+## Testes placebo
 
 Testando descontinuidade em covariáveis predeterminadas: covariáveis que não devem ser afetadas pelo tratamento não devem apresentar salto no ponto de corte. Esse é um diagnóstico de plausibilidade, não uma prova da suposição de continuidade.
 
@@ -663,25 +709,15 @@ Ao mesmo tempo, muitos testes diagnósticos criam outro problema: se testarmos m
 
 ## Extensões e casos difíceis
 
-### Running variable discreta
+Algumas *running variables* são discretas: idade em anos, notas arredondadas, população municipal em números inteiros ou margens eleitorais reportadas com poucas casas decimais. A discrição não invalida automaticamente um RD. O problema aparece quando há poucos valores de $X_i$ perto do cutoff. Nesse caso, a estimativa depende mais de extrapolação local, e testes de densidade ou balanceamento podem ter poder limitado.
 
-RDDs com *running variables* discretas são comuns: idade em anos, notas arredondadas, população municipal em números inteiros, margens eleitorais reportadas com poucas casas decimais. O problema não é a discrição em si, mas a falta de valores próximos ao cutoff. Se há poucos pontos de suporte, a estimativa depende mais de extrapolação local, e testes de densidade ou balanceamento podem ter poder limitado. Nesses casos, a interpretação por aleatorização local pode ser mais natural, desde que a janela seja defendida substantivamente.
+Muitos RDDs em ciência política e políticas públicas usam dados agrupados: municípios, escolas, distritos, eleições repetidas ou unidades administrativas. Clusterizar erros padrão pode ser necessário, mas não resolve o problema por si só. A inferência depende de quantos clusters existem perto do cutoff e de como $X_i$ varia dentro e entre clusters.
 
-### Dados clusterizados
+Outras extensões exigem definir o estimando com mais cuidado. Regras com cutoff podem operar repetidamente no tempo, como eleições em vários ciclos, políticas que renovam elegibilidade ou limites fiscais anuais. Hsu e Shen (2024) mostram que, nesses casos, precisamos distinguir efeito do primeiro tratamento, tratamento acumulado e exposição dinâmica.
 
-Muitos RDDs em ciência política e políticas públicas usam dados agrupados: municípios, escolas, distritos, eleições repetidas ou unidades administrativas. Clusterizar erros padrão pode ser necessário, mas não é uma solução automática. A inferência em RD com clusters depende de quantos clusters existem perto do cutoff e de como a *running variable* varia dentro e entre clusters. Quando há poucos clusters efetivos na janela, a incerteza deve ser apresentada com cautela.
+Também há desenhos em que a *running variable* observada mede com erro uma variável latente, como testes escolares, índices de risco ou scores administrativos. Eckles et al. (2025) mostram que, quando conhecemos a estrutura desse ruído, a incerteza no score pode induzir uma forma de aleatorização útil para identificação. Essa estratégia não substitui o RD padrão; ela define outro caminho quando o erro de medida é parte conhecida do desenho.
 
-### RD dinâmico ou repetido
-
-Algumas regras com cutoff operam repetidamente no tempo: eleições em vários ciclos, políticas que renovam elegibilidade, limites fiscais anuais ou regras escolares por coorte. Hsu e Shen (2024) formalizam RD dinâmico sob heterogeneidade de efeitos. A mensagem prática é que, quando unidades podem cruzar cutoffs várias vezes, o estimando não é necessariamente o mesmo de um RD estático simples. É preciso definir se o interesse é o efeito do primeiro tratamento, tratamento acumulado ou exposição dinâmica.
-
-### Erro de medida e aleatorização induzida por ruído
-
-Em alguns desenhos, a *running variable* observada mede com erro uma variável latente: testes escolares, índices de risco, score clínico ou avaliações administrativas. Eckles et al. (2025) mostram que, quando conhecemos a estrutura desse ruído, é possível construir uma estratégia de identificação baseada na aleatorização induzida pelo erro de medida. Isso não substitui o RD padrão, mas mostra que a fonte de incerteza no score pode, em alguns casos, ser parte do desenho.
-
-### Múltiplos cutoffs, múltiplos scores e RD espacial
-
-Em desenhos com múltiplos cutoffs ou fronteiras geográficas, a comparação não ocorre em um único ponto $c$, mas ao longo de vários limiares ou de uma fronteira contínua. Em RD espacial, por exemplo, unidades de lados diferentes de uma fronteira administrativa podem receber políticas diferentes. Cattaneo, Titiunik e Yu (2025) mostram que tratar a distância até a fronteira como uma *running variable* unidimensional pode introduzir viés quando a fronteira tem quinas ou irregularidades. Quando possível, a análise deve usar a informação bidimensional da localização e estimar efeitos ao longo da fronteira.
+Por fim, desenhos com múltiplos cutoffs ou fronteiras geográficas não se reduzem facilmente a um único ponto $c$. Em RD espacial, unidades de lados diferentes de uma fronteira administrativa podem receber políticas diferentes. Cattaneo, Titiunik e Yu (2025) mostram que tratar a distância até a fronteira como uma *running variable* unidimensional pode introduzir viés quando a fronteira tem quinas ou irregularidades. Quando possível, a análise deve usar a informação bidimensional da localização.
 
 ## PCRD
 
@@ -691,7 +727,7 @@ Marshall (2024) na AJPS introduz a nomenclatura do desenho de pesquisa Politicia
 
 Basicamente, Marshall está dizendo que nesses casos, close election é um collider, e isso abre as portas para vieses de variáveis que causem $y$ e se a eleição é apertada.
 
-```{r DAG, echo=FALSE}
+```{r DAG, echo=FALSE, fig.cap="PCRD: condicionar em eleições apertadas pode abrir um caminho de collider.", fig.alt="DAG em que gênero e competência afetam a probabilidade de eleição apertada e também o resultado, tornando eleição apertada um collider."}
 
 nodes_pcrd <- data.frame(
   name = c("Gênero", "Competência", "Eleição apertada", "Resultado"),
@@ -746,7 +782,7 @@ ggplot() +
 
 9. Fazer testes placebo em cutoffs e outcomes substantivamente justificados, evitando uma pescaria de especificações.
 
-10. Examinar sensibilidade a bandwidths, polinômios locais, covariáveis e *donut RD* quando houver risco de manipulação muito perto do cutoff.
+10. Examinar sensibilidade a bandwidths, polinômios locais, covariáveis e *donut RD* (exclusão de uma faixa muito próxima ao cutoff) quando houver risco de manipulação muito perto do cutoff.
 
 11. Discutir casos difíceis: running variable discreta, clusters, múltiplos cutoffs, RD espacial, eleições apertadas ou tratamento dinâmico.
 

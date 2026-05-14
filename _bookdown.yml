@@ -23,3 +23,7 @@ rmd_files:
 language:
   ui:
     chapter_name: "Capítulo "
+  label:
+    fig: "Figura "
+    tab: "Tabela "
+    eq: "Equação "
