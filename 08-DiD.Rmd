@@ -1086,7 +1086,7 @@ Neste capítulo, introduzimos o estimador de Diferença em Diferenças e o press
 2. **Tendências paralelas** é o pressuposto de identificação central; é não-testável diretamente, depende da escala do outcome e pode ser avaliado com event studies (com cautela) e análise de sensibilidade (HonestDiD).
 3. **A inferência deve respeitar o nível de atribuição do tratamento**: em painéis, clusterização inadequada costuma subestimar a incerteza.
 4. **Com tratamento escalonado e efeitos heterogêneos**, o TWFE pode ser enviesado. A decomposição de @goodmanbacon2021 revela os pesos problemáticos, e @sunabraham2021 mostram a contaminação dos coeficientes dinâmicos.
-5. **Estimadores modernos** — @callawaysantanna2021, @sunabraham2021, @gardner2022/did2s, @borusyak2024 — corrigem o problema e convergem para estimativas consistentes.
+5. **Estimadores modernos** — @callawaysantanna2021, @sunabraham2021, @gardner2022 (`did2s`), @borusyak2024 — corrigem o problema e convergem para estimativas consistentes.
 6. **Em aplicações com tratamento simultâneo** (como Obra Transparente e a enchente do Elbe), o TWFE não sofre do problema específico de comparações proibidas, mas o estimando ainda precisa acompanhar a pergunta substantiva.
 7. **Covariáveis devem ser incluídas com cuidado**: enriquecer o modelo de $Y(0)$ com estimação nos não-tratados ou usar PTA condicional com doubly-robust — nunca adicionando covariáveis variantes no tempo ao TWFE ingenuamente.
 8. **Tratamentos contínuos, múltiplos, reversíveis ou com timing quase aleatório** exigem redefinir o estimando antes de escolher o estimador.
