@@ -262,6 +262,11 @@ pressupostos-de-identificação
 tendências-paralelas
 tendências-paralelas-em-qual-escala
 equivalência-entre-pt-e-twfe
+tendências-paralelas-condicionais-e-covariáveis
+abordagem-1-enriquecer-o-modelo-de-y0
+abordagem-2-tendências-paralelas-condicionais
+o-que-não-fazer-covariáveis-no-twfe-ingenuamente
+baseline-vs.-time-varying-uma-distinção-crucial
 não-antecipação
 spillovers-e-nível-de-atribuição
 trajetórias-e-contrafactual
@@ -288,11 +293,6 @@ aplicação-2-enchente-do-elbe
 contexto
 dados-e-desenho-do-paper
 modelo-estático-versus-modelo-dinâmico
-did-com-covariáveis
-abordagem-1-enriquecer-o-modelo-de-y0
-abordagem-2-tendências-paralelas-condicionais
-o-que-não-fazer-covariáveis-no-twfe-ingenuamente
-baseline-vs.-time-varying-uma-distinção-crucial
 extensões-e-escolhas-de-desenho
 diferenças-triplas
 tratamento-contínuo-múltiplo-ou-reversível

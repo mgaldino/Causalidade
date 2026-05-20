@@ -557,13 +557,12 @@ No output de `rdrobust`, a linha Conventional usa a estimativa e o erro padrão 
 ```{r tabela-rdrobust, echo=FALSE}
 extrair_rd_tabela <- function(modelo, nome) {
   data.frame(
-    Especificação = nome,
+    especificacao = nome,
     Estimativa = modelo[["coef"]]["Robust", "Coeff"],
-    `IC 95% inferior` = modelo[["ci"]]["Robust", "CI Lower"],
-    `IC 95% superior` = modelo[["ci"]]["Robust", "CI Upper"],
-    `h esquerda` = modelo[["bws"]]["h", "left"],
-    `h direita` = modelo[["bws"]]["h", "right"],
-    check.names = FALSE
+    ic_95_inf = modelo[["ci"]]["Robust", "CI Lower"],
+    ic_95_sup = modelo[["ci"]]["Robust", "CI Upper"],
+    h_esquerda = modelo[["bws"]]["h", "left"],
+    h_direita = modelo[["bws"]]["h", "right"]
   )
 }
 
@@ -576,6 +575,10 @@ tabela_rd[, -1] <- round(tabela_rd[, -1], 3)
 
 knitr::kable(
   tabela_rd,
+  col.names = c(
+    "Especificação", "Estimativa", "IC 95% inferior",
+    "IC 95% superior", "h esquerda", "h direita"
+  ),
   caption = "Estimativas sharp RD com inferência robust bias-corrected."
 )
 ```

@@ -157,9 +157,13 @@ ep_bloco <- sqrt(ep1^2 * (n1/N)^2 + ep2^2 * (n2/N)^2)
 
 # Comparação
 data.frame(
-  Método = c("Aleatorização simples", "Aleatorização em bloco"),
-  Erro_Padrão = round(c(ep_simples, ep_bloco), 4)
-) |> knitr::kable(caption = "Comparação de erros padrão")
+  Metodo = c("Aleatorização simples", "Aleatorização em bloco"),
+  Erro_Padrao = round(c(ep_simples, ep_bloco), 4)
+) |>
+  knitr::kable(
+    col.names = c("Método", "Erro padrão"),
+    caption = "Comparação de erros padrão"
+  )
 ```
 
 O erro padrão da aleatorização em bloco é substancialmente menor. A intuição: ao estratificar, eliminamos a variação *entre* blocos (que é grande, pois os blocos têm médias diferentes) e ficamos apenas com a variação *dentro* de cada bloco.
