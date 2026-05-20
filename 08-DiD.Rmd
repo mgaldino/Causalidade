@@ -2,7 +2,7 @@
 
 ## Motivação: por que DiD?
 
-Diferença em Diferenças (DiD) é o método quasi-experimental mais utilizado em ciência política e economia aplicada. A ideia central é simples: se dois grupos seguem trajetórias paralelas antes de uma intervenção, a diferença nas suas trajetórias *após* a intervenção pode ser atribuída ao tratamento.
+Diferença em Diferenças (DiD) é o método quasi-experimental mais utilizado em ciência política e economia aplicada. A ideia central é simples: se dois grupos seguem trajetórias paralelas antes de uma intervenção, a diferença nas suas trajetórias *após* a intervenção pode ser atribuída ao tratamento. Para tratamentos introdutórios complementares, ver @cunningham2021 e @huntingtonklein2022; para um exemplo clássico em economia aplicada, ver @cardkrueger1994.
 
 Considere um exemplo concreto. Suponha que duas cidades — Campinas e Ribeirão Preto — têm taxas de conclusão de obras públicas de 30% e 20%, respectivamente, em 2016. Em 2018, Campinas recebe um programa de monitoramento de obras, enquanto Ribeirão Preto não. Em 2018, Campinas tem taxa de 50% e Ribeirão Preto, 35%.
 
@@ -87,7 +87,7 @@ Note que o lado esquerdo envolve um contrafactual — o que *teria acontecido* c
 
 O pressuposto de tendências paralelas é uma restrição sobre a forma funcional do resultado. Dizer que tratados e controles teriam tendências paralelas em **níveis** não é o mesmo que dizer que teriam tendências paralelas em **logs**, percentuais, taxas padronizadas ou qualquer outra transformação. Se duas unidades crescem pela mesma quantidade absoluta, suas trajetórias são paralelas em níveis; se crescem pela mesma taxa percentual, são paralelas em logs. As duas coisas só coincidem em casos especiais.
 
-Isso importa porque o DiD não é automaticamente invariante à transformação do outcome. Uma política pode parecer aumentar $Y$ em 5 pontos percentuais em níveis, mas parecer ter efeito proporcional diferente se estimarmos $\log(Y)$; e a transformação também muda qual trajetória contrafactual estamos supondo. Roth e Sant'Anna (2023) mostram que, para identificar pontualmente o ATT, o pesquisador precisa justificar por que a forma funcional escolhida é a correta, por que o tratamento é plausivelmente quase aleatório, ou usar uma estratégia que recupere a distribuição contrafactual inteira. Hull (2024) enfatiza essa pergunta de forma pedagógica como: "tendências paralelas em quê?".
+Isso importa porque o DiD não é automaticamente invariante à transformação do outcome. Uma política pode parecer aumentar $Y$ em 5 pontos percentuais em níveis, mas parecer ter efeito proporcional diferente se estimarmos $\log(Y)$; e a transformação também muda qual trajetória contrafactual estamos supondo. @rothsantanna2023 mostram que, para identificar pontualmente o ATT, o pesquisador precisa justificar por que a forma funcional escolhida é a correta, por que o tratamento é plausivelmente quase aleatório, ou usar uma estratégia que recupere a distribuição contrafactual inteira. @hull2024metrix enfatiza essa pergunta de forma pedagógica como: "tendências paralelas em quê?".
 
 **Regra prática:** escolha a escala do outcome antes de olhar os resultados, explique a teoria substantiva por trás da escolha e, quando a escala for discutível, reporte a sensibilidade dos resultados a transformações plausíveis. Não trate logs como uma escolha puramente técnica.
 
@@ -215,11 +215,11 @@ No caso 2×2, as duas parametrizações produzem estimativas idênticas de $\hat
 
 A estimativa pontual de DiD é apenas metade do problema. Em painéis, os erros normalmente são correlacionados ao longo do tempo dentro da mesma unidade, e o tratamento muitas vezes é atribuído em nível agregado: municípios, estados, escolas, firmas, distritos eleitorais etc. Ignorar essa estrutura faz os erros-padrão parecerem menores do que são.
 
-Bertrand, Duflo e Mullainathan (2004) mostram o problema com placebos em painéis estaduais: quando há autocorrelação serial e tratamento persistente, erros-padrão robustos convencionais rejeitam a hipótese nula com frequência muito maior do que 5%. A recomendação prática é clusterizar no nível da variação de tratamento ou da atribuição da política. Se a política varia por estado, clusterize por estado; se varia por município, clusterize por município; se os dados estão no nível individual, mas o tratamento é municipal, a unidade relevante para inferência continua sendo o município.
+@bertrand2004 mostram o problema com placebos em painéis estaduais: quando há autocorrelação serial e tratamento persistente, erros-padrão robustos convencionais rejeitam a hipótese nula com frequência muito maior do que 5%. A recomendação prática é clusterizar no nível da variação de tratamento ou da atribuição da política. Se a política varia por estado, clusterize por estado; se varia por município, clusterize por município; se os dados estão no nível individual, mas o tratamento é municipal, a unidade relevante para inferência continua sendo o município.
 
 Essa regra tem duas implicações importantes. Primeiro, o número efetivo de observações para inferência é o número de clusters, não o número de linhas do banco. Um painel com milhões de indivíduos, mas 20 municípios tratados/controles, tem pouca informação independente para inferência. Segundo, "clusterizar no nível mais baixo" quase nunca é conservador quando a política é atribuída em nível mais alto: clusterizar por obra, aluno ou indivíduo ignora que todos dentro do mesmo município ou estado receberam a mesma política.
 
-Quando há poucos clusters — especialmente poucos clusters tratados — os erros-padrão clusterizados assintóticos podem continuar ruins. Nesse caso, considere wild cluster bootstrap, inferência por randomização quando o mecanismo de atribuição é defensável, ou uma apresentação mais honesta de incerteza baseada no número de clusters. Em event studies, também faz sentido distinguir intervalos ponto-a-ponto de bandas simultâneas: se vários coeficientes de pré-tratamento são inspecionados ao mesmo tempo, bandas simultâneas comunicam melhor a incerteza conjunta (Freyaldenhoven, Hansen e Shapiro, 2019; Goldsmith-Pinkham, 2026).
+Quando há poucos clusters — especialmente poucos clusters tratados — os erros-padrão clusterizados assintóticos podem continuar ruins. Nesse caso, considere wild cluster bootstrap, inferência por randomização quando o mecanismo de atribuição é defensável, ou uma apresentação mais honesta de incerteza baseada no número de clusters. Em event studies, também faz sentido distinguir intervalos ponto-a-ponto de bandas simultâneas: se vários coeficientes de pré-tratamento são inspecionados ao mesmo tempo, bandas simultâneas comunicam melhor a incerteza conjunta [@freyaldenhoven2019; @goldsmithpinkham2026applied].
 
 
 ## Aplicação 1: Obra Transparente
@@ -481,7 +481,7 @@ O gráfico de event study acima é simples porque há um único momento de adoç
 1. **Pesos negativos no efeito agregado:** o coeficiente estático de TWFE pode comparar unidades tratadas cedo com unidades tratadas tarde, inclusive usando unidades já tratadas como controles.
 2. **Contaminação dos leads e lags:** no event study dinâmico, um coeficiente de pré-tratamento pode carregar informação de efeitos pós-tratamento de outras coortes, e um coeficiente pós-tratamento pode misturar horizontes diferentes.
 
-Sun e Abraham (2021) mostram que, quando a trajetória dinâmica do efeito varia entre coortes, os coeficientes de leads/lags do TWFE tradicional não têm interpretação limpa como efeitos em tempo relativo. Isso é particularmente perigoso porque o problema pode contaminar até o "teste" de pré-tendências: um coeficiente aparentemente pré-tratamento pode refletir efeitos já realizados em outra coorte. A solução é estimar efeitos específicos por coorte e tempo relativo e depois agregar com pesos explícitos, como faz o estimador `sunab()` no `fixest`.
+@sunabraham2021 mostram que, quando a trajetória dinâmica do efeito varia entre coortes, os coeficientes de leads/lags do TWFE tradicional não têm interpretação limpa como efeitos em tempo relativo. Isso é particularmente perigoso porque o problema pode contaminar até o "teste" de pré-tendências: um coeficiente aparentemente pré-tratamento pode refletir efeitos já realizados em outra coorte. A solução é estimar efeitos específicos por coorte e tempo relativo e depois agregar com pesos explícitos, como faz o estimador `sunab()` no `fixest`.
 
 Esse ponto é pedagógico e prático: em desenhos escalonados, não basta trocar um modelo estático por um event study. O event study também precisa usar comparações limpas.
 
@@ -490,7 +490,7 @@ Esse ponto é pedagógico e prático: em desenhos escalonados, não basta trocar
 
 Até aqui, trabalhamos com cenários em que todas as unidades tratadas recebem o tratamento ao mesmo tempo. Contudo, em muitas aplicações, o tratamento é adotado em momentos diferentes (*staggered adoption*). Exemplos em ciência política incluem a adoção escalonada de biometria eleitoral, leis de transparência pública, ou reformas educacionais por diferentes estados.
 
-Nesta seção, mostramos que o estimador TWFE pode produzir resultados enviesados — e até com sinal trocado — quando o tratamento é escalonado e os efeitos são heterogêneos.
+Nesta seção, mostramos que o estimador TWFE pode produzir resultados enviesados — e até com sinal trocado — quando o tratamento é escalonado e os efeitos são heterogêneos [@dechaisemartin2020; @dechaisemartin2023].
 
 ### O que pode dar errado
 
@@ -500,7 +500,7 @@ Se o efeito do tratamento varia ao longo do tempo ou entre grupos, essas compara
 
 ### Decomposição de Goodman-Bacon — simulação
 
-Goodman-Bacon (2021) mostrou que o estimador TWFE com tratamento escalonado é uma média ponderada de todos os estimadores DiD 2×2 possíveis, com pesos que dependem do tamanho dos grupos e da variância do tratamento. Vamos demonstrar isso com uma simulação.
+@goodmanbacon2021 mostrou que o estimador TWFE com tratamento escalonado é uma média ponderada de todos os estimadores DiD 2×2 possíveis, com pesos que dependem do tamanho dos grupos e da variância do tratamento. Vamos demonstrar isso com uma simulação.
 
 ```{r bacon-simul, warning=FALSE, message=FALSE}
 set.seed(42)
@@ -613,7 +613,7 @@ sim_data %>%
   scale_colour_manual(values = c("A" = "blue", "B" = "red", "C" = "grey50"))
 ```
 
-Para aplicações reais, o pacote `bacondecomp` automatiza essa decomposição e produz gráficos de diagnóstico (Goodman-Bacon, 2021). Aqui usamos a simulação para fins pedagógicos.
+Para aplicações reais, o pacote `bacondecomp` automatiza essa decomposição e produz gráficos de diagnóstico [@goodmanbacon2021]. Aqui usamos a simulação para fins pedagógicos.
 
 
 ### Conexão com FWL e Gardner
@@ -634,7 +634,7 @@ $$
 
 Os pesos $w_{it}$ dependem de $\tilde{D}_{it}$. Para unidades tratadas cedo e observadas muito depois do tratamento, $\tilde{D}_{it}$ pode ser **negativo** (porque a média de $D$ para essas unidades é alta, e o resíduo fica negativo). Pesos negativos significam que o TWFE pode dar sinal oposto ao efeito verdadeiro.
 
-A solução proposta por Gardner (2022) é o **DiD em dois estágios**:
+A solução proposta por @gardner2022 é o **DiD em dois estágios**:
 
 - **Estágio 1:** Estimar os efeitos fixos $\hat{\alpha}_i$ e $\hat{\lambda}_t$ usando **apenas** observações não tratadas (ou ainda não tratadas). Isso evita que o efeito do tratamento contamine as estimativas dos efeitos fixos.
 
@@ -647,9 +647,9 @@ O pacote `did2s` implementa esse procedimento com erros-padrão corrigidos para 
 
 Nesta seção, aplicamos os estimadores modernos ao **mesmo dataset simulado** da seção anterior. Isso permite comparar diretamente cada estimador com o TWFE enviesado e com o ATT verdadeiro.
 
-### Callaway & Sant'Anna (2021)
+### Callaway & Sant'Anna
 
-Callaway e Sant'Anna (2021) propõem estimar o efeito para cada **grupo-tempo** $ATT(g, t)$, onde $g$ é o período de primeiro tratamento. A ideia é fazer comparações "limpas": cada grupo tratado é comparado apenas com unidades nunca tratadas (ou ainda não tratadas).
+@callawaysantanna2021 propõem estimar o efeito para cada **grupo-tempo** $ATT(g, t)$, onde $g$ é o período de primeiro tratamento. A ideia é fazer comparações "limpas": cada grupo tratado é comparado apenas com unidades nunca tratadas (ou ainda não tratadas).
 
 O parâmetro $ATT(g, t) = \mathbb{E}[Y_{it}(1) - Y_{it}(0) \mid G_i = g]$ é estimado para cada combinação $(g, t)$ com $t \geq g$. Esses efeitos grupo-tempo podem então ser **agregados** de diversas formas: por grupo, por tempo relativo (event study), ou em uma média simples.
 
@@ -675,9 +675,9 @@ summary(cs_es)
 ggdid(cs_es, title = "Event study — Callaway & Sant'Anna")
 ```
 
-### Sun & Abraham (2021)
+### Sun & Abraham
 
-Sun e Abraham (2021) propõem o *interaction-weighted estimator*. A ideia é estimar coeficientes separados para cada coorte de tratamento e depois agregar com pesos adequados. O pacote `fixest` implementa isso via `sunab()`.
+@sunabraham2021 propõem o *interaction-weighted estimator*. A ideia é estimar coeficientes separados para cada coorte de tratamento e depois agregar com pesos adequados. O pacote `fixest` implementa isso via `sunab()`.
 
 ```{r sunab-estimator, warning=FALSE, message=FALSE, fig.cap="Event study — Sun & Abraham (sunab)."}
 # Preparar: nunca tratados precisam de G_i grande (não Inf)
@@ -693,9 +693,9 @@ iplot(sa_out,
       main = "Event study — Sun & Abraham")
 ```
 
-### Gardner (2022) / did2s
+### Gardner / did2s
 
-O estimador de dois estágios de Gardner (2022), discutido na seção 7.3, é implementado pelo pacote `did2s`.
+O estimador de dois estágios de @gardner2022, discutido na seção 7.3, é implementado pelo pacote `did2s`.
 
 ```{r did2s-estimator, warning=FALSE, message=FALSE}
 library(did2s)
@@ -713,9 +713,9 @@ d2s_out <- did2s(data = sim_d2s,
 summary(d2s_out)
 ```
 
-### Borusyak, Jaravel & Spiess (2024)
+### Borusyak, Jaravel & Spiess
 
-Borusyak, Jaravel e Spiess (2024) propõem um estimador por **imputação**: estimam o modelo de efeitos fixos nos dados não tratados e usam as previsões para imputar os contrafactuais das unidades tratadas. O efeito é a diferença entre o observado e o imputado.
+@borusyak2024 propõem um estimador por **imputação**: estimam o modelo de efeitos fixos nos dados não tratados e usam as previsões para imputar os contrafactuais das unidades tratadas. O efeito é a diferença entre o observado e o imputado.
 
 ```{r imputation-estimator, warning=FALSE, message=FALSE}
 library(didimputation)
@@ -766,15 +766,15 @@ A tabela mostra que o TWFE diverge do ATT verdadeiro, enquanto os estimadores mo
 
 ## Testando tendências paralelas e análise de sensibilidade
 
-### Pre-trends e o aviso de Roth (2022)
+### Pre-trends e o aviso de Roth
 
-O event study é a ferramenta padrão para avaliar a plausibilidade de tendências paralelas: se os coeficientes pré-tratamento ($\delta_k$ para $k < 0$) são próximos de zero, isso é consistente com PT. Porém, Roth (2022) alerta para o **viés de pré-teste** (*pre-testing bias*): se selecionamos especificações ou amostras com base em pré-tendências insignificantes, podemos estar condicionando em ruído favorável, o que infla os coeficientes pós-tratamento.
+O event study é a ferramenta padrão para avaliar a plausibilidade de tendências paralelas: se os coeficientes pré-tratamento ($\delta_k$ para $k < 0$) são próximos de zero, isso é consistente com PT. Porém, @roth2022 alerta para o **viés de pré-teste** (*pre-testing bias*): se selecionamos especificações ou amostras com base em pré-tendências insignificantes, podemos estar condicionando em ruído favorável, o que infla os coeficientes pós-tratamento.
 
-Em outras palavras, a ausência de pré-tendências significativas é necessária mas não suficiente. Roth (2022) mostra que testes de pré-tendências têm baixo poder em muitas aplicações típicas — não rejeitar PT não significa que PT é verdadeira.
+Em outras palavras, a ausência de pré-tendências significativas é necessária mas não suficiente. @roth2022 mostra que testes de pré-tendências têm baixo poder em muitas aplicações típicas — não rejeitar PT não significa que PT é verdadeira.
 
 ### HonestDiD: análise de sensibilidade
 
-Rambachan e Roth (2023) propõem uma abordagem de **identificação parcial**: em vez de supor PT exata, impõem restrições sobre *quanto* as tendências pós-tratamento podem divergir das tendências pré-tratamento. O parâmetro $\bar{M}$ controla essa divergência:
+@rambachanroth2023 propõem uma abordagem de **identificação parcial**: em vez de supor PT exata, impõem restrições sobre *quanto* as tendências pós-tratamento podem divergir das tendências pré-tratamento. O parâmetro $\bar{M}$ controla essa divergência:
 
 - $\bar{M} = 0$: tendências paralelas exatas (identificação pontual).
 - $\bar{M} = 1$: o desvio pós-tratamento pode ser igual ao máximo desvio observado no pré-tratamento.
@@ -831,7 +831,7 @@ A tabela inclui zero em todos os intervalos, inclusive para $\bar{M}=0{,}5$. Nes
 
 ### Contexto
 
-Em agosto de 2002, uma enchente devastadora atingiu o rio Elbe, na Alemanha. O chanceler Gerhard Schröder (SPD) liderou pessoalmente a resposta à crise, visitando as áreas afetadas e coordenando a ajuda federal. A eleição federal ocorreu poucas semanas depois, em setembro de 2002. Bechtel e Hainmueller (2011, *AJPS*) usam um DiD para estimar o efeito da gestão da crise sobre o voto no SPD nos distritos atingidos pela enchente.
+Em agosto de 2002, uma enchente devastadora atingiu o rio Elbe, na Alemanha. O chanceler Gerhard Schröder (SPD) liderou pessoalmente a resposta à crise, visitando as áreas afetadas e coordenando a ajuda federal. A eleição federal ocorreu poucas semanas depois, em setembro de 2002. @bechtelhainmueller2011 usam um DiD para estimar o efeito da gestão da crise sobre o voto no SPD nos distritos atingidos pela enchente.
 
 A pergunta de pesquisa é: a gratidão dos eleitores pela resposta à crise durou além da eleição imediata? Os dados cobrem cinco eleições: 1994, 1998, 2002, 2005 e 2009. A distinção entre modelo estático e modelo dinâmico é central aqui: se estimamos um único efeito médio para todos os períodos pós-enchente, misturamos efeitos de curto e longo prazo. Para responder se a gratidão persiste, precisamos estimar efeitos separados por horizonte temporal.
 
@@ -846,7 +846,7 @@ elbe1998_05 <- read_dta(here("Dados", "Elbe", "1998_2005.dta"))
 elbe1998_09 <- read_dta(here("Dados", "Elbe", "1998_2009.dta"))
 ```
 
-O paper estima DiDs separados por horizonte: um placebo pré-tratamento (1994--1998), um efeito de curto prazo (1998--2002), um efeito de longo prazo (1998--2005) e um efeito de muito longo prazo (1998--2009). Em cada arquivo, `Flooded` é o indicador de tratamento daquele painel de dois períodos: vale 1 para distritos afetados no período pós e 0 caso contrário. Em termos substantivos, Bechtel e Hainmueller estão implementando manualmente a lógica do que hoje chamaríamos de **event study** ou **modelo dinâmico**: estimar um efeito separado para cada horizonte temporal em relação ao evento.
+O paper estima DiDs separados por horizonte: um placebo pré-tratamento (1994--1998), um efeito de curto prazo (1998--2002), um efeito de longo prazo (1998--2005) e um efeito de muito longo prazo (1998--2009). Em cada arquivo, `Flooded` é o indicador de tratamento daquele painel de dois períodos: vale 1 para distritos afetados no período pós e 0 caso contrário. Em termos substantivos, @bechtelhainmueller2011 implementam manualmente a lógica do que hoje chamaríamos de **event study** ou **modelo dinâmico**: estimar um efeito separado para cada horizonte temporal em relação ao evento.
 
 ```{r elbe-paper-models, warning=FALSE, message=FALSE}
 did_elbe_placebo <- feols(spd_z_vs ~ Flooded | wkr + year,
@@ -942,7 +942,7 @@ Em muitas aplicações, o pressuposto de tendências paralelas incondicional é 
 
 ### Abordagem 1: Enriquecer o modelo de $Y(0)$
 
-Borusyak, Jaravel e Spiess (2024) propõem enriquecer o modelo de resultados potenciais não-tratados:
+@borusyak2024 propõem enriquecer o modelo de resultados potenciais não-tratados:
 $$
 \mathbb{E}[Y_{it}(0)] = \alpha_i + \beta_t + \gamma' X_{it}
 $$
@@ -957,7 +957,7 @@ A chave é que os parâmetros $\gamma$ são estimados **usando apenas as observa
 
 ### Abordagem 2: Tendências paralelas condicionais
 
-Uma segunda abordagem, desenvolvida por Abadie (2005) e Sant'Anna e Zhao (2020) para o caso não-escalonado, condiciona as tendências paralelas em características baseline $X_i$:
+Uma segunda abordagem, desenvolvida por @abadie2005 e @santannazhao2020 para o caso não-escalonado, condiciona as tendências paralelas em características baseline $X_i$:
 
 $$
 \mathbb{E}[Y_{it}(0) - Y_{it-1}(0) \mid D_i = 1, X_i] = \mathbb{E}[Y_{it}(0) - Y_{it-1}(0) \mid D_i = 0, X_i]
@@ -965,11 +965,11 @@ $$
 
 Ou seja, as tendências são paralelas *dentro de estratos* definidos por $X_i$. Isso transforma o problema em uma versão de seleção em observáveis para $\Delta Y_{it}$. Há três abordagens principais para estimar o DiD condicional:
 
-1. **Ponderação por propensity score inverso (IPW):** ponderar as unidades de controle para que a distribuição de $X$ replique a do grupo tratado (Abadie, 2005).
+1. **Ponderação por propensity score inverso (IPW):** ponderar as unidades de controle para que a distribuição de $X$ replique a do grupo tratado [@abadie2005].
 2. **Regressão de resultado (*outcome regression*):** modelar $\mathbb{E}[\Delta Y_{it}(0) \mid X_i]$ parametricamente.
-3. **Doubly-robust:** combinar IPW e regressão. Consistente se *qualquer uma* das duas especificações estiver correta. O pacote `did` implementa essa abordagem (Sant'Anna & Zhao, 2020).
+3. **Doubly-robust:** combinar IPW e regressão. Consistente se *qualquer uma* das duas especificações estiver correta. O pacote `did` implementa essa abordagem [@santannazhao2020].
 
-Callaway e Sant'Anna (2021) estendem essa lógica para tratamento escalonado, estimando um propensity score separado para cada coorte e período. Wooldridge (2021) propõe uma extensão do TWFE (*extended TWFE*) que inclui interações entre os efeitos fixos de tempo e as covariáveis, obtendo resultados robustos a efeitos heterogêneos sob certas condições.
+@callawaysantanna2021 estendem essa lógica para tratamento escalonado, estimando um propensity score separado para cada coorte e período. @wooldridge2021 propõe uma extensão do TWFE (*extended TWFE*) que inclui interações entre os efeitos fixos de tempo e as covariáveis, obtendo resultados robustos a efeitos heterogêneos sob certas condições.
 
 ### O que NÃO fazer: covariáveis no TWFE ingenuamente
 
@@ -980,11 +980,11 @@ $$
 
 Essa abordagem é **problemática** por múltiplas razões, mesmo no caso mais simples de dois períodos:
 
-1. **Contaminação por efeitos do tratamento.** Com efeitos heterogêneos, $\hat{\gamma}$ é estimado usando *todas* as observações — inclusive as tratadas. Isso pode misatribuir parte do efeito do tratamento às covariáveis, enviesando tanto $\hat{\gamma}$ quanto $\hat{\tau}$ (Borusyak et al., 2024; Caetano et al., 2024).
+1. **Contaminação por efeitos do tratamento.** Com efeitos heterogêneos, $\hat{\gamma}$ é estimado usando *todas* as observações — inclusive as tratadas. Isso pode misatribuir parte do efeito do tratamento às covariáveis, enviesando tanto $\hat{\gamma}$ quanto $\hat{\tau}$ [@borusyak2024; @caetano2024].
 
-2. **Covariáveis variantes no tempo como bad controls.** Quando $X_{it}$ pode ser afetado pelo próprio tratamento (por exemplo, emprego quando o tratamento é um programa social), incluí-lo como controle introduz viés de variável intermediária — o clássico problema de *bad controls* (Angrist & Pischke, 2009). A sabedoria convencional de simplesmente "não incluir" essas variáveis também é insuficiente: quando o PTA condicional depende dessas covariáveis, omiti-las viola a suposição de identificação (Caetano et al., 2024).
+2. **Covariáveis variantes no tempo como bad controls.** Quando $X_{it}$ pode ser afetado pelo próprio tratamento (por exemplo, emprego quando o tratamento é um programa social), incluí-lo como controle introduz viés de variável intermediária — o clássico problema de *bad controls* [@angrist2009]. A sabedoria convencional de simplesmente "não incluir" essas variáveis também é insuficiente: quando o PTA condicional depende dessas covariáveis, omiti-las viola a suposição de identificação [@caetano2024].
 
-3. **Covariate effect bias.** Lin e Zhang (2022) mostram que, mesmo com efeitos do tratamento homogêneos e apenas dois períodos, a inclusão de covariáveis variantes no tempo no TWFE gera um viés adicional — o *covariate effect bias* — que surge porque o efeito das covariáveis sobre $Y$ pode variar no tempo. Esse viés persiste mesmo quando o tratamento não afeta as covariáveis.
+3. **Covariate effect bias.** @linzhang2022 mostram que, mesmo com efeitos do tratamento homogêneos e apenas dois períodos, a inclusão de covariáveis variantes no tempo no TWFE gera um viés adicional — o *covariate effect bias* — que surge porque o efeito das covariáveis sobre $Y$ pode variar no tempo. Esse viés persiste mesmo quando o tratamento não afeta as covariáveis.
 
 4. **Reversão de pesos.** Covariáveis com valores incomuns no grupo tratado (relativo ao controle) podem receber pesos desproporcionais na regressão, distorcendo a estimativa do ATT.
 
@@ -994,7 +994,7 @@ A distinção entre covariáveis **baseline** ($X_i$, fixas ou medidas antes do 
 
 - **Covariáveis baseline** ($X_i$) são seguras de incluir: não podem ser afetadas pelo tratamento e não geram o problema de bad controls. São absorvidas pelos efeitos fixos de unidade em um painel, mas podem entrar via interações com o tempo ($\gamma'_t X_i$) ou no propensity score da abordagem 2.
 
-- **Covariáveis variantes no tempo** ($X_{it}$) exigem cautela. Se o tratamento pode afetar $X_{it}$, incluí-la diretamente é um bad control. Caetano et al. (2024) propõem estratégias que lidam com covariáveis variantes no tempo que podem ser afetadas pelo tratamento — incluindo estimandos doubly-robust e abordagens de imputação que usam o valor que a covariável *teria tido na ausência de tratamento*.
+- **Covariáveis variantes no tempo** ($X_{it}$) exigem cautela. Se o tratamento pode afetar $X_{it}$, incluí-la diretamente é um bad control. @caetano2024 propõem estratégias que lidam com covariáveis variantes no tempo que podem ser afetadas pelo tratamento — incluindo estimandos doubly-robust e abordagens de imputação que usam o valor que a covariável *teria tido na ausência de tratamento*.
 
 **Regra prática:** sempre que possível, use a abordagem 1 (enriquecer o modelo de $Y(0)$ com estimação apenas nos não-tratados) ou a abordagem 2 (PTA condicional com covariáveis baseline e doubly-robust). Evite adicionar covariáveis variantes no tempo diretamente ao TWFE.
 
@@ -1024,13 +1024,13 @@ A maior parte deste capítulo assume tratamento binário e absorvente: uma unida
 - Há uma categoria de dose zero que possa servir como baseline?
 - O tratamento é reversível, acumulativo ou depende da história de exposição?
 
-Callaway, Goodman-Bacon e Sant'Anna (2024) mostram que DiD com tratamento contínuo requer muito mais cuidado com o estimando. O TWFE pode estimar uma média ponderada de efeitos marginais ou de contrastes entre doses, mas essa média pode não corresponder ao parâmetro substantivo de interesse. A recomendação prática é começar por discretizar a pergunta causal: "comparar quais doses com quais doses?" Quando houver grupos de dose bem definidos, uma regressão em primeiras diferenças com indicadores de dose pode ser mais transparente do que um único coeficiente linear.
+@callawaygoodmanbaconsantanna2024 mostram que DiD com tratamento contínuo requer muito mais cuidado com o estimando. O TWFE pode estimar uma média ponderada de efeitos marginais ou de contrastes entre doses, mas essa média pode não corresponder ao parâmetro substantivo de interesse. A recomendação prática é começar por discretizar a pergunta causal: "comparar quais doses com quais doses?" Quando houver grupos de dose bem definidos, uma regressão em primeiras diferenças com indicadores de dose pode ser mais transparente do que um único coeficiente linear.
 
-Problemas parecidos aparecem com **múltiplos tratamentos**. Se unidades podem receber combinações de políticas, ou mover-se entre categorias de tratamento, os coeficientes de TWFE podem misturar efeitos próprios, efeitos cruzados e pesos difíceis de interpretar (Hull, 2018; Goldsmith-Pinkham, Hull e Kolesár, 2024). Nesses casos, defina primeiro o contraste causal desejado e só depois escolha o estimador.
+Problemas parecidos aparecem com **múltiplos tratamentos**. Se unidades podem receber combinações de políticas, ou mover-se entre categorias de tratamento, os coeficientes de TWFE podem misturar efeitos próprios, efeitos cruzados e pesos difíceis de interpretar [@hull2018; @goldsmith-pinkham2024]. Nesses casos, defina primeiro o contraste causal desejado e só depois escolha o estimador.
 
 ### Adoção aleatória no tempo
 
-Até aqui, justificamos DiD como uma hipótese sobre o modelo de $Y(0)$: na ausência de tratamento, as trajetórias teriam sido paralelas. Outra forma de pensar o desenho é perguntar se o **momento de adoção** pode ser tratado como quase aleatório, possivelmente condicional em covariáveis. Essa é a perspectiva design-based de Athey e Imbens (2022) e das discussões pedagógicas de Hull (2024) e Goldsmith-Pinkham (2026).
+Até aqui, justificamos DiD como uma hipótese sobre o modelo de $Y(0)$: na ausência de tratamento, as trajetórias teriam sido paralelas. Outra forma de pensar o desenho é perguntar se o **momento de adoção** pode ser tratado como quase aleatório, possivelmente condicional em covariáveis. Essa é a perspectiva design-based de @atheyimbens2022 e das discussões pedagógicas de @hull2024metrix e @goldsmithpinkham2026applied.
 
 Em um rollout escalonado, a pergunta deixa de ser apenas "tratados e controles teriam tendências paralelas?" e passa a incluir: "por que algumas unidades adotaram em 2017, outras em 2019 e outras nunca adotaram?" Se o timing foi definido por fila administrativa, sorteio, limiar institucional ou restrição operacional plausivelmente exógena, podemos explorar esse mecanismo de atribuição. Se o timing foi escolhido estrategicamente por unidades que antecipavam ganhos, a identificação volta a depender fortemente de modelar o contrafactual.
 
@@ -1044,7 +1044,7 @@ $$
 Y_{it} = \alpha + \tau D_{it} + \rho Y_{i,t-1} + \varepsilon_{it}
 $$
 
-Esse modelo com variável dependente defasada (LDV) não é uma versão "mais controlada" do DiD. Ele impõe uma lógica diferente: seleção em observáveis condicionada ao resultado passado. O DiD, por outro lado, permite que tratados e controles tenham níveis diferentes antes da política, desde que suas tendências contrafactuais sejam paralelas. Controlar por $Y_{i,t-1}$ pode ser apropriado em alguns desenhos, mas muda o estimando e a suposição de identificação. Em painéis curtos com efeitos fixos, ainda há problemas adicionais de painel dinâmico, como o viés de Nickell.
+Esse modelo com variável dependente defasada (LDV) não é uma versão "mais controlada" do DiD. Ele impõe uma lógica diferente: seleção em observáveis condicionada ao resultado passado. O DiD, por outro lado, permite que tratados e controles tenham níveis diferentes antes da política, desde que suas tendências contrafactuais sejam paralelas. Controlar por $Y_{i,t-1}$ pode ser apropriado em alguns desenhos, mas muda o estimando e a suposição de identificação. Em painéis curtos com efeitos fixos, ainda há problemas adicionais de painel dinâmico, como o viés de Nickell [@nickell1981].
 
 Uma forma prática de apresentar a diferença é estimar ambos como análise de sensibilidade, mas não tratá-los como substitutos mecânicos. Se DiD e LDV dão respostas muito diferentes, isso é evidência de que o desenho depende de suposições fortes sobre a evolução de $Y(0)$.
 
@@ -1063,7 +1063,7 @@ Antes de estimar, responda explicitamente:
 9. **Robustez:** o resultado sobrevive a estimadores modernos, mudanças razoáveis de amostra, escala e definição de tratamento?
 10. **Interpretação:** o coeficiente estimado responde à pergunta substantiva ou é apenas uma média conveniente?
 
-Esse checklist é inspirado nas aulas de Hull (2024) e Goldsmith-Pinkham (2026), que enfatizam que DiD deve começar pela definição do desenho e do estimando, não pela escolha automática de uma regressão.
+Esse checklist é inspirado nas aulas de @hull2024metrix e @goldsmithpinkham2026applied, que enfatizam que DiD deve começar pela definição do desenho e do estimando, não pela escolha automática de uma regressão.
 
 ## Exercícios sugeridos
 
@@ -1085,73 +1085,10 @@ Neste capítulo, introduzimos o estimador de Diferença em Diferenças e o press
 1. **DiD 2×2** é intuitivo e pode ser estimado por TWFE sem problemas.
 2. **Tendências paralelas** é o pressuposto de identificação central; é não-testável diretamente, depende da escala do outcome e pode ser avaliado com event studies (com cautela) e análise de sensibilidade (HonestDiD).
 3. **A inferência deve respeitar o nível de atribuição do tratamento**: em painéis, clusterização inadequada costuma subestimar a incerteza.
-4. **Com tratamento escalonado e efeitos heterogêneos**, o TWFE pode ser enviesado. A decomposição de Goodman-Bacon revela os pesos problemáticos, e Sun e Abraham mostram a contaminação dos coeficientes dinâmicos.
-5. **Estimadores modernos** — Callaway & Sant'Anna, Sun & Abraham, Gardner/did2s, Borusyak et al. — corrigem o problema e convergem para estimativas consistentes.
+4. **Com tratamento escalonado e efeitos heterogêneos**, o TWFE pode ser enviesado. A decomposição de @goodmanbacon2021 revela os pesos problemáticos, e @sunabraham2021 mostram a contaminação dos coeficientes dinâmicos.
+5. **Estimadores modernos** — @callawaysantanna2021, @sunabraham2021, @gardner2022/did2s, @borusyak2024 — corrigem o problema e convergem para estimativas consistentes.
 6. **Em aplicações com tratamento simultâneo** (como Obra Transparente e a enchente do Elbe), o TWFE não sofre do problema específico de comparações proibidas, mas o estimando ainda precisa acompanhar a pergunta substantiva.
 7. **Covariáveis devem ser incluídas com cuidado**: enriquecer o modelo de $Y(0)$ com estimação nos não-tratados ou usar PTA condicional com doubly-robust — nunca adicionando covariáveis variantes no tempo ao TWFE ingenuamente.
 8. **Tratamentos contínuos, múltiplos, reversíveis ou com timing quase aleatório** exigem redefinir o estimando antes de escolher o estimador.
 
 No capítulo 9, discutiremos dados de painel (TSCS) de forma mais geral, incluindo as suposições de exogeneidade estrita e sequencial — das quais as tendências paralelas são um caso especial. No capítulo 11, veremos o controle sintético como alternativa quando PT é duvidosa ou quando há poucas unidades tratadas.
-
-
-## Referências
-
-Abadie, A. (2005). Semiparametric Difference-in-Differences Estimators. *Review of Economic Studies*, 72(1), 1–19.
-
-Angrist, J. D., & Pischke, J.-S. (2009). *Mostly Harmless Econometrics*. Princeton University Press.
-
-Athey, S., & Imbens, G. W. (2022). Design-Based Analysis in Difference-In-Differences Settings with Staggered Adoption. *Journal of Econometrics*, 226(1), 62–79.
-
-Bechtel, M. M., & Hainmueller, J. (2011). How Lasting Is Voter Gratitude? An Analysis of the Short- and Long-Term Electoral Returns to Beneficial Policy. *American Journal of Political Science*, 55(4), 852–868.
-
-Bertrand, M., Duflo, E., & Mullainathan, S. (2004). How Much Should We Trust Differences-in-Differences Estimates? *Quarterly Journal of Economics*, 119(1), 249–275.
-
-Borusyak, K., Jaravel, X., & Spiess, J. (2024). Revisiting Event Study Designs: Robust and Efficient Estimation. *Review of Economic Studies*, 91(6), 3253–3285.
-
-Caetano, C., Callaway, B., Payne, S., & Rodrigues, H. S. (2024). Difference in Differences with Time-Varying Covariates. Working Paper (arXiv: 2202.02903).
-
-Callaway, B., & Sant'Anna, P. H. C. (2021). Difference-in-Differences with Multiple Time Periods. *Journal of Econometrics*, 225(2), 200–230.
-
-Callaway, B., Goodman-Bacon, A., & Sant'Anna, P. H. C. (2024). Difference-in-Differences with a Continuous Treatment. NBER Working Paper No. 32117.
-
-Card, D., & Krueger, A. B. (1994). Minimum Wages and Employment: A Case Study of the Fast-Food Industry in New Jersey and Pennsylvania. *American Economic Review*, 84(4), 772–793.
-
-Cunningham, S. (2021). *Causal Inference: The Mixtape*. Yale University Press.
-
-de Chaisemartin, C., & D'Haultfœuille, X. (2020). Two-Way Fixed Effects Estimators with Heterogeneous Treatment Effects. *American Economic Review*, 110(9), 2964–2996.
-
-de Chaisemartin, C., & D'Haultfœuille, X. (2023). Two-Way Fixed Effects and Differences-in-Differences with Heterogeneous Treatment Effects: A Survey. *Econometrics Journal*, 26(3), C1–C30.
-
-Freyaldenhoven, S., Hansen, C., & Shapiro, J. M. (2019). Pre-Event Trends in the Panel Event-Study Design. *American Economic Review*, 109(9), 3307–3338.
-
-Gardner, J. (2022). Two-Stage Differences in Differences. Working Paper.
-
-Goldsmith-Pinkham, P. (2026). *Applied Empirical Methods*: Difference-in-Differences Lectures, Homework 6, and Comprehensive Exam Practice Questions. Yale University course materials. https://github.com/paulgp/applied-methods-phd
-
-Goldsmith-Pinkham, P., Hull, P., & Kolesár, M. (2024). Contamination Bias in Linear Regressions. *American Economic Review*, 114(12), 4015–4051.
-
-Goodman-Bacon, A. (2021). Difference-in-Differences with Variation in Treatment Timing. *Journal of Econometrics*, 225(2), 254–277.
-
-Hull, P. (2018). Estimating Treatment Effects in Mover Designs. Working Paper (arXiv: 1804.06721).
-
-Hull, P. (2024). *'Metrics Notes*: Parallel Trends, Negative Weights, and Clustering. Brown University lecture slides. https://about.peterhull.net/metrix
-
-Huntington-Klein, N. (2022). *The Effect: An Introduction to Research Design and Causality*. Chapman & Hall/CRC.
-
-Lin, L., & Zhang, Z. (2022). Interpreting the coefficients in dynamic two-way fixed effects regressions with time-varying covariates. *Economics Letters*, 216, 110604.
-
-Nickell, S. (1981). Biases in Dynamic Models with Fixed Effects. *Econometrica*, 49(6), 1417–1426.
-
-Rambachan, A., & Roth, J. (2023). A More Credible Approach to Parallel Trends. *Review of Economic Studies*, 90(5), 2555–2591.
-
-Roth, J. (2022). Pretest with Caution: Event-Study Estimates after Testing for Parallel Trends. *American Economic Review: Insights*, 4(3), 305–322.
-
-Roth, J., & Sant'Anna, P. H. C. (2023). When Is Parallel Trends Sensitive to Functional Form? *Econometrica*, 91(2), 737–747.
-
-Roth, J., Sant'Anna, P. H. C., Bilinski, A., & Poe, J. (2023). What's Trending in Difference-in-Differences? A Synthesis of the Recent Econometrics Literature. *Journal of Econometrics*, 235(2), 2218–2244.
-
-Sant'Anna, P. H. C., & Zhao, J. (2020). Doubly Robust Difference-in-Differences Estimators. *Journal of Econometrics*, 219(1), 101–122.
-
-Sun, L., & Abraham, S. (2021). Estimating Dynamic Treatment Effects in Event Studies with Heterogeneous Treatment Effects. *Journal of Econometrics*, 225(2), 175–199.
-
-Wooldridge, J. M. (2021). Two-Way Fixed Effects, the Two-Way Mundlak Regression, and Difference-in-Differences Estimators. Working Paper.
