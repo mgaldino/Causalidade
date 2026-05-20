@@ -14,11 +14,21 @@ $$
 
 Essa conta manual contém toda a lógica do DiD. O restante do capítulo formaliza essa intuição, discute quando ela é válida (tendências paralelas), mostra como estimar por regressão (TWFE), e apresenta os avanços metodológicos recentes para lidar com tratamento escalonado no tempo e efeitos heterogêneos.
 
-**Mapa do capítulo.** O capítulo começa com o modelo 2×2, seus pressupostos, estimação por TWFE e inferência. Em seguida aplica DiD aos dados brasileiros do Obra Transparente e introduz event studies. A parte central trata da "revolução DiD": o viés do TWFE com tratamento escalonado, a contaminação de event studies dinâmicos e os estimadores modernos que corrigem esses problemas. Depois discutimos testes de tendências paralelas, análise de sensibilidade, uma segunda aplicação empírica (enchente do Elbe), covariáveis, extensões importantes e um checklist prático de desenho.
+**Mapa do capítulo.** O capítulo começa com o modelo 2×2 e seus pressupostos de identificação, incluindo tendências paralelas, escala do outcome, tendências paralelas condicionais, não-antecipação e spillovers. Em seguida, mostra como estimar DiD por TWFE, discute inferência e aplica o desenho ao Obra Transparente. A parte central trata da "revolução DiD": event studies, viés do TWFE com tratamento escalonado, contaminação de coeficientes dinâmicos e estimadores modernos. O capítulo termina com análise de sensibilidade, uma segunda aplicação empírica (enchente do Elbe), extensões importantes e um checklist prático de desenho.
 
 ```{r setup-did, include=FALSE}
-invisible(Sys.setlocale("LC_CTYPE", "pt_BR.UTF-8"))
-invisible(Sys.setlocale("LC_COLLATE", "pt_BR.UTF-8"))
+set_locale_if_available <- function(category) {
+  for (locale in c("pt_BR.UTF-8", "en_US.UTF-8")) {
+    result <- suppressWarnings(Sys.setlocale(category, locale))
+    if (!is.na(result) && nzchar(result)) {
+      return(invisible(result))
+    }
+  }
+  invisible(NA_character_)
+}
+
+set_locale_if_available("LC_CTYPE")
+set_locale_if_available("LC_COLLATE")
 ```
 
 ## Modelo básico 2×2
@@ -217,6 +227,7 @@ did_paths <- tibble::tribble(
   "Tratado contrafactual", "Pré", 30,
   "Tratado contrafactual", "Pós", 45
 )
+did_paths$periodo <- factor(did_paths$periodo, levels = c("Pré", "Pós"))
 
 ggplot2::ggplot(
   did_paths,
@@ -296,7 +307,6 @@ library(knitr)
 library(kableExtra)
 library(tidyverse)
 library(fixest)
-library(modelsummary)
 
 ot_root <- here("data", "obra_transparente_jds", "replication_package")
 ot_panel_file <- file.path(ot_root, "data", "processed", "did_panel_6periods.rds")
@@ -394,13 +404,26 @@ did_ot_static <- feols(
   cluster = ~municipio
 )
 
-modelsummary(
-  list("TWFE" = did_ot_static),
-  stars = c("*" = .1, "**" = .05, "***" = .01),
-  coef_rename = c("treat_post" = "Tratamento × Pós"),
-  gof_map = c("nobs", "r.squared"),
-  title = "DiD estático — Obra Transparente (versão JDS)"
-)
+ot_static_coef <- coeftable(did_ot_static)
+ot_static_est <- unname(ot_static_coef["treat_post", "Estimate"])
+ot_static_se <- unname(ot_static_coef["treat_post", "Std. Error"])
+ot_static_p <- unname(ot_static_coef["treat_post", "Pr(>|t|)"])
+
+tibble::tibble(
+  Estimando = "ATT médio pós-tratamento",
+  Estimativa = round(ot_static_est, 3),
+  `Erro-padrão` = round(ot_static_se, 3),
+  `IC 95%` = sprintf(
+    "[%.3f, %.3f]",
+    ot_static_est - 1.96 * ot_static_se,
+    ot_static_est + 1.96 * ot_static_se
+  ),
+  `p-valor` = round(ot_static_p, 3),
+  Interpretação = "Aumento médio de 8,3 p.p. na conclusão das obras"
+) %>%
+  kable(
+    caption = "DiD estático — Obra Transparente (versão JDS)"
+  )
 ```
 
 O coeficiente estima um aumento médio de cerca de 8,3 pontos percentuais na probabilidade de conclusão das obras nos municípios tratados. Essa é a estimativa estática: ela resume todos os períodos pós-tratamento em um único número. A próxima pergunta é dinâmica: o efeito aparece imediatamente ou cresce ao longo do tempo?
@@ -520,7 +543,13 @@ wild_results %>%
     se_cluster = round(se_cluster, 3),
     p_cluster = round(p_cluster, 3),
     p_wild_bootstrap = round(p_wild_bootstrap, 3),
-    p_permutation = round(p_permutation, 3)
+    p_permutation = round(p_permutation, 3),
+    leitura = case_when(
+      coefficient == "Static ATT" ~ "ATT médio: robusto no wild bootstrap; permutação é mais cautelosa.",
+      coefficient == "t=+2 (2023)" ~ "Maior efeito dinâmico; fica no limite de 5% no wild bootstrap.",
+      grepl("^t=-", coefficient) ~ "Diagnóstico pré-tratamento: próximo de zero.",
+      TRUE ~ "Efeito pós-tratamento intermediário."
+    )
   ) %>%
   dplyr::select(
     coefficient,
@@ -528,11 +557,12 @@ wild_results %>%
     se_cluster,
     p_cluster,
     p_wild_bootstrap,
-    p_permutation
+    p_permutation,
+    leitura
   ) %>%
   kable(
     caption = "Inferência com poucos clusters tratados — Obra Transparente",
-    col.names = c("Coeficiente", "Estimativa", "SE cluster", "p cluster", "p wild", "p permutação")
+    col.names = c("Coeficiente", "Estimativa", "SE cluster", "p cluster", "p wild", "p permutação", "Leitura")
   )
 ```
 
@@ -670,9 +700,10 @@ sim_data %>%
   geom_vline(xintercept = c(3, 6), linetype = "dashed", alpha = 0.5) +
   annotate("text", x = 3.2, y = max(sim_data$Y) * 0.3, label = "Grupo A\ntratado", size = 3) +
   annotate("text", x = 6.2, y = max(sim_data$Y) * 0.3, label = "Grupo B\ntratado", size = 3) +
+  scale_x_continuous(breaks = 1:10) +
   theme_bw() +
   labs(x = "Período", y = "Resultado médio", colour = "Grupo") +
-  scale_colour_manual(values = c("A" = "blue", "B" = "red", "C" = "grey50"))
+  scale_colour_manual(values = c("A" = "#0072B2", "B" = "#D55E00", "C" = "grey50"))
 ```
 
 Para aplicações reais, o pacote `bacondecomp` automatiza essa decomposição e produz gráficos de diagnóstico [@goodmanbacon2021]. Aqui usamos a simulação para fins pedagógicos.
@@ -734,7 +765,31 @@ cs_out <- att_gt(yname = "Y",
 cs_es <- aggte(cs_out, type = "dynamic")
 summary(cs_es)
 
-ggdid(cs_es, title = "Event study — Callaway & Sant'Anna")
+cs_plot_data <- tibble::tibble(
+  tempo_relativo = cs_es$egt,
+  estimativa = cs_es$att.egt,
+  erro_padrao = cs_es$se.egt
+) %>%
+  mutate(
+    periodo = factor(ifelse(tempo_relativo < 0, "Pré", "Pós"), levels = c("Pré", "Pós")),
+    ic_inf = estimativa - 1.96 * erro_padrao,
+    ic_sup = estimativa + 1.96 * erro_padrao
+  )
+
+ggplot(cs_plot_data, aes(x = tempo_relativo, y = estimativa, colour = periodo)) +
+  geom_hline(yintercept = 0, linetype = "dashed", colour = "grey40") +
+  geom_vline(xintercept = -0.5, linetype = "dashed", colour = "grey70") +
+  geom_errorbar(aes(ymin = ic_inf, ymax = ic_sup), width = 0.15) +
+  geom_point(size = 2.6) +
+  scale_x_continuous(breaks = sort(unique(cs_plot_data$tempo_relativo))) +
+  scale_colour_manual(values = c("Pré" = "#D55E00", "Pós" = "#0072B2"), name = NULL) +
+  theme_bw() +
+  labs(
+    x = "Tempo relativo ao tratamento",
+    y = "Efeito estimado",
+    caption = "Estimador Callaway & Sant'Anna; controles nunca tratados."
+  ) +
+  theme(legend.position = "bottom")
 ```
 
 ### Sun & Abraham
@@ -749,15 +804,51 @@ sim_sa <- sim_data %>%
 sa_out <- feols(Y ~ sunab(G_sunab, t) | i + t, data = sim_sa)
 summary(sa_out)
 
-iplot(sa_out,
-      xlab = "Períodos relativos ao tratamento",
-      ylab = "Efeito estimado",
-      main = "Event study — Sun & Abraham")
+sa_coef <- coef(sa_out)
+sa_se <- se(sa_out)
+
+sa_plot_data <- tibble::tibble(
+  tempo_relativo = as.integer(sub("^t::", "", names(sa_coef))),
+  estimativa = as.numeric(sa_coef),
+  erro_padrao = as.numeric(sa_se)
+) %>%
+  bind_rows(
+    tibble::tibble(
+      tempo_relativo = -1,
+      estimativa = 0,
+      erro_padrao = NA_real_
+    )
+  ) %>%
+  arrange(tempo_relativo) %>%
+  mutate(
+    periodo = factor(ifelse(tempo_relativo < 0, "Pré", "Pós"), levels = c("Pré", "Pós")),
+    ic_inf = estimativa - 1.96 * erro_padrao,
+    ic_sup = estimativa + 1.96 * erro_padrao
+  )
+
+ggplot(sa_plot_data, aes(x = tempo_relativo, y = estimativa, colour = periodo)) +
+  geom_hline(yintercept = 0, linetype = "dashed", colour = "grey40") +
+  geom_vline(xintercept = -0.5, linetype = "dashed", colour = "grey70") +
+  geom_errorbar(
+    data = sa_plot_data %>% filter(!is.na(erro_padrao)),
+    aes(ymin = ic_inf, ymax = ic_sup),
+    width = 0.15
+  ) +
+  geom_point(size = 2.6) +
+  scale_x_continuous(breaks = sort(unique(sa_plot_data$tempo_relativo))) +
+  scale_colour_manual(values = c("Pré" = "#D55E00", "Pós" = "#0072B2"), name = NULL) +
+  theme_bw() +
+  labs(
+    x = "Tempo relativo ao tratamento",
+    y = "Efeito estimado",
+    caption = "Estimador Sun & Abraham; referência: t = -1."
+  ) +
+  theme(legend.position = "bottom")
 ```
 
 ### Gardner / did2s
 
-O estimador de dois estágios de @gardner2022, discutido na seção 7.3, é implementado pelo pacote `did2s`.
+O estimador de dois estágios de @gardner2022, discutido acima na conexão com FWL, é implementado pelo pacote `did2s`.
 
 ```{r did2s-estimator, warning=FALSE, message=FALSE}
 library(did2s)
@@ -816,11 +907,27 @@ att_sa_agg <- mean(sa_post[sa_post_vals >= 0])
 tab_comp <- data.frame(
   Estimador = c("ATT verdadeiro", "TWFE (enviesado)", "Callaway & Sant'Anna",
                 "Sun & Abraham", "Gardner (did2s)", "Imputação (BJS)"),
+  Ideia = c(
+    "Benchmark da simulação",
+    "Um coeficiente TWFE",
+    "ATT(g,t) e agregação explícita",
+    "Interações coorte × tempo relativo",
+    "Dois estágios com FE estimados nos não tratados",
+    "Imputação de Y(0) a partir dos não tratados"
+  ),
+  Comparacao = c(
+    "Efeito conhecido pelo DGP",
+    "Mistura comparações limpas e problemáticas",
+    "Tratados vs. nunca tratados",
+    "Coortes comparadas com pesos explícitos",
+    "Tratados vs. contrafactual residualizado",
+    "Observado tratado vs. Y(0) imputado"
+  ),
   ATT = round(c(att_verdadeiro, att_twfe, att_cs, att_sa_agg, att_d2s, att_imp), 2)
 )
 
 kable(tab_comp, caption = "Comparação dos estimadores — dados simulados com tratamento escalonado e efeitos heterogêneos",
-      col.names = c("Estimador", "ATT estimado"))
+      col.names = c("Estimador", "Ideia", "Comparação usada", "ATT estimado"))
 ```
 
 A tabela mostra que o TWFE diverge do ATT verdadeiro, enquanto os estimadores modernos convergem para valores mais próximos do efeito real. As pequenas diferenças entre os estimadores modernos decorrem de diferenças nos esquemas de ponderação e na definição exata do estimando.
@@ -927,12 +1034,29 @@ did_elbe_2009 <- feols(spd_z_vs ~ Flooded | wkr + year,
                        cluster = "wkr",
                        data = elbe1998_09)
 
-msummary(list("Placebo 1994--1998" = did_elbe_placebo,
-              "Curto prazo 1998--2002" = did_elbe_2002,
-              "Longo prazo 1998--2005" = did_elbe_2005,
-              "Muito longo prazo 1998--2009" = did_elbe_2009),
-         stars = c('*' = .1, '**' = .05, '***' = .01),
-         title = "DiD por horizonte temporal — Enchente do Elbe")
+extrair_flooded <- function(modelo, horizonte, interpretacao) {
+  ct <- coeftable(modelo)
+  estimativa <- unname(ct["Flooded", "Estimate"])
+  erro_padrao <- unname(ct["Flooded", "Std. Error"])
+  tibble::tibble(
+    Horizonte = horizonte,
+    Estimativa = round(estimativa, 2),
+    `IC 95%` = sprintf(
+      "[%.2f, %.2f]",
+      estimativa - 1.96 * erro_padrao,
+      estimativa + 1.96 * erro_padrao
+    ),
+    Interpretação = interpretacao
+  )
+}
+
+bind_rows(
+  extrair_flooded(did_elbe_placebo, "1994--1998 (placebo)", "Pré-enchente: não deve haver efeito."),
+  extrair_flooded(did_elbe_2002, "1998--2002 (curto prazo)", "Resposta eleitoral imediata após a enchente."),
+  extrair_flooded(did_elbe_2005, "1998--2005 (longo prazo)", "Persistência parcial do ganho de 2002."),
+  extrair_flooded(did_elbe_2009, "1998--2009 (muito longo prazo)", "Efeito menor e estatisticamente mais incerto.")
+) %>%
+  kable(caption = "DiD por horizonte temporal — Enchente do Elbe")
 ```
 
 O placebo 1994--1998 é aproximadamente zero, o efeito de curto prazo em 2002 é grande, e os efeitos de 2005 e 2009 são menores. É dessa comparação entre horizontes que vem a interpretação substantiva do paper: em 2005 ainda resta uma fração do ganho eleitoral de 2002.
@@ -963,10 +1087,51 @@ did_elbe_dinamico <- feols(spd_z_vs ~ 0 + Flooded:factor(horizonte) |
                            cluster = "wkr",
                            data = elbe_stack)
 
-msummary(list("Estático médio" = did_elbe_estatico,
-              "Dinâmico por horizonte" = did_elbe_dinamico),
-         stars = c('*' = .1, '**' = .05, '***' = .01),
-         title = "Efeito médio versus efeitos por horizonte — Elbe")
+elbe_static_coef <- coeftable(did_elbe_estatico)
+elbe_static_est <- unname(elbe_static_coef["Flooded", "Estimate"])
+elbe_static_se <- unname(elbe_static_coef["Flooded", "Std. Error"])
+
+elbe_dynamic_coef <- coeftable(did_elbe_dinamico)
+elbe_dynamic_table <- tibble::tibble(
+  Modelo = "Dinâmico",
+  Horizonte = c("2002", "2005", "2009"),
+  Estimativa = unname(elbe_dynamic_coef[, "Estimate"]),
+  `Erro-padrão` = unname(elbe_dynamic_coef[, "Std. Error"])
+)
+
+bind_rows(
+  tibble::tibble(
+    Modelo = "Estático",
+    Horizonte = "Média pós-enchente",
+    Estimativa = elbe_static_est,
+    `Erro-padrão` = elbe_static_se
+  ),
+  elbe_dynamic_table
+) %>%
+  mutate(
+    `IC 95%` = sprintf(
+      "[%.2f, %.2f]",
+      Estimativa - 1.96 * `Erro-padrão`,
+      Estimativa + 1.96 * `Erro-padrão`
+    ),
+    Interpretação = case_when(
+      Modelo == "Estático" ~ "Resumo médio dos horizontes pós-enchente.",
+      Horizonte == "2002" ~ "Efeito de curto prazo.",
+      Horizonte == "2005" ~ "Persistência parcial do efeito de 2002.",
+      TRUE ~ "Efeito de muito longo prazo, mais incerto."
+    ),
+    Estimativa = round(Estimativa, 2),
+    `Erro-padrão` = round(`Erro-padrão`, 2)
+  ) %>%
+  dplyr::select(
+    Modelo,
+    Horizonte,
+    Estimativa,
+    `Erro-padrão`,
+    `IC 95%`,
+    Interpretação
+  ) %>%
+  kable(caption = "Efeito médio versus efeitos por horizonte — Elbe")
 ```
 
 O modelo estático estima uma média dos efeitos pós-enchente. Essa média pode ser útil como resumo, mas ela não responde à pergunta dinâmica do paper. O modelo dinâmico mostra separadamente o efeito de curto prazo (2002), de longo prazo (2005) e de muito longo prazo (2009). Portanto, não "tanto faz": se o objetivo é saber se a gratidão eleitoral persiste, o estimando relevante é o efeito por horizonte.
@@ -977,7 +1142,10 @@ Neste caso, a implementação moderna em uma única regressão não muda o estim
 elbe_coef <- coeftable(did_elbe_dinamico)
 
 efeitos_elbe <- data.frame(
-  horizonte = c(2002, 2005, 2009),
+  horizonte = factor(
+    c("2002\ncurto prazo", "2005\nlongo prazo", "2009\nmuito longo prazo"),
+    levels = c("2002\ncurto prazo", "2005\nlongo prazo", "2009\nmuito longo prazo")
+  ),
   estimativa = elbe_coef[, "Estimate"],
   erro_padrao = elbe_coef[, "Std. Error"]
 ) %>%
@@ -988,9 +1156,18 @@ efeitos_elbe <- data.frame(
 
 ggplot(efeitos_elbe, aes(x = horizonte, y = estimativa)) +
   geom_hline(yintercept = 0, linetype = "dashed", colour = "grey40") +
+  geom_hline(yintercept = elbe_static_est, linetype = "dotted", colour = "#D55E00") +
   geom_errorbar(aes(ymin = ic_inf, ymax = ic_sup), width = 0.15) +
   geom_point(size = 2.5) +
-  scale_x_continuous(breaks = c(2002, 2005, 2009)) +
+  annotate(
+    "text",
+    x = "2009\nmuito longo prazo",
+    y = elbe_static_est + 0.3,
+    label = "média estática",
+    colour = "#D55E00",
+    hjust = 1,
+    size = 3.5
+  ) +
   theme_bw() +
   labs(x = "Eleição", y = "Efeito sobre voto SPD (p.p.)")
 ```
@@ -1081,7 +1258,7 @@ Esse checklist é inspirado nas aulas de @hull2024metrix e @goldsmithpinkham2026
 
 Neste capítulo, introduzimos o estimador de Diferença em Diferenças e o pressuposto central de tendências paralelas. Os pontos-chave são:
 
-1. **DiD 2×2** é intuitivo e pode ser estimado por TWFE sem problemas.
+1. **DiD 2×2** é intuitivo e pode ser estimado por TWFE sem os problemas específicos de comparações proibidas dos desenhos escalonados.
 2. **Tendências paralelas** é o pressuposto de identificação central; é não-testável diretamente, depende da escala do outcome e pode ser avaliado com event studies (com cautela) e análise de sensibilidade (HonestDiD).
 3. **A inferência deve respeitar o nível de atribuição do tratamento**: em painéis, clusterização inadequada costuma subestimar a incerteza.
 4. **Com tratamento escalonado e efeitos heterogêneos**, o TWFE pode ser enviesado. A decomposição de @goodmanbacon2021 revela os pesos problemáticos, e @sunabraham2021 mostram a contaminação dos coeficientes dinâmicos.
@@ -1090,4 +1267,4 @@ Neste capítulo, introduzimos o estimador de Diferença em Diferenças e o press
 7. **Covariáveis devem ser incluídas com cuidado**: enriquecer o modelo de $Y(0)$ com estimação nos não-tratados ou usar PTA condicional com doubly-robust — nunca adicionando covariáveis variantes no tempo ao TWFE ingenuamente.
 8. **Tratamentos contínuos, múltiplos, reversíveis ou com timing quase aleatório** exigem redefinir o estimando antes de escolher o estimador.
 
-No capítulo 9, discutiremos dados de painel (TSCS) de forma mais geral, incluindo as suposições de exogeneidade estrita e sequencial — das quais as tendências paralelas são um caso especial. No capítulo 11, veremos o controle sintético como alternativa quando PT é duvidosa ou quando há poucas unidades tratadas.
+No próximo capítulo, discutiremos dados de painel (TSCS) de forma mais geral, incluindo as suposições de exogeneidade estrita e sequencial — das quais as tendências paralelas são um caso especial. No capítulo 11, veremos o controle sintético como alternativa quando PT é duvidosa ou quando há poucas unidades tratadas.
