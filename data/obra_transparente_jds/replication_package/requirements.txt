@@ -1,0 +1,35 @@
+# R packages required for replication
+# Install all with:
+#   install.packages(readLines("requirements.txt")[!grepl("^#|^$", readLines("requirements.txt"))])
+#
+# Or install individually:
+#   install.packages(c("tidyverse", "here", "fixest", ...))
+
+# Core
+tidyverse
+here
+data.table
+
+# Data import
+readxl
+janitor
+
+# Estimation
+fixest
+estimatr
+fwildclusterboot
+
+# Tables and figures
+modelsummary
+kableExtra
+gt
+scales
+knitr
+
+# String manipulation
+stringi
+lubridate
+
+# Manuscript compilation (optional - only needed to compile the .Rmd paper)
+bookdown
+rmarkdown

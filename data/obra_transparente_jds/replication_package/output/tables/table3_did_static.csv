@@ -1,0 +1,5 @@
+part,term,statistic,TWFE
+estimates,Treatment × Post,estimate,0.083**
+estimates,Treatment × Post,std.error,(0.034)
+gof,Num.Obs.,,20964
+gof,R2,,0.794

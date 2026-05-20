@@ -1,0 +1,7 @@
+filename,original_name,source,description,n_rows,n_cols,size_kb,essential,format
+did_panel.rds,obra_transparente.RDS,Transparência Brasil (processado),Dataset principal para análise DiD com painel de obras,22609,8,177,Yes,RDS
+municipal_covariates.rds,data_ot_desc.rds,IPEA/IBGE (via ipeadatar),Covariáveis municipais para balanceamento,2038,16,87,Yes,RDS
+simec_2017_08.Rdata,obras_inicio_projeto.Rdata,SIMEC/FNDE via Transparência Brasil,Snapshot das obras em agosto 2017 (baseline),14780,15,699,Yes,Rdata
+simec_2019_08.Rdata,obras_fim_seg_fase.Rdata,SIMEC/FNDE via Transparência Brasil,Snapshot das obras em agosto 2019 (endline),15092,17,745,Yes,Rdata
+treated_municipalities.csv,situacao obras_atual.xlsx,Transparência Brasil,Lista dos 21 municípios participantes do projeto,21,6,1,Yes,CSV
+treated_municipalities_source.xlsx,situacao obras_atual.xlsx,Transparência Brasil,Arquivo original com detalhes das obras monitoradas,139,63,297,Reference,Excel
