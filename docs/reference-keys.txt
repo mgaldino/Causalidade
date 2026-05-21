@@ -42,7 +42,7 @@ tab:tabela-rd-covs
 tab:tabela-fuzzy-rd-r
 fig:DAG
 tab:tabela-did
-fig:did-counterfactual-paths
+fig:pt-classico
 tab:ot-import
 tab:ot-completion-rates
 fig:ot-tendencias
@@ -272,7 +272,6 @@ o-que-não-fazer-covariáveis-no-twfe-ingenuamente
 baseline-vs.-time-varying-uma-distinção-crucial
 não-antecipação
 spillovers-e-nível-de-atribuição
-trajetórias-e-contrafactual
 estimação-por-twfe
 inferência-em-did
 aplicação-1-obra-transparente
@@ -290,7 +289,7 @@ gardner-did2s
 borusyak-jaravel-spiess
 tabela-comparativa
 testando-tendências-paralelas-e-análise-de-sensibilidade
-pre-trends-e-o-aviso-de-roth
+pré-tendências-e-o-aviso-de-roth
 honestdid-análise-de-sensibilidade
 aplicação-2-enchente-do-elbe
 contexto

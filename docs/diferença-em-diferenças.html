@@ -23,7 +23,7 @@
 <meta name="author" content="Manoel Galdino" />
 
 
-<meta name="date" content="2026-05-20" />
+<meta name="date" content="2026-05-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -396,7 +396,6 @@ div.csl-indent {
 <li class="chapter" data-level="9.3.4" data-path="08-DiD.html"><a href="#tend%C3%AAncias-paralelas-condicionais-e-covari%C3%A1veis"><i class="fa fa-check"></i><b>9.3.4</b> Tendências paralelas condicionais e covariáveis</a></li>
 <li class="chapter" data-level="9.3.5" data-path="08-DiD.html"><a href="#n%C3%A3o-antecipa%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>9.3.5</b> Não-antecipação</a></li>
 <li class="chapter" data-level="9.3.6" data-path="08-DiD.html"><a href="#spillovers-e-n%C3%ADvel-de-atribui%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>9.3.6</b> Spillovers e nível de atribuição</a></li>
-<li class="chapter" data-level="9.3.7" data-path="08-DiD.html"><a href="#trajet%C3%B3rias-e-contrafactual"><i class="fa fa-check"></i><b>9.3.7</b> Trajetórias e contrafactual</a></li>
 </ul></li>
 <li class="chapter" data-level="9.4" data-path="08-DiD.html"><a href="#estima%C3%A7%C3%A3o-por-twfe"><i class="fa fa-check"></i><b>9.4</b> Estimação por TWFE</a></li>
 <li class="chapter" data-level="9.5" data-path="08-DiD.html"><a href="#infer%C3%AAncia-em-did"><i class="fa fa-check"></i><b>9.5</b> Inferência em DiD</a></li>
@@ -422,7 +421,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="9.10" data-path="08-DiD.html"><a href="#testando-tend%C3%AAncias-paralelas-e-an%C3%A1lise-de-sensibilidade"><i class="fa fa-check"></i><b>9.10</b> Testando tendências paralelas e análise de sensibilidade</a>
 <ul>
-<li class="chapter" data-level="9.10.1" data-path="diferença-em-diferenças.html"><a href="diferença-em-diferenças.html#pre-trends-e-o-aviso-de-roth"><i class="fa fa-check"></i><b>9.10.1</b> Pre-trends e o aviso de Roth</a></li>
+<li class="chapter" data-level="9.10.1" data-path="08-DiD.html"><a href="#pr%C3%A9-tend%C3%AAncias-e-o-aviso-de-roth"><i class="fa fa-check"></i><b>9.10.1</b> Pré-tendências e o aviso de Roth</a></li>
 <li class="chapter" data-level="9.10.2" data-path="08-DiD.html"><a href="#honestdid-an%C3%A1lise-de-sensibilidade"><i class="fa fa-check"></i><b>9.10.2</b> HonestDiD: análise de sensibilidade</a></li>
 </ul></li>
 <li class="chapter" data-level="9.11" data-path="08-DiD.html"><a href="#aplica%C3%A7%C3%A3o-2-enchente-do-elbe"><i class="fa fa-check"></i><b>9.11</b> Aplicação 2: Enchente do Elbe</a>
@@ -629,13 +628,13 @@ div.csl-indent {
 <h1><span class="header-section-number">Capítulo 9</span> Diferença em Diferenças<a href="#diferen%C3%A7a-em-diferen%C3%A7as" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="motivação-por-que-did" class="section level2 hasAnchor" number="9.1">
 <h2><span class="header-section-number">9.1</span> Motivação: por que DiD?<a href="#motiva%C3%A7%C3%A3o-por-que-did" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Diferença em Diferenças (DiD) é o método quasi-experimental mais utilizado em ciência política e economia aplicada. A ideia central é simples: se dois grupos seguem trajetórias paralelas antes de uma intervenção, a diferença nas suas trajetórias <em>após</em> a intervenção pode ser atribuída ao tratamento. Para tratamentos introdutórios complementares, ver <span class="citation">Cunningham (<a href="#ref-cunningham2021">2021</a>)</span> e <span class="citation">Huntington-Klein (<a href="#ref-huntingtonklein2022">2022</a>)</span>; para um exemplo clássico em economia aplicada, ver <span class="citation">Card and Krueger (<a href="#ref-cardkrueger1994">1994</a>)</span>.</p>
+<p>Diferença em Diferenças (DiD) é o método quase-experimental mais utilizado em ciência política e economia aplicada. A ideia central é simples: se dois grupos seguem trajetórias paralelas antes de uma intervenção, a diferença nas suas trajetórias <em>após</em> a intervenção pode ser atribuída ao tratamento. Para tratamentos introdutórios complementares, ver <span class="citation">Cunningham (<a href="#ref-cunningham2021">2021</a>)</span> e <span class="citation">Huntington-Klein (<a href="#ref-huntingtonklein2022">2022</a>)</span>; para um exemplo clássico em economia aplicada, ver <span class="citation">Card and Krueger (<a href="#ref-cardkrueger1994">1994</a>)</span>.</p>
 <p>Considere um exemplo concreto. Suponha que duas cidades — Campinas e Ribeirão Preto — têm taxas de conclusão de obras públicas de 30% e 20%, respectivamente, em 2016. Em 2018, Campinas recebe um programa de monitoramento de obras, enquanto Ribeirão Preto não. Em 2018, Campinas tem taxa de 50% e Ribeirão Preto, 35%.</p>
 <p>A variação temporal em Campinas é <span class="math inline">\(50\% - 30\% = 20\)</span> p.p. Mas parte disso pode ser tendência geral — afinal, Ribeirão Preto também cresceu <span class="math inline">\(35\% - 20\% = 15\)</span> p.p. sem tratamento. O DiD subtrai essa tendência: <span class="math inline">\(20 - 15 = 5\)</span> p.p. Esse é o efeito estimado do programa.</p>
 <p><span class="math display">\[
 \underbrace{(50 - 30)}_{\Delta \text{Campinas}} - \underbrace{(35 - 20)}_{\Delta \text{Ribeirão}} = 20 - 15 = 5 \text{ p.p.}
 \]</span></p>
-<p>Essa conta manual contém toda a lógica do DiD. O restante do capítulo formaliza essa intuição, discute quando ela é válida (tendências paralelas), mostra como estimar por regressão (TWFE), e apresenta os avanços metodológicos recentes para lidar com tratamento escalonado no tempo e efeitos heterogêneos.</p>
+<p>Essa conta manual contém toda a lógica do DiD. O restante do capítulo formaliza essa intuição, discute quando ela é válida (tendências paralelas), mostra como estimar por regressão (TWFE) e apresenta os avanços metodológicos recentes para lidar com tratamento escalonado no tempo e efeitos heterogêneos.</p>
 <p><strong>Mapa do capítulo.</strong> O capítulo começa com o modelo 2×2 e seus pressupostos de identificação, incluindo tendências paralelas, escala do outcome, tendências paralelas condicionais, não-antecipação e spillovers. Em seguida, mostra como estimar DiD por TWFE, discute inferência e aplica o desenho ao Obra Transparente. A parte central trata da “revolução DiD”: event studies, viés do TWFE com tratamento escalonado, contaminação de coeficientes dinâmicos e estimadores modernos. O capítulo termina com análise de sensibilidade, uma segunda aplicação empírica (enchente do Elbe), extensões importantes e um checklist prático de desenho.</p>
 </div>
 <div id="modelo-básico-22" class="section level2 hasAnchor" number="9.2">
@@ -706,6 +705,13 @@ Tratado (<span class="math inline">\(D_i = 1\)</span>)
 <p><span class="math display">\[
 \mathbb{E}[Y_{i2}(0) - Y_{i1}(0) \mid D_i = 1] = \mathbb{E}[Y_{i2}(0) - Y_{i1}(0) \mid D_i = 0]
 \]</span></p>
+<div class="figure"><span style="display:block;" id="fig:pt-classico"></span>
+<img src="bookdownproj_files/figure-html/pt-classico-1.png" alt="Tendências paralelas no contrafactual sem tratamento. A linha tracejada mostra a trajetória que o grupo tratado teria seguido sem tratamento; ela cresce no mesmo ritmo do controle no período pós-tratamento. A distância vertical entre o tratado observado e o contrafactual no pós é o ATT." width="672" />
+<p class="caption">
+Figura 9.1: Tendências paralelas no contrafactual sem tratamento. A linha tracejada mostra a trajetória que o grupo tratado teria seguido sem tratamento; ela cresce no mesmo ritmo do controle no período pós-tratamento. A distância vertical entre o tratado observado e o contrafactual no pós é o ATT.
+</p>
+</div>
+<p>Na Figura <a href="diferença-em-diferenças.html#fig:pt-classico">9.1</a>, os grupos começam em níveis diferentes. Isso não viola DiD. A suposição é que, sem tratamento, o grupo tratado teria continuado em uma trajetória paralela à do grupo controle. O efeito causal é a distância entre a trajetória observada dos tratados e essa trajetória contrafactual no período pós-tratamento.</p>
 <p>Note que o lado esquerdo envolve um contrafactual — o que <em>teria acontecido</em> com os tratados sem tratamento — e portanto não é diretamente testável. Podemos verificar se as tendências foram paralelas no período <em>pré</em>-tratamento (o que é necessário mas não suficiente), mas não podemos verificar se continuariam paralelas no período pós.</p>
 </div>
 <div id="tendências-paralelas-em-qual-escala" class="section level3 hasAnchor" number="9.3.2">
@@ -763,7 +769,7 @@ Y_{it}(0) = \alpha_i + \lambda_t + \varepsilon_{it}, \quad \text{com } \mathbb{E
 <ol style="list-style-type: decimal">
 <li><strong>Ponderação por propensity score inverso (IPW):</strong> ponderar as unidades de controle para que a distribuição de <span class="math inline">\(X\)</span> replique a do grupo tratado <span class="citation">(<a href="#ref-abadie2005">Abadie 2005</a>)</span>.</li>
 <li><strong>Regressão de resultado (<em>outcome regression</em>):</strong> modelar <span class="math inline">\(\mathbb{E}[\Delta Y_{it}(0) \mid X_i]\)</span> parametricamente.</li>
-<li><strong>Doubly-robust:</strong> combinar IPW e regressão. Consistente se <em>qualquer uma</em> das duas especificações estiver correta. O pacote <code>did</code> implementa essa abordagem <span class="citation">(<a href="#ref-santannazhao2020">Sant’Anna and Zhao 2020</a>)</span>.</li>
+<li><strong>Duplamente robusta (<em>doubly robust</em>):</strong> combinar IPW e regressão. Consistente se <em>qualquer uma</em> das duas especificações estiver correta. O pacote <code>did</code> implementa essa abordagem <span class="citation">(<a href="#ref-santannazhao2020">Sant’Anna and Zhao 2020</a>)</span>.</li>
 </ol>
 <p><span class="citation">Callaway and Sant’Anna (<a href="#ref-callawaysantanna2021">2021</a>)</span> estendem essa lógica para tratamento escalonado, estimando um propensity score separado para cada coorte e período. <span class="citation">Wooldridge (<a href="#ref-wooldridge2021">2021</a>)</span> propõe uma extensão do TWFE (<em>extended TWFE</em>) que inclui interações entre os efeitos fixos de tempo e as covariáveis, obtendo resultados robustos a efeitos heterogêneos sob certas condições.</p>
 </div>
@@ -775,9 +781,9 @@ Y_{it} = \alpha_i + \beta_t + \tau D_{it} + \gamma&#39; X_{it} + \varepsilon_{it
 \]</span></p>
 <p>Essa abordagem é problemática por múltiplas razões, mesmo no caso mais simples de dois períodos:</p>
 <ol style="list-style-type: decimal">
-<li><p><strong>Contaminação por efeitos do tratamento.</strong> Com efeitos heterogêneos, <span class="math inline">\(\hat{\gamma}\)</span> é estimado usando <em>todas</em> as observações, inclusive as tratadas. Isso pode misatribuir parte do efeito do tratamento às covariáveis, enviesando tanto <span class="math inline">\(\hat{\gamma}\)</span> quanto <span class="math inline">\(\hat{\tau}\)</span> <span class="citation">(<a href="#ref-borusyak2024">Borusyak, Jaravel, and Spiess 2024</a>; <a href="#ref-caetano2024">Caetano et al. 2024</a>)</span>.</p></li>
+<li><p><strong>Contaminação por efeitos do tratamento.</strong> Com efeitos heterogêneos, <span class="math inline">\(\hat{\gamma}\)</span> é estimado usando <em>todas</em> as observações, inclusive as tratadas. Isso pode atribuir indevidamente parte do efeito do tratamento às covariáveis, enviesando tanto <span class="math inline">\(\hat{\gamma}\)</span> quanto <span class="math inline">\(\hat{\tau}\)</span> <span class="citation">(<a href="#ref-borusyak2024">Borusyak, Jaravel, and Spiess 2024</a>; <a href="#ref-caetano2024">Caetano et al. 2024</a>)</span>.</p></li>
 <li><p><strong>Covariáveis variantes no tempo como bad controls.</strong> Quando <span class="math inline">\(X_{it}\)</span> pode ser afetado pelo próprio tratamento, por exemplo emprego quando o tratamento é um programa social, incluí-lo como controle introduz viés de variável intermediária: o clássico problema de <em>bad controls</em> <span class="citation">(<a href="#ref-angrist2009">Angrist and Pischke 2009</a>)</span>. A sabedoria convencional de simplesmente “não incluir” essas variáveis também é insuficiente: quando o PTA condicional depende dessas covariáveis, omiti-las viola a suposição de identificação <span class="citation">(<a href="#ref-caetano2024">Caetano et al. 2024</a>)</span>.</p></li>
-<li><p><strong>Covariate effect bias.</strong> <span class="citation">Lin and Zhang (<a href="#ref-linzhang2022">2022</a>)</span> mostram que, mesmo com efeitos do tratamento homogêneos e apenas dois períodos, a inclusão de covariáveis variantes no tempo no TWFE gera um viés adicional, o <em>covariate effect bias</em>, que surge porque o efeito das covariáveis sobre <span class="math inline">\(Y\)</span> pode variar no tempo. Esse viés persiste mesmo quando o tratamento não afeta as covariáveis.</p></li>
+<li><p><strong>Covariate effect bias.</strong> <span class="citation">Lin and Zhang (<a href="#ref-linzhang2022">2022</a>)</span> mostram que, mesmo com efeitos do tratamento homogêneos e apenas dois períodos, a inclusão de covariáveis variantes no tempo no TWFE gera um viés adicional, o <em>covariate effect bias</em>. O problema não depende de efeitos dinâmicos do tratamento; ele surge quando o efeito das covariáveis sobre <span class="math inline">\(Y(0)\)</span> pode variar no tempo, enquanto a regressão impõe um coeficiente comum para essas covariáveis. Esse viés persiste mesmo quando o tratamento não afeta as covariáveis.</p></li>
 <li><p><strong>Reversão de pesos.</strong> Covariáveis com valores incomuns no grupo tratado, relativo ao controle, podem receber pesos desproporcionais na regressão, distorcendo a estimativa do ATT.</p></li>
 </ol>
 </div>
@@ -786,9 +792,9 @@ Y_{it} = \alpha_i + \beta_t + \tau D_{it} + \gamma&#39; X_{it} + \varepsilon_{it
 <p>A distinção entre covariáveis <strong>baseline</strong> (<span class="math inline">\(X_i\)</span>, fixas ou medidas antes do tratamento) e <strong>variantes no tempo</strong> (<span class="math inline">\(X_{it}\)</span>, que mudam ao longo do tempo) é fundamental:</p>
 <ul>
 <li><p><strong>Covariáveis baseline</strong> (<span class="math inline">\(X_i\)</span>) são seguras de incluir: não podem ser afetadas pelo tratamento e não geram o problema de bad controls. São absorvidas pelos efeitos fixos de unidade em um painel, mas podem entrar via interações com o tempo (<span class="math inline">\(\gamma&#39;_t X_i\)</span>) ou no propensity score da abordagem 2.</p></li>
-<li><p><strong>Covariáveis variantes no tempo</strong> (<span class="math inline">\(X_{it}\)</span>) exigem cautela. Se o tratamento pode afetar <span class="math inline">\(X_{it}\)</span>, incluí-la diretamente é um bad control. <span class="citation">Caetano et al. (<a href="#ref-caetano2024">2024</a>)</span> propõem estratégias que lidam com covariáveis variantes no tempo que podem ser afetadas pelo tratamento, incluindo estimandos doubly-robust e abordagens de imputação que usam o valor que a covariável <em>teria tido na ausência de tratamento</em>.</p></li>
+<li><p><strong>Covariáveis variantes no tempo</strong> (<span class="math inline">\(X_{it}\)</span>) exigem cautela. Se o tratamento pode afetar <span class="math inline">\(X_{it}\)</span>, incluí-la diretamente é um bad control. <span class="citation">Caetano et al. (<a href="#ref-caetano2024">2024</a>)</span> propõem estratégias que lidam com covariáveis variantes no tempo que podem ser afetadas pelo tratamento, incluindo estimandos duplamente robustos e abordagens de imputação que usam o valor que a covariável <em>teria tido na ausência de tratamento</em>.</p></li>
 </ul>
-<p><strong>Regra prática:</strong> sempre que possível, use a abordagem 1, enriquecendo o modelo de <span class="math inline">\(Y(0)\)</span> com estimação apenas nos não-tratados, ou a abordagem 2, PT condicional com covariáveis baseline e doubly-robust. Evite adicionar covariáveis variantes no tempo diretamente ao TWFE.</p>
+<p><strong>Regra prática:</strong> sempre que possível, use a abordagem 1, enriquecendo o modelo de <span class="math inline">\(Y(0)\)</span> com estimação apenas nos não-tratados, ou a abordagem 2, PT condicional com covariáveis baseline e estimação duplamente robusta. Evite adicionar covariáveis variantes no tempo diretamente ao TWFE.</p>
 </div>
 </div>
 <div id="não-antecipação" class="section level3 hasAnchor" number="9.3.5">
@@ -804,17 +810,6 @@ Y_{it} = \alpha_i + \beta_t + \tau D_{it} + \gamma&#39; X_{it} + \varepsilon_{it
 <p>O DiD também exige que o tratamento de uma unidade não altere o resultado de outra unidade usada como controle. Essa é a versão de SUTVA relevante para desenhos de painel. Se uma política implementada em municípios tratados muda o comportamento de municípios de controle, o grupo controle deixa de representar a trajetória contrafactual sem tratamento.</p>
 <p>O nível de atribuição do tratamento também define a inferência. No caso Obra Transparente, o tratamento ocorre no nível municipal, embora os dados estejam no nível da obra. As obras dentro do mesmo município não são unidades independentes de atribuição. Por isso, a incerteza deve ser calculada no nível do município, e a interpretação causal deve tratar o município como a unidade exposta ao tratamento.</p>
 <p>Choques comuns não invalidam o DiD. O problema surge quando choques no período pós-tratamento afetam diferentemente tratados e controles, alterando a tendência contrafactual relativa entre os grupos.</p>
-</div>
-<div id="trajetórias-e-contrafactual" class="section level3 hasAnchor" number="9.3.7">
-<h3><span class="header-section-number">9.3.7</span> Trajetórias e contrafactual<a href="#trajet%C3%B3rias-e-contrafactual" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Para DiD, a figura mais útil não é um DAG de ajuste por confundidores. A identificação vem de uma trajetória contrafactual: usamos a evolução do grupo controle para inferir onde os tratados estariam no pós-tratamento se não tivessem recebido a intervenção.</p>
-<div class="figure"><span style="display:block;" id="fig:did-counterfactual-paths"></span>
-<img src="bookdownproj_files/figure-html/did-counterfactual-paths-1.png" alt="Tendências paralelas e contrafactual dos tratados. A linha tracejada mostra onde os tratados estariam no pós-tratamento sob a hipótese de tendências paralelas." width="672" />
-<p class="caption">
-Figura 9.1: Tendências paralelas e contrafactual dos tratados. A linha tracejada mostra onde os tratados estariam no pós-tratamento sob a hipótese de tendências paralelas.
-</p>
-</div>
-<p>A distância vertical entre o tratado observado e o tratado contrafactual no período pós é o efeito estimado. A diferença de níveis entre grupos é eliminada pela comparação no tempo; a tendência comum é eliminada pela comparação com o controle.</p>
 </div>
 </div>
 <div id="estimação-por-twfe" class="section level2 hasAnchor" number="9.4">
@@ -839,6 +834,7 @@ Y_{it} = \alpha_i + \lambda_t + \tau D_{it} + \varepsilon_{it}
 <p><span class="citation">Bertrand, Duflo, and Mullainathan (<a href="#ref-bertrand2004">2004</a>)</span> mostram o problema com placebos em painéis estaduais: quando há autocorrelação serial e tratamento persistente, erros-padrão robustos convencionais rejeitam a hipótese nula com frequência muito maior do que 5%. A recomendação prática é clusterizar no nível da variação de tratamento ou da atribuição da política. Se a política varia por estado, clusterize por estado; se varia por município, clusterize por município; se os dados estão no nível individual, mas o tratamento é municipal, a unidade relevante para inferência continua sendo o município.</p>
 <p>Essa regra tem duas implicações importantes. Primeiro, o número efetivo de observações para inferência é o número de clusters, não o número de linhas do banco. Um painel com milhões de indivíduos, mas 20 municípios tratados/controles, tem pouca informação independente para inferência. Segundo, “clusterizar no nível mais baixo” quase nunca é conservador quando a política é atribuída em nível mais alto: clusterizar por obra, aluno ou indivíduo ignora que todos dentro do mesmo município ou estado receberam a mesma política.</p>
 <p>Quando há poucos clusters — especialmente poucos clusters tratados — os erros-padrão clusterizados assintóticos podem continuar ruins. Nesse caso, considere wild cluster bootstrap, inferência por randomização quando o mecanismo de atribuição é defensável, ou uma apresentação mais honesta de incerteza baseada no número de clusters. Em event studies, também faz sentido distinguir intervalos ponto-a-ponto de bandas simultâneas: se vários coeficientes de pré-tratamento são inspecionados ao mesmo tempo, bandas simultâneas comunicam melhor a incerteza conjunta <span class="citation">(<a href="#ref-freyaldenhoven2019">Freyaldenhoven, Hansen, and Shapiro 2019</a>; <a href="#ref-goldsmithpinkham2026applied">Goldsmith-Pinkham 2026</a>)</span>.</p>
+<p><strong>Nota sobre wild cluster bootstrap.</strong> O wild cluster bootstrap não sorteia observações individuais nem clusters inteiros. Ele mantém os clusters fixos e multiplica os resíduos de cada cluster por pesos aleatórios, frequentemente <span class="math inline">\(+1\)</span> ou <span class="math inline">\(-1\)</span>. Todos os resíduos dentro do mesmo cluster recebem o mesmo peso, preservando a correlação interna. Com esses resíduos reponderados, criamos muitos outcomes simulados, reestimamos o modelo e usamos a distribuição bootstrap da estatística de teste para calcular p-valores ou intervalos. A vantagem sobre o bootstrap clusterizado comum é que, com poucos clusters, sortear clusters com reposição pode gerar amostras artificiais ruins, repetindo muito alguns clusters e excluindo outros. O wild cluster bootstrap costuma produzir inferência mais confiável quando há poucos clusters ou poucos clusters tratados, embora ainda dependa de o nível de clusterização corresponder ao nível de atribuição do tratamento.</p>
 </div>
 <div id="aplicação-1-obra-transparente" class="section level2 hasAnchor" number="9.6">
 <h2><span class="header-section-number">9.6</span> Aplicação 1: Obra Transparente<a href="#aplica%C3%A7%C3%A3o-1-obra-transparente" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -1804,8 +1800,8 @@ Figura 9.6: Event study — Sun &amp; Abraham (sunab).
 </div>
 <div id="testando-tendências-paralelas-e-análise-de-sensibilidade" class="section level2 hasAnchor" number="9.10">
 <h2><span class="header-section-number">9.10</span> Testando tendências paralelas e análise de sensibilidade<a href="#testando-tend%C3%AAncias-paralelas-e-an%C3%A1lise-de-sensibilidade" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div id="pre-trends-e-o-aviso-de-roth" class="section level3 hasAnchor" number="9.10.1">
-<h3><span class="header-section-number">9.10.1</span> Pre-trends e o aviso de Roth<a href="diferença-em-diferenças.html#pre-trends-e-o-aviso-de-roth" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="pré-tendências-e-o-aviso-de-roth" class="section level3 hasAnchor" number="9.10.1">
+<h3><span class="header-section-number">9.10.1</span> Pré-tendências e o aviso de Roth<a href="#pr%C3%A9-tend%C3%AAncias-e-o-aviso-de-roth" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>O event study é a ferramenta padrão para avaliar a plausibilidade de tendências paralelas: se os coeficientes pré-tratamento (<span class="math inline">\(\delta_k\)</span> para <span class="math inline">\(k &lt; 0\)</span>) são próximos de zero, isso é consistente com PT. Porém, <span class="citation">Roth (<a href="#ref-roth2022">2022</a>)</span> alerta para o <strong>viés de pré-teste</strong> (<em>pre-testing bias</em>): se selecionamos especificações ou amostras com base em pré-tendências insignificantes, podemos estar condicionando em ruído favorável, o que infla os coeficientes pós-tratamento.</p>
 <p>Em outras palavras, a ausência de pré-tendências significativas é necessária mas não suficiente. <span class="citation">Roth (<a href="#ref-roth2022">2022</a>)</span> mostra que testes de pré-tendências têm baixo poder em muitas aplicações típicas — não rejeitar PT não significa que PT é verdadeira.</p>
 </div>
@@ -1899,7 +1895,7 @@ Figura 9.6: Event study — Sun &amp; Abraham (sunab).
 </tr>
 </tbody>
 </table>
-<p>A tabela inclui zero em todos os intervalos, inclusive para <span class="math inline">\(\bar{M}=0{,}5\)</span>. Nesta aplicação, a conclusão dinâmica é sensível a desvios modestos de PT. Essa é a lição pedagógica: pre-trends visualmente plausíveis e coeficientes pré-tratamento pequenos aumentam a credibilidade do desenho, mas não provam que a conclusão causal sobreviveria a pequenas violações da tendência paralela exata.</p>
+<p>A tabela inclui zero em todos os intervalos, inclusive para <span class="math inline">\(\bar{M}=0{,}5\)</span>. Nesta aplicação, a conclusão dinâmica é sensível a desvios modestos de PT. Essa é a lição pedagógica: pré-tendências visualmente plausíveis e coeficientes pré-tratamento pequenos aumentam a credibilidade do desenho, mas não provam que a conclusão causal sobreviveria a pequenas violações das tendências paralelas exatas.</p>
 </div>
 </div>
 <div id="aplicação-2-enchente-do-elbe" class="section level2 hasAnchor" number="9.11">
@@ -2141,12 +2137,12 @@ Figura 9.7: Efeitos da enchente do Elbe sobre o voto no SPD por horizonte tempor
 <h2><span class="header-section-number">9.12</span> Extensões e escolhas de desenho<a href="#extens%C3%B5es-e-escolhas-de-desenho" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="diferenças-triplas" class="section level3 hasAnchor" number="9.12.1">
 <h3><span class="header-section-number">9.12.1</span> Diferenças triplas<a href="#diferen%C3%A7as-triplas" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Uma extensão natural do DiD é o modelo de <strong>diferenças triplas</strong> (DDD). A ideia é usar uma terceira dimensão de comparação para descontar uma falha de tendências paralelas que seria comum aos grupos expostos e não expostos. Por exemplo, suponha que uma política estadual afete apenas mulheres, e queremos comparar estados tratados e não tratados antes e depois da política. Um DiD simples compara mulheres em estados tratados versus mulheres em estados controles. Um DDD acrescenta homens como um terceiro grupo, assumindo que qualquer choque diferencial entre estados tratados e controles afetaria homens e mulheres de forma similar.</p>
+<p>Uma extensão natural do DiD é o modelo de <strong>diferenças triplas</strong> (DDD). A ideia é usar uma terceira dimensão de comparação para descontar uma falha de tendências paralelas que seria comum aos grupos expostos e não expostos. Por exemplo, suponha que uma política estadual afete apenas mulheres, e queremos comparar estados tratados e não tratados antes e depois da política. Um DiD simples compara mulheres em estados tratados versus mulheres em estados de controle. Um DDD acrescenta homens como um terceiro grupo, assumindo que qualquer choque diferencial entre estados tratados e controles afetaria homens e mulheres de forma similar.</p>
 <p>Com dois períodos, uma especificação típica é:</p>
 <p><span class="math display">\[
 Y_{igst} = \alpha_{ig} + \lambda_{gt} + \eta_{st} + \tau (Treat_s \times Post_t \times Grupo_g) + \varepsilon_{igst}
 \]</span></p>
-<p>onde <span class="math inline">\(s\)</span> indexa estados, <span class="math inline">\(t\)</span> tempo e <span class="math inline">\(g\)</span> grupos. O coeficiente <span class="math inline">\(\tau\)</span> compara a mudança do grupo exposto nos estados tratados com: (i) a mudança do grupo exposto nos estados controles, (ii) a mudança do grupo não exposto nos estados tratados e (iii) a mudança do grupo não exposto nos estados controles. A suposição não é que todas as tendências sejam paralelas; é que a <strong>falha</strong> de tendências paralelas entre estados seria a mesma no grupo exposto e no grupo não exposto.</p>
+<p>onde <span class="math inline">\(s\)</span> indexa estados, <span class="math inline">\(t\)</span> tempo e <span class="math inline">\(g\)</span> grupos. O coeficiente <span class="math inline">\(\tau\)</span> compara a mudança do grupo exposto nos estados tratados com: (i) a mudança do grupo exposto nos estados de controle, (ii) a mudança do grupo não exposto nos estados tratados e (iii) a mudança do grupo não exposto nos estados de controle. A suposição não é que todas as tendências sejam paralelas; é que a <strong>falha</strong> de tendências paralelas entre estados seria a mesma no grupo exposto e no grupo não exposto.</p>
 <p>DDD é útil quando há um grupo substantivamente próximo que não deveria ser afetado pela política, mas não é uma solução automática. Se o grupo “não exposto” também reage à política, ou se a diferença de tendências entre expostos e não expostos muda justamente nos locais tratados, o estimador perde interpretação causal.</p>
 </div>
 <div id="tratamento-contínuo-múltiplo-ou-reversível" class="section level3 hasAnchor" number="9.12.2">
@@ -2209,12 +2205,12 @@ Y_{it} = \alpha + \tau D_{it} + \rho Y_{i,t-1} + \varepsilon_{it}
 <p>Neste capítulo, introduzimos o estimador de Diferença em Diferenças e o pressuposto central de tendências paralelas. Os pontos-chave são:</p>
 <ol style="list-style-type: decimal">
 <li><strong>DiD 2×2</strong> é intuitivo e pode ser estimado por TWFE sem os problemas específicos de comparações proibidas dos desenhos escalonados.</li>
-<li><strong>Tendências paralelas</strong> é o pressuposto de identificação central; é não-testável diretamente, depende da escala do outcome e pode ser avaliado com event studies (com cautela) e análise de sensibilidade (HonestDiD).</li>
+<li><strong>Tendências paralelas</strong> é o pressuposto de identificação central; não é testável diretamente, depende da escala do outcome e pode ser avaliado com event studies (com cautela) e análise de sensibilidade (HonestDiD).</li>
 <li><strong>A inferência deve respeitar o nível de atribuição do tratamento</strong>: em painéis, clusterização inadequada costuma subestimar a incerteza.</li>
 <li><strong>Com tratamento escalonado e efeitos heterogêneos</strong>, o TWFE pode ser enviesado. A decomposição de <span class="citation">Goodman-Bacon (<a href="#ref-goodmanbacon2021">2021</a>)</span> revela os pesos problemáticos, e <span class="citation">Sun and Abraham (<a href="#ref-sunabraham2021">2021</a>)</span> mostram a contaminação dos coeficientes dinâmicos.</li>
 <li><strong>Estimadores modernos</strong> — <span class="citation">Callaway and Sant’Anna (<a href="#ref-callawaysantanna2021">2021</a>)</span>, <span class="citation">Sun and Abraham (<a href="#ref-sunabraham2021">2021</a>)</span>, <span class="citation">Gardner (<a href="#ref-gardner2022">2022</a>)</span> (<code>did2s</code>), <span class="citation">Borusyak, Jaravel, and Spiess (<a href="#ref-borusyak2024">2024</a>)</span> — corrigem o problema e convergem para estimativas consistentes.</li>
 <li><strong>Em aplicações com tratamento simultâneo</strong> (como Obra Transparente e a enchente do Elbe), o TWFE não sofre do problema específico de comparações proibidas, mas o estimando ainda precisa acompanhar a pergunta substantiva.</li>
-<li><strong>Covariáveis devem ser incluídas com cuidado</strong>: enriquecer o modelo de <span class="math inline">\(Y(0)\)</span> com estimação nos não-tratados ou usar PTA condicional com doubly-robust — nunca adicionando covariáveis variantes no tempo ao TWFE ingenuamente.</li>
+<li><strong>Covariáveis devem ser incluídas com cuidado</strong>: enriquecer o modelo de <span class="math inline">\(Y(0)\)</span> com estimação nos não-tratados ou usar PTA condicional com estimação duplamente robusta — nunca adicionando covariáveis variantes no tempo ao TWFE ingenuamente.</li>
 <li><strong>Tratamentos contínuos, múltiplos, reversíveis ou com timing quase aleatório</strong> exigem redefinir o estimando antes de escolher o estimador.</li>
 </ol>
 <p>No próximo capítulo, discutiremos dados de painel (TSCS) de forma mais geral, incluindo as suposições de exogeneidade estrita e sequencial — das quais as tendências paralelas são um caso especial. No capítulo 11, veremos o controle sintético como alternativa quando PT é duvidosa ou quando há poucas unidades tratadas.</p>
