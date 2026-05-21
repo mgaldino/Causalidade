@@ -522,9 +522,14 @@ event_coefs <- tibble::tibble(
 
 event_coefs %>%
   mutate(
-    estimativa = round(estimativa, 3),
-    erro_padrao = round(erro_padrao, 3),
-    p_valor = round(p_valor, 3)
+    tempo_relativo = case_when(
+      tempo_relativo == -1 ~ "t = -1 (referência)",
+      tempo_relativo > 0 ~ paste0("t = +", tempo_relativo),
+      TRUE ~ paste0("t = ", tempo_relativo)
+    ),
+    estimativa = sprintf("%.3f", estimativa),
+    erro_padrao = if_else(is.na(erro_padrao), "Referência", sprintf("%.3f", erro_padrao)),
+    p_valor = if_else(is.na(p_valor), "Referência", sprintf("%.3f", p_valor))
   ) %>%
   dplyr::select(
     tempo_relativo,
@@ -947,14 +952,22 @@ tab_comp <- data.frame(
     "Tratados vs. contrafactual residualizado",
     "Observado tratado vs. Y(0) imputado"
   ),
+  Pressuposto = c(
+    "Nenhum: benchmark conhecido pelo DGP",
+    "PT, sem antecipação e efeitos homogêneos para ATT limpo",
+    "PT por coorte, sem antecipação e tratamento absorvente",
+    "PT por coorte, sem antecipação e coortes não contaminadas",
+    "Modelo FE de Y(0) nos não tratados; sem antecipação",
+    "Modelo de Y(0) nos não tratados; sem antecipação"
+  ),
   ATT = round(c(att_verdadeiro, att_twfe, att_cs, att_sa_agg, att_d2s, att_imp), 2)
 )
 
 kable(tab_comp, caption = "Comparação dos estimadores — dados simulados com tratamento escalonado e efeitos heterogêneos",
-      col.names = c("Estimador", "Ideia", "Comparação usada", "ATT estimado"))
+      col.names = c("Estimador", "Ideia", "Comparação usada", "Pressuposto-chave", "ATT estimado"))
 ```
 
-A tabela mostra que o TWFE diverge do ATT verdadeiro, enquanto os estimadores modernos convergem para valores mais próximos do efeito real. As pequenas diferenças entre os estimadores modernos decorrem de diferenças nos esquemas de ponderação e na definição exata do estimando.
+A tabela mostra que o TWFE diverge do ATT verdadeiro, enquanto os estimadores modernos convergem para valores mais próximos do efeito real. A coluna de pressupostos destaca a exigência distintiva de cada estimador, não uma lista completa: todos continuam exigindo ausência de spillovers relevantes, boa mensuração do tratamento e do outcome, e composição comparável ao longo do tempo. Tratamento absorvente significa "sem on/off": depois de tratada, a unidade permanece tratada. As pequenas diferenças entre os estimadores modernos decorrem de diferenças nos esquemas de ponderação e na definição exata do estimando.
 
 
 ## Testando tendências paralelas e análise de sensibilidade

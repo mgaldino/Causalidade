@@ -1119,66 +1119,71 @@ Y_{it} = \alpha_i + \lambda_t + \sum_{k \neq -1} \delta_k \cdot \mathbb{1}[t - G
 <span id="cb92-47"><a href="diferença-em-diferenças.html#cb92-47" tabindex="-1"></a></span>
 <span id="cb92-48"><a href="diferença-em-diferenças.html#cb92-48" tabindex="-1"></a>event_coefs <span class="sc">%&gt;%</span></span>
 <span id="cb92-49"><a href="diferença-em-diferenças.html#cb92-49" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb92-50"><a href="diferença-em-diferenças.html#cb92-50" tabindex="-1"></a>    <span class="at">estimativa =</span> <span class="fu">round</span>(estimativa, <span class="dv">3</span>),</span>
-<span id="cb92-51"><a href="diferença-em-diferenças.html#cb92-51" tabindex="-1"></a>    <span class="at">erro_padrao =</span> <span class="fu">round</span>(erro_padrao, <span class="dv">3</span>),</span>
-<span id="cb92-52"><a href="diferença-em-diferenças.html#cb92-52" tabindex="-1"></a>    <span class="at">p_valor =</span> <span class="fu">round</span>(p_valor, <span class="dv">3</span>)</span>
-<span id="cb92-53"><a href="diferença-em-diferenças.html#cb92-53" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb92-54"><a href="diferença-em-diferenças.html#cb92-54" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
-<span id="cb92-55"><a href="diferença-em-diferenças.html#cb92-55" tabindex="-1"></a>    tempo_relativo,</span>
-<span id="cb92-56"><a href="diferença-em-diferenças.html#cb92-56" tabindex="-1"></a>    estimativa,</span>
-<span id="cb92-57"><a href="diferença-em-diferenças.html#cb92-57" tabindex="-1"></a>    erro_padrao,</span>
-<span id="cb92-58"><a href="diferença-em-diferenças.html#cb92-58" tabindex="-1"></a>    p_valor</span>
-<span id="cb92-59"><a href="diferença-em-diferenças.html#cb92-59" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb92-60"><a href="diferença-em-diferenças.html#cb92-60" tabindex="-1"></a>  <span class="fu">kable</span>(</span>
-<span id="cb92-61"><a href="diferença-em-diferenças.html#cb92-61" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Event study — Obra Transparente&quot;</span>,</span>
-<span id="cb92-62"><a href="diferença-em-diferenças.html#cb92-62" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Tempo relativo&quot;</span>, <span class="st">&quot;Estimativa&quot;</span>, <span class="st">&quot;Erro-padrão&quot;</span>, <span class="st">&quot;p-valor&quot;</span>)</span>
-<span id="cb92-63"><a href="diferença-em-diferenças.html#cb92-63" tabindex="-1"></a>  )</span></code></pre></div>
+<span id="cb92-50"><a href="diferença-em-diferenças.html#cb92-50" tabindex="-1"></a>    <span class="at">tempo_relativo =</span> <span class="fu">case_when</span>(</span>
+<span id="cb92-51"><a href="diferença-em-diferenças.html#cb92-51" tabindex="-1"></a>      tempo_relativo <span class="sc">==</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">~</span> <span class="st">&quot;t = -1 (referência)&quot;</span>,</span>
+<span id="cb92-52"><a href="diferença-em-diferenças.html#cb92-52" tabindex="-1"></a>      tempo_relativo <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">~</span> <span class="fu">paste0</span>(<span class="st">&quot;t = +&quot;</span>, tempo_relativo),</span>
+<span id="cb92-53"><a href="diferença-em-diferenças.html#cb92-53" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="fu">paste0</span>(<span class="st">&quot;t = &quot;</span>, tempo_relativo)</span>
+<span id="cb92-54"><a href="diferença-em-diferenças.html#cb92-54" tabindex="-1"></a>    ),</span>
+<span id="cb92-55"><a href="diferença-em-diferenças.html#cb92-55" tabindex="-1"></a>    <span class="at">estimativa =</span> <span class="fu">sprintf</span>(<span class="st">&quot;%.3f&quot;</span>, estimativa),</span>
+<span id="cb92-56"><a href="diferença-em-diferenças.html#cb92-56" tabindex="-1"></a>    <span class="at">erro_padrao =</span> <span class="fu">if_else</span>(<span class="fu">is.na</span>(erro_padrao), <span class="st">&quot;Referência&quot;</span>, <span class="fu">sprintf</span>(<span class="st">&quot;%.3f&quot;</span>, erro_padrao)),</span>
+<span id="cb92-57"><a href="diferença-em-diferenças.html#cb92-57" tabindex="-1"></a>    <span class="at">p_valor =</span> <span class="fu">if_else</span>(<span class="fu">is.na</span>(p_valor), <span class="st">&quot;Referência&quot;</span>, <span class="fu">sprintf</span>(<span class="st">&quot;%.3f&quot;</span>, p_valor))</span>
+<span id="cb92-58"><a href="diferença-em-diferenças.html#cb92-58" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb92-59"><a href="diferença-em-diferenças.html#cb92-59" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
+<span id="cb92-60"><a href="diferença-em-diferenças.html#cb92-60" tabindex="-1"></a>    tempo_relativo,</span>
+<span id="cb92-61"><a href="diferença-em-diferenças.html#cb92-61" tabindex="-1"></a>    estimativa,</span>
+<span id="cb92-62"><a href="diferença-em-diferenças.html#cb92-62" tabindex="-1"></a>    erro_padrao,</span>
+<span id="cb92-63"><a href="diferença-em-diferenças.html#cb92-63" tabindex="-1"></a>    p_valor</span>
+<span id="cb92-64"><a href="diferença-em-diferenças.html#cb92-64" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb92-65"><a href="diferença-em-diferenças.html#cb92-65" tabindex="-1"></a>  <span class="fu">kable</span>(</span>
+<span id="cb92-66"><a href="diferença-em-diferenças.html#cb92-66" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Event study — Obra Transparente&quot;</span>,</span>
+<span id="cb92-67"><a href="diferença-em-diferenças.html#cb92-67" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Tempo relativo&quot;</span>, <span class="st">&quot;Estimativa&quot;</span>, <span class="st">&quot;Erro-padrão&quot;</span>, <span class="st">&quot;p-valor&quot;</span>)</span>
+<span id="cb92-68"><a href="diferença-em-diferenças.html#cb92-68" tabindex="-1"></a>  )</span></code></pre></div>
 <table>
 <caption><span id="tab:ot-event-study">Tabela 9.6: </span>Event study — Obra Transparente</caption>
 <thead>
 <tr class="header">
-<th align="right">Tempo relativo</th>
-<th align="right">Estimativa</th>
-<th align="right">Erro-padrão</th>
-<th align="right">p-valor</th>
+<th align="left">Tempo relativo</th>
+<th align="left">Estimativa</th>
+<th align="left">Erro-padrão</th>
+<th align="left">p-valor</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">-3</td>
-<td align="right">-0.013</td>
-<td align="right">0.062</td>
-<td align="right">0.837</td>
+<td align="left">t = -3</td>
+<td align="left">-0.013</td>
+<td align="left">0.062</td>
+<td align="left">0.837</td>
 </tr>
 <tr class="even">
-<td align="right">-2</td>
-<td align="right">0.002</td>
-<td align="right">0.013</td>
-<td align="right">0.871</td>
+<td align="left">t = -2</td>
+<td align="left">0.002</td>
+<td align="left">0.013</td>
+<td align="left">0.871</td>
 </tr>
 <tr class="odd">
-<td align="right">-1</td>
-<td align="right">0.000</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
+<td align="left">t = -1 (referência)</td>
+<td align="left">0.000</td>
+<td align="left">Referência</td>
+<td align="left">Referência</td>
 </tr>
 <tr class="even">
-<td align="right">0</td>
-<td align="right">0.018</td>
-<td align="right">0.023</td>
-<td align="right">0.444</td>
+<td align="left">t = 0</td>
+<td align="left">0.018</td>
+<td align="left">0.023</td>
+<td align="left">0.444</td>
 </tr>
 <tr class="odd">
-<td align="right">1</td>
-<td align="right">0.042</td>
-<td align="right">0.034</td>
-<td align="right">0.219</td>
+<td align="left">t = +1</td>
+<td align="left">0.042</td>
+<td align="left">0.034</td>
+<td align="left">0.219</td>
 </tr>
 <tr class="even">
-<td align="right">2</td>
-<td align="right">0.180</td>
-<td align="right">0.087</td>
-<td align="right">0.039</td>
+<td align="left">t = +2</td>
+<td align="left">0.180</td>
+<td align="left">0.087</td>
+<td align="left">0.039</td>
 </tr>
 </tbody>
 </table>
@@ -1735,24 +1740,34 @@ Figura 9.6: Event study — Sun &amp; Abraham (sunab).
 <span id="cb114-32"><a href="diferença-em-diferenças.html#cb114-32" tabindex="-1"></a>    <span class="st">&quot;Tratados vs. contrafactual residualizado&quot;</span>,</span>
 <span id="cb114-33"><a href="diferença-em-diferenças.html#cb114-33" tabindex="-1"></a>    <span class="st">&quot;Observado tratado vs. Y(0) imputado&quot;</span></span>
 <span id="cb114-34"><a href="diferença-em-diferenças.html#cb114-34" tabindex="-1"></a>  ),</span>
-<span id="cb114-35"><a href="diferença-em-diferenças.html#cb114-35" tabindex="-1"></a>  <span class="at">ATT =</span> <span class="fu">round</span>(<span class="fu">c</span>(att_verdadeiro, att_twfe, att_cs, att_sa_agg, att_d2s, att_imp), <span class="dv">2</span>)</span>
-<span id="cb114-36"><a href="diferença-em-diferenças.html#cb114-36" tabindex="-1"></a>)</span>
-<span id="cb114-37"><a href="diferença-em-diferenças.html#cb114-37" tabindex="-1"></a></span>
-<span id="cb114-38"><a href="diferença-em-diferenças.html#cb114-38" tabindex="-1"></a><span class="fu">kable</span>(tab_comp, <span class="at">caption =</span> <span class="st">&quot;Comparação dos estimadores — dados simulados com tratamento escalonado e efeitos heterogêneos&quot;</span>,</span>
-<span id="cb114-39"><a href="diferença-em-diferenças.html#cb114-39" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Estimador&quot;</span>, <span class="st">&quot;Ideia&quot;</span>, <span class="st">&quot;Comparação usada&quot;</span>, <span class="st">&quot;ATT estimado&quot;</span>))</span></code></pre></div>
+<span id="cb114-35"><a href="diferença-em-diferenças.html#cb114-35" tabindex="-1"></a>  <span class="at">Pressuposto =</span> <span class="fu">c</span>(</span>
+<span id="cb114-36"><a href="diferença-em-diferenças.html#cb114-36" tabindex="-1"></a>    <span class="st">&quot;Nenhum: benchmark conhecido pelo DGP&quot;</span>,</span>
+<span id="cb114-37"><a href="diferença-em-diferenças.html#cb114-37" tabindex="-1"></a>    <span class="st">&quot;PT, sem antecipação e efeitos homogêneos para ATT limpo&quot;</span>,</span>
+<span id="cb114-38"><a href="diferença-em-diferenças.html#cb114-38" tabindex="-1"></a>    <span class="st">&quot;PT por coorte, sem antecipação e tratamento absorvente&quot;</span>,</span>
+<span id="cb114-39"><a href="diferença-em-diferenças.html#cb114-39" tabindex="-1"></a>    <span class="st">&quot;PT por coorte, sem antecipação e coortes não contaminadas&quot;</span>,</span>
+<span id="cb114-40"><a href="diferença-em-diferenças.html#cb114-40" tabindex="-1"></a>    <span class="st">&quot;Modelo FE de Y(0) nos não tratados; sem antecipação&quot;</span>,</span>
+<span id="cb114-41"><a href="diferença-em-diferenças.html#cb114-41" tabindex="-1"></a>    <span class="st">&quot;Modelo de Y(0) nos não tratados; sem antecipação&quot;</span></span>
+<span id="cb114-42"><a href="diferença-em-diferenças.html#cb114-42" tabindex="-1"></a>  ),</span>
+<span id="cb114-43"><a href="diferença-em-diferenças.html#cb114-43" tabindex="-1"></a>  <span class="at">ATT =</span> <span class="fu">round</span>(<span class="fu">c</span>(att_verdadeiro, att_twfe, att_cs, att_sa_agg, att_d2s, att_imp), <span class="dv">2</span>)</span>
+<span id="cb114-44"><a href="diferença-em-diferenças.html#cb114-44" tabindex="-1"></a>)</span>
+<span id="cb114-45"><a href="diferença-em-diferenças.html#cb114-45" tabindex="-1"></a></span>
+<span id="cb114-46"><a href="diferença-em-diferenças.html#cb114-46" tabindex="-1"></a><span class="fu">kable</span>(tab_comp, <span class="at">caption =</span> <span class="st">&quot;Comparação dos estimadores — dados simulados com tratamento escalonado e efeitos heterogêneos&quot;</span>,</span>
+<span id="cb114-47"><a href="diferença-em-diferenças.html#cb114-47" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Estimador&quot;</span>, <span class="st">&quot;Ideia&quot;</span>, <span class="st">&quot;Comparação usada&quot;</span>, <span class="st">&quot;Pressuposto-chave&quot;</span>, <span class="st">&quot;ATT estimado&quot;</span>))</span></code></pre></div>
 <table>
 <caption><span id="tab:tabela-comparativa">Tabela 9.9: </span>Comparação dos estimadores — dados simulados com tratamento escalonado e efeitos heterogêneos</caption>
 <colgroup>
-<col width="16%" />
-<col width="38%" />
-<col width="34%" />
-<col width="10%" />
+<col width="11%" />
+<col width="26%" />
+<col width="23%" />
+<col width="31%" />
+<col width="7%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th align="left">Estimador</th>
 <th align="left">Ideia</th>
 <th align="left">Comparação usada</th>
+<th align="left">Pressuposto-chave</th>
 <th align="right">ATT estimado</th>
 </tr>
 </thead>
@@ -1761,41 +1776,47 @@ Figura 9.6: Event study — Sun &amp; Abraham (sunab).
 <td align="left">ATT verdadeiro</td>
 <td align="left">Benchmark da simulação</td>
 <td align="left">Efeito conhecido pelo DGP</td>
+<td align="left">Nenhum: benchmark conhecido pelo DGP</td>
 <td align="right">11.31</td>
 </tr>
 <tr class="even">
 <td align="left">TWFE (enviesado)</td>
 <td align="left">Um coeficiente TWFE</td>
 <td align="left">Mistura comparações limpas e problemáticas</td>
+<td align="left">PT, sem antecipação e efeitos homogêneos para ATT limpo</td>
 <td align="right">10.48</td>
 </tr>
 <tr class="odd">
 <td align="left">Callaway &amp; Sant’Anna</td>
 <td align="left">ATT(g,t) e agregação explícita</td>
 <td align="left">Tratados vs. nunca tratados</td>
+<td align="left">PT por coorte, sem antecipação e tratamento absorvente</td>
 <td align="right">11.28</td>
 </tr>
 <tr class="even">
 <td align="left">Sun &amp; Abraham</td>
 <td align="left">Interações coorte × tempo relativo</td>
 <td align="left">Coortes comparadas com pesos explícitos</td>
+<td align="left">PT por coorte, sem antecipação e coortes não contaminadas</td>
 <td align="right">11.82</td>
 </tr>
 <tr class="odd">
 <td align="left">Gardner (did2s)</td>
 <td align="left">Dois estágios com FE estimados nos não tratados</td>
 <td align="left">Tratados vs. contrafactual residualizado</td>
+<td align="left">Modelo FE de Y(0) nos não tratados; sem antecipação</td>
 <td align="right">11.34</td>
 </tr>
 <tr class="even">
 <td align="left">Imputação (BJS)</td>
 <td align="left">Imputação de Y(0) a partir dos não tratados</td>
 <td align="left">Observado tratado vs. Y(0) imputado</td>
+<td align="left">Modelo de Y(0) nos não tratados; sem antecipação</td>
 <td align="right">11.34</td>
 </tr>
 </tbody>
 </table>
-<p>A tabela mostra que o TWFE diverge do ATT verdadeiro, enquanto os estimadores modernos convergem para valores mais próximos do efeito real. As pequenas diferenças entre os estimadores modernos decorrem de diferenças nos esquemas de ponderação e na definição exata do estimando.</p>
+<p>A tabela mostra que o TWFE diverge do ATT verdadeiro, enquanto os estimadores modernos convergem para valores mais próximos do efeito real. A coluna de pressupostos destaca a exigência distintiva de cada estimador, não uma lista completa: todos continuam exigindo ausência de spillovers relevantes, boa mensuração do tratamento e do outcome, e composição comparável ao longo do tempo. Tratamento absorvente significa “sem on/off”: depois de tratada, a unidade permanece tratada. As pequenas diferenças entre os estimadores modernos decorrem de diferenças nos esquemas de ponderação e na definição exata do estimando.</p>
 </div>
 </div>
 <div id="testando-tendências-paralelas-e-análise-de-sensibilidade" class="section level2 hasAnchor" number="9.10">
