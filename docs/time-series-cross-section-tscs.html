@@ -639,9 +639,9 @@ div.csl-indent {
 <h1><span class="header-section-number">Capítulo 10</span> Time-Series Cross-Section (TSCS)<a href="time-series-cross-section-tscs.html#time-series-cross-section-tscs" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="introdução-6" class="section level2 hasAnchor" number="10.1">
 <h2><span class="header-section-number">10.1</span> Introdução<a href="#introdu%C3%A7%C3%A3o-6" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>No capítulo sobre Diferença em Diferenças, vimos que o modelo TWFE pode ser interpretado como uma forma de DiD generalizado quando o tratamento é binário, há vários períodos e as tendências paralelas são plausíveis. Esse resultado organiza parte do problema, mas ele não esgota o que precisamos entender sobre dados de painel.</p>
-<p>A pergunta agora é outra: o que acontece quando usamos apenas um efeito fixo? O que muda quando usamos vários efeitos fixos, como município, estado e ano? O que sobra para identificar o coeficiente quando os efeitos fixos absorvem parte da variação do tratamento? E como devemos interpretar um TWFE quando o tratamento é contínuo, e não apenas uma variável binária de tratado e controle?</p>
-<p>Essas perguntas são menos sobre um estimador específico e mais sobre a estrutura da comparação. Efeitos fixos removem variação. O coeficiente de uma regressão com efeitos fixos é estimado apenas com a variação que resta depois dessa remoção. A tarefa do pesquisador é dizer se essa variação residual pode ser interpretada causalmente.</p>
+<p>No capítulo sobre Diferença em Diferenças, chegamos a uma ideia forte: quando o tratamento é binário e absorvente, não há antecipação e tendências paralelas são plausíveis, PT implica uma estrutura aditiva para os resultados potenciais sem tratamento. Nessa estrutura, o TWFE é a forma regressiva do DiD. Os efeitos fixos de unidade removem diferenças permanentes entre unidades; os efeitos fixos de tempo removem choques comuns; e o coeficiente do tratamento resume a comparação residual entre unidades tratadas e não tratadas ao longo do tempo.</p>
+<p>Este capítulo começa exatamente daí. A questão agora não é repetir que TWFE pode ser lido como DiD generalizado nesse caso. A questão é entender o que acontece quando saímos desse caso limpo. O que muda quando usamos apenas um efeito fixo? O que muda quando empilhamos município, ano e estado-ano? O que sobra para identificar o coeficiente quando os efeitos fixos absorvem grande parte da variação do tratamento? E como interpretar uma regressão com efeitos fixos quando o tratamento é uma intensidade que sobe e desce, e não uma chave que liga uma vez e permanece ligada?</p>
+<p>A motivação é prática. Em dados de painel, quase sempre queremos usar a repetição no tempo para descontar diferenças persistentes entre unidades. Municípios ricos e pobres, países democráticos e autoritários, estados com burocracias diferentes não começam do mesmo lugar. Efeitos fixos ajudam a lidar com essas diferenças de nível. Mas eles não dizem, por si só, se a variação restante do tratamento é uma boa comparação causal. Se uma política chega depois de uma piora fiscal, se a dose muda porque o outcome piorou, ou se cada estado tem sua própria tendência, o problema deixou de ser apenas “colocar efeitos fixos”. Passa a ser dizer qual comparação sobrou e qual pressuposto torna essa comparação crível.</p>
 <p><strong>Quadro-guia.</strong> A lógica do capítulo é a seguinte:</p>
 <table>
 <colgroup>
@@ -651,35 +651,40 @@ div.csl-indent {
 </colgroup>
 <thead>
 <tr class="header">
-<th>Operação</th>
-<th>O que remove</th>
+<th>Situação</th>
+<th>O que a regressão faz</th>
 <th>Pergunta que fica</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Efeito fixo de unidade</td>
-<td>Diferenças permanentes entre unidades</td>
-<td>A unidade muda quando seu próprio tratamento muda?</td>
+<td>TWFE no DiD com tratamento absorvente</td>
+<td>Implementa a comparação DiD sob PT e sem antecipação</td>
+<td>O desenho empírico realmente corresponde a esse caso?</td>
 </tr>
 <tr class="even">
-<td>Efeito fixo de tempo</td>
-<td>Choques comuns de cada período</td>
-<td>Unidades mais expostas diferem das menos expostas no mesmo período?</td>
+<td>Um efeito fixo</td>
+<td>Remove diferenças permanentes em uma dimensão</td>
+<td>A variação <em>within</em> ou <em>between</em> remanescente é a comparação certa?</td>
 </tr>
 <tr class="odd">
-<td>Múltiplos efeitos fixos</td>
-<td>Mais dimensões de comparação</td>
-<td>Que variação do tratamento ainda resta?</td>
+<td>Dois ou mais efeitos fixos</td>
+<td>Absorve várias dimensões de comparação</td>
+<td>Que variação do tratamento ainda resta para estimar o coeficiente?</td>
 </tr>
 <tr class="even">
+<td>Tratamento contínuo ou variável no tempo</td>
+<td>Usa mudanças de dose, intensidade ou exposição</td>
+<td>Que estimando a inclinação linear está resumindo?</td>
+</tr>
+<tr class="odd">
 <td>Pressuposto causal</td>
-<td>Interpretação não vem da regressão</td>
-<td>A variação residual pode ser tratada como exógena?</td>
+<td>Dá interpretação causal à variação residual</td>
+<td>Estamos usando PT, randomização no baseline, exogeneidade estrita ou ignorabilidade sequencial?</td>
 </tr>
 </tbody>
 </table>
-<p>Dados de painel são definidos como observações repetidas de uma mesma unidade <span class="math inline">\(i = 1, \ldots, N\)</span> no período <span class="math inline">\(t = 1, \ldots, T\)</span>. O termo tem origem em surveys em ondas, em que o mesmo indivíduo era rastreado ao longo do tempo. Em ciência política também chamamos esse tipo de dado de <strong>Time-Series Cross-Section</strong>, ou TSCS. A distinção foi introduzida porque surveys em ondas tipicamente possuem <span class="math inline">\(T\)</span> pequeno, enquanto dados TSCS comuns em política comparada, Relações Internacionais e políticas públicas costumam ter <span class="math inline">\(T\)</span> maior: países da OCDE ao longo de cinquenta anos, estados brasileiros ao longo de trinta anos, municípios ao longo de várias eleições.</p>
+<p>Antes de discutir os modelos, vale fixar a linguagem. Dados de painel são definidos como observações repetidas de uma mesma unidade <span class="math inline">\(i = 1, \ldots, N\)</span> no período <span class="math inline">\(t = 1, \ldots, T\)</span>. O termo tem origem em surveys em ondas, em que o mesmo indivíduo era rastreado ao longo do tempo. Em ciência política também chamamos esse tipo de dado de <strong>Time-Series Cross-Section</strong>, ou TSCS. A distinção foi introduzida porque surveys em ondas tipicamente possuem <span class="math inline">\(T\)</span> pequeno, enquanto dados TSCS comuns em política comparada, Relações Internacionais e políticas públicas costumam ter <span class="math inline">\(T\)</span> maior: países da OCDE ao longo de cinquenta anos, estados brasileiros ao longo de trinta anos, municípios ao longo de várias eleições.</p>
 <p>Uma observação de uma variável dependente e uma variável independente é dada pelo par <span class="math inline">\((y_{it}, x_{it})\)</span>, em que <span class="math inline">\(i\)</span> indexa a unidade e <span class="math inline">\(t\)</span> indexa o tempo.</p>
 <p>Tradicionalmente a literatura categorizava os dados de painel em balanceados, quando todas as unidades são observadas nos mesmos períodos, e não balanceados, quando algumas unidades têm períodos ausentes. Essa terminologia pode confundir com a ideia de balanceamento em matching. Uma alternativa mais clara é falar em painéis completos e incompletos.</p>
 <p>Em TSCS, incompletude nem sempre significa dado ausente. Países deixam de existir, como a URSS e a Iugoslávia, e outros são criados, como Sérvia e Montenegro. O mesmo vale para estados e municípios. Não é óbvio que devemos tratar esse problema como ausência de informação. A entidade pode simplesmente não existir em parte da série. Em meu doutorado, por exemplo, estudei o efeito de regimes políticos sobre a adesão a tratados de patentes. Não é claro se a adesão da URSS em um período <span class="math inline">\(t^{\star}\)</span> deve ser atribuída à Rússia em períodos <span class="math inline">\(t &gt; t^{\star}\)</span>. E no caso da Iugoslávia? Essas decisões são substantivas e metodológicas.</p>
@@ -731,9 +736,76 @@ W = \sum_{i=1}^N \sum_{t=1}^{T_i}(x_{it} - \bar{x}_i)^2.
 Figura 10.1: Efeitos fixos como residualização. A regressão final usa apenas a variação que permanece depois de remover as dimensões absorvidas pelos efeitos fixos.
 </p>
 </div>
-<p>Considere uma mini-base com três municípios observados em três anos. Os municípios A e B pertencem ao mesmo estado; C pertence a outro. A coluna <code>x</code> é a variável de tratamento ou exposição. As demais colunas mostram o que sobra depois de diferentes formas de residualização.</p>
+<p>Considere o modelo:
+<span class="math display">\[
+y_{it} = \alpha_i + \beta x_{it} + u_{it}.
+\]</span></p>
+<p>O efeito fixo de unidade, <span class="math inline">\(\alpha_i\)</span>, captura tudo que é fixo na unidade ao longo do tempo: geografia, história institucional, cultura política persistente, características de origem, ou qualquer outro atributo que não muda no período analisado. Se subtraímos a média da unidade de cada variável, obtemos:
+<span class="math display">\[
+y_{it} - \bar{y}_i = \beta (x_{it} - \bar{x}_i) + (u_{it} - \bar{u}_i).
+\]</span></p>
+<p>Definindo <span class="math inline">\(\tilde{y}_{it} = y_{it} - \bar{y}_i\)</span> e <span class="math inline">\(\tilde{x}_{it} = x_{it} - \bar{x}_i\)</span>, temos:
+<span class="math display">\[
+\tilde{y}_{it} = \beta \tilde{x}_{it} + \tilde{u}_{it}.
+\]</span></p>
+<p>Essa é a intuição do estimador de efeitos fixos: ele compara cada unidade consigo mesma. Toda variável que não muda dentro da unidade desaparece da equação. Isso é uma vantagem quando a fonte de confusão é invariante no tempo. Também é um custo, pois qualquer variável de interesse sem variação dentro da unidade não pode ser estimada.</p>
+<div id="um-efeito-fixo" class="section level3 hasAnchor" number="10.3.1">
+<h3><span class="header-section-number">10.3.1</span> Um efeito fixo<a href="time-series-cross-section-tscs.html#um-efeito-fixo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Com apenas efeito fixo de unidade:
+<span class="math display">\[
+y_{it} = \alpha_i + \beta x_{it} + u_{it},
+\]</span>
+o coeficiente <span class="math inline">\(\beta\)</span> é identificado pela variação de <span class="math inline">\(x_{it}\)</span> dentro da unidade ao longo do tempo. Esse modelo controla características fixas da unidade, mas não controla choques comuns a todos em determinado período.</p>
+<p>Com apenas efeito fixo de tempo:
+<span class="math display">\[
+y_{it} = \lambda_t + \beta x_{it} + u_{it},
+\]</span>
+o coeficiente <span class="math inline">\(\beta\)</span> é identificado por diferenças entre unidades dentro do mesmo período. Esse modelo controla choques comuns de tempo, mas não controla diferenças fixas entre unidades.</p>
+<p>Os dois modelos respondem a perguntas diferentes. O primeiro pergunta se uma unidade tem valores maiores de <span class="math inline">\(y\)</span> nos períodos em que seu próprio <span class="math inline">\(x\)</span> está maior. O segundo pergunta se, em um mesmo período, unidades com maior <span class="math inline">\(x\)</span> têm maior <span class="math inline">\(y\)</span>.</p>
+</div>
+<div id="dois-efeitos-fixos" class="section level3 hasAnchor" number="10.3.2">
+<h3><span class="header-section-number">10.3.2</span> Dois efeitos fixos<a href="time-series-cross-section-tscs.html#dois-efeitos-fixos" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Com efeitos fixos de unidade e tempo:
+<span class="math display">\[
+y_{it} = \alpha_i + \lambda_t + \beta x_{it} + u_{it},
+\]</span>
+o coeficiente é estimado com a variação de <span class="math inline">\(x_{it}\)</span> que permanece depois de remover diferenças médias entre unidades e diferenças médias entre períodos.</p>
+<p>Esse é o caso que vimos no capítulo de DiD. Quando <span class="math inline">\(x_{it}\)</span> é um indicador binário de tratamento, o TWFE pode ser interpretado como uma generalização do DiD sob pressupostos apropriados. A interpretação com uma variável contínua é diferente. O coeficiente não compara simplesmente tratados e controles. Ele mede uma inclinação: quanto <span class="math inline">\(y\)</span> muda, em média, quando a parte residual de <span class="math inline">\(x\)</span> aumenta uma unidade.</p>
+</div>
+<div id="mais-de-dois-efeitos-fixos" class="section level3 hasAnchor" number="10.3.3">
+<h3><span class="header-section-number">10.3.3</span> Mais de dois efeitos fixos<a href="time-series-cross-section-tscs.html#mais-de-dois-efeitos-fixos" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Em aplicações reais, usamos frequentemente mais de dois efeitos fixos. Isso muda a comparação efetiva.</p>
+<p>Considere um painel de municípios ao longo do tempo:
+<span class="math display">\[
+y_{imt} = \alpha_m + \lambda_t + \beta x_{imt} + u_{imt},
+\]</span>
+em que <span class="math inline">\(m\)</span> indexa municípios. O efeito fixo de município remove diferenças permanentes entre municípios. O efeito fixo de tempo remove choques comuns a todos os municípios em cada período.</p>
+<p>Agora suponha que adicionamos efeitos fixos de estado-ano:
+<span class="math display">\[
+y_{imt} = \alpha_m + \delta_{st} + \beta x_{imt} + u_{imt},
+\]</span>
+em que <span class="math inline">\(\delta_{st}\)</span> é um efeito fixo para cada combinação entre estado <span class="math inline">\(s\)</span> e período <span class="math inline">\(t\)</span>. O coeficiente passa a ser identificado por variação entre municípios dentro do mesmo estado e no mesmo período, depois de controlar diferenças fixas entre municípios. Choques específicos de São Paulo em 2018, Bahia em 2018, São Paulo em 2019, e assim por diante, são absorvidos.</p>
+<p>Isso pode ser desejável quando há choques estaduais que afetariam simultaneamente o tratamento e o outcome. Mas também pode remover a própria variação do tratamento. Se <span class="math inline">\(x_{imt}\)</span> varia apenas no nível estado-ano, então <span class="math inline">\(\delta_{st}\)</span> absorve completamente <span class="math inline">\(x_{imt}\)</span> e o coeficiente não pode ser estimado.</p>
+<p>Também é comum encontrar efeitos fixos redundantes. Se cada município pertence a apenas um estado, então efeitos fixos de município já absorvem diferenças fixas entre estados. Nesse caso, adicionar efeitos fixos de estado não acrescenta controle substantivo; eles são colineares com os efeitos fixos de município.</p>
+<p>Uma regra prática é perguntar: depois de todos os efeitos fixos, quem está sendo comparado com quem? Se a resposta não é clara, a interpretação do coeficiente também não é clara.</p>
+<p>Considere agora uma mini-base com três municípios observados em três anos. Os municípios A e B pertencem ao mesmo estado; C pertence a outro. A coluna <code>x</code> é propositalmente contínua: pense em uma dose de tratamento, como gasto per capita, intensidade de fiscalização ou cobertura de um programa. Se <code>x</code> fosse binária, a lógica da residualização seria a mesma; o ponto importante é que a variável que entra na regressão depois dos efeitos fixos não é o <code>x</code> original, mas o resíduo de <code>x</code>.</p>
+<p>Com um efeito fixo de município, a conta é:
+<span class="math display">\[
+\tilde{x}_{it}^{(m)} = x_{it} - \bar{x}_i.
+\]</span>
+Com efeitos fixos de município e ano, em um painel completo e balanceado, a conta é:
+<span class="math display">\[
+\tilde{x}_{it}^{(m,t)} = x_{it} - \bar{x}_i - \bar{x}_t + \bar{x}.
+\]</span>
+Com efeitos fixos de município e estado-ano, a conta é o resíduo de uma regressão auxiliar de <span class="math inline">\(x_{imt}\)</span> nos próprios efeitos fixos:
+<span class="math display">\[
+\tilde{x}_{imt}^{(m,st)} =
+\operatorname{resid}\left(x_{imt} \sim \alpha_m + \delta_{st}\right).
+\]</span>
+Essa última fórmula é menos transparente porque, com efeitos fixos sobrepostos ou aninhados, o que sobra é definido pela projeção linear de <code>x</code> no espaço não explicado pelas dummies.</p>
+<p>Uma linha concreta ajuda. Para o município A em 2020, <span class="math inline">\(x = 2\)</span>, a média de A é <span class="math inline">\(3{,}33\)</span>, a média de 2020 é <span class="math inline">\(4{,}33\)</span> e a média geral é <span class="math inline">\(5{,}22\)</span>. Portanto, após FE de município, temos <span class="math inline">\(2 - 3{,}33 = -1{,}33\)</span>. Após FE de município e ano, temos <span class="math inline">\(2 - 3{,}33 - 4{,}33 + 5{,}22 = -0{,}44\)</span>. A tabela repete essa mesma lógica para todas as linhas.</p>
 <table>
-<caption><span id="tab:toy-panel-residualization">Tabela 10.1: </span>Mini-base para visualizar a variação que sobra depois de diferentes efeitos fixos.</caption>
+<caption><span id="tab:toy-panel-residualization">Tabela 10.1: </span>Mini-base com tratamento contínuo e valores de x após residualização por diferentes conjuntos de efeitos fixos.</caption>
 <colgroup>
 <col width="9%" />
 <col width="6%" />
@@ -845,58 +917,6 @@ Figura 10.1: Efeitos fixos como residualização. A regressão final usa apenas 
 <li>Qual variação do tratamento sobrou depois dos efeitos fixos?</li>
 <li>Qual hipótese torna essa variação residual plausivelmente causal?</li>
 </ol>
-<p>Considere o modelo:
-<span class="math display">\[
-y_{it} = \alpha_i + \beta x_{it} + u_{it}.
-\]</span></p>
-<p>O efeito fixo de unidade, <span class="math inline">\(\alpha_i\)</span>, captura tudo que é fixo na unidade ao longo do tempo: geografia, história institucional, cultura política persistente, características de origem, ou qualquer outro atributo que não muda no período analisado. Se subtraímos a média da unidade de cada variável, obtemos:
-<span class="math display">\[
-y_{it} - \bar{y}_i = \beta (x_{it} - \bar{x}_i) + (u_{it} - \bar{u}_i).
-\]</span></p>
-<p>Definindo <span class="math inline">\(\tilde{y}_{it} = y_{it} - \bar{y}_i\)</span> e <span class="math inline">\(\tilde{x}_{it} = x_{it} - \bar{x}_i\)</span>, temos:
-<span class="math display">\[
-\tilde{y}_{it} = \beta \tilde{x}_{it} + \tilde{u}_{it}.
-\]</span></p>
-<p>Essa é a intuição do estimador de efeitos fixos: ele compara cada unidade consigo mesma. Toda variável que não muda dentro da unidade desaparece da equação. Isso é uma vantagem quando a fonte de confusão é invariante no tempo. Também é um custo, pois qualquer variável de interesse sem variação dentro da unidade não pode ser estimada.</p>
-<div id="um-efeito-fixo" class="section level3 hasAnchor" number="10.3.1">
-<h3><span class="header-section-number">10.3.1</span> Um efeito fixo<a href="time-series-cross-section-tscs.html#um-efeito-fixo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Com apenas efeito fixo de unidade:
-<span class="math display">\[
-y_{it} = \alpha_i + \beta x_{it} + u_{it},
-\]</span>
-o coeficiente <span class="math inline">\(\beta\)</span> é identificado pela variação de <span class="math inline">\(x_{it}\)</span> dentro da unidade ao longo do tempo. Esse modelo controla características fixas da unidade, mas não controla choques comuns a todos em determinado período.</p>
-<p>Com apenas efeito fixo de tempo:
-<span class="math display">\[
-y_{it} = \lambda_t + \beta x_{it} + u_{it},
-\]</span>
-o coeficiente <span class="math inline">\(\beta\)</span> é identificado por diferenças entre unidades dentro do mesmo período. Esse modelo controla choques comuns de tempo, mas não controla diferenças fixas entre unidades.</p>
-<p>Os dois modelos respondem a perguntas diferentes. O primeiro pergunta se uma unidade tem valores maiores de <span class="math inline">\(y\)</span> nos períodos em que seu próprio <span class="math inline">\(x\)</span> está maior. O segundo pergunta se, em um mesmo período, unidades com maior <span class="math inline">\(x\)</span> têm maior <span class="math inline">\(y\)</span>.</p>
-</div>
-<div id="dois-efeitos-fixos" class="section level3 hasAnchor" number="10.3.2">
-<h3><span class="header-section-number">10.3.2</span> Dois efeitos fixos<a href="time-series-cross-section-tscs.html#dois-efeitos-fixos" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Com efeitos fixos de unidade e tempo:
-<span class="math display">\[
-y_{it} = \alpha_i + \lambda_t + \beta x_{it} + u_{it},
-\]</span>
-o coeficiente é estimado com a variação de <span class="math inline">\(x_{it}\)</span> que permanece depois de remover diferenças médias entre unidades e diferenças médias entre períodos.</p>
-<p>Esse é o caso que vimos no capítulo de DiD. Quando <span class="math inline">\(x_{it}\)</span> é um indicador binário de tratamento, o TWFE pode ser interpretado como uma generalização do DiD sob pressupostos apropriados. A interpretação com uma variável contínua é diferente. O coeficiente não compara simplesmente tratados e controles. Ele mede uma inclinação: quanto <span class="math inline">\(y\)</span> muda, em média, quando a parte residual de <span class="math inline">\(x\)</span> aumenta uma unidade.</p>
-</div>
-<div id="mais-de-dois-efeitos-fixos" class="section level3 hasAnchor" number="10.3.3">
-<h3><span class="header-section-number">10.3.3</span> Mais de dois efeitos fixos<a href="time-series-cross-section-tscs.html#mais-de-dois-efeitos-fixos" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Em aplicações reais, usamos frequentemente mais de dois efeitos fixos. Isso muda a comparação efetiva.</p>
-<p>Considere um painel de municípios ao longo do tempo:
-<span class="math display">\[
-y_{imt} = \alpha_m + \lambda_t + \beta x_{imt} + u_{imt},
-\]</span>
-em que <span class="math inline">\(m\)</span> indexa municípios. O efeito fixo de município remove diferenças permanentes entre municípios. O efeito fixo de tempo remove choques comuns a todos os municípios em cada período.</p>
-<p>Agora suponha que adicionamos efeitos fixos de estado-ano:
-<span class="math display">\[
-y_{imt} = \alpha_m + \delta_{st} + \beta x_{imt} + u_{imt},
-\]</span>
-em que <span class="math inline">\(\delta_{st}\)</span> é um efeito fixo para cada combinação entre estado <span class="math inline">\(s\)</span> e período <span class="math inline">\(t\)</span>. O coeficiente passa a ser identificado por variação entre municípios dentro do mesmo estado e no mesmo período, depois de controlar diferenças fixas entre municípios. Choques específicos de São Paulo em 2018, Bahia em 2018, São Paulo em 2019, e assim por diante, são absorvidos.</p>
-<p>Isso pode ser desejável quando há choques estaduais que afetariam simultaneamente o tratamento e o outcome. Mas também pode remover a própria variação do tratamento. Se <span class="math inline">\(x_{imt}\)</span> varia apenas no nível estado-ano, então <span class="math inline">\(\delta_{st}\)</span> absorve completamente <span class="math inline">\(x_{imt}\)</span> e o coeficiente não pode ser estimado.</p>
-<p>Também é comum encontrar efeitos fixos redundantes. Se cada município pertence a apenas um estado, então efeitos fixos de município já absorvem diferenças fixas entre estados. Nesse caso, adicionar efeitos fixos de estado não acrescenta controle substantivo; eles são colineares com os efeitos fixos de município.</p>
-<p>Uma regra prática é perguntar: depois de todos os efeitos fixos, quem está sendo comparado com quem? Se a resposta não é clara, a interpretação do coeficiente também não é clara.</p>
 </div>
 <div id="tratamento-contínuo" class="section level3 hasAnchor" number="10.3.4">
 <h3><span class="header-section-number">10.3.4</span> Tratamento contínuo<a href="#tratamento-cont%C3%ADnuo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
