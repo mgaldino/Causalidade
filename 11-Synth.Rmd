@@ -285,8 +285,6 @@ A analogia com *matching* é útil. O SCM funciona como uma versão ponderada de
 
 Essa disciplina tem custo. A convexidade pode ser rígida demais quando a unidade tratada está fora do *convex hull* ou quando nenhuma combinação de controles ajusta bem o pré-tratamento. O SCM não é sempre melhor que regressão. Ele troca flexibilidade por transparência, auditabilidade e menor extrapolação.
 
-A comparação com regressão, portanto, tem duas faces. Na primeira tentativa acima, a regressão é "horizontal": as unidades de controle são as observações, os preditores pré-tratamento são as variáveis explicativas, e os pesos sobre os estados aparecem indiretamente pela matriz de projeção. No SCM, a lógica vira "vertical": os períodos pré-tratamento passam a ser as observações, os doadores passam a ser as variáveis explicativas, e os pesos são estimados diretamente. As duas leituras conversam porque ambas constroem $\hat{Y}_{tr,t}(0)$ como combinação ponderada dos controles; a diferença é como os pesos são aprendidos e quais restrições são impostas.
-
 ### Formalização
 
 Suponha que temos dados para $J+1$ unidades por $T$ períodos: $1, 2, \ldots, T_0, T_0+1, \ldots, T$. A primeira unidade ($j=1$) é tratada a partir de $T_0+1$. As demais $j = 2, \ldots, J+1$ formam o *donor pool*. Para cada unidade, observamos um vetor de $k$ preditores $\mathbf{X}_j$, que pode incluir valores pré-intervenção da variável resposta.
@@ -331,45 +329,28 @@ com as restrições:
 1. $\sum_j w_j = 1$ (combinação convexa)
 2. $w_j \geq 0$, $\forall j$ (pesos não-negativos)
 
-**Interpretação como regressão vertical.** Essa leitura vertical formaliza a ponte com a regressão. Em vez de estimar, no *donor pool*, uma função que prevê o resultado futuro a partir dos preditores da unidade tratada, o SCM escolhe diretamente pesos sobre os doadores para reproduzir sua trajetória pré-tratamento. Para cada período pré-tratamento $t = 1, \ldots, T_0$, a variável dependente é $Y_{N,t}$, o resultado da unidade tratada, e as variáveis explicativas são $Y_{1,t}, \ldots, Y_{N_0,t}$, os resultados dos doadores. O SCM busca pesos $\omega_i$ que resolvam:
+Os pesos são escolhidos para que o controle sintético reproduza bem a unidade tratada antes da intervenção. O principal diagnóstico de ajuste é o RMSPE (*Root Mean Squared Prediction Error*) no período pré-tratamento:
 
 $$
-Y_{N,t} \approx \sum_{i=1}^{N_0} \omega_i Y_{i,t}, \quad \text{para } t = 1, \ldots, T_0
+\operatorname{RMSPE}_{pre}(\mathbf{w}) =
+\sqrt{
+\frac{1}{T_0}
+\sum_{t \leq T_0}
+\left(Y_{tr,t} - \sum_{j \in co} w_j Y_{j,t}\right)^2
+}.
 $$
 
-Se estimássemos essa regressão vertical por mínimos quadrados sem restrições, voltaríamos a problemas semelhantes aos da regressão horizontal: pesos negativos, extrapolação e baixa auditabilidade. O SCM muda o problema ao impor convexidade. Quando $N_0 > T_0$, há mais doadores do que períodos pré-tratamento. O sistema pode ficar subdeterminado: diferentes combinações ajustam bem o pré-tratamento, mas divergem no pós-tratamento. As restrições de convexidade funcionam como regularização. Elas restringem o espaço de soluções, costumam produzir poucos pesos substantivos e tornam o contrafactual inspecionável.
-
-A tabela a seguir ilustra a estrutura do problema. A última coluna é a unidade tratada; as demais são doadores. O SCM ajusta as linhas pré-tratamento da unidade tratada usando as demais colunas:
-
-```{r estrutura-scm-classico, echo=FALSE}
-data.frame(
-  Período = c("$t=1$", "$\\vdots$", "$t=T_0$", "$t=T_0+1$", "$\\vdots$", "$t=T$"),
-  `Doador 1` = c("$Y_{1,1}$", "$\\vdots$", "$Y_{1,T_0}$", "$Y_{1,T_0+1}$", "$\\vdots$", "$Y_{1,T}$"),
-  `Doador 2` = c("$Y_{2,1}$", "$\\vdots$", "$Y_{2,T_0}$", "$Y_{2,T_0+1}$", "$\\vdots$", "$Y_{2,T}$"),
-  `$\\cdots$` = c("$\\cdots$", "", "$\\cdots$", "$\\cdots$", "", "$\\cdots$"),
-  `Doador $N_0$` = c("$Y_{N_0,1}$", "$\\vdots$", "$Y_{N_0,T_0}$", "$Y_{N_0,T_0+1}$", "$\\vdots$", "$Y_{N_0,T}$"),
-  Tratada = c("$Y_{N,1}$", "$\\vdots$", "$Y_{N,T_0}$", "$Y_{N,T_0+1}(1)$", "$\\vdots$", "$Y_{N,T}(1)$"),
-  check.names = FALSE
-) %>%
-  kable(
-    caption = "Estrutura de dados do SCM clássico, com períodos nas linhas e unidades nas colunas.",
-    escape = FALSE
-  )
-```
-
-As linhas pré-tratamento são usadas para estimar os pesos. As linhas pós-tratamento projetam o contrafactual $\hat{Y}_{N,t}(0) = \sum_i \hat{\omega}_i Y_{i,t}$.
-
-Os pesos são obtidos minimizando a distância entre os preditores da unidade tratada e a combinação ponderada dos controles:
+Na formulação de Abadie, Diamond e Hainmueller (2010), isso é implementado minimizando a distância entre os preditores da unidade tratada e a combinação ponderada dos controles:
 $$
 \hat{\mathbf{W}}(V) = \arg\min_{\mathbf{W}} (\mathbf{X}_{tr} - \mathbf{X}_{co}\mathbf{W})' V (\mathbf{X}_{tr} - \mathbf{X}_{co}\mathbf{W})
 $$
-onde $\mathbf{X}$ inclui a variável dependente defasada como preditor, e $V$ é uma matriz diagonal positiva semidefinida ($k \times k$) que atribui importância relativa a cada preditor. A escolha de $V$ é feita por uma otimização aninhada (*nested optimization*): no loop externo, $V$ é escolhida para minimizar o RMSPE (*Root Mean Squared Prediction Error*) no período pré-tratamento; no loop interno, dado $V$, os pesos $\mathbf{W}$ são otimizados. Isso significa que os resultados do SCM dependem da escolha dos preditores incluídos em $\mathbf{X}$ — tanto a seleção quanto a ponderação dos preditores afetam a solução final.
+onde $\mathbf{X}$ inclui a variável dependente defasada como preditor, e $V$ é uma matriz diagonal positiva semidefinida ($k \times k$) que atribui importância relativa a cada preditor. A escolha de $V$ é feita por uma otimização aninhada (*nested optimization*): no loop externo, $V$ é escolhida para minimizar o RMSPE no período pré-tratamento; no loop interno, dado $V$, os pesos $\mathbf{W}$ são otimizados sob as restrições de não-negatividade e soma igual a 1. Isso significa que os resultados do SCM dependem da escolha dos preditores incluídos em $\mathbf{X}$ — tanto a seleção quanto a ponderação dos preditores afetam a solução final.
 
 **Por que o SCM funciona?** Sob um modelo linear de fatores $Y_{it}(0) = \delta_t + \theta_t Z_i + \lambda_t \mu_i + \varepsilon_{it}$, onde $Z_i$ são covariáveis observadas, $\mu_i$ são fatores não-observados e $\lambda_t$ são cargas temporais, Abadie, Diamond e Hainmueller (2010, Proposição 1) mostram que, se existem pesos que reproduzem exatamente os preditores pré-tratamento da unidade tratada (isto é, $\mathbf{X}_{tr} = \mathbf{X}_{co}\mathbf{W}$), então o viés do SCM desaparece quando $T_0 \to \infty$. Intuitivamente, ao reproduzir as trajetórias pré-tratamento e as covariáveis observadas, o controle sintético também reproduz os fatores latentes não-observados — que são a fonte de viés na ausência de tendências paralelas.
 
 **Risco de sobreajuste.** Otimizar o ajuste pré-tratamento pode levar a *overfitting*, especialmente quando se incluem todos os valores defasados da variável resposta como preditores. Kaul et al. (2022) mostram que incluir todas as defasagens torna os demais preditores irrelevantes para a otimização. A recomendação prática é usar defasagens selecionadas (por exemplo, $Y_{i,T_0}$, $Y_{i,T_0/2}$) e médias de covariáveis, em vez de todos os resultados pré-tratamento. O pesquisador deve justificar a escolha de preditores com base em conhecimento substantivo e verificar a robustez dos resultados a especificações alternativas (Abadie, 2021).
 
-**Não-unicidade e viés de interpolação.** Um segundo problema, distinto do sobreajuste, é a **não-unicidade dos pesos**. Quando a unidade tratada está no interior do envoltório convexo (*convex hull*) de muitos doadores, pode haver múltiplas combinações de pesos que reproduzem igualmente bem os dados pré-tratamento — mas que divergem nas previsões pós-tratamento. Isso ocorre porque o sistema é subdeterminado (ver a interpretação de regressão vertical acima): com mais doadores do que períodos, infinitas soluções são possíveis.
+**Não-unicidade e viés de interpolação.** Um segundo problema, distinto do sobreajuste, é a **não-unicidade dos pesos**. Quando a unidade tratada está no interior do envoltório convexo (*convex hull*) de muitos doadores, pode haver múltiplas combinações de pesos que reproduzem igualmente bem os dados pré-tratamento — mas que divergem nas previsões pós-tratamento. Isso ocorre quando a informação pré-tratamento não identifica uma combinação única de doadores; com muitos doadores em relação aos preditores disponíveis, múltiplas soluções podem produzir o mesmo ajuste.
 
 Para entender por que isso é problemático, considere um exemplo simples. Suponha que a unidade tratada tem trajetória pré-tratamento idêntica a dois doadores, A e B. Os pesos $(1, 0)$ e $(0, 1)$ produzem o mesmo ajuste pré-tratamento, mas se A e B divergirem no pós-tratamento, as estimativas do efeito causal serão diferentes conforme a solução escolhida pelo otimizador. Pior, o otimizador pode selecionar uma combinação que usa doadores "distantes" da unidade tratada — produzindo o que Abadie e L'Hour (2021) chamam de **viés de interpolação**.
 
