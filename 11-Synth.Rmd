@@ -1,8 +1,61 @@
 # Controle Sintético e Estimação Contrafactual
 
+```{r setup-synth, include=FALSE}
+utf8_locales <- c("pt_BR.UTF-8", "en_US.UTF-8", "C.UTF-8")
+for (locale in utf8_locales) {
+  locale_result <- try(Sys.setlocale("LC_CTYPE", locale), silent = TRUE)
+  if (!inherits(locale_result, "try-error") && !is.na(locale_result)) {
+    break
+  }
+}
+options(encoding = "UTF-8")
+knitr::opts_knit$set(encoding = "UTF-8")
+
+fig_cap_cigarro <- paste(
+  "Vendas per capita de cigarros na Califórnia e nos demais estados.",
+  "A linha vertical marca a aprovação da Proposição 99 em 1988."
+)
+fig_cap_scm_regressao <- paste(
+  "Califórnia observada, contrafactual por regressão e controle sintético.",
+  "A linha vertical marca a Proposição 99 em 1988."
+)
+fig_cap_tidysynth_trends <- paste(
+  "Trajetória observada da Califórnia e controle sintético estimado pelo",
+  "pacote tidysynth."
+)
+fig_cap_tidysynth_differences <- paste(
+  "Diferença entre Califórnia observada e controle sintético ao longo do tempo."
+)
+fig_cap_tidysynth_weights <- paste(
+  "Pesos atribuídos aos estados doadores e aos preditores no SCM estimado pelo",
+  "pacote tidysynth."
+)
+fig_cap_tidysynth_placebos <- paste(
+  "Teste placebo do SCM para a Califórnia e os estados doadores."
+)
+fig_cap_fect_plot <- c(
+  "Efeitos dinâmicos estimados pelo FEct no exemplo da Califórnia.",
+  "Efeitos dinâmicos estimados pelo IFEct no exemplo da Califórnia.",
+  "Efeitos dinâmicos estimados por matrix completion no exemplo da Califórnia."
+)
+fig_cap_fect_placebo <- paste(
+  "Teste de equivalência placebo para o modelo IFEct no exemplo da Califórnia."
+)
+fig_cap_did_event <- paste(
+  "Event study para o estimador de DiD aplicado ao exemplo da Califórnia."
+)
+fig_cap_sdid_trends <- paste(
+  "Comparação visual das trajetórias estimadas por DiD, controle sintético e",
+  "Synthetic DiD."
+)
+fig_cap_sdid_weights <- paste(
+  "Pesos de unidade atribuídos por DiD, controle sintético e Synthetic DiD."
+)
+```
+
 **Objetivos de aprendizado.** Ao final deste capítulo, o leitor será capaz de:
 
-1. Entender o SCM como uma regressão vertical regularizada e explicar por que as restrições de convexidade funcionam como regularização.
+1. Explicar como regressão e SCM imputam contrafactuais a partir dos controles, distinguindo pesos implícitos de pesos convexos explícitos.
 2. Implementar o SCM no R e interpretar seus resultados (pesos, balanço de preditores, gráficos de gap).
 3. Avaliar criticamente a inferência por permutação do SCM, incluindo suas limitações quando o tratamento não é aleatorizado.
 4. Distinguir entre modelos aditivos (FEct/DiD) e modelos de fatores (IFEct/MC), e entender quando cada um é apropriado.
@@ -25,30 +78,30 @@ Este capítulo apresenta uma família de métodos que compartilham a mesma lógi
 
 ## Controle Sintético clássico
 
-O método de controle sintético foi originalmente proposto por Abadie e Gardeazabal (2003) para estimar os custos econômicos do conflito no País Basco, e posteriormente formalizado e popularizado por Abadie, Diamond e Hainmueller (2010, 2015). Vamos começar com o exemplo clássico de Abadie, Diamond e Hainmueller (2010). O estado da Califórnia implementou a Proposição 99, uma proibição parcial do uso de cigarros. Nosso estimando é o efeito dessa política sobre as vendas per capita de cigarros:
+O método de controle sintético foi originalmente proposto por Abadie e Gardeazabal (2003) para estimar os custos econômicos do conflito no País Basco, e posteriormente formalizado e popularizado por Abadie, Diamond e Hainmueller (2010, 2015). A intuição aparece com clareza no exemplo clássico da Proposição 99. A Califórnia aprovou em 1988 uma política ampla de controle do tabaco. Queremos estimar seu efeito sobre as vendas per capita de cigarros:
 
 $$
 \tau_t = Y_{CA,t}(1) - Y_{CA,t}(0), \quad \text{para } t > 1988
 $$
 
-Como não observamos $Y_{CA,t}(0)$, precisamos construir uma "Califórnia Sintética" — uma média ponderada dos demais estados que reproduza a trajetória da Califórnia no período pré-tratamento.
+O termo observado é $Y_{CA,t}(1)$, a trajetória da Califórnia após a política. O termo que falta é $Y_{CA,t}(0)$, a trajetória que a Califórnia teria seguido sem a Proposição 99. Esse contrafactual não está nos dados. Todo o problema é construir uma estimativa crível de $Y_{CA,t}(0)$ usando os estados que não adotaram a política.
 
-```{r cigarro, echo=FALSE, message=FALSE, warning=FALSE}
-library(data.table)
+```{r cigarro, echo=FALSE, message=FALSE, warning=FALSE, fig.cap=fig_cap_cigarro}
 library(knitr)
 library(ggplot2)
 library(tidyverse)
 library(tidyr)
-library(janitor)
+library(tidysynth)
 
-cigar <- fread("https://raw.githubusercontent.com/matheusfacure/python-causality-handbook/master/causal-inference-for-the-brave-and-true/data/smoking.csv")
-cigar1 <- cigar %>%
-  dplyr::select(-c("lnincome","beer", "age15to24"))
+data(smoking, package = "tidysynth")
+
+cigar1 <- smoking %>%
+  mutate(california = state == "California") %>%
+  dplyr::select(state, year, cigsale, california)
+
 cigar1 %>%
   head() %>%
-  kable()
-
-
+  kable(caption = "Primeiras observações dos dados de vendas de cigarros.")
 
 plot_data <- cigar1 %>%
   group_by(year, california) %>%
@@ -89,7 +142,6 @@ ggplot(plot_data,
     breaks = seq(min(plot_data$year), max(plot_data$year), by = 5)
   ) +
   labs(
-    title    = "Diferença nas vendas per capita de cigarros",
     x        = "Ano",
     y        = "Vendas per capita",
     colour   = "",
@@ -102,7 +154,136 @@ ggplot(plot_data,
   )
 ```
 
-A média simples dos demais estados (linha tracejada) não é um bom contrafactual: os estados diferem em nível e tendência. A ideia do SCM é encontrar pesos que produzam uma combinação dos estados de controle que replique a trajetória pré-tratamento da Califórnia.
+A média simples dos demais estados não é um bom contrafactual. Os controles diferem da Califórnia em nível e tendência antes de 1988. Uma primeira saída natural é usar regressão: estimar, entre os estados não tratados, uma relação entre características pré-tratamento e o resultado futuro, e depois aplicar essa relação à Califórnia.
+
+### Regressão como primeira tentativa de contrafactual
+
+Considere uma regressão estimada apenas no *donor pool*. Para cada estado de controle, construímos um vetor de preditores pré-tratamento, incluindo valores defasados de vendas de cigarros e covariáveis como renda, preço relativo e composição etária. Para fixar a ideia, suponha que queremos prever as vendas per capita em 2000:
+
+$$
+\text{cigsale}_{j,2000}
+= \alpha
++ \beta_{1970}\text{cigsale}_{j,1970}
++ \cdots
++ \beta_{1988}\text{cigsale}_{j,1988}
++ Z'_j\gamma
++ u_j,
+\quad j \in co.
+$$
+
+Aqui, $co$ denota o conjunto de estados de controle.
+
+Depois de estimar o modelo nos controles, inserimos os preditores da Califórnia e obtemos $\widehat{Y}_{CA,2000}(0)$. Essa operação parece diferente do SCM, mas também constrói o contrafactual como uma combinação linear dos estados de controle.
+
+Defina $X$ como a matriz de preditores dos estados de controle, incluindo a constante, $y$ como o vetor de resultados dos controles em 2000, e $x_{CA}$ como o vetor de preditores da Califórnia. A regressão produz:
+
+$$
+\widehat{\beta} = (X'X)^{-1}X'y.
+$$
+
+A previsão para a Califórnia é:
+
+$$
+\widehat{Y}_{CA,2000}(0)
+= x_{CA}'\widehat{\beta}
+= x_{CA}'(X'X)^{-1}X'y.
+$$
+
+Agrupando os termos que multiplicam $y$, temos:
+
+$$
+h_{CA} = x_{CA}'(X'X)^{-1}X',
+$$
+
+e portanto:
+
+$$
+\widehat{Y}_{CA,2000}(0)
+= h_1Y_{1,2000} + h_2Y_{2,2000} + \cdots + h_JY_{J,2000}.
+$$
+
+O vetor $h_{CA}$ é uma linha *out-of-sample* análoga à *hat matrix*. Cada elemento de $h_{CA}$ é o peso de um estado de controle no contrafactual por regressão. Com intercepto, esses pesos somam 1. A diferença é que a regressão não exige que sejam positivos, menores que 1 ou concentrados em poucos doadores.
+
+```{r scm-regressao-prop99-outputs, include=FALSE, message=FALSE, warning=FALSE}
+source("scripts/11_scm_vs_regressao_prop99.R", local = TRUE)
+
+weight_summary_raw <- readr::read_csv(
+  "outputs/scm_vs_regressao_prop99/02_resumo_pesos.csv",
+  show_col_types = FALSE
+)
+
+weights_comparison_raw <- readr::read_csv(
+  "outputs/scm_vs_regressao_prop99/01_pesos_scm_vs_regressao.csv",
+  show_col_types = FALSE
+)
+
+counterfactual_summary_raw <- readr::read_csv(
+  "outputs/scm_vs_regressao_prop99/03_contrafactual_2000.csv",
+  show_col_types = FALSE
+)
+```
+
+```{r tabela-pesos-regressao-scm, echo=FALSE, message=FALSE, warning=FALSE}
+weight_summary_raw %>%
+  mutate(
+    method = dplyr::recode(
+      method,
+      "Regressao OLS" = "Regressão OLS"
+    )
+  ) %>%
+  transmute(
+    Método = method,
+    `Soma dos pesos` = round(sum_weights, 3),
+    `Peso mínimo` = round(min_weight, 3),
+    `Peso máximo` = round(max_weight, 3),
+    `Pesos negativos` = n_negative,
+    `Pesos efetivos` = n_effectively_nonzero,
+    `Norma L1` = round(l1_norm, 2)
+  ) %>%
+  kable(
+    caption = "Resumo dos pesos usados pelo SCM e dos pesos implícitos da regressão no exemplo da Califórnia."
+  )
+```
+
+A tabela mostra o ponto de Abadie e L'Hour (2021). A regressão também usa os controles como uma combinação ponderada. No exemplo, os pesos implícitos da OLS somam 1, mas 17 são negativos e todos os 38 estados entram com peso efetivo. O SCM também soma 1, mas não tem pesos negativos e concentra peso em cinco doadores. Entre os maiores pesos em valor absoluto da regressão estão Connecticut, Montana e Utah com pesos positivos, e Mississippi e Oklahoma com pesos negativos.
+
+```{r figura-contrafactual-scm-regressao, echo=FALSE, out.width="95%", fig.cap=fig_cap_scm_regressao}
+knitr::include_graphics(
+  "outputs/scm_vs_regressao_prop99/figura_2_contrafactual_scm_vs_regressao.png"
+)
+```
+
+Em 2000, a Califórnia observada vendeu `r round(counterfactual_summary_raw$actual_california, 1)` maços per capita. A regressão prevê `r round(counterfactual_summary_raw$regression_counterfactual, 1)` e o SCM prevê `r round(counterfactual_summary_raw$scm_counterfactual, 1)`. A comparação não prova que um estimador domina o outro. Ela mostra que contrafactuais com bom ajuste pré-tratamento podem ser produzidos por objetos substantivamente diferentes.
+
+Na figura, a série por regressão usa o mesmo vetor $h_{CA}$ para todos os anos. Isso corresponde a manter o mesmo conjunto de preditores e mudar apenas o resultado a ser previsto. Como esses preditores incluem muitas defasagens pré-tratamento, o bom ajuste no pré deve ser lido como diagnóstico descritivo, não como validação fora da amostra.
+
+O problema não é apenas verificar se o ajuste pré-tratamento é bom. Isso vale para regressão, SCM e métodos posteriores. A pergunta mais difícil é que tipo de contrafactual gerou esse ajuste. Três riscos aparecem:
+
+1. **Confundimento dinâmico.** Se a Califórnia difere dos controles em fatores que afetam $Y(0)$ e esses fatores não estão nos preditores, a previsão por regressão pode errar mesmo quando o ajuste observado parece razoável.
+2. **Extrapolação funcional.** A regressão depende da forma funcional estimada nos controles. Quando a Califórnia está fora do suporte empírico dos controles, a previsão pode extrapolar além das comparações observadas.
+3. **Baixa auditabilidade substantiva.** Pesos negativos e não esparsos dificultam a interpretação. A "Califórnia da regressão" pode somar alguns estados e subtrair outros. Essa construção é legítima como álgebra, mas é difícil de defender qualitativamente como unidade comparável.
+
+### O SCM como restrição disciplinadora
+
+O SCM parte do mesmo problema, mas restringe a classe de contrafactuais admissíveis. Em vez de deixar a regressão escolher pesos implícitos sem restrição de sinal, o SCM constrói:
+
+$$
+\hat{Y}_{CA,t}(0) = \sum_{j \in co} w_jY_{j,t}
+$$
+
+com:
+
+$$
+w_j \geq 0
+\qquad \text{e} \qquad
+\sum_{j \in co} w_j = 1.
+$$
+
+Essas duas restrições forçam o contrafactual a ser uma combinação convexa explícita dos controles. Geometricamente, a Califórnia sintética precisa ficar dentro do *convex hull* do *donor pool*. Isso reduz extrapolação forte: o método tenta interpolar dentro do envelope empírico dos controles, em vez de projetar livremente a partir de uma forma funcional.
+
+A analogia com *matching* é útil. O SCM funciona como uma versão ponderada de *nearest-neighbor matching*: procura controles parecidos com a unidade tratada, mas não impõe pesos iguais nem fixa previamente o número de vizinhos. A diferença é que a proximidade é definida pela capacidade de reproduzir a trajetória e os preditores pré-tratamento.
+
+Essa disciplina tem custo. A convexidade pode ser rígida demais quando a unidade tratada está fora do *convex hull* ou quando nenhuma combinação de controles ajusta bem o pré-tratamento. O SCM não é sempre melhor que regressão. Ele troca flexibilidade por transparência, auditabilidade e menor extrapolação.
 
 ### Formalização
 
@@ -148,30 +329,33 @@ com as restrições:
 1. $\sum_j w_j = 1$ (combinação convexa)
 2. $w_j \geq 0$, $\forall j$ (pesos não-negativos)
 
-**Nota:** Generalizações posteriores (Doudchenko & Imbens, 2016) permitem a inclusão de um intercepto $\mu$ na estimação, isto é, $\hat{Y}_{tr, t}(0) = \mu + \sum_{j \in co} w_j Y_{j,t}$, e até a remoção da restrição de não-negatividade. Essa extensão conecta o SCM ao SDiD (seção 7), que inclui efeitos fixos de unidade explicitamente.
-
-**Interpretação como regressão vertical.** Uma forma iluminadora de entender o SCM é vê-lo como uma **regressão "vertical"** — isto é, uma regressão ao longo da dimensão temporal, não da dimensão cross-section. Para cada período pré-tratamento $t = 1, \ldots, T_0$, temos uma "observação" em que a variável dependente é $Y_{N,t}$ (o resultado da unidade tratada) e as variáveis explicativas são $Y_{1,t}, \ldots, Y_{N_0,t}$ (os resultados dos doadores). O SCM busca pesos $\omega_i$ que resolvam:
+**Interpretação como regressão vertical.** Também podemos ler o SCM como uma regressão ao longo da dimensão temporal. Para cada período pré-tratamento $t = 1, \ldots, T_0$, a variável dependente é $Y_{N,t}$, o resultado da unidade tratada, e as variáveis explicativas são $Y_{1,t}, \ldots, Y_{N_0,t}$, os resultados dos doadores. O SCM busca pesos $\omega_i$ que resolvam:
 
 $$
 Y_{N,t} \approx \sum_{i=1}^{N_0} \omega_i Y_{i,t}, \quad \text{para } t = 1, \ldots, T_0
 $$
 
-Essa é uma regressão com $T_0$ observações e $N_0$ parâmetros. Quando $N_0 > T_0$ (mais doadores do que períodos pré-tratamento), o sistema é subdeterminado — há infinitas soluções que ajustam perfeitamente os dados pré-tratamento, mas que podem divergir nos períodos pós-tratamento (overfitting). As restrições de convexidade ($\omega_i \geq 0$, $\sum \omega_i = 1$) funcionam como uma forma de **regularização**: restringem o espaço de soluções, produzem tipicamente uma solução **esparsa** (poucos pesos não-nulos) e evitam extrapolação. A esparsidade tem uma vantagem adicional: torna o contrafactual **transparente** — o pesquisador pode inspecionar quais unidades compõem o controle sintético e avaliar se a combinação faz sentido substantivo.
+Quando $N_0 > T_0$, há mais doadores do que períodos pré-tratamento. O sistema pode ficar subdeterminado: diferentes combinações ajustam bem o pré-tratamento, mas divergem no pós-tratamento. As restrições de convexidade funcionam como regularização. Elas restringem o espaço de soluções, costumam produzir poucos pesos substantivos e tornam o contrafactual inspecionável.
 
-A tabela a seguir ilustra a estrutura do problema. A coluna sombreada é a unidade tratada; as demais são doadores. O SCM é uma regressão das linhas pré-tratamento da coluna sombreada sobre as demais colunas:
+A tabela a seguir ilustra a estrutura do problema. A última coluna é a unidade tratada; as demais são doadores. O SCM ajusta as linhas pré-tratamento da unidade tratada usando as demais colunas:
 
-|  | Doador 1 | Doador 2 | $\cdots$ | Doador $N_0$ | **Tratada** |
-|--|----------|----------|----------|-------------|-------------|
-| $t=1$ | $Y_{1,1}$ | $Y_{2,1}$ | $\cdots$ | $Y_{N_0,1}$ | $Y_{N,1}$ |
-| $\vdots$ | $\vdots$ | $\vdots$ | | $\vdots$ | $\vdots$ |
-| $t=T_0$ | $Y_{1,T_0}$ | $Y_{2,T_0}$ | $\cdots$ | $Y_{N_0,T_0}$ | $Y_{N,T_0}$ |
-| $t=T_0+1$ | $Y_{1,T_0+1}$ | $Y_{2,T_0+1}$ | $\cdots$ | $Y_{N_0,T_0+1}$ | $Y_{N,T_0+1}(1)$ |
-| $\vdots$ | $\vdots$ | $\vdots$ | | $\vdots$ | $\vdots$ |
-| $t=T$ | $Y_{1,T}$ | $Y_{2,T}$ | $\cdots$ | $Y_{N_0,T}$ | $Y_{N,T}(1)$ |
+```{r estrutura-scm-classico, echo=FALSE}
+data.frame(
+  Período = c("$t=1$", "$\\vdots$", "$t=T_0$", "$t=T_0+1$", "$\\vdots$", "$t=T$"),
+  `Doador 1` = c("$Y_{1,1}$", "$\\vdots$", "$Y_{1,T_0}$", "$Y_{1,T_0+1}$", "$\\vdots$", "$Y_{1,T}$"),
+  `Doador 2` = c("$Y_{2,1}$", "$\\vdots$", "$Y_{2,T_0}$", "$Y_{2,T_0+1}$", "$\\vdots$", "$Y_{2,T}$"),
+  `$\\cdots$` = c("$\\cdots$", "", "$\\cdots$", "$\\cdots$", "", "$\\cdots$"),
+  `Doador $N_0$` = c("$Y_{N_0,1}$", "$\\vdots$", "$Y_{N_0,T_0}$", "$Y_{N_0,T_0+1}$", "$\\vdots$", "$Y_{N_0,T}$"),
+  Tratada = c("$Y_{N,1}$", "$\\vdots$", "$Y_{N,T_0}$", "$Y_{N,T_0+1}(1)$", "$\\vdots$", "$Y_{N,T}(1)$"),
+  check.names = FALSE
+) %>%
+  kable(
+    caption = "Estrutura de dados do SCM clássico, com períodos nas linhas e unidades nas colunas.",
+    escape = FALSE
+  )
+```
 
-As linhas pré-tratamento (acima da divisória) são usadas para estimar os pesos; as linhas pós-tratamento (abaixo) são usadas para projetar o contrafactual $\hat{Y}_{N,t}(0) = \sum_i \hat{\omega}_i Y_{i,t}$.
-
-As restrições de convexidade *limitam* a extrapolação — o contrafactual é uma interpolação no espaço de pesos do donor pool — mas não a eliminam completamente. Se nenhuma combinação convexa dos controles reproduzir bem os preditores da unidade tratada, pode haver viés residual. A literatura subsequente (Doudchenko & Imbens, 2016; Ben-Michael et al., 2021) argumenta que permitir alguma extrapolação (relaxando a convexidade) pode melhorar o desempenho, o que motiva o SCM aumentado (*augmented SCM*). Ainda assim, a convexidade oferece uma disciplina importante em relação à regressão linear, que pode extrapolar livremente.
+As linhas pré-tratamento são usadas para estimar os pesos. As linhas pós-tratamento projetam o contrafactual $\hat{Y}_{N,t}(0) = \sum_i \hat{\omega}_i Y_{i,t}$.
 
 Os pesos são obtidos minimizando a distância entre os preditores da unidade tratada e a combinação ponderada dos controles:
 $$
@@ -195,19 +379,32 @@ $$
 
 sujeito a $\omega_i \geq 0$ e $\sum_i \omega_i = 1$, com $\lambda > 0$. O segundo termo penaliza o uso de doadores cujas trajetórias individuais são distantes da unidade tratada. Isso restaura a unicidade da solução e reduz o viés de interpolação. Robbins et al. (2017) propõem uma abordagem alternativa: escolher, dentre as soluções ótimas, os pesos mais próximos de pesos iguais — evitando dependência excessiva de poucos doadores.
 
+### Como a literatura se move a partir do SCM
+
+A comparação com regressão organiza a sequência de métodos deste capítulo:
+
+1. **Regressão:** pesos implícitos, possivelmente negativos e não esparsos, com extrapolação livre pela forma funcional.
+2. **SCM clássico:** pesos convexos, explícitos e auditáveis, com menor extrapolação, mas possível rigidez quando a unidade tratada está fora do *convex hull*.
+3. **SCM aumentado:** começa com o SCM e adiciona uma correção por modelo de outcome. Permite alguma extrapolação, mas a ancora no contrafactual sintético.
+4. **Doudchenko e Imbens:** mostram a conexão entre SCM, regressão e DiD ao permitir intercepto e relaxar restrições de peso.
+5. **SDiD:** mantém a lógica de pesos, mas adiciona pesos temporais e efeitos fixos. O estimador final é uma dupla diferença ponderada, não apenas um SCM com outro nome.
+6. **IFEct e controle sintético generalizado:** abandonam a convexidade e estimam diretamente fatores latentes. São mais flexíveis, mas dependem mais fortemente do modelo.
+
+Essa leitura conecta o SCM a uma ideia mais ampla. Muitos métodos causais usam controles para imputar o contrafactual dos tratados. Em um experimento, a randomização torna os controles bons contrafactuais em média. No *matching*, comparamos tratados a controles próximos em covariáveis. No DiD, usamos a trajetória dos controles para imputar a trajetória contrafactual sob tendências paralelas. No SCM, construímos uma combinação convexa de controles para reproduzir o pré-tratamento da unidade tratada.
+
 
 ## Implementação do SCM no R
 
 Usamos o pacote `tidysynth`, que oferece uma interface moderna para o SCM.
 
-```{r cigarro_tidysynth, echo=TRUE, message=FALSE, warning=FALSE, cache=FALSE}
+```{r cigarro-tidysynth, echo=TRUE, message=FALSE, warning=FALSE, cache=FALSE, fig.cap=fig_cap_tidysynth_trends}
 library(tidysynth)
 library(tidyverse)
 data(smoking)
 
 smoking %>%
   head() %>%
-  kable()
+  kable(caption = "Primeiras observações dos dados de vendas de cigarros no pacote tidysynth.")
 
 smoking_out <-
   smoking %>%
@@ -242,27 +439,29 @@ O gráfico mostra que a Califórnia Sintética acompanha bem a trajetória real 
 
 A quantidade causal de interesse — a diferença entre observado e sintético — pode ser visualizada diretamente:
 
-```{r cigarro_tidysynth1, echo=TRUE, message=FALSE, warning=FALSE}
+```{r cigarro-tidysynth-diferencas, echo=TRUE, message=FALSE, warning=FALSE, fig.cap=fig_cap_tidysynth_differences}
 smoking_out %>% plot_differences()
 ```
 
 Os pesos atribuídos a cada estado e a cada variável preditora:
 
-```{r cigarro_tidysynth2, echo=TRUE, message=FALSE, warning=FALSE}
+```{r cigarro-tidysynth-pesos, echo=TRUE, message=FALSE, warning=FALSE, fig.cap=fig_cap_tidysynth_weights}
 smoking_out %>% plot_weights()
 ```
 
 O balanceamento entre a Califórnia real e a sintética nos preditores:
 
-```{r cigarro_tidysynth4, echo=TRUE, message=FALSE, warning=FALSE}
-smoking_out %>% grab_balance_table()
+```{r cigarro-tidysynth-balanceamento, echo=TRUE, message=FALSE, warning=FALSE}
+smoking_out %>%
+  grab_balance_table() %>%
+  kable(caption = "Balanceamento entre Califórnia observada e controle sintético nos preditores.")
 ```
 
 ### Inferência por placebo
 
 A inferência no SCM é feita por testes placebo. A intuição é a de um teste de permutação: para cada estado do donor pool, fingimos que ele foi tratado e estimamos um SCM. Se o efeito da Califórnia for grande relativo aos placebos, concluímos que é estatisticamente significativo.
 
-```{r cigarro_tidysynth3, echo=TRUE, message=FALSE, warning=FALSE}
+```{r cigarro-tidysynth-placebos, echo=TRUE, message=FALSE, warning=FALSE, fig.cap=fig_cap_tidysynth_placebos}
 smoking_out %>% plot_placebos()
 ```
 
@@ -446,7 +645,7 @@ cat("MC - ATT estimado:", round(out_mc$att.avg, 2), "\n")
 
 O gráfico de efeitos dinâmicos (*dynamic treatment effects*) mostra a evolução do efeito estimado ao longo do tempo, incluindo o período pré-tratamento (que deve ser próximo de zero se o modelo estiver bem especificado):
 
-```{r fect_plot, echo=TRUE, message=FALSE, warning=FALSE, fig.width=10, fig.height=4, cache=TRUE}
+```{r fect-dinamico, echo=TRUE, message=FALSE, warning=FALSE, fig.width=10, fig.height=4, cache=TRUE, fig.cap=fig_cap_fect_plot}
 par(mfrow = c(1, 3))
 plot(out_fe, main = "FEct (Efeitos Fixos)", ylab = "Efeito estimado", xlab = "Períodos relativos ao tratamento")
 plot(out_ife, main = "IFEct (Fatores Interativos)", ylab = "Efeito estimado", xlab = "Períodos relativos ao tratamento")
@@ -477,7 +676,7 @@ Liu et al. (2024) propõem dois critérios:
 
 O teste de equivalência é preferível porque um teste t com baixo poder pode falhar em rejeitar (falso conforto), enquanto o TOST requer evidência *positiva* de que os efeitos são pequenos.
 
-```{r fect_placebo, echo=TRUE, message=FALSE, warning=FALSE, fig.width=8, fig.height=5, cache=TRUE}
+```{r fect-placebo, echo=TRUE, message=FALSE, warning=FALSE, fig.width=8, fig.height=5, cache=TRUE, fig.cap=fig_cap_fect_placebo}
 # Placebo test com IFEct (r fixo, sem CV)
 out_ife_placebo <- fect(cigsale ~ D, data = df_fect,
                         index = c("state", "year"),
@@ -546,7 +745,7 @@ summary(did)
 
 O estimador de DiD assume tendências paralelas na média — suposição que pode não ser crível neste contexto, como mostra o event study:
 
-```{r did1, echo=TRUE, message=FALSE, warning=FALSE}
+```{r did1, echo=TRUE, message=FALSE, warning=FALSE, fig.cap=fig_cap_did_event}
 library(did2s)
 library(ggfixest)
 
@@ -602,12 +801,13 @@ data.frame(
   Estimador = c("DiD", "SC", "SDiD"),
   ATT = round(sapply(estimates, function(x) x[1]), 2),
   SE = round(standard.errors, 2)
-) %>% kable()
+) %>%
+  kable(caption = "Estimativas de ATT e erros-padrão para DiD, controle sintético e Synthetic DiD.")
 ```
 
 O gráfico a seguir compara visualmente as trajetórias estimadas:
 
-```{r sdid1, echo=TRUE, message=FALSE, warning=FALSE, cache=TRUE}
+```{r sdid1, echo=TRUE, message=FALSE, warning=FALSE, cache=TRUE, fig.cap=fig_cap_sdid_trends}
 synthdid_plot(estimates[1:3], facet.vertical=FALSE,
               control.name='control', treated.name='california',
               lambda.comparable=TRUE, se.method = 'none',
@@ -621,7 +821,7 @@ synthdid_plot(estimates[1:3], facet.vertical=FALSE,
 
 E os pesos de unidade atribuídos por cada estimador:
 
-```{r sdid2, echo=TRUE, message=FALSE, warning=FALSE, cache=TRUE}
+```{r sdid2, echo=TRUE, message=FALSE, warning=FALSE, cache=TRUE, fig.cap=fig_cap_sdid_weights}
 synthdid_units_plot(rev(estimates[1:3]), se.method='none')
 ```
 
@@ -672,15 +872,22 @@ A escolha entre os métodos depende do contexto empírico. Eis um guia baseado n
 
 A tabela abaixo resume as suposições e características de cada método:
 
-| Método | Modelo para $Y(0)$ | Relaxa tendências paralelas? | Pesos | Pacote R |
-|--------|---------------------|------------------------------|-------|----------|
-| DiD/TWFE | $\alpha_i + \lambda_t$ | Não | Iguais | `fixest` |
-| FEct | $X'\beta + \alpha_i + \xi_t$ | Não (mesma suposição) | Uniformes | `fect` |
-| IFEct | $X'\beta + \alpha_i + \xi_t + \lambda'_i f_t$ | Sim (fatores) | Uniformes | `fect` |
-| MC | Baixo posto (norma nuclear) | Sim (baixo posto) | Implícitos (norma nuclear) | `fect` |
-| SCM | Combinação convexa | Indiretamente (via pesos) | Convexos | `tidysynth` |
-| SDiD | $\alpha_i + \lambda_t$ + pesos | Indiretamente (via pesos) | Unid. + tempo | `synthdid` |
-| TROP | Fatores + pesos | Sim (tripla robustez) | Unid. + tempo | — |
+```{r tabela-guia-metodos-scm, echo=FALSE}
+tibble::tribble(
+  ~Método, ~`Modelo para $Y(0)$`, ~`Relaxa tendências paralelas?`, ~Pesos, ~`Pacote R`,
+  "DiD/TWFE", "$\\alpha_i + \\lambda_t$", "Não", "Iguais", "fixest",
+  "FEct", "$X'\\beta + \\alpha_i + \\xi_t$", "Não (mesma suposição)", "Uniformes", "fect",
+  "IFEct", "$X'\\beta + \\alpha_i + \\xi_t + \\lambda'_i f_t$", "Sim (fatores)", "Uniformes", "fect",
+  "MC", "Baixo posto (norma nuclear)", "Sim (baixo posto)", "Implícitos (norma nuclear)", "fect",
+  "SCM", "Combinação convexa", "Indiretamente (via pesos)", "Convexos", "tidysynth",
+  "SDiD", "$\\alpha_i + \\lambda_t$ + pesos", "Indiretamente (via pesos)", "Unid. + tempo", "synthdid",
+  "TROP", "Fatores + pesos", "Sim (tripla robustez)", "Unid. + tempo", "Sem pacote público até 2026"
+) %>%
+  kable(
+    caption = "Resumo das suposições, pesos e pacotes dos principais estimadores contrafactuais discutidos no capítulo.",
+    escape = FALSE
+  )
+```
 
 A relação entre esses métodos envolve duas dimensões distintas. A primeira é a **flexibilidade do modelo**: DiD/FEct assumem efeitos aditivos, enquanto IFEct e MC permitem estrutura de fatores (baixo posto), relaxando tendências paralelas. A segunda é a **robustez à má especificação**: o SDiD usa o mesmo modelo aditivo do FEct, mas adiciona pesos de unidade e temporais que o tornam mais robusto quando tendências paralelas globais falham — é mais robusto, não necessariamente mais flexível. Da mesma forma, o TROP não relaxa suposições além do modelo de fatores; sua contribuição é a tripla robustez via estrutura multiplicativa do viés, que o protege contra erros em qualquer um dos três componentes. MC e IFEct operam sob suposições de baixo posto similares, mas diferem computacionalmente (*soft* vs. *hard impute*). Em todos os casos, métodos com menos suposições ou mais robustez tendem a pagar um custo em variância: a escolha envolve o trade-off viés-variância usual.
 

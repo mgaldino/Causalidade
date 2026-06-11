@@ -23,7 +23,7 @@
 <meta name="author" content="Manoel Galdino" />
 
 
-<meta name="date" content="2026-05-26" />
+<meta name="date" content="2026-06-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -489,14 +489,17 @@ div.csl-indent {
 <li class="chapter" data-level="12.1" data-path="07-RDD.html"><a href="#motiva%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>12.1</b> Motivação</a></li>
 <li class="chapter" data-level="12.2" data-path="07-RDD.html"><a href="#controle-sint%C3%A9tico-cl%C3%A1ssico"><i class="fa fa-check"></i><b>12.2</b> Controle Sintético clássico</a>
 <ul>
-<li class="chapter" data-level="12.2.1" data-path="07-RDD.html"><a href="#formaliza%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>12.2.1</b> Formalização</a></li>
+<li class="chapter" data-level="12.2.1" data-path="07-RDD.html"><a href="#regress%C3%A3o-como-primeira-tentativa-de-contrafactual"><i class="fa fa-check"></i><b>12.2.1</b> Regressão como primeira tentativa de contrafactual</a></li>
+<li class="chapter" data-level="12.2.2" data-path="07-RDD.html"><a href="#o-scm-como-restri%C3%A7%C3%A3o-disciplinadora"><i class="fa fa-check"></i><b>12.2.2</b> O SCM como restrição disciplinadora</a></li>
+<li class="chapter" data-level="12.2.3" data-path="07-RDD.html"><a href="#formaliza%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>12.2.3</b> Formalização</a></li>
+<li class="chapter" data-level="12.2.4" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html"><i class="fa fa-check"></i><b>12.2.4</b> Como a literatura se move a partir do SCM</a></li>
 </ul></li>
 <li class="chapter" data-level="12.3" data-path="07-RDD.html"><a href="#implementa%C3%A7%C3%A3o-do-scm-no-r"><i class="fa fa-check"></i><b>12.3</b> Implementação do SCM no R</a>
 <ul>
 <li class="chapter" data-level="12.3.1" data-path="07-RDD.html"><a href="#infer%C3%AAncia-por-placebo"><i class="fa fa-check"></i><b>12.3.1</b> Inferência por placebo</a></li>
 <li class="chapter" data-level="12.3.2" data-path="07-RDD.html"><a href="#diagn%C3%B3sticos-de-robustez-do-scm"><i class="fa fa-check"></i><b>12.3.2</b> Diagnósticos de robustez do SCM</a></li>
 </ul></li>
-<li class="chapter" data-level="12.4" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html"><i class="fa fa-check"></i><b>12.4</b> Do SCM aos modelos de fatores</a></li>
+<li class="chapter" data-level="12.4" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#do-scm-aos-modelos-de-fatores"><i class="fa fa-check"></i><b>12.4</b> Do SCM aos modelos de fatores</a></li>
 <li class="chapter" data-level="12.5" data-path="07-RDD.html"><a href="#framework-de-estima%C3%A7%C3%A3o-contrafactual"><i class="fa fa-check"></i><b>12.5</b> Framework de estimação contrafactual</a>
 <ul>
 <li class="chapter" data-level="12.5.1" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#setup"><i class="fa fa-check"></i><b>12.5.1</b> Setup</a></li>
@@ -688,7 +691,7 @@ Y_i = \alpha + \tau D_i + \beta_1(X_i-c) + \beta_2D_i(X_i-c) + \epsilon_i,
 {\lim_{x \to c^+} E[D_i|X_i=x] - \lim_{x \to c^-} E[D_i|X_i=x]}.
 \]</span></p>
 <table>
-<caption><span id="tab:tabela-ponte-fuzzy-iv">Tabela 8.1: </span>Ponte entre vari&lt;U+00E1&gt;veis instrumentais e fuzzy RD.</caption>
+<caption><span id="tab:tabela-ponte-fuzzy-iv">Tabela 8.1: </span>Ponte entre variáveis instrumentais e fuzzy RD.</caption>
 <colgroup>
 <col width="12%" />
 <col width="37%" />
@@ -773,49 +776,49 @@ Y_i = \alpha + \tau D_i + \beta_1(X_i-c) + \beta_2D_i(X_i-c) + \epsilon_i,
 </div>
 <div id="simulação" class="section level2 hasAnchor" number="8.8">
 <h2><span class="header-section-number">8.8</span> Simulação<a href="#simula%C3%A7%C3%A3o" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="desenho-de-regressão-descontínua.html#cb85-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb85-2"><a href="desenho-de-regressão-descontínua.html#cb85-2" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
-<span id="cb85-3"><a href="desenho-de-regressão-descontínua.html#cb85-3" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">runif</span>(N, <span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>)</span>
-<span id="cb85-4"><a href="desenho-de-regressão-descontínua.html#cb85-4" tabindex="-1"></a>Y0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> N, <span class="at">mean =</span> X, <span class="at">sd =</span> <span class="dv">1</span>)       <span class="co"># resultado potencial sob D = 0</span></span>
-<span id="cb85-5"><a href="desenho-de-regressão-descontínua.html#cb85-5" tabindex="-1"></a>Y1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> N, <span class="at">mean =</span> X <span class="sc">+</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>)   <span class="co"># resultado potencial sob D = 1</span></span>
-<span id="cb85-6"><a href="desenho-de-regressão-descontínua.html#cb85-6" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(X <span class="sc">&gt;=</span> <span class="dv">0</span>)</span>
-<span id="cb85-7"><a href="desenho-de-regressão-descontínua.html#cb85-7" tabindex="-1"></a>Y <span class="ot">&lt;-</span> Y1 <span class="sc">*</span> D <span class="sc">+</span> Y0 <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> D)</span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="desenho-de-regressão-descontínua.html#cb84-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb84-2"><a href="desenho-de-regressão-descontínua.html#cb84-2" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb84-3"><a href="desenho-de-regressão-descontínua.html#cb84-3" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">runif</span>(N, <span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>)</span>
+<span id="cb84-4"><a href="desenho-de-regressão-descontínua.html#cb84-4" tabindex="-1"></a>Y0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> N, <span class="at">mean =</span> X, <span class="at">sd =</span> <span class="dv">1</span>)       <span class="co"># resultado potencial sob D = 0</span></span>
+<span id="cb84-5"><a href="desenho-de-regressão-descontínua.html#cb84-5" tabindex="-1"></a>Y1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> N, <span class="at">mean =</span> X <span class="sc">+</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">1</span>)   <span class="co"># resultado potencial sob D = 1</span></span>
+<span id="cb84-6"><a href="desenho-de-regressão-descontínua.html#cb84-6" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(X <span class="sc">&gt;=</span> <span class="dv">0</span>)</span>
+<span id="cb84-7"><a href="desenho-de-regressão-descontínua.html#cb84-7" tabindex="-1"></a>Y <span class="ot">&lt;-</span> Y1 <span class="sc">*</span> D <span class="sc">+</span> Y0 <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> D)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:plot-d-assignment"></span>
-<img src="bookdownproj_files/figure-html/plot-d-assignment-1.png" alt="Gr&lt;U+00E1&gt;fico em degrau mostrando D igual a zero &lt;U+00E0&gt; esquerda do cutoff e igual a um &lt;U+00E0&gt; direita." width="672" />
+<img src="bookdownproj_files/figure-html/plot-d-assignment-1.png" alt="Gráfico em degrau mostrando D igual a zero à esquerda do cutoff e igual a um à direita." width="672" />
 <p class="caption">
 Figura 8.1: Regra sharp RD: o tratamento D muda mecanicamente no cutoff X = 0.
 </p>
 </div>
 <p>Começamos olhando <span class="math inline">\(Y_i(0)\)</span>, o resultado que cada unidade teria sem tratamento.</p>
 <div class="figure"><span style="display:block;" id="fig:plot-po-y0"></span>
-<img src="bookdownproj_files/figure-html/plot-po-y0-1.png" alt="Dispers&lt;U+00E3&gt;o de Y(0) contra X sem salto vis&lt;U+00ED&gt;vel no cutoff." width="672" />
+<img src="bookdownproj_files/figure-html/plot-po-y0-1.png" alt="Dispersão de Y(0) contra X sem salto visível no cutoff." width="672" />
 <p class="caption">
 Figura 8.2: Resultado potencial sob controle: Y(0) varia suavemente ao redor do cutoff.
 </p>
 </div>
 <p>Agora olhamos <span class="math inline">\(Y_i(1)\)</span>, o resultado que cada unidade teria sob tratamento.</p>
 <div class="figure"><span style="display:block;" id="fig:plot-po-y1"></span>
-<img src="bookdownproj_files/figure-html/plot-po-y1-1.png" alt="Dispers&lt;U+00E3&gt;o de Y(1) contra X sem salto abrupto no cutoff." width="672" />
+<img src="bookdownproj_files/figure-html/plot-po-y1-1.png" alt="Dispersão de Y(1) contra X sem salto abrupto no cutoff." width="672" />
 <p class="caption">
-Figura 8.3: Resultado potencial sob tratamento: Y(1) tamb&lt;U+00E9&gt;m &lt;U+00E9&gt; suave no cutoff.
+Figura 8.3: Resultado potencial sob tratamento: Y(1) também é suave no cutoff.
 </p>
 </div>
 <p>Colocar <span class="math inline">\(Y_i(0)\)</span> e <span class="math inline">\(Y_i(1)\)</span> no mesmo gráfico mostra a lógica do desenho: os resultados potenciais são suaves, mas só observamos um deles para cada unidade.</p>
 <div class="figure"><span style="display:block;" id="fig:plot-po-y1-Y0-1"></span>
-<img src="bookdownproj_files/figure-html/plot-po-y1-Y0-1.png" alt="Dispers&lt;U+00E3&gt;o dos resultados potenciais Y(0) e Y(1) por lado do cutoff." width="672" />
+<img src="bookdownproj_files/figure-html/plot-po-y1-Y0-1.png" alt="Dispersão dos resultados potenciais Y(0) e Y(1) por lado do cutoff." width="672" />
 <p class="caption">
 Figura 8.4: Resultados potenciais simulados por status de tratamento observado.
 </p>
 </div>
 <div class="figure"><span style="display:block;" id="fig:plot-po-y1-Y0-2"></span>
-<img src="bookdownproj_files/figure-html/plot-po-y1-Y0-2.png" alt="Curvas suavizadas de Y(0) e Y(1) contra X, ambas cont&lt;U+00ED&gt;nuas no cutoff." width="672" />
+<img src="bookdownproj_files/figure-html/plot-po-y1-Y0-2.png" alt="Curvas suavizadas de Y(0) e Y(1) contra X, ambas contínuas no cutoff." width="672" />
 <p class="caption">
-Figura 8.5: Fun&lt;U+00E7&gt;&lt;U+00F5&gt;es suavizadas de Y(0) e Y(1): o efeito de RD vem do salto no tratamento, n&lt;U+00E3&gt;o de uma quebra nos resultados potenciais.
+Figura 8.5: Funções suavizadas de Y(0) e Y(1): o efeito de RD vem do salto no tratamento, não de uma quebra nos resultados potenciais.
 </p>
 </div>
 O resultado observado combina esses dois resultados potenciais de acordo com a regra de tratamento.
 <div class="figure"><span style="display:block;" id="fig:plot-observed"></span>
-<img src="bookdownproj_files/figure-html/plot-observed-1.png" alt="Dispers&lt;U+00E3&gt;o do resultado observado contra X com mudan&lt;U+00E7&gt;a de n&lt;U+00ED&gt;vel no cutoff." width="672" />
+<img src="bookdownproj_files/figure-html/plot-observed-1.png" alt="Dispersão do resultado observado contra X com mudança de nível no cutoff." width="672" />
 <p class="caption">
 Figura 8.6: Resultado observado: o salto em Y aparece porque o tratamento muda no cutoff.
 </p>
@@ -834,7 +837,7 @@ Figura 8.7: Caso 1: resultados potenciais suaves e salto claro no tratamento.
 <div class="figure"><span style="display:block;" id="fig:caso-rdd-heterogeneo"></span>
 <img src="bookdownproj_files/figure-html/caso-rdd-heterogeneo-1.png" alt="Curvas de resultados potenciais com heterogeneidade e continuidade em zero." width="672" />
 <p class="caption">
-Figura 8.8: Caso 2: efeitos heterog&lt;U+00EA&gt;neos, mas resultados potenciais ainda suaves no cutoff.
+Figura 8.8: Caso 2: efeitos heterogêneos, mas resultados potenciais ainda suaves no cutoff.
 </p>
 </div>
 <div class="figure"><span style="display:block;" id="fig:caso-rdd-heterogeneo-forte"></span>
@@ -846,13 +849,13 @@ Figura 8.9: Caso 3: heterogeneidade mais forte, com continuidade preservada no c
 <div class="figure"><span style="display:block;" id="fig:caso-rdd-efeito-nulo"></span>
 <img src="bookdownproj_files/figure-html/caso-rdd-efeito-nulo-1.png" alt="Curvas de Y(0) e Y(1) que se encontram no cutoff." width="672" />
 <p class="caption">
-Figura 8.10: Caso 4: nenhum efeito exatamente no cutoff, apesar de as fun&lt;U+00E7&gt;&lt;U+00F5&gt;es diferirem longe dele.
+Figura 8.10: Caso 4: nenhum efeito exatamente no cutoff, apesar de as funções diferirem longe dele.
 </p>
 </div>
 <div class="figure"><span style="display:block;" id="fig:caso-rdd-invalido"></span>
 <img src="bookdownproj_files/figure-html/caso-rdd-invalido-1.png" alt="Curva de Y(0) com salto artificial ao redor do cutoff, invalidando o desenho." width="672" />
 <p class="caption">
-Figura 8.11: Caso 5: desenho inv&lt;U+00E1&gt;lido, pois Y(0) apresenta uma descontinuidade no cutoff.
+Figura 8.11: Caso 5: desenho inválido, pois Y(0) apresenta uma descontinuidade no cutoff.
 </p>
 </div>
 <p>Os quatro primeiros casos preservam a continuidade dos resultados potenciais no cutoff. Eles diferem em heterogeneidade e validade externa, mas a comparação local continua interpretável. O quinto caso quebra a lógica do desenho: mesmo sem tratamento, <span class="math inline">\(Y_i(0)\)</span> mudaria abruptamente em <span class="math inline">\(c\)</span>.</p>
@@ -860,9 +863,9 @@ Figura 8.11: Caso 5: desenho inv&lt;U+00E1&gt;lido, pois Y(0) apresenta uma desc
 <div id="dados-brutos-versus-bins" class="section level2 hasAnchor" number="8.10">
 <h2><span class="header-section-number">8.10</span> Dados brutos versus bins<a href="desenho-de-regressão-descontínua.html#dados-brutos-versus-bins" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="figure"><span style="display:block;" id="fig:plot-binscatter"></span>
-<img src="bookdownproj_files/figure-html/plot-binscatter-1.png" alt="Gr&lt;U+00E1&gt;fico de m&lt;U+00E9&gt;dias de Y por bins igualmente espa&lt;U+00E7&gt;ados da running variable." width="672" />
+<img src="bookdownproj_files/figure-html/plot-binscatter-1.png" alt="Gráfico de médias de Y por bins igualmente espaçados da running variable." width="672" />
 <p class="caption">
-Figura 8.12: Binscatter com bins igualmente espa&lt;U+00E7&gt;ados: os pontos mostram m&lt;U+00E9&gt;dias locais de Y.
+Figura 8.12: Binscatter com bins igualmente espaçados: os pontos mostram médias locais de Y.
 </p>
 </div>
 <p>Como escolher os bins?</p>
@@ -872,9 +875,9 @@ Figura 8.12: Binscatter com bins igualmente espa&lt;U+00E7&gt;ados: os pontos mo
 </ol>
 <p>No exemplo, escolhi espaçamento igual e 20 bins. Podemos usar quantis.</p>
 <div class="figure"><span style="display:block;" id="fig:plot-binscatter-quantis"></span>
-<img src="bookdownproj_files/figure-html/plot-binscatter-quantis-1.png" alt="Gr&lt;U+00E1&gt;fico de m&lt;U+00E9&gt;dias de Y por bins definidos por quantis da running variable." width="672" />
+<img src="bookdownproj_files/figure-html/plot-binscatter-quantis-1.png" alt="Gráfico de médias de Y por bins definidos por quantis da running variable." width="672" />
 <p class="caption">
-Figura 8.13: Binscatter com bins por quantis: cada bin cont&lt;U+00E9&gt;m n&lt;U+00FA&gt;mero semelhante de observa&lt;U+00E7&gt;&lt;U+00F5&gt;es.
+Figura 8.13: Binscatter com bins por quantis: cada bin contém número semelhante de observações.
 </p>
 </div>
 <p>Esses gráficos servem para visualização, não para estimação. A escolha dos bins afeta como a evidência aparece no gráfico, mas a estimativa principal deve vir da regressão local com bandwidth explícito. Bins por quantis ajudam a evitar bins vazios e tornam os pontos visualmente mais estáveis, mas também podem esconder variações na densidade da <em>running variable</em>. Por isso, o gráfico de RD deve ser acompanhado por diagnósticos de densidade.</p>
@@ -883,46 +886,46 @@ Figura 8.13: Binscatter com bins por quantis: cada bin cont&lt;U+00E9&gt;m n&lt;
 <div class="figure"><span style="display:block;" id="fig:plot-binscatter-quantis-rdplot-qs"></span>
 <img src="bookdownproj_files/figure-html/plot-binscatter-quantis-rdplot-qs-1.png" alt="RD plot com pontos por bins e ajuste local nos dois lados do cutoff." width="672" />
 <p class="caption">
-Figura 8.14: RD plot com sele&lt;U+00E7&gt;&lt;U+00E3&gt;o autom&lt;U+00E1&gt;tica de bins por quantis.
+Figura 8.14: RD plot com seleção automática de bins por quantis.
 </p>
 </div>
 <div class="figure"><span style="display:block;" id="fig:plot-binscatter-quantis-rdplot-qsmv"></span>
-<img src="bookdownproj_files/figure-html/plot-binscatter-quantis-rdplot-qsmv-1.png" alt="RD plot com bins definidos para aproximar a vari&lt;U+00E2&gt;ncia visual dos dados brutos." width="672" />
+<img src="bookdownproj_files/figure-html/plot-binscatter-quantis-rdplot-qsmv-1.png" alt="RD plot com bins definidos para aproximar a variância visual dos dados brutos." width="672" />
 <p class="caption">
-Figura 8.15: RD plot com sele&lt;U+00E7&gt;&lt;U+00E3&gt;o de bins mimicking-variance.
+Figura 8.15: RD plot com seleção de bins mimicking-variance.
 </p>
 </div>
 </div>
 <div id="testes-de-permutação-para-balanceamento" class="section level2 hasAnchor" number="8.11">
 <h2><span class="header-section-number">8.11</span> Testes de permutação para balanceamento<a href="#testes-de-permuta%C3%A7%C3%A3o-para-balanceamento" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Para checar balanceamento, podemos usar testes de permutação em covariáveis pré-tratamento. No exemplo abaixo, <code>w_pre</code> representa uma covariável observável medida antes do tratamento. O teste pergunta se sua distribuição muda de forma anormal no cutoff.</p>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="desenho-de-regressão-descontínua.html#cb86-1" tabindex="-1"></a><span class="fu">library</span>(RATest)</span>
-<span id="cb86-2"><a href="desenho-de-regressão-descontínua.html#cb86-2" tabindex="-1"></a>df_perm <span class="ot">&lt;-</span> df_u</span>
-<span id="cb86-3"><a href="desenho-de-regressão-descontínua.html#cb86-3" tabindex="-1"></a>resultado <span class="ot">&lt;-</span> <span class="fu">RDperm</span>(</span>
-<span id="cb86-4"><a href="desenho-de-regressão-descontínua.html#cb86-4" tabindex="-1"></a>  <span class="at">W =</span> <span class="st">&quot;w_pre&quot;</span>,</span>
-<span id="cb86-5"><a href="desenho-de-regressão-descontínua.html#cb86-5" tabindex="-1"></a>  <span class="at">z =</span> <span class="st">&quot;x&quot;</span>,</span>
-<span id="cb86-6"><a href="desenho-de-regressão-descontínua.html#cb86-6" tabindex="-1"></a>  <span class="at">data =</span> df_perm,</span>
-<span id="cb86-7"><a href="desenho-de-regressão-descontínua.html#cb86-7" tabindex="-1"></a>  <span class="at">cutoff =</span> <span class="dv">0</span></span>
-<span id="cb86-8"><a href="desenho-de-regressão-descontínua.html#cb86-8" tabindex="-1"></a>)</span>
-<span id="cb86-9"><a href="desenho-de-regressão-descontínua.html#cb86-9" tabindex="-1"></a></span>
-<span id="cb86-10"><a href="desenho-de-regressão-descontínua.html#cb86-10" tabindex="-1"></a>df_perm <span class="sc">%&gt;%</span></span>
-<span id="cb86-11"><a href="desenho-de-regressão-descontínua.html#cb86-11" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">lado =</span> <span class="fu">ifelse</span>(x <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="st">&quot;À esquerda do cutoff&quot;</span>, <span class="st">&quot;À direita do cutoff&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb86-12"><a href="desenho-de-regressão-descontínua.html#cb86-12" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> w_pre, <span class="at">colour =</span> lado, <span class="at">linetype =</span> lado)) <span class="sc">+</span></span>
-<span id="cb86-13"><a href="desenho-de-regressão-descontínua.html#cb86-13" tabindex="-1"></a>  <span class="fu">stat_ecdf</span>(<span class="at">linewidth =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
-<span id="cb86-14"><a href="desenho-de-regressão-descontínua.html#cb86-14" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;À esquerda do cutoff&quot;</span> <span class="ot">=</span> <span class="st">&quot;#0072B2&quot;</span>, <span class="st">&quot;À direita do cutoff&quot;</span> <span class="ot">=</span> <span class="st">&quot;#D55E00&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb86-15"><a href="desenho-de-regressão-descontínua.html#cb86-15" tabindex="-1"></a>  <span class="fu">scale_linetype_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;À esquerda do cutoff&quot;</span> <span class="ot">=</span> <span class="st">&quot;solid&quot;</span>, <span class="st">&quot;À direita do cutoff&quot;</span> <span class="ot">=</span> <span class="st">&quot;longdash&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb86-16"><a href="desenho-de-regressão-descontínua.html#cb86-16" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb86-17"><a href="desenho-de-regressão-descontínua.html#cb86-17" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Covariável pré-tratamento&quot;</span>,</span>
-<span id="cb86-18"><a href="desenho-de-regressão-descontínua.html#cb86-18" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Distribuição acumulada empírica&quot;</span>,</span>
-<span id="cb86-19"><a href="desenho-de-regressão-descontínua.html#cb86-19" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">&quot;Lado&quot;</span>,</span>
-<span id="cb86-20"><a href="desenho-de-regressão-descontínua.html#cb86-20" tabindex="-1"></a>    <span class="at">linetype =</span> <span class="st">&quot;Lado&quot;</span></span>
-<span id="cb86-21"><a href="desenho-de-regressão-descontínua.html#cb86-21" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb86-22"><a href="desenho-de-regressão-descontínua.html#cb86-22" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb86-23"><a href="desenho-de-regressão-descontínua.html#cb86-23" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="desenho-de-regressão-descontínua.html#cb85-1" tabindex="-1"></a><span class="fu">library</span>(RATest)</span>
+<span id="cb85-2"><a href="desenho-de-regressão-descontínua.html#cb85-2" tabindex="-1"></a>df_perm <span class="ot">&lt;-</span> df_u</span>
+<span id="cb85-3"><a href="desenho-de-regressão-descontínua.html#cb85-3" tabindex="-1"></a>resultado <span class="ot">&lt;-</span> <span class="fu">RDperm</span>(</span>
+<span id="cb85-4"><a href="desenho-de-regressão-descontínua.html#cb85-4" tabindex="-1"></a>  <span class="at">W =</span> <span class="st">&quot;w_pre&quot;</span>,</span>
+<span id="cb85-5"><a href="desenho-de-regressão-descontínua.html#cb85-5" tabindex="-1"></a>  <span class="at">z =</span> <span class="st">&quot;x&quot;</span>,</span>
+<span id="cb85-6"><a href="desenho-de-regressão-descontínua.html#cb85-6" tabindex="-1"></a>  <span class="at">data =</span> df_perm,</span>
+<span id="cb85-7"><a href="desenho-de-regressão-descontínua.html#cb85-7" tabindex="-1"></a>  <span class="at">cutoff =</span> <span class="dv">0</span></span>
+<span id="cb85-8"><a href="desenho-de-regressão-descontínua.html#cb85-8" tabindex="-1"></a>)</span>
+<span id="cb85-9"><a href="desenho-de-regressão-descontínua.html#cb85-9" tabindex="-1"></a></span>
+<span id="cb85-10"><a href="desenho-de-regressão-descontínua.html#cb85-10" tabindex="-1"></a>df_perm <span class="sc">%&gt;%</span></span>
+<span id="cb85-11"><a href="desenho-de-regressão-descontínua.html#cb85-11" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">lado =</span> <span class="fu">ifelse</span>(x <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="st">&quot;À esquerda do cutoff&quot;</span>, <span class="st">&quot;À direita do cutoff&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb85-12"><a href="desenho-de-regressão-descontínua.html#cb85-12" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> w_pre, <span class="at">colour =</span> lado, <span class="at">linetype =</span> lado)) <span class="sc">+</span></span>
+<span id="cb85-13"><a href="desenho-de-regressão-descontínua.html#cb85-13" tabindex="-1"></a>  <span class="fu">stat_ecdf</span>(<span class="at">linewidth =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb85-14"><a href="desenho-de-regressão-descontínua.html#cb85-14" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;À esquerda do cutoff&quot;</span> <span class="ot">=</span> <span class="st">&quot;#0072B2&quot;</span>, <span class="st">&quot;À direita do cutoff&quot;</span> <span class="ot">=</span> <span class="st">&quot;#D55E00&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb85-15"><a href="desenho-de-regressão-descontínua.html#cb85-15" tabindex="-1"></a>  <span class="fu">scale_linetype_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;À esquerda do cutoff&quot;</span> <span class="ot">=</span> <span class="st">&quot;solid&quot;</span>, <span class="st">&quot;À direita do cutoff&quot;</span> <span class="ot">=</span> <span class="st">&quot;longdash&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb85-16"><a href="desenho-de-regressão-descontínua.html#cb85-16" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb85-17"><a href="desenho-de-regressão-descontínua.html#cb85-17" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Covariável pré-tratamento&quot;</span>,</span>
+<span id="cb85-18"><a href="desenho-de-regressão-descontínua.html#cb85-18" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Distribuição acumulada empírica&quot;</span>,</span>
+<span id="cb85-19"><a href="desenho-de-regressão-descontínua.html#cb85-19" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">&quot;Lado&quot;</span>,</span>
+<span id="cb85-20"><a href="desenho-de-regressão-descontínua.html#cb85-20" tabindex="-1"></a>    <span class="at">linetype =</span> <span class="st">&quot;Lado&quot;</span></span>
+<span id="cb85-21"><a href="desenho-de-regressão-descontínua.html#cb85-21" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb85-22"><a href="desenho-de-regressão-descontínua.html#cb85-22" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb85-23"><a href="desenho-de-regressão-descontínua.html#cb85-23" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:permutation-test"></span>
-<img src="bookdownproj_files/figure-html/permutation-test-1.png" alt="Fun&lt;U+00E7&gt;&lt;U+00F5&gt;es de distribui&lt;U+00E7&gt;&lt;U+00E3&gt;o acumulada emp&lt;U+00ED&gt;ricas de uma covari&lt;U+00E1&gt;vel pr&lt;U+00E9&gt;-tratamento &lt;U+00E0&gt; esquerda e &lt;U+00E0&gt; direita do cutoff." width="672" />
+<img src="bookdownproj_files/figure-html/permutation-test-1.png" alt="Funções de distribuição acumulada empíricas de uma covariável pré-tratamento à esquerda e à direita do cutoff." width="672" />
 <p class="caption">
-Figura 8.16: Teste de permuta&lt;U+00E7&gt;&lt;U+00E3&gt;o para uma covari&lt;U+00E1&gt;vel pr&lt;U+00E9&gt;-tratamento observ&lt;U+00E1&gt;vel.
+Figura 8.16: Teste de permutação para uma covariável pré-tratamento observável.
 </p>
 </div>
 <p>Canay &amp; Kamat (2018) utilizaram esse teste para revisitar o trabalho de Lee (2008) e descobriram que havia problema de balanceamento.</p>
@@ -932,13 +935,13 @@ Figura 8.16: Teste de permuta&lt;U+00E7&gt;&lt;U+00E3&gt;o para uma covari&lt;U+
 <div class="figure"><span style="display:block;" id="fig:quote-1"></span>
 <img src="imagens/quote.png" alt="Trecho do artigo de Caughey e Sekhon sobre problemas de balanceamento." width="90%" />
 <p class="caption">
-Figura 8.17: Caughey e Sekhon (2011): alerta sobre balanceamento em elei&lt;U+00E7&gt;&lt;U+00F5&gt;es apertadas.
+Figura 8.17: Caughey e Sekhon (2011): alerta sobre balanceamento em eleições apertadas.
 </p>
 </div>
 <div class="figure"><span style="display:block;" id="fig:quote-2"></span>
 <img src="imagens/quote2.png" alt="Segundo trecho do artigo de Caughey e Sekhon sobre close elections." width="90%" />
 <p class="caption">
-Figura 8.18: Caughey e Sekhon (2011): implica&lt;U+00E7&gt;&lt;U+00E3&gt;o para a interpreta&lt;U+00E7&gt;&lt;U+00E3&gt;o de close elections.
+Figura 8.18: Caughey e Sekhon (2011): implicação para a interpretação de close elections.
 </p>
 </div>
 <p>Houve um debate na ciência política sobre isso. Erikson &amp; Rader (2017) e Cuesta &amp; Imai (2016) argumentam que o RDD é identificado. Até onde eu sei, cientistas políticos não revisitaram a controvérsia com os novos métodos desenvolvidos pelos economistas.</p>
@@ -949,17 +952,17 @@ Figura 8.18: Caughey e Sekhon (2011): implica&lt;U+00E7&gt;&lt;U+00E3&gt;o para 
 <p>Um dos principais desafios à identificação causal em RDDs é a possibilidade de manipulação por parte dos agentes sobre ficar acima ou abaixo do ponto de corte. A lógica esperada é que se o tratamento é desejável, indivíduos tentarão receber o tratamento, levando a um gap justamente abaixo do ponto de corte. Se o tratamento é indesejável (efeitos negativos), indivíduos vão evitar o tratamento, levando a um gap justamente acima do ponto de corte.</p>
 <p>O exemplo mais evidente para nós cientistas políticos é a aprovação de um projeto de lei no legislativo. Nós sabemos que os legisladores agem estrategicamente retirando propostas que não vão ser aprovadas ou postergando a votação, até terem a maioria, ainda que por margem mínima. Nesse caso, a aplicação de RDD produzirá estimativas viesadas. McCrary, em um artigo de 2008, argumentou que tais casos apareceriam como descontinuidade na densidade da <em>running variable</em> ao redor do ponto de corte. Eis o gráfico feito por McCrary em seu estudo original:</p>
 <div class="figure"><span style="display:block;" id="fig:McCay-test"></span>
-<img src="imagens/manipulation%20test.png" alt="Histograma e densidades laterais indicando poss&lt;U+00ED&gt;vel descontinuidade na densidade da running variable." width="1107" />
+<img src="imagens/manipulation%20test.png" alt="Histograma e densidades laterais indicando possível descontinuidade na densidade da running variable." width="1107" />
 <p class="caption">
-Figura 8.19: Figura cl&lt;U+00E1&gt;ssica do teste de manipula&lt;U+00E7&gt;&lt;U+00E3&gt;o em McCrary (2008).
+Figura 8.19: Figura clássica do teste de manipulação em McCrary (2008).
 </p>
 </div>
 <p>Para formalizar essa ideia, McCrary estima os limites da densidade pela esquerda e pela direita e avalia se a diferença (do logaritmo) das estimativas é estatisticamente significante diferente de zero. Portanto, rejeitar a hipótese nula é encontrar evidências de que há manipulação. Cattaneo, Jansson e Ma (2018, 2020) introduziram uma versão alternativa do teste, com espírito similar.</p>
 <p>Na prática, de um ponto de vista retórico, o que pesquisadores querem é falhar em rejeitar a nula. Como o teste pode ter baixo poder, ausência de evidência não quer dizer evidência de ausência. Hartman (2021) e Fitzgerald (2025) defendem uma leitura mais exigente: em vez de apenas perguntar se rejeitamos manipulação, deveríamos perguntar se os dados permitem descartar manipulação substantivamente relevante. Isso leva a testes de equivalência, em que o pesquisador define uma margem de manipulação considerada pequena o bastante para não comprometer o desenho.</p>
 <div class="figure"><span style="display:block;" id="fig:McCay-test1"></span>
-<img src="bookdownproj_files/figure-html/McCay-test1-1.png" alt="Densidades estimadas da vari&lt;U+00E1&gt;vel de ordena&lt;U+00E7&gt;&lt;U+00E3&gt;o &lt;U+00E0&gt; esquerda e &lt;U+00E0&gt; direita do cutoff." width="672" />
+<img src="bookdownproj_files/figure-html/McCay-test1-1.png" alt="Densidades estimadas da variável de ordenação à esquerda e à direita do cutoff." width="672" />
 <p class="caption">
-Figura 8.20: Diagn&lt;U+00F3&gt;stico visual de densidade: n&lt;U+00E3&gt;o h&lt;U+00E1&gt; ac&lt;U+00FA&gt;mulo evidente de observa&lt;U+00E7&gt;&lt;U+00F5&gt;es no cutoff.
+Figura 8.20: Diagnóstico visual de densidade: não há acúmulo evidente de observações no cutoff.
 </p>
 </div>
 <p>Uma implementação mais moderna é o teste de densidade de Cattaneo, Jansson e Ma. A tabela resume o diagnóstico em vez de despejar todo o output do pacote.</p>
@@ -973,11 +976,11 @@ Figura 8.20: Diagn&lt;U+00F3&gt;stico visual de densidade: n&lt;U+00E3&gt;o h&lt
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Diferen&lt;U+00E7&gt;a estimada na densidade</td>
+<td align="left">Diferença estimada na densidade</td>
 <td align="right">0.011</td>
 </tr>
 <tr class="even">
-<td align="left">Estat&lt;U+00ED&gt;stica t</td>
+<td align="left">Estatística t</td>
 <td align="right">0.279</td>
 </tr>
 <tr class="odd">
@@ -992,29 +995,29 @@ Figura 8.20: Diagn&lt;U+00F3&gt;stico visual de densidade: n&lt;U+00E3&gt;o h&lt
 <div id="robustez-e-inferência-em-r" class="section level2 hasAnchor" number="8.13">
 <h2><span class="header-section-number">8.13</span> Robustez e inferência em R<a href="#robustez-e-infer%C3%AAncia-em-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>A análise aplicada deve separar três objetos: o gráfico, a estimativa e a inferência. O gráfico ajuda a avaliar a plausibilidade da descontinuidade. A estimativa vem da regressão local. A inferência moderna deve usar os intervalos robustos com correção de viés de <code>rdrobust</code>, não apenas o erro padrão convencional.</p>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="desenho-de-regressão-descontínua.html#cb87-1" tabindex="-1"></a><span class="fu">library</span>(rdrobust)</span>
-<span id="cb87-2"><a href="desenho-de-regressão-descontínua.html#cb87-2" tabindex="-1"></a></span>
-<span id="cb87-3"><a href="desenho-de-regressão-descontínua.html#cb87-3" tabindex="-1"></a>df <span class="ot">&lt;-</span> df_aux</span>
-<span id="cb87-4"><a href="desenho-de-regressão-descontínua.html#cb87-4" tabindex="-1"></a></span>
-<span id="cb87-5"><a href="desenho-de-regressão-descontínua.html#cb87-5" tabindex="-1"></a><span class="co"># Estimativa sharp RD com bandwidth MSE-optimal.</span></span>
-<span id="cb87-6"><a href="desenho-de-regressão-descontínua.html#cb87-6" tabindex="-1"></a>modelo_mse <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> df<span class="sc">$</span>y, <span class="at">x =</span> df<span class="sc">$</span>x, <span class="at">c =</span> <span class="dv">0</span>, <span class="at">p =</span> <span class="dv">1</span>, <span class="at">bwselect =</span> <span class="st">&quot;mserd&quot;</span>)</span>
-<span id="cb87-7"><a href="desenho-de-regressão-descontínua.html#cb87-7" tabindex="-1"></a></span>
-<span id="cb87-8"><a href="desenho-de-regressão-descontínua.html#cb87-8" tabindex="-1"></a><span class="co"># Mesmo desenho, mas com bandwidth CER-optimal.</span></span>
-<span id="cb87-9"><a href="desenho-de-regressão-descontínua.html#cb87-9" tabindex="-1"></a>modelo_cer <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> df<span class="sc">$</span>y, <span class="at">x =</span> df<span class="sc">$</span>x, <span class="at">c =</span> <span class="dv">0</span>, <span class="at">p =</span> <span class="dv">1</span>, <span class="at">bwselect =</span> <span class="st">&quot;cerrd&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="desenho-de-regressão-descontínua.html#cb86-1" tabindex="-1"></a><span class="fu">library</span>(rdrobust)</span>
+<span id="cb86-2"><a href="desenho-de-regressão-descontínua.html#cb86-2" tabindex="-1"></a></span>
+<span id="cb86-3"><a href="desenho-de-regressão-descontínua.html#cb86-3" tabindex="-1"></a>df <span class="ot">&lt;-</span> df_aux</span>
+<span id="cb86-4"><a href="desenho-de-regressão-descontínua.html#cb86-4" tabindex="-1"></a></span>
+<span id="cb86-5"><a href="desenho-de-regressão-descontínua.html#cb86-5" tabindex="-1"></a><span class="co"># Estimativa sharp RD com bandwidth MSE-optimal.</span></span>
+<span id="cb86-6"><a href="desenho-de-regressão-descontínua.html#cb86-6" tabindex="-1"></a>modelo_mse <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> df<span class="sc">$</span>y, <span class="at">x =</span> df<span class="sc">$</span>x, <span class="at">c =</span> <span class="dv">0</span>, <span class="at">p =</span> <span class="dv">1</span>, <span class="at">bwselect =</span> <span class="st">&quot;mserd&quot;</span>)</span>
+<span id="cb86-7"><a href="desenho-de-regressão-descontínua.html#cb86-7" tabindex="-1"></a></span>
+<span id="cb86-8"><a href="desenho-de-regressão-descontínua.html#cb86-8" tabindex="-1"></a><span class="co"># Mesmo desenho, mas com bandwidth CER-optimal.</span></span>
+<span id="cb86-9"><a href="desenho-de-regressão-descontínua.html#cb86-9" tabindex="-1"></a>modelo_cer <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> df<span class="sc">$</span>y, <span class="at">x =</span> df<span class="sc">$</span>x, <span class="at">c =</span> <span class="dv">0</span>, <span class="at">p =</span> <span class="dv">1</span>, <span class="at">bwselect =</span> <span class="st">&quot;cerrd&quot;</span>)</span></code></pre></div>
 <p>No output de <code>rdrobust</code>, a linha Conventional usa a estimativa e o erro padrão convencionais. A linha Bias-Corrected corrige a estimativa pontual para viés. A linha Robust combina a estimativa corrigida com erro padrão apropriado para inferência robusta. Para reportar resultados principais, o padrão moderno é dar destaque ao intervalo robusto. A tabela abaixo mostra apenas os elementos que interessam para a aula.</p>
-<table>
-<caption><span id="tab:tabela-rdrobust">Tabela 8.3: </span>Estimativas sharp RD com infer&lt;U+00EA&gt;ncia robust bias-corrected.</caption>
+<table style="width:100%;">
+<caption><span id="tab:tabela-rdrobust">Tabela 8.3: </span>Estimativas sharp RD com inferência robust bias-corrected.</caption>
 <colgroup>
-<col width="30%" />
-<col width="11%" />
 <col width="17%" />
-<col width="17%" />
-<col width="11%" />
-<col width="10%" />
+<col width="14%" />
+<col width="20%" />
+<col width="20%" />
+<col width="14%" />
+<col width="12%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left">Especifica&lt;U+00E7&gt;&lt;U+00E3&gt;o</th>
+<th align="left">Especificação</th>
 <th align="right">Estimativa</th>
 <th align="right">IC 95% inferior</th>
 <th align="right">IC 95% superior</th>
@@ -1042,35 +1045,35 @@ Figura 8.20: Diagn&lt;U+00F3&gt;stico visual de densidade: n&lt;U+00E3&gt;o h&lt
 </tbody>
 </table>
 <div class="figure"><span style="display:block;" id="fig:plot-efeitos"></span>
-<img src="bookdownproj_files/figure-html/plot-efeitos-1.png" alt="Gr&lt;U+00E1&gt;fico de pontos com intervalos de confian&lt;U+00E7&gt;a para especifica&lt;U+00E7&gt;&lt;U+00F5&gt;es MSE, CER e bandwidths fixos." width="672" />
+<img src="bookdownproj_files/figure-html/plot-efeitos-1.png" alt="Gráfico de pontos com intervalos de confiança para especificações MSE, CER e bandwidths fixos." width="672" />
 <p class="caption">
-Figura 8.21: Sensibilidade da estimativa RD &lt;U+00E0&gt; escolha de bandwidth.
+Figura 8.21: Sensibilidade da estimativa RD à escolha de bandwidth.
 </p>
 </div>
 <p>Esse gráfico é mais informativo do que uma sequência de gráficos separados porque coloca lado a lado a estimativa principal e alternativas razoáveis. Se a conclusão substantiva muda drasticamente com pequenas mudanças no bandwidth, o desenho precisa ser apresentado com mais cautela.</p>
 <div id="covariáveis-em-rd" class="section level3 hasAnchor" number="8.13.1">
 <h3><span class="header-section-number">8.13.1</span> Covariáveis em RD<a href="#covari%C3%A1veis-em-rd" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Covariáveis de pré-tratamento podem melhorar precisão e ajudar nos diagnósticos, mas não salvam a identificação se a continuidade dos resultados potenciais for implausível. A literatura recente sobre covariáveis e aprendizado de máquina em RD reforça esse ponto: covariáveis devem ser vistas como ajuste de precisão e ferramenta de diagnóstico, não como substituto do desenho [Kreiß e Rothe 2023; Noack, Olma e Rothe 2025].</p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="desenho-de-regressão-descontínua.html#cb88-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb88-2"><a href="desenho-de-regressão-descontínua.html#cb88-2" tabindex="-1"></a>df<span class="sc">$</span>w_pre <span class="ot">&lt;-</span> <span class="fl">0.3</span> <span class="sc">*</span> df<span class="sc">$</span>x <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">nrow</span>(df))</span>
-<span id="cb88-3"><a href="desenho-de-regressão-descontínua.html#cb88-3" tabindex="-1"></a></span>
-<span id="cb88-4"><a href="desenho-de-regressão-descontínua.html#cb88-4" tabindex="-1"></a>modelo_sem_cov <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> df<span class="sc">$</span>y, <span class="at">x =</span> df<span class="sc">$</span>x, <span class="at">c =</span> <span class="dv">0</span>, <span class="at">p =</span> <span class="dv">1</span>)</span>
-<span id="cb88-5"><a href="desenho-de-regressão-descontínua.html#cb88-5" tabindex="-1"></a>modelo_com_cov <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(</span>
-<span id="cb88-6"><a href="desenho-de-regressão-descontínua.html#cb88-6" tabindex="-1"></a>  <span class="at">y =</span> df<span class="sc">$</span>y,</span>
-<span id="cb88-7"><a href="desenho-de-regressão-descontínua.html#cb88-7" tabindex="-1"></a>  <span class="at">x =</span> df<span class="sc">$</span>x,</span>
-<span id="cb88-8"><a href="desenho-de-regressão-descontínua.html#cb88-8" tabindex="-1"></a>  <span class="at">c =</span> <span class="dv">0</span>,</span>
-<span id="cb88-9"><a href="desenho-de-regressão-descontínua.html#cb88-9" tabindex="-1"></a>  <span class="at">p =</span> <span class="dv">1</span>,</span>
-<span id="cb88-10"><a href="desenho-de-regressão-descontínua.html#cb88-10" tabindex="-1"></a>  <span class="at">covs =</span> <span class="fu">as.matrix</span>(df<span class="sc">$</span>w_pre)</span>
-<span id="cb88-11"><a href="desenho-de-regressão-descontínua.html#cb88-11" tabindex="-1"></a>)</span></code></pre></div>
-<table style="width:100%;">
-<caption><span id="tab:tabela-rd-covs">Tabela 8.4: </span>Covari&lt;U+00E1&gt;veis pr&lt;U+00E9&gt;-tratamento podem mudar precis&lt;U+00E3&gt;o, mas n&lt;U+00E3&gt;o substituem a identifica&lt;U+00E7&gt;&lt;U+00E3&gt;o.</caption>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="desenho-de-regressão-descontínua.html#cb87-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb87-2"><a href="desenho-de-regressão-descontínua.html#cb87-2" tabindex="-1"></a>df<span class="sc">$</span>w_pre <span class="ot">&lt;-</span> <span class="fl">0.3</span> <span class="sc">*</span> df<span class="sc">$</span>x <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">nrow</span>(df))</span>
+<span id="cb87-3"><a href="desenho-de-regressão-descontínua.html#cb87-3" tabindex="-1"></a></span>
+<span id="cb87-4"><a href="desenho-de-regressão-descontínua.html#cb87-4" tabindex="-1"></a>modelo_sem_cov <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> df<span class="sc">$</span>y, <span class="at">x =</span> df<span class="sc">$</span>x, <span class="at">c =</span> <span class="dv">0</span>, <span class="at">p =</span> <span class="dv">1</span>)</span>
+<span id="cb87-5"><a href="desenho-de-regressão-descontínua.html#cb87-5" tabindex="-1"></a>modelo_com_cov <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(</span>
+<span id="cb87-6"><a href="desenho-de-regressão-descontínua.html#cb87-6" tabindex="-1"></a>  <span class="at">y =</span> df<span class="sc">$</span>y,</span>
+<span id="cb87-7"><a href="desenho-de-regressão-descontínua.html#cb87-7" tabindex="-1"></a>  <span class="at">x =</span> df<span class="sc">$</span>x,</span>
+<span id="cb87-8"><a href="desenho-de-regressão-descontínua.html#cb87-8" tabindex="-1"></a>  <span class="at">c =</span> <span class="dv">0</span>,</span>
+<span id="cb87-9"><a href="desenho-de-regressão-descontínua.html#cb87-9" tabindex="-1"></a>  <span class="at">p =</span> <span class="dv">1</span>,</span>
+<span id="cb87-10"><a href="desenho-de-regressão-descontínua.html#cb87-10" tabindex="-1"></a>  <span class="at">covs =</span> <span class="fu">as.matrix</span>(df<span class="sc">$</span>w_pre)</span>
+<span id="cb87-11"><a href="desenho-de-regressão-descontínua.html#cb87-11" tabindex="-1"></a>)</span></code></pre></div>
+<table>
+<caption><span id="tab:tabela-rd-covs">Tabela 8.4: </span>Covariáveis pré-tratamento podem mudar precisão, mas não substituem a identificação.</caption>
 <colgroup>
-<col width="45%" />
-<col width="11%" />
-<col width="10%" />
-<col width="10%" />
-<col width="11%" />
-<col width="10%" />
+<col width="36%" />
+<col width="13%" />
+<col width="12%" />
+<col width="12%" />
+<col width="13%" />
+<col width="12%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1084,7 +1087,7 @@ Figura 8.21: Sensibilidade da estimativa RD &lt;U+00E0&gt; escolha de bandwidth.
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Sem covari&lt;U+00E1&gt;vel</td>
+<td align="left">Sem covariável</td>
 <td align="right">2.411</td>
 <td align="right">1.785</td>
 <td align="right">3.037</td>
@@ -1092,7 +1095,7 @@ Figura 8.21: Sensibilidade da estimativa RD &lt;U+00E0&gt; escolha de bandwidth.
 <td align="right">1.172</td>
 </tr>
 <tr class="even">
-<td align="left">Com covari&lt;U+00E1&gt;vel pr&lt;U+00E9&gt;-tratamento</td>
+<td align="left">Com covariável pré-tratamento</td>
 <td align="right">2.432</td>
 <td align="right">1.790</td>
 <td align="right">3.075</td>
@@ -1105,22 +1108,22 @@ Figura 8.21: Sensibilidade da estimativa RD &lt;U+00E0&gt; escolha de bandwidth.
 <div id="fuzzy-rd-em-r" class="section level3 hasAnchor" number="8.13.2">
 <h3><span class="header-section-number">8.13.2</span> Fuzzy RD em R<a href="desenho-de-regressão-descontínua.html#fuzzy-rd-em-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>No fuzzy RD, o argumento <code>fuzzy</code> recebe a variável de tratamento efetivamente recebido. O pacote estima a razão entre o salto no resultado e o salto na probabilidade de tratamento.</p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="desenho-de-regressão-descontínua.html#cb89-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4321</span>)</span>
-<span id="cb89-2"><a href="desenho-de-regressão-descontínua.html#cb89-2" tabindex="-1"></a>prob_tratamento <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(df<span class="sc">$</span>x <span class="sc">&gt;=</span> <span class="dv">0</span>, <span class="fl">0.8</span>, <span class="fl">0.2</span>)</span>
-<span id="cb89-3"><a href="desenho-de-regressão-descontínua.html#cb89-3" tabindex="-1"></a>d_fuzzy <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="fu">nrow</span>(df), <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> prob_tratamento)</span>
-<span id="cb89-4"><a href="desenho-de-regressão-descontínua.html#cb89-4" tabindex="-1"></a>y_fuzzy <span class="ot">&lt;-</span> df<span class="sc">$</span>y0 <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> d_fuzzy <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">nrow</span>(df), <span class="at">sd =</span> <span class="fl">0.5</span>)</span>
-<span id="cb89-5"><a href="desenho-de-regressão-descontínua.html#cb89-5" tabindex="-1"></a></span>
-<span id="cb89-6"><a href="desenho-de-regressão-descontínua.html#cb89-6" tabindex="-1"></a>modelo_fuzzy <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(</span>
-<span id="cb89-7"><a href="desenho-de-regressão-descontínua.html#cb89-7" tabindex="-1"></a>  <span class="at">y =</span> y_fuzzy,</span>
-<span id="cb89-8"><a href="desenho-de-regressão-descontínua.html#cb89-8" tabindex="-1"></a>  <span class="at">x =</span> df<span class="sc">$</span>x,</span>
-<span id="cb89-9"><a href="desenho-de-regressão-descontínua.html#cb89-9" tabindex="-1"></a>  <span class="at">c =</span> <span class="dv">0</span>,</span>
-<span id="cb89-10"><a href="desenho-de-regressão-descontínua.html#cb89-10" tabindex="-1"></a>  <span class="at">fuzzy =</span> d_fuzzy</span>
-<span id="cb89-11"><a href="desenho-de-regressão-descontínua.html#cb89-11" tabindex="-1"></a>)</span>
-<span id="cb89-12"><a href="desenho-de-regressão-descontínua.html#cb89-12" tabindex="-1"></a></span>
-<span id="cb89-13"><a href="desenho-de-regressão-descontínua.html#cb89-13" tabindex="-1"></a>modelo_rf_fuzzy <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> y_fuzzy, <span class="at">x =</span> df<span class="sc">$</span>x, <span class="at">c =</span> <span class="dv">0</span>)</span>
-<span id="cb89-14"><a href="desenho-de-regressão-descontínua.html#cb89-14" tabindex="-1"></a>modelo_primeira_fuzzy <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> d_fuzzy, <span class="at">x =</span> df<span class="sc">$</span>x, <span class="at">c =</span> <span class="dv">0</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="desenho-de-regressão-descontínua.html#cb88-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4321</span>)</span>
+<span id="cb88-2"><a href="desenho-de-regressão-descontínua.html#cb88-2" tabindex="-1"></a>prob_tratamento <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(df<span class="sc">$</span>x <span class="sc">&gt;=</span> <span class="dv">0</span>, <span class="fl">0.8</span>, <span class="fl">0.2</span>)</span>
+<span id="cb88-3"><a href="desenho-de-regressão-descontínua.html#cb88-3" tabindex="-1"></a>d_fuzzy <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="fu">nrow</span>(df), <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> prob_tratamento)</span>
+<span id="cb88-4"><a href="desenho-de-regressão-descontínua.html#cb88-4" tabindex="-1"></a>y_fuzzy <span class="ot">&lt;-</span> df<span class="sc">$</span>y0 <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> d_fuzzy <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">nrow</span>(df), <span class="at">sd =</span> <span class="fl">0.5</span>)</span>
+<span id="cb88-5"><a href="desenho-de-regressão-descontínua.html#cb88-5" tabindex="-1"></a></span>
+<span id="cb88-6"><a href="desenho-de-regressão-descontínua.html#cb88-6" tabindex="-1"></a>modelo_fuzzy <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(</span>
+<span id="cb88-7"><a href="desenho-de-regressão-descontínua.html#cb88-7" tabindex="-1"></a>  <span class="at">y =</span> y_fuzzy,</span>
+<span id="cb88-8"><a href="desenho-de-regressão-descontínua.html#cb88-8" tabindex="-1"></a>  <span class="at">x =</span> df<span class="sc">$</span>x,</span>
+<span id="cb88-9"><a href="desenho-de-regressão-descontínua.html#cb88-9" tabindex="-1"></a>  <span class="at">c =</span> <span class="dv">0</span>,</span>
+<span id="cb88-10"><a href="desenho-de-regressão-descontínua.html#cb88-10" tabindex="-1"></a>  <span class="at">fuzzy =</span> d_fuzzy</span>
+<span id="cb88-11"><a href="desenho-de-regressão-descontínua.html#cb88-11" tabindex="-1"></a>)</span>
+<span id="cb88-12"><a href="desenho-de-regressão-descontínua.html#cb88-12" tabindex="-1"></a></span>
+<span id="cb88-13"><a href="desenho-de-regressão-descontínua.html#cb88-13" tabindex="-1"></a>modelo_rf_fuzzy <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> y_fuzzy, <span class="at">x =</span> df<span class="sc">$</span>x, <span class="at">c =</span> <span class="dv">0</span>)</span>
+<span id="cb88-14"><a href="desenho-de-regressão-descontínua.html#cb88-14" tabindex="-1"></a>modelo_primeira_fuzzy <span class="ot">&lt;-</span> <span class="fu">rdrobust</span>(<span class="at">y =</span> d_fuzzy, <span class="at">x =</span> df<span class="sc">$</span>x, <span class="at">c =</span> <span class="dv">0</span>)</span></code></pre></div>
 <table style="width:100%;">
-<caption><span id="tab:tabela-fuzzy-rd-r">Tabela 8.5: </span>Fuzzy RD em R: forma reduzida, primeira etapa e raz&lt;U+00E3&gt;o de Wald local.</caption>
+<caption><span id="tab:tabela-fuzzy-rd-r">Tabela 8.5: </span>Fuzzy RD em R: forma reduzida, primeira etapa e razão de Wald local.</caption>
 <colgroup>
 <col width="45%" />
 <col width="13%" />
@@ -1184,9 +1187,9 @@ Figura 8.21: Sensibilidade da estimativa RD &lt;U+00E0&gt; escolha de bandwidth.
 <p>O segundo caminho é tratar os testes de covariáveis de candidatos como diagnóstico de viés, não como validação automática. Se mulheres eleitas em disputas apertadas são mais experientes que homens eleitos em disputas apertadas, essa diferença ajuda a entender o que o estimador está comparando. Se não encontramos diferença observável, ainda não provamos que não há diferenciais compensatórios não observados.</p>
 <p>O terceiro caminho é mudar o estimando. Em vez de afirmar que o PCRD identifica o efeito “all else equal” de gênero, raça, profissão ou partido, o pesquisador pode interpretar a estimativa como um efeito composto: eleger uma pessoa com a característica <span class="math inline">\(X_i\)</span> junto com o conjunto de características que permite que esse tipo de candidato vença uma eleição apertada. Essa interpretação pode ser útil, mas é menos limpa teoricamente e tem validade externa limitada.</p>
 <div class="figure"><span style="display:block;" id="fig:DAG"></span>
-<img src="bookdownproj_files/figure-html/DAG-1.png" alt="DAG em que g&lt;U+00EA&gt;nero e compet&lt;U+00EA&gt;ncia afetam a probabilidade de elei&lt;U+00E7&gt;&lt;U+00E3&gt;o apertada e tamb&lt;U+00E9&gt;m o resultado, tornando elei&lt;U+00E7&gt;&lt;U+00E3&gt;o apertada um collider." width="672" />
+<img src="bookdownproj_files/figure-html/DAG-1.png" alt="DAG em que gênero e competência afetam a probabilidade de eleição apertada e também o resultado, tornando eleição apertada um collider." width="672" />
 <p class="caption">
-Figura 8.22: PCRD: condicionar em elei&lt;U+00E7&gt;&lt;U+00F5&gt;es apertadas pode abrir um caminho de collider.
+Figura 8.22: PCRD: condicionar em eleições apertadas pode abrir um caminho de collider.
 </p>
 </div>
 </div>

@@ -23,7 +23,7 @@
 <meta name="author" content="Manoel Galdino" />
 
 
-<meta name="date" content="2026-05-26" />
+<meta name="date" content="2026-06-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -489,14 +489,17 @@ div.csl-indent {
 <li class="chapter" data-level="12.1" data-path="02-PO.html"><a href="#motiva%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>12.1</b> Motivação</a></li>
 <li class="chapter" data-level="12.2" data-path="02-PO.html"><a href="#controle-sint%C3%A9tico-cl%C3%A1ssico"><i class="fa fa-check"></i><b>12.2</b> Controle Sintético clássico</a>
 <ul>
-<li class="chapter" data-level="12.2.1" data-path="02-PO.html"><a href="#formaliza%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>12.2.1</b> Formalização</a></li>
+<li class="chapter" data-level="12.2.1" data-path="02-PO.html"><a href="#regress%C3%A3o-como-primeira-tentativa-de-contrafactual"><i class="fa fa-check"></i><b>12.2.1</b> Regressão como primeira tentativa de contrafactual</a></li>
+<li class="chapter" data-level="12.2.2" data-path="02-PO.html"><a href="#o-scm-como-restri%C3%A7%C3%A3o-disciplinadora"><i class="fa fa-check"></i><b>12.2.2</b> O SCM como restrição disciplinadora</a></li>
+<li class="chapter" data-level="12.2.3" data-path="02-PO.html"><a href="#formaliza%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>12.2.3</b> Formalização</a></li>
+<li class="chapter" data-level="12.2.4" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html"><i class="fa fa-check"></i><b>12.2.4</b> Como a literatura se move a partir do SCM</a></li>
 </ul></li>
 <li class="chapter" data-level="12.3" data-path="02-PO.html"><a href="#implementa%C3%A7%C3%A3o-do-scm-no-r"><i class="fa fa-check"></i><b>12.3</b> Implementação do SCM no R</a>
 <ul>
 <li class="chapter" data-level="12.3.1" data-path="02-PO.html"><a href="#infer%C3%AAncia-por-placebo"><i class="fa fa-check"></i><b>12.3.1</b> Inferência por placebo</a></li>
 <li class="chapter" data-level="12.3.2" data-path="02-PO.html"><a href="#diagn%C3%B3sticos-de-robustez-do-scm"><i class="fa fa-check"></i><b>12.3.2</b> Diagnósticos de robustez do SCM</a></li>
 </ul></li>
-<li class="chapter" data-level="12.4" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html"><i class="fa fa-check"></i><b>12.4</b> Do SCM aos modelos de fatores</a></li>
+<li class="chapter" data-level="12.4" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#do-scm-aos-modelos-de-fatores"><i class="fa fa-check"></i><b>12.4</b> Do SCM aos modelos de fatores</a></li>
 <li class="chapter" data-level="12.5" data-path="02-PO.html"><a href="#framework-de-estima%C3%A7%C3%A3o-contrafactual"><i class="fa fa-check"></i><b>12.5</b> Framework de estimação contrafactual</a>
 <ul>
 <li class="chapter" data-level="12.5.1" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#setup"><i class="fa fa-check"></i><b>12.5.1</b> Setup</a></li>
@@ -834,9 +837,9 @@ Há outros estimandos possíveis, mas esses são os mais comuns.</p>
 <span id="cb4-3"><a href="resultados-potenciais.html#cb4-3" tabindex="-1"></a>y_bias <span class="ot">&lt;-</span> y_1 <span class="sc">*</span> d1 <span class="sc">+</span> y_0 <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> d1)</span>
 <span id="cb4-4"><a href="resultados-potenciais.html#cb4-4" tabindex="-1"></a>ate_bias <span class="ot">&lt;-</span> <span class="fu">mean</span>(y_bias[d1 <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(y_bias[d1 <span class="sc">==</span> <span class="dv">0</span>])</span>
 <span id="cb4-5"><a href="resultados-potenciais.html#cb4-5" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;ATE com violação de common support:&quot;</span>, <span class="fu">round</span>(ate_bias, <span class="dv">3</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
-<pre><code>## ATE com viola&lt;U+00E7&gt;&lt;U+00E3&gt;o de common support: 1.377</code></pre>
+<pre><code>## ATE com violação de common support: 1.377</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="resultados-potenciais.html#cb6-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Viés:&quot;</span>, <span class="fu">round</span>(ate_bias <span class="sc">-</span> <span class="dv">2</span>, <span class="dv">3</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
-<pre><code>## Vi&lt;U+00E9&gt;s: -0.623</code></pre>
+<pre><code>## Viés: -0.623</code></pre>
 <p>Note o resultado: quando todos podem receber tratamento ou controle (common support satisfeito), a diferença de médias recupera o ATE. Porém, quando impedimos que unidades com <span class="math inline">\(Y_i(1) &gt; 6\)</span> recebam o tratamento, a estimativa se torna viesada — estamos comparando “maçãs com laranjas”, pois o grupo tratado e o grupo controle passam a ter composições diferentes. Essa é a intuição central da condição de common support: precisamos que, para cada perfil de covariáveis, existam unidades tanto no tratamento quanto no controle.</p>
 <p>Um último comentário: ignorability às vezes aparece como “tratamento é exógeno”. Porém, exogeneidade ignora a segunda condição e trata apenas da primeira. Em uma audiência de ciência política, dizemos que o tratamento é condicionalmente aleatório ou exógeno (o que é impreciso).</p>
 </div>

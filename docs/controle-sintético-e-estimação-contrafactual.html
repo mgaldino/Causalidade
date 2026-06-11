@@ -23,7 +23,7 @@
 <meta name="author" content="Manoel Galdino" />
 
 
-<meta name="date" content="2026-05-26" />
+<meta name="date" content="2026-06-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -489,14 +489,17 @@ div.csl-indent {
 <li class="chapter" data-level="12.1" data-path="11-Synth.html"><a href="#motiva%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>12.1</b> Motivação</a></li>
 <li class="chapter" data-level="12.2" data-path="11-Synth.html"><a href="#controle-sint%C3%A9tico-cl%C3%A1ssico"><i class="fa fa-check"></i><b>12.2</b> Controle Sintético clássico</a>
 <ul>
-<li class="chapter" data-level="12.2.1" data-path="11-Synth.html"><a href="#formaliza%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>12.2.1</b> Formalização</a></li>
+<li class="chapter" data-level="12.2.1" data-path="11-Synth.html"><a href="#regress%C3%A3o-como-primeira-tentativa-de-contrafactual"><i class="fa fa-check"></i><b>12.2.1</b> Regressão como primeira tentativa de contrafactual</a></li>
+<li class="chapter" data-level="12.2.2" data-path="11-Synth.html"><a href="#o-scm-como-restri%C3%A7%C3%A3o-disciplinadora"><i class="fa fa-check"></i><b>12.2.2</b> O SCM como restrição disciplinadora</a></li>
+<li class="chapter" data-level="12.2.3" data-path="11-Synth.html"><a href="#formaliza%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>12.2.3</b> Formalização</a></li>
+<li class="chapter" data-level="12.2.4" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html"><i class="fa fa-check"></i><b>12.2.4</b> Como a literatura se move a partir do SCM</a></li>
 </ul></li>
 <li class="chapter" data-level="12.3" data-path="11-Synth.html"><a href="#implementa%C3%A7%C3%A3o-do-scm-no-r"><i class="fa fa-check"></i><b>12.3</b> Implementação do SCM no R</a>
 <ul>
 <li class="chapter" data-level="12.3.1" data-path="11-Synth.html"><a href="#infer%C3%AAncia-por-placebo"><i class="fa fa-check"></i><b>12.3.1</b> Inferência por placebo</a></li>
 <li class="chapter" data-level="12.3.2" data-path="11-Synth.html"><a href="#diagn%C3%B3sticos-de-robustez-do-scm"><i class="fa fa-check"></i><b>12.3.2</b> Diagnósticos de robustez do SCM</a></li>
 </ul></li>
-<li class="chapter" data-level="12.4" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html"><i class="fa fa-check"></i><b>12.4</b> Do SCM aos modelos de fatores</a></li>
+<li class="chapter" data-level="12.4" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#do-scm-aos-modelos-de-fatores"><i class="fa fa-check"></i><b>12.4</b> Do SCM aos modelos de fatores</a></li>
 <li class="chapter" data-level="12.5" data-path="11-Synth.html"><a href="#framework-de-estima%C3%A7%C3%A3o-contrafactual"><i class="fa fa-check"></i><b>12.5</b> Framework de estimação contrafactual</a>
 <ul>
 <li class="chapter" data-level="12.5.1" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#setup"><i class="fa fa-check"></i><b>12.5.1</b> Setup</a></li>
@@ -639,7 +642,7 @@ div.csl-indent {
 <h1><span class="header-section-number">Capítulo 12</span> Controle Sintético e Estimação Contrafactual<a href="#controle-sint%C3%A9tico-e-estima%C3%A7%C3%A3o-contrafactual" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p><strong>Objetivos de aprendizado.</strong> Ao final deste capítulo, o leitor será capaz de:</p>
 <ol style="list-style-type: decimal">
-<li>Entender o SCM como uma regressão vertical regularizada e explicar por que as restrições de convexidade funcionam como regularização.</li>
+<li>Explicar como regressão e SCM imputam contrafactuais a partir dos controles, distinguindo pesos implícitos de pesos convexos explícitos.</li>
 <li>Implementar o SCM no R e interpretar seus resultados (pesos, balanço de preditores, gráficos de gap).</li>
 <li>Avaliar criticamente a inferência por permutação do SCM, incluindo suas limitações quando o tratamento não é aleatorizado.</li>
 <li>Distinguir entre modelos aditivos (FEct/DiD) e modelos de fatores (IFEct/MC), e entender quando cada um é apropriado.</li>
@@ -660,77 +663,179 @@ div.csl-indent {
 </div>
 <div id="controle-sintético-clássico" class="section level2 hasAnchor" number="12.2">
 <h2><span class="header-section-number">12.2</span> Controle Sintético clássico<a href="#controle-sint%C3%A9tico-cl%C3%A1ssico" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>O método de controle sintético foi originalmente proposto por Abadie e Gardeazabal (2003) para estimar os custos econômicos do conflito no País Basco, e posteriormente formalizado e popularizado por Abadie, Diamond e Hainmueller (2010, 2015). Vamos começar com o exemplo clássico de Abadie, Diamond e Hainmueller (2010). O estado da Califórnia implementou a Proposição 99, uma proibição parcial do uso de cigarros. Nosso estimando é o efeito dessa política sobre as vendas per capita de cigarros:</p>
+<p>O método de controle sintético foi originalmente proposto por Abadie e Gardeazabal (2003) para estimar os custos econômicos do conflito no País Basco, e posteriormente formalizado e popularizado por Abadie, Diamond e Hainmueller (2010, 2015). A intuição aparece com clareza no exemplo clássico da Proposição 99. A Califórnia aprovou em 1988 uma política ampla de controle do tabaco. Queremos estimar seu efeito sobre as vendas per capita de cigarros:</p>
 <p><span class="math display">\[
 \tau_t = Y_{CA,t}(1) - Y_{CA,t}(0), \quad \text{para } t &gt; 1988
 \]</span></p>
-<p>Como não observamos <span class="math inline">\(Y_{CA,t}(0)\)</span>, precisamos construir uma “Califórnia Sintética” — uma média ponderada dos demais estados que reproduza a trajetória da Califórnia no período pré-tratamento.</p>
+<p>O termo observado é <span class="math inline">\(Y_{CA,t}(1)\)</span>, a trajetória da Califórnia após a política. O termo que falta é <span class="math inline">\(Y_{CA,t}(0)\)</span>, a trajetória que a Califórnia teria seguido sem a Proposição 99. Esse contrafactual não está nos dados. Todo o problema é construir uma estimativa crível de <span class="math inline">\(Y_{CA,t}(0)\)</span> usando os estados que não adotaram a política.</p>
 <table>
+<caption><span id="tab:cigarro">Tabela 12.1: </span>Primeiras observações dos dados de vendas de cigarros.</caption>
 <thead>
 <tr class="header">
-<th align="right">state</th>
+<th align="left">state</th>
 <th align="right">year</th>
 <th align="right">cigsale</th>
-<th align="right">retprice</th>
 <th align="left">california</th>
-<th align="left">after_treatment</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">1</td>
+<td align="left">Rhode Island</td>
 <td align="right">1970</td>
-<td align="right">89.8</td>
-<td align="right">39.6</td>
-<td align="left">FALSE</td>
+<td align="right">123.9</td>
 <td align="left">FALSE</td>
 </tr>
 <tr class="even">
-<td align="right">1</td>
-<td align="right">1971</td>
-<td align="right">95.4</td>
-<td align="right">42.7</td>
-<td align="left">FALSE</td>
+<td align="left">Tennessee</td>
+<td align="right">1970</td>
+<td align="right">99.8</td>
 <td align="left">FALSE</td>
 </tr>
 <tr class="odd">
-<td align="right">1</td>
-<td align="right">1972</td>
-<td align="right">101.1</td>
-<td align="right">42.3</td>
-<td align="left">FALSE</td>
+<td align="left">Indiana</td>
+<td align="right">1970</td>
+<td align="right">134.6</td>
 <td align="left">FALSE</td>
 </tr>
 <tr class="even">
-<td align="right">1</td>
-<td align="right">1973</td>
-<td align="right">102.9</td>
-<td align="right">42.1</td>
-<td align="left">FALSE</td>
+<td align="left">Nevada</td>
+<td align="right">1970</td>
+<td align="right">189.5</td>
 <td align="left">FALSE</td>
 </tr>
 <tr class="odd">
-<td align="right">1</td>
-<td align="right">1974</td>
-<td align="right">108.2</td>
-<td align="right">43.1</td>
-<td align="left">FALSE</td>
+<td align="left">Louisiana</td>
+<td align="right">1970</td>
+<td align="right">115.9</td>
 <td align="left">FALSE</td>
 </tr>
 <tr class="even">
-<td align="right">1</td>
-<td align="right">1975</td>
-<td align="right">111.7</td>
-<td align="right">46.6</td>
-<td align="left">FALSE</td>
+<td align="left">Oklahoma</td>
+<td align="right">1970</td>
+<td align="right">108.4</td>
 <td align="left">FALSE</td>
 </tr>
 </tbody>
 </table>
-<p><img src="bookdownproj_files/figure-html/cigarro-1.png" alt="" width="672" /></p>
-<p>A média simples dos demais estados (linha tracejada) não é um bom contrafactual: os estados diferem em nível e tendência. A ideia do SCM é encontrar pesos que produzam uma combinação dos estados de controle que replique a trajetória pré-tratamento da Califórnia.</p>
-<div id="formalização" class="section level3 hasAnchor" number="12.2.1">
-<h3><span class="header-section-number">12.2.1</span> Formalização<a href="#formaliza%C3%A7%C3%A3o" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="figure"><span style="display:block;" id="fig:cigarro"></span>
+<img src="bookdownproj_files/figure-html/cigarro-1.png" alt="Vendas per capita de cigarros na Califórnia e nos demais estados. A linha vertical marca a aprovação da Proposição 99 em 1988." width="672" />
+<p class="caption">
+Figura 12.1: Vendas per capita de cigarros na Califórnia e nos demais estados. A linha vertical marca a aprovação da Proposição 99 em 1988.
+</p>
+</div>
+<p>A média simples dos demais estados não é um bom contrafactual. Os controles diferem da Califórnia em nível e tendência antes de 1988. Uma primeira saída natural é usar regressão: estimar, entre os estados não tratados, uma relação entre características pré-tratamento e o resultado futuro, e depois aplicar essa relação à Califórnia.</p>
+<div id="regressão-como-primeira-tentativa-de-contrafactual" class="section level3 hasAnchor" number="12.2.1">
+<h3><span class="header-section-number">12.2.1</span> Regressão como primeira tentativa de contrafactual<a href="#regress%C3%A3o-como-primeira-tentativa-de-contrafactual" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Considere uma regressão estimada apenas no <em>donor pool</em>. Para cada estado de controle, construímos um vetor de preditores pré-tratamento, incluindo valores defasados de vendas de cigarros e covariáveis como renda, preço relativo e composição etária. Para fixar a ideia, suponha que queremos prever as vendas per capita em 2000:</p>
+<p><span class="math display">\[
+\text{cigsale}_{j,2000}
+= \alpha
++ \beta_{1970}\text{cigsale}_{j,1970}
++ \cdots
++ \beta_{1988}\text{cigsale}_{j,1988}
++ Z&#39;_j\gamma
++ u_j,
+\quad j \in co.
+\]</span></p>
+<p>Aqui, <span class="math inline">\(co\)</span> denota o conjunto de estados de controle.</p>
+<p>Depois de estimar o modelo nos controles, inserimos os preditores da Califórnia e obtemos <span class="math inline">\(\widehat{Y}_{CA,2000}(0)\)</span>. Essa operação parece diferente do SCM, mas também constrói o contrafactual como uma combinação linear dos estados de controle.</p>
+<p>Defina <span class="math inline">\(X\)</span> como a matriz de preditores dos estados de controle, incluindo a constante, <span class="math inline">\(y\)</span> como o vetor de resultados dos controles em 2000, e <span class="math inline">\(x_{CA}\)</span> como o vetor de preditores da Califórnia. A regressão produz:</p>
+<p><span class="math display">\[
+\widehat{\beta} = (X&#39;X)^{-1}X&#39;y.
+\]</span></p>
+<p>A previsão para a Califórnia é:</p>
+<p><span class="math display">\[
+\widehat{Y}_{CA,2000}(0)
+= x_{CA}&#39;\widehat{\beta}
+= x_{CA}&#39;(X&#39;X)^{-1}X&#39;y.
+\]</span></p>
+<p>Agrupando os termos que multiplicam <span class="math inline">\(y\)</span>, temos:</p>
+<p><span class="math display">\[
+h_{CA} = x_{CA}&#39;(X&#39;X)^{-1}X&#39;,
+\]</span></p>
+<p>e portanto:</p>
+<p><span class="math display">\[
+\widehat{Y}_{CA,2000}(0)
+= h_1Y_{1,2000} + h_2Y_{2,2000} + \cdots + h_JY_{J,2000}.
+\]</span></p>
+<p>O vetor <span class="math inline">\(h_{CA}\)</span> é uma linha <em>out-of-sample</em> análoga à <em>hat matrix</em>. Cada elemento de <span class="math inline">\(h_{CA}\)</span> é o peso de um estado de controle no contrafactual por regressão. Com intercepto, esses pesos somam 1. A diferença é que a regressão não exige que sejam positivos, menores que 1 ou concentrados em poucos doadores.</p>
+<table>
+<caption><span id="tab:tabela-pesos-regressao-scm">Tabela 12.2: </span>Resumo dos pesos usados pelo SCM e dos pesos implícitos da regressão no exemplo da Califórnia.</caption>
+<colgroup>
+<col width="15%" />
+<col width="16%" />
+<col width="12%" />
+<col width="12%" />
+<col width="17%" />
+<col width="16%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Método</th>
+<th align="right">Soma dos pesos</th>
+<th align="right">Peso mínimo</th>
+<th align="right">Peso máximo</th>
+<th align="right">Pesos negativos</th>
+<th align="right">Pesos efetivos</th>
+<th align="right">Norma L1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">SCM</td>
+<td align="right">1</td>
+<td align="right">0.000</td>
+<td align="right">0.342</td>
+<td align="right">0</td>
+<td align="right">5</td>
+<td align="right">1.00</td>
+</tr>
+<tr class="even">
+<td align="left">Regressão OLS</td>
+<td align="right">1</td>
+<td align="right">-0.325</td>
+<td align="right">0.493</td>
+<td align="right">17</td>
+<td align="right">38</td>
+<td align="right">3.96</td>
+</tr>
+</tbody>
+</table>
+<p>A tabela mostra o ponto de Abadie e L’Hour (2021). A regressão também usa os controles como uma combinação ponderada. No exemplo, os pesos implícitos da OLS somam 1, mas 17 são negativos e todos os 38 estados entram com peso efetivo. O SCM também soma 1, mas não tem pesos negativos e concentra peso em cinco doadores. Entre os maiores pesos em valor absoluto da regressão estão Connecticut, Montana e Utah com pesos positivos, e Mississippi e Oklahoma com pesos negativos.</p>
+<div class="figure"><span style="display:block;" id="fig:figura-contrafactual-scm-regressao"></span>
+<img src="outputs/scm_vs_regressao_prop99/figura_2_contrafactual_scm_vs_regressao.png" alt="Califórnia observada, contrafactual por regressão e controle sintético. A linha vertical marca a Proposição 99 em 1988." width="95%" />
+<p class="caption">
+Figura 12.2: Califórnia observada, contrafactual por regressão e controle sintético. A linha vertical marca a Proposição 99 em 1988.
+</p>
+</div>
+<p>Em 2000, a Califórnia observada vendeu 41.6 maços per capita. A regressão prevê 53 e o SCM prevê 67.2. A comparação não prova que um estimador domina o outro. Ela mostra que contrafactuais com bom ajuste pré-tratamento podem ser produzidos por objetos substantivamente diferentes.</p>
+<p>Na figura, a série por regressão usa o mesmo vetor <span class="math inline">\(h_{CA}\)</span> para todos os anos. Isso corresponde a manter o mesmo conjunto de preditores e mudar apenas o resultado a ser previsto. Como esses preditores incluem muitas defasagens pré-tratamento, o bom ajuste no pré deve ser lido como diagnóstico descritivo, não como validação fora da amostra.</p>
+<p>O problema não é apenas verificar se o ajuste pré-tratamento é bom. Isso vale para regressão, SCM e métodos posteriores. A pergunta mais difícil é que tipo de contrafactual gerou esse ajuste. Três riscos aparecem:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Confundimento dinâmico.</strong> Se a Califórnia difere dos controles em fatores que afetam <span class="math inline">\(Y(0)\)</span> e esses fatores não estão nos preditores, a previsão por regressão pode errar mesmo quando o ajuste observado parece razoável.</li>
+<li><strong>Extrapolação funcional.</strong> A regressão depende da forma funcional estimada nos controles. Quando a Califórnia está fora do suporte empírico dos controles, a previsão pode extrapolar além das comparações observadas.</li>
+<li><strong>Baixa auditabilidade substantiva.</strong> Pesos negativos e não esparsos dificultam a interpretação. A “Califórnia da regressão” pode somar alguns estados e subtrair outros. Essa construção é legítima como álgebra, mas é difícil de defender qualitativamente como unidade comparável.</li>
+</ol>
+</div>
+<div id="o-scm-como-restrição-disciplinadora" class="section level3 hasAnchor" number="12.2.2">
+<h3><span class="header-section-number">12.2.2</span> O SCM como restrição disciplinadora<a href="#o-scm-como-restri%C3%A7%C3%A3o-disciplinadora" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>O SCM parte do mesmo problema, mas restringe a classe de contrafactuais admissíveis. Em vez de deixar a regressão escolher pesos implícitos sem restrição de sinal, o SCM constrói:</p>
+<p><span class="math display">\[
+\hat{Y}_{CA,t}(0) = \sum_{j \in co} w_jY_{j,t}
+\]</span></p>
+<p>com:</p>
+<p><span class="math display">\[
+w_j \geq 0
+\qquad \text{e} \qquad
+\sum_{j \in co} w_j = 1.
+\]</span></p>
+<p>Essas duas restrições forçam o contrafactual a ser uma combinação convexa explícita dos controles. Geometricamente, a Califórnia sintética precisa ficar dentro do <em>convex hull</em> do <em>donor pool</em>. Isso reduz extrapolação forte: o método tenta interpolar dentro do envelope empírico dos controles, em vez de projetar livremente a partir de uma forma funcional.</p>
+<p>A analogia com <em>matching</em> é útil. O SCM funciona como uma versão ponderada de <em>nearest-neighbor matching</em>: procura controles parecidos com a unidade tratada, mas não impõe pesos iguais nem fixa previamente o número de vizinhos. A diferença é que a proximidade é definida pela capacidade de reproduzir a trajetória e os preditores pré-tratamento.</p>
+<p>Essa disciplina tem custo. A convexidade pode ser rígida demais quando a unidade tratada está fora do <em>convex hull</em> ou quando nenhuma combinação de controles ajusta bem o pré-tratamento. O SCM não é sempre melhor que regressão. Ele troca flexibilidade por transparência, auditabilidade e menor extrapolação.</p>
+</div>
+<div id="formalização" class="section level3 hasAnchor" number="12.2.3">
+<h3><span class="header-section-number">12.2.3</span> Formalização<a href="#formaliza%C3%A7%C3%A3o" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Suponha que temos dados para <span class="math inline">\(J+1\)</span> unidades por <span class="math inline">\(T\)</span> períodos: <span class="math inline">\(1, 2, \ldots, T_0, T_0+1, \ldots, T\)</span>. A primeira unidade (<span class="math inline">\(j=1\)</span>) é tratada a partir de <span class="math inline">\(T_0+1\)</span>. As demais <span class="math inline">\(j = 2, \ldots, J+1\)</span> formam o <em>donor pool</em>. Para cada unidade, observamos um vetor de <span class="math inline">\(k\)</span> preditores <span class="math inline">\(\mathbf{X}_j\)</span>, que pode incluir valores pré-intervenção da variável resposta.</p>
 <p>Os dados podem ser organizados em blocos, onde as linhas representam períodos (pré e pós-tratamento) e as colunas representam unidades (controle e tratada):</p>
 <span class="math display">\[\begin{aligned}
@@ -768,85 +873,84 @@ Y_{co, post}(0)  &amp; Y_{tr, post}(1)
 <li><span class="math inline">\(\sum_j w_j = 1\)</span> (combinação convexa)</li>
 <li><span class="math inline">\(w_j \geq 0\)</span>, <span class="math inline">\(\forall j\)</span> (pesos não-negativos)</li>
 </ol>
-<p><strong>Nota:</strong> Generalizações posteriores (Doudchenko &amp; Imbens, 2016) permitem a inclusão de um intercepto <span class="math inline">\(\mu\)</span> na estimação, isto é, <span class="math inline">\(\hat{Y}_{tr, t}(0) = \mu + \sum_{j \in co} w_j Y_{j,t}\)</span>, e até a remoção da restrição de não-negatividade. Essa extensão conecta o SCM ao SDiD (seção 7), que inclui efeitos fixos de unidade explicitamente.</p>
-<p><strong>Interpretação como regressão vertical.</strong> Uma forma iluminadora de entender o SCM é vê-lo como uma <strong>regressão “vertical”</strong> — isto é, uma regressão ao longo da dimensão temporal, não da dimensão cross-section. Para cada período pré-tratamento <span class="math inline">\(t = 1, \ldots, T_0\)</span>, temos uma “observação” em que a variável dependente é <span class="math inline">\(Y_{N,t}\)</span> (o resultado da unidade tratada) e as variáveis explicativas são <span class="math inline">\(Y_{1,t}, \ldots, Y_{N_0,t}\)</span> (os resultados dos doadores). O SCM busca pesos <span class="math inline">\(\omega_i\)</span> que resolvam:</p>
+<p><strong>Interpretação como regressão vertical.</strong> Também podemos ler o SCM como uma regressão ao longo da dimensão temporal. Para cada período pré-tratamento <span class="math inline">\(t = 1, \ldots, T_0\)</span>, a variável dependente é <span class="math inline">\(Y_{N,t}\)</span>, o resultado da unidade tratada, e as variáveis explicativas são <span class="math inline">\(Y_{1,t}, \ldots, Y_{N_0,t}\)</span>, os resultados dos doadores. O SCM busca pesos <span class="math inline">\(\omega_i\)</span> que resolvam:</p>
 <p><span class="math display">\[
 Y_{N,t} \approx \sum_{i=1}^{N_0} \omega_i Y_{i,t}, \quad \text{para } t = 1, \ldots, T_0
 \]</span></p>
-<p>Essa é uma regressão com <span class="math inline">\(T_0\)</span> observações e <span class="math inline">\(N_0\)</span> parâmetros. Quando <span class="math inline">\(N_0 &gt; T_0\)</span> (mais doadores do que períodos pré-tratamento), o sistema é subdeterminado — há infinitas soluções que ajustam perfeitamente os dados pré-tratamento, mas que podem divergir nos períodos pós-tratamento (overfitting). As restrições de convexidade (<span class="math inline">\(\omega_i \geq 0\)</span>, <span class="math inline">\(\sum \omega_i = 1\)</span>) funcionam como uma forma de <strong>regularização</strong>: restringem o espaço de soluções, produzem tipicamente uma solução <strong>esparsa</strong> (poucos pesos não-nulos) e evitam extrapolação. A esparsidade tem uma vantagem adicional: torna o contrafactual <strong>transparente</strong> — o pesquisador pode inspecionar quais unidades compõem o controle sintético e avaliar se a combinação faz sentido substantivo.</p>
-<p>A tabela a seguir ilustra a estrutura do problema. A coluna sombreada é a unidade tratada; as demais são doadores. O SCM é uma regressão das linhas pré-tratamento da coluna sombreada sobre as demais colunas:</p>
+<p>Quando <span class="math inline">\(N_0 &gt; T_0\)</span>, há mais doadores do que períodos pré-tratamento. O sistema pode ficar subdeterminado: diferentes combinações ajustam bem o pré-tratamento, mas divergem no pós-tratamento. As restrições de convexidade funcionam como regularização. Elas restringem o espaço de soluções, costumam produzir poucos pesos substantivos e tornam o contrafactual inspecionável.</p>
+<p>A tabela a seguir ilustra a estrutura do problema. A última coluna é a unidade tratada; as demais são doadores. O SCM ajusta as linhas pré-tratamento da unidade tratada usando as demais colunas:</p>
 <table>
+<caption><span id="tab:estrutura-scm-classico">Tabela 12.3: </span>Estrutura de dados do SCM clássico, com períodos nas linhas e unidades nas colunas.</caption>
 <colgroup>
-<col width="3%" />
+<col width="12%" />
 <col width="17%" />
 <col width="17%" />
-<col width="17%" />
-<col width="22%" />
-<col width="22%" />
+<col width="11%" />
+<col width="20%" />
+<col width="21%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th></th>
-<th>Doador 1</th>
-<th>Doador 2</th>
-<th><span class="math inline">\(\cdots\)</span></th>
-<th>Doador <span class="math inline">\(N_0\)</span></th>
-<th><strong>Tratada</strong></th>
+<th align="left">Período</th>
+<th align="left">Doador 1</th>
+<th align="left">Doador 2</th>
+<th align="left"><span class="math inline">\(\cdots\)</span></th>
+<th align="left">Doador <span class="math inline">\(N_0\)</span></th>
+<th align="left">Tratada</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><span class="math inline">\(t=1\)</span></td>
-<td><span class="math inline">\(Y_{1,1}\)</span></td>
-<td><span class="math inline">\(Y_{2,1}\)</span></td>
-<td><span class="math inline">\(\cdots\)</span></td>
-<td><span class="math inline">\(Y_{N_0,1}\)</span></td>
-<td><span class="math inline">\(Y_{N,1}\)</span></td>
+<td align="left"><span class="math inline">\(t=1\)</span></td>
+<td align="left"><span class="math inline">\(Y_{1,1}\)</span></td>
+<td align="left"><span class="math inline">\(Y_{2,1}\)</span></td>
+<td align="left"><span class="math inline">\(\cdots\)</span></td>
+<td align="left"><span class="math inline">\(Y_{N_0,1}\)</span></td>
+<td align="left"><span class="math inline">\(Y_{N,1}\)</span></td>
 </tr>
 <tr class="even">
-<td><span class="math inline">\(\vdots\)</span></td>
-<td><span class="math inline">\(\vdots\)</span></td>
-<td><span class="math inline">\(\vdots\)</span></td>
-<td></td>
-<td><span class="math inline">\(\vdots\)</span></td>
-<td><span class="math inline">\(\vdots\)</span></td>
+<td align="left"><span class="math inline">\(\vdots\)</span></td>
+<td align="left"><span class="math inline">\(\vdots\)</span></td>
+<td align="left"><span class="math inline">\(\vdots\)</span></td>
+<td align="left"></td>
+<td align="left"><span class="math inline">\(\vdots\)</span></td>
+<td align="left"><span class="math inline">\(\vdots\)</span></td>
 </tr>
 <tr class="odd">
-<td><span class="math inline">\(t=T_0\)</span></td>
-<td><span class="math inline">\(Y_{1,T_0}\)</span></td>
-<td><span class="math inline">\(Y_{2,T_0}\)</span></td>
-<td><span class="math inline">\(\cdots\)</span></td>
-<td><span class="math inline">\(Y_{N_0,T_0}\)</span></td>
-<td><span class="math inline">\(Y_{N,T_0}\)</span></td>
+<td align="left"><span class="math inline">\(t=T_0\)</span></td>
+<td align="left"><span class="math inline">\(Y_{1,T_0}\)</span></td>
+<td align="left"><span class="math inline">\(Y_{2,T_0}\)</span></td>
+<td align="left"><span class="math inline">\(\cdots\)</span></td>
+<td align="left"><span class="math inline">\(Y_{N_0,T_0}\)</span></td>
+<td align="left"><span class="math inline">\(Y_{N,T_0}\)</span></td>
 </tr>
 <tr class="even">
-<td><span class="math inline">\(t=T_0+1\)</span></td>
-<td><span class="math inline">\(Y_{1,T_0+1}\)</span></td>
-<td><span class="math inline">\(Y_{2,T_0+1}\)</span></td>
-<td><span class="math inline">\(\cdots\)</span></td>
-<td><span class="math inline">\(Y_{N_0,T_0+1}\)</span></td>
-<td><span class="math inline">\(Y_{N,T_0+1}(1)\)</span></td>
+<td align="left"><span class="math inline">\(t=T_0+1\)</span></td>
+<td align="left"><span class="math inline">\(Y_{1,T_0+1}\)</span></td>
+<td align="left"><span class="math inline">\(Y_{2,T_0+1}\)</span></td>
+<td align="left"><span class="math inline">\(\cdots\)</span></td>
+<td align="left"><span class="math inline">\(Y_{N_0,T_0+1}\)</span></td>
+<td align="left"><span class="math inline">\(Y_{N,T_0+1}(1)\)</span></td>
 </tr>
 <tr class="odd">
-<td><span class="math inline">\(\vdots\)</span></td>
-<td><span class="math inline">\(\vdots\)</span></td>
-<td><span class="math inline">\(\vdots\)</span></td>
-<td></td>
-<td><span class="math inline">\(\vdots\)</span></td>
-<td><span class="math inline">\(\vdots\)</span></td>
+<td align="left"><span class="math inline">\(\vdots\)</span></td>
+<td align="left"><span class="math inline">\(\vdots\)</span></td>
+<td align="left"><span class="math inline">\(\vdots\)</span></td>
+<td align="left"></td>
+<td align="left"><span class="math inline">\(\vdots\)</span></td>
+<td align="left"><span class="math inline">\(\vdots\)</span></td>
 </tr>
 <tr class="even">
-<td><span class="math inline">\(t=T\)</span></td>
-<td><span class="math inline">\(Y_{1,T}\)</span></td>
-<td><span class="math inline">\(Y_{2,T}\)</span></td>
-<td><span class="math inline">\(\cdots\)</span></td>
-<td><span class="math inline">\(Y_{N_0,T}\)</span></td>
-<td><span class="math inline">\(Y_{N,T}(1)\)</span></td>
+<td align="left"><span class="math inline">\(t=T\)</span></td>
+<td align="left"><span class="math inline">\(Y_{1,T}\)</span></td>
+<td align="left"><span class="math inline">\(Y_{2,T}\)</span></td>
+<td align="left"><span class="math inline">\(\cdots\)</span></td>
+<td align="left"><span class="math inline">\(Y_{N_0,T}\)</span></td>
+<td align="left"><span class="math inline">\(Y_{N,T}(1)\)</span></td>
 </tr>
 </tbody>
 </table>
-<p>As linhas pré-tratamento (acima da divisória) são usadas para estimar os pesos; as linhas pós-tratamento (abaixo) são usadas para projetar o contrafactual <span class="math inline">\(\hat{Y}_{N,t}(0) = \sum_i \hat{\omega}_i Y_{i,t}\)</span>.</p>
-<p>As restrições de convexidade <em>limitam</em> a extrapolação — o contrafactual é uma interpolação no espaço de pesos do donor pool — mas não a eliminam completamente. Se nenhuma combinação convexa dos controles reproduzir bem os preditores da unidade tratada, pode haver viés residual. A literatura subsequente (Doudchenko &amp; Imbens, 2016; Ben-Michael et al., 2021) argumenta que permitir alguma extrapolação (relaxando a convexidade) pode melhorar o desempenho, o que motiva o SCM aumentado (<em>augmented SCM</em>). Ainda assim, a convexidade oferece uma disciplina importante em relação à regressão linear, que pode extrapolar livremente.</p>
+<p>As linhas pré-tratamento são usadas para estimar os pesos. As linhas pós-tratamento projetam o contrafactual <span class="math inline">\(\hat{Y}_{N,t}(0) = \sum_i \hat{\omega}_i Y_{i,t}\)</span>.</p>
 <p>Os pesos são obtidos minimizando a distância entre os preditores da unidade tratada e a combinação ponderada dos controles:
 <span class="math display">\[
 \hat{\mathbf{W}}(V) = \arg\min_{\mathbf{W}} (\mathbf{X}_{tr} - \mathbf{X}_{co}\mathbf{W})&#39; V (\mathbf{X}_{tr} - \mathbf{X}_{co}\mathbf{W})
@@ -862,18 +966,32 @@ onde <span class="math inline">\(\mathbf{X}\)</span> inclui a variável dependen
 \]</span></p>
 <p>sujeito a <span class="math inline">\(\omega_i \geq 0\)</span> e <span class="math inline">\(\sum_i \omega_i = 1\)</span>, com <span class="math inline">\(\lambda &gt; 0\)</span>. O segundo termo penaliza o uso de doadores cujas trajetórias individuais são distantes da unidade tratada. Isso restaura a unicidade da solução e reduz o viés de interpolação. Robbins et al. (2017) propõem uma abordagem alternativa: escolher, dentre as soluções ótimas, os pesos mais próximos de pesos iguais — evitando dependência excessiva de poucos doadores.</p>
 </div>
+<div id="como-a-literatura-se-move-a-partir-do-scm" class="section level3 hasAnchor" number="12.2.4">
+<h3><span class="header-section-number">12.2.4</span> Como a literatura se move a partir do SCM<a href="controle-sintético-e-estimação-contrafactual.html#como-a-literatura-se-move-a-partir-do-scm" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A comparação com regressão organiza a sequência de métodos deste capítulo:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Regressão:</strong> pesos implícitos, possivelmente negativos e não esparsos, com extrapolação livre pela forma funcional.</li>
+<li><strong>SCM clássico:</strong> pesos convexos, explícitos e auditáveis, com menor extrapolação, mas possível rigidez quando a unidade tratada está fora do <em>convex hull</em>.</li>
+<li><strong>SCM aumentado:</strong> começa com o SCM e adiciona uma correção por modelo de outcome. Permite alguma extrapolação, mas a ancora no contrafactual sintético.</li>
+<li><strong>Doudchenko e Imbens:</strong> mostram a conexão entre SCM, regressão e DiD ao permitir intercepto e relaxar restrições de peso.</li>
+<li><strong>SDiD:</strong> mantém a lógica de pesos, mas adiciona pesos temporais e efeitos fixos. O estimador final é uma dupla diferença ponderada, não apenas um SCM com outro nome.</li>
+<li><strong>IFEct e controle sintético generalizado:</strong> abandonam a convexidade e estimam diretamente fatores latentes. São mais flexíveis, mas dependem mais fortemente do modelo.</li>
+</ol>
+<p>Essa leitura conecta o SCM a uma ideia mais ampla. Muitos métodos causais usam controles para imputar o contrafactual dos tratados. Em um experimento, a randomização torna os controles bons contrafactuais em média. No <em>matching</em>, comparamos tratados a controles próximos em covariáveis. No DiD, usamos a trajetória dos controles para imputar a trajetória contrafactual sob tendências paralelas. No SCM, construímos uma combinação convexa de controles para reproduzir o pré-tratamento da unidade tratada.</p>
+</div>
 </div>
 <div id="implementação-do-scm-no-r" class="section level2 hasAnchor" number="12.3">
 <h2><span class="header-section-number">12.3</span> Implementação do SCM no R<a href="#implementa%C3%A7%C3%A3o-do-scm-no-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Usamos o pacote <code>tidysynth</code>, que oferece uma interface moderna para o SCM.</p>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-1" tabindex="-1"></a><span class="fu">library</span>(tidysynth)</span>
-<span id="cb121-2"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb121-3"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-3" tabindex="-1"></a><span class="fu">data</span>(smoking)</span>
-<span id="cb121-4"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-4" tabindex="-1"></a></span>
-<span id="cb121-5"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-5" tabindex="-1"></a>smoking <span class="sc">%&gt;%</span></span>
-<span id="cb121-6"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-6" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb121-7"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-7" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb120-1" tabindex="-1"></a><span class="fu">library</span>(tidysynth)</span>
+<span id="cb120-2"><a href="controle-sintético-e-estimação-contrafactual.html#cb120-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb120-3"><a href="controle-sintético-e-estimação-contrafactual.html#cb120-3" tabindex="-1"></a><span class="fu">data</span>(smoking)</span>
+<span id="cb120-4"><a href="controle-sintético-e-estimação-contrafactual.html#cb120-4" tabindex="-1"></a></span>
+<span id="cb120-5"><a href="controle-sintético-e-estimação-contrafactual.html#cb120-5" tabindex="-1"></a>smoking <span class="sc">%&gt;%</span></span>
+<span id="cb120-6"><a href="controle-sintético-e-estimação-contrafactual.html#cb120-6" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb120-7"><a href="controle-sintético-e-estimação-contrafactual.html#cb120-7" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">caption =</span> <span class="st">&quot;Primeiras observações dos dados de vendas de cigarros no pacote tidysynth.&quot;</span>)</span></code></pre></div>
 <table>
+<caption><span id="tab:cigarro-tidysynth">Tabela 12.4: </span>Primeiras observações dos dados de vendas de cigarros no pacote tidysynth.</caption>
 <thead>
 <tr class="header">
 <th align="left">state</th>
@@ -942,58 +1060,125 @@ onde <span class="math inline">\(\mathbf{X}\)</span> inclui a variável dependen
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb122-1" tabindex="-1"></a>smoking_out <span class="ot">&lt;-</span></span>
-<span id="cb122-2"><a href="controle-sintético-e-estimação-contrafactual.html#cb122-2" tabindex="-1"></a>  smoking <span class="sc">%&gt;%</span></span>
-<span id="cb122-3"><a href="controle-sintético-e-estimação-contrafactual.html#cb122-3" tabindex="-1"></a>  <span class="fu">synthetic_control</span>(<span class="at">outcome =</span> cigsale,</span>
-<span id="cb122-4"><a href="controle-sintético-e-estimação-contrafactual.html#cb122-4" tabindex="-1"></a>                    <span class="at">unit =</span> state,</span>
-<span id="cb122-5"><a href="controle-sintético-e-estimação-contrafactual.html#cb122-5" tabindex="-1"></a>                    <span class="at">time =</span> year,</span>
-<span id="cb122-6"><a href="controle-sintético-e-estimação-contrafactual.html#cb122-6" tabindex="-1"></a>                    <span class="at">i_unit =</span> <span class="st">&quot;California&quot;</span>,</span>
-<span id="cb122-7"><a href="controle-sintético-e-estimação-contrafactual.html#cb122-7" tabindex="-1"></a>                    <span class="at">i_time =</span> <span class="dv">1988</span>,</span>
-<span id="cb122-8"><a href="controle-sintético-e-estimação-contrafactual.html#cb122-8" tabindex="-1"></a>                    <span class="at">generate_placebos=</span>T</span>
-<span id="cb122-9"><a href="controle-sintético-e-estimação-contrafactual.html#cb122-9" tabindex="-1"></a>                    ) <span class="sc">%&gt;%</span></span>
-<span id="cb122-10"><a href="controle-sintético-e-estimação-contrafactual.html#cb122-10" tabindex="-1"></a>  <span class="fu">generate_predictor</span>(<span class="at">time_window =</span> <span class="dv">1980</span><span class="sc">:</span><span class="dv">1988</span>,</span>
-<span id="cb122-11"><a href="controle-sintético-e-estimação-contrafactual.html#cb122-11" tabindex="-1"></a>                     <span class="at">ln_income =</span> <span class="fu">mean</span>(lnincome, <span class="at">na.rm =</span> T),</span>
-<span id="cb122-12"><a href="controle-sintético-e-estimação-contrafactual.html#cb122-12" tabindex="-1"></a>                     <span class="at">ret_price =</span> <span class="fu">mean</span>(retprice, <span class="at">na.rm =</span> T),</span>
-<span id="cb122-13"><a href="controle-sintético-e-estimação-contrafactual.html#cb122-13" tabindex="-1"></a>                     <span class="at">youth =</span> <span class="fu">mean</span>(age15to24, <span class="at">na.rm =</span> T)) <span class="sc">%&gt;%</span></span>
-<span id="cb122-14"><a href="controle-sintético-e-estimação-contrafactual.html#cb122-14" tabindex="-1"></a>  <span class="fu">generate_predictor</span>(<span class="at">time_window =</span> <span class="dv">1984</span><span class="sc">:</span><span class="dv">1988</span>,</span>
-<span id="cb122-15"><a href="controle-sintético-e-estimação-contrafactual.html#cb122-15" tabindex="-1"></a>                     <span class="at">beer_sales =</span> <span class="fu">mean</span>(beer, <span class="at">na.rm =</span> T)) <span class="sc">%&gt;%</span></span>
-<span id="cb122-16"><a href="controle-sintético-e-estimação-contrafactual.html#cb122-16" tabindex="-1"></a>  <span class="fu">generate_predictor</span>(<span class="at">time_window =</span> <span class="dv">1975</span>,</span>
-<span id="cb122-17"><a href="controle-sintético-e-estimação-contrafactual.html#cb122-17" tabindex="-1"></a>                     <span class="at">cigsale_1975 =</span> cigsale) <span class="sc">%&gt;%</span></span>
-<span id="cb122-18"><a href="controle-sintético-e-estimação-contrafactual.html#cb122-18" tabindex="-1"></a>  <span class="fu">generate_predictor</span>(<span class="at">time_window =</span> <span class="dv">1980</span>,</span>
-<span id="cb122-19"><a href="controle-sintético-e-estimação-contrafactual.html#cb122-19" tabindex="-1"></a>                     <span class="at">cigsale_1980 =</span> cigsale) <span class="sc">%&gt;%</span></span>
-<span id="cb122-20"><a href="controle-sintético-e-estimação-contrafactual.html#cb122-20" tabindex="-1"></a>  <span class="fu">generate_predictor</span>(<span class="at">time_window =</span> <span class="dv">1988</span>,</span>
-<span id="cb122-21"><a href="controle-sintético-e-estimação-contrafactual.html#cb122-21" tabindex="-1"></a>                     <span class="at">cigsale_1988 =</span> cigsale) <span class="sc">%&gt;%</span></span>
-<span id="cb122-22"><a href="controle-sintético-e-estimação-contrafactual.html#cb122-22" tabindex="-1"></a>  <span class="fu">generate_weights</span>(<span class="at">optimization_window =</span> <span class="dv">1970</span><span class="sc">:</span><span class="dv">1988</span>,</span>
-<span id="cb122-23"><a href="controle-sintético-e-estimação-contrafactual.html#cb122-23" tabindex="-1"></a>                   <span class="at">margin_ipop =</span> .<span class="dv">02</span>,<span class="at">sigf_ipop =</span> <span class="dv">7</span>,<span class="at">bound_ipop =</span> <span class="dv">6</span></span>
-<span id="cb122-24"><a href="controle-sintético-e-estimação-contrafactual.html#cb122-24" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb122-25"><a href="controle-sintético-e-estimação-contrafactual.html#cb122-25" tabindex="-1"></a>  <span class="fu">generate_control</span>()</span>
-<span id="cb122-26"><a href="controle-sintético-e-estimação-contrafactual.html#cb122-26" tabindex="-1"></a></span>
-<span id="cb122-27"><a href="controle-sintético-e-estimação-contrafactual.html#cb122-27" tabindex="-1"></a>smoking_out <span class="sc">%&gt;%</span> <span class="fu">plot_trends</span>(<span class="at">time_window =</span> <span class="dv">1970</span><span class="sc">:</span><span class="dv">2000</span>)</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/cigarro_tidysynth-1.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-1" tabindex="-1"></a>smoking_out <span class="ot">&lt;-</span></span>
+<span id="cb121-2"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-2" tabindex="-1"></a>  smoking <span class="sc">%&gt;%</span></span>
+<span id="cb121-3"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-3" tabindex="-1"></a>  <span class="fu">synthetic_control</span>(<span class="at">outcome =</span> cigsale,</span>
+<span id="cb121-4"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-4" tabindex="-1"></a>                    <span class="at">unit =</span> state,</span>
+<span id="cb121-5"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-5" tabindex="-1"></a>                    <span class="at">time =</span> year,</span>
+<span id="cb121-6"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-6" tabindex="-1"></a>                    <span class="at">i_unit =</span> <span class="st">&quot;California&quot;</span>,</span>
+<span id="cb121-7"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-7" tabindex="-1"></a>                    <span class="at">i_time =</span> <span class="dv">1988</span>,</span>
+<span id="cb121-8"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-8" tabindex="-1"></a>                    <span class="at">generate_placebos=</span>T</span>
+<span id="cb121-9"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-9" tabindex="-1"></a>                    ) <span class="sc">%&gt;%</span></span>
+<span id="cb121-10"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-10" tabindex="-1"></a>  <span class="fu">generate_predictor</span>(<span class="at">time_window =</span> <span class="dv">1980</span><span class="sc">:</span><span class="dv">1988</span>,</span>
+<span id="cb121-11"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-11" tabindex="-1"></a>                     <span class="at">ln_income =</span> <span class="fu">mean</span>(lnincome, <span class="at">na.rm =</span> T),</span>
+<span id="cb121-12"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-12" tabindex="-1"></a>                     <span class="at">ret_price =</span> <span class="fu">mean</span>(retprice, <span class="at">na.rm =</span> T),</span>
+<span id="cb121-13"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-13" tabindex="-1"></a>                     <span class="at">youth =</span> <span class="fu">mean</span>(age15to24, <span class="at">na.rm =</span> T)) <span class="sc">%&gt;%</span></span>
+<span id="cb121-14"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-14" tabindex="-1"></a>  <span class="fu">generate_predictor</span>(<span class="at">time_window =</span> <span class="dv">1984</span><span class="sc">:</span><span class="dv">1988</span>,</span>
+<span id="cb121-15"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-15" tabindex="-1"></a>                     <span class="at">beer_sales =</span> <span class="fu">mean</span>(beer, <span class="at">na.rm =</span> T)) <span class="sc">%&gt;%</span></span>
+<span id="cb121-16"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-16" tabindex="-1"></a>  <span class="fu">generate_predictor</span>(<span class="at">time_window =</span> <span class="dv">1975</span>,</span>
+<span id="cb121-17"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-17" tabindex="-1"></a>                     <span class="at">cigsale_1975 =</span> cigsale) <span class="sc">%&gt;%</span></span>
+<span id="cb121-18"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-18" tabindex="-1"></a>  <span class="fu">generate_predictor</span>(<span class="at">time_window =</span> <span class="dv">1980</span>,</span>
+<span id="cb121-19"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-19" tabindex="-1"></a>                     <span class="at">cigsale_1980 =</span> cigsale) <span class="sc">%&gt;%</span></span>
+<span id="cb121-20"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-20" tabindex="-1"></a>  <span class="fu">generate_predictor</span>(<span class="at">time_window =</span> <span class="dv">1988</span>,</span>
+<span id="cb121-21"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-21" tabindex="-1"></a>                     <span class="at">cigsale_1988 =</span> cigsale) <span class="sc">%&gt;%</span></span>
+<span id="cb121-22"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-22" tabindex="-1"></a>  <span class="fu">generate_weights</span>(<span class="at">optimization_window =</span> <span class="dv">1970</span><span class="sc">:</span><span class="dv">1988</span>,</span>
+<span id="cb121-23"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-23" tabindex="-1"></a>                   <span class="at">margin_ipop =</span> .<span class="dv">02</span>,<span class="at">sigf_ipop =</span> <span class="dv">7</span>,<span class="at">bound_ipop =</span> <span class="dv">6</span></span>
+<span id="cb121-24"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-24" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb121-25"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-25" tabindex="-1"></a>  <span class="fu">generate_control</span>()</span>
+<span id="cb121-26"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-26" tabindex="-1"></a></span>
+<span id="cb121-27"><a href="controle-sintético-e-estimação-contrafactual.html#cb121-27" tabindex="-1"></a>smoking_out <span class="sc">%&gt;%</span> <span class="fu">plot_trends</span>(<span class="at">time_window =</span> <span class="dv">1970</span><span class="sc">:</span><span class="dv">2000</span>)</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:cigarro-tidysynth"></span>
+<img src="bookdownproj_files/figure-html/cigarro-tidysynth-1.png" alt="Trajetória observada da Califórnia e controle sintético estimado pelo pacote tidysynth." width="672" />
+<p class="caption">
+Figura 12.3: Trajetória observada da Califórnia e controle sintético estimado pelo pacote tidysynth.
+</p>
+</div>
 <p>O gráfico mostra que a Califórnia Sintética acompanha bem a trajetória real no período pré-1988, e diverge no período pós — essa divergência é a estimativa do efeito causal.</p>
 <p>A quantidade causal de interesse — a diferença entre observado e sintético — pode ser visualizada diretamente:</p>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb123-1" tabindex="-1"></a>smoking_out <span class="sc">%&gt;%</span> <span class="fu">plot_differences</span>()</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/cigarro_tidysynth1-1.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb122-1" tabindex="-1"></a>smoking_out <span class="sc">%&gt;%</span> <span class="fu">plot_differences</span>()</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:cigarro-tidysynth-diferencas"></span>
+<img src="bookdownproj_files/figure-html/cigarro-tidysynth-diferencas-1.png" alt="Diferença entre Califórnia observada e controle sintético ao longo do tempo." width="672" />
+<p class="caption">
+Figura 12.4: Diferença entre Califórnia observada e controle sintético ao longo do tempo.
+</p>
+</div>
 <p>Os pesos atribuídos a cada estado e a cada variável preditora:</p>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb124-1" tabindex="-1"></a>smoking_out <span class="sc">%&gt;%</span> <span class="fu">plot_weights</span>()</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/cigarro_tidysynth2-1.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb123-1" tabindex="-1"></a>smoking_out <span class="sc">%&gt;%</span> <span class="fu">plot_weights</span>()</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:cigarro-tidysynth-pesos"></span>
+<img src="bookdownproj_files/figure-html/cigarro-tidysynth-pesos-1.png" alt="Pesos atribuídos aos estados doadores e aos preditores no SCM estimado pelo pacote tidysynth." width="672" />
+<p class="caption">
+Figura 12.5: Pesos atribuídos aos estados doadores e aos preditores no SCM estimado pelo pacote tidysynth.
+</p>
+</div>
 <p>O balanceamento entre a Califórnia real e a sintética nos preditores:</p>
-<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb125-1" tabindex="-1"></a>smoking_out <span class="sc">%&gt;%</span> <span class="fu">grab_balance_table</span>()</span></code></pre></div>
-<pre><code>## # A tibble: 7 × 4
-##   variable     California synthetic_California donor_sample
-##   &lt;chr&gt;             &lt;dbl&gt;                &lt;dbl&gt;        &lt;dbl&gt;
-## 1 ln_income        10.1                  9.85         9.83 
-## 2 ret_price        89.4                 89.4         87.3  
-## 3 youth             0.174                0.174        0.173
-## 4 beer_sales       24.3                 24.2         23.7  
-## 5 cigsale_1975    127.                 127.         137.   
-## 6 cigsale_1980    120.                 120.         138.   
-## 7 cigsale_1988     90.1                 91.4        114.</code></pre>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb124-1" tabindex="-1"></a>smoking_out <span class="sc">%&gt;%</span></span>
+<span id="cb124-2"><a href="controle-sintético-e-estimação-contrafactual.html#cb124-2" tabindex="-1"></a>  <span class="fu">grab_balance_table</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb124-3"><a href="controle-sintético-e-estimação-contrafactual.html#cb124-3" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">caption =</span> <span class="st">&quot;Balanceamento entre Califórnia observada e controle sintético nos preditores.&quot;</span>)</span></code></pre></div>
+<table>
+<caption><span id="tab:cigarro-tidysynth-balanceamento">Tabela 12.5: </span>Balanceamento entre Califórnia observada e controle sintético nos preditores.</caption>
+<thead>
+<tr class="header">
+<th align="left">variable</th>
+<th align="right">California</th>
+<th align="right">synthetic_California</th>
+<th align="right">donor_sample</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">ln_income</td>
+<td align="right">10.0765586</td>
+<td align="right">9.8534864</td>
+<td align="right">9.8291968</td>
+</tr>
+<tr class="even">
+<td align="left">ret_price</td>
+<td align="right">89.4222234</td>
+<td align="right">89.3908482</td>
+<td align="right">87.2660819</td>
+</tr>
+<tr class="odd">
+<td align="left">youth</td>
+<td align="right">0.1735324</td>
+<td align="right">0.1736054</td>
+<td align="right">0.1725101</td>
+</tr>
+<tr class="even">
+<td align="left">beer_sales</td>
+<td align="right">24.2800003</td>
+<td align="right">24.2224860</td>
+<td align="right">23.6552632</td>
+</tr>
+<tr class="odd">
+<td align="left">cigsale_1975</td>
+<td align="right">127.0999985</td>
+<td align="right">126.9914177</td>
+<td align="right">136.9315790</td>
+</tr>
+<tr class="even">
+<td align="left">cigsale_1980</td>
+<td align="right">120.1999969</td>
+<td align="right">120.2204841</td>
+<td align="right">138.0894737</td>
+</tr>
+<tr class="odd">
+<td align="left">cigsale_1988</td>
+<td align="right">90.0999985</td>
+<td align="right">91.3888620</td>
+<td align="right">113.8236837</td>
+</tr>
+</tbody>
+</table>
 <div id="inferência-por-placebo" class="section level3 hasAnchor" number="12.3.1">
 <h3><span class="header-section-number">12.3.1</span> Inferência por placebo<a href="#infer%C3%AAncia-por-placebo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>A inferência no SCM é feita por testes placebo. A intuição é a de um teste de permutação: para cada estado do donor pool, fingimos que ele foi tratado e estimamos um SCM. Se o efeito da Califórnia for grande relativo aos placebos, concluímos que é estatisticamente significativo.</p>
-<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb127-1" tabindex="-1"></a>smoking_out <span class="sc">%&gt;%</span> <span class="fu">plot_placebos</span>()</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/cigarro_tidysynth3-1.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb125-1" tabindex="-1"></a>smoking_out <span class="sc">%&gt;%</span> <span class="fu">plot_placebos</span>()</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:cigarro-tidysynth-placebos"></span>
+<img src="bookdownproj_files/figure-html/cigarro-tidysynth-placebos-1.png" alt="Teste placebo do SCM para a Califórnia e os estados doadores." width="672" />
+<p class="caption">
+Figura 12.6: Teste placebo do SCM para a Califórnia e os estados doadores.
+</p>
+</div>
 <p>O efeito estimado para a Califórnia (linha escura) é claramente maior do que os efeitos placebo (linhas cinzas), sugerindo que a Proposição 99 de fato reduziu o consumo de cigarros.</p>
 <p>Para formalizar a inferência, Abadie, Diamond e Hainmueller (2010, seção 4) propõem construir p-valores a partir da distribuição de razões de RMSPE: para cada unidade placebo <span class="math inline">\(j\)</span>, calcula-se a razão entre o RMSPE pós-tratamento e o RMSPE pré-tratamento. Se a razão da unidade tratada for extrema em relação à distribuição dos placebos, o efeito é considerado significativo. Formalmente, o p-valor é a fração de unidades (incluindo a tratada) cuja razão RMSPE é pelo menos tão grande quanto a da unidade tratada:</p>
 <p><span class="math display">\[
@@ -1101,57 +1286,72 @@ onde <span class="math inline">\(\mathbf{L}\)</span> é uma matriz de baixo post
 <div id="demonstração-com-dados-da-califórnia" class="section level3 hasAnchor" number="12.6.4">
 <h3><span class="header-section-number">12.6.4</span> Demonstração com dados da Califórnia<a href="#demonstra%C3%A7%C3%A3o-com-dados-da-calif%C3%B3rnia" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Aplicamos os três estimadores aos mesmos dados de cigarros usados no SCM.</p>
-<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-1" tabindex="-1"></a><span class="fu">library</span>(fect)</span>
-<span id="cb128-2"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb128-3"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-3" tabindex="-1"></a></span>
-<span id="cb128-4"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-4" tabindex="-1"></a><span class="fu">data</span>(smoking, <span class="at">package =</span> <span class="st">&quot;tidysynth&quot;</span>)</span>
-<span id="cb128-5"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-5" tabindex="-1"></a></span>
-<span id="cb128-6"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-6" tabindex="-1"></a><span class="co"># Preparar dados para fect</span></span>
-<span id="cb128-7"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-7" tabindex="-1"></a>df_fect <span class="ot">&lt;-</span> smoking <span class="sc">%&gt;%</span></span>
-<span id="cb128-8"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-8" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb128-9"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-9" tabindex="-1"></a>    <span class="at">D =</span> <span class="fu">ifelse</span>(state <span class="sc">==</span> <span class="st">&quot;California&quot;</span> <span class="sc">&amp;</span> year <span class="sc">&gt;=</span> <span class="dv">1989</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb128-10"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-10" tabindex="-1"></a>    <span class="at">unit_id =</span> <span class="fu">as.numeric</span>(<span class="fu">as.factor</span>(state))</span>
-<span id="cb128-11"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-11" tabindex="-1"></a>  )</span>
-<span id="cb128-12"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-12" tabindex="-1"></a></span>
-<span id="cb128-13"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-13" tabindex="-1"></a><span class="co"># FEct: efeitos fixos (equivalente a DiD por imputação)</span></span>
-<span id="cb128-14"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-14" tabindex="-1"></a>out_fe <span class="ot">&lt;-</span> <span class="fu">fect</span>(cigsale <span class="sc">~</span> D, <span class="at">data =</span> df_fect,</span>
-<span id="cb128-15"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-15" tabindex="-1"></a>               <span class="at">index =</span> <span class="fu">c</span>(<span class="st">&quot;state&quot;</span>, <span class="st">&quot;year&quot;</span>),</span>
-<span id="cb128-16"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-16" tabindex="-1"></a>               <span class="at">method =</span> <span class="st">&quot;fe&quot;</span>,</span>
-<span id="cb128-17"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-17" tabindex="-1"></a>               <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">nboots =</span> <span class="dv">200</span>,</span>
-<span id="cb128-18"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-18" tabindex="-1"></a>               <span class="at">parallel =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb128-19"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-19" tabindex="-1"></a></span>
-<span id="cb128-20"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-20" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;FEct - ATT estimado:&quot;</span>, <span class="fu">round</span>(out_fe<span class="sc">$</span>att.avg, <span class="dv">2</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb126-1" tabindex="-1"></a><span class="fu">library</span>(fect)</span>
+<span id="cb126-2"><a href="controle-sintético-e-estimação-contrafactual.html#cb126-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb126-3"><a href="controle-sintético-e-estimação-contrafactual.html#cb126-3" tabindex="-1"></a></span>
+<span id="cb126-4"><a href="controle-sintético-e-estimação-contrafactual.html#cb126-4" tabindex="-1"></a><span class="fu">data</span>(smoking, <span class="at">package =</span> <span class="st">&quot;tidysynth&quot;</span>)</span>
+<span id="cb126-5"><a href="controle-sintético-e-estimação-contrafactual.html#cb126-5" tabindex="-1"></a></span>
+<span id="cb126-6"><a href="controle-sintético-e-estimação-contrafactual.html#cb126-6" tabindex="-1"></a><span class="co"># Preparar dados para fect</span></span>
+<span id="cb126-7"><a href="controle-sintético-e-estimação-contrafactual.html#cb126-7" tabindex="-1"></a>df_fect <span class="ot">&lt;-</span> smoking <span class="sc">%&gt;%</span></span>
+<span id="cb126-8"><a href="controle-sintético-e-estimação-contrafactual.html#cb126-8" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb126-9"><a href="controle-sintético-e-estimação-contrafactual.html#cb126-9" tabindex="-1"></a>    <span class="at">D =</span> <span class="fu">ifelse</span>(state <span class="sc">==</span> <span class="st">&quot;California&quot;</span> <span class="sc">&amp;</span> year <span class="sc">&gt;=</span> <span class="dv">1989</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb126-10"><a href="controle-sintético-e-estimação-contrafactual.html#cb126-10" tabindex="-1"></a>    <span class="at">unit_id =</span> <span class="fu">as.numeric</span>(<span class="fu">as.factor</span>(state))</span>
+<span id="cb126-11"><a href="controle-sintético-e-estimação-contrafactual.html#cb126-11" tabindex="-1"></a>  )</span>
+<span id="cb126-12"><a href="controle-sintético-e-estimação-contrafactual.html#cb126-12" tabindex="-1"></a></span>
+<span id="cb126-13"><a href="controle-sintético-e-estimação-contrafactual.html#cb126-13" tabindex="-1"></a><span class="co"># FEct: efeitos fixos (equivalente a DiD por imputação)</span></span>
+<span id="cb126-14"><a href="controle-sintético-e-estimação-contrafactual.html#cb126-14" tabindex="-1"></a>out_fe <span class="ot">&lt;-</span> <span class="fu">fect</span>(cigsale <span class="sc">~</span> D, <span class="at">data =</span> df_fect,</span>
+<span id="cb126-15"><a href="controle-sintético-e-estimação-contrafactual.html#cb126-15" tabindex="-1"></a>               <span class="at">index =</span> <span class="fu">c</span>(<span class="st">&quot;state&quot;</span>, <span class="st">&quot;year&quot;</span>),</span>
+<span id="cb126-16"><a href="controle-sintético-e-estimação-contrafactual.html#cb126-16" tabindex="-1"></a>               <span class="at">method =</span> <span class="st">&quot;fe&quot;</span>,</span>
+<span id="cb126-17"><a href="controle-sintético-e-estimação-contrafactual.html#cb126-17" tabindex="-1"></a>               <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">nboots =</span> <span class="dv">200</span>,</span>
+<span id="cb126-18"><a href="controle-sintético-e-estimação-contrafactual.html#cb126-18" tabindex="-1"></a>               <span class="at">parallel =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb126-19"><a href="controle-sintético-e-estimação-contrafactual.html#cb126-19" tabindex="-1"></a></span>
+<span id="cb126-20"><a href="controle-sintético-e-estimação-contrafactual.html#cb126-20" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;FEct - ATT estimado:&quot;</span>, <span class="fu">round</span>(out_fe<span class="sc">$</span>att.avg, <span class="dv">2</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
 <pre><code>## FEct - ATT estimado: -27.35</code></pre>
-<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb130-1" tabindex="-1"></a><span class="co"># IFEct: fatores interativos (r escolhido por CV)</span></span>
-<span id="cb130-2"><a href="controle-sintético-e-estimação-contrafactual.html#cb130-2" tabindex="-1"></a>out_ife <span class="ot">&lt;-</span> <span class="fu">fect</span>(cigsale <span class="sc">~</span> D, <span class="at">data =</span> df_fect,</span>
-<span id="cb130-3"><a href="controle-sintético-e-estimação-contrafactual.html#cb130-3" tabindex="-1"></a>                <span class="at">index =</span> <span class="fu">c</span>(<span class="st">&quot;state&quot;</span>, <span class="st">&quot;year&quot;</span>),</span>
-<span id="cb130-4"><a href="controle-sintético-e-estimação-contrafactual.html#cb130-4" tabindex="-1"></a>                <span class="at">method =</span> <span class="st">&quot;ife&quot;</span>,</span>
-<span id="cb130-5"><a href="controle-sintético-e-estimação-contrafactual.html#cb130-5" tabindex="-1"></a>                <span class="at">r =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">5</span>),</span>
-<span id="cb130-6"><a href="controle-sintético-e-estimação-contrafactual.html#cb130-6" tabindex="-1"></a>                <span class="at">CV =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb130-7"><a href="controle-sintético-e-estimação-contrafactual.html#cb130-7" tabindex="-1"></a>                <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">nboots =</span> <span class="dv">200</span>,</span>
-<span id="cb130-8"><a href="controle-sintético-e-estimação-contrafactual.html#cb130-8" tabindex="-1"></a>                <span class="at">parallel =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb130-9"><a href="controle-sintético-e-estimação-contrafactual.html#cb130-9" tabindex="-1"></a></span>
-<span id="cb130-10"><a href="controle-sintético-e-estimação-contrafactual.html#cb130-10" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;IFEct - ATT estimado:&quot;</span>, <span class="fu">round</span>(out_ife<span class="sc">$</span>att.avg, <span class="dv">2</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-1" tabindex="-1"></a><span class="co"># IFEct: fatores interativos (r escolhido por CV)</span></span>
+<span id="cb128-2"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-2" tabindex="-1"></a>out_ife <span class="ot">&lt;-</span> <span class="fu">fect</span>(cigsale <span class="sc">~</span> D, <span class="at">data =</span> df_fect,</span>
+<span id="cb128-3"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-3" tabindex="-1"></a>                <span class="at">index =</span> <span class="fu">c</span>(<span class="st">&quot;state&quot;</span>, <span class="st">&quot;year&quot;</span>),</span>
+<span id="cb128-4"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-4" tabindex="-1"></a>                <span class="at">method =</span> <span class="st">&quot;ife&quot;</span>,</span>
+<span id="cb128-5"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-5" tabindex="-1"></a>                <span class="at">r =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">5</span>),</span>
+<span id="cb128-6"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-6" tabindex="-1"></a>                <span class="at">CV =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb128-7"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-7" tabindex="-1"></a>                <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">nboots =</span> <span class="dv">200</span>,</span>
+<span id="cb128-8"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-8" tabindex="-1"></a>                <span class="at">parallel =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb128-9"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-9" tabindex="-1"></a></span>
+<span id="cb128-10"><a href="controle-sintético-e-estimação-contrafactual.html#cb128-10" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;IFEct - ATT estimado:&quot;</span>, <span class="fu">round</span>(out_ife<span class="sc">$</span>att.avg, <span class="dv">2</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
 <pre><code>## IFEct - ATT estimado: -24.62</code></pre>
-<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb132-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Número de fatores escolhido:&quot;</span>, out_ife<span class="sc">$</span>r.cv, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb130-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Número de fatores escolhido:&quot;</span>, out_ife<span class="sc">$</span>r.cv, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
 <pre><code>## Número de fatores escolhido: 3</code></pre>
-<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb134-1" tabindex="-1"></a><span class="co"># MC: Matrix Completion</span></span>
-<span id="cb134-2"><a href="controle-sintético-e-estimação-contrafactual.html#cb134-2" tabindex="-1"></a>out_mc <span class="ot">&lt;-</span> <span class="fu">fect</span>(cigsale <span class="sc">~</span> D, <span class="at">data =</span> df_fect,</span>
-<span id="cb134-3"><a href="controle-sintético-e-estimação-contrafactual.html#cb134-3" tabindex="-1"></a>               <span class="at">index =</span> <span class="fu">c</span>(<span class="st">&quot;state&quot;</span>, <span class="st">&quot;year&quot;</span>),</span>
-<span id="cb134-4"><a href="controle-sintético-e-estimação-contrafactual.html#cb134-4" tabindex="-1"></a>               <span class="at">method =</span> <span class="st">&quot;mc&quot;</span>,</span>
-<span id="cb134-5"><a href="controle-sintético-e-estimação-contrafactual.html#cb134-5" tabindex="-1"></a>               <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">nboots =</span> <span class="dv">200</span>,</span>
-<span id="cb134-6"><a href="controle-sintético-e-estimação-contrafactual.html#cb134-6" tabindex="-1"></a>               <span class="at">parallel =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb134-7"><a href="controle-sintético-e-estimação-contrafactual.html#cb134-7" tabindex="-1"></a></span>
-<span id="cb134-8"><a href="controle-sintético-e-estimação-contrafactual.html#cb134-8" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;MC - ATT estimado:&quot;</span>, <span class="fu">round</span>(out_mc<span class="sc">$</span>att.avg, <span class="dv">2</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb132-1" tabindex="-1"></a><span class="co"># MC: Matrix Completion</span></span>
+<span id="cb132-2"><a href="controle-sintético-e-estimação-contrafactual.html#cb132-2" tabindex="-1"></a>out_mc <span class="ot">&lt;-</span> <span class="fu">fect</span>(cigsale <span class="sc">~</span> D, <span class="at">data =</span> df_fect,</span>
+<span id="cb132-3"><a href="controle-sintético-e-estimação-contrafactual.html#cb132-3" tabindex="-1"></a>               <span class="at">index =</span> <span class="fu">c</span>(<span class="st">&quot;state&quot;</span>, <span class="st">&quot;year&quot;</span>),</span>
+<span id="cb132-4"><a href="controle-sintético-e-estimação-contrafactual.html#cb132-4" tabindex="-1"></a>               <span class="at">method =</span> <span class="st">&quot;mc&quot;</span>,</span>
+<span id="cb132-5"><a href="controle-sintético-e-estimação-contrafactual.html#cb132-5" tabindex="-1"></a>               <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">nboots =</span> <span class="dv">200</span>,</span>
+<span id="cb132-6"><a href="controle-sintético-e-estimação-contrafactual.html#cb132-6" tabindex="-1"></a>               <span class="at">parallel =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb132-7"><a href="controle-sintético-e-estimação-contrafactual.html#cb132-7" tabindex="-1"></a></span>
+<span id="cb132-8"><a href="controle-sintético-e-estimação-contrafactual.html#cb132-8" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;MC - ATT estimado:&quot;</span>, <span class="fu">round</span>(out_mc<span class="sc">$</span>att.avg, <span class="dv">2</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
 <pre><code>## MC - ATT estimado: -25.91</code></pre>
 <p>O gráfico de efeitos dinâmicos (<em>dynamic treatment effects</em>) mostra a evolução do efeito estimado ao longo do tempo, incluindo o período pré-tratamento (que deve ser próximo de zero se o modelo estiver bem especificado):</p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb136-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))</span>
-<span id="cb136-2"><a href="controle-sintético-e-estimação-contrafactual.html#cb136-2" tabindex="-1"></a><span class="fu">plot</span>(out_fe, <span class="at">main =</span> <span class="st">&quot;FEct (Efeitos Fixos)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Efeito estimado&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Períodos relativos ao tratamento&quot;</span>)</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/fect_plot-1.png" alt="" width="960" /></p>
-<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb137-1" tabindex="-1"></a><span class="fu">plot</span>(out_ife, <span class="at">main =</span> <span class="st">&quot;IFEct (Fatores Interativos)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Efeito estimado&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Períodos relativos ao tratamento&quot;</span>)</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/fect_plot-2.png" alt="" width="960" /></p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb138-1" tabindex="-1"></a><span class="fu">plot</span>(out_mc, <span class="at">main =</span> <span class="st">&quot;MC (Matrix Completion)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Efeito estimado&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Períodos relativos ao tratamento&quot;</span>)</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/fect_plot-3.png" alt="" width="960" /></p>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb134-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))</span>
+<span id="cb134-2"><a href="controle-sintético-e-estimação-contrafactual.html#cb134-2" tabindex="-1"></a><span class="fu">plot</span>(out_fe, <span class="at">main =</span> <span class="st">&quot;FEct (Efeitos Fixos)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Efeito estimado&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Períodos relativos ao tratamento&quot;</span>)</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:fect-dinamico-1"></span>
+<img src="bookdownproj_files/figure-html/fect-dinamico-1.png" alt="Efeitos dinâmicos estimados pelo FEct no exemplo da Califórnia." width="960" />
+<p class="caption">
+Figura 12.7: Efeitos dinâmicos estimados pelo FEct no exemplo da Califórnia.
+</p>
+</div>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb135-1" tabindex="-1"></a><span class="fu">plot</span>(out_ife, <span class="at">main =</span> <span class="st">&quot;IFEct (Fatores Interativos)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Efeito estimado&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Períodos relativos ao tratamento&quot;</span>)</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:fect-dinamico-2"></span>
+<img src="bookdownproj_files/figure-html/fect-dinamico-2.png" alt="Efeitos dinâmicos estimados pelo IFEct no exemplo da Califórnia." width="960" />
+<p class="caption">
+Figura 12.8: Efeitos dinâmicos estimados pelo IFEct no exemplo da Califórnia.
+</p>
+</div>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb136-1" tabindex="-1"></a><span class="fu">plot</span>(out_mc, <span class="at">main =</span> <span class="st">&quot;MC (Matrix Completion)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Efeito estimado&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Períodos relativos ao tratamento&quot;</span>)</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:fect-dinamico-3"></span>
+<img src="bookdownproj_files/figure-html/fect-dinamico-3.png" alt="Efeitos dinâmicos estimados por matrix completion no exemplo da Califórnia." width="960" />
+<p class="caption">
+Figura 12.9: Efeitos dinâmicos estimados por matrix completion no exemplo da Califórnia.
+</p>
+</div>
 <p>Os três estimadores devem concordar no sinal e magnitude aproximada do efeito (redução nas vendas de cigarros). Divergências no período pré-tratamento indicam diferenças na qualidade do ajuste — que é exatamente o que os diagnósticos formais da próxima seção avaliam.</p>
 </div>
 </div>
@@ -1172,18 +1372,23 @@ onde <span class="math inline">\(\mathbf{L}\)</span> é uma matriz de baixo post
 <li><strong>Teste de equivalência (TOST)</strong>: os efeitos placebo estão dentro de um intervalo de equivalência <span class="math inline">\([-\Delta, \Delta]\)</span>?</li>
 </ol>
 <p>O teste de equivalência é preferível porque um teste t com baixo poder pode falhar em rejeitar (falso conforto), enquanto o TOST requer evidência <em>positiva</em> de que os efeitos são pequenos.</p>
-<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb139-1" tabindex="-1"></a><span class="co"># Placebo test com IFEct (r fixo, sem CV)</span></span>
-<span id="cb139-2"><a href="controle-sintético-e-estimação-contrafactual.html#cb139-2" tabindex="-1"></a>out_ife_placebo <span class="ot">&lt;-</span> <span class="fu">fect</span>(cigsale <span class="sc">~</span> D, <span class="at">data =</span> df_fect,</span>
-<span id="cb139-3"><a href="controle-sintético-e-estimação-contrafactual.html#cb139-3" tabindex="-1"></a>                        <span class="at">index =</span> <span class="fu">c</span>(<span class="st">&quot;state&quot;</span>, <span class="st">&quot;year&quot;</span>),</span>
-<span id="cb139-4"><a href="controle-sintético-e-estimação-contrafactual.html#cb139-4" tabindex="-1"></a>                        <span class="at">method =</span> <span class="st">&quot;ife&quot;</span>,</span>
-<span id="cb139-5"><a href="controle-sintético-e-estimação-contrafactual.html#cb139-5" tabindex="-1"></a>                        <span class="at">r =</span> <span class="dv">2</span>,</span>
-<span id="cb139-6"><a href="controle-sintético-e-estimação-contrafactual.html#cb139-6" tabindex="-1"></a>                        <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">nboots =</span> <span class="dv">200</span>,</span>
-<span id="cb139-7"><a href="controle-sintético-e-estimação-contrafactual.html#cb139-7" tabindex="-1"></a>                        <span class="at">parallel =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb139-8"><a href="controle-sintético-e-estimação-contrafactual.html#cb139-8" tabindex="-1"></a>                        <span class="at">placeboTest =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb139-9"><a href="controle-sintético-e-estimação-contrafactual.html#cb139-9" tabindex="-1"></a>                        <span class="at">placebo.period =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">0</span>))</span>
-<span id="cb139-10"><a href="controle-sintético-e-estimação-contrafactual.html#cb139-10" tabindex="-1"></a></span>
-<span id="cb139-11"><a href="controle-sintético-e-estimação-contrafactual.html#cb139-11" tabindex="-1"></a><span class="fu">plot</span>(out_ife_placebo, <span class="at">type =</span> <span class="st">&quot;equiv&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Teste de Equivalência (IFEct)&quot;</span>)</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/fect_placebo-1.png" alt="" width="768" /></p>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb137-1" tabindex="-1"></a><span class="co"># Placebo test com IFEct (r fixo, sem CV)</span></span>
+<span id="cb137-2"><a href="controle-sintético-e-estimação-contrafactual.html#cb137-2" tabindex="-1"></a>out_ife_placebo <span class="ot">&lt;-</span> <span class="fu">fect</span>(cigsale <span class="sc">~</span> D, <span class="at">data =</span> df_fect,</span>
+<span id="cb137-3"><a href="controle-sintético-e-estimação-contrafactual.html#cb137-3" tabindex="-1"></a>                        <span class="at">index =</span> <span class="fu">c</span>(<span class="st">&quot;state&quot;</span>, <span class="st">&quot;year&quot;</span>),</span>
+<span id="cb137-4"><a href="controle-sintético-e-estimação-contrafactual.html#cb137-4" tabindex="-1"></a>                        <span class="at">method =</span> <span class="st">&quot;ife&quot;</span>,</span>
+<span id="cb137-5"><a href="controle-sintético-e-estimação-contrafactual.html#cb137-5" tabindex="-1"></a>                        <span class="at">r =</span> <span class="dv">2</span>,</span>
+<span id="cb137-6"><a href="controle-sintético-e-estimação-contrafactual.html#cb137-6" tabindex="-1"></a>                        <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">nboots =</span> <span class="dv">200</span>,</span>
+<span id="cb137-7"><a href="controle-sintético-e-estimação-contrafactual.html#cb137-7" tabindex="-1"></a>                        <span class="at">parallel =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb137-8"><a href="controle-sintético-e-estimação-contrafactual.html#cb137-8" tabindex="-1"></a>                        <span class="at">placeboTest =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb137-9"><a href="controle-sintético-e-estimação-contrafactual.html#cb137-9" tabindex="-1"></a>                        <span class="at">placebo.period =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">0</span>))</span>
+<span id="cb137-10"><a href="controle-sintético-e-estimação-contrafactual.html#cb137-10" tabindex="-1"></a></span>
+<span id="cb137-11"><a href="controle-sintético-e-estimação-contrafactual.html#cb137-11" tabindex="-1"></a><span class="fu">plot</span>(out_ife_placebo, <span class="at">type =</span> <span class="st">&quot;equiv&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Teste de Equivalência (IFEct)&quot;</span>)</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:fect-placebo"></span>
+<img src="bookdownproj_files/figure-html/fect-placebo-1.png" alt="Teste de equivalência placebo para o modelo IFEct no exemplo da Califórnia." width="768" />
+<p class="caption">
+Figura 12.10: Teste de equivalência placebo para o modelo IFEct no exemplo da Califórnia.
+</p>
+</div>
 </div>
 <div id="teste-de-no-carryover" class="section level3 hasAnchor" number="12.7.3">
 <h3><span class="header-section-number">12.7.3</span> Teste de no-carryover<a href="controle-sintético-e-estimação-contrafactual.html#teste-de-no-carryover" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -1216,79 +1421,86 @@ Note que não há efeitos fixos de unidade (<span class="math inline">\(\alpha_i
 <div id="implementação-no-r" class="section level3 hasAnchor" number="12.8.1">
 <h3><span class="header-section-number">12.8.1</span> Implementação no R<a href="#implementa%C3%A7%C3%A3o-no-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Vamos aplicar DiD, SC e SDiD aos dados da Califórnia.</p>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb140-1" tabindex="-1"></a><span class="fu">library</span>(fixest)</span>
-<span id="cb140-2"><a href="controle-sintético-e-estimação-contrafactual.html#cb140-2" tabindex="-1"></a></span>
-<span id="cb140-3"><a href="controle-sintético-e-estimação-contrafactual.html#cb140-3" tabindex="-1"></a>smoking_did <span class="ot">&lt;-</span> smoking <span class="sc">%&gt;%</span></span>
-<span id="cb140-4"><a href="controle-sintético-e-estimação-contrafactual.html#cb140-4" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">treatment =</span> <span class="fu">ifelse</span>(state <span class="sc">==</span> <span class="st">&quot;California&quot;</span> <span class="sc">&amp;</span> year <span class="sc">&gt;</span> <span class="dv">1988</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
-<span id="cb140-5"><a href="controle-sintético-e-estimação-contrafactual.html#cb140-5" tabindex="-1"></a>did <span class="ot">&lt;-</span> <span class="fu">feols</span>(cigsale <span class="sc">~</span> treatment <span class="sc">|</span> state <span class="sc">+</span> year, <span class="at">data =</span> smoking_did)</span>
-<span id="cb140-6"><a href="controle-sintético-e-estimação-contrafactual.html#cb140-6" tabindex="-1"></a></span>
-<span id="cb140-7"><a href="controle-sintético-e-estimação-contrafactual.html#cb140-7" tabindex="-1"></a><span class="fu">summary</span>(did)</span></code></pre></div>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb138-1" tabindex="-1"></a><span class="fu">library</span>(fixest)</span>
+<span id="cb138-2"><a href="controle-sintético-e-estimação-contrafactual.html#cb138-2" tabindex="-1"></a></span>
+<span id="cb138-3"><a href="controle-sintético-e-estimação-contrafactual.html#cb138-3" tabindex="-1"></a>smoking_did <span class="ot">&lt;-</span> smoking <span class="sc">%&gt;%</span></span>
+<span id="cb138-4"><a href="controle-sintético-e-estimação-contrafactual.html#cb138-4" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">treatment =</span> <span class="fu">ifelse</span>(state <span class="sc">==</span> <span class="st">&quot;California&quot;</span> <span class="sc">&amp;</span> year <span class="sc">&gt;</span> <span class="dv">1988</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb138-5"><a href="controle-sintético-e-estimação-contrafactual.html#cb138-5" tabindex="-1"></a>did <span class="ot">&lt;-</span> <span class="fu">feols</span>(cigsale <span class="sc">~</span> treatment <span class="sc">|</span> state <span class="sc">+</span> year, <span class="at">data =</span> smoking_did)</span>
+<span id="cb138-6"><a href="controle-sintético-e-estimação-contrafactual.html#cb138-6" tabindex="-1"></a></span>
+<span id="cb138-7"><a href="controle-sintético-e-estimação-contrafactual.html#cb138-7" tabindex="-1"></a><span class="fu">summary</span>(did)</span></code></pre></div>
 <pre><code>## OLS estimation, Dep. Var.: cigsale
 ## Observations: 1,209
 ## Fixed-effects: state: 39,  year: 31
 ## Standard-errors: Clustered (state) 
-##           Estimate Std. Error  t value   Pr(&gt;|t|)    
-## treatment -27.3491    2.80238 -9.75925 6.6913e-12 ***
+##           Estimate Std. Error  t value           Pr(&gt;|t|)    
+## treatment -27.3491    2.80238 -9.75925 0.0000000000066913 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## RMSE: 11.5     Adj. R2: 0.870229
 ##              Within R2: 0.032671</code></pre>
 <p>O estimador de DiD assume tendências paralelas na média — suposição que pode não ser crível neste contexto, como mostra o event study:</p>
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb142-1" tabindex="-1"></a><span class="fu">library</span>(did2s)</span>
-<span id="cb142-2"><a href="controle-sintético-e-estimação-contrafactual.html#cb142-2" tabindex="-1"></a><span class="fu">library</span>(ggfixest)</span>
-<span id="cb142-3"><a href="controle-sintético-e-estimação-contrafactual.html#cb142-3" tabindex="-1"></a></span>
-<span id="cb142-4"><a href="controle-sintético-e-estimação-contrafactual.html#cb142-4" tabindex="-1"></a>df <span class="ot">&lt;-</span> smoking_did <span class="sc">%&gt;%</span></span>
-<span id="cb142-5"><a href="controle-sintético-e-estimação-contrafactual.html#cb142-5" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">event_time =</span> year <span class="sc">-</span> <span class="dv">1988</span>,</span>
-<span id="cb142-6"><a href="controle-sintético-e-estimação-contrafactual.html#cb142-6" tabindex="-1"></a>         <span class="at">id =</span> <span class="fu">as.integer</span>(<span class="fu">as.factor</span>(state))) <span class="sc">%&gt;%</span></span>
-<span id="cb142-7"><a href="controle-sintético-e-estimação-contrafactual.html#cb142-7" tabindex="-1"></a>  <span class="fu">group_by</span>(state) <span class="sc">%&gt;%</span></span>
-<span id="cb142-8"><a href="controle-sintético-e-estimação-contrafactual.html#cb142-8" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">g =</span> <span class="fu">ifelse</span>(state <span class="sc">==</span> <span class="st">&quot;California&quot;</span>, <span class="dv">1988</span>, <span class="dv">0</span>),</span>
-<span id="cb142-9"><a href="controle-sintético-e-estimação-contrafactual.html#cb142-9" tabindex="-1"></a>         <span class="at">cohort =</span> <span class="fu">ifelse</span>(state <span class="sc">==</span> <span class="st">&quot;California&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb142-10"><a href="controle-sintético-e-estimação-contrafactual.html#cb142-10" tabindex="-1"></a>         <span class="at">g1 =</span> <span class="fu">ifelse</span>(state <span class="sc">==</span> <span class="st">&quot;California&quot;</span> <span class="sc">&amp;</span> year <span class="sc">&gt;=</span> <span class="dv">1980</span>, <span class="dv">1980</span>, <span class="dv">0</span>))</span>
-<span id="cb142-11"><a href="controle-sintético-e-estimação-contrafactual.html#cb142-11" tabindex="-1"></a></span>
-<span id="cb142-12"><a href="controle-sintético-e-estimação-contrafactual.html#cb142-12" tabindex="-1"></a>out_es <span class="ot">&lt;-</span> <span class="fu">event_study</span>(</span>
-<span id="cb142-13"><a href="controle-sintético-e-estimação-contrafactual.html#cb142-13" tabindex="-1"></a>  <span class="at">data =</span> df,</span>
-<span id="cb142-14"><a href="controle-sintético-e-estimação-contrafactual.html#cb142-14" tabindex="-1"></a>  <span class="at">idname =</span> <span class="st">&quot;id&quot;</span>,</span>
-<span id="cb142-15"><a href="controle-sintético-e-estimação-contrafactual.html#cb142-15" tabindex="-1"></a>  <span class="at">tname =</span> <span class="st">&quot;year&quot;</span>,</span>
-<span id="cb142-16"><a href="controle-sintético-e-estimação-contrafactual.html#cb142-16" tabindex="-1"></a>  <span class="at">gname =</span> <span class="st">&quot;g&quot;</span>,</span>
-<span id="cb142-17"><a href="controle-sintético-e-estimação-contrafactual.html#cb142-17" tabindex="-1"></a>  <span class="at">yname =</span> <span class="st">&quot;cigsale&quot;</span>,</span>
-<span id="cb142-18"><a href="controle-sintético-e-estimação-contrafactual.html#cb142-18" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="st">&quot;all&quot;</span></span>
-<span id="cb142-19"><a href="controle-sintético-e-estimação-contrafactual.html#cb142-19" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb140-1" tabindex="-1"></a><span class="fu">library</span>(did2s)</span>
+<span id="cb140-2"><a href="controle-sintético-e-estimação-contrafactual.html#cb140-2" tabindex="-1"></a><span class="fu">library</span>(ggfixest)</span>
+<span id="cb140-3"><a href="controle-sintético-e-estimação-contrafactual.html#cb140-3" tabindex="-1"></a></span>
+<span id="cb140-4"><a href="controle-sintético-e-estimação-contrafactual.html#cb140-4" tabindex="-1"></a>df <span class="ot">&lt;-</span> smoking_did <span class="sc">%&gt;%</span></span>
+<span id="cb140-5"><a href="controle-sintético-e-estimação-contrafactual.html#cb140-5" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">event_time =</span> year <span class="sc">-</span> <span class="dv">1988</span>,</span>
+<span id="cb140-6"><a href="controle-sintético-e-estimação-contrafactual.html#cb140-6" tabindex="-1"></a>         <span class="at">id =</span> <span class="fu">as.integer</span>(<span class="fu">as.factor</span>(state))) <span class="sc">%&gt;%</span></span>
+<span id="cb140-7"><a href="controle-sintético-e-estimação-contrafactual.html#cb140-7" tabindex="-1"></a>  <span class="fu">group_by</span>(state) <span class="sc">%&gt;%</span></span>
+<span id="cb140-8"><a href="controle-sintético-e-estimação-contrafactual.html#cb140-8" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">g =</span> <span class="fu">ifelse</span>(state <span class="sc">==</span> <span class="st">&quot;California&quot;</span>, <span class="dv">1988</span>, <span class="dv">0</span>),</span>
+<span id="cb140-9"><a href="controle-sintético-e-estimação-contrafactual.html#cb140-9" tabindex="-1"></a>         <span class="at">cohort =</span> <span class="fu">ifelse</span>(state <span class="sc">==</span> <span class="st">&quot;California&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb140-10"><a href="controle-sintético-e-estimação-contrafactual.html#cb140-10" tabindex="-1"></a>         <span class="at">g1 =</span> <span class="fu">ifelse</span>(state <span class="sc">==</span> <span class="st">&quot;California&quot;</span> <span class="sc">&amp;</span> year <span class="sc">&gt;=</span> <span class="dv">1980</span>, <span class="dv">1980</span>, <span class="dv">0</span>))</span>
+<span id="cb140-11"><a href="controle-sintético-e-estimação-contrafactual.html#cb140-11" tabindex="-1"></a></span>
+<span id="cb140-12"><a href="controle-sintético-e-estimação-contrafactual.html#cb140-12" tabindex="-1"></a>out_es <span class="ot">&lt;-</span> <span class="fu">event_study</span>(</span>
+<span id="cb140-13"><a href="controle-sintético-e-estimação-contrafactual.html#cb140-13" tabindex="-1"></a>  <span class="at">data =</span> df,</span>
+<span id="cb140-14"><a href="controle-sintético-e-estimação-contrafactual.html#cb140-14" tabindex="-1"></a>  <span class="at">idname =</span> <span class="st">&quot;id&quot;</span>,</span>
+<span id="cb140-15"><a href="controle-sintético-e-estimação-contrafactual.html#cb140-15" tabindex="-1"></a>  <span class="at">tname =</span> <span class="st">&quot;year&quot;</span>,</span>
+<span id="cb140-16"><a href="controle-sintético-e-estimação-contrafactual.html#cb140-16" tabindex="-1"></a>  <span class="at">gname =</span> <span class="st">&quot;g&quot;</span>,</span>
+<span id="cb140-17"><a href="controle-sintético-e-estimação-contrafactual.html#cb140-17" tabindex="-1"></a>  <span class="at">yname =</span> <span class="st">&quot;cigsale&quot;</span>,</span>
+<span id="cb140-18"><a href="controle-sintético-e-estimação-contrafactual.html#cb140-18" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="st">&quot;all&quot;</span></span>
+<span id="cb140-19"><a href="controle-sintético-e-estimação-contrafactual.html#cb140-19" tabindex="-1"></a>)</span></code></pre></div>
 <pre><code>## Error in create_Atheta_list_for_event_study(eventTime = eventTime, g_list = g_list,  : 
 ##   There are no comparison cohorts for the given eventTime</code></pre>
-<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb144-1" tabindex="-1"></a><span class="fu">plot_event_study</span>(out_es)</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/did1-1.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb142-1" tabindex="-1"></a><span class="fu">plot_event_study</span>(out_es)</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:did1"></span>
+<img src="bookdownproj_files/figure-html/did1-1.png" alt="Event study para o estimador de DiD aplicado ao exemplo da Califórnia." width="672" />
+<p class="caption">
+Figura 12.11: Event study para o estimador de DiD aplicado ao exemplo da Califórnia.
+</p>
+</div>
 <p>Agora comparamos os três estimadores com o pacote <code>synthdid</code>:</p>
-<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-1" tabindex="-1"></a><span class="fu">library</span>(synthdid)</span>
-<span id="cb145-2"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-2" tabindex="-1"></a></span>
-<span id="cb145-3"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-3" tabindex="-1"></a>estimators <span class="ot">=</span> <span class="fu">list</span>(<span class="at">did=</span>did_estimate,</span>
-<span id="cb145-4"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-4" tabindex="-1"></a>                  <span class="at">sc=</span>sc_estimate,</span>
-<span id="cb145-5"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-5" tabindex="-1"></a>                  <span class="at">sdid=</span>synthdid_estimate)</span>
-<span id="cb145-6"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-6" tabindex="-1"></a></span>
-<span id="cb145-7"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-7" tabindex="-1"></a>df_sdid <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb145-8"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-8" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(state, year, cigsale, treatment) <span class="sc">%&gt;%</span></span>
-<span id="cb145-9"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-9" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">treatment =</span> <span class="fu">as.integer</span>(treatment),</span>
-<span id="cb145-10"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-10" tabindex="-1"></a>         <span class="at">year =</span> <span class="fu">as.integer</span>(year),</span>
-<span id="cb145-11"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-11" tabindex="-1"></a>         <span class="at">state =</span> <span class="fu">as.factor</span>(state)) <span class="sc">%&gt;%</span></span>
-<span id="cb145-12"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-12" tabindex="-1"></a>  <span class="fu">as.data.frame</span>()</span>
-<span id="cb145-13"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-13" tabindex="-1"></a></span>
-<span id="cb145-14"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-14" tabindex="-1"></a>setup <span class="ot">&lt;-</span> <span class="fu">panel.matrices</span>(df_sdid)</span>
-<span id="cb145-15"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-15" tabindex="-1"></a></span>
-<span id="cb145-16"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-16" tabindex="-1"></a>estimates <span class="ot">&lt;-</span> <span class="fu">lapply</span>(estimators, <span class="cf">function</span>(estimator) { <span class="fu">estimator</span>(setup<span class="sc">$</span>Y,</span>
-<span id="cb145-17"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-17" tabindex="-1"></a>                                                               setup<span class="sc">$</span>N0, setup<span class="sc">$</span>T0) } )</span>
-<span id="cb145-18"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-18" tabindex="-1"></a></span>
-<span id="cb145-19"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-19" tabindex="-1"></a>standard.errors <span class="ot">=</span> <span class="fu">mapply</span>(<span class="cf">function</span>(estimate, name) {</span>
-<span id="cb145-20"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-20" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
-<span id="cb145-21"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-21" tabindex="-1"></a>  <span class="cf">if</span>(name <span class="sc">==</span> <span class="st">&#39;mc&#39;</span>) { <span class="fu">mc_placebo_se</span>(setup<span class="sc">$</span>Y, setup<span class="sc">$</span>N0, setup<span class="sc">$</span>T0) }</span>
-<span id="cb145-22"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-22" tabindex="-1"></a>  <span class="cf">else</span> {             <span class="fu">sqrt</span>(<span class="fu">vcov</span>(estimate, <span class="at">method=</span><span class="st">&#39;placebo&#39;</span>))     }</span>
-<span id="cb145-23"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-23" tabindex="-1"></a>}, estimates, <span class="fu">names</span>(estimators))</span>
-<span id="cb145-24"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-24" tabindex="-1"></a></span>
-<span id="cb145-25"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-25" tabindex="-1"></a><span class="co"># Resultados</span></span>
-<span id="cb145-26"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-26" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
-<span id="cb145-27"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-27" tabindex="-1"></a>  <span class="at">Estimador =</span> <span class="fu">c</span>(<span class="st">&quot;DiD&quot;</span>, <span class="st">&quot;SC&quot;</span>, <span class="st">&quot;SDiD&quot;</span>),</span>
-<span id="cb145-28"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-28" tabindex="-1"></a>  <span class="at">ATT =</span> <span class="fu">round</span>(<span class="fu">sapply</span>(estimates, <span class="cf">function</span>(x) x[<span class="dv">1</span>]), <span class="dv">2</span>),</span>
-<span id="cb145-29"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-29" tabindex="-1"></a>  <span class="at">SE =</span> <span class="fu">round</span>(standard.errors, <span class="dv">2</span>)</span>
-<span id="cb145-30"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-30" tabindex="-1"></a>) <span class="sc">%&gt;%</span> <span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-1" tabindex="-1"></a><span class="fu">library</span>(synthdid)</span>
+<span id="cb143-2"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-2" tabindex="-1"></a></span>
+<span id="cb143-3"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-3" tabindex="-1"></a>estimators <span class="ot">=</span> <span class="fu">list</span>(<span class="at">did=</span>did_estimate,</span>
+<span id="cb143-4"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-4" tabindex="-1"></a>                  <span class="at">sc=</span>sc_estimate,</span>
+<span id="cb143-5"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-5" tabindex="-1"></a>                  <span class="at">sdid=</span>synthdid_estimate)</span>
+<span id="cb143-6"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-6" tabindex="-1"></a></span>
+<span id="cb143-7"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-7" tabindex="-1"></a>df_sdid <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb143-8"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-8" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(state, year, cigsale, treatment) <span class="sc">%&gt;%</span></span>
+<span id="cb143-9"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-9" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">treatment =</span> <span class="fu">as.integer</span>(treatment),</span>
+<span id="cb143-10"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-10" tabindex="-1"></a>         <span class="at">year =</span> <span class="fu">as.integer</span>(year),</span>
+<span id="cb143-11"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-11" tabindex="-1"></a>         <span class="at">state =</span> <span class="fu">as.factor</span>(state)) <span class="sc">%&gt;%</span></span>
+<span id="cb143-12"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-12" tabindex="-1"></a>  <span class="fu">as.data.frame</span>()</span>
+<span id="cb143-13"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-13" tabindex="-1"></a></span>
+<span id="cb143-14"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-14" tabindex="-1"></a>setup <span class="ot">&lt;-</span> <span class="fu">panel.matrices</span>(df_sdid)</span>
+<span id="cb143-15"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-15" tabindex="-1"></a></span>
+<span id="cb143-16"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-16" tabindex="-1"></a>estimates <span class="ot">&lt;-</span> <span class="fu">lapply</span>(estimators, <span class="cf">function</span>(estimator) { <span class="fu">estimator</span>(setup<span class="sc">$</span>Y,</span>
+<span id="cb143-17"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-17" tabindex="-1"></a>                                                               setup<span class="sc">$</span>N0, setup<span class="sc">$</span>T0) } )</span>
+<span id="cb143-18"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-18" tabindex="-1"></a></span>
+<span id="cb143-19"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-19" tabindex="-1"></a>standard.errors <span class="ot">=</span> <span class="fu">mapply</span>(<span class="cf">function</span>(estimate, name) {</span>
+<span id="cb143-20"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-20" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb143-21"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-21" tabindex="-1"></a>  <span class="cf">if</span>(name <span class="sc">==</span> <span class="st">&#39;mc&#39;</span>) { <span class="fu">mc_placebo_se</span>(setup<span class="sc">$</span>Y, setup<span class="sc">$</span>N0, setup<span class="sc">$</span>T0) }</span>
+<span id="cb143-22"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-22" tabindex="-1"></a>  <span class="cf">else</span> {             <span class="fu">sqrt</span>(<span class="fu">vcov</span>(estimate, <span class="at">method=</span><span class="st">&#39;placebo&#39;</span>))     }</span>
+<span id="cb143-23"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-23" tabindex="-1"></a>}, estimates, <span class="fu">names</span>(estimators))</span>
+<span id="cb143-24"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-24" tabindex="-1"></a></span>
+<span id="cb143-25"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-25" tabindex="-1"></a><span class="co"># Resultados</span></span>
+<span id="cb143-26"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-26" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb143-27"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-27" tabindex="-1"></a>  <span class="at">Estimador =</span> <span class="fu">c</span>(<span class="st">&quot;DiD&quot;</span>, <span class="st">&quot;SC&quot;</span>, <span class="st">&quot;SDiD&quot;</span>),</span>
+<span id="cb143-28"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-28" tabindex="-1"></a>  <span class="at">ATT =</span> <span class="fu">round</span>(<span class="fu">sapply</span>(estimates, <span class="cf">function</span>(x) x[<span class="dv">1</span>]), <span class="dv">2</span>),</span>
+<span id="cb143-29"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-29" tabindex="-1"></a>  <span class="at">SE =</span> <span class="fu">round</span>(standard.errors, <span class="dv">2</span>)</span>
+<span id="cb143-30"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-30" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb143-31"><a href="controle-sintético-e-estimação-contrafactual.html#cb143-31" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">caption =</span> <span class="st">&quot;Estimativas de ATT e erros-padrão para DiD, controle sintético e Synthetic DiD.&quot;</span>)</span></code></pre></div>
 <table>
+<caption><span id="tab:sdid">Tabela 12.6: </span>Estimativas de ATT e erros-padrão para DiD, controle sintético e Synthetic DiD.</caption>
 <thead>
 <tr class="header">
 <th align="left"></th>
@@ -1319,19 +1531,29 @@ Note que não há efeitos fixos de unidade (<span class="math inline">\(\alpha_i
 </tbody>
 </table>
 <p>O gráfico a seguir compara visualmente as trajetórias estimadas:</p>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb146-1" tabindex="-1"></a><span class="fu">synthdid_plot</span>(estimates[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">facet.vertical=</span><span class="cn">FALSE</span>,</span>
-<span id="cb146-2"><a href="controle-sintético-e-estimação-contrafactual.html#cb146-2" tabindex="-1"></a>              <span class="at">control.name=</span><span class="st">&#39;control&#39;</span>, <span class="at">treated.name=</span><span class="st">&#39;california&#39;</span>,</span>
-<span id="cb146-3"><a href="controle-sintético-e-estimação-contrafactual.html#cb146-3" tabindex="-1"></a>              <span class="at">lambda.comparable=</span><span class="cn">TRUE</span>, <span class="at">se.method =</span> <span class="st">&#39;none&#39;</span>,</span>
-<span id="cb146-4"><a href="controle-sintético-e-estimação-contrafactual.html#cb146-4" tabindex="-1"></a>              <span class="at">trajectory.linetype =</span> <span class="dv">1</span>, <span class="at">line.width=</span>.<span class="dv">75</span>, <span class="at">effect.curvature=</span><span class="sc">-</span>.<span class="dv">4</span>,</span>
-<span id="cb146-5"><a href="controle-sintético-e-estimação-contrafactual.html#cb146-5" tabindex="-1"></a>              <span class="at">trajectory.alpha=</span>.<span class="dv">7</span>, <span class="at">effect.alpha=</span>.<span class="dv">7</span>,</span>
-<span id="cb146-6"><a href="controle-sintético-e-estimação-contrafactual.html#cb146-6" tabindex="-1"></a>              <span class="at">diagram.alpha=</span><span class="dv">1</span>, <span class="at">onset.alpha=</span>.<span class="dv">7</span>) <span class="sc">+</span></span>
-<span id="cb146-7"><a href="controle-sintético-e-estimação-contrafactual.html#cb146-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="fu">c</span>(.<span class="dv">26</span>,.<span class="dv">07</span>), <span class="at">legend.direction=</span><span class="st">&#39;horizontal&#39;</span>,</span>
-<span id="cb146-8"><a href="controle-sintético-e-estimação-contrafactual.html#cb146-8" tabindex="-1"></a>        <span class="at">legend.key=</span><span class="fu">element_blank</span>(), <span class="at">legend.background=</span><span class="fu">element_blank</span>(),</span>
-<span id="cb146-9"><a href="controle-sintético-e-estimação-contrafactual.html#cb146-9" tabindex="-1"></a>        <span class="at">strip.background=</span><span class="fu">element_blank</span>(), <span class="at">strip.text.x =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/sdid1-1.png" width="672" /></p>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb144-1" tabindex="-1"></a><span class="fu">synthdid_plot</span>(estimates[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">facet.vertical=</span><span class="cn">FALSE</span>,</span>
+<span id="cb144-2"><a href="controle-sintético-e-estimação-contrafactual.html#cb144-2" tabindex="-1"></a>              <span class="at">control.name=</span><span class="st">&#39;control&#39;</span>, <span class="at">treated.name=</span><span class="st">&#39;california&#39;</span>,</span>
+<span id="cb144-3"><a href="controle-sintético-e-estimação-contrafactual.html#cb144-3" tabindex="-1"></a>              <span class="at">lambda.comparable=</span><span class="cn">TRUE</span>, <span class="at">se.method =</span> <span class="st">&#39;none&#39;</span>,</span>
+<span id="cb144-4"><a href="controle-sintético-e-estimação-contrafactual.html#cb144-4" tabindex="-1"></a>              <span class="at">trajectory.linetype =</span> <span class="dv">1</span>, <span class="at">line.width=</span>.<span class="dv">75</span>, <span class="at">effect.curvature=</span><span class="sc">-</span>.<span class="dv">4</span>,</span>
+<span id="cb144-5"><a href="controle-sintético-e-estimação-contrafactual.html#cb144-5" tabindex="-1"></a>              <span class="at">trajectory.alpha=</span>.<span class="dv">7</span>, <span class="at">effect.alpha=</span>.<span class="dv">7</span>,</span>
+<span id="cb144-6"><a href="controle-sintético-e-estimação-contrafactual.html#cb144-6" tabindex="-1"></a>              <span class="at">diagram.alpha=</span><span class="dv">1</span>, <span class="at">onset.alpha=</span>.<span class="dv">7</span>) <span class="sc">+</span></span>
+<span id="cb144-7"><a href="controle-sintético-e-estimação-contrafactual.html#cb144-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="fu">c</span>(.<span class="dv">26</span>,.<span class="dv">07</span>), <span class="at">legend.direction=</span><span class="st">&#39;horizontal&#39;</span>,</span>
+<span id="cb144-8"><a href="controle-sintético-e-estimação-contrafactual.html#cb144-8" tabindex="-1"></a>        <span class="at">legend.key=</span><span class="fu">element_blank</span>(), <span class="at">legend.background=</span><span class="fu">element_blank</span>(),</span>
+<span id="cb144-9"><a href="controle-sintético-e-estimação-contrafactual.html#cb144-9" tabindex="-1"></a>        <span class="at">strip.background=</span><span class="fu">element_blank</span>(), <span class="at">strip.text.x =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:sdid1"></span>
+<img src="bookdownproj_files/figure-html/sdid1-1.png" alt="Comparação visual das trajetórias estimadas por DiD, controle sintético e Synthetic DiD." width="672" />
+<p class="caption">
+Figura 12.12: Comparação visual das trajetórias estimadas por DiD, controle sintético e Synthetic DiD.
+</p>
+</div>
 <p>E os pesos de unidade atribuídos por cada estimador:</p>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb147-1" tabindex="-1"></a><span class="fu">synthdid_units_plot</span>(<span class="fu">rev</span>(estimates[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]), <span class="at">se.method=</span><span class="st">&#39;none&#39;</span>)</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/sdid2-1.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="controle-sintético-e-estimação-contrafactual.html#cb145-1" tabindex="-1"></a><span class="fu">synthdid_units_plot</span>(<span class="fu">rev</span>(estimates[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]), <span class="at">se.method=</span><span class="st">&#39;none&#39;</span>)</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:sdid2"></span>
+<img src="bookdownproj_files/figure-html/sdid2-1.png" alt="Pesos de unidade atribuídos por DiD, controle sintético e Synthetic DiD." width="672" />
+<p class="caption">
+Figura 12.13: Pesos de unidade atribuídos por DiD, controle sintético e Synthetic DiD.
+</p>
+</div>
 <p>Note que o DiD atribui peso igual a todos os estados de controle, o SC concentra peso em poucos estados similares à Califórnia, e o SDiD faz algo intermediário.</p>
 </div>
 </div>

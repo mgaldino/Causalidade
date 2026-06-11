@@ -13,6 +13,14 @@
 options(scipen = 999)
 set.seed(123)
 
+utf8_locales <- c("pt_BR.UTF-8", "en_US.UTF-8", "C.UTF-8")
+for (locale in utf8_locales) {
+  locale_result <- try(Sys.setlocale("LC_CTYPE", locale), silent = TRUE)
+  if (!inherits(locale_result, "try-error") && !is.na(locale_result)) {
+    break
+  }
+}
+
 required_packages <- c("dplyr", "tidyr", "ggplot2", "readr", "tibble", "tidysynth")
 missing_packages <- required_packages[
   !vapply(required_packages, requireNamespace, logical(1), quietly = TRUE)
@@ -249,7 +257,7 @@ weights_comparison <- scm_weights |>
   dplyr::arrange(dplyr::desc(abs_regression_weight))
 
 weight_summary <- tibble::tibble(
-  method = c("SCM", "Regressao OLS"),
+  method = c("SCM", "Regressão OLS"),
   n_weights = c(nrow(weights_comparison), nrow(weights_comparison)),
   sum_weights = c(sum(weights_comparison$scm_weight), sum(weights_comparison$regression_weight)),
   min_weight = c(min(weights_comparison$scm_weight), min(weights_comparison$regression_weight)),
@@ -295,8 +303,8 @@ weights_long <- weights_comparison |>
   dplyr::mutate(
     method = dplyr::recode(
       method,
-      scm_weight = "SCM: pesos convexos e explicitos",
-      regression_weight = "Regressao: pesos implicitos"
+      scm_weight = "SCM: pesos convexos e explícitos",
+      regression_weight = "Regressão: pesos implícitos"
     ),
     state = factor(state, levels = weights_comparison$state)
   )
@@ -307,8 +315,6 @@ figure_weights <- ggplot(weights_long, aes(x = state, y = weight, fill = method)
   coord_flip() +
   facet_wrap(~ method, ncol = 2, scales = "free_x") +
   labs(
-    title = "Figura 1. Pesos do controle sintético e pesos implícitos da regressão",
-    subtitle = "A regressão usa pesos que somam 1, mas muitos são negativos; o SCM restringe os pesos ao simplex.",
     x = NULL,
     y = "Peso"
   ) +
@@ -353,8 +359,6 @@ figure_series <- ggplot(series_long, aes(x = year, y = cigsale, colour = series,
     )
   ) +
   labs(
-    title = "Figura 2. Contrafactual da Califórnia: SCM versus regressão",
-    subtitle = "Linha vertical: Proposição 99 em 1988.",
     x = "Ano",
     y = "Vendas per capita de cigarros",
     colour = NULL,
@@ -392,8 +396,6 @@ figure_gap <- ggplot(gap_long, aes(x = year, y = gap, colour = method)) +
   geom_vline(xintercept = treatment_year, linewidth = 0.5, linetype = "dotted") +
   geom_line(linewidth = 0.9) +
   labs(
-    title = "Figura 3. Gap estimado: observado menos contrafactual",
-    subtitle = "Gaps positivos indicam que a Califórnia observada está acima do contrafactual; negativos, abaixo.",
     x = "Ano",
     y = "Gap em vendas per capita",
     colour = NULL

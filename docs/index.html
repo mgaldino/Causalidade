@@ -23,7 +23,7 @@
 <meta name="author" content="Manoel Galdino" />
 
 
-<meta name="date" content="2026-05-26" />
+<meta name="date" content="2026-06-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -489,14 +489,17 @@ div.csl-indent {
 <li class="chapter" data-level="12.1" data-path="index.html"><a href="#motiva%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>12.1</b> Motivação</a></li>
 <li class="chapter" data-level="12.2" data-path="index.html"><a href="#controle-sint%C3%A9tico-cl%C3%A1ssico"><i class="fa fa-check"></i><b>12.2</b> Controle Sintético clássico</a>
 <ul>
-<li class="chapter" data-level="12.2.1" data-path="index.html"><a href="#formaliza%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>12.2.1</b> Formalização</a></li>
+<li class="chapter" data-level="12.2.1" data-path="index.html"><a href="#regress%C3%A3o-como-primeira-tentativa-de-contrafactual"><i class="fa fa-check"></i><b>12.2.1</b> Regressão como primeira tentativa de contrafactual</a></li>
+<li class="chapter" data-level="12.2.2" data-path="index.html"><a href="#o-scm-como-restri%C3%A7%C3%A3o-disciplinadora"><i class="fa fa-check"></i><b>12.2.2</b> O SCM como restrição disciplinadora</a></li>
+<li class="chapter" data-level="12.2.3" data-path="index.html"><a href="#formaliza%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>12.2.3</b> Formalização</a></li>
+<li class="chapter" data-level="12.2.4" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html"><i class="fa fa-check"></i><b>12.2.4</b> Como a literatura se move a partir do SCM</a></li>
 </ul></li>
 <li class="chapter" data-level="12.3" data-path="index.html"><a href="#implementa%C3%A7%C3%A3o-do-scm-no-r"><i class="fa fa-check"></i><b>12.3</b> Implementação do SCM no R</a>
 <ul>
 <li class="chapter" data-level="12.3.1" data-path="index.html"><a href="#infer%C3%AAncia-por-placebo"><i class="fa fa-check"></i><b>12.3.1</b> Inferência por placebo</a></li>
 <li class="chapter" data-level="12.3.2" data-path="index.html"><a href="#diagn%C3%B3sticos-de-robustez-do-scm"><i class="fa fa-check"></i><b>12.3.2</b> Diagnósticos de robustez do SCM</a></li>
 </ul></li>
-<li class="chapter" data-level="12.4" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html"><i class="fa fa-check"></i><b>12.4</b> Do SCM aos modelos de fatores</a></li>
+<li class="chapter" data-level="12.4" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#do-scm-aos-modelos-de-fatores"><i class="fa fa-check"></i><b>12.4</b> Do SCM aos modelos de fatores</a></li>
 <li class="chapter" data-level="12.5" data-path="index.html"><a href="#framework-de-estima%C3%A7%C3%A3o-contrafactual"><i class="fa fa-check"></i><b>12.5</b> Framework de estimação contrafactual</a>
 <ul>
 <li class="chapter" data-level="12.5.1" data-path="controle-sintético-e-estimação-contrafactual.html"><a href="controle-sintético-e-estimação-contrafactual.html#setup"><i class="fa fa-check"></i><b>12.5.1</b> Setup</a></li>
@@ -638,7 +641,7 @@ div.csl-indent {
 <div id="header">
 <h1 class="title">Curso de Inferência Causal</h1>
 <p class="author"><em>Manoel Galdino</em></p>
-<p class="date"><em>2026-05-26</em></p>
+<p class="date"><em>2026-06-11</em></p>
 </div>
 <div id="introdução" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">Capítulo 1</span> Introdução<a href="#introdu%C3%A7%C3%A3o" class="anchor-section" aria-label="Anchor link to header"></a></h1>
@@ -651,16 +654,16 @@ div.csl-indent {
 <p><strong>Abordagens <em>design-based</em></strong> identificam efeitos causais explorando uma fonte de variação exógena na atribuição do tratamento — como aleatorização, regras institucionais, descontinuidades ou choques — e declaram explicitamente as suposições de identificação necessárias (ignorabilidade, tendências paralelas, continuidade, restrição de exclusão). A credibilidade da estimativa vem do <em>desenho de pesquisa</em>, não da especificação do modelo.</p>
 <p>Um estudo recente de Torreblanca et al. (2026) quantificou o alcance dessa revolução, classificando 91.632 artigos publicados entre 2003 e 2023 em 174 periódicos de ciência política. A Figura 1 mostra a classificação sequencial desses artigos: do total, 41% são empíricos quantitativos; destes, a grande maioria (81%) busca explicar relações causais; e dentro dos estudos explanatórios, os métodos <em>design-based</em> e <em>model-based</em> disputam espaço quase que em paridade.</p>
 <div class="figure"><span style="display:block;" id="fig:fig-classificacao"></span>
-<img src="figures/fig2_classificacao.png" alt="Classifica&lt;U+00E7&gt;&lt;U+00E3&gt;o sequencial dos tipos de estudos em ci&lt;U+00EA&gt;ncia pol&lt;U+00ED&gt;tica. Dos 91.632 artigos, o fluxo vai de todos os estudos para quantitativos, depois para descritivos, preditivos e explanat&lt;U+00F3&gt;rios, e finalmente para design-based vs. model-based. Fonte: Torreblanca et al. (2026)." width="90%" />
+<img src="figures/fig2_classificacao.png" alt="Classificação sequencial dos tipos de estudos em ciência política. Dos 91.632 artigos, o fluxo vai de todos os estudos para quantitativos, depois para descritivos, preditivos e explanatórios, e finalmente para design-based vs. model-based. Fonte: Torreblanca et al. (2026)." width="90%" />
 <p class="caption">
-Figura 1.1: Classifica&lt;U+00E7&gt;&lt;U+00E3&gt;o sequencial dos tipos de estudos em ci&lt;U+00EA&gt;ncia pol&lt;U+00ED&gt;tica. Dos 91.632 artigos, o fluxo vai de todos os estudos para quantitativos, depois para descritivos, preditivos e explanat&lt;U+00F3&gt;rios, e finalmente para design-based vs. model-based. Fonte: Torreblanca et al. (2026).
+Figura 1.1: Classificação sequencial dos tipos de estudos em ciência política. Dos 91.632 artigos, o fluxo vai de todos os estudos para quantitativos, depois para descritivos, preditivos e explanatórios, e finalmente para design-based vs. model-based. Fonte: Torreblanca et al. (2026).
 </p>
 </div>
 <p>A Figura 2 detalha a evolução temporal dos diferentes métodos <em>design-based</em> entre os estudos explanatórios. Experimentos survey são o principal motor do crescimento, seguidos por diferenças em diferenças e matching. Variáveis instrumentais, regressão descontínua, experimentos de campo e controle sintético mantêm participações menores, mas estáveis ou em crescimento modesto.</p>
 <div class="figure"><span style="display:block;" id="fig:fig-metodos"></span>
-<img src="figures/fig5_metodos.png" alt="Propor&lt;U+00E7&gt;&lt;U+00E3&gt;o de cada m&lt;U+00E9&gt;todo design-based entre os estudos explanat&lt;U+00F3&gt;rios quantitativos, por ano (2003&lt;U+2013&gt;2023). Fonte: Torreblanca et al. (2026)." width="90%" />
+<img src="figures/fig5_metodos.png" alt="Proporção de cada método design-based entre os estudos explanatórios quantitativos, por ano (2003–2023). Fonte: Torreblanca et al. (2026)." width="90%" />
 <p class="caption">
-Figura 1.2: Propor&lt;U+00E7&gt;&lt;U+00E3&gt;o de cada m&lt;U+00E9&gt;todo design-based entre os estudos explanat&lt;U+00F3&gt;rios quantitativos, por ano (2003&lt;U+2013&gt;2023). Fonte: Torreblanca et al. (2026).
+Figura 1.2: Proporção de cada método design-based entre os estudos explanatórios quantitativos, por ano (2003–2023). Fonte: Torreblanca et al. (2026).
 </p>
 </div>
 <p>Esses dados mostram que os métodos que estudaremos neste curso — experimentos (Caps. 3–4), matching (Cap. 6), variáveis instrumentais (Cap. 7), diferenças em diferenças (Cap. 8), regressão descontínua (Cap. 9) e controle sintético (Cap. 11) — correspondem exatamente às ferramentas que transformaram a prática da inferência causal na disciplina. A revolução é real, embora parcial e desigual: ainda em 2023, cerca de 40% dos estudos explanatórios não empregam uma estratégia de identificação explícita.</p>
