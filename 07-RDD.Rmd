@@ -485,7 +485,7 @@ Um dos principais desafios à identificação causal em RDDs é a possibilidade 
 
 O exemplo mais evidente para nós cientistas políticos é a aprovação de um projeto de lei no legislativo. Nós sabemos que os legisladores agem estrategicamente retirando propostas que não vão ser aprovadas ou postergando a votação, até terem a maioria, ainda que por margem mínima. Nesse caso, a aplicação de RDD produzirá estimativas viesadas. McCrary, em um artigo de 2008, argumentou que tais casos apareceriam como descontinuidade na densidade da *running variable* ao redor do ponto de corte. Eis o gráfico feito por McCrary em seu estudo original:
 
-```{r McCay-test, echo=FALSE, fig.cap="Figura clássica do teste de manipulação em McCrary (2008).", fig.alt="Histograma e densidades laterais indicando possível descontinuidade na densidade da running variable."}
+```{r McCay-test, echo=FALSE, out.width="100%", fig.cap="Figura clássica do teste de manipulação em McCrary (2008).", fig.alt="Histograma e densidades laterais indicando possível descontinuidade na densidade da running variable."}
 
 knitr::include_graphics("imagens/manipulation test.png")
 ```

@@ -529,7 +529,7 @@ Ela exige que o erro em $t$ não esteja correlacionado com valores passados, pre
 
 O DAG abaixo apresenta exogeneidade estrita para um caso simplificado de três períodos:
 
-```{r strict-exogeneity-dag, echo=FALSE, fig.cap="Exogeneidade estrita. O tratamento em cada per\u00edodo n\u00e3o pode responder a choques passados do outcome nem antecipar choques futuros; por isso, a hip\u00f3tese exclui feedback din\u00e2mico entre resultado e tratamento."}
+```{r strict-exogeneity-dag, echo=FALSE, out.width="100%", fig.cap="Exogeneidade estrita. O tratamento em cada per\u00edodo n\u00e3o pode responder a choques passados do outcome nem antecipar choques futuros; por isso, a hip\u00f3tese exclui feedback din\u00e2mico entre resultado e tratamento."}
 knitr::include_graphics("imagens/DAG estrita exogeneidade.png")
 ```
 
@@ -564,7 +564,7 @@ Essa é uma hipótese de seleção em observáveis. Ela é diferente de PT. PT p
 
 O DAG abaixo ilustra a suposição de ignorabilidade sequencial.
 
-```{r sequential-ignorability-dag, echo=FALSE, fig.cap="Ignorabilidade sequencial. O tratamento pode responder \u00e0 hist\u00f3ria observada; a hip\u00f3tese exige que, ap\u00f3s condicionar nessa hist\u00f3ria, n\u00e3o reste confus\u00e3o n\u00e3o observada para os resultados potenciais futuros."}
+```{r sequential-ignorability-dag, echo=FALSE, out.width="100%", fig.cap="Ignorabilidade sequencial. O tratamento pode responder \u00e0 hist\u00f3ria observada; a hip\u00f3tese exige que, ap\u00f3s condicionar nessa hist\u00f3ria, n\u00e3o reste confus\u00e3o n\u00e3o observada para os resultados potenciais futuros."}
 knitr::include_graphics("imagens/sequential ignorability.png")
 ```
 
@@ -716,7 +716,7 @@ knitr::kable(
 
 O DAG abaixo resume diferentes regimes de identificação.
 
-```{r identification-regimes-fig, echo=FALSE, fig.cap="Regimes de identifica\u00e7\u00e3o. Use esta figura como mapa final: cada estimador s\u00f3 \u00e9 interpret\u00e1vel causalmente depois que o pressuposto correspondente foi declarado e defendido."}
+```{r identification-regimes-fig, echo=FALSE, out.width="100%", fig.cap="Regimes de identifica\u00e7\u00e3o. Use esta figura como mapa final: cada estimador s\u00f3 \u00e9 interpret\u00e1vel causalmente depois que o pressuposto correspondente foi declarado e defendido."}
 knitr::include_graphics("imagens/identification regimes.png")
 ```
 

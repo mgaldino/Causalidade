@@ -53,10 +53,10 @@ pib_prod <- data.frame(
   Servicos     = c(65, 50, 60, 40, 35)
 )
 
-kable(pib_shares, caption = "Parcelas de emprego por setor (shares)",
+kable(pib_shares, caption = "(\\#tab:pib-shares) Parcelas de emprego por setor (shares)",
       col.names = c("Estado", "Agropecuária", "Indústria", "Serviços"))
 
-kable(pib_prod, caption = "PIB per capita setorial (R$ mil por trabalhador)",
+kable(pib_prod, caption = "(\\#tab:pib-prod) PIB per capita setorial (R$ mil por trabalhador)",
       col.names = c("Estado", "Agropecuária", "Indústria", "Serviços"))
 ```
 
@@ -405,7 +405,7 @@ O objetivo típico é estimar o efeito causal de uma variável endógena $X_i$ s
 
 \begin{equation}
 Y_i = \alpha + \beta X_i + \varepsilon_i
-(\#eq:estrutural)
+(\#eq:estrutural-shift-share)
 \end{equation}
 
 onde $X_i$ é endógena (por exemplo, crescimento do emprego local ou mudança na votação, que é tanto causa quanto consequência de outros fatores locais). OLS é inconsistente porque $\text{Cov}(X_i, \varepsilon_i) \neq 0$.
