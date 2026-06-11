@@ -371,13 +371,13 @@ onde $\mathbf{X}$ inclui a variável dependente defasada como preditor, e $V$ é
 
 Para entender por que isso é problemático, considere um exemplo simples. Suponha que a unidade tratada tem trajetória pré-tratamento idêntica a dois doadores, A e B. Os pesos $(1, 0)$ e $(0, 1)$ produzem o mesmo ajuste pré-tratamento, mas se A e B divergirem no pós-tratamento, as estimativas do efeito causal serão diferentes conforme a solução escolhida pelo otimizador. Pior, o otimizador pode selecionar uma combinação que usa doadores "distantes" da unidade tratada — produzindo o que Abadie e L'Hour (2021) chamam de **viés de interpolação**.
 
-Abadie e L'Hour (2021) propõem uma solução elegante: adicionar uma penalidade que favorece pesos associados a doadores **mais similares** à unidade tratada. O problema modificado é:
+Uma extensão posterior, motivada sobretudo por aplicações com dados desagregados e muitas unidades tratadas, é o SCM penalizado de Abadie e L'Hour (2021). A ideia é adicionar uma penalidade que favorece pesos associados a doadores **mais similares** à unidade tratada. Para fixar a intuição, no caso de uma unidade tratada, o problema penalizado pode ser escrito como:
 
 $$
 \min_{\omega_1, \ldots, \omega_{N_0}} \sum_t \left\{ \left(Y_{N,t} - \sum_{i=1}^{N_0} \omega_i Y_{i,t}\right)^2 + \lambda \sum_{i=1}^{N_0} \omega_i (Y_{N,t} - Y_{i,t})^2 \right\}
 $$
 
-sujeito a $\omega_i \geq 0$ e $\sum_i \omega_i = 1$, com $\lambda > 0$. O segundo termo penaliza o uso de doadores cujas trajetórias individuais são distantes da unidade tratada. Isso restaura a unicidade da solução e reduz o viés de interpolação. Robbins et al. (2017) propõem uma abordagem alternativa: escolher, dentre as soluções ótimas, os pesos mais próximos de pesos iguais — evitando dependência excessiva de poucos doadores.
+sujeito a $\omega_i \geq 0$ e $\sum_i \omega_i = 1$, com $\lambda > 0$. O segundo termo penaliza o uso de doadores cujas trajetórias individuais são distantes da unidade tratada. Isso ajuda a selecionar uma solução única e reduz o viés de interpolação. No caso canônico com uma única unidade tratada e um *donor pool* pequeno, porém, esse problema tende a ser menos central e costuma ser tratado por escolhas substantivas de preditores e de unidades doadoras. Robbins et al. (2017) propõem uma abordagem alternativa para dados micro ou desagregados: escolher, dentre as soluções ótimas, os pesos mais próximos de pesos iguais — evitando dependência excessiva de poucos doadores.
 
 ### Como a literatura se move a partir do SCM
 
@@ -467,19 +467,30 @@ smoking_out %>% plot_placebos()
 
 O efeito estimado para a Califórnia (linha escura) é claramente maior do que os efeitos placebo (linhas cinzas), sugerindo que a Proposição 99 de fato reduziu o consumo de cigarros.
 
-Para formalizar a inferência, Abadie, Diamond e Hainmueller (2010, seção 4) propõem construir p-valores a partir da distribuição de razões de RMSPE: para cada unidade placebo $j$, calcula-se a razão entre o RMSPE pós-tratamento e o RMSPE pré-tratamento. Se a razão da unidade tratada for extrema em relação à distribuição dos placebos, o efeito é considerado significativo. Formalmente, o p-valor é a fração de unidades (incluindo a tratada) cuja razão RMSPE é pelo menos tão grande quanto a da unidade tratada:
+Para formalizar a inferência, Abadie, Diamond e Hainmueller (2010, seção 4) propõem construir p-valores a partir da distribuição de razões de RMSPE: para cada unidade placebo $i$, calcula-se a razão entre o RMSPE pós-tratamento e o RMSPE pré-tratamento. Se a razão da unidade tratada for extrema em relação à distribuição dos placebos, o efeito é considerado significativo. Formalmente, seja $\mathcal{P}$ o conjunto de unidades usadas no teste placebo, incluindo a unidade tratada e as unidades doadoras elegíveis. O p-valor é a fração de unidades em $\mathcal{P}$ cuja razão RMSPE é pelo menos tão grande quanto a da unidade tratada:
 
 $$
-\text{p-valor} = \frac{1}{N} \sum_{i=1}^{N} \mathbf{1}[R_i \geq R_N]
+\text{p-valor} = \frac{1}{N} \sum_{i \in \mathcal{P}} \mathbf{1}[R_i \geq R_{\text{tratada}}]
 $$
 
-onde $R_i = \sum_{t > T_0} (Y_{it} - \hat{Y}_{it}(0))^2$ é o erro de predição pós-tratamento da unidade $i$.
+onde $N = |\mathcal{P}|$ e
+
+$$
+R_i =
+\frac{
+\sqrt{\frac{1}{T - T_0}\sum_{t > T_0} (Y_{it} - \hat{Y}_{it}(0))^2}
+}{
+\sqrt{\frac{1}{T_0}\sum_{t \leq T_0} (Y_{it} - \hat{Y}_{it}(0))^2}
+}
+$$
+
+é a razão entre o RMSPE pós-tratamento e o RMSPE pré-tratamento da unidade $i$.
 
 **Limitação fundamental: o que significam "5%"?** É crucial entender o que esse p-valor realmente mede. Sob a hipótese nula de efeito zero, o teste assume que a unidade tratada "não é diferente" das demais. O p-valor de 5% significa que, *se cada uma das $N$ unidades fosse tratada*, 5% delas teriam o null rejeitado. Mas isso **não é um nível de significância no sentido frequentista convencional**, porque a unidade tratada geralmente não foi escolhida aleatoriamente entre as $N$ unidades. A Califórnia aprovou a Proposição 99 por razões políticas e sociais específicas — não foi sorteada. Se a Califórnia é sistematicamente diferente dos outros estados (o que é provável, dado que *ela* adotou a política), o teste de permutação pode ter propriedades de tamanho distorcidas.
 
 Em outras palavras, o teste tem validade exata sob aleatorização do tratamento, mas essa premissa raramente se sustenta em aplicações de controle sintético. Abadie, Diamond e Hainmueller (2015), ao estudar o impacto da reunificação sobre a Alemanha Ocidental, enfrentam esse problema de forma aguda: o que significaria "atribuir a reunificação a outro país"?
 
-**Complicações adicionais na prática.** Mesmo aceitando a lógica do teste, duas complicações surgem. Primeira: para algumas unidades placebo, o controle sintético pode ter ajuste pré-tratamento ruim — nesse caso, seu $R_i$ será alto por falha de ajuste, não por efeito causal. Uma solução é descartar placebos com RMSPE pré-tratamento acima de um limiar, ou usar a *razão* entre RMSPE pós e pré (em vez do nível) como estatística de teste. Segunda: com poucas unidades ($N$ pequeno), o menor p-valor possível é $1/N$ — com $N = 39$ estados (como no exemplo da Califórnia), o menor p-valor é $\approx 0.026$, o que limita a precisão inferencial.
+**Complicações adicionais na prática.** Mesmo aceitando a lógica do teste, duas complicações surgem. Primeira: para algumas unidades placebo, o controle sintético pode ter ajuste pré-tratamento ruim. Isso contamina especialmente estatísticas baseadas apenas no erro pós-tratamento em nível; por isso, a razão RMSPE pós/pré é preferível, e também é comum descartar placebos com RMSPE pré-tratamento acima de um limiar. Segunda: com poucas unidades elegíveis no exercício placebo ($N$ pequeno), o menor p-valor possível é $1/N$. No exemplo da Califórnia, $N = 39$ porque a amostra contém a Califórnia e 38 estados doadores, não todos os estados dos EUA; portanto, o menor p-valor é $1/39 \approx 0.026$, o que limita a precisão inferencial.
 
 **Inferência conformal como alternativa.** Chernozhukov, Wüthrich e Zhu (2021) propõem uma solução elegante: em vez de permutar *unidades*, permutar *períodos de tempo*. A ideia é que, sob a hipótese nula de efeito zero, os resíduos $Y_{N,t} - \hat{Y}_{N,t}(0)$ nos períodos pós-tratamento deveriam ser indistinguíveis dos resíduos pré-tratamento. O teste conformal constrói p-valores permutando esses resíduos ao longo do tempo — sem necessidade de assumir que o tratamento foi atribuído aleatoriamente entre unidades. Isso fornece inferência com validade em amostra finita, mesmo com uma única unidade tratada, desde que os erros sejam permutáveis ao longo do tempo.
 
