@@ -28,7 +28,7 @@ Em TSCS, incompletude nem sempre significa dado ausente. Países deixam de exist
 
 Os dados podem ser organizados em dois formatos: **long** e **wide**. O formato long, que é o padrão em análise de dados, organiza a base com uma linha por unidade-período. O formato wide coloca cada unidade em uma única linha e distribui os períodos em colunas.
 
-![long vs wide format. Fonte: https://tavareshugo.github.io/r-intro-tidyverse-gapminder/09-reshaping/index.html](https://tavareshugo.github.io/r-intro-tidyverse-gapminder/fig/07-data_shapes.png)
+![long vs wide format. Fonte: https://tavareshugo.github.io/r-intro-tidyverse-gapminder/09-reshaping/index.html](imagens/long-wide-data-shapes.png)
 
 ## Variação within e between
 
@@ -417,16 +417,20 @@ names(press) <- c("Pressuposto", "Experimento imagin\u00e1rio", "O que permite",
 
 cores <- c("#2F6F9F", "#5E8C61", "#9A6B28", "#8A4F7D")
 press_visual <- press
-press_visual$Pressuposto <- sprintf(
-  '<span style="display:inline-block; min-width: 11em; padding: 0.25em 0.45em; border-radius: 3px; color: white; font-weight: 600; background: %s;">%s</span>',
-  cores,
-  press$Pressuposto
-)
+escape_press <- TRUE
+if (knitr::is_html_output()) {
+  press_visual$Pressuposto <- sprintf(
+    '<span style="display:inline-block; min-width: 11em; padding: 0.25em 0.45em; border-radius: 3px; color: white; font-weight: 600; background: %s;">%s</span>',
+    cores,
+    press$Pressuposto
+  )
+  escape_press <- FALSE
+}
 
 knitr::kable(
   press_visual,
   caption = "Mapa dos quatro pressupostos. As cores distinguem fam\u00edlias de suposi\u00e7\u00f5es: tend\u00eancias, atribui\u00e7\u00e3o inicial, exogeneidade de regress\u00e3o e atribui\u00e7\u00e3o sequencial.",
-  escape = FALSE
+  escape = escape_press
 )
 ```
 
@@ -598,7 +602,7 @@ TWFE incorpora a intuição do DiD porque remove $\alpha_i$ e $\lambda_t$. Mas o
 
 Efeitos fixos permitem que a heterogeneidade fixa da unidade esteja correlacionada com o tratamento:
 $$
-D_i \not\!\perp \alpha_i.
+D_i \not\perp \alpha_i.
 $$
 
 Essa é justamente sua vantagem em relação a efeitos aleatórios. Em efeitos aleatórios, em geral assumimos algo mais forte:

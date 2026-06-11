@@ -1117,11 +1117,13 @@ div.csl-indent {
 <span id="cb51-2"><a href="propensity-score-e-matching.html#cb51-2" tabindex="-1"></a>    <span class="fu">group_by</span>(treat) <span class="sc">%&gt;%</span></span>
 <span id="cb51-3"><a href="propensity-score-e-matching.html#cb51-3" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="st">`</span><span class="at">Renda média (1978)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(re78)) <span class="sc">%&gt;%</span></span>
 <span id="cb51-4"><a href="propensity-score-e-matching.html#cb51-4" tabindex="-1"></a>    kableExtra<span class="sc">::</span><span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">0</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Tratamento&quot;</span>, <span class="st">&quot;Renda média (1978)&quot;</span>))</span></code></pre></div>
+<pre><code>## Warning in do.call(data.frame, c(x, alis)): unable to translate &#39;Renda
+## m&lt;U+00E9&gt;dia (1978)&#39; to native encoding</code></pre>
 <table>
 <thead>
 <tr class="header">
 <th align="right">Tratamento</th>
-<th align="right">Renda média (1978)</th>
+<th align="right">Renda m&lt;U+00E9&gt;dia (1978)</th>
 </tr>
 </thead>
 <tbody>
@@ -1139,12 +1141,12 @@ div.csl-indent {
 <div id="balanceamento-pré-matching" class="section level3 hasAnchor" number="6.6.2">
 <h3><span class="header-section-number">6.6.2</span> Balanceamento pré-matching<a href="#balanceamento-pr%C3%A9-matching" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Antes de fazer matching, examinamos o desbalanceamento nas covariáveis. O <code>matchit</code> com <code>method = NULL</code> calcula o propensity score e as medidas de balanceamento sem realizar matching:</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="propensity-score-e-matching.html#cb52-1" tabindex="-1"></a>m.out0 <span class="ot">&lt;-</span> <span class="fu">matchit</span>(treat <span class="sc">~</span> age <span class="sc">+</span> education <span class="sc">+</span> hispanic <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span> nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75,</span>
-<span id="cb52-2"><a href="propensity-score-e-matching.html#cb52-2" tabindex="-1"></a>                  <span class="at">data =</span> dw_data,</span>
-<span id="cb52-3"><a href="propensity-score-e-matching.html#cb52-3" tabindex="-1"></a>                  <span class="at">method =</span> <span class="cn">NULL</span>,</span>
-<span id="cb52-4"><a href="propensity-score-e-matching.html#cb52-4" tabindex="-1"></a>                  <span class="at">distance =</span> <span class="st">&quot;glm&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="propensity-score-e-matching.html#cb53-1" tabindex="-1"></a>m.out0 <span class="ot">&lt;-</span> <span class="fu">matchit</span>(treat <span class="sc">~</span> age <span class="sc">+</span> education <span class="sc">+</span> hispanic <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span> nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75,</span>
+<span id="cb53-2"><a href="propensity-score-e-matching.html#cb53-2" tabindex="-1"></a>                  <span class="at">data =</span> dw_data,</span>
+<span id="cb53-3"><a href="propensity-score-e-matching.html#cb53-3" tabindex="-1"></a>                  <span class="at">method =</span> <span class="cn">NULL</span>,</span>
+<span id="cb53-4"><a href="propensity-score-e-matching.html#cb53-4" tabindex="-1"></a>                  <span class="at">distance =</span> <span class="st">&quot;glm&quot;</span>)</span></code></pre></div>
 <pre><code>## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred</code></pre>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="propensity-score-e-matching.html#cb54-1" tabindex="-1"></a><span class="fu">summary</span>(m.out0)</span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="propensity-score-e-matching.html#cb55-1" tabindex="-1"></a><span class="fu">summary</span>(m.out0)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## matchit(formula = treat ~ age + education + hispanic + black + 
@@ -1184,12 +1186,12 @@ div.csl-indent {
 <div id="nearest-neighbor-matching" class="section level3 hasAnchor" number="6.6.3">
 <h3><span class="header-section-number">6.6.3</span> Nearest-neighbor matching<a href="propensity-score-e-matching.html#nearest-neighbor-matching" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Começamos com o matching por vizinho mais próximo (<em>nearest-neighbor</em>) no propensity score:</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="propensity-score-e-matching.html#cb56-1" tabindex="-1"></a>m.out1 <span class="ot">&lt;-</span> <span class="fu">matchit</span>(treat <span class="sc">~</span> age <span class="sc">+</span> education <span class="sc">+</span> hispanic <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span> nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75,</span>
-<span id="cb56-2"><a href="propensity-score-e-matching.html#cb56-2" tabindex="-1"></a>                  <span class="at">data =</span> dw_data,</span>
-<span id="cb56-3"><a href="propensity-score-e-matching.html#cb56-3" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">&quot;nearest&quot;</span>,</span>
-<span id="cb56-4"><a href="propensity-score-e-matching.html#cb56-4" tabindex="-1"></a>                  <span class="at">distance =</span> <span class="st">&quot;glm&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="propensity-score-e-matching.html#cb57-1" tabindex="-1"></a>m.out1 <span class="ot">&lt;-</span> <span class="fu">matchit</span>(treat <span class="sc">~</span> age <span class="sc">+</span> education <span class="sc">+</span> hispanic <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span> nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75,</span>
+<span id="cb57-2"><a href="propensity-score-e-matching.html#cb57-2" tabindex="-1"></a>                  <span class="at">data =</span> dw_data,</span>
+<span id="cb57-3"><a href="propensity-score-e-matching.html#cb57-3" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">&quot;nearest&quot;</span>,</span>
+<span id="cb57-4"><a href="propensity-score-e-matching.html#cb57-4" tabindex="-1"></a>                  <span class="at">distance =</span> <span class="st">&quot;glm&quot;</span>)</span></code></pre></div>
 <pre><code>## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred</code></pre>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="propensity-score-e-matching.html#cb58-1" tabindex="-1"></a><span class="fu">summary</span>(m.out1)</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="propensity-score-e-matching.html#cb59-1" tabindex="-1"></a><span class="fu">summary</span>(m.out1)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## matchit(formula = treat ~ age + education + hispanic + black + 
@@ -1246,19 +1248,19 @@ div.csl-indent {
 ## Matched       185     185
 ## Unmatched    2305       0
 ## Discarded       0       0</code></pre>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="propensity-score-e-matching.html#cb60-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">summary</span>(m.out1))</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="propensity-score-e-matching.html#cb61-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">summary</span>(m.out1))</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/matching-nearest-1.png" alt="" width="672" /></p>
 <p>O gráfico de <em>love plot</em> mostra as diferenças padronizadas antes e depois do matching. Idealmente, todas as covariáveis deveriam ter diferenças próximas de zero após o matching.</p>
 </div>
 <div id="full-matching" class="section level3 hasAnchor" number="6.6.4">
 <h3><span class="header-section-number">6.6.4</span> Full matching<a href="propensity-score-e-matching.html#full-matching" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Uma alternativa é o <em>full matching</em>, que usa todas as observações (sem descarte) e cria subclasses de tamanho variável:</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="propensity-score-e-matching.html#cb61-1" tabindex="-1"></a>m.out2 <span class="ot">&lt;-</span> <span class="fu">matchit</span>(treat <span class="sc">~</span> age <span class="sc">+</span> education <span class="sc">+</span> hispanic <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span> nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75,</span>
-<span id="cb61-2"><a href="propensity-score-e-matching.html#cb61-2" tabindex="-1"></a>                  <span class="at">data =</span> dw_data,</span>
-<span id="cb61-3"><a href="propensity-score-e-matching.html#cb61-3" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">&quot;full&quot;</span>,</span>
-<span id="cb61-4"><a href="propensity-score-e-matching.html#cb61-4" tabindex="-1"></a>                  <span class="at">distance =</span> <span class="st">&quot;glm&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="propensity-score-e-matching.html#cb62-1" tabindex="-1"></a>m.out2 <span class="ot">&lt;-</span> <span class="fu">matchit</span>(treat <span class="sc">~</span> age <span class="sc">+</span> education <span class="sc">+</span> hispanic <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span> nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75,</span>
+<span id="cb62-2"><a href="propensity-score-e-matching.html#cb62-2" tabindex="-1"></a>                  <span class="at">data =</span> dw_data,</span>
+<span id="cb62-3"><a href="propensity-score-e-matching.html#cb62-3" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">&quot;full&quot;</span>,</span>
+<span id="cb62-4"><a href="propensity-score-e-matching.html#cb62-4" tabindex="-1"></a>                  <span class="at">distance =</span> <span class="st">&quot;glm&quot;</span>)</span></code></pre></div>
 <pre><code>## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred</code></pre>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="propensity-score-e-matching.html#cb63-1" tabindex="-1"></a><span class="fu">summary</span>(m.out2)</span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="propensity-score-e-matching.html#cb64-1" tabindex="-1"></a><span class="fu">summary</span>(m.out2)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## matchit(formula = treat ~ age + education + hispanic + black + 
@@ -1320,14 +1322,14 @@ div.csl-indent {
 <div id="estimação-do-att" class="section level3 hasAnchor" number="6.6.5">
 <h3><span class="header-section-number">6.6.5</span> Estimação do ATT<a href="#estima%C3%A7%C3%A3o-do-att" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Com o matching feito, estimamos o ATT usando regressão com interações nas covariáveis (para ajuste residual) e erros-padrão clusterizados por subclasse:</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="propensity-score-e-matching.html#cb65-1" tabindex="-1"></a><span class="co"># Com nearest-neighbor</span></span>
-<span id="cb65-2"><a href="propensity-score-e-matching.html#cb65-2" tabindex="-1"></a>m.data1 <span class="ot">&lt;-</span> <span class="fu">match.data</span>(m.out1)</span>
-<span id="cb65-3"><a href="propensity-score-e-matching.html#cb65-3" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(re78 <span class="sc">~</span> treat <span class="sc">*</span> (age <span class="sc">+</span> education <span class="sc">+</span> hispanic <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span></span>
-<span id="cb65-4"><a href="propensity-score-e-matching.html#cb65-4" tabindex="-1"></a>                             nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75),</span>
-<span id="cb65-5"><a href="propensity-score-e-matching.html#cb65-5" tabindex="-1"></a>           <span class="at">data =</span> m.data1, <span class="at">weights =</span> weights)</span>
-<span id="cb65-6"><a href="propensity-score-e-matching.html#cb65-6" tabindex="-1"></a></span>
-<span id="cb65-7"><a href="propensity-score-e-matching.html#cb65-7" tabindex="-1"></a><span class="fu">avg_comparisons</span>(fit1, <span class="at">variables =</span> <span class="st">&quot;treat&quot;</span>,</span>
-<span id="cb65-8"><a href="propensity-score-e-matching.html#cb65-8" tabindex="-1"></a>                <span class="at">vcov =</span> <span class="sc">~</span>subclass, <span class="at">newdata =</span> <span class="fu">subset</span>(treat <span class="sc">==</span> <span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="propensity-score-e-matching.html#cb66-1" tabindex="-1"></a><span class="co"># Com nearest-neighbor</span></span>
+<span id="cb66-2"><a href="propensity-score-e-matching.html#cb66-2" tabindex="-1"></a>m.data1 <span class="ot">&lt;-</span> <span class="fu">match.data</span>(m.out1)</span>
+<span id="cb66-3"><a href="propensity-score-e-matching.html#cb66-3" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(re78 <span class="sc">~</span> treat <span class="sc">*</span> (age <span class="sc">+</span> education <span class="sc">+</span> hispanic <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span></span>
+<span id="cb66-4"><a href="propensity-score-e-matching.html#cb66-4" tabindex="-1"></a>                             nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75),</span>
+<span id="cb66-5"><a href="propensity-score-e-matching.html#cb66-5" tabindex="-1"></a>           <span class="at">data =</span> m.data1, <span class="at">weights =</span> weights)</span>
+<span id="cb66-6"><a href="propensity-score-e-matching.html#cb66-6" tabindex="-1"></a></span>
+<span id="cb66-7"><a href="propensity-score-e-matching.html#cb66-7" tabindex="-1"></a><span class="fu">avg_comparisons</span>(fit1, <span class="at">variables =</span> <span class="st">&quot;treat&quot;</span>,</span>
+<span id="cb66-8"><a href="propensity-score-e-matching.html#cb66-8" tabindex="-1"></a>                <span class="at">vcov =</span> <span class="sc">~</span>subclass, <span class="at">newdata =</span> <span class="fu">subset</span>(treat <span class="sc">==</span> <span class="dv">1</span>))</span></code></pre></div>
 <pre><code>## 
 ##  Estimate Std. Error    z Pr(&gt;|z|)   S 2.5 % 97.5 %
 ##      1905        872 2.18    0.029 5.1   195   3614
@@ -1335,14 +1337,14 @@ div.csl-indent {
 ## Term: treat
 ## Type:  response 
 ## Comparison: 1 - 0</code></pre>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="propensity-score-e-matching.html#cb67-1" tabindex="-1"></a><span class="co"># Com full matching</span></span>
-<span id="cb67-2"><a href="propensity-score-e-matching.html#cb67-2" tabindex="-1"></a>m.data2 <span class="ot">&lt;-</span> <span class="fu">match.data</span>(m.out2)</span>
-<span id="cb67-3"><a href="propensity-score-e-matching.html#cb67-3" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(re78 <span class="sc">~</span> treat <span class="sc">*</span> (age <span class="sc">+</span> education <span class="sc">+</span> hispanic <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span></span>
-<span id="cb67-4"><a href="propensity-score-e-matching.html#cb67-4" tabindex="-1"></a>                             nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75),</span>
-<span id="cb67-5"><a href="propensity-score-e-matching.html#cb67-5" tabindex="-1"></a>           <span class="at">data =</span> m.data2, <span class="at">weights =</span> weights)</span>
-<span id="cb67-6"><a href="propensity-score-e-matching.html#cb67-6" tabindex="-1"></a></span>
-<span id="cb67-7"><a href="propensity-score-e-matching.html#cb67-7" tabindex="-1"></a><span class="fu">avg_comparisons</span>(fit2, <span class="at">variables =</span> <span class="st">&quot;treat&quot;</span>,</span>
-<span id="cb67-8"><a href="propensity-score-e-matching.html#cb67-8" tabindex="-1"></a>                <span class="at">vcov =</span> <span class="sc">~</span>subclass, <span class="at">newdata =</span> <span class="fu">subset</span>(treat <span class="sc">==</span> <span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="propensity-score-e-matching.html#cb68-1" tabindex="-1"></a><span class="co"># Com full matching</span></span>
+<span id="cb68-2"><a href="propensity-score-e-matching.html#cb68-2" tabindex="-1"></a>m.data2 <span class="ot">&lt;-</span> <span class="fu">match.data</span>(m.out2)</span>
+<span id="cb68-3"><a href="propensity-score-e-matching.html#cb68-3" tabindex="-1"></a>fit2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(re78 <span class="sc">~</span> treat <span class="sc">*</span> (age <span class="sc">+</span> education <span class="sc">+</span> hispanic <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span></span>
+<span id="cb68-4"><a href="propensity-score-e-matching.html#cb68-4" tabindex="-1"></a>                             nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75),</span>
+<span id="cb68-5"><a href="propensity-score-e-matching.html#cb68-5" tabindex="-1"></a>           <span class="at">data =</span> m.data2, <span class="at">weights =</span> weights)</span>
+<span id="cb68-6"><a href="propensity-score-e-matching.html#cb68-6" tabindex="-1"></a></span>
+<span id="cb68-7"><a href="propensity-score-e-matching.html#cb68-7" tabindex="-1"></a><span class="fu">avg_comparisons</span>(fit2, <span class="at">variables =</span> <span class="st">&quot;treat&quot;</span>,</span>
+<span id="cb68-8"><a href="propensity-score-e-matching.html#cb68-8" tabindex="-1"></a>                <span class="at">vcov =</span> <span class="sc">~</span>subclass, <span class="at">newdata =</span> <span class="fu">subset</span>(treat <span class="sc">==</span> <span class="dv">1</span>))</span></code></pre></div>
 <pre><code>## 
 ##  Estimate Std. Error    z Pr(&gt;|z|)    S 2.5 % 97.5 %
 ##      2629        612 4.29   &lt;0.001 15.8  1429   3829
@@ -1381,9 +1383,9 @@ div.csl-indent {
 <h3><span class="header-section-number">6.8.1</span> Coarsened Exact Matching (CEM)<a href="propensity-score-e-matching.html#coarsened-exact-matching-cem" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>O Coarsened Exact Matching <span class="citation">(CEM, <a href="#ref-iacuskingporro2012">Iacus, King, and Porro 2012</a>)</span> é um método que busca combinar a simplicidade do matching exato com a flexibilidade do matching aproximado. A ideia é “engrossar” (<em>coarsen</em>) temporariamente as covariáveis — por exemplo, agrupar idades em faixas etárias (18–25, 26–35, etc.) — e então realizar matching exato nas versões engrossadas. As observações que não encontram match exato nas covariáveis engrossadas são descartadas. Após o matching, a análise é feita com os valores originais (não engrossados) das covariáveis.</p>
 <p>A vantagem principal do CEM é que ele garante um nível máximo de desbalanceamento ex ante: o pesquisador escolhe o grau de engrossamento e, portanto, controla diretamente o trade-off entre qualidade do match e tamanho da amostra resultante. Além disso, o CEM satisfaz uma propriedade chamada <em>monotonic imbalance bounding</em>: engrossar menos (faixas mais estreitas) nunca piora o balanceamento.</p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="propensity-score-e-matching.html#cb69-1" tabindex="-1"></a>m.cem <span class="ot">&lt;-</span> <span class="fu">matchit</span>(treat <span class="sc">~</span> age <span class="sc">+</span> education <span class="sc">+</span> hispanic <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span> nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75,</span>
-<span id="cb69-2"><a href="propensity-score-e-matching.html#cb69-2" tabindex="-1"></a>                 <span class="at">data =</span> dw_data, <span class="at">method =</span> <span class="st">&quot;cem&quot;</span>)</span>
-<span id="cb69-3"><a href="propensity-score-e-matching.html#cb69-3" tabindex="-1"></a><span class="fu">summary</span>(m.cem)</span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="propensity-score-e-matching.html#cb70-1" tabindex="-1"></a>m.cem <span class="ot">&lt;-</span> <span class="fu">matchit</span>(treat <span class="sc">~</span> age <span class="sc">+</span> education <span class="sc">+</span> hispanic <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span> nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75,</span>
+<span id="cb70-2"><a href="propensity-score-e-matching.html#cb70-2" tabindex="-1"></a>                 <span class="at">data =</span> dw_data, <span class="at">method =</span> <span class="st">&quot;cem&quot;</span>)</span>
+<span id="cb70-3"><a href="propensity-score-e-matching.html#cb70-3" tabindex="-1"></a><span class="fu">summary</span>(m.cem)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## matchit(formula = treat ~ age + education + hispanic + black + 
@@ -1436,13 +1438,13 @@ div.csl-indent {
 ## Matched        131.       116
 ## Unmatched     2359.        69
 ## Discarded        0.         0</code></pre>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="propensity-score-e-matching.html#cb71-1" tabindex="-1"></a>m.data.cem <span class="ot">&lt;-</span> <span class="fu">match.data</span>(m.cem)</span>
-<span id="cb71-2"><a href="propensity-score-e-matching.html#cb71-2" tabindex="-1"></a>fit.cem <span class="ot">&lt;-</span> <span class="fu">lm</span>(re78 <span class="sc">~</span> treat <span class="sc">*</span> (age <span class="sc">+</span> education <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span></span>
-<span id="cb71-3"><a href="propensity-score-e-matching.html#cb71-3" tabindex="-1"></a>                                nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75),</span>
-<span id="cb71-4"><a href="propensity-score-e-matching.html#cb71-4" tabindex="-1"></a>              <span class="at">data =</span> m.data.cem, <span class="at">weights =</span> weights)</span>
-<span id="cb71-5"><a href="propensity-score-e-matching.html#cb71-5" tabindex="-1"></a></span>
-<span id="cb71-6"><a href="propensity-score-e-matching.html#cb71-6" tabindex="-1"></a><span class="fu">avg_comparisons</span>(fit.cem, <span class="at">variables =</span> <span class="st">&quot;treat&quot;</span>,</span>
-<span id="cb71-7"><a href="propensity-score-e-matching.html#cb71-7" tabindex="-1"></a>                <span class="at">vcov =</span> <span class="sc">~</span>subclass, <span class="at">newdata =</span> <span class="fu">subset</span>(treat <span class="sc">==</span> <span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="propensity-score-e-matching.html#cb72-1" tabindex="-1"></a>m.data.cem <span class="ot">&lt;-</span> <span class="fu">match.data</span>(m.cem)</span>
+<span id="cb72-2"><a href="propensity-score-e-matching.html#cb72-2" tabindex="-1"></a>fit.cem <span class="ot">&lt;-</span> <span class="fu">lm</span>(re78 <span class="sc">~</span> treat <span class="sc">*</span> (age <span class="sc">+</span> education <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span></span>
+<span id="cb72-3"><a href="propensity-score-e-matching.html#cb72-3" tabindex="-1"></a>                                nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75),</span>
+<span id="cb72-4"><a href="propensity-score-e-matching.html#cb72-4" tabindex="-1"></a>              <span class="at">data =</span> m.data.cem, <span class="at">weights =</span> weights)</span>
+<span id="cb72-5"><a href="propensity-score-e-matching.html#cb72-5" tabindex="-1"></a></span>
+<span id="cb72-6"><a href="propensity-score-e-matching.html#cb72-6" tabindex="-1"></a><span class="fu">avg_comparisons</span>(fit.cem, <span class="at">variables =</span> <span class="st">&quot;treat&quot;</span>,</span>
+<span id="cb72-7"><a href="propensity-score-e-matching.html#cb72-7" tabindex="-1"></a>                <span class="at">vcov =</span> <span class="sc">~</span>subclass, <span class="at">newdata =</span> <span class="fu">subset</span>(treat <span class="sc">==</span> <span class="dv">1</span>))</span></code></pre></div>
 <pre><code>## 
 ##  Estimate Std. Error     z Pr(&gt;|z|)   S 2.5 % 97.5 %
 ##       316       1460 0.216    0.829 0.3 -2546   3178
@@ -1456,19 +1458,19 @@ div.csl-indent {
 <h3><span class="header-section-number">6.8.2</span> Entropy Balancing<a href="propensity-score-e-matching.html#entropy-balancing" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>O entropy balancing <span class="citation">(<a href="#ref-hainmueller2012">Hainmueller 2012</a>)</span> adota uma abordagem diferente: em vez de selecionar observações, ele repesa as unidades do grupo de controle de modo que momentos selecionados (média, variância e, opcionalmente, assimetria) das covariáveis no controle repesado sejam exatamente iguais aos do grupo tratado. Isso é feito resolvendo um problema de otimização convexa que minimiza a entropia dos pesos em relação a pesos uniformes, sujeito às restrições de balanceamento.</p>
 <p>Na prática, o entropy balancing produz pesos suaves (sem descarte de observações) e garante balanceamento exato nos momentos especificados, eliminando a necessidade de iterar entre matching e checagem de balanceamento. É uma alternativa atraente quando o número de covariáveis é moderado e o pesquisador quer evitar a perda de observações associada ao matching tradicional.</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="propensity-score-e-matching.html#cb73-1" tabindex="-1"></a><span class="fu">library</span>(ebal)</span>
-<span id="cb73-2"><a href="propensity-score-e-matching.html#cb73-2" tabindex="-1"></a></span>
-<span id="cb73-3"><a href="propensity-score-e-matching.html#cb73-3" tabindex="-1"></a><span class="co"># Separar tratados e controles</span></span>
-<span id="cb73-4"><a href="propensity-score-e-matching.html#cb73-4" tabindex="-1"></a>treated <span class="ot">&lt;-</span> dw_data[dw_data<span class="sc">$</span>treat <span class="sc">==</span> <span class="dv">1</span>, ]</span>
-<span id="cb73-5"><a href="propensity-score-e-matching.html#cb73-5" tabindex="-1"></a>control <span class="ot">&lt;-</span> dw_data[dw_data<span class="sc">$</span>treat <span class="sc">==</span> <span class="dv">0</span>, ]</span>
-<span id="cb73-6"><a href="propensity-score-e-matching.html#cb73-6" tabindex="-1"></a></span>
-<span id="cb73-7"><a href="propensity-score-e-matching.html#cb73-7" tabindex="-1"></a>covs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;age&quot;</span>, <span class="st">&quot;education&quot;</span>, <span class="st">&quot;hispanic&quot;</span>, <span class="st">&quot;black&quot;</span>, <span class="st">&quot;married&quot;</span>, <span class="st">&quot;nodegree&quot;</span>, <span class="st">&quot;re74&quot;</span>, <span class="st">&quot;re75&quot;</span>)</span>
-<span id="cb73-8"><a href="propensity-score-e-matching.html#cb73-8" tabindex="-1"></a></span>
-<span id="cb73-9"><a href="propensity-score-e-matching.html#cb73-9" tabindex="-1"></a>eb <span class="ot">&lt;-</span> <span class="fu">ebalance</span>(<span class="at">Treatment =</span> dw_data<span class="sc">$</span>treat,</span>
-<span id="cb73-10"><a href="propensity-score-e-matching.html#cb73-10" tabindex="-1"></a>               <span class="at">X =</span> dw_data[, ..covs])</span>
-<span id="cb73-11"><a href="propensity-score-e-matching.html#cb73-11" tabindex="-1"></a></span>
-<span id="cb73-12"><a href="propensity-score-e-matching.html#cb73-12" tabindex="-1"></a><span class="co"># Médias das covariáveis: tratados vs controles repesados</span></span>
-<span id="cb73-13"><a href="propensity-score-e-matching.html#cb73-13" tabindex="-1"></a><span class="fu">round</span>(eb<span class="sc">$</span>co.xdata, <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="propensity-score-e-matching.html#cb74-1" tabindex="-1"></a><span class="fu">library</span>(ebal)</span>
+<span id="cb74-2"><a href="propensity-score-e-matching.html#cb74-2" tabindex="-1"></a></span>
+<span id="cb74-3"><a href="propensity-score-e-matching.html#cb74-3" tabindex="-1"></a><span class="co"># Separar tratados e controles</span></span>
+<span id="cb74-4"><a href="propensity-score-e-matching.html#cb74-4" tabindex="-1"></a>treated <span class="ot">&lt;-</span> dw_data[dw_data<span class="sc">$</span>treat <span class="sc">==</span> <span class="dv">1</span>, ]</span>
+<span id="cb74-5"><a href="propensity-score-e-matching.html#cb74-5" tabindex="-1"></a>control <span class="ot">&lt;-</span> dw_data[dw_data<span class="sc">$</span>treat <span class="sc">==</span> <span class="dv">0</span>, ]</span>
+<span id="cb74-6"><a href="propensity-score-e-matching.html#cb74-6" tabindex="-1"></a></span>
+<span id="cb74-7"><a href="propensity-score-e-matching.html#cb74-7" tabindex="-1"></a>covs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;age&quot;</span>, <span class="st">&quot;education&quot;</span>, <span class="st">&quot;hispanic&quot;</span>, <span class="st">&quot;black&quot;</span>, <span class="st">&quot;married&quot;</span>, <span class="st">&quot;nodegree&quot;</span>, <span class="st">&quot;re74&quot;</span>, <span class="st">&quot;re75&quot;</span>)</span>
+<span id="cb74-8"><a href="propensity-score-e-matching.html#cb74-8" tabindex="-1"></a></span>
+<span id="cb74-9"><a href="propensity-score-e-matching.html#cb74-9" tabindex="-1"></a>eb <span class="ot">&lt;-</span> <span class="fu">ebalance</span>(<span class="at">Treatment =</span> dw_data<span class="sc">$</span>treat,</span>
+<span id="cb74-10"><a href="propensity-score-e-matching.html#cb74-10" tabindex="-1"></a>               <span class="at">X =</span> dw_data[, ..covs])</span>
+<span id="cb74-11"><a href="propensity-score-e-matching.html#cb74-11" tabindex="-1"></a></span>
+<span id="cb74-12"><a href="propensity-score-e-matching.html#cb74-12" tabindex="-1"></a><span class="co"># Médias das covariáveis: tratados vs controles repesados</span></span>
+<span id="cb74-13"><a href="propensity-score-e-matching.html#cb74-13" tabindex="-1"></a><span class="fu">round</span>(eb<span class="sc">$</span>co.xdata, <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>##           age education hispanic black married nodegree       re74       re75
 ##    [1,] 1  47        12        0     0       0        0      0.000      0.000
 ##    [2,] 1  50        12        0     1       1        0      0.000      0.000
@@ -3960,10 +3962,10 @@ div.csl-indent {
 ## [2488,] 1  47        10        0     0       1        1  48197.965  47968.113
 ## [2489,] 1  54         0        1     0       1        1  49228.539  44220.969
 ## [2490,] 1  40         8        0     0       1        1  50940.938  55500.000</code></pre>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="propensity-score-e-matching.html#cb75-1" tabindex="-1"></a><span class="co"># Estimação do ATT com pesos do entropy balancing</span></span>
-<span id="cb75-2"><a href="propensity-score-e-matching.html#cb75-2" tabindex="-1"></a>dw_data<span class="sc">$</span>eb_weights <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(dw_data<span class="sc">$</span>treat <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>, eb<span class="sc">$</span>w)</span>
-<span id="cb75-3"><a href="propensity-score-e-matching.html#cb75-3" tabindex="-1"></a>fit.eb <span class="ot">&lt;-</span> <span class="fu">lm</span>(re78 <span class="sc">~</span> treat, <span class="at">data =</span> dw_data, <span class="at">weights =</span> eb_weights)</span>
-<span id="cb75-4"><a href="propensity-score-e-matching.html#cb75-4" tabindex="-1"></a><span class="fu">summary</span>(fit.eb)<span class="sc">$</span>coefficients[<span class="st">&quot;treat&quot;</span>, ]</span></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="propensity-score-e-matching.html#cb76-1" tabindex="-1"></a><span class="co"># Estimação do ATT com pesos do entropy balancing</span></span>
+<span id="cb76-2"><a href="propensity-score-e-matching.html#cb76-2" tabindex="-1"></a>dw_data<span class="sc">$</span>eb_weights <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(dw_data<span class="sc">$</span>treat <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>, eb<span class="sc">$</span>w)</span>
+<span id="cb76-3"><a href="propensity-score-e-matching.html#cb76-3" tabindex="-1"></a>fit.eb <span class="ot">&lt;-</span> <span class="fu">lm</span>(re78 <span class="sc">~</span> treat, <span class="at">data =</span> dw_data, <span class="at">weights =</span> eb_weights)</span>
+<span id="cb76-4"><a href="propensity-score-e-matching.html#cb76-4" tabindex="-1"></a><span class="fu">summary</span>(fit.eb)<span class="sc">$</span>coefficients[<span class="st">&quot;treat&quot;</span>, ]</span></code></pre></div>
 <pre><code>##     Estimate   Std. Error      t value     Pr(&gt;|t|) 
 ## -31752.34151    554.38360    -57.27504      0.00000</code></pre>
 <p>Note que, diferente do matching, nenhuma observação é descartada — todas recebem pesos positivos. O balanceamento nas médias é exato por construção.</p>
@@ -3979,21 +3981,21 @@ div.csl-indent {
 <p>Por exemplo, se <span class="math inline">\(\Gamma^* = 2\)</span>, isso significa que um confounder oculto precisaria dobrar a chance de tratamento (para unidades com mesmas covariáveis observadas) para invalidar o resultado. Se <span class="math inline">\(\Gamma^* = 1.1\)</span>, o resultado é muito frágil a confundimento oculto.</p>
 <p>Essa análise não prova que o resultado é válido, mas permite uma avaliação quantitativa da robustez da conclusão — e é considerada boa prática em qualquer estudo que dependa de seleção em observáveis.</p>
 <p>Uma implementação moderna dessa ideia é o pacote <code>sensemakr</code> <span class="citation">(<a href="#ref-cinellihazlett2020">Cinelli and Hazlett 2020</a>)</span>, que permite avaliar a sensibilidade de estimativas de regressão a confundidores não-observados. A ideia é perguntar: quão forte precisaria ser um confounder omitido — em termos de sua capacidade de explicar variação no tratamento e no resultado — para invalidar a conclusão?</p>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="propensity-score-e-matching.html#cb77-1" tabindex="-1"></a><span class="fu">library</span>(sensemakr)</span>
-<span id="cb77-2"><a href="propensity-score-e-matching.html#cb77-2" tabindex="-1"></a></span>
-<span id="cb77-3"><a href="propensity-score-e-matching.html#cb77-3" tabindex="-1"></a><span class="co"># Regressão com os dados matched (nearest-neighbor)</span></span>
-<span id="cb77-4"><a href="propensity-score-e-matching.html#cb77-4" tabindex="-1"></a>fit_sens <span class="ot">&lt;-</span> <span class="fu">lm</span>(re78 <span class="sc">~</span> treat <span class="sc">+</span> age <span class="sc">+</span> education <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span></span>
-<span id="cb77-5"><a href="propensity-score-e-matching.html#cb77-5" tabindex="-1"></a>                 nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75,</span>
-<span id="cb77-6"><a href="propensity-score-e-matching.html#cb77-6" tabindex="-1"></a>               <span class="at">data =</span> m.data1)</span>
-<span id="cb77-7"><a href="propensity-score-e-matching.html#cb77-7" tabindex="-1"></a></span>
-<span id="cb77-8"><a href="propensity-score-e-matching.html#cb77-8" tabindex="-1"></a><span class="co"># Análise de sensibilidade: quão forte teria que ser um confounder</span></span>
-<span id="cb77-9"><a href="propensity-score-e-matching.html#cb77-9" tabindex="-1"></a><span class="co"># omitido para anular o efeito de treat?</span></span>
-<span id="cb77-10"><a href="propensity-score-e-matching.html#cb77-10" tabindex="-1"></a>sens <span class="ot">&lt;-</span> <span class="fu">sensemakr</span>(fit_sens,</span>
-<span id="cb77-11"><a href="propensity-score-e-matching.html#cb77-11" tabindex="-1"></a>                  <span class="at">treatment =</span> <span class="st">&quot;treat&quot;</span>,</span>
-<span id="cb77-12"><a href="propensity-score-e-matching.html#cb77-12" tabindex="-1"></a>                  <span class="at">benchmark_covariates =</span> <span class="st">&quot;re74&quot;</span>,</span>
-<span id="cb77-13"><a href="propensity-score-e-matching.html#cb77-13" tabindex="-1"></a>                  <span class="at">kd =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
-<span id="cb77-14"><a href="propensity-score-e-matching.html#cb77-14" tabindex="-1"></a></span>
-<span id="cb77-15"><a href="propensity-score-e-matching.html#cb77-15" tabindex="-1"></a><span class="fu">summary</span>(sens)</span></code></pre></div>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="propensity-score-e-matching.html#cb78-1" tabindex="-1"></a><span class="fu">library</span>(sensemakr)</span>
+<span id="cb78-2"><a href="propensity-score-e-matching.html#cb78-2" tabindex="-1"></a></span>
+<span id="cb78-3"><a href="propensity-score-e-matching.html#cb78-3" tabindex="-1"></a><span class="co"># Regressão com os dados matched (nearest-neighbor)</span></span>
+<span id="cb78-4"><a href="propensity-score-e-matching.html#cb78-4" tabindex="-1"></a>fit_sens <span class="ot">&lt;-</span> <span class="fu">lm</span>(re78 <span class="sc">~</span> treat <span class="sc">+</span> age <span class="sc">+</span> education <span class="sc">+</span> black <span class="sc">+</span> married <span class="sc">+</span></span>
+<span id="cb78-5"><a href="propensity-score-e-matching.html#cb78-5" tabindex="-1"></a>                 nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75,</span>
+<span id="cb78-6"><a href="propensity-score-e-matching.html#cb78-6" tabindex="-1"></a>               <span class="at">data =</span> m.data1)</span>
+<span id="cb78-7"><a href="propensity-score-e-matching.html#cb78-7" tabindex="-1"></a></span>
+<span id="cb78-8"><a href="propensity-score-e-matching.html#cb78-8" tabindex="-1"></a><span class="co"># Análise de sensibilidade: quão forte teria que ser um confounder</span></span>
+<span id="cb78-9"><a href="propensity-score-e-matching.html#cb78-9" tabindex="-1"></a><span class="co"># omitido para anular o efeito de treat?</span></span>
+<span id="cb78-10"><a href="propensity-score-e-matching.html#cb78-10" tabindex="-1"></a>sens <span class="ot">&lt;-</span> <span class="fu">sensemakr</span>(fit_sens,</span>
+<span id="cb78-11"><a href="propensity-score-e-matching.html#cb78-11" tabindex="-1"></a>                  <span class="at">treatment =</span> <span class="st">&quot;treat&quot;</span>,</span>
+<span id="cb78-12"><a href="propensity-score-e-matching.html#cb78-12" tabindex="-1"></a>                  <span class="at">benchmark_covariates =</span> <span class="st">&quot;re74&quot;</span>,</span>
+<span id="cb78-13"><a href="propensity-score-e-matching.html#cb78-13" tabindex="-1"></a>                  <span class="at">kd =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
+<span id="cb78-14"><a href="propensity-score-e-matching.html#cb78-14" tabindex="-1"></a></span>
+<span id="cb78-15"><a href="propensity-score-e-matching.html#cb78-15" tabindex="-1"></a><span class="fu">summary</span>(sens)</span></code></pre></div>
 <pre><code>## Sensitivity Analysis to Unobserved Confounding
 ## 
 ## Model Formula: re78 ~ treat + age + education + black + married + nodegree + 
@@ -4033,7 +4035,7 @@ div.csl-indent {
 ##          -733.2474          2498.842
 ##          -925.4207          2312.389
 ##         -1120.4513          2123.219</code></pre>
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="propensity-score-e-matching.html#cb79-1" tabindex="-1"></a><span class="fu">plot</span>(sens)</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="propensity-score-e-matching.html#cb80-1" tabindex="-1"></a><span class="fu">plot</span>(sens)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/sensemakr-lalonde-1.png" alt="" width="672" /></p>
 <p>O gráfico mostra as combinações de força do confounder (em termos de <span class="math inline">\(R^2\)</span> parcial com o tratamento e com o resultado) que anulariam o efeito estimado. As linhas de <em>benchmark</em> mostram onde estariam confounders com a mesma força explicativa que <code>re74</code> — uma das covariáveis mais importantes. Se o confounder precisaria ser muito mais forte que qualquer covariável observada para invalidar o resultado, isso indica robustez.</p>
 </div>
@@ -4128,7 +4130,7 @@ gitbook.start({
     "link": "https://github.com/mgaldino/Causalidade/blob/main/05-Matching.Rmd",
     "text": null
   },
-  "download": null,
+  "download": ["bookdownproj.pdf"],
   "search": {
     "engine": "fuse",
     "options": null

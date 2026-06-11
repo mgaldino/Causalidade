@@ -71,7 +71,6 @@ tab:cigarro
 fig:cigarro
 tab:tabela-pesos-regressao-scm
 fig:figura-contrafactual-scm-regressao
-tab:estrutura-scm-classico
 tab:cigarro-tidysynth
 fig:cigarro-tidysynth
 fig:cigarro-tidysynth-diferencas

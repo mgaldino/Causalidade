@@ -643,7 +643,7 @@ div.csl-indent {
 <div id="introdução-1" class="section level2 hasAnchor" number="3.1">
 <h2><span class="header-section-number">3.1</span> Introdução<a href="#introdu%C3%A7%C3%A3o-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="float">
-<img src="https://imgs.xkcd.com/comics/correlation.png" alt="Fonte: xkcd" />
+<img src="imagens/xkcd-correlation.png" alt="Fonte: xkcd" />
 <div class="figcaption">Fonte: xkcd</div>
 </div>
 <p>No capítulo anterior, vimos que a ignorabilidade forte nos permite identificar efeitos causais — mas ela depende de condicionarmos nas covariáveis <em>certas</em>. Ficamos com uma pergunta em aberto: como saber quais variáveis incluir em <span class="math inline">\(\mathbf{X}_i\)</span> para que a ignorabilidade seja plausível? E quais variáveis <em>não</em> devemos condicionar?</p>
@@ -700,13 +700,13 @@ div.csl-indent {
 <span id="cb14-10"><a href="dags.html#cb14-10" tabindex="-1"></a></span>
 <span id="cb14-11"><a href="dags.html#cb14-11" tabindex="-1"></a><span class="co"># Correlação na população geral</span></span>
 <span id="cb14-12"><a href="dags.html#cb14-12" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Correlação na população:&quot;</span>, <span class="fu">round</span>(<span class="fu">cor</span>(cp, canhoto), <span class="dv">3</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
-<pre><code>## Correlação na população: -0.016</code></pre>
+<pre><code>## Correla&lt;U+00E7&gt;&lt;U+00E3&gt;o na popula&lt;U+00E7&gt;&lt;U+00E3&gt;o: -0.016</code></pre>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="dags.html#cb16-1" tabindex="-1"></a><span class="co"># Correlação entre os que foram à festa (condicionando no collider)</span></span>
 <span id="cb16-2"><a href="dags.html#cb16-2" tabindex="-1"></a>cor_festa <span class="ot">&lt;-</span> tabela <span class="sc">%&gt;%</span></span>
 <span id="cb16-3"><a href="dags.html#cb16-3" tabindex="-1"></a>  <span class="fu">filter</span>(festa <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb16-4"><a href="dags.html#cb16-4" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">cor =</span> <span class="fu">round</span>(<span class="fu">cor</span>(cp, canhoto), <span class="dv">3</span>))</span>
 <span id="cb16-5"><a href="dags.html#cb16-5" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Correlação na festa (condicionando no collider):&quot;</span>, cor_festa<span class="sc">$</span>cor, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
-<pre><code>## Correlação na festa (condicionando no collider): -0.948</code></pre>
+<pre><code>## Correla&lt;U+00E7&gt;&lt;U+00E3&gt;o na festa (condicionando no collider): -0.948</code></pre>
 <p>Na população em geral, a correlação é próxima de zero. Porém, entre as pessoas que foram à festa, a correlação pode chegar a <span class="math inline">\(-0{,}95\)</span>, evidenciando como condicionar em um collider pode induzir correlação espúria. Esse resultado reforça a importância de entender a estrutura causal antes de decidir por quais variáveis condicionar.</p>
 </div>
 <div id="definições-formais" class="section level2 hasAnchor" number="3.4">
@@ -945,7 +945,7 @@ gitbook.start({
     "link": "https://github.com/mgaldino/Causalidade/blob/main/03-DAGs.Rmd",
     "text": null
   },
-  "download": null,
+  "download": ["bookdownproj.pdf"],
   "search": {
     "engine": "fuse",
     "options": null

@@ -291,6 +291,7 @@ Suponha que temos dados para $J+1$ unidades por $T$ períodos: $1, 2, \ldots, T_
 
 Os dados podem ser organizados em blocos, onde as linhas representam períodos (pré e pós-tratamento) e as colunas representam unidades (controle e tratada):
 
+$$
 \begin{aligned}
 D \;=\;
 \underset{\text{linhas: períodos}}{\underbrace{
@@ -313,6 +314,7 @@ Y_{co, post}(0)  & Y_{tr, post}(1)
 \end{pmatrix}
 }}
 \end{aligned}
+$$
 
 O estimando é o ATT para os períodos pós-tratamento:
 $$

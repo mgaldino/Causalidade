@@ -693,7 +693,7 @@ div.csl-indent {
 <p>Em TSCS, incompletude nem sempre significa dado ausente. Países deixam de existir, como a URSS e a Iugoslávia, e outros são criados, como Sérvia e Montenegro. O mesmo vale para estados e municípios. Não é óbvio que devemos tratar esse problema como ausência de informação. A entidade pode simplesmente não existir em parte da série. Em meu doutorado, por exemplo, estudei o efeito de regimes políticos sobre a adesão a tratados de patentes. Não é claro se a adesão da URSS em um período <span class="math inline">\(t^{\star}\)</span> deve ser atribuída à Rússia em períodos <span class="math inline">\(t &gt; t^{\star}\)</span>. E no caso da Iugoslávia? Essas decisões são substantivas e metodológicas.</p>
 <p>Os dados podem ser organizados em dois formatos: <strong>long</strong> e <strong>wide</strong>. O formato long, que é o padrão em análise de dados, organiza a base com uma linha por unidade-período. O formato wide coloca cada unidade em uma única linha e distribui os períodos em colunas.</p>
 <div class="float">
-<img src="https://tavareshugo.github.io/r-intro-tidyverse-gapminder/fig/07-data_shapes.png" alt="long vs wide format. Fonte: https://tavareshugo.github.io/r-intro-tidyverse-gapminder/09-reshaping/index.html" />
+<img src="imagens/long-wide-data-shapes.png" alt="long vs wide format. Fonte: https://tavareshugo.github.io/r-intro-tidyverse-gapminder/09-reshaping/index.html" />
 <div class="figcaption">long vs wide format. Fonte: <a href="https://tavareshugo.github.io/r-intro-tidyverse-gapminder/09-reshaping/index.html" class="uri">https://tavareshugo.github.io/r-intro-tidyverse-gapminder/09-reshaping/index.html</a></div>
 </div>
 </div>
@@ -937,14 +937,14 @@ estima a associação entre a parte residual da dose <span class="math inline">\
 <h2><span class="header-section-number">10.4</span> OVB e efeitos fixos<a href="time-series-cross-section-tscs.html#ovb-e-efeitos-fixos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>O principal atrativo dos efeitos fixos é lidar com viés de variável omitida causado por características não observadas e invariantes no tempo.</p>
 <p>Suponha o DAG abaixo, em que <span class="math inline">\(a\)</span> é uma variável invariante no tempo e não observada:</p>
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="time-series-cross-section-tscs.html#cb119-1" tabindex="-1"></a><span class="fu">library</span>(ggdag)</span>
-<span id="cb119-2"><a href="time-series-cross-section-tscs.html#cb119-2" tabindex="-1"></a>dag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
-<span id="cb119-3"><a href="time-series-cross-section-tscs.html#cb119-3" tabindex="-1"></a>  y <span class="sc">~</span> x <span class="sc">+</span> a,</span>
-<span id="cb119-4"><a href="time-series-cross-section-tscs.html#cb119-4" tabindex="-1"></a>  x <span class="sc">~</span> a,</span>
-<span id="cb119-5"><a href="time-series-cross-section-tscs.html#cb119-5" tabindex="-1"></a>  <span class="at">latent =</span> <span class="st">&quot;a&quot;</span></span>
-<span id="cb119-6"><a href="time-series-cross-section-tscs.html#cb119-6" tabindex="-1"></a>)</span>
-<span id="cb119-7"><a href="time-series-cross-section-tscs.html#cb119-7" tabindex="-1"></a></span>
-<span id="cb119-8"><a href="time-series-cross-section-tscs.html#cb119-8" tabindex="-1"></a><span class="fu">ggdag</span>(dag)</span></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="time-series-cross-section-tscs.html#cb120-1" tabindex="-1"></a><span class="fu">library</span>(ggdag)</span>
+<span id="cb120-2"><a href="time-series-cross-section-tscs.html#cb120-2" tabindex="-1"></a>dag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
+<span id="cb120-3"><a href="time-series-cross-section-tscs.html#cb120-3" tabindex="-1"></a>  y <span class="sc">~</span> x <span class="sc">+</span> a,</span>
+<span id="cb120-4"><a href="time-series-cross-section-tscs.html#cb120-4" tabindex="-1"></a>  x <span class="sc">~</span> a,</span>
+<span id="cb120-5"><a href="time-series-cross-section-tscs.html#cb120-5" tabindex="-1"></a>  <span class="at">latent =</span> <span class="st">&quot;a&quot;</span></span>
+<span id="cb120-6"><a href="time-series-cross-section-tscs.html#cb120-6" tabindex="-1"></a>)</span>
+<span id="cb120-7"><a href="time-series-cross-section-tscs.html#cb120-7" tabindex="-1"></a></span>
+<span id="cb120-8"><a href="time-series-cross-section-tscs.html#cb120-8" tabindex="-1"></a><span class="fu">ggdag</span>(dag)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:dag-fe"></span>
 <img src="bookdownproj_files/figure-html/dag-fe-1.png" alt="DAG de OVB com confundidor fixo não observado. O painel ajuda quando a fonte de confusão, aqui representada por $a_i$, é constante dentro da unidade ao longo do tempo." width="672" />
 <p class="caption">
@@ -1240,7 +1240,7 @@ Y_{it}(1)=Y_{it}(0)+\tau.
 <p>TWFE incorpora a intuição do DiD porque remove <span class="math inline">\(\alpha_i\)</span> e <span class="math inline">\(\lambda_t\)</span>. Mas o coeficiente TWFE só tem interpretação causal simples sob condições adicionais, como ausência de antecipação, especificação correta da comparação, e cuidado com heterogeneidade de efeitos em desenhos escalonados.</p>
 <p>Efeitos fixos permitem que a heterogeneidade fixa da unidade esteja correlacionada com o tratamento:
 <span class="math display">\[
-D_i \not\!\perp \alpha_i.
+D_i \not\perp \alpha_i.
 \]</span></p>
 <p>Essa é justamente sua vantagem em relação a efeitos aleatórios. Em efeitos aleatórios, em geral assumimos algo mais forte:
 <span class="math display">\[
@@ -1415,7 +1415,7 @@ gitbook.start({
     "link": "https://github.com/mgaldino/Causalidade/blob/main/09-TSCS.Rmd",
     "text": null
   },
-  "download": null,
+  "download": ["bookdownproj.pdf"],
   "search": {
     "engine": "fuse",
     "options": null
