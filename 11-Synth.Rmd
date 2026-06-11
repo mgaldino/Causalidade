@@ -285,6 +285,8 @@ A analogia com *matching* é útil. O SCM funciona como uma versão ponderada de
 
 Essa disciplina tem custo. A convexidade pode ser rígida demais quando a unidade tratada está fora do *convex hull* ou quando nenhuma combinação de controles ajusta bem o pré-tratamento. O SCM não é sempre melhor que regressão. Ele troca flexibilidade por transparência, auditabilidade e menor extrapolação.
 
+A comparação com regressão, portanto, tem duas faces. Na primeira tentativa acima, a regressão é "horizontal": as unidades de controle são as observações, os preditores pré-tratamento são as variáveis explicativas, e os pesos sobre os estados aparecem indiretamente pela matriz de projeção. No SCM, a lógica vira "vertical": os períodos pré-tratamento passam a ser as observações, os doadores passam a ser as variáveis explicativas, e os pesos são estimados diretamente. As duas leituras conversam porque ambas constroem $\hat{Y}_{tr,t}(0)$ como combinação ponderada dos controles; a diferença é como os pesos são aprendidos e quais restrições são impostas.
+
 ### Formalização
 
 Suponha que temos dados para $J+1$ unidades por $T$ períodos: $1, 2, \ldots, T_0, T_0+1, \ldots, T$. A primeira unidade ($j=1$) é tratada a partir de $T_0+1$. As demais $j = 2, \ldots, J+1$ formam o *donor pool*. Para cada unidade, observamos um vetor de $k$ preditores $\mathbf{X}_j$, que pode incluir valores pré-intervenção da variável resposta.
@@ -329,13 +331,13 @@ com as restrições:
 1. $\sum_j w_j = 1$ (combinação convexa)
 2. $w_j \geq 0$, $\forall j$ (pesos não-negativos)
 
-**Interpretação como regressão vertical.** Também podemos ler o SCM como uma regressão ao longo da dimensão temporal. Para cada período pré-tratamento $t = 1, \ldots, T_0$, a variável dependente é $Y_{N,t}$, o resultado da unidade tratada, e as variáveis explicativas são $Y_{1,t}, \ldots, Y_{N_0,t}$, os resultados dos doadores. O SCM busca pesos $\omega_i$ que resolvam:
+**Interpretação como regressão vertical.** Essa leitura vertical formaliza a ponte com a regressão. Em vez de estimar, no *donor pool*, uma função que prevê o resultado futuro a partir dos preditores da unidade tratada, o SCM escolhe diretamente pesos sobre os doadores para reproduzir sua trajetória pré-tratamento. Para cada período pré-tratamento $t = 1, \ldots, T_0$, a variável dependente é $Y_{N,t}$, o resultado da unidade tratada, e as variáveis explicativas são $Y_{1,t}, \ldots, Y_{N_0,t}$, os resultados dos doadores. O SCM busca pesos $\omega_i$ que resolvam:
 
 $$
 Y_{N,t} \approx \sum_{i=1}^{N_0} \omega_i Y_{i,t}, \quad \text{para } t = 1, \ldots, T_0
 $$
 
-Quando $N_0 > T_0$, há mais doadores do que períodos pré-tratamento. O sistema pode ficar subdeterminado: diferentes combinações ajustam bem o pré-tratamento, mas divergem no pós-tratamento. As restrições de convexidade funcionam como regularização. Elas restringem o espaço de soluções, costumam produzir poucos pesos substantivos e tornam o contrafactual inspecionável.
+Se estimássemos essa regressão vertical por mínimos quadrados sem restrições, voltaríamos a problemas semelhantes aos da regressão horizontal: pesos negativos, extrapolação e baixa auditabilidade. O SCM muda o problema ao impor convexidade. Quando $N_0 > T_0$, há mais doadores do que períodos pré-tratamento. O sistema pode ficar subdeterminado: diferentes combinações ajustam bem o pré-tratamento, mas divergem no pós-tratamento. As restrições de convexidade funcionam como regularização. Elas restringem o espaço de soluções, costumam produzir poucos pesos substantivos e tornam o contrafactual inspecionável.
 
 A tabela a seguir ilustra a estrutura do problema. A última coluna é a unidade tratada; as demais são doadores. O SCM ajusta as linhas pré-tratamento da unidade tratada usando as demais colunas:
 
