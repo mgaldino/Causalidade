@@ -537,7 +537,7 @@ O framework requer três suposições (Liu et al., 2024, p. 163):
 - **Suposição 2 (Exogeneidade estrita)**: $\mathbb{E}[\varepsilon_{it} | U_{i1}, \ldots, U_{iT}, D_{i1}, \ldots, D_{iT}] = 0$ — os erros são não-correlacionados com os fatores e o tratamento.
 - **Suposição 3 (Decomposição de baixo posto)**: $h(U_{it})$ pode ser decomposta em componentes de baixa dimensionalidade.
 
-A Suposição 3 é o que diferencia os três estimadores: no caso mais simples, $h(U_{it}) = \alpha_i + \xi_t$ (efeitos fixos aditivos, como no DiD). No caso mais flexível, $h(U_{it}) = \alpha_i + \xi_t + \lambda'_i f_t$ (fatores interativos).
+A Suposição 3 é o que diferencia os três estimadores: no caso mais simples, $h(U_{it}) = \alpha_i + \xi_t$ (efeitos fixos aditivos, como no DiD). No caso mais flexível, $h(U_{it}) = \alpha_i + \xi_t + \lambda'_i f_t$ (fatores interativos). Eles são "interativos" porque $\lambda_i$ representa cargas específicas da unidade $i$ e $f_t$ representa fatores comuns no período $t$; o termo $\lambda'_i f_t$ permite que o mesmo fator temporal afete cada unidade com intensidade diferente. Diferentemente dos efeitos fixos aditivos, portanto, a heterogeneidade entre unidades pode variar ao longo do tempo.
 
 ### Conexão com DiD
 
