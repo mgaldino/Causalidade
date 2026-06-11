@@ -494,9 +494,11 @@ Além dos testes placebo, dois diagnósticos adicionais são recomendados para a
 
 Como vimos na seção anterior, o SCM é justificado por um modelo linear de fatores: $Y_{it}(0) = \delta_t + \theta_t Z_i + \lambda_t \mu_i + \varepsilon_{it}$. Se os pesos reproduzem os preditores pré-tratamento, eles também reproduzem os fatores latentes, e o viés desaparece. Mas isso levanta uma questão natural: **se o processo gerador de dados é um modelo de fatores, por que não estimar os fatores diretamente?**
 
-No caso clássico do SCM — uma única unidade tratada, poucas unidades de controle — a resposta é pragmática: com $N$ pequeno, não há graus de liberdade suficientes para estimar fatores latentes de forma confiável. O SCM contorna essa limitação impondo convexidade, que regulariza o problema. Mas quando temos **múltiplas unidades tratadas** (possivelmente com tratamento escalonado no tempo) e um painel razoavelmente grande, podemos estimar o modelo de fatores diretamente — e potencialmente obter estimativas mais eficientes.
+No SCM clássico, a resposta é pragmática. Em estudos de caso com uma única ou poucas unidades tratadas, geralmente não há graus de liberdade suficientes para estimar fatores latentes de forma confiável. O SCM contorna essa limitação por meio de pesos convexos: ele não estima diretamente os fatores, mas escolhe uma combinação de controles que reproduz a trajetória pré-tratamento da unidade tratada e, sob certas condições, também aproxima seus componentes latentes relevantes.
 
-Essa é a motivação para os métodos que apresentamos a seguir: o framework de estimação contrafactual de Liu, Wang e Xu (2024) e o Synthetic DiD de Arkhangelsky et al. (2021). Ambos exploram a estrutura de fatores de formas diferentes — o primeiro estimando os fatores diretamente, o segundo usando pesos que são robustos à presença de fatores — mas compartilham a mesma lógica de imputar $Y_{it}(0)$.
+O Synthetic DiD segue uma lógica próxima, mas combina essa intuição de balanceamento com diferenças-em-diferenças. Em vez de estimar diretamente os fatores latentes, o método escolhe pesos para unidades e períodos de modo a tornar a comparação tratada-controle mais local e plausível, e então estima o efeito por uma regressão de diferenças-em-diferenças ponderada. Assim como o SCM, o SDiD pode ser interpretado sob um modelo de fatores latentes, mas sua implementação continua sendo baseada em pesos, não na estimação explícita dos fatores.
+
+Já os estimadores contrafactuais de Liu, Wang e Xu (2024), como FEct, IFEct e matrix completion, tomam a estrutura latente do painel como objeto mais direto de estimação. Neles, os resultados não-tratados observados são usados para estimar uma superfície contrafactual de baixa dimensão, que depois é imputada para as observações tratadas. A diferença central, portanto, é o modo como cada método explora a estrutura latente do painel: por balanceamento implícito no SCM e no SDiD, ou por estimação explícita em IFEct e matrix completion.
 
 ## Framework de estimação contrafactual
 
@@ -516,7 +518,7 @@ $$
 ATT = \mathbb{E}[\delta_{it} \mid D_{it} = 1] = \frac{1}{|\mathcal{M}|} \sum_{(i,t) \in \mathcal{M}} \delta_{it}
 $$
 
-A segunda igualdade vale sob uma interpretação *design-based*, em que o painel observado é a população de interesse (não uma amostra de uma superpopulação). Nesse caso, a expectativa é sobre a atribuição de tratamento, e a média amostral coincide com o parâmetro populacional.
+A segunda igualdade vale sob uma interpretação *design-based*, em que o painel observado é a população de interesse (não uma amostra de uma superpopulação). Nesse caso, a esperança é sobre a atribuição de tratamento, e a média amostral coincide com o parâmetro populacional.
 
 ### Estratégia de estimação em quatro passos
 

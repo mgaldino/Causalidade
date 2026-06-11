@@ -34,7 +34,7 @@ O primeiro componente é o **PIB esperado**: quanto o estado $i$ produziria se c
 
 Vamos aplicar essa decomposição a dados reais simplificados do IBGE. Consideramos cinco estados brasileiros representativos e três grandes setores (Agropecuária, Indústria e Serviços). Os dados abaixo são valores aproximados do Valor Adicionado Bruto e da estrutura de emprego.
 
-```{r pib-dados, message=FALSE, warning=FALSE}
+```{r pib-dados, message=FALSE, warning=FALSE, include=FALSE}
 library(knitr)
 
 # Parcelas de emprego por setor (shares) — dados aproximados IBGE
@@ -52,11 +52,15 @@ pib_prod <- data.frame(
   Industria    = c(80, 60, 85, 50, 70),
   Servicos     = c(65, 50, 60, 40, 35)
 )
+```
 
-kable(pib_shares, caption = "(\\#tab:pib-shares) Parcelas de emprego por setor (shares)",
+```{r pib-shares, echo=FALSE}
+kable(pib_shares, caption = "Parcelas de emprego por setor (shares)",
       col.names = c("Estado", "Agropecuária", "Indústria", "Serviços"))
+```
 
-kable(pib_prod, caption = "(\\#tab:pib-prod) PIB per capita setorial (R$ mil por trabalhador)",
+```{r pib-prod, echo=FALSE}
+kable(pib_prod, caption = "PIB per capita setorial (R$ mil por trabalhador)",
       col.names = c("Estado", "Agropecuária", "Indústria", "Serviços"))
 ```
 
