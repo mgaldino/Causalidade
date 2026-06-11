@@ -1595,71 +1595,72 @@ Figura 12.13: Pesos de unidade atribuídos por DiD, controle sintético e Synthe
 </ol>
 <p>A tabela abaixo resume as suposições e características de cada método:</p>
 <table>
+<caption><span id="tab:tabela-guia-metodos-scm">Tabela 12.7: </span>Resumo das suposições, pesos e pacotes dos principais estimadores contrafactuais discutidos no capítulo.</caption>
 <colgroup>
-<col width="10%" />
-<col width="27%" />
-<col width="39%" />
-<col width="9%" />
-<col width="13%" />
+<col width="6%" />
+<col width="33%" />
+<col width="20%" />
+<col width="19%" />
+<col width="20%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th>Método</th>
-<th>Modelo para <span class="math inline">\(Y(0)\)</span></th>
-<th>Relaxa tendências paralelas?</th>
-<th>Pesos</th>
-<th>Pacote R</th>
+<th align="left">Método</th>
+<th align="left">Modelo para <span class="math inline">\(Y(0)\)</span></th>
+<th align="left">Relaxa tendências paralelas?</th>
+<th align="left">Pesos</th>
+<th align="left">Pacote R</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>DiD/TWFE</td>
-<td><span class="math inline">\(\alpha_i + \lambda_t\)</span></td>
-<td>Não</td>
-<td>Iguais</td>
-<td><code>fixest</code></td>
+<td align="left">DiD/TWFE</td>
+<td align="left"><span class="math inline">\(\alpha_i + \lambda_t\)</span></td>
+<td align="left">Não</td>
+<td align="left">Iguais</td>
+<td align="left">fixest</td>
 </tr>
 <tr class="even">
-<td>FEct</td>
-<td><span class="math inline">\(X&#39;\beta + \alpha_i + \xi_t\)</span></td>
-<td>Não (mesma suposição)</td>
-<td>Uniformes</td>
-<td><code>fect</code></td>
+<td align="left">FEct</td>
+<td align="left"><span class="math inline">\(X&#39;\beta + \alpha_i + \xi_t\)</span></td>
+<td align="left">Não (mesma suposição)</td>
+<td align="left">Uniformes</td>
+<td align="left">fect</td>
 </tr>
 <tr class="odd">
-<td>IFEct</td>
-<td><span class="math inline">\(X&#39;\beta + \alpha_i + \xi_t + \lambda&#39;_i f_t\)</span></td>
-<td>Sim (fatores)</td>
-<td>Uniformes</td>
-<td><code>fect</code></td>
+<td align="left">IFEct</td>
+<td align="left"><span class="math inline">\(X&#39;\beta + \alpha_i + \xi_t + \lambda&#39;_i f_t\)</span></td>
+<td align="left">Sim (fatores)</td>
+<td align="left">Uniformes</td>
+<td align="left">fect</td>
 </tr>
 <tr class="even">
-<td>MC</td>
-<td>Baixo posto (norma nuclear)</td>
-<td>Sim (baixo posto)</td>
-<td>Implícitos (norma nuclear)</td>
-<td><code>fect</code></td>
+<td align="left">MC</td>
+<td align="left">Baixo posto (norma nuclear)</td>
+<td align="left">Sim (baixo posto)</td>
+<td align="left">Implícitos (norma nuclear)</td>
+<td align="left">fect</td>
 </tr>
 <tr class="odd">
-<td>SCM</td>
-<td>Combinação convexa</td>
-<td>Indiretamente (via pesos)</td>
-<td>Convexos</td>
-<td><code>tidysynth</code></td>
+<td align="left">SCM</td>
+<td align="left">Combinação convexa</td>
+<td align="left">Indiretamente (via pesos)</td>
+<td align="left">Convexos</td>
+<td align="left">tidysynth</td>
 </tr>
 <tr class="even">
-<td>SDiD</td>
-<td><span class="math inline">\(\alpha_i + \lambda_t\)</span> + pesos</td>
-<td>Indiretamente (via pesos)</td>
-<td>Unid. + tempo</td>
-<td><code>synthdid</code></td>
+<td align="left">SDiD</td>
+<td align="left"><span class="math inline">\(\alpha_i + \lambda_t\)</span> + pesos</td>
+<td align="left">Indiretamente (via pesos)</td>
+<td align="left">Unid. + tempo</td>
+<td align="left">synthdid</td>
 </tr>
 <tr class="odd">
-<td>TROP</td>
-<td>Fatores + pesos</td>
-<td>Sim (tripla robustez)</td>
-<td>Unid. + tempo</td>
-<td>—</td>
+<td align="left">TROP</td>
+<td align="left">Fatores + pesos</td>
+<td align="left">Sim (tripla robustez)</td>
+<td align="left">Unid. + tempo</td>
+<td align="left">Sem pacote público até 2026</td>
 </tr>
 </tbody>
 </table>
