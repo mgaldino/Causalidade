@@ -580,7 +580,7 @@ O estimador MC (Athey, Bayati, Doudchenko, Imbens e Khosravi, 2021) trata o prob
 $$
 \mathbf{Y}(0) = \mathbf{X}\beta + \mathbf{L} + \varepsilon
 $$
-onde $\mathbf{L}$ é uma matriz de baixo posto. Em vez de selecionar $r$ fatores diretamente (como no IFEct), o MC penaliza a norma nuclear $\|\mathbf{L}\|_*$, que é uma relaxação convexa do posto. Isso faz um "soft impute": os valores singulares são encolhidos continuamente, em vez de truncados.
+onde $\mathbf{L}$ é uma matriz de baixo posto. Em vez de selecionar $r$ fatores diretamente (como no IFEct), o MC penaliza a norma nuclear $\|\mathbf{L}\|_*$. Essa penalização funciona como um substituto convexo para favorecer matrizes de baixo posto. Isso faz um "soft impute": os valores singulares são encolhidos continuamente, em vez de truncados.
 
 A diferença prática entre IFEct e MC é:
 
