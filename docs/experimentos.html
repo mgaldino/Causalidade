@@ -23,7 +23,7 @@
 <meta name="author" content="Manoel Galdino" />
 
 
-<meta name="date" content="2026-06-11" />
+<meta name="date" content="2026-06-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -580,16 +580,18 @@ div.csl-indent {
 <li class="chapter" data-level="16.4" data-path="04-Experimentos.html"><a href="#o-instrumento-shift-share-como-vari%C3%A1vel-instrumental"><i class="fa fa-check"></i><b>16.4</b> O instrumento shift-share como variável instrumental</a>
 <ul>
 <li class="chapter" data-level="16.4.1" data-path="04-Experimentos.html"><a href="#constru%C3%A7%C3%A3o-formal"><i class="fa fa-check"></i><b>16.4.1</b> Construção formal</a></li>
-<li class="chapter" data-level="16.4.2" data-path="shift-share.html"><a href="shift-share.html#voltando-ao-exemplo-construindo-w_ik-g_k-e-b_i-com-dados-eleitorais"><i class="fa fa-check"></i><b>16.4.2</b> Voltando ao exemplo: construindo <span class="math inline">\(w_{ik}\)</span>, <span class="math inline">\(g_k\)</span> e <span class="math inline">\(B_i\)</span> com dados eleitorais</a></li>
+<li class="chapter" data-level="16.4.2" data-path="04-Experimentos.html"><a href="#voltando-ao-exemplo-eleitoral-predi%C3%A7%C3%A3o-n%C3%A3o-identifica%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>16.4.2</b> Voltando ao exemplo eleitoral: predição, não identificação</a></li>
 <li class="chapter" data-level="16.4.3" data-path="shift-share.html"><a href="shift-share.html#o-modelo-estrutural-e-o-iv"><i class="fa fa-check"></i><b>16.4.3</b> O modelo estrutural e o IV</a></li>
-<li class="chapter" data-level="16.4.4" data-path="shift-share.html"><a href="shift-share.html#interpretando-o-modelo-com-o-exemplo-eleitoral"><i class="fa fa-check"></i><b>16.4.4</b> Interpretando o modelo com o exemplo eleitoral</a></li>
+<li class="chapter" data-level="16.4.4" data-path="04-Experimentos.html"><a href="#o-exemplo-eleitoral-como-advert%C3%AAncia"><i class="fa fa-check"></i><b>16.4.4</b> O exemplo eleitoral como advertência</a></li>
 <li class="chapter" data-level="16.4.5" data-path="04-Experimentos.html"><a href="#por-que-o-instrumento-seria-v%C3%A1lido-uma-discuss%C3%A3o-intuitiva"><i class="fa fa-check"></i><b>16.4.5</b> Por que o instrumento seria válido? Uma discussão intuitiva</a></li>
 </ul></li>
-<li class="chapter" data-level="16.5" data-path="04-Experimentos.html"><a href="#duas-estrat%C3%A9gias-de-identifica%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>16.5</b> Duas estratégias de identificação</a>
+<li class="chapter" data-level="16.5" data-path="04-Experimentos.html"><a href="#tr%C3%AAs-estrat%C3%A9gias-de-identifica%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>16.5</b> Três estratégias de identificação</a>
 <ul>
 <li class="chapter" data-level="16.5.1" data-path="04-Experimentos.html"><a href="#estrat%C3%A9gia-1-exogeneidade-das-shares-gpss-2020"><i class="fa fa-check"></i><b>16.5.1</b> Estratégia 1: Exogeneidade das shares (GPSS 2020)</a></li>
 <li class="chapter" data-level="16.5.2" data-path="04-Experimentos.html"><a href="#estrat%C3%A9gia-2-exogeneidade-dos-shifts-bhj-2022"><i class="fa fa-check"></i><b>16.5.2</b> Estratégia 2: Exogeneidade dos shifts (BHJ 2022)</a></li>
-<li class="chapter" data-level="16.5.3" data-path="04-Experimentos.html"><a href="#resumo-das-duas-estrat%C3%A9gias"><i class="fa fa-check"></i><b>16.5.3</b> Resumo das duas estratégias</a></li>
+<li class="chapter" data-level="16.5.3" data-path="04-Experimentos.html"><a href="#estrat%C3%A9gia-3-instrumentos-de-f%C3%B3rmula-e-recentering"><i class="fa fa-check"></i><b>16.5.3</b> Estratégia 3: Instrumentos de fórmula e recentering</a></li>
+<li class="chapter" data-level="16.5.4" data-path="04-Experimentos.html"><a href="#como-escolher-entre-as-estrat%C3%A9gias"><i class="fa fa-check"></i><b>16.5.4</b> Como escolher entre as estratégias</a></li>
+<li class="chapter" data-level="16.5.5" data-path="04-Experimentos.html"><a href="#o-que-o-2sls-estima-quando-os-efeitos-s%C3%A3o-heterog%C3%AAneos"><i class="fa fa-check"></i><b>16.5.5</b> O que o 2SLS estima quando os efeitos são heterogêneos</a></li>
 </ul></li>
 <li class="chapter" data-level="16.6" data-path="04-Experimentos.html"><a href="#o-problema-de-infer%C3%AAncia"><i class="fa fa-check"></i><b>16.6</b> O problema de inferência</a></li>
 <li class="chapter" data-level="16.7" data-path="04-Experimentos.html"><a href="#implementa%C3%A7%C3%A3o-em-r"><i class="fa fa-check"></i><b>16.7</b> Implementação em R</a>
@@ -600,23 +602,14 @@ div.csl-indent {
 <li class="chapter" data-level="16.7.4" data-path="04-Experimentos.html"><a href="#agrega%C3%A7%C3%A3o-ao-n%C3%ADvel-do-choque-pacote-ssaggregate"><i class="fa fa-check"></i><b>16.7.4</b> Agregação ao nível do choque: pacote <code>ssaggregate</code></a></li>
 <li class="chapter" data-level="16.7.5" data-path="shift-share.html"><a href="shift-share.html#ecossistema-r-vs.-stata"><i class="fa fa-check"></i><b>16.7.5</b> Ecossistema R vs. Stata</a></li>
 </ul></li>
-<li class="chapter" data-level="16.8" data-path="04-Experimentos.html"><a href="#aplica%C3%A7%C3%B5es-em-ci%C3%AAncia-pol%C3%ADtica"><i class="fa fa-check"></i><b>16.8</b> Aplicações em Ciência Política</a>
+<li class="chapter" data-level="16.8" data-path="04-Experimentos.html"><a href="#aplica%C3%A7%C3%B5es-em-ci%C3%AAncia-pol%C3%ADtica-e-rela%C3%A7%C3%B5es-internacionais"><i class="fa fa-check"></i><b>16.8</b> Aplicações em Ciência Política e Relações Internacionais</a>
 <ul>
-<li class="chapter" data-level="16.8.1" data-path="04-Experimentos.html"><a href="#com%C3%A9rcio-e-voto-nos-eua"><i class="fa fa-check"></i><b>16.8.1</b> Comércio e voto nos EUA</a></li>
-<li class="chapter" data-level="16.8.2" data-path="04-Experimentos.html"><a href="#com%C3%A9rcio-e-nacionalismo-na-europa"><i class="fa fa-check"></i><b>16.8.2</b> Comércio e nacionalismo na Europa</a></li>
-<li class="chapter" data-level="16.8.3" data-path="04-Experimentos.html"><a href="#valores-autorit%C3%A1rios"><i class="fa fa-check"></i><b>16.8.3</b> Valores autoritários</a></li>
-<li class="chapter" data-level="16.8.4" data-path="04-Experimentos.html"><a href="#welfare-state-hist%C3%B3rico"><i class="fa fa-check"></i><b>16.8.4</b> Welfare state histórico</a></li>
-<li class="chapter" data-level="16.8.5" data-path="04-Experimentos.html"><a href="#automa%C3%A7%C3%A3o-e-redistribui%C3%A7%C3%A3o"><i class="fa fa-check"></i><b>16.8.5</b> Automação e redistribuição</a></li>
-<li class="chapter" data-level="16.8.6" data-path="shift-share.html"><a href="shift-share.html#brasil"><i class="fa fa-check"></i><b>16.8.6</b> Brasil</a></li>
-<li class="chapter" data-level="16.8.7" data-path="04-Experimentos.html"><a href="#competi%C3%A7%C3%A3o-pol%C3%ADtica-e-desmatamento"><i class="fa fa-check"></i><b>16.8.7</b> Competição política e desmatamento</a></li>
+<li class="chapter" data-level="16.8.1" data-path="04-Experimentos.html"><a href="#com%C3%A9rcio-desindustrializa%C3%A7%C3%A3o-e-voto"><i class="fa fa-check"></i><b>16.8.1</b> Comércio, desindustrialização e voto</a></li>
+<li class="chapter" data-level="16.8.2" data-path="04-Experimentos.html"><a href="#migra%C3%A7%C3%A3o-e-redes-hist%C3%B3ricas"><i class="fa fa-check"></i><b>16.8.2</b> Migração e redes históricas</a></li>
+<li class="chapter" data-level="16.8.3" data-path="04-Experimentos.html"><a href="#competi%C3%A7%C3%A3o-pol%C3%ADtica-e-desmatamento"><i class="fa fa-check"></i><b>16.8.3</b> Competição política e desmatamento</a></li>
+<li class="chapter" data-level="16.8.4" data-path="04-Experimentos.html"><a href="#rela%C3%A7%C3%B5es-internacionais-e-conflito"><i class="fa fa-check"></i><b>16.8.4</b> Relações Internacionais e conflito</a></li>
 </ul></li>
-<li class="chapter" data-level="16.9" data-path="04-Experimentos.html"><a href="#aplica%C3%A7%C3%B5es-em-rela%C3%A7%C3%B5es-internacionais"><i class="fa fa-check"></i><b>16.9</b> Aplicações em Relações Internacionais</a>
-<ul>
-<li class="chapter" data-level="16.9.1" data-path="04-Experimentos.html"><a href="#com%C3%A9rcio-e-pol%C3%ADtica-externa"><i class="fa fa-check"></i><b>16.9.1</b> Comércio e política externa</a></li>
-<li class="chapter" data-level="16.9.2" data-path="04-Experimentos.html"><a href="#comportamento-legislativo-em-pol%C3%ADtica-comercial"><i class="fa fa-check"></i><b>16.9.2</b> Comportamento legislativo em política comercial</a></li>
-<li class="chapter" data-level="16.9.3" data-path="shift-share.html"><a href="shift-share.html#temas-com-potencial-inexplorado-em-ri"><i class="fa fa-check"></i><b>16.9.3</b> Temas com potencial inexplorado em RI</a></li>
-</ul></li>
-<li class="chapter" data-level="16.10" data-path="04-Experimentos.html"><a href="#refer%C3%AAncias-5"><i class="fa fa-check"></i><b>16.10</b> Referências</a></li>
+<li class="chapter" data-level="16.9" data-path="04-Experimentos.html"><a href="#refer%C3%AAncias-5"><i class="fa fa-check"></i><b>16.9</b> Referências</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
