@@ -642,7 +642,7 @@ div.csl-indent {
 <p>No capítulo anterior, vimos que a ignorabilidade forte nos permite identificar efeitos causais — mas ela depende de condicionarmos nas covariáveis <em>certas</em>. Ficamos com uma pergunta em aberto: como saber quais variáveis incluir em <span class="math inline">\(\mathbf{X}_i\)</span> para que a ignorabilidade seja plausível? E quais variáveis <em>não</em> devemos condicionar?</p>
 <p>Neste capítulo, introduzimos uma ferramenta que nos ajuda a responder essas perguntas: os <strong>grafos acíclicos direcionados</strong> (<em>Directed Acyclic Graphs</em>, ou DAGs). Essa abordagem foi desenvolvida na ciência da computação entre os anos 80 e 90 e é associada ao trabalho pioneiro de <span class="citation">Pearl (<a href="#ref-pearl2009">2009</a>)</span>. Para uma história acessível de como surgiu, ver <span class="citation">Pearl and Mackenzie (<a href="#ref-pearl2018">2018</a>)</span>.</p>
 <p>Abaixo temos um exemplo simples de um DAG:</p>
-<p><img src="bookdownproj_files/figure-html/dag1-1.png" alt="" width="672" /></p>
+<p><img src="03-DAGs_files/figure-html/dag1-1.png" alt="" width="672" /></p>
 <p>Eles são chamados de DAGs porque são <strong>direcionados</strong> (as flechas apontam em uma direção), <strong>acíclicos</strong> (se <span class="math inline">\(A\)</span> causa <span class="math inline">\(B\)</span>, então <span class="math inline">\(B\)</span> não pode causar <span class="math inline">\(A\)</span>) e <strong>grafos</strong> (são representações gráficas de relações entre variáveis).</p>
 <p>No exemplo acima, o DAG é formado por três variáveis <span class="math inline">\(\{Y, X, Z\}\)</span>, que são, em geral, variáveis aleatórias, e as flechas indicam a direção de causalidade: <span class="math inline">\(X\)</span> causa <span class="math inline">\(Y\)</span> e <span class="math inline">\(Z\)</span> causa <span class="math inline">\(Y\)</span>. É importante saber que DAGs são não paramétricos e podem ser interpretados como <span class="math inline">\(Y = f(X, Z)\)</span>, para qualquer função <span class="math inline">\(f\)</span>. Alguns exemplos compatíveis com o DAG acima:</p>
 <ul>
@@ -661,45 +661,45 @@ div.csl-indent {
 <h3><span class="header-section-number">3.2.1</span> 1. Chain (cadeia)<a href="dags.html#chain-cadeia" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Em uma <em>chain</em>, <span class="math inline">\(X\)</span> causa <span class="math inline">\(W\)</span> que, por sua vez, causa <span class="math inline">\(Y\)</span>. Aqui, <span class="math inline">\(W\)</span> é o <strong>mediador</strong> do efeito de <span class="math inline">\(X\)</span> sobre <span class="math inline">\(Y\)</span>.</p>
 <p><strong>Exemplo:</strong> O desempenho econômico de um país pode aumentar a popularidade do presidente, o que leva a mais votos.</p>
-<p><img src="bookdownproj_files/figure-html/chain-1.png" alt="" width="672" /></p>
+<p><img src="03-DAGs_files/figure-html/chain-1.png" alt="" width="672" /></p>
 </div>
 <div id="fork-garfo" class="section level3 hasAnchor" number="3.2.2">
 <h3><span class="header-section-number">3.2.2</span> 2. Fork (garfo)<a href="dags.html#fork-garfo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Em um <em>fork</em>, uma variável <span class="math inline">\(W\)</span> causa tanto <span class="math inline">\(X\)</span> quanto <span class="math inline">\(Y\)</span>. Dessa forma, <span class="math inline">\(W\)</span> é uma <strong>causa comum</strong> que pode gerar correlação espúria entre <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>.</p>
 <p><strong>Exemplo:</strong> A qualidade de um candidato pode fazer com que ele arrecade mais dinheiro para a campanha e, ao mesmo tempo, obtenha mais votos.</p>
-<p><img src="bookdownproj_files/figure-html/fork-1.png" alt="" width="672" /></p>
+<p><img src="03-DAGs_files/figure-html/fork-1.png" alt="" width="672" /></p>
 </div>
 <div id="collider-colisor" class="section level3 hasAnchor" number="3.2.3">
 <h3><span class="header-section-number">3.2.3</span> 3. Collider (colisor)<a href="dags.html#collider-colisor" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Em um <em>collider</em>, <span class="math inline">\(X\)</span> causa <span class="math inline">\(W\)</span> e <span class="math inline">\(Y\)</span> também causa <span class="math inline">\(W\)</span>. Esse tipo de estrutura é também chamado de “fork invertido”. Apesar de <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> não terem relação causal direta, <strong>controlar para <span class="math inline">\(W\)</span></strong> (ou um de seus descendentes) pode introduzir uma correlação espúria entre <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>.</p>
-<p><img src="bookdownproj_files/figure-html/collider-1.png" alt="" width="672" /></p>
+<p><img src="03-DAGs_files/figure-html/collider-1.png" alt="" width="672" /></p>
 <p><strong>Exemplo:</strong> Imagine que você organiza uma festa e convida apenas pessoas que fazem ciência política ou são canhotas. Na população geral, pode não haver relação entre essas características, mas na festa pode surgir uma correlação: se sabemos que uma pessoa está na festa e ela é canhota, é mais provável que ela <em>não</em> faça ciência política — pois a condição de canhota já explica sua presença na festa.</p>
-<p><img src="bookdownproj_files/figure-html/collider1-1.png" alt="" width="672" /></p>
+<p><img src="03-DAGs_files/figure-html/collider1-1.png" alt="" width="672" /></p>
 <p>Esses três tipos — chains, forks e colliders — são os blocos fundamentais a partir dos quais qualquer DAG pode ser construído. Vejamos agora uma simulação que ilustra o viés que pode surgir quando condicionamos em um collider.</p>
 </div>
 </div>
 <div id="simulação-no-r-ilustrando-o-collider-bias" class="section level2 hasAnchor" number="3.3">
 <h2><span class="header-section-number">3.3</span> Simulação no R: Ilustrando o Collider Bias<a href="#simula%C3%A7%C3%A3o-no-r-ilustrando-o-collider-bias" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Vamos rodar uma simulação para ilustrar o collider bias. Suponha que 10% das pessoas fazem ciência política e 5% são canhotas, e que essas duas características são independentes na população.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="dags.html#cb14-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
-<span id="cb14-2"><a href="dags.html#cb14-2" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="dags.html#cb14-3" tabindex="-1"></a><span class="co"># Gerando as variáveis</span></span>
-<span id="cb14-4"><a href="dags.html#cb14-4" tabindex="-1"></a>cp <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1000</span>, <span class="dv">1</span>, <span class="at">p =</span> <span class="fl">0.1</span>)       <span class="co"># 10% fazem ciência política</span></span>
-<span id="cb14-5"><a href="dags.html#cb14-5" tabindex="-1"></a>canhoto <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1000</span>, <span class="dv">1</span>, <span class="at">p =</span> <span class="fl">0.05</span>) <span class="co"># 5% são canhotos</span></span>
-<span id="cb14-6"><a href="dags.html#cb14-6" tabindex="-1"></a></span>
-<span id="cb14-7"><a href="dags.html#cb14-7" tabindex="-1"></a><span class="co"># Condição da festa: convida se faz CP ou é canhoto</span></span>
-<span id="cb14-8"><a href="dags.html#cb14-8" tabindex="-1"></a>festa <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(cp <span class="sc">==</span> <span class="dv">1</span> <span class="sc">|</span> canhoto <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
-<span id="cb14-9"><a href="dags.html#cb14-9" tabindex="-1"></a>tabela <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(cp, canhoto, festa)</span>
-<span id="cb14-10"><a href="dags.html#cb14-10" tabindex="-1"></a></span>
-<span id="cb14-11"><a href="dags.html#cb14-11" tabindex="-1"></a><span class="co"># Correlação na população geral</span></span>
-<span id="cb14-12"><a href="dags.html#cb14-12" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Correlação na população:&quot;</span>, <span class="fu">round</span>(<span class="fu">cor</span>(cp, canhoto), <span class="dv">3</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
-<pre><code>## Correla&lt;U+00E7&gt;&lt;U+00E3&gt;o na popula&lt;U+00E7&gt;&lt;U+00E3&gt;o: -0.016</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="dags.html#cb16-1" tabindex="-1"></a><span class="co"># Correlação entre os que foram à festa (condicionando no collider)</span></span>
-<span id="cb16-2"><a href="dags.html#cb16-2" tabindex="-1"></a>cor_festa <span class="ot">&lt;-</span> tabela <span class="sc">%&gt;%</span></span>
-<span id="cb16-3"><a href="dags.html#cb16-3" tabindex="-1"></a>  <span class="fu">filter</span>(festa <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb16-4"><a href="dags.html#cb16-4" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">cor =</span> <span class="fu">round</span>(<span class="fu">cor</span>(cp, canhoto), <span class="dv">3</span>))</span>
-<span id="cb16-5"><a href="dags.html#cb16-5" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Correlação na festa (condicionando no collider):&quot;</span>, cor_festa<span class="sc">$</span>cor, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
-<pre><code>## Correla&lt;U+00E7&gt;&lt;U+00E3&gt;o na festa (condicionando no collider): -0.948</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="dags.html#cb15-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
+<span id="cb15-2"><a href="dags.html#cb15-2" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="dags.html#cb15-3" tabindex="-1"></a><span class="co"># Gerando as variáveis</span></span>
+<span id="cb15-4"><a href="dags.html#cb15-4" tabindex="-1"></a>cp <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1000</span>, <span class="dv">1</span>, <span class="at">p =</span> <span class="fl">0.1</span>)       <span class="co"># 10% fazem ciência política</span></span>
+<span id="cb15-5"><a href="dags.html#cb15-5" tabindex="-1"></a>canhoto <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">1000</span>, <span class="dv">1</span>, <span class="at">p =</span> <span class="fl">0.05</span>) <span class="co"># 5% são canhotos</span></span>
+<span id="cb15-6"><a href="dags.html#cb15-6" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="dags.html#cb15-7" tabindex="-1"></a><span class="co"># Condição da festa: convida se faz CP ou é canhoto</span></span>
+<span id="cb15-8"><a href="dags.html#cb15-8" tabindex="-1"></a>festa <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(cp <span class="sc">==</span> <span class="dv">1</span> <span class="sc">|</span> canhoto <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb15-9"><a href="dags.html#cb15-9" tabindex="-1"></a>tabela <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(cp, canhoto, festa)</span>
+<span id="cb15-10"><a href="dags.html#cb15-10" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="dags.html#cb15-11" tabindex="-1"></a><span class="co"># Correlação na população geral</span></span>
+<span id="cb15-12"><a href="dags.html#cb15-12" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Correlação na população:&quot;</span>, <span class="fu">round</span>(<span class="fu">cor</span>(cp, canhoto), <span class="dv">3</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## Correlação na população: -0.016</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="dags.html#cb17-1" tabindex="-1"></a><span class="co"># Correlação entre os que foram à festa (condicionando no collider)</span></span>
+<span id="cb17-2"><a href="dags.html#cb17-2" tabindex="-1"></a>cor_festa <span class="ot">&lt;-</span> tabela <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="dags.html#cb17-3" tabindex="-1"></a>  <span class="fu">filter</span>(festa <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-4"><a href="dags.html#cb17-4" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">cor =</span> <span class="fu">round</span>(<span class="fu">cor</span>(cp, canhoto), <span class="dv">3</span>))</span>
+<span id="cb17-5"><a href="dags.html#cb17-5" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Correlação na festa (condicionando no collider):&quot;</span>, cor_festa<span class="sc">$</span>cor, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## Correlação na festa (condicionando no collider): -0.948</code></pre>
 <p>Na população em geral, a correlação é próxima de zero. Porém, entre as pessoas que foram à festa, a correlação pode chegar a <span class="math inline">\(-0{,}95\)</span>, evidenciando como condicionar em um collider pode induzir correlação espúria. Esse resultado reforça a importância de entender a estrutura causal antes de decidir por quais variáveis condicionar.</p>
 </div>
 <div id="definições-formais" class="section level2 hasAnchor" number="3.4">
@@ -729,7 +729,7 @@ div.csl-indent {
 </ol>
 <p>A regra geral: um caminho está bloqueado se contém pelo menos um nó que (a) é um não-collider (chain ou fork) e está no conjunto <span class="math inline">\(\mathbf{Z}\)</span>, ou (b) é um collider e nem ele nem seus descendentes estão em <span class="math inline">\(\mathbf{Z}\)</span>.</p>
 <p><strong>Exemplo trabalhado.</strong> Considere o seguinte DAG:</p>
-<p><img src="bookdownproj_files/figure-html/dsep-example-1.png" alt="" width="672" /></p>
+<p><img src="03-DAGs_files/figure-html/dsep-example-1.png" alt="" width="672" /></p>
 <p>Quais caminhos existem entre <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>?</p>
 <ol style="list-style-type: decimal">
 <li><span class="math inline">\(X \to Y\)</span> — caminho direcionado (causal), sempre aberto</li>
@@ -753,7 +753,7 @@ div.csl-indent {
 <div id="o-que-acontece-ao-condicionar" class="section level3 hasAnchor" number="3.5.2">
 <h3><span class="header-section-number">3.5.2</span> O que acontece ao condicionar<a href="dags.html#o-que-acontece-ao-condicionar" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Vamos ilustrar com um DAG concreto. Suponha que queremos estimar o efeito de <span class="math inline">\(X\)</span> sobre <span class="math inline">\(Y\)</span>:</p>
-<p><img src="bookdownproj_files/figure-html/ajuste-exemplo-1.png" alt="" width="672" /></p>
+<p><img src="03-DAGs_files/figure-html/ajuste-exemplo-1.png" alt="" width="672" /></p>
 <p>Caminhos entre <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>:</p>
 <ol style="list-style-type: decimal">
 <li><span class="math inline">\(X \to Y\)</span> — causal (aberto, queremos preservar)</li>
@@ -766,7 +766,7 @@ div.csl-indent {
 <div id="o-que-dá-errado-ao-condicionar-em-um-collider" class="section level3 hasAnchor" number="3.5.3">
 <h3><span class="header-section-number">3.5.3</span> O que dá errado ao condicionar em um collider<a href="#o-que-d%C3%A1-errado-ao-condicionar-em-um-collider" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Nem sempre mais controles são melhores. Considere uma pesquisadora que estuda o efeito da educação (<span class="math inline">\(E\)</span>) sobre a renda (<span class="math inline">\(R\)</span>). Ela observa que habilidade inata (<span class="math inline">\(H\)</span>) também afeta a renda, e que tanto educação quanto habilidade determinam se a pessoa é aprovada em um concurso público (<span class="math inline">\(A\)</span>):</p>
-<p><img src="bookdownproj_files/figure-html/collider-erro-1.png" alt="" width="672" /></p>
+<p><img src="03-DAGs_files/figure-html/collider-erro-1.png" alt="" width="672" /></p>
 <p>Caminhos entre <span class="math inline">\(E\)</span> e <span class="math inline">\(R\)</span>:</p>
 <ol style="list-style-type: decimal">
 <li><span class="math inline">\(E \to R\)</span> — causal (aberto)</li>
@@ -789,7 +789,7 @@ div.csl-indent {
 <p>Em palavras: condicionamos em <span class="math inline">\(\mathbf{Z}\)</span> para bloquear todos os backdoor paths, calculamos a diferença entre tratados e controles em cada estrato, e ponderamos pela distribuição marginal de <span class="math inline">\(\mathbf{Z}\)</span>. Na seção 3.8, veremos como essa fórmula se conecta ao operador <span class="math inline">\(do()\)</span> de Pearl.</p>
 <p><strong>Conexão com resultados potenciais.</strong> O critério backdoor é a contrapartida gráfica da ignorabilidade condicional do Cap. 2. Se <span class="math inline">\(\mathbf{Z}\)</span> satisfaz o critério backdoor, então <span class="math inline">\(Y(1), Y(0) \perp D \mid \mathbf{Z}\)</span> — exatamente a condição 1 da ignorabilidade forte. Compare com o Teorema 1 do Cap. 2: a fórmula de ajuste acima tem a mesma estrutura. A condição 2 (common support) precisa ser verificada nos dados.</p>
 <p><strong>Exemplo.</strong> Considere o seguinte DAG sobre o efeito do gasto de campanha (<span class="math inline">\(X\)</span>) sobre os votos (<span class="math inline">\(Y\)</span>):</p>
-<p><img src="bookdownproj_files/figure-html/backdoor-exemplo-1.png" alt="" width="672" /></p>
+<p><img src="03-DAGs_files/figure-html/backdoor-exemplo-1.png" alt="" width="672" /></p>
 <p>Onde <span class="math inline">\(Q\)</span> = qualidade do candidato e <span class="math inline">\(P\)</span> = partido. Caminhos entre <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>:</p>
 <ol style="list-style-type: decimal">
 <li><span class="math inline">\(X \to Y\)</span> — causal</li>
@@ -812,10 +812,10 @@ div.csl-indent {
 <div id="quando-observar-intervir" class="section level3 hasAnchor" number="3.7.2">
 <h3><span class="header-section-number">3.7.2</span> Quando observar = intervir?<a href="dags.html#quando-observar-intervir" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Se não há confounding — ou seja, não há backdoor path aberto entre <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> — então a distribuição observacional é igual à distribuição intervencional:</p>
-<p><img src="bookdownproj_files/figure-html/do-sem-confounding-1.png" alt="" width="672" /></p>
+<p><img src="03-DAGs_files/figure-html/do-sem-confounding-1.png" alt="" width="672" /></p>
 <p><span class="math display">\[P(Y \mid do(X = x)) = P(Y \mid X = x)\]</span></p>
 <p>Porém, quando há confounding, as duas diferem:</p>
-<p><img src="bookdownproj_files/figure-html/do-com-confounding-1.png" alt="" width="672" /></p>
+<p><img src="03-DAGs_files/figure-html/do-com-confounding-1.png" alt="" width="672" /></p>
 <p>Aqui, <span class="math inline">\(P(Y \mid X = x) \neq P(Y \mid do(X = x))\)</span>, porque observar <span class="math inline">\(X = x\)</span> traz informação sobre <span class="math inline">\(C\)</span> (via o caminho <span class="math inline">\(X \leftarrow C\)</span>), que por sua vez afeta <span class="math inline">\(Y\)</span>. Já ao intervir com <span class="math inline">\(do(X = x)\)</span>, cortamos essa conexão.</p>
 <p>O critério backdoor nos diz exatamente como calcular <span class="math inline">\(P(Y \mid do(X = x))\)</span> a partir de dados observacionais. Com a notação <span class="math inline">\(do()\)</span>, a fórmula de ajuste da seção anterior pode ser reescrita como:</p>
 <p><span class="math display">\[P(Y = y \mid do(X = x)) = \sum_{z} P(Y = y \mid X = x, \mathbf{Z} = z) \, P(\mathbf{Z} = z)\]</span></p>
@@ -828,7 +828,7 @@ div.csl-indent {
 <p><strong>Conexão com causalidade.</strong> Quando não há confounding (sem backdoor path aberto), a fatorização observacional coincide com a intervencional: <span class="math inline">\(P(Y, X) = P(X) \, P(Y \mid X) = P(X) \, P(Y \mid do(X))\)</span>. Essa igualdade é o que torna a inferência causal possível a partir de dados observacionais quando o critério backdoor é satisfeito.</p>
 </blockquote>
 <p><strong>Exemplo de fatorização Markoviana.</strong> Considere o DAG:</p>
-<p><img src="bookdownproj_files/figure-html/fatorizacao-1.png" alt="" width="672" /></p>
+<p><img src="03-DAGs_files/figure-html/fatorizacao-1.png" alt="" width="672" /></p>
 <p>Os pais de cada nó são: <span class="math inline">\(M\)</span> não tem pais; <span class="math inline">\(Z\)</span> e <span class="math inline">\(W\)</span> têm pai <span class="math inline">\(M\)</span>; <span class="math inline">\(X\)</span> tem pais <span class="math inline">\(Z\)</span> e <span class="math inline">\(W\)</span>; <span class="math inline">\(Y\)</span> tem pai <span class="math inline">\(X\)</span>. Logo, a fatorização Markoviana é:</p>
 <p><span class="math display">\[P(M, Z, W, X, Y) = P(M) \, P(Z \mid M) \, P(W \mid M) \, P(X \mid W, Z) \, P(Y \mid X)\]</span></p>
 </div>
@@ -856,7 +856,7 @@ div.csl-indent {
 <div id="exercícios" class="section level2 hasAnchor" number="3.10">
 <h2><span class="header-section-number">3.10</span> Exercícios<a href="#exerc%C3%ADcios" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><strong>Exercício 1.</strong> Considere o seguinte DAG:</p>
-<p><img src="bookdownproj_files/figure-html/ex1-1.png" alt="" width="672" /></p>
+<p><img src="03-DAGs_files/figure-html/ex1-1.png" alt="" width="672" /></p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Liste todos os caminhos entre <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>.</p></li>
 <li><p>Classifique cada caminho como causal (direcionado) ou backdoor.</p></li>

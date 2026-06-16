@@ -1,0 +1,977 @@
+# Controle Sintético e Estimação Contrafactual
+
+
+
+**Objetivos de aprendizado.** Ao final deste capítulo, o leitor será capaz de:
+
+1. Explicar como regressão e SCM imputam contrafactuais a partir dos controles, distinguindo pesos implícitos de pesos convexos explícitos.
+2. Implementar o SCM no R e interpretar seus resultados (pesos, balanço de preditores, gráficos de gap).
+3. Avaliar criticamente a inferência por permutação do SCM, incluindo suas limitações quando o tratamento não é aleatorizado.
+4. Distinguir entre modelos aditivos (FEct/DiD) e modelos de fatores (IFEct/MC), e entender quando cada um é apropriado.
+5. Explicar como o SCM motiva modelos de fatores, e por que estimar fatores diretamente pode ser mais eficiente quando há múltiplas unidades tratadas.
+6. Comparar DiD, SCM, SDiD e TROP em termos de suposições, flexibilidade e robustez, e escolher o método adequado para uma aplicação concreta.
+
+## Motivação
+
+No capítulo 8, vimos que o DiD requer tendências paralelas: na ausência de tratamento, tratados e controles teriam evoluído de forma similar. Mas essa suposição é frequentemente violada — especialmente quando há poucas unidades tratadas (às vezes apenas uma) ou quando confundidores variam no tempo de forma heterogênea entre grupos.
+
+Este capítulo apresenta uma família de métodos que compartilham a mesma lógica: **imputar o contrafactual** $Y_{it}(0)$ para as observações tratadas. A diferença entre eles está no *modelo* que usam para essa imputação e nas *restrições* que impõem:
+
+- O **Controle Sintético** (SCM) constrói o contrafactual como combinação convexa de unidades não-tratadas.
+- O **framework de estimação contrafactual** (Liu, Wang & Xu, 2024) generaliza a imputação para três estimadores — FEct, IFEct e MC — com diagnósticos formais.
+- O **Synthetic DiD** (Arkhangelsky et al., 2021) combina pesos de unidade (como SCM) com pesos temporais e efeitos fixos (como DiD).
+- O **TROP** (Athey et al., 2025) combina um modelo de fatores com pesos de unidade e pesos temporais, obtendo tripla robustez.
+
+**Mapa do capítulo.** As seções 2–3 cobrem o SCM clássico e sua implementação no R. A seção 4 introduz o framework de estimação contrafactual. A seção 5 apresenta os três estimadores (FEct, IFEct, MC) com aplicação empírica. A seção 6 discute diagnósticos. A seção 7 apresenta o Synthetic DiD. A seção 8 introduz o TROP. A seção 9 oferece um guia prático de escolha entre métodos. A seção 10 resume o capítulo.
+
+
+## Controle Sintético clássico
+
+O método de controle sintético foi originalmente proposto por Abadie e Gardeazabal (2003) para estimar os custos econômicos do conflito no País Basco, e posteriormente formalizado e popularizado por Abadie, Diamond e Hainmueller (2010, 2015). A intuição aparece com clareza no exemplo clássico da Proposição 99. A Califórnia aprovou em 1988 uma política ampla de controle do tabaco. Queremos estimar seu efeito sobre as vendas per capita de cigarros:
+
+$$
+\tau_t = Y_{CA,t}(1) - Y_{CA,t}(0), \quad \text{para } t > 1988
+$$
+
+O termo observado é $Y_{CA,t}(1)$, a trajetória da Califórnia após a política. O termo que falta é $Y_{CA,t}(0)$, a trajetória que a Califórnia teria seguido sem a Proposição 99. Esse contrafactual não está nos dados. Todo o problema é construir uma estimativa crível de $Y_{CA,t}(0)$ usando os estados que não adotaram a política.
+
+\begin{table}
+
+\caption{(\#tab:cigarro)Primeiras observações dos dados de vendas de cigarros.}
+\centering
+\begin{tabular}[t]{l|r|r|l}
+\hline
+state & year & cigsale & california\\
+\hline
+Rhode Island & 1970 & 123.9 & FALSE\\
+\hline
+Tennessee & 1970 & 99.8 & FALSE\\
+\hline
+Indiana & 1970 & 134.6 & FALSE\\
+\hline
+Nevada & 1970 & 189.5 & FALSE\\
+\hline
+Louisiana & 1970 & 115.9 & FALSE\\
+\hline
+Oklahoma & 1970 & 108.4 & FALSE\\
+\hline
+\end{tabular}
+\end{table}
+
+![(\#fig:cigarro)Vendas per capita de cigarros na Califórnia e nos demais estados. A linha vertical marca a aprovação da Proposição 99 em 1988.](11-Synth_files/figure-latex/cigarro-1.pdf) 
+
+A média simples dos demais estados não é um bom contrafactual. Os controles diferem da Califórnia em nível e tendência antes de 1988. Uma primeira saída natural é usar regressão: estimar, entre os estados não tratados, uma relação entre características pré-tratamento e o resultado futuro, e depois aplicar essa relação à Califórnia.
+
+### Regressão como primeira tentativa de contrafactual
+
+Considere uma regressão estimada apenas no *donor pool*. Para cada estado de controle, construímos um vetor de preditores pré-tratamento, incluindo valores defasados de vendas de cigarros e covariáveis como renda, preço relativo e composição etária. Para fixar a ideia, suponha que queremos prever as vendas per capita em 2000:
+
+$$
+\text{cigsale}_{j,2000}
+= \alpha
++ \beta_{1970}\text{cigsale}_{j,1970}
++ \cdots
++ \beta_{1988}\text{cigsale}_{j,1988}
++ Z'_j\gamma
++ u_j,
+\quad j \in co.
+$$
+
+Aqui, $co$ denota o conjunto de estados de controle.
+
+Depois de estimar o modelo nos controles, inserimos os preditores da Califórnia e obtemos $\widehat{Y}_{CA,2000}(0)$. Essa operação parece diferente do SCM, mas também constrói o contrafactual como uma combinação linear dos estados de controle.
+
+Defina $X$ como a matriz de preditores dos estados de controle, incluindo a constante, $y$ como o vetor de resultados dos controles em 2000, e $x_{CA}$ como o vetor de preditores da Califórnia. A regressão produz:
+
+$$
+\widehat{\beta} = (X'X)^{-1}X'y.
+$$
+
+A previsão para a Califórnia é:
+
+$$
+\widehat{Y}_{CA,2000}(0)
+= x_{CA}'\widehat{\beta}
+= x_{CA}'(X'X)^{-1}X'y.
+$$
+
+Agrupando os termos que multiplicam $y$, temos:
+
+$$
+h_{CA} = x_{CA}'(X'X)^{-1}X',
+$$
+
+e portanto:
+
+$$
+\widehat{Y}_{CA,2000}(0)
+= h_1Y_{1,2000} + h_2Y_{2,2000} + \cdots + h_JY_{J,2000}.
+$$
+
+O vetor $h_{CA}$ é uma linha *out-of-sample* análoga à *hat matrix*. Cada elemento de $h_{CA}$ é o peso de um estado de controle no contrafactual por regressão. Com intercepto, esses pesos somam 1. A diferença é que a regressão não exige que sejam positivos, menores que 1 ou concentrados em poucos doadores.
+
+
+
+\begin{table}
+
+\caption{(\#tab:tabela-pesos-regressao-scm)Resumo dos pesos usados pelo SCM e dos pesos implícitos da regressão no exemplo da Califórnia.}
+\centering
+\begin{tabular}[t]{l|r|r|r|r|r|r}
+\hline
+Método & Soma dos pesos & Peso mínimo & Peso máximo & Pesos negativos & Pesos efetivos & Norma L1\\
+\hline
+SCM & 1 & 0.000 & 0.342 & 0 & 5 & 1.00\\
+\hline
+Regressão OLS & 1 & -0.325 & 0.493 & 17 & 38 & 3.96\\
+\hline
+\end{tabular}
+\end{table}
+
+A tabela mostra o ponto de Abadie e L'Hour (2021). A regressão também usa os controles como uma combinação ponderada. No exemplo, os pesos implícitos da OLS somam 1, mas 17 são negativos e todos os 38 estados entram com peso efetivo. O SCM também soma 1, mas não tem pesos negativos e concentra peso em cinco doadores. Entre os maiores pesos em valor absoluto da regressão estão Connecticut, Montana e Utah com pesos positivos, e Mississippi e Oklahoma com pesos negativos.
+
+\begin{figure}
+\includegraphics[width=0.95\linewidth]{outputs/scm_vs_regressao_prop99/figura_2_contrafactual_scm_vs_regressao} \caption{Califórnia observada, contrafactual por regressão e controle sintético. A linha vertical marca a Proposição 99 em 1988.}(\#fig:figura-contrafactual-scm-regressao)
+\end{figure}
+
+Em 2000, a Califórnia observada vendeu 41.6 maços per capita. A regressão prevê 53 e o SCM prevê 67.2. A comparação não prova que um estimador domina o outro. Ela mostra que contrafactuais com bom ajuste pré-tratamento podem ser produzidos por objetos substantivamente diferentes.
+
+Na figura, a série por regressão usa o mesmo vetor $h_{CA}$ para todos os anos. Isso corresponde a manter o mesmo conjunto de preditores e mudar apenas o resultado a ser previsto. Como esses preditores incluem muitas defasagens pré-tratamento, o bom ajuste no pré deve ser lido como diagnóstico descritivo, não como validação fora da amostra.
+
+O problema não é apenas verificar se o ajuste pré-tratamento é bom. Isso vale para regressão, SCM e métodos posteriores. A pergunta mais difícil é que tipo de contrafactual gerou esse ajuste. Três riscos aparecem:
+
+1. **Confundimento dinâmico.** Se a Califórnia difere dos controles em fatores que afetam $Y(0)$ e esses fatores não estão nos preditores, a previsão por regressão pode errar mesmo quando o ajuste observado parece razoável.
+2. **Extrapolação funcional.** A regressão depende da forma funcional estimada nos controles. Quando a Califórnia está fora do suporte empírico dos controles, a previsão pode extrapolar além das comparações observadas.
+3. **Baixa auditabilidade substantiva.** Pesos negativos e não esparsos dificultam a interpretação. A "Califórnia da regressão" pode somar alguns estados e subtrair outros. Essa construção é legítima como álgebra, mas é difícil de defender qualitativamente como unidade comparável.
+
+### O SCM como restrição disciplinadora
+
+O SCM parte do mesmo problema, mas restringe a classe de contrafactuais admissíveis. Em vez de deixar a regressão escolher pesos implícitos sem restrição de sinal, o SCM constrói:
+
+$$
+\hat{Y}_{CA,t}(0) = \sum_{j \in co} w_jY_{j,t}
+$$
+
+com:
+
+$$
+w_j \geq 0
+\qquad \text{e} \qquad
+\sum_{j \in co} w_j = 1.
+$$
+
+Essas duas restrições forçam o contrafactual a ser uma combinação convexa explícita dos controles. Geometricamente, a Califórnia sintética precisa ficar dentro do *convex hull* do *donor pool*. Isso reduz extrapolação forte: o método tenta interpolar dentro do envelope empírico dos controles, em vez de projetar livremente a partir de uma forma funcional.
+
+A analogia com *matching* é útil. O SCM funciona como uma versão ponderada de *nearest-neighbor matching*: procura controles parecidos com a unidade tratada, mas não impõe pesos iguais nem fixa previamente o número de vizinhos. A diferença é que a proximidade é definida pela capacidade de reproduzir a trajetória e os preditores pré-tratamento.
+
+Essa disciplina tem custo. A convexidade pode ser rígida demais quando a unidade tratada está fora do *convex hull* ou quando nenhuma combinação de controles ajusta bem o pré-tratamento. O SCM não é sempre melhor que regressão. Ele troca flexibilidade por transparência, auditabilidade e menor extrapolação.
+
+### Formalização
+
+Suponha que temos dados para $J+1$ unidades por $T$ períodos: $1, 2, \ldots, T_0, T_0+1, \ldots, T$. A primeira unidade ($j=1$) é tratada a partir de $T_0+1$. As demais $j = 2, \ldots, J+1$ formam o *donor pool*. Para cada unidade, observamos um vetor de $k$ preditores $\mathbf{X}_j$, que pode incluir valores pré-intervenção da variável resposta.
+
+Os dados podem ser organizados em blocos, onde as linhas representam períodos (pré e pós-tratamento) e as colunas representam unidades (controle e tratada):
+
+$$
+\begin{aligned}
+D \;=\;
+\underset{\text{linhas: períodos}}{\underbrace{
+\begin{pmatrix}
+\mathbf{0} & \mathbf{0}  \\
+\mathbf{0} & \mathbf{1}
+\end{pmatrix}
+}}
+\quad
+\begin{matrix}
+\leftarrow \text{pré} \\
+\leftarrow \text{pós}
+\end{matrix}
+\qquad
+Y \;=\;
+\underset{\text{colunas: controle | tratada}}{\underbrace{
+\begin{pmatrix}
+Y_{co, pre}(0) & Y_{tr, pre}(0)  \\
+Y_{co, post}(0)  & Y_{tr, post}(1)
+\end{pmatrix}
+}}
+\end{aligned}
+$$
+
+O estimando é o ATT para os períodos pós-tratamento:
+$$
+\tau_t = \mathbb{E}[Y_{it}(1) \mid D_{it}=1] - \mathbb{E}[Y_{it}(0) \mid D_{it}=1]
+$$
+
+O contrafactual é estimado como média ponderada do donor pool:
+$$
+\hat{Y}_{tr, t}(0) = \sum_{j \in co} w_j Y_{j,t}
+$$
+
+com as restrições:
+
+1. $\sum_j w_j = 1$ (combinação convexa)
+2. $w_j \geq 0$, $\forall j$ (pesos não-negativos)
+
+Os pesos são escolhidos para que o controle sintético reproduza bem a unidade tratada antes da intervenção. O principal diagnóstico de ajuste é o RMSPE (*Root Mean Squared Prediction Error*) no período pré-tratamento:
+
+$$
+\operatorname{RMSPE}_{pre}(\mathbf{w}) =
+\sqrt{
+\frac{1}{T_0}
+\sum_{t \leq T_0}
+\left(Y_{tr,t} - \sum_{j \in co} w_j Y_{j,t}\right)^2
+}.
+$$
+
+Na formulação de Abadie, Diamond e Hainmueller (2010), isso é implementado minimizando a distância entre os preditores da unidade tratada e a combinação ponderada dos controles:
+$$
+\hat{\mathbf{W}}(V) = \arg\min_{\mathbf{W}} (\mathbf{X}_{tr} - \mathbf{X}_{co}\mathbf{W})' V (\mathbf{X}_{tr} - \mathbf{X}_{co}\mathbf{W})
+$$
+onde $\mathbf{X}$ inclui a variável dependente defasada como preditor, e $V$ é uma matriz diagonal positiva semidefinida ($k \times k$) que atribui importância relativa a cada preditor. A escolha de $V$ é feita por uma otimização aninhada (*nested optimization*): no loop externo, $V$ é escolhida para minimizar o RMSPE no período pré-tratamento; no loop interno, dado $V$, os pesos $\mathbf{W}$ são otimizados sob as restrições de não-negatividade e soma igual a 1. Isso significa que os resultados do SCM dependem da escolha dos preditores incluídos em $\mathbf{X}$ — tanto a seleção quanto a ponderação dos preditores afetam a solução final.
+
+**Por que o SCM funciona?** Sob um modelo linear de fatores $Y_{it}(0) = \delta_t + \theta_t Z_i + \lambda_t \mu_i + \varepsilon_{it}$, onde $Z_i$ são covariáveis observadas, $\mu_i$ são fatores não-observados e $\lambda_t$ são cargas temporais, Abadie, Diamond e Hainmueller (2010, Proposição 1) mostram que, se existem pesos que reproduzem exatamente os preditores pré-tratamento da unidade tratada (isto é, $\mathbf{X}_{tr} = \mathbf{X}_{co}\mathbf{W}$), então o viés do SCM desaparece quando $T_0 \to \infty$. Intuitivamente, ao reproduzir as trajetórias pré-tratamento e as covariáveis observadas, o controle sintético também reproduz os fatores latentes não-observados — que são a fonte de viés na ausência de tendências paralelas.
+
+**Risco de sobreajuste.** Otimizar o ajuste pré-tratamento pode levar a *overfitting*, especialmente quando se incluem todos os valores defasados da variável resposta como preditores. Kaul et al. (2022) mostram que incluir todas as defasagens torna os demais preditores irrelevantes para a otimização. A recomendação prática é usar defasagens selecionadas (por exemplo, $Y_{i,T_0}$, $Y_{i,T_0/2}$) e médias de covariáveis, em vez de todos os resultados pré-tratamento. O pesquisador deve justificar a escolha de preditores com base em conhecimento substantivo e verificar a robustez dos resultados a especificações alternativas (Abadie, 2021).
+
+**Não-unicidade e viés de interpolação.** Um segundo problema, distinto do sobreajuste, é a **não-unicidade dos pesos**. Quando a unidade tratada está no interior do envoltório convexo (*convex hull*) de muitos doadores, pode haver múltiplas combinações de pesos que reproduzem igualmente bem os dados pré-tratamento — mas que divergem nas previsões pós-tratamento. Isso ocorre quando a informação pré-tratamento não identifica uma combinação única de doadores; com muitos doadores em relação aos preditores disponíveis, múltiplas soluções podem produzir o mesmo ajuste.
+
+Para entender por que isso é problemático, considere um exemplo simples. Suponha que a unidade tratada tem trajetória pré-tratamento idêntica a dois doadores, A e B. Os pesos $(1, 0)$ e $(0, 1)$ produzem o mesmo ajuste pré-tratamento, mas se A e B divergirem no pós-tratamento, as estimativas do efeito causal serão diferentes conforme a solução escolhida pelo otimizador. Pior, o otimizador pode selecionar uma combinação que usa doadores "distantes" da unidade tratada — produzindo o que Abadie e L'Hour (2021) chamam de **viés de interpolação**.
+
+Uma extensão posterior, motivada sobretudo por aplicações com dados desagregados e muitas unidades tratadas, é o SCM penalizado de Abadie e L'Hour (2021). A ideia é adicionar uma penalidade que favorece pesos associados a doadores **mais similares** à unidade tratada. Para fixar a intuição, no caso de uma unidade tratada, o problema penalizado pode ser escrito como:
+
+$$
+\min_{\omega_1, \ldots, \omega_{N_0}} \sum_t \left\{ \left(Y_{N,t} - \sum_{i=1}^{N_0} \omega_i Y_{i,t}\right)^2 + \lambda \sum_{i=1}^{N_0} \omega_i (Y_{N,t} - Y_{i,t})^2 \right\}
+$$
+
+sujeito a $\omega_i \geq 0$ e $\sum_i \omega_i = 1$, com $\lambda > 0$. O segundo termo penaliza o uso de doadores cujas trajetórias individuais são distantes da unidade tratada. Isso ajuda a selecionar uma solução única e reduz o viés de interpolação. No caso canônico com uma única unidade tratada e um *donor pool* pequeno, porém, esse problema tende a ser menos central e costuma ser tratado por escolhas substantivas de preditores e de unidades doadoras. Robbins et al. (2017) propõem uma abordagem alternativa para dados micro ou desagregados: escolher, dentre as soluções ótimas, os pesos mais próximos de pesos iguais — evitando dependência excessiva de poucos doadores.
+
+### Como a literatura se move a partir do SCM
+
+A comparação com regressão organiza a sequência de métodos deste capítulo:
+
+1. **Regressão:** pesos implícitos, possivelmente negativos e não esparsos, com extrapolação livre pela forma funcional.
+2. **SCM clássico:** pesos convexos, explícitos e auditáveis, com menor extrapolação, mas possível rigidez quando a unidade tratada está fora do *convex hull*.
+3. **SCM aumentado:** começa com o SCM e adiciona uma correção por modelo de outcome. Permite alguma extrapolação, mas a ancora no contrafactual sintético.
+4. **Doudchenko e Imbens:** mostram a conexão entre SCM, regressão e DiD ao permitir intercepto e relaxar restrições de peso.
+5. **SDiD:** mantém a lógica de pesos, mas adiciona pesos temporais e efeitos fixos. O estimador final é uma dupla diferença ponderada, não apenas um SCM com outro nome.
+6. **IFEct e controle sintético generalizado:** abandonam a convexidade e estimam diretamente fatores latentes. São mais flexíveis, mas dependem mais fortemente do modelo.
+
+Essa leitura conecta o SCM a uma ideia mais ampla. Muitos métodos causais usam controles para imputar o contrafactual dos tratados. Em um experimento, a randomização torna os controles bons contrafactuais em média. No *matching*, comparamos tratados a controles próximos em covariáveis. No DiD, usamos a trajetória dos controles para imputar a trajetória contrafactual sob tendências paralelas. No SCM, construímos uma combinação convexa de controles para reproduzir o pré-tratamento da unidade tratada.
+
+
+## Implementação do SCM no R
+
+Usamos o pacote `tidysynth`, que oferece uma interface moderna para o SCM.
+
+
+``` r
+library(tidysynth)
+library(tidyverse)
+data(smoking)
+
+smoking %>%
+  head() %>%
+  kable(caption = "Primeiras observações dos dados de vendas de cigarros no pacote tidysynth.")
+```
+
+\begin{table}
+
+\caption{(\#tab:cigarro-tidysynth)Primeiras observações dos dados de vendas de cigarros no pacote tidysynth.}
+\centering
+\begin{tabular}[t]{l|r|r|r|r|r|r}
+\hline
+state & year & cigsale & lnincome & beer & age15to24 & retprice\\
+\hline
+Rhode Island & 1970 & 123.9 & NA & NA & 0.1831579 & 39.3\\
+\hline
+Tennessee & 1970 & 99.8 & NA & NA & 0.1780438 & 39.9\\
+\hline
+Indiana & 1970 & 134.6 & NA & NA & 0.1765159 & 30.6\\
+\hline
+Nevada & 1970 & 189.5 & NA & NA & 0.1615542 & 38.9\\
+\hline
+Louisiana & 1970 & 115.9 & NA & NA & 0.1851852 & 34.3\\
+\hline
+Oklahoma & 1970 & 108.4 & NA & NA & 0.1754592 & 38.4\\
+\hline
+\end{tabular}
+\end{table}
+
+``` r
+smoking_out <-
+  smoking %>%
+  synthetic_control(outcome = cigsale,
+                    unit = state,
+                    time = year,
+                    i_unit = "California",
+                    i_time = 1988,
+                    generate_placebos=T
+                    ) %>%
+  generate_predictor(time_window = 1980:1988,
+                     ln_income = mean(lnincome, na.rm = T),
+                     ret_price = mean(retprice, na.rm = T),
+                     youth = mean(age15to24, na.rm = T)) %>%
+  generate_predictor(time_window = 1984:1988,
+                     beer_sales = mean(beer, na.rm = T)) %>%
+  generate_predictor(time_window = 1975,
+                     cigsale_1975 = cigsale) %>%
+  generate_predictor(time_window = 1980,
+                     cigsale_1980 = cigsale) %>%
+  generate_predictor(time_window = 1988,
+                     cigsale_1988 = cigsale) %>%
+  generate_weights(optimization_window = 1970:1988,
+                   margin_ipop = .02,sigf_ipop = 7,bound_ipop = 6
+  ) %>%
+  generate_control()
+
+smoking_out %>% plot_trends(time_window = 1970:2000)
+```
+
+![(\#fig:cigarro-tidysynth)Trajetória observada da Califórnia e controle sintético estimado pelo pacote tidysynth.](11-Synth_files/figure-latex/cigarro-tidysynth-1.pdf) 
+
+O gráfico mostra que a Califórnia Sintética acompanha bem a trajetória real no período pré-1988, e diverge no período pós — essa divergência é a estimativa do efeito causal.
+
+A quantidade causal de interesse — a diferença entre observado e sintético — pode ser visualizada diretamente:
+
+
+``` r
+smoking_out %>% plot_differences()
+```
+
+![(\#fig:cigarro-tidysynth-diferencas)Diferença entre Califórnia observada e controle sintético ao longo do tempo.](11-Synth_files/figure-latex/cigarro-tidysynth-diferencas-1.pdf) 
+
+Os pesos atribuídos a cada estado e a cada variável preditora:
+
+
+``` r
+smoking_out %>% plot_weights()
+```
+
+![(\#fig:cigarro-tidysynth-pesos)Pesos atribuídos aos estados doadores e aos preditores no SCM estimado pelo pacote tidysynth.](11-Synth_files/figure-latex/cigarro-tidysynth-pesos-1.pdf) 
+
+O balanceamento entre a Califórnia real e a sintética nos preditores:
+
+
+``` r
+smoking_out %>%
+  grab_balance_table() %>%
+  kable(caption = "Balanceamento entre Califórnia observada e controle sintético nos preditores.")
+```
+
+\begin{table}
+
+\caption{(\#tab:cigarro-tidysynth-balanceamento)Balanceamento entre Califórnia observada e controle sintético nos preditores.}
+\centering
+\begin{tabular}[t]{l|r|r|r}
+\hline
+variable & California & synthetic\_California & donor\_sample\\
+\hline
+ln\_income & 10.0765586 & 9.8534864 & 9.8291968\\
+\hline
+ret\_price & 89.4222234 & 89.3908482 & 87.2660819\\
+\hline
+youth & 0.1735324 & 0.1736054 & 0.1725101\\
+\hline
+beer\_sales & 24.2800003 & 24.2224860 & 23.6552632\\
+\hline
+cigsale\_1975 & 127.0999985 & 126.9914177 & 136.9315790\\
+\hline
+cigsale\_1980 & 120.1999969 & 120.2204841 & 138.0894737\\
+\hline
+cigsale\_1988 & 90.0999985 & 91.3888620 & 113.8236837\\
+\hline
+\end{tabular}
+\end{table}
+
+### Inferência por placebo
+
+A inferência no SCM é feita por testes placebo. A intuição é a de um teste de permutação: para cada estado do donor pool, fingimos que ele foi tratado e estimamos um SCM. Se o efeito da Califórnia for grande relativo aos placebos, concluímos que é estatisticamente significativo.
+
+
+``` r
+smoking_out %>% plot_placebos()
+```
+
+![(\#fig:cigarro-tidysynth-placebos)Teste placebo do SCM para a Califórnia e os estados doadores.](11-Synth_files/figure-latex/cigarro-tidysynth-placebos-1.pdf) 
+
+O efeito estimado para a Califórnia (linha escura) é claramente maior do que os efeitos placebo (linhas cinzas), sugerindo que a Proposição 99 de fato reduziu o consumo de cigarros.
+
+Para formalizar a inferência, Abadie, Diamond e Hainmueller (2010, seção 4) propõem construir p-valores a partir da distribuição de razões de RMSPE: para cada unidade placebo $i$, calcula-se a razão entre o RMSPE pós-tratamento e o RMSPE pré-tratamento. Se a razão da unidade tratada for extrema em relação à distribuição dos placebos, o efeito é considerado significativo. Formalmente, seja $\mathcal{P}$ o conjunto de unidades usadas no teste placebo, incluindo a unidade tratada e as unidades doadoras elegíveis. O p-valor é a fração de unidades em $\mathcal{P}$ cuja razão RMSPE é pelo menos tão grande quanto a da unidade tratada:
+
+$$
+\text{p-valor} = \frac{1}{N} \sum_{i \in \mathcal{P}} \mathbf{1}[R_i \geq R_{\text{tratada}}]
+$$
+
+onde $N = |\mathcal{P}|$ e
+
+$$
+R_i =
+\frac{
+\sqrt{\frac{1}{T - T_0}\sum_{t > T_0} (Y_{it} - \hat{Y}_{it}(0))^2}
+}{
+\sqrt{\frac{1}{T_0}\sum_{t \leq T_0} (Y_{it} - \hat{Y}_{it}(0))^2}
+}
+$$
+
+é a razão entre o RMSPE pós-tratamento e o RMSPE pré-tratamento da unidade $i$.
+
+**Limitação fundamental: o que significam "5%"?** É crucial entender o que esse p-valor realmente mede. Sob a hipótese nula de efeito zero, o teste assume que a unidade tratada "não é diferente" das demais. O p-valor de 5% significa que, *se cada uma das $N$ unidades fosse tratada*, 5% delas teriam o null rejeitado. Mas isso **não é um nível de significância no sentido frequentista convencional**, porque a unidade tratada geralmente não foi escolhida aleatoriamente entre as $N$ unidades. A Califórnia aprovou a Proposição 99 por razões políticas e sociais específicas — não foi sorteada. Se a Califórnia é sistematicamente diferente dos outros estados (o que é provável, dado que *ela* adotou a política), o teste de permutação pode ter propriedades de tamanho distorcidas.
+
+Em outras palavras, o teste tem validade exata sob aleatorização do tratamento, mas essa premissa raramente se sustenta em aplicações de controle sintético. Abadie, Diamond e Hainmueller (2015), ao estudar o impacto da reunificação sobre a Alemanha Ocidental, enfrentam esse problema de forma aguda: o que significaria "atribuir a reunificação a outro país"?
+
+**Complicações adicionais na prática.** Mesmo aceitando a lógica do teste, duas complicações surgem. Primeira: para algumas unidades placebo, o controle sintético pode ter ajuste pré-tratamento ruim. Isso contamina especialmente estatísticas baseadas apenas no erro pós-tratamento em nível; por isso, a razão RMSPE pós/pré é preferível, e também é comum descartar placebos com RMSPE pré-tratamento acima de um limiar. Segunda: com poucas unidades elegíveis no exercício placebo ($N$ pequeno), o menor p-valor possível é $1/N$. No exemplo da Califórnia, $N = 39$ porque a amostra contém a Califórnia e 38 estados doadores, não todos os estados dos EUA; portanto, o menor p-valor é $1/39 \approx 0.026$, o que limita a precisão inferencial.
+
+**Inferência conformal como alternativa.** Chernozhukov, Wüthrich e Zhu (2021) propõem uma solução elegante: em vez de permutar *unidades*, permutar *períodos de tempo*. A ideia é que, sob a hipótese nula de efeito zero, os resíduos $Y_{N,t} - \hat{Y}_{N,t}(0)$ nos períodos pós-tratamento deveriam ser indistinguíveis dos resíduos pré-tratamento. O teste conformal constrói p-valores permutando esses resíduos ao longo do tempo — sem necessidade de assumir que o tratamento foi atribuído aleatoriamente entre unidades. Isso fornece inferência com validade em amostra finita, mesmo com uma única unidade tratada, desde que os erros sejam permutáveis ao longo do tempo.
+
+### Diagnósticos de robustez do SCM
+
+Além dos testes placebo, dois diagnósticos adicionais são recomendados para avaliar a robustez do SCM (Abadie, 2021):
+
+**Teste de backdating.** O pesquisador finge que o tratamento ocorreu em um período anterior ao verdadeiro — por exemplo, 5 ou 10 anos antes — e reestima o SCM. Se o controle sintético divergir da unidade tratada *antes* do verdadeiro tratamento, isso sugere que o modelo não está capturando adequadamente a dinâmica pré-tratamento e que as estimativas pós-tratamento podem ser enviesadas. Abadie (2021) ilustra essa abordagem no caso da reunificação alemã, mostrando que a Alemanha Ocidental Sintética acompanha de perto o PIB real até 1990.
+
+**Teste leave-one-out.** Remove-se cada doador contribuinte (com peso não-zero) do donor pool, um de cada vez, e reestima-se o SCM. Se as estimativas são robustas — isto é, se o efeito estimado não muda substancialmente ao remover qualquer doador individual — há maior confiança de que o resultado não depende de uma única unidade de controle. Se, ao contrário, a remoção de um doador altera dramaticamente as estimativas, isso indica fragilidade.
+
+**Sensibilidade ao donor pool.** Mais geralmente, os resultados do SCM podem ser sensíveis à composição do donor pool. O pesquisador deve justificar os critérios de inclusão e exclusão de unidades de controle com base em conhecimento substantivo — por exemplo, excluindo estados com políticas antitabaco similares ou com características estruturais muito diferentes (Abadie, 2021). Recomenda-se verificar a robustez das estimativas a variações na composição do donor pool.
+
+
+## Do SCM aos modelos de fatores
+
+Como vimos na seção anterior, o SCM é justificado por um modelo linear de fatores: $Y_{it}(0) = \delta_t + \theta_t Z_i + \lambda_t \mu_i + \varepsilon_{it}$. Se os pesos reproduzem os preditores pré-tratamento, eles também reproduzem os fatores latentes, e o viés desaparece. Mas isso levanta uma questão natural: **se o processo gerador de dados é um modelo de fatores, por que não estimar os fatores diretamente?**
+
+No SCM clássico, a resposta é pragmática. Em estudos de caso com uma única ou poucas unidades tratadas, geralmente não há graus de liberdade suficientes para estimar fatores latentes de forma confiável. O SCM contorna essa limitação por meio de pesos convexos: ele não estima diretamente os fatores, mas escolhe uma combinação de controles que reproduz a trajetória pré-tratamento da unidade tratada e, sob certas condições, também aproxima seus componentes latentes relevantes.
+
+O Synthetic DiD segue uma lógica próxima, mas combina essa intuição de balanceamento com diferenças-em-diferenças. Em vez de estimar diretamente os fatores latentes, o método escolhe pesos para unidades e períodos de modo a tornar a comparação tratada-controle mais local e plausível, e então estima o efeito por uma regressão de diferenças-em-diferenças ponderada. Assim como o SCM, o SDiD pode ser interpretado sob um modelo de fatores latentes, mas sua implementação continua sendo baseada em pesos, não na estimação explícita dos fatores.
+
+Já os estimadores contrafactuais de Liu, Wang e Xu (2024), como FEct, IFEct e matrix completion, tomam a estrutura latente do painel como objeto mais direto de estimação. Neles, os resultados não-tratados observados são usados para estimar uma superfície contrafactual de baixa dimensão, que depois é imputada para as observações tratadas. A diferença central, portanto, é o modo como cada método explora a estrutura latente do painel: por balanceamento implícito no SCM e no SDiD, ou por estimação explícita em IFEct e matrix completion.
+
+## Framework de estimação contrafactual
+
+O SCM clássico é uma ferramenta poderosa para estudos de caso com uma única unidade tratada. Mas e quando temos múltiplas unidades tratadas com tratamento escalonado no tempo? E quando queremos diagnósticos formais sobre a qualidade da estimação?
+
+Liu, Wang e Xu (2024) propõem um framework unificado de **estimação contrafactual** que generaliza o SCM e o DiD por imputação (para um survey mais amplo de modelos causais para dados de painel, ver Arkhangelsky e Imbens, 2024). A ideia central é a mesma: estimar $Y_{it}(0)$ para as observações tratadas e calcular o efeito como a diferença entre observado e contrafactual.
+
+### Setup
+
+Considere um painel com $N$ unidades e $T$ períodos. O indicador de tratamento $D_{it}$ pode variar por unidade e tempo (tratamento escalonado, e inclusive pode "ligar e desligar"). Particione as observações em dois conjuntos:
+
+- $\mathcal{C}_0$: observações não-tratadas ($D_{it} = 0$), usadas para estimar o modelo
+- $\mathcal{M}$: observações tratadas ($D_{it} = 1$), para as quais imputamos o contrafactual
+
+O efeito individual do tratamento é $\delta_{it} = Y_{it}(1) - Y_{it}(0)$, e o estimando é:
+$$
+ATT = \mathbb{E}[\delta_{it} \mid D_{it} = 1] = \frac{1}{|\mathcal{M}|} \sum_{(i,t) \in \mathcal{M}} \delta_{it}
+$$
+
+A segunda igualdade vale sob uma interpretação *design-based*, em que o painel observado é a população de interesse (não uma amostra de uma superpopulação). Nesse caso, a esperança é sobre a atribuição de tratamento, e a média amostral coincide com o parâmetro populacional.
+
+### Estratégia de estimação em quatro passos
+
+1. **Ajustar** o modelo de $Y_{it}(0)$ usando apenas as observações em $\mathcal{C}_0$
+2. **Prever** o contrafactual $\hat{Y}_{it}(0)$ para cada $(i,t) \in \mathcal{M}$
+3. **Calcular** $\hat{\delta}_{it} = Y_{it} - \hat{Y}_{it}(0)$ para cada observação tratada
+4. **Agregar** os efeitos: $\widehat{ATT} = \frac{1}{|\mathcal{M}|} \sum_{(i,t) \in \mathcal{M}} \hat{\delta}_{it}$
+
+Essa estratégia evita o problema de pesos negativos do TWFE (capítulo 8): cada observação tratada recebe peso uniforme $1/|\mathcal{M}|$ na agregação.
+
+### Suposições de identificação
+
+O framework requer três suposições (Liu et al., 2024, p. 163):
+
+- **Suposição 1 (Forma funcional)**: $Y_{it}(0) = h(U_{it}) + \varepsilon_{it}$, onde $h$ é uma função desconhecida e $U_{it}$ são fatores latentes.
+- **Suposição 2 (Exogeneidade estrita)**: $\mathbb{E}[\varepsilon_{it} | U_{i1}, \ldots, U_{iT}, D_{i1}, \ldots, D_{iT}] = 0$ — os erros são não-correlacionados com os fatores e o tratamento.
+- **Suposição 3 (Decomposição de baixo posto)**: $h(U_{it})$ pode ser decomposta em componentes de baixa dimensionalidade.
+
+A Suposição 3 é o que diferencia os três estimadores: no caso mais simples, $h(U_{it}) = \alpha_i + \xi_t$ (efeitos fixos aditivos, como no DiD). No caso mais flexível, $h(U_{it}) = \alpha_i + \xi_t + \lambda'_i f_t$ (fatores interativos). Eles são "interativos" porque $\lambda_i$ representa cargas específicas da unidade $i$ e $f_t$ representa fatores comuns no período $t$; o termo $\lambda'_i f_t$ permite que o mesmo fator temporal afete cada unidade com intensidade diferente. Diferentemente dos efeitos fixos aditivos, portanto, a heterogeneidade entre unidades pode variar ao longo do tempo.
+
+### Conexão com DiD
+
+O DiD é um caso especial deste framework. Quando $h(U_{it}) = \alpha_i + \xi_t$ e usamos os dados de controle para estimar esses efeitos fixos e depois imputamos, obtemos o estimador de DiD por imputação de Borusyak, Jaravel e Spiess (2024), que vimos no capítulo 8. O framework de Liu et al. vai além ao permitir modelos mais flexíveis.
+
+
+## Três estimadores contrafactuais
+
+O framework de Liu et al. (2024) oferece três estimadores, implementados no pacote `fect` (Fixed Effects Counterfactual Estimators).
+
+### FEct: efeitos fixos
+
+O modelo mais simples assume:
+$$
+Y_{it}(0) = X'_{it}\beta + \alpha_i + \xi_t + \varepsilon_{it}
+$$
+
+Esse é o modelo TWFE — os mesmos efeitos fixos aditivos do DiD. A diferença em relação ao DiD tradicional é a *estratégia de estimação*: em vez de regredir $Y$ em $D$ com efeitos fixos (o que pode gerar pesos negativos com tratamento heterogêneo), o FEct estima $\alpha_i$, $\xi_t$ e $\beta$ usando apenas as observações não-tratadas, e depois imputa o contrafactual para as tratadas.
+
+Isso é equivalente ao estimador de imputação de Borusyak et al. (2024), que discutimos no capítulo 8.
+
+**Nota sobre covariáveis.** O termo $X'_{it}\beta$ permite incluir covariáveis no modelo. As mesmas precauções discutidas no capítulo 8 (seção sobre DiD com covariáveis) se aplicam: covariáveis variantes no tempo que podem ser afetadas pelo tratamento são *bad controls* e não devem ser incluídas diretamente. A vantagem da abordagem de imputação (FEct/IFEct) é que $\beta$ é estimado usando apenas observações não-tratadas, evitando a contaminação que ocorre no TWFE ingênuo.
+
+### IFEct: fatores interativos
+
+O modelo de fatores interativos adiciona um componente multiplicativo:
+$$
+Y_{it}(0) = X'_{it}\beta + \alpha_i + \xi_t + \lambda'_i f_t + \varepsilon_{it}
+$$
+
+O termo $\lambda'_i f_t$ captura confundidores variantes no tempo de forma heterogênea: $f_t$ é um vetor de $r$ fatores comuns (que variam no tempo), e $\lambda_i$ é o vetor de cargas fatoriais (que variam por unidade). Quando $f_t$ é constante, o componente $\lambda'_i f_t$ é absorvido pelo efeito fixo de unidade $\alpha_i$, e o modelo reduz ao caso aditivo (FEct); quando $\lambda_i$ é constante, o componente é absorvido pelo efeito fixo de tempo $\xi_t$.
+
+A vantagem em relação ao FEct é que o IFEct **relaxa a suposição de tendências paralelas**: não exige que todas as unidades sigam a mesma tendência temporal. Basta que as trajetórias sejam explicáveis por um número pequeno de fatores latentes — uma suposição mais fraca e frequentemente mais realista.
+
+O número de fatores $r$ é escolhido por validação cruzada. Na prática, o pacote `fect` testa $r = 0, 1, 2, \ldots, r_{max}$ e escolhe o valor que minimiza o erro de predição nos dados não-tratados.
+
+### MC: Matrix Completion
+
+O estimador MC (Athey, Bayati, Doudchenko, Imbens e Khosravi, 2021) trata o problema como *completação de matriz*. A ideia é que a matriz $\mathbf{Y}(0)$ de resultados potenciais sem tratamento tem estrutura de baixo posto — pode ser bem aproximada por uma matriz de posto $r$ pequeno. O modelo é:
+$$
+\mathbf{Y}(0) = \mathbf{X}\beta + \mathbf{L} + \varepsilon
+$$
+onde $\mathbf{L}$ é uma matriz de baixo posto. Em vez de selecionar $r$ fatores diretamente (como no IFEct), o MC penaliza a norma nuclear $\|\mathbf{L}\|_*$. Essa penalização funciona como um substituto convexo para favorecer matrizes de baixo posto. Isso faz um "soft impute": os valores singulares são encolhidos continuamente, em vez de truncados.
+
+A diferença prática entre IFEct e MC é:
+
+- **IFEct** faz "hard impute": escolhe $r$ fatores e descarta o resto
+- **MC** faz "soft impute": penaliza a norma nuclear, encolhendo todos os valores singulares
+
+Quando a penalização $\lambda_L \to \infty$ (ou $r = 0$), ambos reduzem ao FEct (efeitos fixos aditivos).
+
+### Demonstração com dados da Califórnia
+
+Aplicamos os três estimadores aos mesmos dados de cigarros usados no SCM.
+
+
+``` r
+library(fect)
+library(tidyverse)
+
+data(smoking, package = "tidysynth")
+
+# Preparar dados para fect
+df_fect <- smoking %>%
+  mutate(
+    D = ifelse(state == "California" & year >= 1989, 1, 0),
+    unit_id = as.numeric(as.factor(state))
+  )
+
+# FEct: efeitos fixos (equivalente a DiD por imputação)
+out_fe <- fect(cigsale ~ D, data = df_fect,
+               index = c("state", "year"),
+               method = "fe",
+               se = TRUE, nboots = 200,
+               parallel = FALSE)
+
+cat("FEct - ATT estimado:", round(out_fe$att.avg, 2), "\n")
+```
+
+```
+## FEct - ATT estimado: -27.35
+```
+
+
+``` r
+# IFEct: fatores interativos (r escolhido por CV)
+out_ife <- fect(cigsale ~ D, data = df_fect,
+                index = c("state", "year"),
+                method = "ife",
+                r = c(0, 5),
+                CV = TRUE,
+                se = TRUE, nboots = 200,
+                parallel = FALSE)
+
+cat("IFEct - ATT estimado:", round(out_ife$att.avg, 2), "\n")
+```
+
+```
+## IFEct - ATT estimado: -25.54
+```
+
+``` r
+cat("Número de fatores escolhido:", out_ife$r.cv, "\n")
+```
+
+```
+## Número de fatores escolhido: 4
+```
+
+
+``` r
+# MC: Matrix Completion
+out_mc <- fect(cigsale ~ D, data = df_fect,
+               index = c("state", "year"),
+               method = "mc",
+               se = TRUE, nboots = 200,
+               parallel = FALSE)
+
+cat("MC - ATT estimado:", round(out_mc$att.avg, 2), "\n")
+```
+
+```
+## MC - ATT estimado: -25.91
+```
+
+O gráfico de efeitos dinâmicos (*dynamic treatment effects*) mostra a evolução do efeito estimado ao longo do tempo, incluindo o período pré-tratamento (que deve ser próximo de zero se o modelo estiver bem especificado):
+
+
+``` r
+par(mfrow = c(1, 3))
+plot(out_fe, main = "FEct (Efeitos Fixos)", ylab = "Efeito estimado", xlab = "Períodos relativos ao tratamento")
+```
+
+![(\#fig:fect-dinamico-1)Efeitos dinâmicos estimados pelo FEct no exemplo da Califórnia.](11-Synth_files/figure-latex/fect-dinamico-1.pdf) 
+
+``` r
+plot(out_ife, main = "IFEct (Fatores Interativos)", ylab = "Efeito estimado", xlab = "Períodos relativos ao tratamento")
+```
+
+![(\#fig:fect-dinamico-2)Efeitos dinâmicos estimados pelo IFEct no exemplo da Califórnia.](11-Synth_files/figure-latex/fect-dinamico-2.pdf) 
+
+``` r
+plot(out_mc, main = "MC (Matrix Completion)", ylab = "Efeito estimado", xlab = "Períodos relativos ao tratamento")
+```
+
+![(\#fig:fect-dinamico-3)Efeitos dinâmicos estimados por matrix completion no exemplo da Califórnia.](11-Synth_files/figure-latex/fect-dinamico-3.pdf) 
+
+Os três estimadores devem concordar no sinal e magnitude aproximada do efeito (redução nas vendas de cigarros). Divergências no período pré-tratamento indicam diferenças na qualidade do ajuste — que é exatamente o que os diagnósticos formais da próxima seção avaliam.
+
+
+## Diagnósticos
+
+Uma vantagem do framework de Liu et al. (2024) é oferecer diagnósticos formais para avaliar a qualidade da estimação contrafactual. Esses diagnósticos vão além da inspeção visual e fornecem testes estatísticos.
+
+### Efeitos dinâmicos
+
+O gráfico de efeitos dinâmicos (*gap plot*) mostra $\hat{\delta}_{it}$ para cada período relativo ao tratamento. No período pré-tratamento, esses efeitos devem ser próximos de zero — se não forem, o modelo está falhando em reproduzir os dados pré-tratamento e as estimativas pós-tratamento são suspeitas.
+
+Diferentemente do event study tradicional do DiD (capítulo 8), o gráfico do `fect` não precisa de uma categoria de referência arbitrária: todos os períodos pré-tratamento são informativos.
+
+### Placebo test
+
+O teste placebo "esconde" parte dos períodos pré-tratamento e finge que o tratamento começou antes. Formalmente, remove os últimos $L$ períodos pré-tratamento de $\mathcal{C}_0$, reestima o modelo, e calcula $\hat{\delta}_{it}$ para esses períodos "escondidos". Se o modelo for bem especificado, esses efeitos placebo devem ser zero.
+
+Liu et al. (2024) propõem dois critérios:
+
+1. **Teste t**: a média dos efeitos placebo é significativamente diferente de zero?
+2. **Teste de equivalência (TOST)**: os efeitos placebo estão dentro de um intervalo de equivalência $[-\Delta, \Delta]$?
+
+O teste de equivalência é preferível porque um teste t com baixo poder pode falhar em rejeitar (falso conforto), enquanto o TOST requer evidência *positiva* de que os efeitos são pequenos.
+
+
+``` r
+# Placebo test com IFEct (r fixo, sem CV)
+out_ife_placebo <- fect(cigsale ~ D, data = df_fect,
+                        index = c("state", "year"),
+                        method = "ife",
+                        r = 2,
+                        se = TRUE, nboots = 200,
+                        parallel = FALSE,
+                        placeboTest = TRUE,
+                        placebo.period = c(-2, 0))
+
+plot(out_ife_placebo, type = "equiv", main = "Teste de Equivalência (IFEct)")
+```
+
+![(\#fig:fect-placebo)Teste de equivalência placebo para o modelo IFEct no exemplo da Califórnia.](11-Synth_files/figure-latex/fect-placebo-1.pdf) 
+
+### Teste de no-carryover
+
+Em alguns contextos, o tratamento pode ter efeitos residuais: mesmo após o tratamento ser "desligado", a unidade ainda é afetada. O teste de carryover esconde períodos imediatamente após o tratamento ser removido (se aplicável) e verifica se existem efeitos residuais. Em contextos como o nosso (tratamento absorvente), esse teste não se aplica diretamente, mas é relevante para designs em que o tratamento liga e desliga.
+
+
+## Synthetic DiD
+
+O Controle Sintético clássico e o framework de estimação contrafactual resolvem o problema de imputação de formas diferentes. Uma terceira abordagem, proposta por Arkhangelsky, Athey, Hirshberg, Imbens e Wager (2021), combina as ideias do SCM e do DiD em um único estimador: o **Synthetic DiD** (SDiD).
+
+Para entender o SDiD, é útil ver os três estimadores — SC, DiD e SDiD — lado a lado, seguindo a formulação unificada de Arkhangelsky et al. (2021) e a exposição de Arkhangelsky e Imbens (2024).
+
+O **Controle Sintético** pode ser reescrito como um problema de mínimos quadrados ponderados:
+$$
+(\hat{\mu}, \hat{\gamma}, \hat{\tau}^{SC}) = \arg\min_{\mu, \gamma, \tau}\ \sum_i \sum_t (y_{it} - \mu - \gamma_t - D_{it}\tau)^2 \hat{w}_i
+$$
+Note que não há efeitos fixos de unidade ($\alpha_i$) — os pesos $\hat{w}_i$ "fazem o trabalho" de tornar os controles comparáveis.
+
+O **DiD** (via TWFE) inclui efeitos fixos mas dá peso igual a todas as unidades:
+$$
+(\hat{\mu}, \hat{\alpha}, \hat{\gamma}, \hat{\tau}^{DiD}) = \arg\min_{\mu, \alpha, \gamma, \tau}\ \sum_i \sum_t (y_{it} - \mu - \alpha_i - \gamma_t - D_{it}\tau)^2
+$$
+
+O **SDiD** combina ambos — efeitos fixos *e* pesos, tanto para unidades quanto para períodos:
+$$
+(\hat{\mu}, \hat{\alpha}, \hat{\gamma}, \hat{\tau}^{SDiD}) = \arg\min_{\mu, \alpha, \gamma, \tau}\ \sum_i \sum_t (y_{it} - \mu - \alpha_i - \gamma_t - D_{it}\tau)^2 \hat{w}_i \hat{\lambda}_t
+$$
+
+Os pesos de unidade $\hat{w}_i$ balanceiam as tendências pré-tratamento: dão mais peso a unidades de controle cuja trajetória é similar à dos tratados. Os pesos temporais $\hat{\lambda}_t$ balanceiam os períodos: dão mais peso a períodos pré-tratamento cuja estrutura de cross-section é similar ao período pós. Em outras palavras, os pesos reponderam as observações de modo a reduzir o viés sob um modelo de fatores latentes, mesmo quando tendências paralelas globais não são válidas. Arkhangelsky et al. (2021) demonstram a consistência do SDiD sob um modelo de fatores quando as estimativas de pesos convergem adequadamente.
+
+**O SDiD relaxa a suposição de tendências paralelas?** A resposta exige uma distinção cuidadosa. O modelo que o SDiD *estima* é aditivo — $\alpha_i + \gamma_t$ — o mesmo do DiD. Nesse sentido, o SDiD não modela fatores interativos como o IFEct. Mas Arkhangelsky et al. (2021) demonstram que o SDiD é **consistente sob um modelo de fatores latentes** $Y_{it}(0) = \alpha_i + \lambda'_i f_t + \varepsilon_{it}$ — um DGP em que tendências paralelas globais *não* valem. Como isso é possível?
+
+A chave está nos pesos. Os pesos de unidade $\hat{w}_i$ são construídos para que a média ponderada dos controles tenha a *mesma tendência pré-tratamento* que os tratados. Os pesos temporais $\hat{\lambda}_t$ são construídos para que a média ponderada dos períodos pré-tratamento tenha a *mesma estrutura cross-section* que o período pós. Em conjunto, os pesos criam uma "vizinhança" local — um subconjunto reponderado de unidades e períodos — dentro da qual tendências paralelas valem aproximadamente, mesmo que não valham globalmente.
+
+**Um exemplo concreto.** Suponha três estados de controle: A (tendência crescente), B (tendência estável) e C (tendência decrescente). Se o estado tratado tem tendência estável no pré-tratamento, o DiD daria peso $1/3$ a cada controle e falharia (a média dos três não reproduz a tendência estável). O SDiD atribuiria peso alto a B (tendência similar) e pesos baixos a A e C — criando localmente uma comparação com tendências paralelas.
+
+**Qual é o limite dessa tolerância?** A consistência do SDiD sob o modelo de fatores depende de condições técnicas sobre a convergência dos pesos estimados (Arkhangelsky et al., 2021, Teorema 1). Na prática, isso requer que: (i) exista uma combinação convexa dos controles que reproduza a tendência dos tratados (ou seja, os tratados estejam no "envoltório convexo" dos controles em termos de cargas fatoriais $\lambda_i$); e (ii) haja períodos pré-tratamento suficientes para estimar os pesos com precisão. Se a unidade tratada tem cargas fatoriais muito diferentes de *todos* os controles — por exemplo, se a Califórnia tem uma dinâmica única que nenhuma combinação de outros estados consegue reproduzir — os pesos não convergem e o SDiD não resolve o problema. Nesse cenário, seria necessário um estimador que modele os fatores diretamente, como o IFEct.
+
+Em resumo: o SDiD não *modela* tendências não-paralelas (como o IFEct), mas *tolera* tendências não-paralelas via reponderação — desde que a heterogeneidade das tendências possa ser eliminada por uma recomposição convexa das unidades de controle. É mais robusto que o DiD, mas não tão flexível quanto o IFEct em cenários com estrutura fatorial complexa.
+
+### Implementação no R
+
+Vamos aplicar DiD, SC e SDiD aos dados da Califórnia.
+
+
+``` r
+library(fixest)
+
+smoking_did <- smoking %>%
+  mutate(treatment = ifelse(state == "California" & year > 1988, 1, 0))
+did <- feols(cigsale ~ treatment | state + year, data = smoking_did)
+
+summary(did)
+```
+
+```
+## OLS estimation, Dep. Var.: cigsale
+## Observations: 1,209
+## Fixed-effects: state: 39,  year: 31
+## Standard-errors: Clustered (state) 
+##           Estimate Std. Error  t value           Pr(>|t|)    
+## treatment -27.3491    2.80238 -9.75925 0.0000000000066913 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## RMSE: 11.5     Adj. R2: 0.870229
+##              Within R2: 0.032671
+```
+
+O estimador de DiD assume tendências paralelas na média — suposição que pode não ser crível neste contexto, como mostra o event study:
+
+
+``` r
+library(did2s)
+library(ggfixest)
+
+df <- smoking_did %>%
+  mutate(event_time = year - 1988,
+         id = as.integer(as.factor(state))) %>%
+  group_by(state) %>%
+  mutate(g = ifelse(state == "California", 1988, 0),
+         cohort = ifelse(state == "California", 1, 0),
+         g1 = ifelse(state == "California" & year >= 1980, 1980, 0))
+
+out_es <- event_study(
+  data = df,
+  idname = "id",
+  tname = "year",
+  gname = "g",
+  yname = "cigsale",
+  estimator = "all"
+)
+```
+
+```
+## Error in create_Atheta_list_for_event_study(eventTime = eventTime, g_list = g_list,  : 
+##   There are no comparison cohorts for the given eventTime
+```
+
+``` r
+plot_event_study(out_es)
+```
+
+![(\#fig:did1)Event study para o estimador de DiD aplicado ao exemplo da Califórnia.](11-Synth_files/figure-latex/did1-1.pdf) 
+
+Agora comparamos os três estimadores com o pacote `synthdid`:
+
+
+``` r
+library(synthdid)
+
+estimators = list(did=did_estimate,
+                  sc=sc_estimate,
+                  sdid=synthdid_estimate)
+
+df_sdid <- df %>%
+  dplyr::select(state, year, cigsale, treatment) %>%
+  mutate(treatment = as.integer(treatment),
+         year = as.integer(year),
+         state = as.factor(state)) %>%
+  as.data.frame()
+
+setup <- panel.matrices(df_sdid)
+
+estimates <- lapply(estimators, function(estimator) { estimator(setup$Y,
+                                                               setup$N0, setup$T0) } )
+
+standard.errors = mapply(function(estimate, name) {
+  set.seed(12345)
+  if(name == 'mc') { mc_placebo_se(setup$Y, setup$N0, setup$T0) }
+  else {             sqrt(vcov(estimate, method='placebo'))     }
+}, estimates, names(estimators))
+
+# Resultados
+data.frame(
+  Estimador = c("DiD", "SC", "SDiD"),
+  ATT = round(sapply(estimates, function(x) x[1]), 2),
+  SE = round(standard.errors, 2)
+) %>%
+  kable(caption = "Estimativas de ATT e erros-padrão para DiD, controle sintético e Synthetic DiD.")
+```
+
+\begin{table}
+
+\caption{(\#tab:sdid)Estimativas de ATT e erros-padrão para DiD, controle sintético e Synthetic DiD.}
+\centering
+\begin{tabular}[t]{l|l|r|r}
+\hline
+  & Estimador & ATT & SE\\
+\hline
+did & DiD & -27.35 & 17.74\\
+\hline
+sc & SC & -19.62 & 9.92\\
+\hline
+sdid & SDiD & -15.60 & 8.37\\
+\hline
+\end{tabular}
+\end{table}
+
+O gráfico a seguir compara visualmente as trajetórias estimadas:
+
+
+``` r
+synthdid_plot(estimates[1:3], facet.vertical=FALSE,
+              control.name='control', treated.name='california',
+              lambda.comparable=TRUE, se.method = 'none',
+              trajectory.linetype = 1, line.width=.75, effect.curvature=-.4,
+              trajectory.alpha=.7, effect.alpha=.7,
+              diagram.alpha=1, onset.alpha=.7) +
+  theme(legend.position=c(.26,.07), legend.direction='horizontal',
+        legend.key=element_blank(), legend.background=element_blank(),
+        strip.background=element_blank(), strip.text.x = element_blank())
+```
+
+![(\#fig:sdid1)Comparação visual das trajetórias estimadas por DiD, controle sintético e Synthetic DiD.](11-Synth_files/figure-latex/sdid1-1.pdf) 
+
+E os pesos de unidade atribuídos por cada estimador:
+
+
+``` r
+synthdid_units_plot(rev(estimates[1:3]), se.method='none')
+```
+
+![(\#fig:sdid2)Pesos de unidade atribuídos por DiD, controle sintético e Synthetic DiD.](11-Synth_files/figure-latex/sdid2-1.pdf) 
+
+Note que o DiD atribui peso igual a todos os estados de controle, o SC concentra peso em poucos estados similares à Califórnia, e o SDiD faz algo intermediário.
+
+
+## TROP: estimador triplamente robusto
+
+Athey, Imbens, Qu e Viviano (2025) propõem o **TROP** (*Triply Robust Panel Estimator*), que combina três componentes:
+
+1. Um **modelo de fatores** (outcome model): $Y_{it}(0) = \mu_i + \lambda'_i f_t + \varepsilon_{it}$
+2. **Pesos de unidade** $w_i$ (análogo ao SCM)
+3. **Pesos temporais** $\omega_t$ (análogo ao SDiD)
+
+A propriedade central do TROP é a **tripla robustez**. Para entender essa propriedade, considere que o viés do estimador tem uma estrutura *multiplicativa*: é proporcional ao produto de três termos de erro de especificação:
+$$
+\text{viés} \propto e_{\text{modelo}} \times e_{\text{pesos de unidade}} \times e_{\text{pesos temporais}}
+$$
+
+onde $e_{\text{modelo}}$ é o erro do modelo de fatores, $e_{\text{pesos de unidade}}$ é o erro dos pesos de unidade, e $e_{\text{pesos temporais}}$ é o erro dos pesos temporais. Como o viés é um *produto* desses três termos, basta que *qualquer um* deles seja zero para que o viés total desapareça. Em outras palavras, o estimador é consistente se qualquer um dos três componentes estiver corretamente especificado — não é necessário que todos estejam corretos simultaneamente.
+
+Isso contrasta com o SDiD, que usa efeitos fixos aditivos + pesos, enquanto o TROP usa um modelo de fatores + pesos. Contudo, é importante notar que quando *todos os três* componentes estão mal especificados, o viés pode ser arbitrário — a tripla robustez não protege contra falha simultânea de todos os componentes.
+
+Em simulações, Athey et al. (2025) mostram que o TROP supera substancialmente o TWFE e compete com o SDiD e o MC em uma variedade de cenários. A recomendação dos autores é usar simulações calibradas aos dados para escolher entre estimadores — não há estimador que domine em todos os cenários.
+
+**Nota**: o artigo de Athey et al. (2025) é um *preprint* que ainda não passou por revisão por pares. Até 2026, não existe pacote R público para o TROP. A menção aqui é teórica e serve para situar o leitor na fronteira da literatura.
+
+
+## Quando usar cada método: guia prático
+
+A escolha entre os métodos depende do contexto empírico. Eis um guia baseado nas recomendações de Liu et al. (2024, p. 175):
+
+**Árvore de decisão:**
+
+1. **Uma única unidade tratada** → SCM (seção 2) ou SCM aumentado (Ben-Michael et al., 2021)
+2. **Múltiplas unidades, tendências paralelas plausíveis** → DiD/FEct (capítulo 8 e seção 5.1)
+3. **Múltiplas unidades, tendências paralelas duvidosas** → IFEct ou MC (seção 5.2–5.3)
+4. **Poucas unidades de controle** → SDiD (seção 7) — os pesos ajudam a criar comparabilidade
+
+**Checklist prático** (adaptado de Liu et al., 2024):
+
+1. Visualize o *treatment status*: quando cada unidade entra no tratamento?
+2. Visualize a variável resposta: há tendências não-paralelas visíveis?
+3. Comece com FEct + diagnósticos (placebo test, equivalência)
+4. Se os diagnósticos falharem → tente IFEct ou MC + diagnósticos
+5. Se houver carryover → remova os períodos afetados e reestime
+6. Compare as estimativas entre métodos: se concordarem, há robustez; se divergirem, investigue por quê
+
+A tabela abaixo resume as suposições e características de cada método:
+
+\begin{table}
+
+\caption{(\#tab:tabela-guia-metodos-scm)Resumo das suposições, pesos e pacotes dos principais estimadores contrafactuais discutidos no capítulo.}
+\centering
+\begin{tabular}[t]{l|l|l|l|l}
+\hline
+Método & Modelo para $Y(0)$ & Relaxa tendências paralelas? & Pesos & Pacote R\\
+\hline
+DiD/TWFE & $\alpha_i + \lambda_t$ & Não & Iguais & fixest\\
+\hline
+FEct & $X'\beta + \alpha_i + \xi_t$ & Não (mesma suposição) & Uniformes & fect\\
+\hline
+IFEct & $X'\beta + \alpha_i + \xi_t + \lambda'_i f_t$ & Sim (fatores) & Uniformes & fect\\
+\hline
+MC & Baixo posto (norma nuclear) & Sim (baixo posto) & Implícitos (norma nuclear) & fect\\
+\hline
+SCM & Combinação convexa & Indiretamente (via pesos) & Convexos & tidysynth\\
+\hline
+SDiD & $\alpha_i + \lambda_t$ + pesos & Indiretamente (via pesos) & Unid. + tempo & synthdid\\
+\hline
+TROP & Fatores + pesos & Sim (tripla robustez) & Unid. + tempo & Sem pacote público até 2026\\
+\hline
+\end{tabular}
+\end{table}
+
+A relação entre esses métodos envolve duas dimensões distintas. A primeira é a **flexibilidade do modelo**: DiD/FEct assumem efeitos aditivos, enquanto IFEct e MC permitem estrutura de fatores (baixo posto), relaxando tendências paralelas. A segunda é a **robustez à má especificação**: o SDiD usa o mesmo modelo aditivo do FEct, mas adiciona pesos de unidade e temporais que o tornam mais robusto quando tendências paralelas globais falham — é mais robusto, não necessariamente mais flexível. Da mesma forma, o TROP não relaxa suposições além do modelo de fatores; sua contribuição é a tripla robustez via estrutura multiplicativa do viés, que o protege contra erros em qualquer um dos três componentes. MC e IFEct operam sob suposições de baixo posto similares, mas diferem computacionalmente (*soft* vs. *hard impute*). Em todos os casos, métodos com menos suposições ou mais robustez tendem a pagar um custo em variância: a escolha envolve o trade-off viés-variância usual.
+
+
+## Resumo
+
+Neste capítulo, apresentamos uma família de métodos para estimação de efeitos causais em dados de painel, unificados pela ideia de **imputação do contrafactual** $Y_{it}(0)$:
+
+- O **SCM** constrói o contrafactual como combinação convexa de unidades não-tratadas — ideal para estudos de caso com uma unidade tratada.
+- O **framework de estimação contrafactual** (Liu et al., 2024) generaliza a imputação para três estimadores (FEct, IFEct, MC) com diagnósticos formais.
+- O **SDiD** combina pesos de unidade e temporais com efeitos fixos, criando tendências paralelas localmente.
+- O **TROP** (Athey et al., 2025) oferece tripla robustez combinando modelo de fatores com pesos de unidade e pesos temporais.
+
+A conexão com o capítulo 8 (DiD) é direta: o FEct é equivalente ao DiD por imputação de Borusyak et al. (2024), e o DiD tradicional é um caso especial do framework quando $h(U_{it}) = \alpha_i + \xi_t$. A conexão com o capítulo 9 (TSCS) também é clara: o IFEct estende os modelos de fatores interativos de Xu (2017) e Gobillon e Magnac (2016) para o contexto de inferência causal.
+
+## Referências
+
+Abadie, A. (2021). Using synthetic controls: Feasibility, data requirements, and methodological aspects. *Journal of Economic Literature*, 59(2), 391–425.
+
+Abadie, A., & Gardeazabal, J. (2003). The economic costs of conflict: A case study of the Basque Country. *American Economic Review*, 93(1), 113–132.
+
+Abadie, A., Diamond, A., & Hainmueller, J. (2010). Synthetic control methods for comparative case studies: Estimating the effect of California's tobacco control program. *Journal of the American Statistical Association*, 105(490), 493–505.
+
+Abadie, A., Diamond, A., & Hainmueller, J. (2015). Comparative politics and the synthetic control method. *American Journal of Political Science*, 59(2), 495–510.
+
+Abadie, A., & L'Hour, J. (2021). A penalized synthetic control estimator for disaggregated data. *Journal of the American Statistical Association*, 116(536), 1817–1834.
+
+Arkhangelsky, D., Athey, S., Hirshberg, D. A., Imbens, G. W., & Wager, S. (2021). Synthetic difference-in-differences. *American Economic Review*, 111(12), 4088–4118.
+
+Arkhangelsky, D., & Imbens, G. (2024). Causal models for longitudinal and panel data: A survey. *The Econometrics Journal*, 27(3), C1–C61.
+
+Athey, S., Bayati, M., Doudchenko, N., Imbens, G., & Khosravi, K. (2021). Matrix completion methods for causal panel data models. *Journal of the American Statistical Association*, 116(536), 1716–1730.
+
+Athey, S., Imbens, G., Qu, Z., & Viviano, D. (2025). Triply robust estimation of causal effects with missing data in panel studies. Preprint.
+
+Ben-Michael, E., Feller, A., & Rothstein, J. (2021). The augmented synthetic control method. *Journal of the American Statistical Association*, 116(536), 1789–1803.
+
+Borusyak, K., Jaravel, X., & Spiess, J. (2024). Revisiting event-study designs: Robust and efficient estimation. *Review of Economic Studies*, 91(6), 3253–3285.
+
+Chernozhukov, V., Wüthrich, K., & Zhu, Y. (2021). An exact and robust conformal inference method for counterfactual and synthetic controls. *Journal of the American Statistical Association*, 116(536), 1849–1864.
+
+Doudchenko, N., & Imbens, G. W. (2016). Balancing, regression, difference-in-differences and synthetic control methods: A synthesis. Working Paper 22791, National Bureau of Economic Research.
+
+Gobillon, L., & Magnac, T. (2016). Regional policy evaluation: Interactive fixed effects and synthetic controls. *Review of Economics and Statistics*, 98(3), 535–551.
+
+Kaul, A., Klößner, S., Pfeifer, G., & Schieler, M. (2022). Standard synthetic control methods: The case of using all preintervention outcomes together with covariates. *Journal of Business & Economic Statistics*, 40(3), 1362–1376.
+
+Liu, L., Wang, Y., & Xu, Y. (2024). A practical guide to counterfactual estimators for causal inference with time-series cross-sectional data. *American Journal of Political Science*, 68(1), 160–176.
+
+Robbins, M. W., Saunders, J., & Kilmer, B. (2017). A framework for synthetic control methods with high-dimensional, micro-level data: Evaluating a neighborhood-specific crime intervention. *Journal of the American Statistical Association*, 112(517), 109–126.
+
+Xu, Y. (2017). Generalized synthetic control method: Causal inference with interactive fixed effects models. *Political Analysis*, 25(1), 57–76.

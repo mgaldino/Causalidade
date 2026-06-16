@@ -686,14 +686,14 @@ div.csl-indent {
 <h3><span class="header-section-number">4.5.1</span> Aleatorização de Bernoulli<a href="#aleatoriza%C3%A7%C3%A3o-de-bernoulli" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>É a aleatorização mais simples: para cada unidade, jogamos uma moeda com probabilidade <span class="math inline">\(p\)</span> de tratamento. Matematicamente, <span class="math inline">\(P(D_i = 1) = p\)</span> independentemente para cada <span class="math inline">\(i\)</span>.</p>
 <p>O problema é que o número de tratados é aleatório — em princípio, podemos ter todas as unidades no controle ou todas no tratamento (embora isso seja extremamente improvável com <span class="math inline">\(n\)</span> grande).</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="experimentos.html#cb18-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">10</span>)</span>
-<span id="cb18-2"><a href="experimentos.html#cb18-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">50</span></span>
-<span id="cb18-3"><a href="experimentos.html#cb18-3" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">sum</span>(<span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.5</span>))),</span>
-<span id="cb18-4"><a href="experimentos.html#cb18-4" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Aleatorização de Bernoulli (1000 simulações, n=50)&quot;</span>,</span>
-<span id="cb18-5"><a href="experimentos.html#cb18-5" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Número de tratados&quot;</span>,</span>
-<span id="cb18-6"><a href="experimentos.html#cb18-6" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>,</span>
-<span id="cb18-7"><a href="experimentos.html#cb18-7" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">40</span>))</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/bernoulli-1.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="experimentos.html#cb19-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">10</span>)</span>
+<span id="cb19-2"><a href="experimentos.html#cb19-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb19-3"><a href="experimentos.html#cb19-3" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">sum</span>(<span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.5</span>))),</span>
+<span id="cb19-4"><a href="experimentos.html#cb19-4" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Aleatorização de Bernoulli (1000 simulações, n=50)&quot;</span>,</span>
+<span id="cb19-5"><a href="experimentos.html#cb19-5" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Número de tratados&quot;</span>,</span>
+<span id="cb19-6"><a href="experimentos.html#cb19-6" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>,</span>
+<span id="cb19-7"><a href="experimentos.html#cb19-7" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">40</span>))</span></code></pre></div>
+<p><img src="04-Experimentos_files/figure-html/bernoulli-1.png" alt="" width="672" /></p>
 <p>A aleatorização de Bernoulli possui <span class="math inline">\(2^n\)</span> configurações possíveis de alocação entre tratamento e controle.</p>
 </div>
 <div id="aleatorização-completa" class="section level3 hasAnchor" number="4.5.2">
@@ -719,59 +719,59 @@ div.csl-indent {
 <div id="precisão-da-aleatorização-em-bloco" class="section level3 hasAnchor" number="4.5.4">
 <h3><span class="header-section-number">4.5.4</span> Precisão da aleatorização em bloco<a href="#precis%C3%A3o-da-aleatoriza%C3%A7%C3%A3o-em-bloco" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Vamos verificar o ganho de precisão com uma simulação. Criamos dois blocos com médias diferentes e comparamos o erro padrão da aleatorização simples com o da aleatorização em bloco.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="experimentos.html#cb19-1" tabindex="-1"></a><span class="co"># Configuração: dois blocos com médias diferentes</span></span>
-<span id="cb19-2"><a href="experimentos.html#cb19-2" tabindex="-1"></a>n1 <span class="ot">&lt;-</span> <span class="dv">10</span>  <span class="co"># bloco 1</span></span>
-<span id="cb19-3"><a href="experimentos.html#cb19-3" tabindex="-1"></a>n2 <span class="ot">&lt;-</span> <span class="dv">16</span>  <span class="co"># bloco 2</span></span>
-<span id="cb19-4"><a href="experimentos.html#cb19-4" tabindex="-1"></a>N <span class="ot">&lt;-</span> n1 <span class="sc">+</span> n2</span>
-<span id="cb19-5"><a href="experimentos.html#cb19-5" tabindex="-1"></a></span>
-<span id="cb19-6"><a href="experimentos.html#cb19-6" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12</span>)</span>
-<span id="cb19-7"><a href="experimentos.html#cb19-7" tabindex="-1"></a>y0 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rnorm</span>(n1, <span class="dv">2</span>, <span class="dv">1</span>), <span class="fu">rnorm</span>(n2, <span class="dv">6</span>, <span class="dv">1</span>))  <span class="co"># PO controle</span></span>
-<span id="cb19-8"><a href="experimentos.html#cb19-8" tabindex="-1"></a>y1 <span class="ot">&lt;-</span> y0 <span class="sc">+</span> <span class="fl">1.5</span>                               <span class="co"># PO tratamento (efeito = 1.5)</span></span></code></pre></div>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="experimentos.html#cb20-1" tabindex="-1"></a><span class="co"># Aleatorização em bloco: metade de cada bloco para tratamento</span></span>
-<span id="cb20-2"><a href="experimentos.html#cb20-2" tabindex="-1"></a>t_bloco1 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>n1, n1<span class="sc">/</span><span class="dv">2</span>)</span>
-<span id="cb20-3"><a href="experimentos.html#cb20-3" tabindex="-1"></a>c_bloco1 <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">:</span>n1)[<span class="sc">!</span>(<span class="dv">1</span><span class="sc">:</span>n1 <span class="sc">%in%</span> t_bloco1)]</span>
-<span id="cb20-4"><a href="experimentos.html#cb20-4" tabindex="-1"></a>t_bloco2 <span class="ot">&lt;-</span> <span class="fu">sample</span>((n1<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n1<span class="sc">+</span>n2), n2<span class="sc">/</span><span class="dv">2</span>)</span>
-<span id="cb20-5"><a href="experimentos.html#cb20-5" tabindex="-1"></a>c_bloco2 <span class="ot">&lt;-</span> ((n1<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n1<span class="sc">+</span>n2))[<span class="sc">!</span>((n1<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n1<span class="sc">+</span>n2) <span class="sc">%in%</span> t_bloco2)]</span>
-<span id="cb20-6"><a href="experimentos.html#cb20-6" tabindex="-1"></a></span>
-<span id="cb20-7"><a href="experimentos.html#cb20-7" tabindex="-1"></a><span class="co"># Resultados observados por bloco</span></span>
-<span id="cb20-8"><a href="experimentos.html#cb20-8" tabindex="-1"></a>y1_obs_bloco1 <span class="ot">&lt;-</span> y1[t_bloco1]; y0_obs_bloco1 <span class="ot">&lt;-</span> y0[c_bloco1]</span>
-<span id="cb20-9"><a href="experimentos.html#cb20-9" tabindex="-1"></a>y1_obs_bloco2 <span class="ot">&lt;-</span> y1[t_bloco2]; y0_obs_bloco2 <span class="ot">&lt;-</span> y0[c_bloco2]</span>
-<span id="cb20-10"><a href="experimentos.html#cb20-10" tabindex="-1"></a></span>
-<span id="cb20-11"><a href="experimentos.html#cb20-11" tabindex="-1"></a><span class="co"># Aleatorização simples (ignora blocos)</span></span>
-<span id="cb20-12"><a href="experimentos.html#cb20-12" tabindex="-1"></a>y1_obs <span class="ot">&lt;-</span> y1[<span class="fu">c</span>(t_bloco1, t_bloco2)]</span>
-<span id="cb20-13"><a href="experimentos.html#cb20-13" tabindex="-1"></a>y0_obs <span class="ot">&lt;-</span> y0[<span class="fu">c</span>(c_bloco1, c_bloco2)]</span></code></pre></div>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="experimentos.html#cb21-1" tabindex="-1"></a><span class="co"># Erro padrão: aleatorização simples</span></span>
-<span id="cb21-2"><a href="experimentos.html#cb21-2" tabindex="-1"></a>ep_simples <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs, y0_obs)<span class="sc">$</span>stderr</span>
-<span id="cb21-3"><a href="experimentos.html#cb21-3" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="experimentos.html#cb21-4" tabindex="-1"></a><span class="co"># Erro padrão: aleatorização em bloco (ponderado)</span></span>
-<span id="cb21-5"><a href="experimentos.html#cb21-5" tabindex="-1"></a>ep1 <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs_bloco1, y0_obs_bloco1)<span class="sc">$</span>stderr</span>
-<span id="cb21-6"><a href="experimentos.html#cb21-6" tabindex="-1"></a>ep2 <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs_bloco2, y0_obs_bloco2)<span class="sc">$</span>stderr</span>
-<span id="cb21-7"><a href="experimentos.html#cb21-7" tabindex="-1"></a>ep_bloco <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(ep1<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> (n1<span class="sc">/</span>N)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> ep2<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> (n2<span class="sc">/</span>N)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb21-8"><a href="experimentos.html#cb21-8" tabindex="-1"></a></span>
-<span id="cb21-9"><a href="experimentos.html#cb21-9" tabindex="-1"></a><span class="co"># Comparação</span></span>
-<span id="cb21-10"><a href="experimentos.html#cb21-10" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
-<span id="cb21-11"><a href="experimentos.html#cb21-11" tabindex="-1"></a>  <span class="at">Metodo =</span> <span class="fu">c</span>(<span class="st">&quot;Aleatorização simples&quot;</span>, <span class="st">&quot;Aleatorização em bloco&quot;</span>),</span>
-<span id="cb21-12"><a href="experimentos.html#cb21-12" tabindex="-1"></a>  <span class="at">Erro_Padrao =</span> <span class="fu">round</span>(<span class="fu">c</span>(ep_simples, ep_bloco), <span class="dv">4</span>)</span>
-<span id="cb21-13"><a href="experimentos.html#cb21-13" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
-<span id="cb21-14"><a href="experimentos.html#cb21-14" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
-<span id="cb21-15"><a href="experimentos.html#cb21-15" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Método&quot;</span>, <span class="st">&quot;Erro padrão&quot;</span>),</span>
-<span id="cb21-16"><a href="experimentos.html#cb21-16" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Comparação de erros padrão&quot;</span></span>
-<span id="cb21-17"><a href="experimentos.html#cb21-17" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="experimentos.html#cb20-1" tabindex="-1"></a><span class="co"># Configuração: dois blocos com médias diferentes</span></span>
+<span id="cb20-2"><a href="experimentos.html#cb20-2" tabindex="-1"></a>n1 <span class="ot">&lt;-</span> <span class="dv">10</span>  <span class="co"># bloco 1</span></span>
+<span id="cb20-3"><a href="experimentos.html#cb20-3" tabindex="-1"></a>n2 <span class="ot">&lt;-</span> <span class="dv">16</span>  <span class="co"># bloco 2</span></span>
+<span id="cb20-4"><a href="experimentos.html#cb20-4" tabindex="-1"></a>N <span class="ot">&lt;-</span> n1 <span class="sc">+</span> n2</span>
+<span id="cb20-5"><a href="experimentos.html#cb20-5" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="experimentos.html#cb20-6" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12</span>)</span>
+<span id="cb20-7"><a href="experimentos.html#cb20-7" tabindex="-1"></a>y0 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rnorm</span>(n1, <span class="dv">2</span>, <span class="dv">1</span>), <span class="fu">rnorm</span>(n2, <span class="dv">6</span>, <span class="dv">1</span>))  <span class="co"># PO controle</span></span>
+<span id="cb20-8"><a href="experimentos.html#cb20-8" tabindex="-1"></a>y1 <span class="ot">&lt;-</span> y0 <span class="sc">+</span> <span class="fl">1.5</span>                               <span class="co"># PO tratamento (efeito = 1.5)</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="experimentos.html#cb21-1" tabindex="-1"></a><span class="co"># Aleatorização em bloco: metade de cada bloco para tratamento</span></span>
+<span id="cb21-2"><a href="experimentos.html#cb21-2" tabindex="-1"></a>t_bloco1 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>n1, n1<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb21-3"><a href="experimentos.html#cb21-3" tabindex="-1"></a>c_bloco1 <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">:</span>n1)[<span class="sc">!</span>(<span class="dv">1</span><span class="sc">:</span>n1 <span class="sc">%in%</span> t_bloco1)]</span>
+<span id="cb21-4"><a href="experimentos.html#cb21-4" tabindex="-1"></a>t_bloco2 <span class="ot">&lt;-</span> <span class="fu">sample</span>((n1<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n1<span class="sc">+</span>n2), n2<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb21-5"><a href="experimentos.html#cb21-5" tabindex="-1"></a>c_bloco2 <span class="ot">&lt;-</span> ((n1<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n1<span class="sc">+</span>n2))[<span class="sc">!</span>((n1<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(n1<span class="sc">+</span>n2) <span class="sc">%in%</span> t_bloco2)]</span>
+<span id="cb21-6"><a href="experimentos.html#cb21-6" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="experimentos.html#cb21-7" tabindex="-1"></a><span class="co"># Resultados observados por bloco</span></span>
+<span id="cb21-8"><a href="experimentos.html#cb21-8" tabindex="-1"></a>y1_obs_bloco1 <span class="ot">&lt;-</span> y1[t_bloco1]; y0_obs_bloco1 <span class="ot">&lt;-</span> y0[c_bloco1]</span>
+<span id="cb21-9"><a href="experimentos.html#cb21-9" tabindex="-1"></a>y1_obs_bloco2 <span class="ot">&lt;-</span> y1[t_bloco2]; y0_obs_bloco2 <span class="ot">&lt;-</span> y0[c_bloco2]</span>
+<span id="cb21-10"><a href="experimentos.html#cb21-10" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="experimentos.html#cb21-11" tabindex="-1"></a><span class="co"># Aleatorização simples (ignora blocos)</span></span>
+<span id="cb21-12"><a href="experimentos.html#cb21-12" tabindex="-1"></a>y1_obs <span class="ot">&lt;-</span> y1[<span class="fu">c</span>(t_bloco1, t_bloco2)]</span>
+<span id="cb21-13"><a href="experimentos.html#cb21-13" tabindex="-1"></a>y0_obs <span class="ot">&lt;-</span> y0[<span class="fu">c</span>(c_bloco1, c_bloco2)]</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="experimentos.html#cb22-1" tabindex="-1"></a><span class="co"># Erro padrão: aleatorização simples</span></span>
+<span id="cb22-2"><a href="experimentos.html#cb22-2" tabindex="-1"></a>ep_simples <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs, y0_obs)<span class="sc">$</span>stderr</span>
+<span id="cb22-3"><a href="experimentos.html#cb22-3" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="experimentos.html#cb22-4" tabindex="-1"></a><span class="co"># Erro padrão: aleatorização em bloco (ponderado)</span></span>
+<span id="cb22-5"><a href="experimentos.html#cb22-5" tabindex="-1"></a>ep1 <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs_bloco1, y0_obs_bloco1)<span class="sc">$</span>stderr</span>
+<span id="cb22-6"><a href="experimentos.html#cb22-6" tabindex="-1"></a>ep2 <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1_obs_bloco2, y0_obs_bloco2)<span class="sc">$</span>stderr</span>
+<span id="cb22-7"><a href="experimentos.html#cb22-7" tabindex="-1"></a>ep_bloco <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(ep1<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> (n1<span class="sc">/</span>N)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> ep2<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> (n2<span class="sc">/</span>N)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb22-8"><a href="experimentos.html#cb22-8" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="experimentos.html#cb22-9" tabindex="-1"></a><span class="co"># Comparação</span></span>
+<span id="cb22-10"><a href="experimentos.html#cb22-10" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb22-11"><a href="experimentos.html#cb22-11" tabindex="-1"></a>  <span class="at">Metodo =</span> <span class="fu">c</span>(<span class="st">&quot;Aleatorização simples&quot;</span>, <span class="st">&quot;Aleatorização em bloco&quot;</span>),</span>
+<span id="cb22-12"><a href="experimentos.html#cb22-12" tabindex="-1"></a>  <span class="at">Erro_Padrao =</span> <span class="fu">round</span>(<span class="fu">c</span>(ep_simples, ep_bloco), <span class="dv">4</span>)</span>
+<span id="cb22-13"><a href="experimentos.html#cb22-13" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb22-14"><a href="experimentos.html#cb22-14" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb22-15"><a href="experimentos.html#cb22-15" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Método&quot;</span>, <span class="st">&quot;Erro padrão&quot;</span>),</span>
+<span id="cb22-16"><a href="experimentos.html#cb22-16" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Comparação de erros padrão&quot;</span></span>
+<span id="cb22-17"><a href="experimentos.html#cb22-17" tabindex="-1"></a>  )</span></code></pre></div>
 <table>
-<caption><span id="tab:bloco-compara">Tabela 4.1: </span>Compara&lt;U+00E7&gt;&lt;U+00E3&gt;o de erros padr&lt;U+00E3&gt;o</caption>
+<caption><span id="tab:bloco-compara">Tabela 4.1: </span>Comparação de erros padrão</caption>
 <thead>
 <tr class="header">
-<th align="left">M&lt;U+00E9&gt;todo</th>
-<th align="right">Erro padr&lt;U+00E3&gt;o</th>
+<th align="left">Método</th>
+<th align="right">Erro padrão</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Aleatoriza&lt;U+00E7&gt;&lt;U+00E3&gt;o simples</td>
+<td align="left">Aleatorização simples</td>
 <td align="right">0.9552</td>
 </tr>
 <tr class="even">
-<td align="left">Aleatoriza&lt;U+00E7&gt;&lt;U+00E3&gt;o em bloco</td>
+<td align="left">Aleatorização em bloco</td>
 <td align="right">0.3723</td>
 </tr>
 </tbody>
@@ -864,31 +864,31 @@ div.csl-indent {
 <h2><span class="header-section-number">4.8</span> Planejando experimentos com DeclareDesign<a href="experimentos.html#planejando-experimentos-com-declaredesign" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Uma ferramenta útil para planejar e diagnosticar experimentos é o pacote <code>DeclareDesign</code> <span class="citation">(<a href="#ref-blair2023">Blair, Coppock, and Humphreys 2023</a>)</span>. O framework é baseado no acrônimo <strong>MIDA</strong>: <em>Models</em> (modelo dos resultados potenciais), <em>Inquiries</em> (estimando), <em>Data strategies</em> (estratégia de dados/aleatorização) e <em>Answer strategies</em> (estimador).</p>
 <p>Vamos declarar um experimento simples com dois braços (<em>two-arm trial</em>):</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="experimentos.html#cb22-1" tabindex="-1"></a><span class="fu">library</span>(DeclareDesign)</span>
-<span id="cb22-2"><a href="experimentos.html#cb22-2" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="experimentos.html#cb22-3" tabindex="-1"></a><span class="co"># 1. Modelo: 500 unidades, covariável X, efeito de 0.2</span></span>
-<span id="cb22-4"><a href="experimentos.html#cb22-4" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">declare_model</span>(</span>
-<span id="cb22-5"><a href="experimentos.html#cb22-5" tabindex="-1"></a>  <span class="at">N =</span> <span class="dv">500</span>,</span>
-<span id="cb22-6"><a href="experimentos.html#cb22-6" tabindex="-1"></a>  <span class="at">X =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">each =</span> N <span class="sc">/</span> <span class="dv">2</span>),</span>
-<span id="cb22-7"><a href="experimentos.html#cb22-7" tabindex="-1"></a>  <span class="at">U =</span> <span class="fu">rnorm</span>(N, <span class="at">sd =</span> <span class="fl">0.25</span>),</span>
-<span id="cb22-8"><a href="experimentos.html#cb22-8" tabindex="-1"></a>  <span class="fu">potential_outcomes</span>(Y <span class="sc">~</span> <span class="fl">0.2</span> <span class="sc">*</span> Z <span class="sc">+</span> X <span class="sc">+</span> U)</span>
-<span id="cb22-9"><a href="experimentos.html#cb22-9" tabindex="-1"></a>)</span>
-<span id="cb22-10"><a href="experimentos.html#cb22-10" tabindex="-1"></a></span>
-<span id="cb22-11"><a href="experimentos.html#cb22-11" tabindex="-1"></a><span class="co"># 2. Estimando: ATE</span></span>
-<span id="cb22-12"><a href="experimentos.html#cb22-12" tabindex="-1"></a>inquiry <span class="ot">&lt;-</span> <span class="fu">declare_inquiry</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span>
-<span id="cb22-13"><a href="experimentos.html#cb22-13" tabindex="-1"></a></span>
-<span id="cb22-14"><a href="experimentos.html#cb22-14" tabindex="-1"></a><span class="co"># 3. Estratégia de dados: aleatorização completa (250 tratados)</span></span>
-<span id="cb22-15"><a href="experimentos.html#cb22-15" tabindex="-1"></a>data_strategy <span class="ot">&lt;-</span> <span class="fu">declare_assignment</span>(<span class="at">Z =</span> <span class="fu">complete_ra</span>(<span class="at">N =</span> N, <span class="at">m =</span> <span class="dv">250</span>)) <span class="sc">+</span></span>
-<span id="cb22-16"><a href="experimentos.html#cb22-16" tabindex="-1"></a>  <span class="fu">declare_measurement</span>(<span class="at">Y =</span> <span class="fu">reveal_outcomes</span>(Y <span class="sc">~</span> Z))</span>
-<span id="cb22-17"><a href="experimentos.html#cb22-17" tabindex="-1"></a></span>
-<span id="cb22-18"><a href="experimentos.html#cb22-18" tabindex="-1"></a><span class="co"># 4. Estimador: diferença de médias via regressão</span></span>
-<span id="cb22-19"><a href="experimentos.html#cb22-19" tabindex="-1"></a>estimator <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z, <span class="at">inquiry =</span> <span class="st">&quot;ATE&quot;</span>)</span>
-<span id="cb22-20"><a href="experimentos.html#cb22-20" tabindex="-1"></a></span>
-<span id="cb22-21"><a href="experimentos.html#cb22-21" tabindex="-1"></a><span class="co"># Combinando tudo</span></span>
-<span id="cb22-22"><a href="experimentos.html#cb22-22" tabindex="-1"></a>two_arm_trial <span class="ot">&lt;-</span> model <span class="sc">+</span> inquiry <span class="sc">+</span> data_strategy <span class="sc">+</span> estimator</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="experimentos.html#cb23-1" tabindex="-1"></a><span class="fu">library</span>(DeclareDesign)</span>
+<span id="cb23-2"><a href="experimentos.html#cb23-2" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="experimentos.html#cb23-3" tabindex="-1"></a><span class="co"># 1. Modelo: 500 unidades, covariável X, efeito de 0.2</span></span>
+<span id="cb23-4"><a href="experimentos.html#cb23-4" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">declare_model</span>(</span>
+<span id="cb23-5"><a href="experimentos.html#cb23-5" tabindex="-1"></a>  <span class="at">N =</span> <span class="dv">500</span>,</span>
+<span id="cb23-6"><a href="experimentos.html#cb23-6" tabindex="-1"></a>  <span class="at">X =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">each =</span> N <span class="sc">/</span> <span class="dv">2</span>),</span>
+<span id="cb23-7"><a href="experimentos.html#cb23-7" tabindex="-1"></a>  <span class="at">U =</span> <span class="fu">rnorm</span>(N, <span class="at">sd =</span> <span class="fl">0.25</span>),</span>
+<span id="cb23-8"><a href="experimentos.html#cb23-8" tabindex="-1"></a>  <span class="fu">potential_outcomes</span>(Y <span class="sc">~</span> <span class="fl">0.2</span> <span class="sc">*</span> Z <span class="sc">+</span> X <span class="sc">+</span> U)</span>
+<span id="cb23-9"><a href="experimentos.html#cb23-9" tabindex="-1"></a>)</span>
+<span id="cb23-10"><a href="experimentos.html#cb23-10" tabindex="-1"></a></span>
+<span id="cb23-11"><a href="experimentos.html#cb23-11" tabindex="-1"></a><span class="co"># 2. Estimando: ATE</span></span>
+<span id="cb23-12"><a href="experimentos.html#cb23-12" tabindex="-1"></a>inquiry <span class="ot">&lt;-</span> <span class="fu">declare_inquiry</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span>
+<span id="cb23-13"><a href="experimentos.html#cb23-13" tabindex="-1"></a></span>
+<span id="cb23-14"><a href="experimentos.html#cb23-14" tabindex="-1"></a><span class="co"># 3. Estratégia de dados: aleatorização completa (250 tratados)</span></span>
+<span id="cb23-15"><a href="experimentos.html#cb23-15" tabindex="-1"></a>data_strategy <span class="ot">&lt;-</span> <span class="fu">declare_assignment</span>(<span class="at">Z =</span> <span class="fu">complete_ra</span>(<span class="at">N =</span> N, <span class="at">m =</span> <span class="dv">250</span>)) <span class="sc">+</span></span>
+<span id="cb23-16"><a href="experimentos.html#cb23-16" tabindex="-1"></a>  <span class="fu">declare_measurement</span>(<span class="at">Y =</span> <span class="fu">reveal_outcomes</span>(Y <span class="sc">~</span> Z))</span>
+<span id="cb23-17"><a href="experimentos.html#cb23-17" tabindex="-1"></a></span>
+<span id="cb23-18"><a href="experimentos.html#cb23-18" tabindex="-1"></a><span class="co"># 4. Estimador: diferença de médias via regressão</span></span>
+<span id="cb23-19"><a href="experimentos.html#cb23-19" tabindex="-1"></a>estimator <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z, <span class="at">inquiry =</span> <span class="st">&quot;ATE&quot;</span>)</span>
+<span id="cb23-20"><a href="experimentos.html#cb23-20" tabindex="-1"></a></span>
+<span id="cb23-21"><a href="experimentos.html#cb23-21" tabindex="-1"></a><span class="co"># Combinando tudo</span></span>
+<span id="cb23-22"><a href="experimentos.html#cb23-22" tabindex="-1"></a>two_arm_trial <span class="ot">&lt;-</span> model <span class="sc">+</span> inquiry <span class="sc">+</span> data_strategy <span class="sc">+</span> estimator</span></code></pre></div>
 <p>Cada componente corresponde a uma letra do MIDA. A função <code>declare_model</code> especifica a população e os resultados potenciais; <code>declare_inquiry</code> define o estimando (ATE); <code>declare_assignment</code> e <code>declare_measurement</code> descrevem a aleatorização e a switching equation; e <code>declare_estimator</code> especifica como estimamos o efeito.</p>
 <p>Podemos simular dados do desenho:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="experimentos.html#cb23-1" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">draw_data</span>(two_arm_trial), <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="experimentos.html#cb24-1" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">draw_data</span>(two_arm_trial), <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##     ID X           U       Y_Z_0      Y_Z_1 Z          Y
 ## 1  001 0  0.17975340  0.17975340 0.37975340 1 0.37975340
 ## 2  002 0  0.14184465  0.14184465 0.34184465 0 0.14184465
@@ -901,7 +901,7 @@ div.csl-indent {
 ## 9  009 0 -0.15919449 -0.15919449 0.04080551 1 0.04080551
 ## 10 010 0  0.29106704  0.29106704 0.49106704 1 0.49106704</code></pre>
 <p>E diagnosticar o desenho — verificando viés, erro padrão, poder e cobertura:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="experimentos.html#cb25-1" tabindex="-1"></a><span class="fu">diagnose_design</span>(two_arm_trial, <span class="at">sims =</span> <span class="dv">100</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="experimentos.html#cb26-1" tabindex="-1"></a><span class="fu">diagnose_design</span>(two_arm_trial, <span class="at">sims =</span> <span class="dv">100</span>)</span></code></pre></div>
 <pre><code>## 
 ## Research design diagnosis based on 100 simulations. Diagnosis completed in 1 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).
 ## 
@@ -912,10 +912,10 @@ div.csl-indent {
 ##           0.20  -0.00        0.04   0.04   0.99     0.98
 ##         (0.00) (0.00)      (0.00) (0.00) (0.01)   (0.01)</code></pre>
 <p>Também podemos comparar o desempenho com diferentes tamanhos de amostra:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="experimentos.html#cb27-1" tabindex="-1"></a>designs <span class="ot">&lt;-</span> <span class="fu">redesign</span>(two_arm_trial, <span class="at">N =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">300</span>, <span class="dv">400</span>, <span class="dv">500</span>))</span>
-<span id="cb27-2"><a href="experimentos.html#cb27-2" tabindex="-1"></a><span class="fu">diagnose_design</span>(designs)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="experimentos.html#cb28-1" tabindex="-1"></a>designs <span class="ot">&lt;-</span> <span class="fu">redesign</span>(two_arm_trial, <span class="at">N =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">300</span>, <span class="dv">400</span>, <span class="dv">500</span>))</span>
+<span id="cb28-2"><a href="experimentos.html#cb28-2" tabindex="-1"></a><span class="fu">diagnose_design</span>(designs)</span></code></pre></div>
 <pre><code>## 
-## Research design diagnosis based on 500 simulations. Diagnosis completed in 7 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).
+## Research design diagnosis based on 500 simulations. Diagnosis completed in 8 secs. Diagnosand estimates with bootstrapped standard errors in parentheses (100 replicates).
 ## 
 ##    Design   N Inquiry Estimator Outcome Term N Sims Mean Estimand Mean Estimate
 ##  design_1 100     ATE estimator       Y    Z    500          0.20          0.20

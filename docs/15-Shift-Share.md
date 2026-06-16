@@ -1,0 +1,992 @@
+# Shift-share
+
+## Introdução
+
+O termo "shift-share" surgiu no contexto de análises que procuravam decompor uma variável econômica em subcomponentes. Até onde eu sei, isso não era comum na ciência política, talvez por não ser uma questão "natural" para nós, mas vou tentar explicar a lógica dessas decomposições com exemplos da política. Mas comecemos com os primeiros exemplos na economia.
+
+Este começo é deliberadamente algébrico. Antes de discutir variável instrumental, precisamos entender o que uma decomposição shift-share faz: ela separa uma variável em uma estrutura inicial de exposição, as *shares*, e variações agregadas ou setoriais, os *shifts*. Essa parte é só o primeiro passo. Uma decomposição pode gerar uma predição útil sem identificar um efeito causal. Para usar shift-share como desenho causal, a pergunta decisiva vem depois: qual processo de atribuição torna as *shares*, os *shifts*, ou os choques contrafactuais plausivelmente exógenos?
+
+Digamos que queremos decompor o PIB per capita de um estado. Seja $D_{ij}$ o PIB per capita do estado $i$ na indústria $j$, isto é, o valor adicionado do setor $j$ no estado $i$ dividido pelo número de trabalhadores nesse setor. Seja $w_{ij}$ a parcela (*share*) do emprego da indústria $j$ no estado $i$, ou seja, a fração dos trabalhadores do estado $i$ empregados no setor $j$. Então, o PIB per capita do estado $i$, $X_i$, pode ser decomposto por:
+
+$$X_i = \sum_j w_{ij}D_{ij}$$
+
+Essa identidade vale porque a soma das parcelas de emprego ponderadas pela produtividade setorial reconstitui a produtividade total do estado.
+
+Agora, vamos aplicar um truque algébrico que será recorrente neste capítulo: **somar e subtrair o mesmo termo**. Somamos e subtraímos $\sum_j w_{ij}\bar{D}_{j}$, onde $\bar{D}_{j}$ é a média nacional do PIB per capita no setor $j$:
+
+\begin{equation}
+\begin{aligned}
+X_i &= \sum_j w_{ij}D_{ij} \\
+    &= \sum_j w_{ij}D_{ij} \color{blue}{+ \sum_j w_{ij}\bar{D}_{j}} \color{red}{- \sum_j w_{ij}\bar{D}_{j}} \\
+    &= \sum_j w_{ij}\bar{D}_{j} + \sum_j w_{ij}(D_{ij} - \bar{D}_{j})
+\end{aligned}
+(\#eq:ss-decomp)
+\end{equation}
+
+O resultado é a decomposição shift-share básica:
+
+\begin{equation}
+X_i = \underbrace{\sum_j w_{ij}\bar{D}_{j}}_{\text{PIB esperado}} + \underbrace{\sum_j w_{ij}(D_{ij} - \bar{D}_{j})}_{\text{choque regional no PIB}}
+(\#eq:ss-decomp-final)
+\end{equation}
+
+O primeiro componente é o **PIB esperado**: quanto o estado $i$ produziria se cada setor tivesse a produtividade média nacional, dada a estrutura setorial do estado. O segundo componente é o **choque regional**: quanto o estado se desvia dessa expectativa porque seus setores são mais (ou menos) produtivos que a média nacional.
+
+### Aplicação: PIB por estado e setor
+
+Vamos aplicar essa decomposição a um exemplo numérico simplificado, inspirado em padrões reais da economia brasileira. Consideramos cinco estados brasileiros representativos e três grandes setores (Agropecuária, Indústria e Serviços). Os valores abaixo são calibrados para fins didáticos, não uma base reproduzível do IBGE.
+
+
+
+\begin{table}
+
+\caption{(\#tab:pib-shares)Parcelas de emprego por setor (shares)}
+\centering
+\begin{tabular}[t]{l|r|r|r}
+\hline
+Estado & Agropecuária & Indústria & Serviços\\
+\hline
+SP & 0.04 & 0.22 & 0.74\\
+\hline
+MT & 0.30 & 0.12 & 0.58\\
+\hline
+RJ & 0.02 & 0.15 & 0.83\\
+\hline
+BA & 0.15 & 0.11 & 0.74\\
+\hline
+AM & 0.10 & 0.25 & 0.65\\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}
+
+\caption{(\#tab:pib-prod)PIB per capita setorial (R$ mil por trabalhador)}
+\centering
+\begin{tabular}[t]{l|r|r|r}
+\hline
+Estado & Agropecuária & Indústria & Serviços\\
+\hline
+SP & 40 & 80 & 65\\
+\hline
+MT & 100 & 60 & 50\\
+\hline
+RJ & 35 & 85 & 60\\
+\hline
+BA & 25 & 50 & 40\\
+\hline
+AM & 20 & 70 & 35\\
+\hline
+\end{tabular}
+\end{table}
+
+Agora aplicamos a decomposição. O PIB per capita de cada estado é $X_i = \sum_j w_{ij}D_{ij}$, e calculamos a média nacional $\bar{D}_j$ para cada setor:
+
+
+``` r
+# Médias nacionais por setor (média simples dos 5 estados)
+D_bar <- colMeans(pib_prod[, -1])
+
+# PIB per capita total de cada estado
+pib_total <- rowSums(pib_shares[, -1] * pib_prod[, -1])
+
+# Componente 1: PIB esperado (shares × média nacional)
+pib_esperado <- as.numeric(as.matrix(pib_shares[, -1]) %*% D_bar)
+
+# Componente 2: Choque regional
+choque_regional <- pib_total - pib_esperado
+
+resultado_pib <- data.frame(
+  Estado = pib_shares$Estado,
+  PIB_total = round(pib_total, 1),
+  PIB_esperado = round(pib_esperado, 1),
+  Choque_regional = round(choque_regional, 1)
+)
+
+kable(resultado_pib,
+      caption = "Decomposição shift-share do PIB per capita (R$ mil)",
+      col.names = c("Estado", "PIB total", "PIB esperado", "Choque regional"))
+```
+
+\begin{table}
+
+\caption{(\#tab:pib-decomposicao)Decomposição shift-share do PIB per capita (R$ mil)}
+\centering
+\begin{tabular}[t]{l|r|r|r}
+\hline
+Estado & PIB total & PIB esperado & Choque regional\\
+\hline
+SP & 67.3 & 53.9 & 13.4\\
+\hline
+MT & 66.2 & 50.5 & 15.7\\
+\hline
+RJ & 63.2 & 52.7 & 10.5\\
+\hline
+BA & 38.9 & 51.2 & -12.3\\
+\hline
+AM & 42.2 & 54.1 & -11.9\\
+\hline
+\end{tabular}
+\end{table}
+
+A tabela mostra que estados como São Paulo e Rio de Janeiro têm choques regionais positivos (seus setores são mais produtivos que a média), enquanto estados como Bahia e Amazonas ficam abaixo do esperado. Mato Grosso se destaca porque sua agropecuária é muito mais produtiva que a média nacional, compensando a menor produtividade nos demais setores.
+
+## Exemplos da Política
+
+Agora vamos considerar exemplos da política. Um exemplo natural é o voto por estado, que pode ser decomposto por partido. A lógica é análoga à decomposição econômica: cada estado tem uma estrutura de composição partidária, e podemos perguntar quanto do resultado eleitoral se deve à tendência nacional dos partidos e quanto se deve a fatores regionais.
+
+Formalmente, se definirmos $w_{ij}$ como a parcela de votos do partido $j$ no estado $i$ e $\bar{V}_j$ como a votação média nacional do partido $j$, podemos construir uma "votação esperada" para cada estado:
+
+\begin{equation}
+\hat{X}_i = \sum_j w_{ij}\bar{V}_{j}
+(\#eq:voto-esperado)
+\end{equation}
+
+A diferença entre o resultado observado e o esperado revela o **desvio regional**: o quanto aquele estado se afasta do padrão nacional, dada sua composição partidária.
+
+Poder nacional, em RI, parece à primeira vista um exemplo possível, pois costuma ser descrito em componentes militares, econômicos e culturais. Mas é um mau exemplo para esta finalidade. Esses componentes se afetam mutuamente: crescimento econômico pode ampliar capacidade militar e projeção cultural; prestígio cultural pode abrir mercados e alianças. Para uma decomposição shift-share simples funcionar bem, as subunidades precisam ter fronteiras interpretáveis. Um exemplo mais apropriado é o volume de comércio internacional, que pode ser decomposto por indústria ou por parceiro comercial.
+
+O ponto crucial é que a variável precisa poder ser decomposta em subunidades formadas por categorias mutuamente excludentes. Neste exemplo, o voto em um partido exclui o voto em outro partido. No exemplo econômico, o emprego em um setor exclui o emprego nos demais setores.
+
+Essa condição é necessária para a decomposição, mas não é suficiente para identificação causal. Ciência política e RI têm muitas variáveis decomponíveis, como voto por partido, comércio por parceiro, imigração por origem, ajuda externa por doador e exposição a mídia por mercado. Nem todas, porém, produzem bons instrumentos. O passo decisivo é defender o processo de atribuição: por que a exposição inicial, o choque agregado, ou o choque contrafactual relevante pode ser tratado como quase aleatório para o resultado de interesse?
+
+## Variação temporal
+
+Para construir uma predição shift-share, é preciso adicionar uma dimensão temporal. Suponha que a parcela $w_{ij}$ de votos no partido $j$ no estado $i$ varia no tempo. Isso é razoável: o PT, por exemplo, varia em sua votação por estado ao longo do tempo. Vamos chamar $w_{ijt}$ a parcela $w_{ij}$ no tempo $t=0, 1, ...$. Assim, podemos expressar $w_{ijt}$ como a soma da parcela inicial $w_{ij0}$ e a mudança ao longo do tempo $(w_{ijt} - w_{ij0})$:
+
+$$w_{ijt} = w_{ij0} + (w_{ijt} - w_{ij0})$$
+
+e decompor $X_{it}$ separando a parcela inicial da variação:
+
+\begin{equation}
+\begin{aligned}
+X_{it} &= \sum_j w_{ijt}D_{ijt} \\
+       &= \sum_j \left[w_{ij0} + (w_{ijt} - w_{ij0})\right] D_{ijt} \\
+       &= \sum_j w_{ij0} \, D_{ijt} + \sum_j (w_{ijt} - w_{ij0}) \, D_{ijt}
+\end{aligned}
+(\#eq:ss-temporal1)
+\end{equation}
+
+E agora aplicamos nosso truque usual de somar e subtrair o mesmo termo, no caso relativo à média $\bar{D}_{jt}$, mais especificamente $w_{ij0}\bar{D}_{jt}$:
+
+\begin{equation}
+\begin{aligned}
+X_{it} &= \sum_j w_{ij0} \, D_{ijt} + \sum_j (w_{ijt} - w_{ij0}) \, D_{ijt} \\
+       &= \sum_j w_{ij0} \, D_{ijt} \color{blue}{+ \sum_j w_{ij0}\bar{D}_{jt}} \color{red}{- \sum_j w_{ij0}\bar{D}_{jt}} + \sum_j (w_{ijt} - w_{ij0}) \, D_{ijt} \\
+       &= \color{orange}{\underbrace{\sum_j w_{ij0}\bar{D}_{jt}}_{\text{A: votação esperada}}} + \color{purple}{\underbrace{\sum_j w_{ij0}(D_{ijt} - \bar{D}_{jt})}_{\text{B: choque partidário}}} + \color{teal}{\underbrace{\sum_j (w_{ijt} - w_{ij0}) \, D_{ijt}}_{\text{C: choque temporal}}}
+\end{aligned}
+(\#eq:ss-temporal-abc)
+\end{equation}
+
+A interpretação de cada componente é:
+
+**Componente $A$ (votação esperada)**: reflete a tendência ou média de votação dos partidos no estado $i$ no ano $t$, levando em conta a composição inicial da distribuição de votos por partido $w_{ij0}$. É o que esperaríamos se o estado mantivesse sua estrutura inicial e cada partido tivesse o desempenho médio nacional.
+
+**Componente $B$ (choque partidário)**: reflete a mudança na distribuição de votos por partido por estado. Cada termo $w_{ij0}(D_{ijt} - \bar{D}_{jt})$ mede quanto a votação do partido $j$ no estado $i$ se desviou da referência média $\bar{D}_{jt}$ naquele ano. Se $D_{ijt} - \bar{D}_{jt}$ for positivo, significa que o partido $j$ teve um desempenho acima do esperado no estado $i$ (um choque positivo ali), contribuindo para aumentar $X_{it}$. Se for negativo, o partido $j$ foi pior que a média no estado (choque negativo), reduzindo $X_{it}$ em relação ao esperado.
+
+Importante: esses desvios são ponderados por $w_{ij0}$ (quão importante era o partido $j$ no estado $i$ inicialmente), de modo que choques em partidos que tinham grande presença inicial no estado impactam mais o total $X_{it}$ do que choques em partidos com pouca presença inicial. Este componente é chamado de *shift* porque reflete as mudanças no desempenho dos partidos no nível nacional/setorial afetando o estado conforme sua composição inicial.
+
+**Componente $C$ (choque temporal)**: representa o impacto das mudanças na participação dos partidos no próprio estado $i$ ao longo do tempo. Aqui consideramos a diferença $w_{ijt} - w_{ij0}$, ou seja, o quanto a participação do partido $j$ mudou no estado $i$ desde o período inicial. Esse termo mede os choques locais ou regionais na composição dos votos.
+
+Por exemplo, se um partido $j$ ganhou espaço no estado $i$ (aumentou sua fatia $w_{ijt}$ em relação à inicial $w_{ij0}$), isso adiciona votos ao total $X_{it}$ (já que $D_{ijt}$ é multiplicado por um $\Delta w$ positivo). Por outro lado, se um partido perdeu participação no estado, o termo será negativo, indicando que o estado $i$ teve um desempenho pior por mudança na composição dos votos entre partidos. Em suma, este componente reflete alterações estruturais próprias do estado, como realinhamentos políticos regionais e vantagens competitivas locais, independentemente da tendência geral dos partidos.
+
+Em conjunto, esses três componentes (A, B e C) formam a decomposição shift-share completa. Eles nos permitem entender $X_{it}$ da seguinte forma: (A) o que seria esperado dada a tendência geral; (B) o quanto o estado ganhou ou perdeu devido a *shifts* no desempenho dos partidos; e (C) o quanto se deve a mudanças internas do próprio estado na distribuição de votos (*share* regional).
+
+### Aplicação: Eleições presidenciais 2014→2018
+
+Vamos aplicar a decomposição temporal a um exemplo didático com resultados estaduais aproximados do primeiro turno das eleições presidenciais de 2014 (Dilma Rousseff, PT) e 2018 (Fernando Haddad, PT). A queda do PT entre essas duas eleições, de cerca de 41% para 29% dos votos válidos nacionalmente, é um dos maiores realinhamentos eleitorais recentes no Brasil, associado à crise econômica, à Operação Lava-Jato e à reorganização da competição presidencial.
+
+Agrupamos os candidatos em três blocos: PT, PSDB e Outros.
+
+
+``` r
+# Exemplo didático calibrado a partir de padrões estaduais de votação
+# 2014: Dilma (PT), Aécio (PSDB), Marina+outros
+# 2018: Haddad (PT), Alckmin (PSDB), Bolsonaro+Ciro+outros
+
+eleicoes <- data.frame(
+  UF = c("AC","AL","AM","AP","BA","CE","DF","ES","GO","MA",
+         "MG","MS","MT","PA","PB","PE","PI","PR","RJ","RN",
+         "RO","RR","RS","SC","SE","SP","TO"),
+  PT_2014  = c(55,64,62,54,66,62,36,44,33,65,
+               47,36,36,56,63,62,63,33,40,61,
+               35,42,37,26,57,31,50),
+  PSDB_2014 = c(27,18,22,25,15,20,40,37,48,17,
+                34,44,44,26,20,20,19,49,39,21,
+                45,36,44,55,24,49,31),
+  Outros_2014 = c(18,18,16,21,19,18,24,19,19,18,
+                  19,20,20,18,17,18,18,18,21,18,
+                  20,22,19,19,19,20,19),
+  PT_2018  = c(35,53,43,40,60,55,15,25,14,55,
+               33,17,16,44,52,47,54,14,21,50,
+               14,22,19,10,48,16,33),
+  PSDB_2018 = c(5,3,5,4,2,3,7,6,7,2,
+                7,6,5,4,3,3,2,8,5,3,
+                6,6,6,7,3,8,4),
+  Outros_2018 = c(60,44,52,56,38,42,78,69,79,43,
+                  60,77,79,52,45,50,44,78,74,47,
+                  80,72,75,83,49,76,63)
+)
+
+# Mostrar tabela resumo para estados selecionados
+estados_sel <- c("SP","RJ","MG","BA","CE","RS","PR","PA","PE","MT")
+tab_sel <- eleicoes[eleicoes$UF %in% estados_sel, ]
+tab_sel <- tab_sel[match(estados_sel, tab_sel$UF), ]
+
+kable(tab_sel, row.names = FALSE,
+      caption = "Votação 1º turno (% votos válidos) — estados selecionados",
+      col.names = c("UF", "PT 2014", "PSDB 2014", "Outros 2014",
+                     "PT 2018", "PSDB 2018", "Outros 2018"))
+```
+
+\begin{table}
+
+\caption{(\#tab:eleicoes-dados)Votação 1º turno (% votos válidos) — estados selecionados}
+\centering
+\begin{tabular}[t]{l|r|r|r|r|r|r}
+\hline
+UF & PT 2014 & PSDB 2014 & Outros 2014 & PT 2018 & PSDB 2018 & Outros 2018\\
+\hline
+SP & 31 & 49 & 20 & 16 & 8 & 76\\
+\hline
+RJ & 40 & 39 & 21 & 21 & 5 & 74\\
+\hline
+MG & 47 & 34 & 19 & 33 & 7 & 60\\
+\hline
+BA & 66 & 15 & 19 & 60 & 2 & 38\\
+\hline
+CE & 62 & 20 & 18 & 55 & 3 & 42\\
+\hline
+RS & 37 & 44 & 19 & 19 & 6 & 75\\
+\hline
+PR & 33 & 49 & 18 & 14 & 8 & 78\\
+\hline
+PA & 56 & 26 & 18 & 44 & 4 & 52\\
+\hline
+PE & 62 & 20 & 18 & 47 & 3 & 50\\
+\hline
+MT & 36 & 44 & 20 & 16 & 5 & 79\\
+\hline
+\end{tabular}
+\end{table}
+
+A queda do PT e o colapso do PSDB são visíveis em todos os estados, mas com intensidade muito diferente. No Nordeste (BA, CE, PE), o PT manteve boa parte dos votos; no Sul e Sudeste (SP, RS, PR), a queda foi drástica. Essa variação regional é exatamente o que a decomposição shift-share nos ajuda a entender.
+
+Primeiro, construímos uma **predição shift-share**: a mudança esperada na votação de cada estado, com base na composição partidária inicial (2014) e nas tendências nacionais de cada bloco. Neste ponto, ela ainda não é um instrumento. É uma predição mecânica que combina exposição inicial e mudança agregada.
+
+
+``` r
+# Shares: composição partidária de 2014 (em fração)
+shares_2014 <- eleicoes[, c("PT_2014","PSDB_2014","Outros_2014")] / 100
+
+# Shifts: mudança nacional na votação de cada bloco (média dos 27 estados)
+media_2014 <- colMeans(eleicoes[, c("PT_2014","PSDB_2014","Outros_2014")])
+media_2018 <- colMeans(eleicoes[, c("PT_2018","PSDB_2018","Outros_2018")])
+shifts <- (media_2018 - media_2014) / 100  # em pontos percentuais / 100
+
+# Predição shift-share para cada estado
+pred_shift_share <- as.numeric(as.matrix(shares_2014) %*% shifts)
+
+# Mudança real na votação do PT
+mudanca_real_pt <- (eleicoes$PT_2018 - eleicoes$PT_2014) / 100
+
+resultado_elec <- data.frame(
+  UF = eleicoes$UF,
+  Mudanca_PT = round(mudanca_real_pt * 100, 1),
+  Pred_shift_share = round(pred_shift_share * 100, 1),
+  Residuo = round((mudanca_real_pt - pred_shift_share) * 100, 1)
+)
+
+tab_elec <- resultado_elec[resultado_elec$UF %in% estados_sel, ]
+tab_elec <- tab_elec[match(estados_sel, tab_elec$UF), ]
+
+kable(tab_elec, row.names = FALSE,
+      caption = "Mudança na votação PT 2014→2018 vs. predição shift-share (pp)",
+      col.names = c("UF", "Mudança real PT", "Predição shift-share", "Resíduo"))
+```
+
+\begin{table}
+
+\caption{(\#tab:eleicoes-predicao)Mudança na votação PT 2014→2018 vs. predição shift-share (pp)}
+\centering
+\begin{tabular}[t]{l|r|r|r}
+\hline
+UF & Mudança real PT & Predição shift-share & Resíduo\\
+\hline
+SP & -15 & -9.6 & -5.4\\
+\hline
+RJ & -19 & -7.8 & -11.2\\
+\hline
+MG & -14 & -8.4 & -5.6\\
+\hline
+BA & -6 & -6.1 & 0.1\\
+\hline
+CE & -7 & -7.2 & 0.2\\
+\hline
+RS & -18 & -9.6 & -8.4\\
+\hline
+PR & -19 & -10.8 & -8.2\\
+\hline
+PA & -12 & -8.0 & -4.0\\
+\hline
+PE & -15 & -7.2 & -7.8\\
+\hline
+MT & -20 & -9.0 & -11.0\\
+\hline
+\end{tabular}
+\end{table}
+
+O **resíduo** captura fatores regionais específicos, por exemplo estados onde a Lava-Jato teve impacto particularmente forte ou onde lideranças locais do PT mantiveram sua base eleitoral.
+
+
+``` r
+library(ggplot2)
+
+ggplot(resultado_elec, aes(x = Pred_shift_share, y = Mudanca_PT)) +
+  geom_point(size = 2) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "gray50") +
+  geom_text(aes(label = UF), vjust = -0.7, size = 3) +
+  labs(x = "Predição shift-share (pp)",
+       y = "Mudança real na votação PT (pp)",
+       title = "Decomposição shift-share das eleições 2014-2018") +
+  theme_minimal()
+```
+
+![(\#fig:eleicoes-grafico)Mudança na votação do PT (2014→2018): observada vs. predição shift-share](15-Shift-Share_files/figure-latex/eleicoes-grafico-1.pdf) 
+
+O gráfico mostra que estados próximos à linha tracejada (45°) tiveram mudanças bem explicadas pela estrutura nacional; estados distantes da linha tiveram choques regionais importantes.
+
+Agora aplicamos a decomposição completa nos três componentes A, B e C:
+
+
+``` r
+# Shares em 2014 (t=0) e 2018 (t=1) — em fração
+w_0 <- eleicoes[, c("PT_2014","PSDB_2014","Outros_2014")] / 100
+w_t <- eleicoes[, c("PT_2018","PSDB_2018","Outros_2018")] / 100
+
+# D_{ijt}: votação em 2018 (usamos os mesmos dados como proxy de intensidade)
+D_t <- eleicoes[, c("PT_2018","PSDB_2018","Outros_2018")]
+
+# Média nacional de D_{jt} em 2018
+D_bar_t <- colMeans(D_t)
+
+# Componente A: votação esperada = sum_j w_{ij0} * D_bar_{jt}
+comp_A <- as.numeric(as.matrix(w_0) %*% D_bar_t)
+
+# Componente B: choque partidário = sum_j w_{ij0} * (D_{ijt} - D_bar_{jt})
+desvios <- sweep(as.matrix(D_t), 2, D_bar_t)
+comp_B <- rowSums(as.matrix(w_0) * desvios)
+
+# Componente C: choque temporal = sum_j (w_{ijt} - w_{ij0}) * D_{ijt}
+delta_w <- as.matrix(w_t) - as.matrix(w_0)
+comp_C <- rowSums(delta_w * as.matrix(D_t))
+
+temporal <- data.frame(
+  UF = eleicoes$UF,
+  A_esperado = round(comp_A, 1),
+  B_choque_part = round(comp_B, 1),
+  C_choque_temp = round(comp_C, 1)
+)
+
+# Tabela para estados selecionados
+tab_temp <- temporal[temporal$UF %in% estados_sel, ]
+tab_temp <- tab_temp[match(estados_sel, tab_temp$UF), ]
+
+kable(tab_temp, row.names = FALSE,
+      caption = "Decomposição temporal A, B, C — estados selecionados",
+      col.names = c("UF", "A: esperado", "B: choque partidário", "C: choque temporal"))
+```
+
+\begin{table}
+
+\caption{(\#tab:temporal-decomposicao)Decomposição temporal A, B, C — estados selecionados}
+\centering
+\begin{tabular}[t]{l|r|r|r}
+\hline
+UF & A: esperado & B: choque partidário & C: choque temporal\\
+\hline
+SP & 25.1 & -1.0 & 36.9\\
+\hline
+RJ & 28.2 & -2.3 & 33.5\\
+\hline
+MG & 29.1 & 0.2 & 18.1\\
+\hline
+BA & 34.6 & 12.6 & 3.4\\
+\hline
+CE & 32.8 & 9.4 & 5.7\\
+\hline
+RS & 26.2 & -2.3 & 36.3\\
+\hline
+PR & 24.5 & -1.9 & 40.9\\
+\hline
+PA & 31.1 & 3.9 & 11.5\\
+\hline
+PE & 32.8 & 5.9 & 8.4\\
+\hline
+MT & 26.5 & -2.8 & 41.5\\
+\hline
+\end{tabular}
+\end{table}
+
+
+``` r
+library(tidyr)
+
+# Preparar dados para gráfico de barras (estados selecionados)
+plot_data <- temporal[temporal$UF %in% estados_sel, ]
+plot_data <- plot_data[match(estados_sel, plot_data$UF), ]
+
+plot_long <- pivot_longer(plot_data, cols = -UF,
+                          names_to = "Componente", values_to = "Valor")
+plot_long$Componente <- factor(plot_long$Componente,
+  levels = c("A_esperado","B_choque_part","C_choque_temp"),
+  labels = c("A: Votação esperada","B: Choque partidário","C: Choque temporal"))
+
+ggplot(plot_long, aes(x = UF, y = Valor, fill = Componente)) +
+  geom_col(position = "dodge") +
+  labs(x = "Estado", y = "Valor do componente",
+       title = "Decomposição shift-share das eleições 2018",
+       fill = "Componente") +
+  scale_fill_manual(values = c("orange","purple","#008080")) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 0))
+```
+
+![(\#fig:temporal-grafico)Componentes shift-share da votação 2018 por estado](15-Shift-Share_files/figure-latex/temporal-grafico-1.pdf) 
+
+O gráfico ilustra como o resultado eleitoral de 2018 em cada estado se decompõe nos três componentes. O componente A (votação esperada) é relativamente estável; as maiores diferenças entre estados vêm dos componentes B (choque partidário, refletindo o colapso diferencial do PSDB e a ascensão de Bolsonaro) e C (choque temporal, refletindo realinhamentos regionais como a resistência do PT no Nordeste).
+
+## O instrumento shift-share como variável instrumental
+
+A decomposição acima ensina a parte algébrica do shift-share. Ela não decide identificação. Em uma aplicação IV, a ordem correta é começar pelo processo de atribuição e só depois escrever a fórmula do instrumento. Antes de estimar qualquer 2SLS, precisamos responder quatro perguntas:
+
+1. Qual é a unidade que recebe exposição, por exemplo município, distrito, firma, país ou setor?
+2. Qual é o tratamento endógeno $X_i$ e qual resultado $Y_i$ queremos explicar?
+3. Qual parte do desenho é plausivelmente quase aleatória: as *shares*, os *shifts*, ou a realização de choques em relação a choques contrafactuais?
+4. Que canais diretos fariam a exposição afetar $Y_i$ sem passar por $X_i$?
+
+Só depois dessas respostas a decomposição vira candidata a variável instrumental. A fórmula constrói variação; o processo de atribuição justifica a exogeneidade.
+
+### Construção formal
+
+Considere $N$ unidades, indexadas por $i$, e $K$ fontes de exposição, indexadas por $k$. Para cada unidade $i$, observamos a parcela (*share*) associada à fonte $k$ em um período-base $t_0$:
+
+\begin{equation}
+w_{ik} = \frac{S_{ik,t_0}}{S_{i,t_0}}
+(\#eq:share-def)
+\end{equation}
+
+onde $S_{ik,t_0}$ é a exposição da unidade $i$ à fonte $k$ no período-base, e $S_{i,t_0}$ é a exposição total da unidade $i$. Em muitas aplicações, $\sum_k w_{ik} = 1$, embora desenhos com *shares* incompletas exijam cuidado adicional.
+
+Observamos também um choque (*shift*) agregado no nível da fonte $k$, denotado $g_k$. Em uma aplicação de comércio, $g_k$ pode ser o crescimento das importações em um setor; em imigração, o fluxo nacional de migrantes de uma origem; em política, uma mudança agregada de votação por partido:
+
+\begin{equation}
+g_k = \frac{\Delta S_k}{S_{k,t_0}}
+(\#eq:shift-def)
+\end{equation}
+
+O **instrumento shift-share** (ou instrumento Bartik) para a unidade $i$ é definido como:
+
+\begin{equation}
+B_i = \sum_{k=1}^{K} w_{ik} \cdot g_k
+(\#eq:bartik)
+\end{equation}
+
+Esse índice calcula uma média ponderada dos choques agregados, usando as *shares* pré-determinadas como pesos. Unidades com composição inicial diferente ficam diferencialmente expostas aos mesmos choques. Essa é a fonte de variação do instrumento. A validade causal, porém, depende de uma justificativa separada: por que essa exposição prevista é independente dos fatores não observados que afetam $Y_i$?
+
+### Voltando ao exemplo eleitoral: predição, não identificação
+
+Podemos mapear os elementos formais nos dados eleitorais de 2014→2018. Nossos "setores" ($k$) são os três blocos partidários (PT, PSDB, Outros), e nossas "regiões" ($i$) são os 27 estados.
+
+As **shares** $w_{ik}$ são a composição partidária de cada estado em 2014:
+
+
+``` r
+# w_{ik} = fração de votos do partido k no estado i em 2014
+tab_shares <- data.frame(
+  UF = eleicoes$UF,
+  w_PT = round(shares_2014$PT_2014, 2),
+  w_PSDB = round(shares_2014$PSDB_2014, 2),
+  w_Outros = round(shares_2014$Outros_2014, 2)
+)
+
+tab_shares_sel <- tab_shares[tab_shares$UF %in% c("BA","CE","MG","SP","RS"), ]
+tab_shares_sel <- tab_shares_sel[match(c("BA","CE","MG","SP","RS"), tab_shares_sel$UF), ]
+kable(tab_shares_sel, row.names = FALSE,
+      caption = "Shares $w_{ik}$: composição partidária em 2014 (fração dos votos válidos)",
+      col.names = c("Estado (i)", "$w_{i,PT}$", "$w_{i,PSDB}$", "$w_{i,Outros}$"))
+```
+
+\begin{table}
+
+\caption{(\#tab:ss-iv-shares)Shares $w_{ik}$: composição partidária em 2014 (fração dos votos válidos)}
+\centering
+\begin{tabular}[t]{l|r|r|r}
+\hline
+Estado (i) & \$w\_\{i,PT\}\$ & \$w\_\{i,PSDB\}\$ & \$w\_\{i,Outros\}\$\\
+\hline
+BA & 0.66 & 0.15 & 0.19\\
+\hline
+CE & 0.62 & 0.20 & 0.18\\
+\hline
+MG & 0.47 & 0.34 & 0.19\\
+\hline
+SP & 0.31 & 0.49 & 0.20\\
+\hline
+RS & 0.37 & 0.44 & 0.19\\
+\hline
+\end{tabular}
+\end{table}
+
+A Bahia tem $w_{BA,PT} = 0{,}66$: dois terços dos votos foram para o PT em 2014. Já São Paulo tem $w_{SP,PT} = 0{,}31$. Essa diferença na composição inicial gera exposição diferente a uma mesma tendência agregada.
+
+Os **shifts** $g_k$ são as mudanças nacionais na votação de cada bloco entre 2014 e 2018:
+
+
+``` r
+tab_shifts <- data.frame(
+  Partido = c("PT", "PSDB", "Outros"),
+  g_k = round(shifts * 100, 1)
+)
+kable(tab_shifts, row.names = FALSE,
+      caption = "Shifts $g_k$: mudança nacional na votação de cada bloco (pp)",
+      col.names = c("Partido ($k$)", "$g_k$ (pp)"))
+```
+
+\begin{table}
+
+\caption{(\#tab:ss-iv-shifts)Shifts $g_k$: mudança nacional na votação de cada bloco (pp)}
+\centering
+\begin{tabular}[t]{l|r}
+\hline
+Partido (\$k\$) & \$g\_k\$ (pp)\\
+\hline
+PT & -15.2\\
+\hline
+PSDB & -27.4\\
+\hline
+Outros & 42.6\\
+\hline
+\end{tabular}
+\end{table}
+
+O PT caiu cerca de 16pp nacionalmente, o PSDB desmoronou cerca de 26pp, e o bloco Outros subiu cerca de 43pp. Esses choques são os mesmos para todos os estados.
+
+Finalmente, a predição shift-share combina as *shares* iniciais com os *shifts* nacionais:
+
+
+``` r
+tab_pred <- data.frame(
+  UF = eleicoes$UF,
+  Predicao = round(pred_shift_share * 100, 1)
+)
+tab_pred_sel <- tab_pred[tab_pred$UF %in% c("BA","CE","MG","SP","RS"), ]
+tab_pred_sel <- tab_pred_sel[match(c("BA","CE","MG","SP","RS"), tab_pred_sel$UF), ]
+kable(tab_pred_sel, row.names = FALSE,
+      caption = "Predição shift-share para cada estado (pp)",
+      col.names = c("Estado ($i$)", "Predição shift-share (pp)"))
+```
+
+\begin{table}
+
+\caption{(\#tab:ss-iv-predicao)Predição shift-share para cada estado (pp)}
+\centering
+\begin{tabular}[t]{l|r}
+\hline
+Estado (\$i\$) & Predição shift-share (pp)\\
+\hline
+BA & -6.1\\
+\hline
+CE & -7.2\\
+\hline
+MG & -8.4\\
+\hline
+SP & -9.6\\
+\hline
+RS & -9.6\\
+\hline
+\end{tabular}
+\end{table}
+
+Observe a fronteira conceitual. Os *shifts* $g_k$ são idênticos para todos os estados; o que diferencia a predição entre estados são as *shares* $w_{ik}$. Essa variação ajuda a prever mudanças locais. Ela não identifica, por si só, um efeito causal. Para identificar, seria preciso defender que a composição partidária inicial ou as tendências agregadas de votação funcionam como fonte plausivelmente exógena para o resultado político estudado.
+
+### O modelo estrutural e o IV
+
+O objetivo típico é estimar o efeito causal de uma variável endógena $X_i$ sobre uma variável de resultado $Y_i$. O modelo estrutural é:
+
+\begin{equation}
+Y_i = \alpha + \beta X_i + \varepsilon_i
+(\#eq:estrutural-shift-share)
+\end{equation}
+
+onde $X_i$ é endógena, por exemplo crescimento do emprego local, exposição a imigração, competição política ou mudança na votação. OLS é inconsistente quando $\text{Cov}(X_i, \varepsilon_i) \neq 0$.
+
+**Primeiro estágio (*first stage*)**: o instrumento $B_i$ prevê $X_i$:
+
+\begin{equation}
+X_i = \gamma_0 + \gamma_1 B_i + \nu_i
+(\#eq:first-stage)
+\end{equation}
+
+A condição de relevância exige $\gamma_1 \neq 0$: as *shares* combinadas com os *shifts* devem prever a variável endógena.
+
+**Segundo estágio (*second stage*)**: substitui-se $X_i$ por $\hat{X}_i$:
+
+\begin{equation}
+Y_i = \alpha + \beta \hat{X}_i + \eta_i
+(\#eq:second-stage)
+\end{equation}
+
+A condição de exclusão exige $\text{Cov}(B_i, \varepsilon_i) = 0$: o instrumento só afeta $Y_i$ através de $X_i$. Essa condição não vem da álgebra. Ela vem de uma história de atribuição defensável.
+
+### O exemplo eleitoral como advertência
+
+Suponha que quiséssemos usar a predição eleitoral acima como instrumento para a mudança na votação do PT e estimar seu efeito sobre abstenção, gasto público ou protestos. O primeiro estágio provavelmente seria forte, porque estados com maior concentração inicial de votos no PT estão mais expostos à queda nacional do partido. Isso não basta.
+
+O desenho é frágil como IV por três razões. Primeiro, há apenas três choques: PT, PSDB e Outros. A categoria Outros mistura Bolsonaro, Ciro, Marina e muitos candidatos menores, isto é, fontes políticas heterogêneas. Segundo, as *shares* partidárias iniciais carregam história política local: renda, urbanização, religiosidade, estrutura partidária, lulismo, antipetismo e força de lideranças estaduais. Terceiro, os *shifts* e os resultados operam no mesmo nível geográfico; uma crise nacional pode afetar simultaneamente voto, protestos, abstenção e gasto público por vários canais diretos.
+
+Por isso, o exemplo eleitoral é bom para ensinar decomposição e predição. Ele é ruim como exemplo de IV causal. Essa distinção é uma das lições principais do capítulo.
+
+### Por que o instrumento seria válido? Uma discussão intuitiva
+
+Podemos visualizar a estrutura causal ideal de um instrumento shift-share com um DAG:
+
+![(\#fig:dag-ss-ideal)DAG ideal do instrumento shift-share. O instrumento $B_i$ é construído a partir das shares iniciais ($w$) e dos choques ($g$). A validade exige que o caminho de $B$ para $Y$ passe apenas por $X$.](15-Shift-Share_files/figure-latex/dag-ss-ideal-1.pdf) 
+
+No DAG ideal, $g$ representa os choques ($g_k$), $w$ as *shares* iniciais ($w_{ik}$), $B$ o instrumento shift-share ($B_i$), $X$ a variável endógena ($X_i$), $U$ os confundidores não observados ($U_i$) e $Y$ o resultado ($Y_i$). O confundidor $U$ cria um *backdoor* entre $X$ e $Y$, tornando OLS inconsistente. O instrumento $B$ é válido se o único caminho de $B$ para $Y$ passa por $X$.
+
+O DAG abaixo mostra ameaças típicas:
+
+![(\#fig:dag-ss-ameacas)DAG com ameaças à validade de um instrumento shift-share. As setas de $w$ para $Y$, de $g$ para $Y$ e de $U$ para $w$ representam canais que precisam ser excluídos por desenho, argumento substantivo ou diagnóstico.](15-Shift-Share_files/figure-latex/dag-ss-ameacas-1.pdf) 
+
+A restrição de exclusão seria violada se a composição inicial $w_{ik}$ afetasse $Y_i$ diretamente, se os choques $g_k$ tivessem canais diretos sobre $Y_i$, ou se fatores não observados $U_i$ determinassem as *shares* iniciais. Em ciência política e RI, essas ameaças são substantivas. *Shares* setoriais podem carregar coalizões de classe e história sindical; *shares* migratórias podem carregar redes étnicas e segregação urbana; comércio por parceiro pode carregar alinhamentos geopolíticos; composição partidária inicial pode carregar trajetórias políticas locais.
+
+Uma resposta comum é explorar **variação cross-level**: usar choques de um nível agregado para prever outcomes em um nível mais desagregado, por exemplo tendências estaduais para municípios. Outra é usar **leave-out design**, excluindo a própria unidade ao computar o *shift* agregado, para remover correlação mecânica entre choques locais e o instrumento.
+
+Xu (2025, *Journal of Politics*) oferece um exemplo útil para ciência política brasileira: o instrumento prevê competição política municipal usando tendências eleitorais estaduais, excluindo o próprio município do cálculo do *shift*. O ponto pedagógico não é que qualquer construção cross-level seja válida. O ponto é que o desenho começa por um processo de atribuição mais defensável, e a fórmula shift-share vem depois.
+
+A questão crucial que emerge é: de onde, exatamente, vem a exogeneidade? Das *shares*? Dos *shifts*? De uma realização de choques relativa a um conjunto de choques contrafactuais? Essas respostas correspondem a estratégias de identificação distintas, com diagnósticos diferentes. É isso que a próxima seção formaliza.
+
+## Três estratégias de identificação
+
+Uma revolução metodológica recente esclareceu que há mais de uma maneira de justificar a exogeneidade de um instrumento shift-share. A referência pedagógica central é Borusyak, Hull & Jaravel (2025), publicada no *Journal of Economic Perspectives*. Para nossos propósitos, há três famílias de desenho: exogeneidade das *shares*, exogeneidade dos *shifts* e instrumentos de fórmula com *recentering*.
+
+### Estratégia 1: Exogeneidade das shares (GPSS 2020)
+
+Goldsmith-Pinkham, Sorkin & Swift (2020) demonstram um resultado de equivalência fundamental. Para entender essa equivalência, é útil primeiro ter uma intuição sobre GMM (Método Generalizado dos Momentos).
+
+**Intuição sobre GMM.** O estimador de MQO (OLS) pode ser entendido como a solução de uma condição de momento: encontrar $\beta$ tal que $\mathbb{E}[X_i' \varepsilon_i] = 0$, ou seja, os resíduos são não correlacionados com os regressores. Quando temos instrumentos $Z_i$, o estimador de IV impõe a condição $\mathbb{E}[Z_i' \varepsilon_i] = 0$. Quando há exatamente tantos instrumentos quanto variáveis endógenas (identificação exata), existe uma única solução. Mas quando há *mais* instrumentos que variáveis endógenas, o caso de sobreidentificação, o sistema tem mais equações que incógnitas, e em geral não existe $\beta$ que satisfaça todas as condições simultaneamente. O GMM resolve esse problema encontrando o $\beta$ que melhor satisfaz todas as condições de momento ao mesmo tempo, atribuindo pesos ótimos a cada condição. No caso shift-share, cada *share* $w_{ik}$ (para $k = 1, ..., K$) pode ser vista como um instrumento separado, gerando $K$ condições de momento, uma situação típica de sobreidentificação.
+
+A equivalência demonstrada por GPSS é que o estimador IV usando $B_i = \sum_k w_{ik} g_k$ como instrumento único é **numericamente idêntico** a um estimador GMM que usa cada *share* $w_{ik}$ como instrumento separado, com os *shifts* $g_k$ servindo apenas como pesos na combinação ótima:
+
+\begin{equation}
+\hat{\beta}^{IV} = \sum_k \hat{\alpha}_k \hat{\beta}_k
+(\#eq:gpss-equiv)
+\end{equation}
+
+onde $\hat{\beta}_k$ é a estimativa *just-identified* usando apenas $w_{ik}$ como instrumento (para o partido $k$), e $\hat{\alpha}_k$ é o **peso de Rotemberg** que mede a influência relativa do partido $k$ na estimativa global. Os pesos de Rotemberg satisfazem $\sum_k \hat{\alpha}_k = 1$ mas podem ser **negativos**, o que é um sinal de alerta.
+
+Em outras palavras: usar o instrumento Bartik $B_i$ é matematicamente equivalente a usar todas as $K$ *shares* como instrumentos separados via GMM. A escolha entre os dois é uma questão de conveniência, não de substância.
+
+**Hipótese de identificação**: As *shares* iniciais $w_{ik}$ são exógenas, isto é, não correlacionadas com fatores não observados que afetam $Y_i$:
+
+\begin{equation}
+\mathbb{E}[w_{ik} \cdot \varepsilon_i] = 0 \quad \forall k
+(\#eq:gpss-id)
+\end{equation}
+
+Os *shifts* $g_k$ não precisam ser exógenos; eles apenas afetam a ponderação e a relevância do instrumento.
+
+**Diagnósticos**: Calcular os Rotemberg weights $\hat{\alpha}_k$ para identificar quais partidos, setores, origens ou parceiros mais influenciam a estimativa. Testar balanceamento das *shares* mais influentes contra covariáveis pré-determinadas. Em ciência política, isso inclui pré-tendências políticas, composição social, urbanização, estrutura econômica, redes migratórias, história partidária e capacidade estatal. Dizer que as *shares* são defasadas não basta; muitas *shares* defasadas carregam clivagens políticas persistentes.
+
+### Estratégia 2: Exogeneidade dos shifts (BHJ 2022)
+
+Borusyak, Hull & Jaravel (2022) oferecem um *framework* alternativo. A regressão IV no nível regional é numericamente equivalente a uma regressão IV no **nível do choque** (partido/setor), onde a variável de resultado e o tratamento são agregados ao nível do choque usando as *shares* como pesos:
+
+\begin{equation}
+\bar{Y}_k = \sum_i s_{ik} Y_i, \quad \bar{X}_k = \sum_i s_{ik} X_i
+(\#eq:bhj-agreg)
+\end{equation}
+
+onde $s_{ik} = w_{ik} / \sum_i w_{ik}$ normaliza os pesos. A regressão no nível do choque:
+
+\begin{equation}
+\bar{Y}_k = \alpha + \beta \bar{X}_k + \bar{\varepsilon}_k
+(\#eq:bhj-reg)
+\end{equation}
+
+instrumentada por $g_k$, produz **exatamente a mesma estimativa** $\hat{\beta}$ que a regressão regional com $B_i$.
+
+**Hipótese de identificação**: Os choques $g_k$ são quase aleatoriamente atribuídos, isto é, não correlacionados com a média ponderada (por *shares*) dos fatores não observados regionais:
+
+\begin{equation}
+\mathbb{E}[g_k \cdot \bar{\varepsilon}_k] = 0 \quad \forall k
+(\#eq:bhj-id)
+\end{equation}
+
+As *shares* $w_{ik}$ podem ser endógenas. A identificação vem da atribuição quase aleatória dos choques, dado que há muitos choques efetivos e exposição suficientemente dispersa.
+
+**Diagnósticos**: Testes de pré-tendências e balanceamento no nível do choque. Verificar se $g_k$ correlaciona-se com $\bar{\varepsilon}_k$ pré-tratamento. Avaliar o número efetivo de choques, a concentração da exposição, a existência de choques dominantes, a correlação entre choques e a necessidade de controles no nível do choque. Quando as *shares* são incompletas, é preciso controlar a soma das *shares* ou tratar explicitamente a categoria omitida.
+
+Em CP/RI, a palavra "nacional" ou "global" não torna o choque exógeno. Choques comerciais podem refletir estratégia geopolítica; fluxos migratórios podem responder a política migratória e redes históricas; ajuda externa pode refletir prioridades diplomáticas; sanções podem responder a alianças e conflito. A visão BHJ exige um processo de atribuição dos choques, não apenas a afirmação de que eles vieram de fora.
+
+### Estratégia 3: Instrumentos de fórmula e recentering
+
+Borusyak & Hull (2023) tratam um problema comum: mesmo quando os choques são plausivelmente externos, a exposição a esses choques pode ser não aleatória. Unidades diferentes estão conectadas aos choques por mapas econômicos, geográficos, políticos ou institucionais. Um choque externo não randomiza automaticamente quem fica exposto.
+
+A pergunta passa a ser: quais choques poderiam ter ocorrido sob o processo de atribuição? Para cada realização contrafactual $G^*$, a fórmula do desenho produziria uma exposição $Z_i(G^*)$. A exposição esperada da unidade $i$ sob esse processo é:
+
+\begin{equation}
+\mu_i = \mathbb{E}_{G^*}[Z_i(G^*)]
+(\#eq:expected-exposure)
+\end{equation}
+
+O instrumento recenterizado subtrai essa exposição esperada da exposição realizada:
+
+\begin{equation}
+\tilde{Z}_i = Z_i(G) - \mu_i
+(\#eq:recentered-ss)
+\end{equation}
+
+Essa estratégia é útil quando o mapa de exposição é claramente estruturado. Exemplos em CP/RI incluem exposição a sanções por parceiros comerciais, exposição a mídia por mercados de transmissão, redes migratórias, alianças, rotas de comércio, distância a conflitos e regras institucionais que distribuem recursos. O desenho precisa declarar o conjunto de choques contrafactuais, calcular a exposição esperada, usar o instrumento recenterizado ou controlar $\mu_i$, e fazer testes de balanceamento após o recentering. Quando há poucos choques ou choques de rede, inferência por randomização costuma ser mais transparente do que depender apenas de aproximações assintóticas.
+
+### Como escolher entre as estratégias
+
+A escolha deve seguir o processo de atribuição, não a conveniência da fórmula.
+
+- Use a visão das **shares** quando for plausível defender que a exposição inicial é tão boa quanto aleatória para tendências potenciais do resultado, condicional aos controles.
+- Use a visão dos **shifts** quando houver um processo defensável de atribuição dos choques, muitos choques efetivos, ausência de choque dominante e diagnósticos no nível do choque.
+- Use **formula/recentering** quando a exposição aos choques é sistematicamente estruturada e o pesquisador consegue especificar choques contrafactuais plausíveis.
+
+Se o texto empírico mistura essas justificativas, o desenho está incompleto. Um bom paper deve dizer qual fonte de variação faz o trabalho causal e apresentar diagnósticos compatíveis com essa escolha.
+
+### O que o 2SLS estima quando os efeitos são heterogêneos
+
+Shift-share IV combina muitas fontes de variação em um único índice. Se o efeito de $X_i$ sobre $Y_i$ varia entre regiões, setores, partidos, origens migratórias ou períodos, o 2SLS não estima automaticamente "o" efeito médio substantivo. Ele estima uma média ponderada dos efeitos locais relevantes para a variação induzida pelo instrumento.
+
+Mogstad, Torgovitsky & Walters (2021) mostram que, com múltiplos instrumentos, a interpretação causal do 2SLS depende de hipóteses fortes de monotonicidade e de como os instrumentos movem diferentes compliers. No shift-share, esses compliers podem ser regiões movidas por setores diferentes, municípios movidos por redes migratórias distintas, ou países expostos a parceiros internacionais específicos. Pesos de Rotemberg ajudam a descobrir quais fontes de exposição têm mais influência, mas não resolvem sozinhos o problema de interpretação.
+
+Em painéis, o problema pode piorar. Segundo de Chaisemartin & Lei (2023), com primeiras diferenças, efeitos fixos e tratamento variável no tempo, choques padronizados e heterogeneidade de efeitos podem gerar pesos difíceis de interpretar, inclusive negativos ou não convexos. A lição prática é simples: além de reportar primeiro estágio e exclusão, uma aplicação shift-share deve explicar qual população ou margem de variação sustenta o estimando 2SLS. Quando essa margem é substantivamente heterogênea, estimativas separadas por fontes de exposição, diagnósticos de peso e desenhos alternativos mais transparentes devem entrar na análise.
+
+## O problema de inferência
+
+Adão, Kolesár & Morales (2019) identificam um problema crítico: erros-padrão convencionais, incluindo *clustered* por região ou estado, podem ficar severamente subestimados em regressões shift-share. Em exercícios de placebo, testes ao nível nominal de 5% rejeitam a hipótese nula verdadeira até 55% das vezes.
+
+O problema surge porque resíduos $\hat{\varepsilon}_i$ são correlacionados entre regiões com composição setorial similar, independentemente de proximidade geográfica. Duas regiões $i$ e $j$ com *shares* parecidos ($w_{ik} \approx w_{jk}$) compartilham exposição aos mesmos choques setoriais, induzindo correlação em $\hat{\varepsilon}_i$ e $\hat{\varepsilon}_j$ que não é capturada por *clustering* geográfico.
+
+Na prática, os intervalos de confiança corrigidos por AKM são substancialmente mais largos que os convencionais.
+
+Há três implicações práticas.
+
+1. **Cluster geográfico não resolve, por si só, dependência por exposição.** Se municípios distantes compartilham a mesma estrutura setorial, migratória ou comercial, seus resíduos podem ser correlacionados mesmo em estados diferentes.
+2. **A inferência deve acompanhar a estratégia de identificação.** Na visão das *shares*, AKM/AKM0 ou métodos equivalentes são o ponto de partida. Na visão dos *shifts*, a regressão agregada ao nível do choque pode ser usada para diagnóstico, primeiro estágio e inferência. Se choques são correlacionados por setor, país, origem ou período, o agrupamento precisa refletir essa correlação.
+3. **O número efetivo de choques importa.** Muitos choques nominais não bastam se poucos concentram quase toda a exposição. Choques dominantes, *shares* incompletas e uma categoria residual grande tornam a inferência mais frágil.
+
+**Alternativa BHJ.** Em vez de corrigir os erros-padrão no nível regional, pode-se rodar a regressão diretamente no nível do choque, via `ssaggregate`, e usar erros-padrão heteroscedasticidade-robustos no nível do choque. Isso é válido quando os choques são independentes e suficientemente numerosos. Se há correlação entre choques, poucos choques efetivos ou clusters naturais de choque, a inferência precisa ser agrupada ou baseada em randomização no nível apropriado.
+
+Uma boa aplicação deve reportar: primeiro estágio, forma reduzida, número efetivo de choques, concentração da exposição, tratamento de *shares* incompletas, *leave-one-out* quando necessário e justificativa explícita para o nível de clusterização ou randomização.
+
+## Implementação em R
+
+Os blocos desta seção são esqueletos operacionais. Eles ficam com `eval=FALSE` porque dependem de pacotes e objetos que não são carregados no exemplo didático do capítulo. Em uma aplicação real, a construção do instrumento deve ficar em script separado, com fonte dos dados, data de acesso, validações de *shares* e checagem das assinaturas atuais dos pacotes.
+
+### Construção do instrumento
+
+O instrumento $B_i = \sum_k w_{ik} g_k$ é uma simples multiplicação matricial:
+
+
+``` r
+# shares: matriz N x K de exposure shares (cada linha soma 1)
+# shocks: vetor K x 1 de choques setoriais
+bartik_instrument <- shares %*% shocks
+```
+
+### Estimação IV
+
+Diversos pacotes R permitem estimar 2SLS. O `fixest` é recomendado por sua velocidade e suporte a efeitos fixos:
+
+
+``` r
+library(fixest)
+
+# Construir instrumento
+dados$bartik <- as.numeric(shares %*% shocks)
+
+# IV com efeitos fixos de estado
+modelo <- feols(y ~ controles | estado | x_endogeno ~ bartik, data = dados)
+summary(modelo)
+```
+
+### Erros-padrão corrigidos: pacote `ShiftShareSE`
+
+O pacote `ShiftShareSE`, de Michal Kolesár, está disponível no CRAN e implementa os erros-padrão AKM (Adão, Kolesár & Morales, 2019):
+
+
+``` r
+install.packages("ShiftShareSE")
+library(ShiftShareSE)
+
+# IV com SEs corrigidos para shift-share
+resultado <- ivreg_ss(y ~ x_endogeno | bartik,
+                       X = shares_matrix,    # matriz N x K de shares
+                       data = dados)
+summary(resultado)
+```
+
+Este pacote é essencial porque, como demonstrado por AKM, erros-padrão convencionais (mesmo clusterizados por geografia) são severamente subestimados em designs shift-share.
+
+### Agregação ao nível do choque: pacote `ssaggregate`
+
+O pacote `ssaggregate`, de Kyle Butts, implementa a agregação ao nível do choque de Borusyak, Hull & Jaravel (2022). Está disponível apenas no GitHub:
+
+
+``` r
+# install: remotes::install_github("kylebutts/ssaggregate")
+library(ssaggregate)
+
+# Agregar dados regionais para o nível do choque
+dados_choque <- ssaggregate(
+  data = dados_long,     # formato longo: região x setor
+  shares = "share",
+  n = "regiao",
+  s = "setor",
+  t = "ano",
+  y = c("y", "x_endogeno")
+)
+
+# Agora rodar IV convencional no nível do choque
+feols(y ~ 1 | x_endogeno ~ g_k, data = dados_choque)
+```
+
+### Ecossistema R vs. Stata
+
+Uma comparação do ecossistema de software para shift-share revela diferenças importantes:
+
+\begin{table}
+
+\caption{(\#tab:ecossistema-shift-share)Ecossistema de software para desenhos shift-share em Stata e R}
+\centering
+\begin{tabular}[t]{l|l|l|l}
+\hline
+Funcionalidade & Stata & R & Status\_R\\
+\hline
+Agregação BHJ & ssaggregate (Borusyak et al.) & ssaggregate (Kyle Butts) & GitHub apenas\\
+\hline
+SEs AKM & ShiftShareSE (pacote .ado) & ShiftShareSE (Kolesár) & CRAN\\
+\hline
+Rotemberg weights & bartik\_weight (GPSS) & Sem pacote consolidado & Lacuna principal\\
+\hline
+IV básico & ivregress, ivreg2 & fixest, ivreg, estimatr & Excelente\\
+\hline
+\end{tabular}
+\end{table}
+
+A principal lacuna no R é a ausência de um pacote para calcular **Rotemberg weights**, o diagnóstico central da abordagem GPSS (2020). Em Stata, o comando `bartik_weight` de Goldsmith-Pinkham, Sorkin & Swift calcula automaticamente esses pesos. Em R, o pesquisador precisa adaptar o código de replicação disponível no GitHub dos autores (github.com/paulgp/bartik-weight) ou implementar manualmente, o que envolve rodar $K$ regressões *just-identified* (uma por setor).
+
+Essa lacuna pode desencorajar o uso de diagnósticos adequados, distorcer a escolha metodológica em favor da abordagem BHJ (que tem melhor suporte em R via `ssaggregate`), e criar uma barreira de entrada para pesquisadores de CP e RI que tipicamente usam R.
+
+## Aplicações em Ciência Política e Relações Internacionais
+
+A literatura aplicada deve ser lida com uma distinção simples. Alguns trabalhos usam SSIV em sentido estrito: constroem um instrumento a partir de *shares* iniciais e *shifts* agregados para instrumentar um tratamento endógeno. Outros usam uma medida de exposição shift-share em forma reduzida, sem IV. Outros ainda usam desenhos adjacentes, nos quais uma fonte externa de variação é interagida com exposição prévia, mas a fórmula não é o Bartik local-setorial canônico. Essa classificação importa porque cada tipo exige diagnósticos diferentes.
+
+### Comércio, desindustrialização e voto
+
+Esta é a família mais madura. Em estudos sobre o "China shock", a unidade exposta costuma ser uma região, distrito ou município; as *shares* são a estrutura produtiva inicial; os *shifts* são mudanças na competição importadora por setor. A identificação precisa defender uma fonte externa para os choques comerciais, como variação de oferta chinesa observada em outros mercados de alta renda, e mostrar que as regiões mais expostas não teriam seguido tendências políticas diferentes mesmo sem o choque.
+
+Autor, Dorn, Hanson & Majlesi (2020) estudam os efeitos eleitorais da competição importadora chinesa nos EUA. Colantone & Stanig (2018) usam exposição regional à competição chinesa para explicar voto Leave no Brexit e apoio a partidos nacionalistas na Europa. Baccini & Weymouth (2021), Feigenbaum & Hall (2015), Jensen, Quinn & Weymouth (2017) e Broz, Frieden & Weymouth (2021) pertencem à mesma agenda substantiva de globalização, representação e comportamento político, mas cada aplicação deve ser lida a partir da construção exata do instrumento ou da medida de exposição usada.
+
+O ponto de atribuição é substantivo. Estrutura produtiva inicial pode carregar classe, sindicalização, urbanização, composição racial e trajetória partidária. Choques comerciais podem afetar outcomes políticos por emprego, renda, mídia, campanha, identidade, entrada partidária ou expectativas. Um bom desenho precisa dizer qual canal é o tratamento $X_i$ e quais canais diretos violariam a exclusão.
+
+### Migração e redes históricas
+
+Outra família importante usa redes migratórias. As *shares* são a distribuição histórica de grupos de origem entre localidades; os *shifts* são fluxos agregados de migrantes por origem. Halla, Wagner & Zweimüller (2017) estudam imigração e voto na direita radical na Áustria. Tabellini (2020) usa padrões históricos de assentamento e choques externos à migração europeia para estudar consequências políticas da imigração nas cidades americanas.
+
+A lógica de atribuição é diferente da de comércio. O risco não é apenas que localidades industriais tivessem tendências políticas próprias; é que redes migratórias carreguem segregação urbana, mercados de trabalho, instituições locais, religião, etnicidade e história de conflito. A defesa do desenho exige mostrar que a exposição prevista por redes prévias não é apenas uma proxy para trajetórias políticas pré-existentes.
+
+### Competição política e desmatamento
+
+Xu (2025, *Journal of Politics*) é um exemplo útil para ciência política brasileira porque começa por um problema claro de endogeneidade. A pergunta é se competição política local causa desmatamento na Amazônia. Municípios com mais desmatamento podem ter economias baseadas em extração ilegal de madeira, interesses fundiários e baixa capacidade estatal, fatores que também afetam competição política. O tratamento $X_i$ não é plausivelmente aleatório.
+
+Xu adapta o método de Shaukat (2019) para prever competição política municipal a partir de tendências eleitorais estaduais. A construção tem três partes:
+
+- **Shares** ($z_{p,m,s}$): votação do partido $p$ no município $m$ do estado $s$ na eleição estadual de 1998.
+
+- **Shifts** ($g_{p,s,t}^{-m}$): mudança na votação do partido $p$ no estado $s$ entre 1998 e a eleição $t$, excluindo o próprio município $m$.
+
+- **Competição predita**: uma medida construída a partir dos votos preditos dos candidatos, em que eleições mais apertadas indicam maior competição.
+
+O argumento de atribuição vem de dois elementos. Primeiro, os *shifts* são estaduais, enquanto o resultado é municipal. Segundo, o cálculo deixa o município fora do *shift*, reduzindo a correlação mecânica entre choques locais de votação e desmatamento. A variação não monotônica da competição predita ajuda a gerar variação informativa, mas não substitui a defesa de exclusão. A validade ainda exige argumentar que tendências eleitorais estaduais, excluído o município, não afetam desmatamento municipal por canais diretos que não passem pela competição local.
+
+O resultado substantivo é que maior competição política aumenta desmatamento. O mecanismo é *bureaucratic packing*: prefeitos em eleições competitivas nomeiam mais funcionários comissionados para construir máquinas eleitorais, deslocando recursos da fiscalização ambiental. O enfraquecimento da capacidade de enforcement local facilita o desmatamento ilegal.
+
+### Relações Internacionais e conflito
+
+Em RI, a lógica shift-share aparece em comércio, ajuda externa, sanções, conflito e exposição a parceiros internacionais. Jensen, Quinn & Weymouth (2017), Broz, Frieden & Weymouth (2021), Kuk, Seligsohn & Zhang (2018) e Owen (2017) mostram como exposição econômica local pode afetar voto, representação e política externa. Nunn & Qian (2014) não é um Bartik setorial canônico, mas é uma aplicação próxima: a variação na produção de trigo dos EUA é interagida com a propensão histórica de países a receber ajuda alimentar para estudar conflito civil.
+
+A pergunta de atribuição muda conforme o caso. Em ajuda alimentar, é preciso defender que o choque de oferta de trigo é exógeno aos conflitos nos países receptores e que a propensão histórica a receber ajuda não carrega tendências de conflito não controladas. Em sanções, comércio por parceiro, alianças, rotas migratórias e redes diplomáticas, o mapa de exposição raramente é neutro. Ele é geografia política acumulada. Por isso, aplicações de RI muitas vezes precisam considerar recentering, choques contrafactuais e inferência por randomização, além dos diagnósticos tradicionais de *shares* e *shifts*.
+
+## Referências
+
+Adão, Rodrigo, Michal Kolesár, and Eduardo Morales. 2019. "Shift-Share Designs: Theory and Inference." *Quarterly Journal of Economics* 134(4): 1949-2010.
+
+Autor, David, David Dorn, Gordon Hanson, and Kaveh Majlesi. 2020. "Importing Political Polarization? The Electoral Consequences of Rising Trade Exposure." *American Economic Review* 110(10): 3139-3183.
+
+Baccini, Leonardo, and Stephen Weymouth. 2021. "Gone For Good: Deindustrialization, White Voter Backlash, and US Presidential Voting." *American Political Science Review* 115(2): 550-567.
+
+Ballard-Rosa, Cameron, Amalie Jensen, and Kenneth Scheve. 2022. "Economic Decline, Social Identity, and Authoritarian Values in the United States." *International Studies Quarterly* 66(1).
+
+Ballard-Rosa, Cameron, Mashail Malik, Stephanie Rickard, and Kenneth Scheve. 2021. "The Economic Origins of Authoritarian Values." *Comparative Political Studies* 54(13): 2321-2353.
+
+Bartik, Timothy J. 1991. *Who Benefits from State and Local Economic Development Policies?* Kalamazoo, MI: W.E. Upjohn Institute.
+
+Borusyak, Kirill, and Peter Hull. 2023. "Nonrandom Exposure to Exogenous Shocks." *Econometrica* 91(6): 2155-2185.
+
+Borusyak, Kirill, Peter Hull, and Xavier Jaravel. 2022. "Quasi-Experimental Shift-Share Research Designs." *Review of Economic Studies* 89(1): 181-213.
+
+Borusyak, Kirill, Peter Hull, and Xavier Jaravel. 2025. "A Practical Guide to Shift-Share Instruments." *Journal of Economic Perspectives* 39(1): 181-204.
+
+Broz, J. Lawrence, Jeffry Frieden, and Stephen Weymouth. 2021. "Populism in Place: The Economic Geography of the Globalization Backlash." *International Organization* 75(1): 76-103.
+
+Campello, Daniela, and Francisco Urdinez. 2021. "Voter and Legislator Responses to Localized Trade Shocks from China in Brazil." *Comparative Political Studies* 54(7): 1131-1162.
+
+Colantone, Italo, and Piero Stanig. 2018. "Global Competition and Brexit." *American Political Science Review* 112(2): 201-218.
+
+Colantone, Italo, and Piero Stanig. 2018. "The Trade Origins of Economic Nationalism." *American Journal of Political Science* 62(4): 936-953.
+
+de Chaisemartin, Clément, and Mingmian Lei. 2023. "More Robust Estimators for Instrumental-Variable Panel Designs, with an Application to the Effect of Imports from China on US Employment." arXiv:2103.06437.
+
+Dube, Oeindrila, and Juan Vargas. 2013. "Commodity Price Shocks and Civil Conflict: Evidence from Colombia." *Review of Economic Studies* 80(4): 1384-1421.
+
+Feigenbaum, James, and Andrew Hall. 2015. "How Legislators Respond to Localized Economic Shocks." *Journal of Politics* 77(4).
+
+Gallea, Quentin. 2023. "Weapons and War: The Effect of Arms Transfers on Internal Conflict." *Journal of Development Economics* 160.
+
+Goldsmith-Pinkham, Paul, Isaac Sorkin, and Henry Swift. 2020. "Bartik Instruments: What, When, Why, and How." *American Economic Review* 110(8): 2586-2624.
+
+Halla, Martin, Alexander F. Wagner, and Josef Zweimüller. 2017. "Immigration and Voting for the Far Right." *Journal of the European Economic Association* 15(6): 1341-1385.
+
+Hays, Jude, Junghyun Lim, and Jae-Jae Spoon. 2019. "The Path from Trade to Right-Wing Populism in Europe." *Electoral Studies* 57: 181-196.
+
+Jensen, J. Bradford, Dennis Quinn, and Stephen Weymouth. 2017. "Winners and Losers in International Trade." *International Organization* 71(3): 423-457.
+
+Kuk, John Seungmin, Deborah Seligsohn, and Jiakun Jack Zhang. 2018. "From Tiananmen to Outsourcing." *Journal of Contemporary China* 27(109).
+
+Margalit, Yotam. 2011. "Costly Jobs: Trade-related Layoffs, Government Compensation, and Voting in U.S. Elections." *American Political Science Review* 105(1): 166-188.
+
+Mogstad, Magne, Alexander Torgovitsky, and Christopher Walters. 2021. "The Causal Interpretation of Two-Stage Least Squares with Multiple Instrumental Variables." *American Economic Review* 111(11): 3663-3698.
+
+Nunn, Nathan, and Nancy Qian. 2014. "US Food Aid and Civil Conflict." *American Economic Review* 104(6): 1630-1666.
+
+Owen, Erica. 2017. "Exposure to Offshoring and the Politics of Trade Liberalization." *International Studies Quarterly* 61(2): 297-311.
+
+Rommel, Tobias, and Stefanie Walter. 2022. "The Electoral Consequences of Offshoring." *Comparative Political Studies* 55(5): 829-864.
+
+Scheve, Kenneth, and Theo Serlin. 2023. "The German Trade Shock and the Rise of the Neo-Welfare State." *American Political Science Review* 117(2): 557-574.
+
+Shaukat, Mahvish. 2019. *Essays in Development and Political Economy*. Ph.D. Dissertation, MIT.
+
+Tabellini, Marco. 2020. "Gifts of the Immigrants, Woes of the Natives: Lessons from the Age of Mass Migration." *Review of Economic Studies* 87(1): 454-486.
+
+Thewissen, Stefan, and David Rueda. 2019. "Automation and the Welfare State." *Comparative Political Studies* 52(1): 141-174.
+
+Xu, Alice Z. 2025. "Bureaucratic Packing in the Brazilian Amazon: How Political Competition Drives Deforestation." *Journal of Politics* 87(4): 1350-1364.

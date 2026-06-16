@@ -727,7 +727,7 @@ W = \sum_{i=1}^N \sum_{t=1}^{T_i}(x_{it} - \bar{x}_i)^2.
 <h2><span class="header-section-number">10.3</span> Efeitos fixos como residualização<a href="#efeitos-fixos-como-residualiza%C3%A7%C3%A3o" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>A forma mais simples de entender efeitos fixos é pensar em residualização. Um efeito fixo remove a média de uma dimensão da base. Depois disso, a regressão usa apenas o que sobrou.</p>
 <div class="figure"><span style="display:block;" id="fig:fe-residualizacao-diagrama"></span>
-<img src="bookdownproj_files/figure-html/fe-residualizacao-diagrama-1.png" alt="Efeitos fixos como residualização. A regressão final usa apenas a variação que permanece depois de remover as dimensões absorvidas pelos efeitos fixos." width="672" />
+<img src="09-TSCS_files/figure-html/fe-residualizacao-diagrama-1.png" alt="Efeitos fixos como residualização. A regressão final usa apenas a variação que permanece depois de remover as dimensões absorvidas pelos efeitos fixos." width="672" />
 <p class="caption">
 Figura 10.1: Efeitos fixos como residualização. A regressão final usa apenas a variação que permanece depois de remover as dimensões absorvidas pelos efeitos fixos.
 </p>
@@ -930,16 +930,21 @@ estima a associação entre a parte residual da dose <span class="math inline">\
 <h2><span class="header-section-number">10.4</span> OVB e efeitos fixos<a href="time-series-cross-section-tscs.html#ovb-e-efeitos-fixos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>O principal atrativo dos efeitos fixos é lidar com viés de variável omitida causado por características não observadas e invariantes no tempo.</p>
 <p>Suponha o DAG abaixo, em que <span class="math inline">\(a\)</span> é uma variável invariante no tempo e não observada:</p>
-<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="time-series-cross-section-tscs.html#cb120-1" tabindex="-1"></a><span class="fu">library</span>(ggdag)</span>
-<span id="cb120-2"><a href="time-series-cross-section-tscs.html#cb120-2" tabindex="-1"></a>dag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
-<span id="cb120-3"><a href="time-series-cross-section-tscs.html#cb120-3" tabindex="-1"></a>  y <span class="sc">~</span> x <span class="sc">+</span> a,</span>
-<span id="cb120-4"><a href="time-series-cross-section-tscs.html#cb120-4" tabindex="-1"></a>  x <span class="sc">~</span> a,</span>
-<span id="cb120-5"><a href="time-series-cross-section-tscs.html#cb120-5" tabindex="-1"></a>  <span class="at">latent =</span> <span class="st">&quot;a&quot;</span></span>
-<span id="cb120-6"><a href="time-series-cross-section-tscs.html#cb120-6" tabindex="-1"></a>)</span>
-<span id="cb120-7"><a href="time-series-cross-section-tscs.html#cb120-7" tabindex="-1"></a></span>
-<span id="cb120-8"><a href="time-series-cross-section-tscs.html#cb120-8" tabindex="-1"></a><span class="fu">ggdag</span>(dag)</span></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="time-series-cross-section-tscs.html#cb120-1" tabindex="-1"></a><span class="fu">library</span>(ggdag)</span></code></pre></div>
+<pre><code>## 
+## Anexando pacote: &#39;ggdag&#39;</code></pre>
+<pre><code>## O seguinte objeto é mascarado por &#39;package:stats&#39;:
+## 
+##     filter</code></pre>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="time-series-cross-section-tscs.html#cb123-1" tabindex="-1"></a>dag <span class="ot">&lt;-</span> <span class="fu">dagify</span>(</span>
+<span id="cb123-2"><a href="time-series-cross-section-tscs.html#cb123-2" tabindex="-1"></a>  y <span class="sc">~</span> x <span class="sc">+</span> a,</span>
+<span id="cb123-3"><a href="time-series-cross-section-tscs.html#cb123-3" tabindex="-1"></a>  x <span class="sc">~</span> a,</span>
+<span id="cb123-4"><a href="time-series-cross-section-tscs.html#cb123-4" tabindex="-1"></a>  <span class="at">latent =</span> <span class="st">&quot;a&quot;</span></span>
+<span id="cb123-5"><a href="time-series-cross-section-tscs.html#cb123-5" tabindex="-1"></a>)</span>
+<span id="cb123-6"><a href="time-series-cross-section-tscs.html#cb123-6" tabindex="-1"></a></span>
+<span id="cb123-7"><a href="time-series-cross-section-tscs.html#cb123-7" tabindex="-1"></a><span class="fu">ggdag</span>(dag)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:dag-fe"></span>
-<img src="bookdownproj_files/figure-html/dag-fe-1.png" alt="DAG de OVB com confundidor fixo não observado. O painel ajuda quando a fonte de confusão, aqui representada por $a_i$, é constante dentro da unidade ao longo do tempo." width="672" />
+<img src="09-TSCS_files/figure-html/dag-fe-1.png" alt="DAG de OVB com confundidor fixo não observado. O painel ajuda quando a fonte de confusão, aqui representada por $a_i$, é constante dentro da unidade ao longo do tempo." width="672" />
 <p class="caption">
 Figura 10.2: DAG de OVB com confundidor fixo não observado. O painel ajuda quando a fonte de confusão, aqui representada por <span class="math inline">\(a_i\)</span>, é constante dentro da unidade ao longo do tempo.
 </p>

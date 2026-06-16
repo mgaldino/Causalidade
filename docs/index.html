@@ -647,16 +647,16 @@ div.csl-indent {
 <p><strong>Abordagens <em>design-based</em></strong> identificam efeitos causais explorando uma fonte de variação exógena na atribuição do tratamento — como aleatorização, regras institucionais, descontinuidades ou choques — e declaram explicitamente as suposições de identificação necessárias (ignorabilidade, tendências paralelas, continuidade, restrição de exclusão). A credibilidade da estimativa vem do <em>desenho de pesquisa</em>, não da especificação do modelo.</p>
 <p>Um estudo recente de Torreblanca et al. (2026) quantificou o alcance dessa revolução, classificando 91.632 artigos publicados entre 2003 e 2023 em 174 periódicos de ciência política. A Figura 1 mostra a classificação sequencial desses artigos: do total, 41% são empíricos quantitativos; destes, a grande maioria (81%) busca explicar relações causais; e dentro dos estudos explanatórios, os métodos <em>design-based</em> e <em>model-based</em> disputam espaço quase que em paridade.</p>
 <div class="figure"><span style="display:block;" id="fig:fig-classificacao"></span>
-<img src="figures/fig2_classificacao.png" alt="Classifica&lt;U+00E7&gt;&lt;U+00E3&gt;o sequencial dos tipos de estudos em ci&lt;U+00EA&gt;ncia pol&lt;U+00ED&gt;tica. Dos 91.632 artigos, o fluxo vai de todos os estudos para quantitativos, depois para descritivos, preditivos e explanat&lt;U+00F3&gt;rios, e finalmente para design-based vs. model-based. Fonte: Torreblanca et al. (2026)." width="90%" />
+<img src="figures/fig2_classificacao.png" alt="Classificação sequencial dos tipos de estudos em ciência política. Dos 91.632 artigos, o fluxo vai de todos os estudos para quantitativos, depois para descritivos, preditivos e explanatórios, e finalmente para design-based vs. model-based. Fonte: Torreblanca et al. (2026)." width="90%" />
 <p class="caption">
-Figura 1.1: Classifica&lt;U+00E7&gt;&lt;U+00E3&gt;o sequencial dos tipos de estudos em ci&lt;U+00EA&gt;ncia pol&lt;U+00ED&gt;tica. Dos 91.632 artigos, o fluxo vai de todos os estudos para quantitativos, depois para descritivos, preditivos e explanat&lt;U+00F3&gt;rios, e finalmente para design-based vs. model-based. Fonte: Torreblanca et al. (2026).
+Figura 1.1: Classificação sequencial dos tipos de estudos em ciência política. Dos 91.632 artigos, o fluxo vai de todos os estudos para quantitativos, depois para descritivos, preditivos e explanatórios, e finalmente para design-based vs. model-based. Fonte: Torreblanca et al. (2026).
 </p>
 </div>
 <p>A Figura 2 detalha a evolução temporal dos diferentes métodos <em>design-based</em> entre os estudos explanatórios. Experimentos survey são o principal motor do crescimento, seguidos por diferenças em diferenças e matching. Variáveis instrumentais, regressão descontínua, experimentos de campo e controle sintético mantêm participações menores, mas estáveis ou em crescimento modesto.</p>
 <div class="figure"><span style="display:block;" id="fig:fig-metodos"></span>
-<img src="figures/fig5_metodos.png" alt="Propor&lt;U+00E7&gt;&lt;U+00E3&gt;o de cada m&lt;U+00E9&gt;todo design-based entre os estudos explanat&lt;U+00F3&gt;rios quantitativos, por ano (2003&lt;U+2013&gt;2023). Fonte: Torreblanca et al. (2026)." width="90%" />
+<img src="figures/fig5_metodos.png" alt="Proporção de cada método design-based entre os estudos explanatórios quantitativos, por ano (2003–2023). Fonte: Torreblanca et al. (2026)." width="90%" />
 <p class="caption">
-Figura 1.2: Propor&lt;U+00E7&gt;&lt;U+00E3&gt;o de cada m&lt;U+00E9&gt;todo design-based entre os estudos explanat&lt;U+00F3&gt;rios quantitativos, por ano (2003&lt;U+2013&gt;2023). Fonte: Torreblanca et al. (2026).
+Figura 1.2: Proporção de cada método design-based entre os estudos explanatórios quantitativos, por ano (2003–2023). Fonte: Torreblanca et al. (2026).
 </p>
 </div>
 <p>Esses dados mostram que os métodos que estudaremos neste curso — experimentos (Caps. 3–4), matching (Cap. 6), variáveis instrumentais (Cap. 7), diferenças em diferenças (Cap. 8), regressão descontínua (Cap. 9) e controle sintético (Cap. 11) — correspondem exatamente às ferramentas que transformaram a prática da inferência causal na disciplina. A revolução é real, embora parcial e desigual: ainda em 2023, cerca de 40% dos estudos explanatórios não empregam uma estratégia de identificação explícita.</p>
@@ -703,39 +703,41 @@ Figura 1.2: Propor&lt;U+00E7&gt;&lt;U+00E3&gt;o de cada m&lt;U+00E9&gt;todo desi
 <span id="cb1-2"><a href="index.html#cb1-2" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
 <span id="cb1-3"><a href="index.html#cb1-3" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="index.html#cb1-4" tabindex="-1"></a>read_data <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
-<span id="cb1-5"><a href="index.html#cb1-5" tabindex="-1"></a>  full_path <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;https://github.com/scunning1975/mixtape/raw/master/&quot;</span>,</span>
-<span id="cb1-6"><a href="index.html#cb1-6" tabindex="-1"></a>                      df)</span>
-<span id="cb1-7"><a href="index.html#cb1-7" tabindex="-1"></a>  haven<span class="sc">::</span><span class="fu">read_dta</span>(full_path)</span>
-<span id="cb1-8"><a href="index.html#cb1-8" tabindex="-1"></a>}</span>
-<span id="cb1-9"><a href="index.html#cb1-9" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="index.html#cb1-10" tabindex="-1"></a>auto <span class="ot">&lt;-</span></span>
-<span id="cb1-11"><a href="index.html#cb1-11" tabindex="-1"></a>  <span class="fu">read_data</span>(<span class="st">&quot;auto.dta&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-12"><a href="index.html#cb1-12" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">length =</span> length <span class="sc">-</span> <span class="fu">mean</span>(length))</span>
-<span id="cb1-13"><a href="index.html#cb1-13" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="index.html#cb1-14" tabindex="-1"></a>lm1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(price <span class="sc">~</span> length, auto)</span>
-<span id="cb1-15"><a href="index.html#cb1-15" tabindex="-1"></a>lm2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(price <span class="sc">~</span> length <span class="sc">+</span> weight <span class="sc">+</span> headroom <span class="sc">+</span> mpg, auto)</span>
-<span id="cb1-16"><a href="index.html#cb1-16" tabindex="-1"></a>lm_aux <span class="ot">&lt;-</span> <span class="fu">lm</span>(length <span class="sc">~</span> weight <span class="sc">+</span> headroom <span class="sc">+</span> mpg, auto)</span>
-<span id="cb1-17"><a href="index.html#cb1-17" tabindex="-1"></a>auto <span class="ot">&lt;-</span></span>
-<span id="cb1-18"><a href="index.html#cb1-18" tabindex="-1"></a>  auto <span class="sc">%&gt;%</span></span>
-<span id="cb1-19"><a href="index.html#cb1-19" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">length_resid =</span> <span class="fu">residuals</span>(lm_aux))</span>
-<span id="cb1-20"><a href="index.html#cb1-20" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="index.html#cb1-21" tabindex="-1"></a>lm2_alt <span class="ot">&lt;-</span> <span class="fu">lm</span>(price <span class="sc">~</span> length_resid, auto)</span>
+<span id="cb1-5"><a href="index.html#cb1-5" tabindex="-1"></a>  local_path <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;data&quot;</span>, df)</span>
+<span id="cb1-6"><a href="index.html#cb1-6" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">file.exists</span>(local_path)) {</span>
+<span id="cb1-7"><a href="index.html#cb1-7" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">&quot;Arquivo local não encontrado: &quot;</span>, local_path)</span>
+<span id="cb1-8"><a href="index.html#cb1-8" tabindex="-1"></a>  }</span>
+<span id="cb1-9"><a href="index.html#cb1-9" tabindex="-1"></a>  haven<span class="sc">::</span><span class="fu">read_dta</span>(local_path)</span>
+<span id="cb1-10"><a href="index.html#cb1-10" tabindex="-1"></a>}</span>
+<span id="cb1-11"><a href="index.html#cb1-11" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="index.html#cb1-12" tabindex="-1"></a>auto <span class="ot">&lt;-</span></span>
+<span id="cb1-13"><a href="index.html#cb1-13" tabindex="-1"></a>  <span class="fu">read_data</span>(<span class="st">&quot;auto.dta&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-14"><a href="index.html#cb1-14" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">length =</span> length <span class="sc">-</span> <span class="fu">mean</span>(length))</span>
+<span id="cb1-15"><a href="index.html#cb1-15" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="index.html#cb1-16" tabindex="-1"></a>lm1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(price <span class="sc">~</span> length, auto)</span>
+<span id="cb1-17"><a href="index.html#cb1-17" tabindex="-1"></a>lm2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(price <span class="sc">~</span> length <span class="sc">+</span> weight <span class="sc">+</span> headroom <span class="sc">+</span> mpg, auto)</span>
+<span id="cb1-18"><a href="index.html#cb1-18" tabindex="-1"></a>lm_aux <span class="ot">&lt;-</span> <span class="fu">lm</span>(length <span class="sc">~</span> weight <span class="sc">+</span> headroom <span class="sc">+</span> mpg, auto)</span>
+<span id="cb1-19"><a href="index.html#cb1-19" tabindex="-1"></a>auto <span class="ot">&lt;-</span></span>
+<span id="cb1-20"><a href="index.html#cb1-20" tabindex="-1"></a>  auto <span class="sc">%&gt;%</span></span>
+<span id="cb1-21"><a href="index.html#cb1-21" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">length_resid =</span> <span class="fu">residuals</span>(lm_aux))</span>
 <span id="cb1-22"><a href="index.html#cb1-22" tabindex="-1"></a></span>
-<span id="cb1-23"><a href="index.html#cb1-23" tabindex="-1"></a>coef_lm1 <span class="ot">&lt;-</span> lm1<span class="sc">$</span>coefficients</span>
-<span id="cb1-24"><a href="index.html#cb1-24" tabindex="-1"></a>coef_lm2_alt <span class="ot">&lt;-</span> lm2_alt<span class="sc">$</span>coefficients</span>
-<span id="cb1-25"><a href="index.html#cb1-25" tabindex="-1"></a></span>
-<span id="cb1-26"><a href="index.html#cb1-26" tabindex="-1"></a>y_single <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">price =</span> coef_lm2_alt[<span class="dv">1</span>] <span class="sc">+</span> coef_lm1[<span class="dv">2</span>]<span class="sc">*</span>auto<span class="sc">$</span>length_resid,</span>
-<span id="cb1-27"><a href="index.html#cb1-27" tabindex="-1"></a>                   <span class="at">length_resid =</span> auto<span class="sc">$</span>length_resid)</span>
-<span id="cb1-28"><a href="index.html#cb1-28" tabindex="-1"></a></span>
-<span id="cb1-29"><a href="index.html#cb1-29" tabindex="-1"></a>y_multi <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">price =</span> coef_lm2_alt[<span class="dv">1</span>] <span class="sc">+</span> coef_lm2_alt[<span class="dv">2</span>]<span class="sc">*</span>auto<span class="sc">$</span>length_resid,</span>
-<span id="cb1-30"><a href="index.html#cb1-30" tabindex="-1"></a>                  <span class="at">length_resid =</span> auto<span class="sc">$</span>length_resid)</span>
-<span id="cb1-31"><a href="index.html#cb1-31" tabindex="-1"></a></span>
-<span id="cb1-32"><a href="index.html#cb1-32" tabindex="-1"></a>auto <span class="sc">%&gt;%</span></span>
-<span id="cb1-33"><a href="index.html#cb1-33" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>length_resid, <span class="at">y =</span> price)) <span class="sc">+</span></span>
-<span id="cb1-34"><a href="index.html#cb1-34" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb1-35"><a href="index.html#cb1-35" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> y_multi, <span class="at">color =</span> <span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
-<span id="cb1-36"><a href="index.html#cb1-36" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> y_single, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-1-1.png" alt="" width="672" /></p>
+<span id="cb1-23"><a href="index.html#cb1-23" tabindex="-1"></a>lm2_alt <span class="ot">&lt;-</span> <span class="fu">lm</span>(price <span class="sc">~</span> length_resid, auto)</span>
+<span id="cb1-24"><a href="index.html#cb1-24" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="index.html#cb1-25" tabindex="-1"></a>coef_lm1 <span class="ot">&lt;-</span> lm1<span class="sc">$</span>coefficients</span>
+<span id="cb1-26"><a href="index.html#cb1-26" tabindex="-1"></a>coef_lm2_alt <span class="ot">&lt;-</span> lm2_alt<span class="sc">$</span>coefficients</span>
+<span id="cb1-27"><a href="index.html#cb1-27" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="index.html#cb1-28" tabindex="-1"></a>y_single <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">price =</span> coef_lm2_alt[<span class="dv">1</span>] <span class="sc">+</span> coef_lm1[<span class="dv">2</span>]<span class="sc">*</span>auto<span class="sc">$</span>length_resid,</span>
+<span id="cb1-29"><a href="index.html#cb1-29" tabindex="-1"></a>                   <span class="at">length_resid =</span> auto<span class="sc">$</span>length_resid)</span>
+<span id="cb1-30"><a href="index.html#cb1-30" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="index.html#cb1-31" tabindex="-1"></a>y_multi <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">price =</span> coef_lm2_alt[<span class="dv">1</span>] <span class="sc">+</span> coef_lm2_alt[<span class="dv">2</span>]<span class="sc">*</span>auto<span class="sc">$</span>length_resid,</span>
+<span id="cb1-32"><a href="index.html#cb1-32" tabindex="-1"></a>                  <span class="at">length_resid =</span> auto<span class="sc">$</span>length_resid)</span>
+<span id="cb1-33"><a href="index.html#cb1-33" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="index.html#cb1-34" tabindex="-1"></a>auto <span class="sc">%&gt;%</span></span>
+<span id="cb1-35"><a href="index.html#cb1-35" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>length_resid, <span class="at">y =</span> price)) <span class="sc">+</span></span>
+<span id="cb1-36"><a href="index.html#cb1-36" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb1-37"><a href="index.html#cb1-37" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> y_multi, <span class="at">color =</span> <span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb1-38"><a href="index.html#cb1-38" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> y_single, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-1-1.png" alt="" width="672" /></p>
 <p>O gráfico mostra o preço do carro contra o resíduo de <em>length</em> após controlar por <em>weight</em>, <em>headroom</em> e <em>mpg</em>. A linha azul é o coeficiente da regressão múltipla (que, pelo Teorema FWL, é idêntico ao da regressão de <em>price</em> sobre <em>length_resid</em>). A linha vermelha é o coeficiente da regressão simples de <em>price</em> sobre <em>length</em>, sem controles. A diferença entre as duas inclinações reflete exatamente o viés que surge quando <em>length</em> está correlacionado com as variáveis omitidas: ao controlar por elas, isolamos a variação “limpa” de <em>length</em> e obtemos uma estimativa diferente.</p>
 </div>
 </div>

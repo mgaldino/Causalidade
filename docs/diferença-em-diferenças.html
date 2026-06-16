@@ -713,9 +713,9 @@ Tratado (<span class="math inline">\(D_i = 1\)</span>)
 \mathbb{E}[Y_{i2}(0) - Y_{i1}(0) \mid D_i = 1] = \mathbb{E}[Y_{i2}(0) - Y_{i1}(0) \mid D_i = 0]
 \]</span></p>
 <div class="figure"><span style="display:block;" id="fig:pt-classico"></span>
-<img src="bookdownproj_files/figure-html/pt-classico-1.png" alt="Tend&lt;U+00EA&gt;ncias paralelas no contrafactual sem tratamento. A linha tracejada mostra a trajet&lt;U+00F3&gt;ria que o grupo tratado teria seguido sem tratamento; ela cresce no mesmo ritmo do controle no per&lt;U+00ED&gt;odo p&lt;U+00F3&gt;s-tratamento. A dist&lt;U+00E2&gt;ncia vertical entre o tratado observado e o contrafactual no p&lt;U+00F3&gt;s &lt;U+00E9&gt; o ATT." width="672" />
+<img src="08-DiD_files/figure-html/pt-classico-1.png" alt="Tendências paralelas no contrafactual sem tratamento. A linha tracejada mostra a trajetória que o grupo tratado teria seguido sem tratamento; ela cresce no mesmo ritmo do controle no período pós-tratamento. A distância vertical entre o tratado observado e o contrafactual no pós é o ATT." width="672" />
 <p class="caption">
-Figura 9.1: Tend&lt;U+00EA&gt;ncias paralelas no contrafactual sem tratamento. A linha tracejada mostra a trajet&lt;U+00F3&gt;ria que o grupo tratado teria seguido sem tratamento; ela cresce no mesmo ritmo do controle no per&lt;U+00ED&gt;odo p&lt;U+00F3&gt;s-tratamento. A dist&lt;U+00E2&gt;ncia vertical entre o tratado observado e o contrafactual no p&lt;U+00F3&gt;s &lt;U+00E9&gt; o ATT.
+Figura 9.1: Tendências paralelas no contrafactual sem tratamento. A linha tracejada mostra a trajetória que o grupo tratado teria seguido sem tratamento; ela cresce no mesmo ritmo do controle no período pós-tratamento. A distância vertical entre o tratado observado e o contrafactual no pós é o ATT.
 </p>
 </div>
 <p>Na Figura <a href="diferença-em-diferenças.html#fig:pt-classico">9.1</a>, os grupos começam em níveis diferentes. Isso não viola DiD. A suposição é que, sem tratamento, o grupo tratado teria continuado em uma trajetória paralela à do grupo controle. O efeito causal é a distância entre a trajetória observada dos tratados e essa trajetória contrafactual no período pós-tratamento.</p>
@@ -995,9 +995,9 @@ Y_{it} = \alpha_i + \lambda_t + \tau D_{it} + \varepsilon_{it}
 </table>
 <p>O gráfico abaixo mostra a evolução da taxa de conclusão por grupo. As diferenças de nível são grandes, mas as tendências pré-tratamento são próximas. O salto maior aparece no último período, em outubro de 2023, o que também exige cautela substantiva: esse intervalo inclui a pandemia de COVID-19.</p>
 <div class="figure"><span style="display:block;" id="fig:ot-tendencias"></span>
-<img src="bookdownproj_files/figure-html/ot-tendencias-1.png" alt="Evolu&lt;U+00E7&gt;&lt;U+00E3&gt;o da taxa de conclus&lt;U+00E3&gt;o de obras por grupo. Linha vertical indica o in&lt;U+00ED&gt;cio do tratamento em setembro de 2018." width="672" />
+<img src="08-DiD_files/figure-html/ot-tendencias-1.png" alt="Evolução da taxa de conclusão de obras por grupo. Linha vertical indica o início do tratamento em setembro de 2018." width="672" />
 <p class="caption">
-Figura 9.2: Evolu&lt;U+00E7&gt;&lt;U+00E3&gt;o da taxa de conclus&lt;U+00E3&gt;o de obras por grupo. Linha vertical indica o in&lt;U+00ED&gt;cio do tratamento em setembro de 2018.
+Figura 9.2: Evolução da taxa de conclusão de obras por grupo. Linha vertical indica o início do tratamento em setembro de 2018.
 </p>
 </div>
 <p>O modelo estático do paper usa todos os seis períodos e compara a média dos períodos pós-tratamento com a trajetória contrafactual estimada a partir dos controles. A especificação inclui efeitos fixos de obra e de período:</p>
@@ -1208,9 +1208,9 @@ Y_{it} = \alpha_i + \lambda_t + \sum_{k \neq -1} \delta_k \cdot \mathbb{1}[t - G
 <span id="cb94-12"><a href="diferença-em-diferenças.html#cb94-12" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb94-13"><a href="diferença-em-diferenças.html#cb94-13" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:ot-event-study"></span>
-<img src="bookdownproj_files/figure-html/ot-event-study-1.png" alt="Event study &lt;U+2014&gt; Obra Transparente. Barras indicam intervalos de 95%, com erros-padr&lt;U+00E3&gt;o clusterizados por munic&lt;U+00ED&gt;pio." width="672" />
+<img src="08-DiD_files/figure-html/ot-event-study-1.png" alt="Event study — Obra Transparente. Barras indicam intervalos de 95%, com erros-padrão clusterizados por município." width="672" />
 <p class="caption">
-Figura 9.3: Event study &lt;U+2014&gt; Obra Transparente. Barras indicam intervalos de 95%, com erros-padr&lt;U+00E3&gt;o clusterizados por munic&lt;U+00ED&gt;pio.
+Figura 9.3: Event study — Obra Transparente. Barras indicam intervalos de 95%, com erros-padrão clusterizados por município.
 </p>
 </div>
 <p>Os coeficientes pré-tratamento são próximos de zero e estatisticamente insignificantes, o que é consistente com tendências paralelas. Os coeficientes pós-tratamento crescem ao longo do tempo: o efeito é pequeno no início, aumenta em 2019 e chega a cerca de 18 pontos percentuais em outubro de 2023. Como esse último intervalo atravessa a pandemia, a interpretação substantiva deve ser cautelosa.</p>
@@ -1464,9 +1464,9 @@ Figura 9.3: Event study &lt;U+2014&gt; Obra Transparente. Barras indicam interva
 </table>
 <p>A última comparação (B vs. A, com A já tratado) é problemática: o grupo A continua acumulando efeitos do tratamento, então sua trajetória como “controle” viola a lógica do DiD. Se o efeito de A está crescendo, essa comparação subestima o efeito de B.</p>
 <div class="figure"><span style="display:block;" id="fig:bacon-grafico"></span>
-<img src="bookdownproj_files/figure-html/bacon-grafico-1.png" alt="M&lt;U+00E9&gt;dias por grupo ao longo do tempo. As linhas verticais indicam o in&lt;U+00ED&gt;cio do tratamento para cada grupo. Note como o grupo A (j&lt;U+00E1&gt; tratado) continua mudando ap&lt;U+00F3&gt;s o per&lt;U+00ED&gt;odo 3 &lt;U+2014&gt; us&lt;U+00E1&gt;-lo como controle para B &lt;U+00E9&gt; problem&lt;U+00E1&gt;tico." width="672" />
+<img src="08-DiD_files/figure-html/bacon-grafico-1.png" alt="Médias por grupo ao longo do tempo. As linhas verticais indicam o início do tratamento para cada grupo. Note como o grupo A (já tratado) continua mudando após o período 3 — usá-lo como controle para B é problemático." width="672" />
 <p class="caption">
-Figura 9.4: M&lt;U+00E9&gt;dias por grupo ao longo do tempo. As linhas verticais indicam o in&lt;U+00ED&gt;cio do tratamento para cada grupo. Note como o grupo A (j&lt;U+00E1&gt; tratado) continua mudando ap&lt;U+00F3&gt;s o per&lt;U+00ED&gt;odo 3 &lt;U+2014&gt; us&lt;U+00E1&gt;-lo como controle para B &lt;U+00E9&gt; problem&lt;U+00E1&gt;tico.
+Figura 9.4: Médias por grupo ao longo do tempo. As linhas verticais indicam o início do tratamento para cada grupo. Note como o grupo A (já tratado) continua mudando após o período 3 — usá-lo como controle para B é problemático.
 </p>
 </div>
 <p>Para aplicações reais, o pacote <code>bacondecomp</code> automatiza essa decomposição e produz gráficos de diagnóstico <span class="citation">(<a href="#ref-goodmanbacon2021">Goodman-Bacon 2021</a>)</span>. Aqui usamos a simulação para fins pedagógicos.</p>
@@ -1572,9 +1572,9 @@ Figura 9.4: M&lt;U+00E9&gt;dias por grupo ao longo do tempo. As linhas verticais
 <span id="cb107-24"><a href="diferença-em-diferenças.html#cb107-24" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb107-25"><a href="diferença-em-diferenças.html#cb107-25" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:cs-estimator"></span>
-<img src="bookdownproj_files/figure-html/cs-estimator-1.png" alt="Event study agregado &lt;U+2014&gt; Callaway &amp; Sant'Anna. Comparar com o TWFE da se&lt;U+00E7&gt;&lt;U+00E3&gt;o anterior." width="672" />
+<img src="08-DiD_files/figure-html/cs-estimator-1.png" alt="Event study agregado — Callaway &amp; Sant'Anna. Comparar com o TWFE da seção anterior." width="672" />
 <p class="caption">
-Figura 9.5: Event study agregado &lt;U+2014&gt; Callaway &amp; Sant’Anna. Comparar com o TWFE da se&lt;U+00E7&gt;&lt;U+00E3&gt;o anterior.
+Figura 9.5: Event study agregado — Callaway &amp; Sant’Anna. Comparar com o TWFE da seção anterior.
 </p>
 </div>
 </div>
@@ -1649,9 +1649,9 @@ Figura 9.5: Event study agregado &lt;U+2014&gt; Callaway &amp; Sant’Anna. Comp
 <span id="cb110-39"><a href="diferença-em-diferenças.html#cb110-39" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb110-40"><a href="diferença-em-diferenças.html#cb110-40" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:sunab-estimator"></span>
-<img src="bookdownproj_files/figure-html/sunab-estimator-1.png" alt="Event study &lt;U+2014&gt; Sun &amp; Abraham (sunab)." width="672" />
+<img src="08-DiD_files/figure-html/sunab-estimator-1.png" alt="Event study — Sun &amp; Abraham (sunab)." width="672" />
 <p class="caption">
-Figura 9.6: Event study &lt;U+2014&gt; Sun &amp; Abraham (sunab).
+Figura 9.6: Event study — Sun &amp; Abraham (sunab).
 </p>
 </div>
 </div>
@@ -2153,9 +2153,9 @@ Figura 9.6: Event study &lt;U+2014&gt; Sun &amp; Abraham (sunab).
 <p>O modelo estático estima uma média dos efeitos pós-enchente. Essa média pode ser útil como resumo, mas ela não responde à pergunta dinâmica do paper. O modelo dinâmico mostra separadamente o efeito de curto prazo (2002), de longo prazo (2005) e de muito longo prazo (2009). Portanto, não “tanto faz”: se o objetivo é saber se a gratidão eleitoral persiste, o estimando relevante é o efeito por horizonte.</p>
 <p>Neste caso, a implementação moderna em uma única regressão não muda o estimando causal em relação aos DiDs separados do paper. O ganho é principalmente prático e inferencial: o código fica mais compacto, a tabela e o gráfico saem de um único objeto, a matriz de variância-covariância conjunta permite testar diretamente se o efeito de 2005 é menor que o de 2002, e fica mais fácil estender a análise para intervalos simultâneos ou outras especificações. Mas o ponto conceitual já estava no paper: não estimar apenas um efeito médio pós-tratamento quando a pergunta é sobre dinâmica temporal.</p>
 <div class="figure"><span style="display:block;" id="fig:elbe-dynamic-plot"></span>
-<img src="bookdownproj_files/figure-html/elbe-dynamic-plot-1.png" alt="Efeitos da enchente do Elbe sobre o voto no SPD por horizonte temporal. Pontos s&lt;U+00E3&gt;o coeficientes DiD; barras s&lt;U+00E3&gt;o intervalos de confian&lt;U+00E7&gt;a de 95%." width="672" />
+<img src="08-DiD_files/figure-html/elbe-dynamic-plot-1.png" alt="Efeitos da enchente do Elbe sobre o voto no SPD por horizonte temporal. Pontos são coeficientes DiD; barras são intervalos de confiança de 95%." width="672" />
 <p class="caption">
-Figura 9.7: Efeitos da enchente do Elbe sobre o voto no SPD por horizonte temporal. Pontos s&lt;U+00E3&gt;o coeficientes DiD; barras s&lt;U+00E3&gt;o intervalos de confian&lt;U+00E7&gt;a de 95%.
+Figura 9.7: Efeitos da enchente do Elbe sobre o voto no SPD por horizonte temporal. Pontos são coeficientes DiD; barras são intervalos de confiança de 95%.
 </p>
 </div>
 <p>O ponto didático é que o coeficiente estático não é “o efeito em 2005”; ele é uma média que mistura os horizontes. Para interpretar persistência, devemos comparar o efeito de 2005 com o efeito de 2002. A estimativa de 2005 é positiva, mas muito menor que a de 2002, o que sustenta a conclusão de que parte do ganho de curto prazo persistiu, mas decaiu substancialmente.</p>

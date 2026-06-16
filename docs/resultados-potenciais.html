@@ -830,9 +830,9 @@ Há outros estimandos possíveis, mas esses são os mais comuns.</p>
 <span id="cb4-3"><a href="resultados-potenciais.html#cb4-3" tabindex="-1"></a>y_bias <span class="ot">&lt;-</span> y_1 <span class="sc">*</span> d1 <span class="sc">+</span> y_0 <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> d1)</span>
 <span id="cb4-4"><a href="resultados-potenciais.html#cb4-4" tabindex="-1"></a>ate_bias <span class="ot">&lt;-</span> <span class="fu">mean</span>(y_bias[d1 <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(y_bias[d1 <span class="sc">==</span> <span class="dv">0</span>])</span>
 <span id="cb4-5"><a href="resultados-potenciais.html#cb4-5" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;ATE com violação de common support:&quot;</span>, <span class="fu">round</span>(ate_bias, <span class="dv">3</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
-<pre><code>## ATE com viola&lt;U+00E7&gt;&lt;U+00E3&gt;o de common support: 1.377</code></pre>
+<pre><code>## ATE com violação de common support: 1.377</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="resultados-potenciais.html#cb6-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Viés:&quot;</span>, <span class="fu">round</span>(ate_bias <span class="sc">-</span> <span class="dv">2</span>, <span class="dv">3</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
-<pre><code>## Vi&lt;U+00E9&gt;s: -0.623</code></pre>
+<pre><code>## Viés: -0.623</code></pre>
 <p>Note o resultado: quando todos podem receber tratamento ou controle (common support satisfeito), a diferença de médias recupera o ATE. Porém, quando impedimos que unidades com <span class="math inline">\(Y_i(1) &gt; 6\)</span> recebam o tratamento, a estimativa se torna viesada — estamos comparando “maçãs com laranjas”, pois o grupo tratado e o grupo controle passam a ter composições diferentes. Essa é a intuição central da condição de common support: precisamos que, para cada perfil de covariáveis, existam unidades tanto no tratamento quanto no controle.</p>
 <p>Um último comentário: ignorability às vezes aparece como “tratamento é exógeno”. Porém, exogeneidade ignora a segunda condição e trata apenas da primeira. Em uma audiência de ciência política, dizemos que o tratamento é condicionalmente aleatório ou exógeno (o que é impreciso).</p>
 </div>
@@ -935,18 +935,18 @@ Y_i &amp;= \underbrace{\mathbb{E}[Y_i(0)|D_i=0]}_{\alpha} + \underbrace{\tau}_{\
 <li><p>Calcule o efeito médio do tratamento da política, <span class="math inline">\(\mathbb{E}[\tau_i]\)</span>, utilizando uma simples diferença de médias.</p></li>
 <li><p>Calcule o efeito médio do tratamento sobre os tratados da política, <span class="math inline">\(\mathbb{E}[\tau_i|treat=1]\)</span>. Como ele se compara à parte (a)?</p></li>
 </ol>
+<pre><code>## Warning: pacote &#39;dplyr&#39; foi compilado no R versão 4.4.3</code></pre>
 <pre><code>## 
-## Attaching package: &#39;data.table&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:lubridate&#39;:
-## 
-##     hour, isoweek, mday, minute, month, quarter, second, wday, week,
-##     yday, year</code></pre>
-<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## Anexando pacote: &#39;dplyr&#39;</code></pre>
+<pre><code>## Os seguintes objetos são mascarados por &#39;package:data.table&#39;:
 ## 
 ##     between, first, last</code></pre>
-<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+<pre><code>## Os seguintes objetos são mascarados por &#39;package:stats&#39;:
 ## 
-##     transpose</code></pre>
+##     filter, lag</code></pre>
+<pre><code>## Os seguintes objetos são mascarados por &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
 <pre><code>## [1] 1794.342</code></pre>
 <pre><code>## [1] 1794.342</code></pre>
 </div>

@@ -102,6 +102,7 @@ theta_hat[i] <- coef(summary(fit))[3]
   return(list(df_final = df_final, lista_df = lista_df))
 }
 
+set.seed(20260616)
 result_sim <- sim_pvalue_dl()
 my_p_values_beta <- result_sim$df_final
 lista_df <- result_sim$lista_df
@@ -127,28 +128,33 @@ E se usarmos LASSO (single LASSO)?
 # Instalar e carregar o pacote glmnet, se necessário
 library(glmnet)
 
-# Vetor para armazenar se x foi selecionado pelo LASSO
+# Vetor para armazenar se D foi selecionado pelo LASSO
 lasso_selected_D <- numeric()
+set.seed(20260616)
 
 # Loop de simulação
 for (i in 1:1000) {
   y <- lista_df[[i]]$y
-  X <- cbind(lista_df[[i]]$D, lista_df[[i]]$x) 
+  control_cols <- grep("^X[0-9]+$", names(lista_df[[i]]), value = TRUE)
+  X <- lista_df[[i]] |>
+    dplyr::select(D, dplyr::all_of(control_cols)) |>
+    as.matrix()
   # Preparando os dados para o LASSO
   # Matriz de preditores (sem o intercepto)
+  foldid <- rep(seq_len(10), length.out = nrow(X))
 
   # Ajustando o modelo LASSO com validação cruzada
-  lasso_model <- cv.glmnet(X, y, alpha = 1) # alpha = 1 para LASSO
+  lasso_model <- cv.glmnet(X, y, alpha = 1, foldid = foldid) # alpha = 1 para LASSO
 
   # Extraindo os coeficientes no valor de lambda que minimiza o erro
   lasso_coefs <- coef(lasso_model, s = "lambda.min")
 
-  # Verificando se a variável x foi selecionada pelo LASSO (coeficiente diferente de zero)
-  lasso_selected_D[i] <- ifelse(lasso_coefs["V1", 1] != 0, 1, 0)
+  # Verificando se D foi selecionado pelo LASSO (coeficiente diferente de zero)
+  lasso_selected_D[i] <- ifelse(lasso_coefs["D", 1] != 0, 1, 0)
 }
 
 # Analisando os resultados
-hist(lasso_selected_D, breaks = 40, main = "Seleção de x pelo LASSO", xlab = "x selecionado (1 = sim, 0 = não)")
+hist(lasso_selected_D, breaks = 40, main = "Seleção de D pelo LASSO", xlab = "D selecionado (1 = sim, 0 = não)")
 
 sum(lasso_selected_D <= .05)/1000
 ```
@@ -289,4 +295,3 @@ library(data.table)
 
 
 ```
-
