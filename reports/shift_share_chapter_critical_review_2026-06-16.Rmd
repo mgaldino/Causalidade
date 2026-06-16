@@ -1,0 +1,243 @@
+---
+title: "Relatório crítico do capítulo de shift-share"
+subtitle: "Avaliação metodológica com foco em IV shift-share/Bartik"
+author: "Codex, usando a skill shift-share-iv-expert"
+date: "2026-06-16"
+output:
+  pdf_document:
+    toc: true
+    number_sections: true
+    latex_engine: xelatex
+---
+
+# Escopo
+
+Arquivo avaliado: `15-Shift-Share.Rmd`.
+
+Este relatório avalia conteúdo, identificação causal, inferência, implementação e bibliografia aplicada. Não foram feitas alterações no texto do capítulo. A avaliação usa como régua principal a literatura recente de shift-share/Bartik IV: Goldsmith-Pinkham, Sorkin e Swift (2020), Adão, Kolesár e Morales (2019), Borusyak, Hull e Jaravel (2022, 2025), Borusyak e Hull (2023), Mogstad, Torgovitsky e Walters (2021) e de Chaisemartin e Lei (2023).
+
+# Bottom line
+
+O capítulo é promissor como introdução didática: ele explica bem a intuição de decomposição, distingue as visões de exogeneidade das *shares* e dos *shifts*, alerta para erros-padrão convencionais e conecta o método a temas de ciência política e RI. Mas, no estado atual, ele é vulnerável em três pontos substantivos: o exemplo eleitoral transforma uma decomposição mecânica em exemplo de instrumento IV forte demais; a ponte entre "gera variação" e "identifica" ainda está excessivamente rápida; e faltam duas frentes metodológicas hoje essenciais, recentering/formula instruments e interpretação de 2SLS com múltiplos instrumentos/efeitos heterogêneos. Minha avaliação é: **bom capítulo de panorama, mas ainda frágil como capítulo de identificação causal**.
+
+# Achados principais
+
+## 1. Alta: o exemplo eleitoral ensina uma intuição útil, mas é perigoso como exemplo de IV
+
+**Assunção em jogo:** relevância e exclusão de um instrumento shift-share.
+
+**Evidência no capítulo:** o texto chama a predição eleitoral de "instrumento Bartik" em `15-Shift-Share.Rmd:205-217`, depois afirma que o gráfico mostra um primeiro estágio forte em `15-Shift-Share.Rmd:441-445`. O mesmo exemplo é usado para motivar o IV em `15-Shift-Share.Rmd:437-451`.
+
+**Problema:** para fins descritivos, o exercício funciona: ele mostra como composição inicial e mudanças agregadas geram uma predição. Como IV causal, porém, ele é quase o exemplo adversarial perfeito. O "instrumento" usa *shares* de voto por bloco em 2014 e mudanças nacionais desses mesmos blocos entre 2014 e 2018 para prever a mudança local do PT. Isso produz uma relação forte por construção, não por uma fonte independente de variação. Além disso, há apenas três choques (`PT`, `PSDB`, `Outros`), e o bloco `Outros` mistura fenômenos politicamente heterogêneos. Com `K=3`, a visão BHJ de muitos choques independentes não é plausível; com *shares* partidárias, a visão GPSS exigiria defender que composição partidária inicial não carrega pobreza, urbanização, religiosidade, estrutura partidária, lulismo/antipetismo e trajetória política local.
+
+**Por que importa:** o leitor pode sair com a mensagem errada: se uma variável é decomponível, ela pode virar IV. Isso é falso. Decomponibilidade cria um índice de exposição; identificação exige uma história separada de quase-aleatoriedade das *shares*, dos *shifts* ou de um processo de choque contrafactual.
+
+**Correção recomendada:** manter o exemplo eleitoral apenas como **decomposição/predição**, com aviso explícito de que ele não é um SSIV crível. Para a seção IV, usar um exemplo canônico com exposição econômica ou migratória, ou um exemplo municipal com *leave-one-out* e variação *cross-level*. Se quiser preservar o exemplo PT 2014-2018, renomear "instrumento" para "predição shift-share" até a seção que discute por que ele falha como IV.
+
+## 2. Alta: "variação cross-sectional permite identificação" está forte demais
+
+**Assunção em jogo:** fonte real de exogeneidade.
+
+**Evidência no capítulo:** em `15-Shift-Share.Rmd:404`, o texto diz que a variação *cross-sectional* nas *shares* "permite a identificação".
+
+**Problema:** a variação nas *shares* permite estimar um primeiro estágio ou uma forma reduzida; ela não permite identificação por si só. A identificação vem de uma assunção: *shares* exógenas, *shifts* exógenos, recentering com choques contrafactuais, ou desenho institucional específico.
+
+**Por que importa:** esse é o erro conceitual mais comum em aplicações Bartik. A parte posterior do capítulo pergunta corretamente "de onde vem a exogeneidade?", mas a formulação anterior já plantou a ideia causal errada.
+
+**Correção recomendada:** substituir a linguagem de "permite a identificação" por "gera a variação do instrumento; essa variação só identifica um efeito causal sob uma das estratégias de exogeneidade discutidas abaixo".
+
+## 3. Alta: o DAG mostra apenas o caso favorável e oculta as ameaças principais
+
+**Assunção em jogo:** exclusão e independência do instrumento.
+
+**Evidência no capítulo:** o DAG em `15-Shift-Share.Rmd:457-477` especifica `B ~ g + w`, `X ~ B + U` e `Y ~ X + U`. O texto depois lista violações possíveis em `15-Shift-Share.Rmd:479-485`.
+
+**Problema:** o DAG atual codifica um instrumento válido por construção. Ele não mostra as ameaças típicas: `U -> w`, `w -> Y`, `g -> Y`, choques nacionais afetando diretamente outcomes políticos, ou *shares* carregando trajetórias políticas prévias. A explicação textual ajuda, mas a figura dá ao leitor uma representação excessivamente limpa da validade.
+
+**Por que importa:** em capítulo didático, a figura fixa a intuição. Se a figura mostra o mundo ideal sem a figura rival, o leitor pode subestimar que validade IV é uma hipótese substantiva, não uma propriedade algébrica de `B = sum w g`.
+
+**Correção recomendada:** incluir dois DAGs: um "DAG ideal" e um "DAG com ameaças". Alternativamente, desenhar o DAG principal com setas tracejadas de ameaça e explicar que o desenho é válido apenas se essas setas forem excluídas por argumento substantivo ou diagnóstico.
+
+## 4. Média-alta: a seção BHJ simplifica demais a visão dos choques
+
+**Assunção em jogo:** choques quase aleatórios, muitos choques efetivos e inferência no nível do choque.
+
+**Evidência no capítulo:** a seção BHJ aparece em `15-Shift-Share.Rmd:525-552`; a seção de inferência diz em `15-Shift-Share.Rmd:573` que, na agregação BHJ, erros-padrão robustos no nível do choque são válidos se os choques forem independentes.
+
+**Problema:** a intuição está correta, mas faltam qualificações importantes. A visão BHJ exige não apenas choques "exógenos", mas um processo de atribuição defensável, muitos choques com exposição suficientemente dispersa, ausência de choque dominante, controles no nível do choque quando necessário, tratamento de *shares* incompletas e, em muitos casos, agrupamento por clusters de choques. A frase sobre erro-padrão robusto no nível do choque é verdadeira apenas sob condições fortes; se choques são correlacionados por setor, país, período ou origem, a inferência precisa refletir isso.
+
+**Por que importa:** em CP/RI, choques "globais" frequentemente são politicamente endógenos: comércio responde a estratégia geopolítica, migração responde a redes e política migratória, ajuda responde a prioridades diplomáticas, sanções respondem a alianças e conflito. A seção deveria prevenir esse uso ingênuo.
+
+**Correção recomendada:** adicionar uma caixa de diagnóstico BHJ: número efetivo de choques, concentração de exposição, choque dominante, correlação entre choques, controles agregados no nível do choque, *leave-one-out* e tratamento de *shares* incompletas.
+
+## 5. Média-alta: falta uma seção sobre recentering e formula instruments
+
+**Assunção em jogo:** exposição não aleatória a choques exógenos.
+
+**Evidência no capítulo:** o capítulo contrasta GPSS e BHJ em `15-Shift-Share.Rmd:493-563`, mas não cobre Borusyak e Hull (2023) nem a literatura de formula/recentered instruments.
+
+**Problema:** a omissão é substantiva. Em aplicações de CP/RI, a exposição frequentemente é politicamente ou geograficamente estruturada. Mesmo choques exógenos não randomizam quem é exposto. A literatura de recentering pergunta: qual é o conjunto de choques contrafactuais que poderia ter ocorrido? Qual seria a exposição esperada sob esse processo? O instrumento realizado foi recenterizado, ou essa exposição esperada foi controlada?
+
+**Por que importa:** muitos exemplos potenciais listados no capítulo, como sanções, comércio por parceiros, redes migratórias, mídia, alianças e conflito, são exatamente casos em que o mapa de exposição é não aleatório. Sem recentering, o capítulo deixa o leitor com uma dicotomia incompleta: *shares* exógenas ou *shifts* exógenos.
+
+**Correção recomendada:** adicionar uma terceira estratégia de identificação: **formula/recentered instruments**. A seção deve explicar choques contrafactuais, exposição esperada, recentering, testes de balanceamento após recentering e inferência por randomização quando há poucos choques ou choques de rede.
+
+## 6. Média: falta discutir efeitos heterogêneos, múltiplos IVs e monotonicidade
+
+**Assunção em jogo:** interpretação causal do 2SLS quando há múltiplas fontes de variação.
+
+**Evidência no capítulo:** GPSS é apresentado como equivalência entre Bartik e GMM com *shares* separadas em `15-Shift-Share.Rmd:499-523`; Xu/Shaukat é apresentado como tendo "nonmonotonicity" benéfica em `15-Shift-Share.Rmd:706`.
+
+**Problema:** quando o instrumento combina múltiplos choques ou múltiplas *shares*, o estimando 2SLS pode ser uma média ponderada difícil de interpretar sob efeitos heterogêneos. Pesos podem ser negativos ou não convexos; múltiplos instrumentos exigem cuidado com monotonicidade; em painéis FD/TWFE-IV, a interpretação pode piorar. A seção sobre Rotemberg weights ajuda, mas não substitui uma discussão de LATE/múltiplos IVs.
+
+**Por que importa:** em ciência política, compliers não são indivíduos idênticos. São localidades, setores, grupos ou períodos movidos por margens diferentes. Um efeito de comércio sobre voto não tem a mesma interpretação que um efeito de imigração sobre voto; mesmo dentro de comércio, setores e regiões podem carregar mecanismos distintos.
+
+**Correção recomendada:** incluir uma subseção curta: "O que o 2SLS estima quando os efeitos são heterogêneos?". Mencionar Mogstad, Torgovitsky e Walters (2021), pesos de Rotemberg como diagnóstico de influência e de Chaisemartin e Lei para painéis IV com efeitos heterogêneos.
+
+## 7. Média: dados "aproximados" e código não totalmente reprodutível enfraquecem a autoridade do capítulo
+
+**Assunção em jogo:** reprodutibilidade pedagógica.
+
+**Evidência no capítulo:** o exemplo de PIB usa "dados reais simplificados do IBGE" e "valores aproximados" em `15-Shift-Share.Rmd:35-49`; o exemplo eleitoral usa "dados aproximados do TSE" em `15-Shift-Share.Rmd:163-166`.
+
+**Problema:** para uma ilustração didática, dados aproximados são aceitáveis se forem explicitamente simulados ou calibrados. Mas "dados reais simplificados" sem fonte, data de acesso, script de coleta ou nota de aproximação pode confundir o leitor. Além disso, o repositório tem regra de preservar raw/extracted files e documentar fonte/data de acesso para dados públicos.
+
+**Por que importa:** o capítulo quer ensinar credibilidade causal. A apresentação de dados deveria seguir o mesmo padrão: ou dados reais reproduzíveis, ou dados simulados claramente rotulados.
+
+**Correção recomendada:** transformar os exemplos em dados simulados calibrados, ou criar scripts separados de coleta/limpeza com fonte e data de acesso. Se a opção for manter dados aproximados, trocar a linguagem para "exemplo numérico simplificado, inspirado em padrões reais".
+
+## 8. Média: a implementação em R está informativa, mas não validada
+
+**Assunção em jogo:** usabilidade do capítulo como guia operacional.
+
+**Evidência no capítulo:** os chunks de implementação estão em `eval=FALSE` (`15-Shift-Share.Rmd:581-638`). O ambiente local não tem `ShiftShareSE` nem `ssaggregate` instalados. Checagem externa em 2026-06-16 confirmou que `ShiftShareSE` está no CRAN e que `ssaggregate` existe no GitHub, mas não no CRAN.
+
+**Problema:** como os exemplos de código não são executados, eles podem envelhecer ou ter assinatura de função incorreta sem que o livro perceba. Isso é aceitável para pseudo-código, mas o texto apresenta os pacotes como rota prática.
+
+**Por que importa:** leitores vão copiar a sintaxe. Se o objetivo é ensinar implementação, o capítulo precisa de um exemplo mínimo que rode, ou declarar explicitamente que os blocos são esqueleto conceitual.
+
+**Correção recomendada:** criar um script R separado que valida construção do instrumento, 2SLS simples e pelo menos uma rota de inferência. Para `ShiftShareSE` e `ssaggregate`, instalar em ambiente controlado ou inserir nota de que a assinatura deve ser conferida na documentação atual do pacote.
+
+## 9. Média: o corpus aplicado mistura aplicações centrais, periféricas e exemplos não estritos
+
+**Assunção em jogo:** fidelidade bibliográfica e classificação de aplicações SSIV.
+
+**Evidência no capítulo:** a seção aplicada começa em `15-Shift-Share.Rmd:656` e lista muitos estudos como aplicações de shift-share.
+
+**Problema:** a literatura aplicada é útil, mas o capítulo deveria separar com mais força: SSIV estrito, exposição shift-share em forma reduzida, desenhos adjacentes e aplicações substantivamente relacionadas. Um relatório local já faz essa separação em `reports/lit_review_iv_shift_share_cp_ri.md`, mas o capítulo comprime os casos em uma narrativa mais homogênea.
+
+**Por que importa:** o leitor pode inferir que todo estudo de China shock, offshoring, automação ou comércio político usa IV Bartik estrito. Isso distorce tanto a literatura quanto o padrão de identificação que deve ser cobrado.
+
+**Correção recomendada:** converter a seção aplicada em uma tabela com coluna "tipo de desenho": SSIV estrito, exposição shift-share sem IV, adjacente, ou mecanismo relacionado. Manter Autor et al. (2020), Colantone e Stanig (2018), Tabellini (2020), Halla et al. (2017) e Nunn e Qian (2014) como exemplos centrais/fortes quando apropriado; tratar casos limítrofes com linguagem explícita.
+
+## 10. Baixa-média: há pequenos problemas bibliográficos a corrigir
+
+**Evidência no capítulo:** Xu é citado em `15-Shift-Share.Rmd:686-710` e na referência final em `15-Shift-Share.Rmd:783`; Shaukat aparece em `15-Shift-Share.Rmd:690` e `15-Shift-Share.Rmd:779`.
+
+**Problema:** a Crossref valida Xu como *The Journal of Politics* 87(4): 1350-1364, DOI `10.1086/734242`; o capítulo lista 1350-1363. A referência de Xu na Crossref cita "Shaukat, Mahvish. 2019. Essays in Development and Political Economy. PhD diss., MIT"; o capítulo usa "Maryam Shaukat" e outro título de dissertação. Isso deve ser conferido contra o PDF/artigo.
+
+**Correção recomendada:** revisar a bibliografia aplicada contra DOI/publisher/Crossref e mover as referências finais para `references.bib`, se o padrão do livro for usar bibliografia centralizada.
+
+# Mapa do desenho ensinado pelo capítulo
+
+O capítulo percorre três camadas:
+
+1. **Decomposição shift-share descritiva:** `X_i = sum_j w_ij D_ij`, com decomposição em componente esperado e desvio regional.
+2. **Predição temporal:** *shares* iniciais combinadas com variações agregadas para prever mudança local.
+3. **SSIV:** `B_i = sum_k w_ik g_k` como instrumento para uma variável endógena `X_i`.
+
+Essa sequência é pedagogicamente natural. O risco é que a passagem da camada 2 para a camada 3 pareça automática. A versão revisada deveria marcar uma fronteira explícita:
+
+> Decomposição não é identificação. Predição não é exclusão. Variação do instrumento não é exogeneidade.
+
+# Avaliação por dimensão
+
+## Identificação
+
+O capítulo acerta ao perguntar se a exogeneidade vem das *shares* ou dos *shifts*. Esse é o núcleo correto do debate moderno. Também acerta ao reconhecer que o exemplo eleitoral estadual é frágil (`N=27`, mesmo nível geográfico e canais políticos paralelos).
+
+O que falta é transformar essa cautela em arquitetura do capítulo. Hoje, a cautela aparece depois de o exemplo já ter sido usado como instrumento. A versão mais robusta deveria primeiro apresentar a predição como decomposição, depois fazer um "teste adversarial" mostrando por que ela falha como IV, e só então apresentar designs mais críveis.
+
+## Inferência
+
+A seção AKM é essencial e deve ficar. O alerta de que *cluster* geográfico não resolve correlação por exposição é um dos pontos mais importantes do capítulo. A seção, porém, precisa de mais granularidade:
+
+- quando usar AKM/AKM0;
+- quando usar agregação no nível do choque;
+- quando agrupar choques;
+- como avaliar número efetivo de choques;
+- como lidar com choques dominantes ou *shares* incompletas;
+- como reportar primeiro estágio no nível do choque.
+
+## CP/RI fit
+
+O capítulo tem bom instinto substantivo: ele procura exemplos em voto, nacionalismo, representação, política externa, conflito e desmatamento. A principal melhoria é insistir que mecanismos políticos não são meros outcomes econômicos com outro nome. Para cada aplicação, o leitor deveria enxergar:
+
+- qual é o tratamento político/econômico;
+- qual é o outcome político;
+- qual canal direto violaria exclusão;
+- quais pré-tendências políticas importam;
+- que população/localidade compõe o estimando.
+
+# Passe Devil's Advocate
+
+## Vulnerabilidade principal
+
+A crítica mais forte é que o capítulo pode ensinar "Bartik como receita": decomponha uma variável, use *shares* iniciais e mudanças agregadas, obtenha um primeiro estágio forte e então discuta exclusão. Um leitor sofisticado perceberá as ressalvas; um leitor iniciante pode internalizar a ordem errada. A ordem correta é: primeiro desenhe o processo de atribuição que justifica a exogeneidade; depois construa o instrumento.
+
+## Ataques por dimensão
+
+**Lógica interna.** O capítulo diz que a pergunta crucial é "de onde vem a exogeneidade?", mas antes disso sugere que variação nas *shares* permite identificação. Essa tensão deve ser resolvida.
+
+**Mecanismo causal.** O exemplo eleitoral mistura mudança de voto, realinhamento partidário, Lava-Jato, crise econômica, governadores, abstenção e protestos. Esses canais são politicamente ricos, mas exatamente por isso são ruins para ensinar exclusão IV.
+
+**Evidência empírica.** O primeiro estágio do exemplo eleitoral não é evidência de validade; é uma consequência de construir uma predição a partir da própria dinâmica eleitoral agregada.
+
+**Escopo.** A seção aplicada se beneficiaria de separar "shift-share como medida de exposição" de "shift-share como IV com identificação defendida".
+
+# O que sobrevive bem ao escrutínio
+
+- A intuição algébrica inicial é clara.
+- A distinção entre GPSS e BHJ é correta no essencial.
+- O alerta de inferência AKM é indispensável.
+- A conexão com ciência política e RI é substantivamente boa.
+- A inclusão de Xu é pedagogicamente útil, desde que a referência e a interpretação do desenho sejam revisadas com cuidado.
+
+# Lista priorizada de revisões recomendadas
+
+1. Rebaixar o exemplo eleitoral de "IV" para "predição/decomposição" ou transformá-lo explicitamente em exemplo de falha de identificação.
+2. Trocar a frase de `15-Shift-Share.Rmd:404` para separar variação de identificação.
+3. Adicionar DAG de ameaças ou setas tracejadas para `w -> Y`, `g -> Y` e `U -> w`.
+4. Inserir uma terceira estratégia: formula/recentered instruments.
+5. Adicionar subseção sobre múltiplos IVs, pesos, monotonicidade e efeitos heterogêneos.
+6. Expandir inferência com número efetivo de choques, concentração, *shares* incompletas e clusters de choques.
+7. Reclassificar a literatura aplicada em tabela por tipo de desenho.
+8. Tornar os exemplos de dados reproduzíveis ou rotulá-los como simulados/calibrados.
+9. Validar os exemplos de código R em script separado.
+10. Corrigir a referência de Xu e conferir Shaukat.
+
+# Verificações realizadas
+
+- Leitura completa de `15-Shift-Share.Rmd`.
+- Execução dos chunks extraídos com `knitr::purl()` e `source()`: o código avaliado executou; os chunks de implementação operacional estavam com `eval=FALSE`.
+- Checagem de disponibilidade local: `ShiftShareSE` e `ssaggregate` não estavam instalados.
+- Checagem externa pontual em 2026-06-16:
+  - `ShiftShareSE` consta no CRAN, versão 1.1.0.
+  - `ssaggregate` não consta no CRAN, mas o repositório GitHub `kylebutts/ssaggregate` existe e o `DESCRIPTION` descreve agregação de variáveis no nível local para agregados ponderados por exposição.
+  - Crossref valida Borusyak, Hull e Jaravel (2025), *Journal of Economic Perspectives*, 39(1): 181-204, DOI `10.1257/jep.20231370`.
+  - Crossref valida Borusyak e Hull (2023), *Econometrica*, 91(6): 2155-2185, DOI `10.3982/ECTA19367`.
+  - Crossref valida Xu (2025), *The Journal of Politics*, 87(4): 1350-1364, DOI `10.1086/734242`.
+
+# Referências metodológicas centrais para orientar a revisão
+
+Adão, Rodrigo, Michal Kolesár, and Eduardo Morales. 2019. "Shift-Share Designs: Theory and Inference." *Quarterly Journal of Economics* 134(4): 1949-2010.
+
+Borusyak, Kirill, and Peter Hull. 2023. "Nonrandom Exposure to Exogenous Shocks." *Econometrica* 91(6): 2155-2185.
+
+Borusyak, Kirill, Peter Hull, and Xavier Jaravel. 2022. "Quasi-Experimental Shift-Share Research Designs." *Review of Economic Studies* 89(1): 181-213.
+
+Borusyak, Kirill, Peter Hull, and Xavier Jaravel. 2025. "A Practical Guide to Shift-Share Instruments." *Journal of Economic Perspectives* 39(1): 181-204.
+
+Goldsmith-Pinkham, Paul, Isaac Sorkin, and Henry Swift. 2020. "Bartik Instruments: What, When, Why, and How." *American Economic Review* 110(8): 2586-2624.
+
+Mogstad, Magne, Alexander Torgovitsky, and Christopher Walters. 2021. "The Causal Interpretation of Two-Stage Least Squares with Multiple Instrumental Variables." *American Economic Review* 111(11): 3663-3698.
